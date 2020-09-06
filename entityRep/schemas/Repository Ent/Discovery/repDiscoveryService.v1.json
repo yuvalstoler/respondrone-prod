@@ -54,6 +54,14 @@
     "version": {
       "type": "number",
       "description": "The entity version. -1 if new"
+    },
+    "keepAliveStatus": {
+      "type": "string",
+      "enum": [
+        "Ok",
+        "Down"
+      ],
+      "description": "Status of Discovery rep periodic check if service is alive"
     }
   },
   "required": [

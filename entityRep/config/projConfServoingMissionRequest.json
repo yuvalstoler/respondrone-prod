@@ -1,0 +1,28 @@
+{
+  "EntityService": {
+    "port": "4600",
+    "host": "localhost",
+    "protocol": "http",
+
+    "schemas": {
+      "entity": "../../../schemas/Repository Ent/Servoing Mission Request/repServoingMissionRequest.v1.json"
+    },
+    "routes": {
+      "insert": "/insertNewServoingMissionRequest",
+      "update": "/updateServoingMissionRequest",
+      "getLast": "/getLastServoingMissionRequests",
+      "delete": "/deleteServoingMissionRequest"
+    },
+    "entityArrKey": "servoingMissionRequests"
+  },
+  "Mongo": {
+    "db": "repository",
+    "url": "mongodb://localhost:27017/",
+    "col": "servoingMissionRequest"
+  },
+  "LogsMongo": {
+    "db": "repositoryLogs",
+    "url": "mongodb://localhost:27017/",
+    "col": "log"
+  }
+}
