@@ -44,11 +44,11 @@ export class DbManager {
         return new Promise((resolve, reject) => {
             this.entityModel
                 .findOneAndUpdate({id: id}, data, {new: true})
+                .lean()
                 .exec()
                 .then(result => {
                     if (result) {
-                        const obj = result.toObject();
-                        resolve(obj);
+                        resolve(result);
                     } else {
                         reject(result);
                     }
@@ -63,7 +63,8 @@ export class DbManager {
     private requests = (data: any): Promise<any> => {
         return new Promise((resolve, reject) => {
             this.entityModel
-                .find(data)
+                .find(data, '-_id -__v -collectionVersion')
+                .lean()
                 .exec()
                 .then((result) => {
                     if (result) {
@@ -86,11 +87,11 @@ export class DbManager {
             .findOne()
             .sort({collectionVersion : -1})
             .limit(1)
+            .lean()
             .exec()
             .then((result) => {
                 if (result) {
-                    const obj = result.toObject();
-                    this.updateCollectionVersion(obj.collectionVersion);
+                    this.updateCollectionVersion(result.collectionVersion);
                 }
                 else {
                     this.updateCollectionVersion(0);
