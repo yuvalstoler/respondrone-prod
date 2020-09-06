@@ -1,19 +1,19 @@
 {
   "EntityService": {
-    "port": "4600",
+    "port": "4605",
     "host": "localhost",
     "protocol": "http",
 
     "schemas": {
-      "entity": "../../../schemas/Repository Ent/Comm Relay Mission Request/repCommRelayMissionRequest.v1.json"
+      "entity": "../../../schemas/Repository Ent/Missions/repMission.v1.json"
     },
     "routes": {
-      "insert": "/insertNewCommRelayMissionRequest",
-      "update": "/updateCommRelayMissionRequest",
-      "getLast": "/getLastCommRelayMissionRequests",
-      "delete": "/deleteCommRelayMissionRequest"
+      "insert": "/insertNewMission",
+      "update": "/updateMission",
+      "getLast": "/getLastMissions",
+      "delete": "/deleteMission"
     },
-    "entityArrKey": "commRelayMissionRequests"
+    "entityArrKey": "missions"
   },
   "Mongo": {
     "db": "repository",
@@ -22,7 +22,7 @@
     "port": "27017",
     "hostname": "mongo",
     "url": "mongodb://localhost:27017/",
-    "col": "commRelayMissionRequest"
+    "col": "missions"
   },
   "LogsMongo": {
     "db": "repositoryLogs",

@@ -1,0 +1,93 @@
+version: "3.7"
+services:
+
+  commrelay:
+    build:
+      context: .
+      dockerfile: commRelayMissionRequestsRep/Dockerfile
+    ports:
+      - 4600:4600
+#    env_file: commRelayMissionRequestsRep/.env
+#    environment:
+#      - MONGO_USERNAME=simplex
+#      - MONGO_PASSWORD=simplex
+#      - MONGO_HOSTNAME=mongo
+#      - MONGO_PORT=27017
+#      - MONGO_DB=simplexDB
+#  #  links:
+##    - mongo
+
+  nfz:
+    build:
+      context: .
+      dockerfile: NFZsRep/Dockerfile
+    ports:
+      - 4601:4601
+
+  followpath:
+    build:
+      context: .
+      dockerfile: followPathMissionRep/Dockerfile
+    ports:
+      - 4602:4602
+
+  graphicoverlays:
+    build:
+      context: .
+      dockerfile: graphicOverlaysRep/Dockerfile
+    ports:
+      - 4603:4603
+
+  missionroute:
+    build:
+      context: .
+      dockerfile: missionRouteRep/Dockerfile
+    ports:
+      - 4604:4604
+
+  missions:
+    build:
+      context: .
+      dockerfile: missionsRep/Dockerfile
+    ports:
+      - 4605:4605
+
+  observationmission:
+    build:
+      context: .
+      dockerfile: observationMissionRequestRep/Dockerfile
+    ports:
+      - 4606:4606
+
+  scanmission:
+    build:
+      context: .
+      dockerfile: scanMissionRequestRep/Dockerfile
+    ports:
+      - 4607:4607
+
+  servoingmission:
+    build:
+      context: .
+      dockerfile: servoingMissionRequestRep/Dockerfile
+    ports:
+      - 4608:4608
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: unless-stopped
+#    env_file: ./DBS/.env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=simplex
+      - MONGO_INITDB_ROOT_PASSWORD=simplex_password
+    volumes:
+#      - ./data:/data/db
+      - "./mongo-entrypoint/:/docker-entrypoint-initdb.d/"
+    ports:
+      - '27017:27017'
+    command: mongod
+
+volumes:
+  mongo:
+  node_modules:
