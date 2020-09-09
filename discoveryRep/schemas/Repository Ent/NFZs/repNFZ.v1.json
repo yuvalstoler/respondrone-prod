@@ -1,0 +1,81 @@
+{
+  "title": "repNFZ",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Entity Id in repository.\nUse Blank \"\" when New"
+    },
+    "name": {
+      "type": "string",
+      "description": "The NFZ name"
+    },
+    "polygon": {
+      "title": "Polygon",
+      "type": "object",
+      "x-examples": {
+        "example-1": {}
+      },
+      "properties": {
+        "coordinates": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "title": "GeoPoint",
+            "type": "object",
+            "description": "",
+            "properties": {
+              "lat": {
+                "type": "number",
+                "minimum": -90,
+                "maximum": 90,
+                "description": "Decimal degrees"
+              },
+              "lon": {
+                "type": "number",
+                "minimum": -180,
+                "maximum": 180,
+                "description": "Decimal degrees"
+              },
+              "alt": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "lat",
+              "lon"
+            ]
+          }
+        }
+      },
+      "required": [
+        "coordinates"
+      ]
+    },
+    "minAlt": {
+      "type": "number",
+      "description": "Min alt in meters ASL.\nIf not sent - no minimum altitude"
+    },
+    "maxAlt": {
+      "type": "number",
+      "description": "Max alt in meters ASL.\nIf not sent - no max altitude"
+    },
+    "lastAction": {
+      "type": "string",
+      "description": "last action on entity",
+      "enum": [
+        "Insert",
+        "Update",
+        "Delete"
+      ]
+    },
+    "version": {
+      "type": "number",
+      "description": "The entity version in repository"
+    }
+  },
+  "required": [
+    "id",
+    "polygon"
+  ]
+}

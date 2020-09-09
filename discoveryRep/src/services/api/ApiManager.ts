@@ -10,8 +10,9 @@ import {
     LAST_ACTION,
     REP_COLLECTION_GEN_RESPONSE,
     REP_ENT_GEN_RESPONSE,
-    ENTITY_ARR
+    ENTITY_ARR, DISCOVERY_STATUS
 } from '../../classes/all.typings';
+import {DiscoveryManager} from "../discoveryManager/discoveryManager";
 
 const projConf = require("./../../../config/projConf.json");
 const schemas = projConf.EntityService.schemas;
@@ -29,7 +30,9 @@ export class ApiManager implements IRest {
         this.loadSchemas();
 
         setTimeout(() => {
-            DbManager.initCollectionVersion();
+            // DbManager.initCollectionVersion();
+            DbManager.updateCollectionVersion(0);
+            DiscoveryManager.startCheckKeepAlive();
         }, 1000);
     }
 
@@ -61,25 +64,28 @@ export class ApiManager implements IRest {
                 success: false,
                 description: errors[0] ? `${errors[0].dataPath} ${errors[0].message}` : 'validation failed',
             };
-            this.saveToLog(request.baseUrl, request.body, res);
+            // this.saveToLog(request.baseUrl, request.body, res);
             response.send(res);
             return;
         }
 
         body.id = this.generateID();
         body.version = 0;
-        body.lastAction = LAST_ACTION.Insert;
-        body.collectionVersion = DbManager.createCollectionVersion();
+        body.keepAliveStatus = DISCOVERY_STATUS.Down;
+        // body.lastAction = LAST_ACTION.Insert;
+        // body.collectionVersion = DbManager.createCollectionVersion();
 
         DbManager.insert(body)
             .then((data) => {
-                DbManager.updateCollectionVersion(data.collectionVersion);
+                // DbManager.updateCollectionVersion(data.collectionVersion);
                 const res: REP_ENT_GEN_RESPONSE = {
                     id: data.id,
                     entVersion: data.version,
                     collectionVersion: DbManager.getCollectionVersion()
                 };
-                this.saveToLog(request.baseUrl, request.body, res);
+                // this.saveToLog(request.baseUrl, request.body, res);
+
+                DiscoveryManager.startCheckKeepAlive();
                 response.send(res);
             })
             .catch((data) => {
@@ -87,7 +93,7 @@ export class ApiManager implements IRest {
                     success: false,
                     description: JSON.stringify(data),
                 };
-                this.saveToLog(request.baseUrl, request.body, res);
+                // this.saveToLog(request.baseUrl, request.body, res);
                 response.send(res);
             });
     };
@@ -108,12 +114,12 @@ export class ApiManager implements IRest {
         }
 
         delete body.version;
-        body.lastAction = LAST_ACTION.Update;
-        body.collectionVersion = DbManager.createCollectionVersion();
+        // body.lastAction = LAST_ACTION.Update;
+        // body.collectionVersion = DbManager.createCollectionVersion();
 
         DbManager.update(body.id, {...body, ...{$inc: {'version' : 1}}})
             .then((data) => {
-                DbManager.updateCollectionVersion(data.collectionVersion);
+                // DbManager.updateCollectionVersion(data.collectionVersion);
                 const res: REP_ENT_GEN_RESPONSE = {
                     id: data.id,
                     entVersion: data.version,
@@ -137,18 +143,15 @@ export class ApiManager implements IRest {
         const id = _.get(request.query, 'id');
 
         if (id) {
-            const body: any = {};
-            body.lastAction = LAST_ACTION.Delete;
-            body.collectionVersion = DbManager.createCollectionVersion();
-
-            DbManager.update(id, {$set: {'lastAction': body.lastAction, 'collectionVersion': body.collectionVersion}, $inc : {'version' : 1}})
+            DbManager.delete(id)
                 .then((data) => {
-                    DbManager.updateCollectionVersion(data.collectionVersion);
                     const res: GENERAL_RESPONSE = {
                         success: true,
                         description: '',
                     };
-                    this.saveToLog(request.baseUrl, request.query, res);
+                    // this.saveToLog(request.baseUrl, request.query, res);
+
+                    DiscoveryManager.startCheckKeepAlive();
                     response.send(res);
                 })
                 .catch((data) => {
@@ -156,7 +159,7 @@ export class ApiManager implements IRest {
                         success: false,
                         description: JSON.stringify(data),
                     };
-                    this.saveToLog(request.baseUrl, request.query, res);
+                   //  this.saveToLog(request.baseUrl, request.query, res);
                     response.send(res);
                 });
         }
@@ -165,44 +168,29 @@ export class ApiManager implements IRest {
                 success: false,
                 description: 'Missing path parameter id',
             };
-            this.saveToLog(request.baseUrl, request.query, res);
+            // this.saveToLog(request.baseUrl, request.query, res);
             response.send(res);
         }
     };
     // ----------------------
-    private getLast = (request: Request, response: Response) => {
+    private getAll = (request: Request, response: Response) => {
 
-        const currentVersion = parseInt(_.get(request.query, 'currentVersion'), 0);
+        DbManager.requests({})
+            .then((data) => {
+                const res: ENTITY_ARR = {
+                    [entityArrKey]: data
+                };
+                response.send(res);
+            })
+            .catch((data) => {
+                const res: GENERAL_RESPONSE = {
+                    success: false,
+                    description: JSON.stringify(data),
+                };
+                response.send(res);
+            });
+    };
 
-        if (Number.isFinite(currentVersion)) {
-            DbManager.requests({'collectionVersion': {$gt : currentVersion}})
-                .then((data) => {
-                    const res: REP_COLLECTION_GEN_RESPONSE & ENTITY_ARR = {
-                        collectionVersion: DbManager.getCollectionVersion(),
-                        [entityArrKey]: data
-                    };
-                    response.send(res);
-                })
-                .catch((data) => {
-                    const res: GENERAL_RESPONSE = {
-                        success: false,
-                        description: JSON.stringify(data),
-                    };
-                    response.send(res);
-                });
-        }
-        else {
-            const res: GENERAL_RESPONSE = {
-                success: false,
-                description: 'Missing path parameter currentVersion',
-            };
-            response.send(res);
-        }
-    };
-    // ----------------------
-    private keepAlive = (request: Request, response: Response) => {
-        response.send({success: true});
-    };
 
     // ---------------------------
     private saveToLog = (url: string, data: any, response: any) => {
@@ -222,12 +210,12 @@ export class ApiManager implements IRest {
     // ---------------------------
 
     routers = {
-        [routes.insert]:           this.insert,
         [routes.update]:           this.update,
-        [routes.delete]:           this.delete,
-        [routes.getLast]:          this.getLast,
+        [routes.getAll]:           this.getAll,
 
-        '/keepAlive':               this.keepAlive
+        '/insertDiscovery':         this.insert,
+        '/deleteDiscovery':         this.delete,
+
     };
 
     // region API uncions
