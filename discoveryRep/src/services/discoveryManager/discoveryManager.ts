@@ -41,7 +41,7 @@ export class DiscoveryManager {
             this.sendRestRequestPromise(url, 'keepAlive', {})
                 .then((data) => {
                     if (obj.keepAliveStatus === DISCOVERY_STATUS.Down) {
-                        DbManager.update(obj.id, {$set: {'keepAliveStatus': DISCOVERY_STATUS.Ok}})
+                        DbManager.update({id: obj.id}, {$set: {'keepAliveStatus': DISCOVERY_STATUS.Ok}})
                             .then((data) => {
                                 obj = data;
                             })
@@ -51,7 +51,7 @@ export class DiscoveryManager {
                 })
                 .catch((data) => {
                     if (obj.keepAliveStatus === DISCOVERY_STATUS.Ok) {
-                        DbManager.update(obj.id, {$set: {'keepAliveStatus': DISCOVERY_STATUS.Down}})
+                        DbManager.update({id: obj.id}, {$set: {'keepAliveStatus': DISCOVERY_STATUS.Down}})
                             .then((data) => {
                                 obj = data;
                             })

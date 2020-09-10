@@ -40,10 +40,10 @@ export class DbManager {
         });
     };
     // ----------------------
-    private update = (id: ID_TYPE, data: any): Promise<any> => {
+    private update = (condition: any, data: any): Promise<any> => {
         return new Promise((resolve, reject) => {
             this.entityModel
-                .findOneAndUpdate({id: id}, data, {new: true})
+                .findOneAndUpdate(condition, data, {new: true})
                 .lean()
                 .exec()
                 .then(result => {
@@ -60,10 +60,10 @@ export class DbManager {
         });
     };
     // ----------------------
-    private requests = (data: any): Promise<any> => {
+    private requests = (condition: any): Promise<any> => {
         return new Promise((resolve, reject) => {
             this.entityModel
-                .find(data, '-_id -__v -collectionVersion')
+                .find(condition, '-_id -__v -collectionVersion')
                 .lean()
                 .exec()
                 .then((result) => {
@@ -80,10 +80,10 @@ export class DbManager {
         });
     };
     // ----------------------
-    private delete = (id: ID_TYPE): Promise<any> => {
+    private delete = (condition: any): Promise<any> => {
         return new Promise((resolve, reject) => {
             this.entityModel
-                .findOneAndDelete({id: id})
+                .findOneAndDelete(condition)
                 .lean()
                 .exec()
                 .then(result => {
@@ -96,7 +96,7 @@ export class DbManager {
                 .catch(error => {
                     console.log(error);
                     reject(error);
-                });
+                } );
         });
     };
 
@@ -104,7 +104,7 @@ export class DbManager {
     // ========= Collection version =======
     private initCollectionVersion = (): void => {
         this.entityModel
-            .findOne()
+            .find()
             .sort({collectionVersion : -1})
             .limit(1)
             .lean()

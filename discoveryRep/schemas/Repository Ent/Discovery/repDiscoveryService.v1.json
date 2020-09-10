@@ -42,26 +42,17 @@
         "Collaboration"
       ]
     },
-    "lastAction": {
-      "type": "string",
-      "enum": [
-        "Insert",
-        "Update",
-        "Delete"
-      ],
-      "description": "Last action on entity"
-    },
     "version": {
       "type": "number",
       "description": "The entity version. -1 if new"
     },
     "keepAliveStatus": {
       "type": "string",
+      "description": "Status determined by discovery rep preiodic check if service is alive",
       "enum": [
         "Ok",
         "Down"
-      ],
-      "description": "Status of Discovery rep periodic check if service is alive"
+      ]
     }
   },
   "required": [

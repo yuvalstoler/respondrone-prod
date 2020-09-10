@@ -111,7 +111,7 @@ export class ApiManager implements IRest {
         body.lastAction = LAST_ACTION.Update;
         body.collectionVersion = DbManager.createCollectionVersion();
 
-        DbManager.update(body.id, {...body, ...{$inc: {'version' : 1}}})
+        DbManager.update({id: body.id, lastAction: { $not: {$eq: LAST_ACTION.Delete}}}, {...body, ...{$inc: {'version' : 1}}})
             .then((data) => {
                 DbManager.updateCollectionVersion(data.collectionVersion);
                 const res: REP_ENT_GEN_RESPONSE = {
@@ -141,7 +141,7 @@ export class ApiManager implements IRest {
             body.lastAction = LAST_ACTION.Delete;
             body.collectionVersion = DbManager.createCollectionVersion();
 
-            DbManager.update(id, {$set: {'lastAction': body.lastAction, 'collectionVersion': body.collectionVersion}, $inc : {'version' : 1}})
+            DbManager.update({id: id}, {$set: {'lastAction': body.lastAction, 'collectionVersion': body.collectionVersion}, $inc : {'version' : 1}})
                 .then((data) => {
                     DbManager.updateCollectionVersion(data.collectionVersion);
                     const res: GENERAL_RESPONSE = {
