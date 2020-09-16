@@ -1,8 +1,8 @@
 FROM node:12-alpine
 WORKDIR /usr/src/commRelayMissionRequestsRep
 RUN ls
-COPY commRelayMissionRequestsRep/package*.json ./
-COPY commRelayMissionRequestsRep/tsconfig.json ./
+COPY /package*.json ./
+COPY /tsconfig.json ./
 #COPY commRelayMissionRequestsRep/.env ./
 
 RUN npm install

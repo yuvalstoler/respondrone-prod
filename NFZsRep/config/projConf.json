@@ -1,0 +1,36 @@
+{
+  "EntityService": {
+    "port": "4601",
+    "host": "localhost",
+    "protocol": "http",
+
+    "schemas": {
+      "entity": "../../../schemas/Repository Ent/NFZs/repNFZ.v1.json"
+    },
+    "routes": {
+      "insert": "/insertNewNFZ",
+      "update": "/updateNFZ",
+      "getLast": "/getLastNFZs",
+      "delete": "/deleteNFZ"
+    },
+    "entityArrKey": "NFZs"
+  },
+  "Mongo": {
+    "db": "repository",
+    "username": "simplex",
+    "password": "simplex_password",
+    "port": "27017",
+    "hostname": "mongo",
+    "url": "mongodb://localhost:27017/",
+    "col": "nfz"
+  },
+  "LogsMongo": {
+    "db": "repositoryLogs",
+    "username": "simplex",
+    "password": "simplex_password",
+    "port": "27017",
+    "hostname": "mongo",
+    "url": "mongodb://localhost:27017/",
+    "col": "log"
+  }
+}
