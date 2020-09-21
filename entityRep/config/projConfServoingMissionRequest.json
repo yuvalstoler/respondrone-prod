@@ -1,6 +1,6 @@
 {
   "EntityService": {
-    "port": "4600",
+    "port": "4608",
     "host": "localhost",
     "protocol": "http",
 

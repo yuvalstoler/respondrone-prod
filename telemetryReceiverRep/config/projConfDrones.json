@@ -1,0 +1,18 @@
+{
+  "TelemetryService": {
+    "port": "4701",
+    "host": "localhost",
+    "protocol": "http",
+
+    "schemas": {
+      "entity": "../../../schemas/Repository Tel/Drones_Tel.v1.json"
+    },
+    "telemetryType": "Drones_Tel",
+    "sendTelemetryInterval": 5000
+  },
+  "LogsMongo": {
+    "db": "repositoryLogs",
+    "url": "mongodb://localhost:27017/",
+    "col": "log"
+  }
+}

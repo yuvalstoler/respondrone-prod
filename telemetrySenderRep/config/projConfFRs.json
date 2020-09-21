@@ -1,0 +1,20 @@
+{
+  "TelemetryService": {
+    "port": "4705",
+    "host": "localhost",
+    "protocol": "http",
+
+    "TelemetryServer": {
+      "port": "4702",
+      "host": "localhost",
+      "protocol": "http"
+    },
+    "telemetryType": "FRs_Tel",
+    "sendTelemetryInterval": 5000
+  },
+  "LogsMongo": {
+    "db": "repositoryLogs",
+    "url": "mongodb://localhost:27017/",
+    "col": "log"
+  }
+}

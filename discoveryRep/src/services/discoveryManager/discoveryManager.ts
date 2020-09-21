@@ -43,7 +43,7 @@ export class DiscoveryManager {
                     if (obj.keepAliveStatus === DISCOVERY_STATUS.Down) {
                         DbManager.update({id: obj.id}, {$set: {'keepAliveStatus': DISCOVERY_STATUS.Ok}})
                             .then((data) => {
-                                obj = data;
+                                Object.assign(obj, data);
                             })
                             .catch((data) => {
                             });
@@ -53,7 +53,7 @@ export class DiscoveryManager {
                     if (obj.keepAliveStatus === DISCOVERY_STATUS.Ok) {
                         DbManager.update({id: obj.id}, {$set: {'keepAliveStatus': DISCOVERY_STATUS.Down}})
                             .then((data) => {
-                                obj = data;
+                                Object.assign(obj, data);
                             })
                             .catch((data) => {
                             });
