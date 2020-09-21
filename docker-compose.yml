@@ -2,9 +2,10 @@ version: "3.7"
 services:
 
   commrelay:
-    build:
-      context: .
-      dockerfile: commRelayMissionRequestsRep/Dockerfile
+#    build:
+#      context: .
+#      dockerfile: commRelayMissionRequestsRep/Dockerfile
+    image: betaqween/comrelay
     ports:
       - 4600:4600
 #    env_file: commRelayMissionRequestsRep/.env
@@ -15,12 +16,13 @@ services:
 #      - MONGO_PORT=27017
 #      - MONGO_DB=simplexDB
 
-#  nfz:
+  nfz:
 #    build:
 #      context: .
 #      dockerfile: NFZsRep/Dockerfile
-#    ports:
-#      - 4601:4601
+    image: betaqween/nfzs
+    ports:
+      - 4601:4601
 #
 #  followpath:
 #    build:
