@@ -1,0 +1,132 @@
+{
+  "title": "repGrhphicOverlays",
+  "type": "object",
+  "properties": {
+    "graphicOverlays": {
+      "type": "array",
+      "description": "If the response is success false don't send the object",
+      "items": {
+        "title": "repGraphicOverlay",
+        "type": "object",
+        "description": "A graphic shape that can be geo located",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The entiry Id.\nPut Blank \"\" if New"
+          },
+          "name": {
+            "type": "string",
+            "description": "Overlay name"
+          },
+          "shape": {
+            "oneOf": [
+              {
+                "items": {
+                  "title": "GeoPoint",
+                  "type": "object",
+                  "description": "",
+                  "properties": {
+                    "lat": {
+                      "type": "number",
+                      "minimum": -90,
+                      "maximum": 90,
+                      "description": "Decimal degrees"
+                    },
+                    "lon": {
+                      "type": "number",
+                      "minimum": -180,
+                      "maximum": 180,
+                      "description": "Decimal degrees"
+                    },
+                    "alt": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "lat",
+                    "lon"
+                  ]
+                }
+              },
+              {
+                "items": {
+                  "title": "Polygon",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {}
+                  },
+                  "properties": {
+                    "coordinates": {
+                      "type": "array",
+                      "minItems": 3,
+                      "items": {
+                        "$ref": "#/properties/graphicOverlays/items/properties/shape/oneOf/0/items"
+                      }
+                    }
+                  },
+                  "required": [
+                    "coordinates"
+                  ]
+                }
+              }
+            ],
+            "description": "The shape of the overlay",
+            "type": "array"
+          },
+          "color": {
+            "type": "string",
+            "enum": [
+              "Red",
+              "Green",
+              "Blue",
+              "Black",
+              "White",
+              "Yellow",
+              "Grey",
+              "Default"
+            ]
+          },
+          "Type": {
+            "type": "string",
+            "enum": [
+              "FireLine",
+              "People",
+              "Vehicles",
+              "General"
+            ]
+          },
+          "creationTime": {
+            "title": "timestamp",
+            "type": "object",
+            "properties": {
+              "timestamp": {
+                "type": "number",
+                "description": "Mili sec from 1970"
+              }
+            },
+            "required": [
+              "timestamp"
+            ]
+          },
+          "lastAction": {
+            "type": "string",
+            "description": "Last action on entity",
+            "enum": [
+              "Insert",
+              "Update",
+              "Delete"
+            ]
+          },
+          "version": {
+            "type": "number",
+            "description": "The entity version in repository"
+          }
+        },
+        "required": [
+          "id",
+          "shape"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "EntityService": {
+    "port": "4600",
+    "host": "localhost",
+    "protocol": "http",
+
+    "schemas": {
+      "entity": "../../../schemas/Repository Ent/Observation Mission Request/repObservationMissionRequest.v1.json"
+    },
+    "routes": {
+      "insert": "/insertNewObservationMissionRequest",
+      "update": "/updateObservationMission",
+      "getLast": "/getLastObservationMissionRequests",
+      "delete": "/deleteObservationMissionRequest"
+    },
+    "entityArrKey": "observationMissionRequests"
+  },
+  "Mongo": {
+    "db": "repository",
+    "url": "mongodb://localhost:27017/",
+    "col": "observationMissionRequest"
+  },
+  "LogsMongo": {
+    "db": "repositoryLogs",
+    "url": "mongodb://localhost:27017/",
+    "col": "log"
+  }
+}
