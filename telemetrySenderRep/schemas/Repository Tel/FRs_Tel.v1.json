@@ -1,0 +1,97 @@
+{
+  "title": "FRs_Tel",
+  "type": "object",
+  "description": "",
+  "properties": {
+    "timestamp": {
+      "title": "timestamp",
+      "type": "object",
+      "properties": {
+        "timestamp": {
+          "type": "number",
+          "description": "Mili sec from 1970"
+        }
+      },
+      "required": [
+        "timestamp"
+      ]
+    },
+    "FRs": {
+      "type": "array",
+      "items": {
+        "title": "FR_Tel",
+        "type": "object",
+        "description": "The FR telemetry data",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "callSign": {
+            "type": "string",
+            "description": "The FR name "
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "FireFighter",
+              "Police",
+              "Med"
+            ],
+            "example": "\"Police\""
+          },
+          "location": {
+            "title": "GeoPoint",
+            "type": "object",
+            "description": "",
+            "properties": {
+              "lat": {
+                "type": "number",
+                "minimum": -90,
+                "maximum": 90,
+                "description": "Decimal degrees"
+              },
+              "lon": {
+                "type": "number",
+                "minimum": -180,
+                "maximum": 180,
+                "description": "Decimal degrees"
+              },
+              "alt": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "lat",
+              "lon"
+            ]
+          },
+          "lastUpdated": {
+            "$ref": "#/properties/timestamp"
+          },
+          "online": {
+            "type": "boolean",
+            "description": "Is the FR online"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Busy",
+              "Available"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "callSign",
+          "type",
+          "lastUpdated",
+          "online",
+          "status"
+        ]
+      }
+    }
+  },
+  "required": [
+    "timestamp"
+  ]
+}

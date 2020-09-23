@@ -41,7 +41,7 @@ export class MongoConnector {
         });
 
         this.logsMongoConnection.on('connected', err => {
-            console.log('Logs Mongoose default connection open to ' + mongoURL);
+            console.log('Logs Mongoose default connection open to ' + logsMongoURL);
         });
 
         this.logsMongoConnection.on('disconnected', err => {

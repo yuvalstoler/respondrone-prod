@@ -59,7 +59,7 @@ export class ApiManager implements IRest {
             const errors = this.validateObj.entity.errors;
             const res: GENERAL_RESPONSE = {
                 success: false,
-                description: errors[0] ? `${errors[0].dataPath} ${errors[0].message}` : 'validation failed',
+                description: errors[0] ? `${errors[0].dataPath} ${errors[0].message} ${JSON.stringify(errors[0].params)}` : 'validation failed',
             };
             this.saveToLog(request.baseUrl, request.body, res);
             response.send(res);
@@ -100,7 +100,7 @@ export class ApiManager implements IRest {
             const errors = this.validateObj.entity.errors;
             const res: GENERAL_RESPONSE = {
                 success: false,
-                description: errors[0] ? `${errors[0].dataPath} ${errors[0].message}` : 'validation failed',
+                description: errors[0] ? `${errors[0].dataPath} ${errors[0].message} ${JSON.stringify(errors[0].params)}` : 'validation failed',
             };
             this.saveToLog(request.baseUrl, request.body, res);
             response.send(res);

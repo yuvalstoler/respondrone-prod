@@ -1,0 +1,18 @@
+{
+  "TelemetryService": {
+    "port": "4703",
+    "host": "localhost",
+    "protocol": "http",
+
+    "schemas": {
+      "entity": "../../../schemas/Repository Tel/Gimbals_Tel.v1.json"
+    },
+    "telemetryType": "Gimbals_Tel",
+    "sendTelemetryInterval": 5000
+  },
+  "LogsMongo": {
+    "db": "repositoryLogs",
+    "url": "mongodb://localhost:27017/",
+    "col": "log"
+  }
+}
