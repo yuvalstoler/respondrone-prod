@@ -1,0 +1,49 @@
+@import "../../../../styles/colors";
+@import "../../../../styles/variable";
+
+.HeaderContainer{
+  color: $white;
+}
+
+.HeaderLeftSide{
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+
+  .LeftSideButton{
+    margin: auto 10px;
+    text-align: center;
+    height: $headerHeight;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+}
+
+
+.HeaderRightSide{
+  position: inherit;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+
+  .RightSideButton{
+    margin: auto 10px;
+    text-align: center;
+    height: $headerHeight;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+}
+
+.HPRightSideIcon {
+  width: 35px;
+  font-size: 35px;
+  margin: 5px;
+}

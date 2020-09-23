@@ -1,0 +1,19 @@
+@import "../../../styles/colors";
+@import "../../../styles/variable";
+
+.HeaderPanel{
+  background: $black;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: $headerHeight;
+}
+.MapContent{
+  position: absolute;
+  top: $headerHeight;
+  left: 0px;
+  height: calc(100vh - #{$headerHeight});
+  width: 100vw;
+  z-index: 1;
+}
