@@ -6,6 +6,7 @@
 //    "enableIvy": false
 //  },
   "compilerOptions": {
+    "experimentalDecorators": true,
     "baseUrl": "./",
     "downlevelIteration": true,
     "outDir": "./dist/out-tsc",
@@ -14,7 +15,6 @@
     "module": "es2020",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "allowJs": true,
     "importHelpers": true,
     "target": "ES6",
