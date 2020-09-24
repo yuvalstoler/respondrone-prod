@@ -1,22 +1,23 @@
 {
   "compileOnSave": false,
-  "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true,
-    "enableIvy": false
-  },
+//  "angularCompilerOptions": {
+//    "fullTemplateTypeCheck": true,
+//    "strictInjectionParameters": true,
+//    "enableIvy": false
+//  },
   "compilerOptions": {
     "baseUrl": "./",
     "downlevelIteration": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "module": "esnext",
+    "module": "es2020",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowJs": true,
     "importHelpers": true,
-    "target": "es2015",
+    "target": "ES6",
     "typeRoots": [
       "node_modules/@types",
       "./src/global.d.ts"
@@ -31,5 +32,11 @@
     "src/polyfills.ts",
     "src/app/app.module.ts",
     "src/main.ts"
+  ],
+  "include": [
+    "app/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

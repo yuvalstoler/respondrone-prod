@@ -4,21 +4,29 @@
     <!--logo-->
     <div class="LeftSideButton HeaderLogo">Logo</div>
     <!--Situation Picture-->
-    <div class="LeftSideButton">Situation Picture</div>
+    <div class="LeftSideButton" (click)="onSituationPicture()">
+      <span class="LeftSideLabel" [ngStyle]="">Situation Picture</span>
+    </div>
     <!--Mission Control-->
-    <div class="LeftSideButton">Mission Control</div>
+    <div class="LeftSideButton">
+      <span class="LeftSideLabel">Mission Control</span>
+    </div>
     <!--Live Video-->
-    <div class="LeftSideButton">Live Video</div>
+    <div class="LeftSideButton">
+      <span class="LeftSideLabel"> Live Video</span>
+    </div>
     <!--Media-->
-    <div class="LeftSideButton">Media</div>
+    <div class="LeftSideButton">
+      <span class="LeftSideLabel">Media</span>
+    </div>
     <!--Toolbox-->
     <div class="LeftSideButton">
-      <div>Toolbox</div>
+      <span class="LeftSideLabel">Toolbox</span>
       <mat-icon class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
     </div>
     <!--View-->
     <div class="LeftSideButton">
-      <div>View</div>
+      <span class="LeftSideLabel">View</span>
       <mat-icon class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
     </div>
   </div>
@@ -56,8 +64,8 @@
     </div>
     <!--Date-->
     <div class="RightSideDiv">
-      <div class="date">18/10/2020</div>
-      <div class="date">15:33</div>
+      <div class="">18/10/2020</div>
+      <div class="">15:33</div>
        </div>
   </div>
 </div>

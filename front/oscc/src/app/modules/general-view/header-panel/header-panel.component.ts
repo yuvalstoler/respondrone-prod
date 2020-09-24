@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Header_Buttons} from 'src/types';
 
 @Component({
   selector: 'app-header-panel',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderPanelComponent implements OnInit {
 
-  constructor() { }
+  Header_Buttons = Header_Buttons;
+
+  constructor(/*public applicationService: ApplicationService*/) { }
 
   ngOnInit(): void {
+  }
+
+  onSituationPicture = () => {
+    console.log('sit pic');
   }
 
 }

@@ -25,6 +25,12 @@
   .HPLeftSideIcon{
     font-size: 25px;
   }
+
+  .LeftSideLabel{
+
+  }
+
+
 }
 
 
@@ -50,19 +56,19 @@
     font-size: 35px;
     margin: 5px;
   }
+
+  .RightSideDiv{
+    display: inline-block;
+    margin: auto 10px;
+    text-align: center;
+  }
+
+  .RightLine{
+    border-left: 1px solid $lightGray;
+    margin: auto 5px;
+    height: 55px;
+    text-align: center;
+  }
 }
 
-.RightSideDiv{
-  display: inline-block;
-  margin: auto 10px;
-  text-align: center;
-}
-.date{
-  //background-color: yellow;
-}
-.RightLine{
-  border-left: 1px solid $lightGray;
-  margin: auto 5px;
-  height: 55px;
-  text-align: center;
-}
+

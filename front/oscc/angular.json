@@ -18,7 +18,8 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "lodash"
+              "lodash",
+              "CommonJS"
             ],
             "aot": true,
             "outputPath": "dist/oscc",
