@@ -12,47 +12,52 @@
     <!--Media-->
     <div class="LeftSideButton">Media</div>
     <!--Toolbox-->
-    <div class="LeftSideButton">Toolbox</div>
+    <div class="LeftSideButton">
+      <div>Toolbox</div>
+      <mat-icon class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
+    </div>
     <!--View-->
-    <div class="LeftSideButton">View</div>
+    <div class="LeftSideButton">
+      <div>View</div>
+      <mat-icon class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
+    </div>
   </div>
 
   <!--Right Side-->
   <div class="HeaderRightSide">
     <!--SubSystemStatus-->
-    <div class="RightSideButton">
-      <!--Entity Search-->
-      <div class="">
-        <mat-icon class="HPRightSideIcon" [style.color]="status?.c2Comm.color">
+      <div class="RightSideButton">
+        <mat-icon class="HPRightSideIcon">
           wifi
         </mat-icon>
       </div>
-      <!--Entity Search-->
-      <div class="">
-        <mat-icon class="HPRightSideIcon" [style.color]="status?.c2Comm.color">
+      <div class="RightSideButton">
+        <mat-icon class="HPRightSideIcon">
           miscellaneous_services
         </mat-icon>
       </div>
-      <!--Entity Search-->
-      <div class="">
-        <mat-icon class="HPRightSideIcon" [style.color]="status?.c2Comm.color">
+      <div class="RightSideButton ">
+        <mat-icon class="HPRightSideIcon">
           cloud
         </mat-icon>
       </div>
-    </div>
+<div class="RightLine"></div>
     <!--Entity Search-->
     <div class="RightSideButton">
-      <mat-icon class="HPRightSideIcon" [style.color]="status?.c2Comm.color">
+      <mat-icon class="HPRightSideIcon">
         search
       </mat-icon>
     </div>
     <!--Account Management-->
     <div class="RightSideButton">
-      <mat-icon class="HPRightSideIcon" [style.color]="status?.c2Comm.color">
+      <mat-icon class="HPRightSideIcon">
         account_circle
       </mat-icon>
     </div>
     <!--Date-->
-    <div class="RightSideButton">18/10/2020 15:33</div>
+    <div class="RightSideDiv">
+      <div class="date">18/10/2020</div>
+      <div class="date">15:33</div>
+       </div>
   </div>
 </div>

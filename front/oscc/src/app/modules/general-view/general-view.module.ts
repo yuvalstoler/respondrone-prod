@@ -1,11 +1,18 @@
-import {NgModule} from '@angular/core';
+import {NgModule, ModuleWithProviders} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HeaderPanelComponent} from './header-panel/header-panel.component';
 import {GeneralViewRouting} from './general-view.routing';
 import {RouterModule} from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MapComponent } from './map/map.component'
-import {AngularCesiumWidgetsModule, AngularCesiumModule} from 'angular-cesium';
+import {
+  AngularCesiumModule,
+  AngularCesiumWidgetsModule,
+  PolygonsEditorService,
+  ViewerConfiguration
+} from 'angular-cesium';
+import {PipesConfig} from 'angular2parse';
+
 
 @NgModule({
   declarations: [
@@ -24,7 +31,12 @@ import {AngularCesiumWidgetsModule, AngularCesiumModule} from 'angular-cesium';
   exports: [
     HeaderPanelComponent,
     MapComponent
+  ],
+  providers: [
+    PolygonsEditorService,
+    ViewerConfiguration
   ]
 })
 export class GeneralViewModule {
+
 }

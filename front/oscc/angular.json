@@ -17,6 +17,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "lodash"
+            ],
             "aot": true,
             "outputPath": "dist/oscc",
             "index": "src/index.html",
@@ -100,7 +103,7 @@
               "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": ["./node_modules/cesium/Build/Cesium/Cesium.js"],
             "assets": [
               "src/favicon.ico",
               "src/assets"

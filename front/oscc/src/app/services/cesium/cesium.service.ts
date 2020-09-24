@@ -28,43 +28,43 @@ export class CesiumService {
 
   public createMap = (mapId: string) => {
 
-    const cesiumViewer: any = new Cesium.Viewer(this.maps[0].containerId, {
-      //  baseLayerPicker: false,
-      //  resolutionScale: 0.5,
-      terrainProvider : Cesium.createWorldTerrain({
-        requestWaterMask: false,
-        requestVertexNormals: true
-      }),
-
-      sceneModePicker: true,
-      sceneMode: Cesium.SceneMode.SCENE3D,
-      navigationHelpButton: false,
-      timeline: false,
-      selectionIndicator: false,
-      geocoder: false,
-      navigationInstructionsInitiallyVisible: false,
-      infoBox: false,
-      animation: false,
-      shadows: false,
-      fullscreenButton: false,
-      skyAtmosphere: false,
-      homeButton: false,
-      skyBox: false
-    });
-
-    this.cesiumViewer[mapId] = this.cesiumViewer[mapId] || {};
-    this.cesiumViewer[mapId] = cesiumViewer;
-
-
-    this.scene[mapId] = this.scene[mapId] || {};
-    this.scene[mapId] = this.cesiumViewer[mapId].scene;
-
-
-    this.cesiumMapObjects[mapId] = this.cesiumMapObjects[mapId] || {};
-
-    cesiumViewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(34.895, 32.423, 5000.0),
-      duration: 2,
-    });
+    // const cesiumViewer: any = new Cesium.Viewer(this.maps[0].containerId, {
+    //   //  baseLayerPicker: false,
+    //   //  resolutionScale: 0.5,
+    //   terrainProvider : Cesium.createWorldTerrain({
+    //     requestWaterMask: false,
+    //     requestVertexNormals: true
+    //   }),
+    //
+    //   sceneModePicker: true,
+    //   sceneMode: Cesium.SceneMode.SCENE3D,
+    //   navigationHelpButton: false,
+    //   timeline: false,
+    //   selectionIndicator: false,
+    //   geocoder: false,
+    //   navigationInstructionsInitiallyVisible: false,
+    //   infoBox: false,
+    //   animation: false,
+    //   shadows: false,
+    //   fullscreenButton: false,
+    //   skyAtmosphere: false,
+    //   homeButton: false,
+    //   skyBox: false
+    // });
+    //
+    // this.cesiumViewer[mapId] = this.cesiumViewer[mapId] || {};
+    // this.cesiumViewer[mapId] = cesiumViewer;
+    //
+    //
+    // this.scene[mapId] = this.scene[mapId] || {};
+    // this.scene[mapId] = this.cesiumViewer[mapId].scene;
+    //
+    //
+    // this.cesiumMapObjects[mapId] = this.cesiumMapObjects[mapId] || {};
+    //
+    // cesiumViewer.camera.flyTo({
+    //   destination: Cesium.Cartesian3.fromDegrees(34.895, 32.423, 5000.0),
+    //   duration: 2,
+    // });
   };
 }

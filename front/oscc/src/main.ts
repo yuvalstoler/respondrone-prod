@@ -5,11 +5,13 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
+
 if (environment.production) {
   enableProdMode();
 }
 
-Cesium.buildModuleUrl.setBaseUrl('/assets/cesium/');
+window['CESIUM_BASE_URL'] = '/assets/cesium/';
+// Cesium.buildModuleUrl.setBaseUrl('/assets/cesium/');
 
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));

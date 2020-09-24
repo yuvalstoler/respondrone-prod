@@ -10,7 +10,7 @@ import {CesiumService} from 'src/app/services/cesium/cesium.service';
 export class MapComponent implements OnInit, AfterViewInit {
 
   constructor(private mapGeneralService: MapGeneralService,
-              private cesiumService: CesiumService) { }
+              public cesiumService: CesiumService) { }
 
   ngOnInit(): void {
   }

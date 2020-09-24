@@ -7,13 +7,14 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {GeneralViewModule} from './modules/general-view/general-view.module';
 import {GeneralViewComponent} from './modules/general-view/general-view.component';
 import {LoginComponent} from './modules/login/login.component';
+import {AngularCesiumModule} from 'angular-cesium';
 
-import {
-  AngularCesiumModule,
-  AngularCesiumWidgetsModule,
-  PolygonsEditorService,
-  ViewerConfiguration
-} from 'angular-cesium';
+// import {
+//   AngularCesiumModule,
+//   AngularCesiumWidgetsModule,
+//   PolygonsEditorService,
+//   ViewerConfiguration
+// } from 'angular-cesium';
 
 @NgModule({
   declarations: [
@@ -26,9 +27,9 @@ import {
     AppRoutingModule,
     BrowserAnimationsModule,
     GeneralViewModule,
-
-    AngularCesiumModule.forRoot(),
-    AngularCesiumWidgetsModule,
+    AngularCesiumModule.forRoot()
+    // AngularCesiumModule.forRoot(),
+    // AngularCesiumWidgetsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
