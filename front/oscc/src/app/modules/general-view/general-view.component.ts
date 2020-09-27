@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {DISPLAY_ON_SCREEN, Header_Buttons} from 'src/types';
+import {ApplicationService} from 'src/app/services/applicationService/application.service';
 
 @Component({
   selector: 'app-general-view',
@@ -7,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GeneralViewComponent implements OnInit {
 
-  constructor() { }
+  Header_Buttons = Header_Buttons;
+
+  constructor(public applicationService: ApplicationService) { }
 
   ngOnInit(): void {
   }

@@ -17,3 +17,14 @@
   width: 100vw;
   z-index: 1;
 }
+.LeftPanel{
+  width: $leftPanelWidth;
+  height: calc(100vh - #{$headerHeight}) !important; //  calc(100vh - var(--headerHeight));
+  overflow: hidden !important;
+  top: $headerHeight;
+  color: $black;
+  z-index: 2;
+}
+:host-context .mat-drawer-container {
+  position: inherit;
+}

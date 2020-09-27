@@ -1,18 +1,18 @@
 @import "../../../../styles/colors";
 @import "../../../../styles/variable";
 
-.HeaderContainer{
+.HeaderContainer {
   color: $white;
 }
 
-.HeaderLeftSide{
+.HeaderLeftSide {
   position: absolute;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: flex-start;
 
-  .LeftSideButton{
+  .LeftSideButton {
     margin: auto 10px;
     text-align: center;
     height: $headerHeight;
@@ -22,26 +22,33 @@
     font-size: 18px;
   }
 
-  .HPLeftSideIcon{
+  .HPLeftSideIcon {
     font-size: 25px;
   }
 
-  .LeftSideLabel{
+  .LeftSideLabel {
 
   }
 
+  .LPSelected {
+    border-bottom: white 2px solid;
+    font-weight: bolder;
+  }
 
+  .LPNotSelected {
+
+  }
 }
 
 
-.HeaderRightSide{
+.HeaderRightSide {
   position: inherit;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: flex-end;
 
-  .RightSideButton{
+  .RightSideButton {
     margin: auto 5px;
     text-align: center;
     height: $headerHeight;
@@ -57,13 +64,13 @@
     margin: 5px;
   }
 
-  .RightSideDiv{
+  .RightSideDiv {
     display: inline-block;
     margin: auto 10px;
     text-align: center;
   }
 
-  .RightLine{
+  .RightLine {
     border-left: 1px solid $lightGray;
     margin: auto 5px;
     height: 55px;

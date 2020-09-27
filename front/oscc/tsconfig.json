@@ -1,42 +1,19 @@
 {
   "compileOnSave": false,
-//  "angularCompilerOptions": {
-//    "fullTemplateTypeCheck": true,
-//    "strictInjectionParameters": true,
-//    "enableIvy": false
-//  },
   "compilerOptions": {
-    "experimentalDecorators": true,
     "baseUrl": "./",
-    "downlevelIteration": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "module": "es2020",
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "allowJs": true,
     "importHelpers": true,
-    "target": "ES6",
-    "typeRoots": [
-      "node_modules/@types",
-      "./src/global.d.ts"
-    ],
+    "target": "es2015",
+    "module": "es2020",
     "lib": [
       "es2018",
       "dom"
     ]
-  },
-  "files": [
-    "src/typings.d.ts",
-    "src/polyfills.ts",
-    "src/app/app.module.ts",
-    "src/main.ts"
-  ],
-  "include": [
-    "app/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  }
 }

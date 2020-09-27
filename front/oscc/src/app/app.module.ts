@@ -8,7 +8,12 @@ import {GeneralViewModule} from './modules/general-view/general-view.module';
 import {GeneralViewComponent} from './modules/general-view/general-view.component';
 import {LoginComponent} from './modules/login/login.component';
 import {AngularCesiumModule} from 'angular-cesium';
-
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatTableModule} from '@angular/material/table';
 // import {
 //   AngularCesiumModule,
 //   AngularCesiumWidgetsModule,
@@ -27,11 +32,19 @@ import {AngularCesiumModule} from 'angular-cesium';
     AppRoutingModule,
     BrowserAnimationsModule,
     GeneralViewModule,
-    AngularCesiumModule.forRoot()
+    AngularCesiumModule.forRoot(),
     // AngularCesiumModule.forRoot(),
     // AngularCesiumWidgetsModule,
+
+    FormsModule,
+    MatSidenavModule,
+    MatCheckboxModule,
+    MatTabsModule,
+    MatTableModule
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

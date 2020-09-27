@@ -5,28 +5,46 @@
     <div class="LeftSideButton HeaderLogo">Logo</div>
     <!--Situation Picture-->
     <div class="LeftSideButton" (click)="onSituationPicture()">
-      <span class="LeftSideLabel" [ngStyle]="">Situation Picture</span>
+      <span class="LeftSideLabel"
+            [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.situationPictures,
+             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}">
+        Situation Picture</span>
     </div>
     <!--Mission Control-->
-    <div class="LeftSideButton">
-      <span class="LeftSideLabel">Mission Control</span>
+    <div class="LeftSideButton" (click)="onMissionControl()">
+      <span class="LeftSideLabel"
+            [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.missionControl,
+             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}">
+        Mission Control</span>
     </div>
     <!--Live Video-->
-    <div class="LeftSideButton">
-      <span class="LeftSideLabel"> Live Video</span>
+    <div class="LeftSideButton" (click)="onLiveVideo()">
+      <span class="LeftSideLabel"
+            [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.liveVideo,
+             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}">
+        Live Video</span>
     </div>
     <!--Media-->
-    <div class="LeftSideButton">
-      <span class="LeftSideLabel">Media</span>
+    <div class="LeftSideButton" (click)="onMedia()" >
+      <span class="LeftSideLabel"
+            [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.media,
+             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}">
+        Media</span>
     </div>
     <!--Toolbox-->
-    <div class="LeftSideButton">
-      <span class="LeftSideLabel">Toolbox</span>
+    <div class="LeftSideButton" (click)="onToolbox()">
+      <span class="LeftSideLabel"
+            [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.toolbox,
+             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}">
+        Toolbox</span>
       <mat-icon class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
     </div>
     <!--View-->
-    <div class="LeftSideButton">
-      <span class="LeftSideLabel">View</span>
+    <div class="LeftSideButton" (click)="onView()">
+      <span class="LeftSideLabel"
+            [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.view,
+             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}">
+        View</span>
       <mat-icon class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
     </div>
   </div>

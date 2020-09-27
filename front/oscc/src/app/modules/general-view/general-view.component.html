@@ -1,10 +1,28 @@
 <div class="GeneralViewContainer">
   <!--HeaderPanel-->
   <app-header-panel class="HeaderPanel"></app-header-panel>
-  Content
+
+
+  <!--Content-->
   <div class="MapContent">
     <app-map></app-map>
   </div>
+  <!--[position]="'start'"-->
+  <!--[(opened)]="applicationService.screen.showLeftPanel"-->
+  <!--Left Panel-->
+  <!--[disableClose]="true"-->
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav class="LeftPanel"
+                 mode="side"
+                 [(opened)]="applicationService.screen.showLeftPanel">
+      <app-left-panel></app-left-panel>
+    </mat-sidenav>
+  </mat-sidenav-container>
 
+  <!--<mat-sidenav-container class="example-container" *ngIf="shouldRun">-->
+    <!--<mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"-->
+                 <!--(closed)="events.push('close!')">-->
+      <!--Sidenav content-->
+    <!--</mat-sidenav>-->
 
 </div>

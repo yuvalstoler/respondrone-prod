@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {DISPLAY_ON_SCREEN} from 'src/types';
 
 @Injectable({
   providedIn: 'root'
@@ -6,6 +7,12 @@ import { Injectable } from '@angular/core';
 export class ApplicationService {
 
   selectedHeaderPanelButton = undefined;
-
-  constructor() { }
+  screen: DISPLAY_ON_SCREEN;
+  
+  
+  constructor() {
+    this.screen = {
+      showLeftPanel: false
+    };
+  }
 }
