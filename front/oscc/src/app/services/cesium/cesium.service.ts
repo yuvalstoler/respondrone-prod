@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import {MAP} from 'src/types';
+import {SceneMode} from 'angular-cesium';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CesiumService {
 
-  maps: any[] = [
+  maps: {id: string, sceneMode: any, containerId: any}[] = [
     {
       id: 'main-map',
-      // sceneMode: SceneMode.SCENE2D,
+      sceneMode: SceneMode.PERFORMANCE_SCENE2D,
       containerId: 'map-container-one'
     }/*,
     {

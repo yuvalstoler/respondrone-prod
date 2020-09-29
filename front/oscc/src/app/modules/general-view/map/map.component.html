@@ -4,3 +4,8 @@
         <!--[containerId]="map?.containerId">-->
 <!--</ac-map>-->
 
+<ac-map *ngFor="let map of cesiumService?.maps; "
+        class="cesium-container"
+        [mapId]="map.id"
+        [sceneMode]="map.sceneMode">
+</ac-map>
