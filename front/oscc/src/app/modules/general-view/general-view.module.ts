@@ -19,6 +19,9 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatTableModule} from '@angular/material/table';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatListModule} from '@angular/material/list';
 
 
 import { EventsSituationPictureComponent } from './left-panel/events-situation-picture/events-situation-picture.component';
@@ -44,6 +47,9 @@ import { EventsSituationTableComponent } from './left-panel/events-situation-pic
     MatCheckboxModule,
     MatTabsModule,
     MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatListModule,
 
     AngularCesiumModule.forRoot(),
     AngularCesiumWidgetsModule,

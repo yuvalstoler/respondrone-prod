@@ -45,3 +45,23 @@ tr.example-element-row:not(.example-expanded-row):active {
 .example-element-description-attribution {
   opacity: 0.5;
 }
+.CommentsGrid{
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+.CommentsGrid1{
+  grid-row: 1;
+  grid-column: 1;
+}
+.CommentsGrid2{
+  grid-row: 1;
+  grid-column: 2;
+}
+.CommentsGrid3{
+  grid-row: 1;
+  grid-column: 3;
+}
+.CommentsGrid4{
+  grid-row: 2;
+  grid-column: 2/ 3;
+}

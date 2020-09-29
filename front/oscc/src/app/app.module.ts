@@ -14,6 +14,10 @@ import { FormsModule } from '@angular/forms';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatTableModule} from '@angular/material/table';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatListModule} from '@angular/material/list';
+
 // import {
 //   AngularCesiumModule,
 //   AngularCesiumWidgetsModule,
@@ -40,7 +44,10 @@ import {MatTableModule} from '@angular/material/table';
     MatSidenavModule,
     MatCheckboxModule,
     MatTabsModule,
-    MatTableModule
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatListModule
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
