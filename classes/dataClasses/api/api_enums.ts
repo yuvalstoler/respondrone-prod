@@ -31,4 +31,10 @@ export enum MWS_API {
 
 
 
+export enum CCG_API {
 
+    general = 'api',
+    newReport = '/newReport',
+    getVideoSources = '/getVideoSources',
+
+}

@@ -2,7 +2,7 @@ import {Request, Response} from 'express';
 const jwt = require('jsonwebtoken');
 
 import {Logger} from '../logger/Logger';
-import { MAP } from '../../../../classes/typings/all.typings';
+import { MAP } from "../../../../classes/typings/all.typings";
 
 
 const services = require('./../../../../../../../config/services.json');

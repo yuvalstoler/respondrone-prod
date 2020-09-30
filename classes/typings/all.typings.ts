@@ -52,3 +52,17 @@ export enum BOOLEAN_NUMBER {
 export type GEOPOINT = { latitude: number, longitude: number };
 export type GEOPOINT_UI = { lat: number, lng: number };
 export type GEOPOINT3D = GEOPOINT & { altitude: number };
+export type ADDRESS_GEOPOINT = GEOPOINT & { address: string };
+
+
+
+export type REPORT_DATA = {
+    id: string,
+    type: string,
+    description: string,
+    location: GEOPOINT3D | ADDRESS_GEOPOINT,
+    media: string[],
+    events: string[],
+
+};
+

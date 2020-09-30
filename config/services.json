@@ -1,6 +1,31 @@
 {
+  "FS": {
+    "port": "8100",
+    "host": "localhost",
+    "protocol": "http"
+  },
+  "RS": {
+    "port": "8200",
+    "host": "localhost",
+    "protocol": "http"
+  },
+  "ES": {
+    "port": "8300",
+    "host": "localhost",
+    "protocol": "http"
+  },
+  "TS": {
+    "port": "8400",
+    "host": "localhost",
+    "protocol": "http"
+  },
+  "MS": {
+    "port": "8500",
+    "host": "localhost",
+    "protocol": "http"
+  },
   "DBS": {
-    "port": "7741",
+    "port": "8600",
     "host": "localhost",
     "protocol": "http",
     "listeners": [],
@@ -11,10 +36,44 @@
     }
   },
 
-  "MWS": {
-    "protocol": "http",
-    "port": "7701",
+  "MG": {
+    "port": "8700",
     "host": "localhost",
+    "protocol": "http"
+  },
+
+
+
+  "webServer": {
+    "host": "localhost",
+    "protocol": "http",
+    "port": "6000",
+
+    "timeOutREST": 10000,
+    "rateOfClimb": 2,
+    "secret": "4sekgq3sns4l0dj9kmgukn",
+    "expireIn": 86400,
+    "name": "ResponDrone",
+    "password": "simplex"
+
+  },
+  "MWS": {
+    "host": "localhost",
+    "protocol": "http",
+    "port": "7000",
+
+    "timeOutREST": 10000,
+    "rateOfClimb": 2,
+    "secret": "4sekgq3sns4l0dj9kmgukn",
+    "expireIn": 86400,
+    "name": "ResponDrone",
+    "password": "simplex"
+
+  },
+  "CCG": {
+    "host": "localhost",
+    "protocol": "http",
+    "port": "7100",
 
     "timeOutREST": 10000,
     "rateOfClimb": 2,

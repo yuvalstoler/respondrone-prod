@@ -42,7 +42,7 @@ export class ApiManager implements IRest {
     };
 
 
-    private newReport = (request: Request, response: Response) => {
+    private createDynamicNFZ = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<boolean> = {success: true};
         const requestBody = request.body;
 
@@ -70,7 +70,7 @@ export class ApiManager implements IRest {
 
 
     routers: {} = {
-        [MWS_API.newReport]: this.newReport,
+        [MWS_API.newReport]: this.createDynamicNFZ,
         [MWS_API.getVideoSources]: this.getVideoSources,
 
     };
