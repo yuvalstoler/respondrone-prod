@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "declaration": true,
+    "experimentalDecorators": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "rootDirs": [
+      "src",
+      "test"
+    ],
+    "lib": ["es2017",
+      "es6",
+      "dom"],
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "paths": {
+      "*": [
+        "node_modules/*"
+      ],
+      "@simplex/classes/*": ["../../../classes/*"]
+    },
+    "types": [
+      "node", "mocha", "chai", "lodash"
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules",
+      "typings"
+    ]
+  },
+  "include": [
+    "src/**/*",
+    "../../classes/**/*",
+    "projConf"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "lib",
+    "examples"
+  ]
+}

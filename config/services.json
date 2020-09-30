@@ -48,7 +48,6 @@
     "host": "localhost",
     "protocol": "http",
     "port": "6000",
-
     "timeOutREST": 10000,
     "rateOfClimb": 2,
     "secret": "4sekgq3sns4l0dj9kmgukn",
@@ -61,7 +60,6 @@
     "host": "localhost",
     "protocol": "http",
     "port": "7000",
-
     "timeOutREST": 10000,
     "rateOfClimb": 2,
     "secret": "4sekgq3sns4l0dj9kmgukn",
