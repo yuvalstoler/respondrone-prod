@@ -1,0 +1,8 @@
+{
+  "timeOutREST": 10000,
+  "rateOfClimb": 2,
+  "secret": "4sekgq3sns4l0dj9kmgukn",
+  "expireIn": 86400,
+  "name": "ResponDrone",
+  "password": "simplex"
+}
