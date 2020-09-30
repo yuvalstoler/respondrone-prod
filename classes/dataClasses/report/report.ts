@@ -1,14 +1,17 @@
 import {
     ADDRESS_GEOPOINT,
     GEOPOINT3D,
-    REPORT_DATA
+    PRIORITY,
+    REPORT_DATA,
+    REPORT_TYPE
 } from '../../typings/all.typings';
 import { DataUtility } from '../../applicationClasses/utility/dataUtility';
 
 export class Report {
 
     id: string = '';
-    type: string = '';
+    type: REPORT_TYPE;
+    priority: PRIORITY;
     description: string = '';
     location: GEOPOINT3D | ADDRESS_GEOPOINT;
     media: string[] = [];
@@ -32,8 +35,11 @@ export class Report {
         }
     };
 
-    private setType = (data: string) => {
+    private setType = (data: REPORT_TYPE) => {
         this.type = data;
+    };
+    private setPriority = (data: PRIORITY) => {
+        this.priority = data;
     };
 
     private setDescription = (data: any) => {
@@ -83,6 +89,7 @@ export class Report {
         return {
             id: this.id,
             type: this.type,
+            priority: this.priority,
             description: this.description,
             location: this.location,
             media: this.media,
@@ -94,6 +101,7 @@ export class Report {
     saveConfig = {
         id: this.setId,
         type: this.setType,
+        priority: this.setPriority,
         description: this.setDescription,
         location: this.setLocation,
         media: this.setMedia,

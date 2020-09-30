@@ -55,10 +55,22 @@ export type GEOPOINT3D = GEOPOINT & { altitude: number };
 export type ADDRESS_GEOPOINT = GEOPOINT & { address: string };
 
 
+export enum REPORT_TYPE {
+    fire = 'fire',
+    flood = 'flood',
+    roadAccident = 'roadAccident'
+}
+export enum PRIORITY {
+    low = 'low',
+    middle = 'middle',
+    high = 'high'
+}
+
 
 export type REPORT_DATA = {
-    id: string,
-    type: string,
+    id?: string,
+    type: REPORT_TYPE,
+    priority: PRIORITY,
     description: string,
     location: GEOPOINT3D | ADDRESS_GEOPOINT,
     media: string[],

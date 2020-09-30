@@ -16,7 +16,8 @@ export enum LS_API {
 
 export enum RS_API {
     general = 'api',
-    updateArea = '/updateArea',
+    getAllReports = '/getAllReports',
+    newReport = '/newReport',
 
 }
 
