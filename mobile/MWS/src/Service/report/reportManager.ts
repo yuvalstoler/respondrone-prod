@@ -1,9 +1,8 @@
-import { Report } from '../../../../../classes/dataClasses/report/report';
-
 const _ = require('lodash');
 
+import { Report } from '../../../../../classes/dataClasses/report/report';
+
 import {
-    AMS_API,
     RS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 
@@ -14,19 +13,12 @@ import {
     REPORT_DATA
 
 } from '../../../../../classes/typings/all.typings';
-import { SocketIO } from '../../websocket/socket.io';
 
 
 export class ReportManager {
 
 
     private static instance: ReportManager = new ReportManager();
-
-    private socketClient_Server: SocketIO;
-
-    private setSocketIO_Server = (socketIO: SocketIO) => {
-        this.socketClient_Server = socketIO;
-    };
 
 
     reports: Report[] = [];
@@ -53,7 +45,25 @@ export class ReportManager {
                 console.log('error getReportsFromRS', JSON.stringify(data));
             });
     };
+    private getReports = (): REPORT_DATA[] => {
+        const res: REPORT_DATA[] = [];
+        this.reports.forEach((report: Report) => {
+            res.push(report.toJsonForSave());
+        });
+        return res;
+    }
+    private newReport = (reportData: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
+            const newReport: Report = new Report(reportData);
+            res.data = newReport.toJsonForSave();
+            res.success = true;
+            //    todo send to RS
 
+            resolve(res);
+
+        });
+    }
 
     private Arr_REPORT_DATA_to_Arr_Report = (reportDataArr: REPORT_DATA[]): Report[] => {
         const res: Report[] = [];
@@ -67,8 +77,8 @@ export class ReportManager {
     }
 
     // region API uncions
-    public static setSocketIO_Server = ReportManager.instance.setSocketIO_Server;
-
+    public static getReports = ReportManager.instance.getReports;
+    public static newReport = ReportManager.instance.newReport;
 
 
     // endregion API uncions
