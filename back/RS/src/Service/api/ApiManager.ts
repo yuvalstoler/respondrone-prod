@@ -1,5 +1,6 @@
-
 const _ = require('lodash');
+
+import { ReportManager } from '../report/reportManager';
 import * as core from 'express-serve-static-core';
 
 
@@ -12,18 +13,19 @@ import {
 import {
     ASYNC_RESPONSE,
     POINT,
+    REPORT_DATA,
 } from '../../../../../classes/typings/all.typings';
 
 
 
 import {
+    MWS_API,
     RS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 
 
 export class ApiManager implements IRest {
-
 
     private static instance: ApiManager = new ApiManager();
 
@@ -44,15 +46,15 @@ export class ApiManager implements IRest {
 
     private newReport = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<boolean> = {success: true};
-        const requestBody = request.body;
+        const requestBody: REPORT_DATA = request.body;
 
-        // NfzManager.createDynamicNFZFromRoute(requestBody)
-        //     .then((data: ASYNC_RESPONSE) => {
-        response.send(res);
-        // })
-        // .catch((data: ASYNC_RESPONSE) => {
-        //     response.send(data);
-        // });
+        ReportManager.newReport(requestBody)
+            .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(data);
+            });
     };
 
     private getVideoSources = (request: Request, response: Response) => {
@@ -70,7 +72,8 @@ export class ApiManager implements IRest {
 
 
     routers: {} = {
-
+        [MWS_API.newReport]: this.newReport,
+        [MWS_API.getVideoSources]: this.getVideoSources,
 
     };
 
@@ -78,5 +81,6 @@ export class ApiManager implements IRest {
     public static listen = ApiManager.instance.listen;
 
     // endregion API uncions
+
 
 }

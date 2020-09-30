@@ -7,7 +7,14 @@
   "RS": {
     "port": "8200",
     "host": "localhost",
-    "protocol": "http"
+    "protocol": "http",
+    "listeners": [
+      "webServer",
+      "MWS",
+      "MG",
+      "CCG"
+    ]
+
   },
   "ES": {
     "port": "8300",

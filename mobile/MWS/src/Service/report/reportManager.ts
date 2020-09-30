@@ -1,3 +1,5 @@
+import { Converting } from "../../../../../classes/applicationClasses/utility/converting";
+
 const _ = require('lodash');
 
 import { Report } from '../../../../../classes/dataClasses/report/report';
@@ -33,7 +35,7 @@ export class ReportManager {
         RequestManager.requestToRS(RS_API.getAllReports, {})
             .then((data: ASYNC_RESPONSE<REPORT_DATA[]>) => {
                 if ( data.success ) {
-                    this.reports = this.Arr_REPORT_DATA_to_Arr_Report(data.data);
+                    this.reports = Converting.Arr_REPORT_DATA_to_Arr_Report(data.data);
                 }
                 else {
                     //todo logger
@@ -52,6 +54,18 @@ export class ReportManager {
         });
         return res;
     }
+
+    private updateAllReports = (reportData: REPORT_DATA[]): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
+            this.reports = Converting.Arr_REPORT_DATA_to_Arr_Report(reportData);
+            res.success = true;
+            //    todo send to RS
+
+            resolve(res);
+
+        });
+    }
     private newReport = (reportData: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
@@ -65,19 +79,11 @@ export class ReportManager {
         });
     }
 
-    private Arr_REPORT_DATA_to_Arr_Report = (reportDataArr: REPORT_DATA[]): Report[] => {
-        const res: Report[] = [];
-        //    todo data vaidation
-        if ( Array.isArray(reportDataArr) ) {
-            reportDataArr.forEach((reportData: REPORT_DATA) => {
-                res.push(new Report(reportData));
-            });
-        }
-        return res;
-    }
-
     // region API uncions
+
     public static getReports = ReportManager.instance.getReports;
+
+    public static updateAllReports = ReportManager.instance.updateAllReports;
     public static newReport = ReportManager.instance.newReport;
 
 

@@ -40,7 +40,18 @@ export class ApiManager implements IRest {
         return true;
     };
 
+    private updateAllReports = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<boolean> = {success: true};
+        const requestBody: REPORT_DATA[] = request.body;
 
+        ReportManager.updateAllReports(requestBody)
+            .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(data);
+            });
+    };
     private newReport = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<boolean> = {success: true};
         const requestBody: REPORT_DATA = request.body;
@@ -69,6 +80,8 @@ export class ApiManager implements IRest {
 
 
     routers: {} = {
+        [MWS_API.updateAllReports]: this.updateAllReports,
+
         [MWS_API.newReport]: this.newReport,
         [MWS_API.getVideoSources]: this.getVideoSources,
 

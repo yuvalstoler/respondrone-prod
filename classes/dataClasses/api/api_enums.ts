@@ -32,6 +32,7 @@ export enum RS_API {
 export enum MWS_API {
 
     general = 'api',
+    updateAllReports = '/updateAllReports',
     newReport = '/newReport',
     getVideoSources = '/getVideoSources',
 
