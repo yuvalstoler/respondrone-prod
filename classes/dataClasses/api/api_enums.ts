@@ -3,6 +3,9 @@ export enum AMS_API {
     setSite = '/setSite',
 
 }
+export enum MS_API {
+    general = 'api',
+}
 
 export enum DBS_API {
     general = 'api',
@@ -12,6 +15,10 @@ export enum DBS_API {
 export enum LS_API {
     general = 'api',
     getLogById = '/getLogById',
+}
+
+export enum TS_API {
+
 }
 
 export enum RS_API {
@@ -29,7 +36,9 @@ export enum MWS_API {
     getVideoSources = '/getVideoSources',
 
 }
-
+export enum ES_API{
+    general = 'api'
+}
 
 
 export enum CCG_API {
@@ -38,4 +47,8 @@ export enum CCG_API {
     newReport = '/newReport',
     getVideoSources = '/getVideoSources',
 
+}
+
+export enum FS_API{
+    general = 'api'
 }

@@ -13,8 +13,7 @@ import { ASYNC_RESPONSE } from '../../../../../classes/typings/all.typings';
 const services = require('./../../../../../../../../config/services.json');
 const projConf = require('./../../../../../../../../config/projConf.json');
 
-const url_RS = services.RS.protocol + '://' + services.RS.host + ':' + services.RS.port;
-
+const url_AMS = services.AMS.protocol + '://' + services.AMS.host + ':' + services.AMS.port;
 const url_routeService = services.routeService.protocol + '://' + services.routeService.host + ':' + services.routeService.port;
 const url_FCS = services.droneService.protocol + '://' + services.droneService.host + ':' + services.droneService.port;
 const url_GCS = services.gimbalService.protocol + '://' + services.gimbalService.host + ':' + services.gimbalService.port;
@@ -37,8 +36,8 @@ const logServerDji = services.logServerDji;
 
 export class RequestManager {
 
-    public static requestToRS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
-        return RequestManager.sendRestRequest(url_RS, RS_API.general + path, bodyObj, timeout_AV);
+    public static requestToAMS_API = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_AMS, AMS_API.general + path, bodyObj, timeout_AV);
     };
 
 
