@@ -22,11 +22,15 @@ import {MatTableModule} from '@angular/material/table';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatListModule} from '@angular/material/list';
-
+import {MatSelectModule} from '@angular/material/select';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatButtonModule} from '@angular/material/button';
 
 import { EventsSituationPictureComponent } from './left-panel/events-situation-picture/events-situation-picture.component';
 import { ReportsSituationPictureComponent } from './left-panel/reports-situation-picture/reports-situation-picture.component';
 import { EventsSituationTableComponent } from './left-panel/events-situation-picture/events-situation-table/events-situation-table.component';
+import { LeftNarrowPanelComponent } from './left-narrow-panel/left-narrow-panel.component';
+import { EventPanelComponent } from './left-narrow-panel/event-panel/event-panel.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,9 @@ import { EventsSituationTableComponent } from './left-panel/events-situation-pic
     LeftPanelComponent,
     EventsSituationPictureComponent,
     ReportsSituationPictureComponent,
-    EventsSituationTableComponent
+    EventsSituationTableComponent,
+    LeftNarrowPanelComponent,
+    EventPanelComponent
   ],
   imports: [
     CommonModule,
@@ -50,6 +56,9 @@ import { EventsSituationTableComponent } from './left-panel/events-situation-pic
     MatFormFieldModule,
     MatInputModule,
     MatListModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatButtonModule,
 
     AngularCesiumModule.forRoot(),
     AngularCesiumWidgetsModule,
@@ -60,7 +69,9 @@ import { EventsSituationTableComponent } from './left-panel/events-situation-pic
     LeftPanelComponent,
     EventsSituationPictureComponent,
     ReportsSituationPictureComponent,
-    EventsSituationTableComponent
+    EventsSituationTableComponent,
+    LeftNarrowPanelComponent,
+    EventPanelComponent
   ],
   providers: [
     PolygonsEditorService,

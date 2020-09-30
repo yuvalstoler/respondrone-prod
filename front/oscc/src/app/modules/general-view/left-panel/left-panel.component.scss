@@ -1,9 +1,16 @@
+@import "../../../../styles/colors";
 
-.mat-tab-label {
+:host ::ng-deep .mat-tab-label {
   font-size: 20px;
 }
 
 /* Styles for the active tab label */
 .mat-tab-label.mat-tab-label-active {
 
+}
+.LeftPanelX{
+  float: right;
+  margin: 10px 15px 10px -10px;
+  font-size: 20px;
+  color: $lightGray;
 }

@@ -20,31 +20,22 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .example-element-detail {
   overflow: hidden;
-  display: flex;
-}
-
-.example-element-diagram {
-  min-width: 80px;
-  border: 2px solid black;
-  padding: 8px;
-  font-weight: lighter;
-  margin: 8px 0;
-  height: 104px;
-}
-
-.example-element-symbol {
-  font-weight: bold;
-  font-size: 40px;
-  line-height: normal;
+  display: grid;
+  grid-template-columns: auto auto;
 }
 
 .example-element-description {
   padding: 16px;
 }
 
-.example-element-description-attribution {
-  opacity: 0.5;
+.example-element-comments {
+  padding: 16px;
 }
+
+.example-element-linked {
+  padding: 16px;
+}
+
 .CommentsGrid{
   display: grid;
   grid-template-columns: auto auto auto;
@@ -64,4 +55,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 .CommentsGrid4{
   grid-row: 2;
   grid-column: 2/ 3;
+}
+.capitalize {
+  text-transform: capitalize;
 }

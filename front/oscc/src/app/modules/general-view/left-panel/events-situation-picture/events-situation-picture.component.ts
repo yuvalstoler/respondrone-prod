@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {ApplicationService} from 'src/app/services/applicationService/application.service';
 
 @Component({
   selector: 'app-events-situation-picture',
@@ -7,10 +8,13 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class EventsSituationPictureComponent implements OnInit {
   
-  constructor() { }
+  constructor(public applicationService: ApplicationService) { }
 
   ngOnInit(): void {
   }
 
-
+  onCreateNewEvent = () => {
+    this.applicationService.screen.showLeftPanel = false;
+    this.applicationService.screen.showLeftNarrowPanel = true;
+  };
 }

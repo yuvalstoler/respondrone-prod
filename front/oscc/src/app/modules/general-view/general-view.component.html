@@ -19,6 +19,14 @@
     </mat-sidenav>
   </mat-sidenav-container>
 
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav class="LeftNarrowPanel"
+                 mode="side"
+                 [(opened)]="applicationService.screen.showLeftNarrowPanel">
+      <app-left-narrow-panel></app-left-narrow-panel>
+    </mat-sidenav>
+  </mat-sidenav-container>
+
   <!--<mat-sidenav-container class="example-container" *ngIf="shouldRun">-->
     <!--<mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"-->
                  <!--(closed)="events.push('close!')">-->

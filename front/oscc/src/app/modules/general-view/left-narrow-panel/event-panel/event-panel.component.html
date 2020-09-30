@@ -1,0 +1,89 @@
+<div *ngIf="true">
+  <div>Create new event</div>
+  <hr>
+  <div class="DialogContent">
+    <!--Title-->
+    <div class="DialogContentItem">
+      <span class="DialogLeftSpan">Event Title</span>
+      <mat-form-field appearance="outline" class="SPMatFormField">
+        <label>
+          <input matInput class="Label" type="text" [(ngModel)]="eventModel.title">
+        </label>
+      </mat-form-field>
+    </div>
+    <!--Type-->
+    <div class="DialogContentItem">
+      <span class="DialogSpan">Type</span>
+      <mat-form-field appearance="outline" class="SPMatFormField">
+        <mat-select [(ngModel)]="eventModel.type">
+          <mat-option *ngFor="let type of types" [value]="type">
+            {{type}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!--Priority-->
+    <div class="DialogContentItem">
+      <span class="DialogSpan">Priority </span>
+      <mat-form-field appearance="outline" class="SPMatFormField">
+        <mat-select [(ngModel)]="eventModel.priority">
+          <mat-option *ngFor="let priority of priorities" [value]="priority">
+            {{priority}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!--Description-->
+    <div class="DialogContentItem">
+      <span class="DialogLeftSpan">Description</span>
+      <mat-form-field appearance="outline" class="SPMatFormField">
+        <label>
+            <textarea matInput class="Label" [ngStyle]="{'resize': 'none'}" rows="3"
+                      [(ngModel)]="eventModel.description"></textarea>
+        </label>
+      </mat-form-field>
+    </div>
+    <!--Location-->
+    <div class="DialogContentItem">
+      <span class="DialogSpan">Location </span>
+      <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="example-radio-group"
+        [(ngModel)]="eventModel.location">
+        <!--<mat-radio-button class="example-radio-button" *ngFor="let season of seasons" [value]="season">-->
+        <!--{{season}}-->
+        <!--</mat-radio-button>-->
+        <mat-radio-button value="1">Add an address</mat-radio-button>
+        <mat-radio-button value="2">Choose a location point</mat-radio-button>
+        <mat-radio-button value="3">Create a polygon</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <!--Linked Reports-->
+    <div>TABLE</div>
+    <!--Comments-->
+    <div class="DialogContentItem">
+      <span class="DialogLeftSpan">Comments</span>
+      <div class="DialogGrid3">
+        <div>Icon</div>
+        <mat-form-field appearance="outline" class="SPMatFormField">
+          <label>
+            <input matInput class="Label" type="text" [(ngModel)]="eventModel.comments">
+          </label>
+        </mat-form-field>
+        <div>Icon</div>
+      </div>
+    </div>
+  </div>
+  <div class="FooterButtons">
+    <div>
+      <button mat-raised-button class="FooterButtonDelete"
+              (click)="onDeleteClick()">Delete
+      </button>
+      <button mat-raised-button class="FooterButtonCreate"
+              (click)="onCreateClick()">Create New Event
+      </button>
+    </div>
+  </div>
+</div>
+
+
