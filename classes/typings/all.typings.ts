@@ -80,9 +80,9 @@ export enum EVENT_TYPE { // TODO - change data fields
 }
 
 export enum PRIORITY {
-    low = 'low',
-    middle = 'middle',
-    high = 'high'
+    low = 'Low',
+    middle = 'Medium',
+    high = 'High'
 }
 
 
