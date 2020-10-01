@@ -11,6 +11,9 @@ export type LOGIN_UI = {
 
 export type TOASTER_OPTIONS = Partial<{ timeOut: number, extendedTimeOut: number, positionClass: string, preventDuplicates: boolean }>;
 
+export type ID_TYPE = string;
+export type ID_OBJ = { id: ID_TYPE };
+
 
 export type ASYNC_RESPONSE<T = any> = { success: boolean, description?: string, data?: T };
 export type REST_ROUTER_CONFIG = { class: IRest, path: string };
@@ -52,7 +55,7 @@ export enum BOOLEAN_NUMBER {
 
 export type GEOPOINT = { latitude: number, longitude: number };
 export type GEOPOINT_UI = { lat: number, lng: number };
-export type GEOPOINT3D = GEOPOINT & { altitude: number };
+export type GEOPOINT3D = GEOPOINT & { altitude?: number };
 export type ADDRESS_GEOPOINT = GEOPOINT & { address: string };
 
 
@@ -78,7 +81,7 @@ export enum PRIORITY {
 
 
 export type REPORT_DATA = {
-    id?: string,
+    id?: ID_TYPE,
     source: string;
     time: number;
     createdBy: string
@@ -93,7 +96,7 @@ export type REPORT_DATA = {
 };
 
 export type EVENT_DATA = { // TODO - change data fields
-    id?: string,
+    id?: ID_TYPE,
     type: EVENT_TYPE,
     priority: PRIORITY,
     description: string,
@@ -104,7 +107,7 @@ export type EVENT_DATA = { // TODO - change data fields
 };
 
 export type COMMENT_DATA = { // TODO - change data fields
-    id?: string,
+    id?: ID_TYPE,
     source: string,
     time: number,
     createdBy: string,

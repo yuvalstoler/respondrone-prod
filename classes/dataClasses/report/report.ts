@@ -1,6 +1,7 @@
 import {
     ADDRESS_GEOPOINT,
     GEOPOINT3D,
+    ID_TYPE,
     PRIORITY,
     REPORT_DATA,
     REPORT_TYPE
@@ -9,7 +10,7 @@ import { DataUtility } from '../../applicationClasses/utility/dataUtility';
 
 export class Report {
 
-    id: string = '';
+    id: ID_TYPE;
     type: REPORT_TYPE;
     source: string;
     time: number;
@@ -27,7 +28,7 @@ export class Report {
         }
     }
 
-    private setId = (data: any) => {
+    private setId = (data: ID_TYPE | any) => {
         if ( data !== undefined ) {
             const res: boolean = typeof data === 'string' || data instanceof String;
             if ( res ) {
