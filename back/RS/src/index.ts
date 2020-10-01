@@ -17,13 +17,13 @@ const services = require('./../../../../../../config/services.json');
 import {Logger} from './logger/Logger';
 import {ApiManager} from './Service/api/ApiManager';
 import {MWS_API} from '../../../classes/dataClasses/api/api_enums';
-import { REST_ROUTER_CONFIG } from "../../../classes/typings/all.typings";
+import { REST_ROUTER_CONFIG } from '../../../classes/typings/all.typings';
 
 
 
 export class Server {
 
-    private port = services.MWS.port;
+    private port = services.RS.port;
     public app: any;
     private server: any;
     private alertService: any;

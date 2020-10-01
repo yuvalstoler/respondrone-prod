@@ -1,9 +1,8 @@
-
 const _ = require('lodash');
+
+import { ReportManager } from '../report/reportManager';
 import * as core from 'express-serve-static-core';
 
-
-import { GeoPoint } from '../../../../../classes/dataClasses/geo/geoPoint';
 
 import {
     Request,
@@ -11,9 +10,9 @@ import {
 } from 'express';
 import {
     ASYNC_RESPONSE,
-    POINT,
-} from '../../../../../classes/typings/all.typings';
 
+    REPORT_DATA,
+} from '../../../../../classes/typings/all.typings';
 
 
 import {
@@ -41,18 +40,29 @@ export class ApiManager implements IRest {
         return true;
     };
 
+    private updateAllReports = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<boolean> = {success: true};
+        const requestBody: REPORT_DATA[] = request.body;
 
+        ReportManager.updateAllReports(requestBody)
+            .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(data);
+            });
+    };
     private newReport = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<boolean> = {success: true};
-        const requestBody = request.body;
+        const requestBody: REPORT_DATA = request.body;
 
-        // NfzManager.createDynamicNFZFromRoute(requestBody)
-        //     .then((data: ASYNC_RESPONSE) => {
-        response.send(res);
-        // })
-        // .catch((data: ASYNC_RESPONSE) => {
-        //     response.send(data);
-        // });
+        ReportManager.newReport(requestBody)
+            .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(data);
+            });
     };
 
     private getVideoSources = (request: Request, response: Response) => {
@@ -70,6 +80,8 @@ export class ApiManager implements IRest {
 
 
     routers: {} = {
+        [MWS_API.updateAllReports]: this.updateAllReports,
+
         [MWS_API.newReport]: this.newReport,
         [MWS_API.getVideoSources]: this.getVideoSources,
 

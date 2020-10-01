@@ -32,12 +32,15 @@ export enum RS_API {
 export enum MWS_API {
 
     general = 'api',
+    updateAllReports = '/updateAllReports',
+    updateAllEvents = '/updateAllEvents',
     newReport = '/newReport',
     getVideoSources = '/getVideoSources',
 
 }
 export enum ES_API{
-    general = 'api'
+    general = 'api',
+    getAllEvents = '/getAllEvents',
 }
 
 

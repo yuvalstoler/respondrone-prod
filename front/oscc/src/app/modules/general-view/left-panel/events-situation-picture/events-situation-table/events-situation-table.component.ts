@@ -97,7 +97,7 @@ export class EventsSituationTableComponent implements OnInit {
   selectedData: any;
   expandedElement: EventsSituation;
   selection = new SelectionModel<EventsSituation>(true, []);
-
+  displayedColumns1: string[] = ['ID', 'Type', 'Description', 'Time'];
 
   constructor() {
   }
