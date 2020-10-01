@@ -38,7 +38,8 @@ export enum MWS_API {
 
 }
 export enum ES_API{
-    general = 'api'
+    general = 'api',
+    getAllEvents = '/getAllEvents',
 }
 
 

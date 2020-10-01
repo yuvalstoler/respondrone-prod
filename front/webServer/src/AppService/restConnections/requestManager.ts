@@ -2,7 +2,7 @@ const request = require('request');
 
 import {
     AMS_API,
-    DBS_API,
+    DBS_API, ES_API,
     LS_API,
     RS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
@@ -14,6 +14,7 @@ const services = require('./../../../../../../../../config/services.json');
 
 
 const url_AMS = services.AMS.protocol + '://' + services.AMS.host + ':' + services.AMS.port;
+const url_ES = services.ES.protocol + '://' + services.ES.host + ':' + services.ES.port;
 const url_routeService = services.routeService.protocol + '://' + services.routeService.host + ':' + services.routeService.port;
 const url_FCS = services.droneService.protocol + '://' + services.droneService.host + ':' + services.droneService.port;
 const url_GCS = services.gimbalService.protocol + '://' + services.gimbalService.host + ':' + services.gimbalService.port;
@@ -39,6 +40,10 @@ export class RequestManager {
     public static requestToAMS_API = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_AMS, AMS_API.general + path, bodyObj, timeout_AV);
     };
+
+    public static requestToES = (path: string, bodyObj: object): Promise<ASYNC_RESPONSE> => {
+        return  RequestManager.sendRestRequest(url_ES, ES_API.general + path, bodyObj, timeout_AV);
+    }
 
 
 

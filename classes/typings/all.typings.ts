@@ -60,6 +60,13 @@ export enum REPORT_TYPE {
     flood = 'flood',
     roadAccident = 'roadAccident'
 }
+
+export enum EVENT_TYPE { // TODO - change data fields
+    fire = 'fire',
+    flood = 'flood',
+    roadAccident = 'roadAccident'
+}
+
 export enum PRIORITY {
     low = 'low',
     middle = 'middle',
@@ -70,6 +77,17 @@ export enum PRIORITY {
 export type REPORT_DATA = {
     id?: string,
     type: REPORT_TYPE,
+    priority: PRIORITY,
+    description: string,
+    location: GEOPOINT3D | ADDRESS_GEOPOINT,
+    media: string[],
+    events: string[],
+
+};
+
+export type EVENT_DATA = { // TODO - change data fields
+    id?: string,
+    type: EVENT_TYPE,
     priority: PRIORITY,
     description: string,
     location: GEOPOINT3D | ADDRESS_GEOPOINT,
