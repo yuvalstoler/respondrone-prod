@@ -33,6 +33,7 @@ export enum MWS_API {
 
     general = 'api',
     updateAllReports = '/updateAllReports',
+    updateAllEvents = '/updateAllEvents',
     newReport = '/newReport',
     getVideoSources = '/getVideoSources',
 
