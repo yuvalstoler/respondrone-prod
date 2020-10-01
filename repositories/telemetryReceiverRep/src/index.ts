@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as http from 'http';
 import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
 
 import {ApiManager} from './services/api/ApiManager';
 import {REST_ROUTER_CONFIG} from './classes/all.typings';
@@ -25,9 +26,8 @@ class Server {
     constructor() {
         this.app = express();
 
-        this.app.use(bodyParser.json({limit: '50mb'}));
-        this.app.use(bodyParser.urlencoded({extended: false}));
         const server = this.createServer(this.app);
+        this.middleware();
         this.listen(server);
         SocketManager.initSocket(server);
 
@@ -45,6 +45,21 @@ class Server {
     private createServer = (app) => {
         return http.createServer(app);
     };
+
+    private middleware = (): void => {
+        this.app.use(bodyParser.json({limit: '50mb'}));
+        this.app.use(bodyParser.urlencoded({extended: false, limit: '50mb'}));
+        // enable cors middleware
+        const options: cors.CorsOptions = {
+            allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token'],
+            credentials: true,
+            methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+            origin: '*',
+            preflightContinue: false
+        };
+        this.app.use(cors(options));
+        this.app.options('*', cors(options));
+    }
 
     private listen = (server): any => {
         server.listen(this.port, () => {
