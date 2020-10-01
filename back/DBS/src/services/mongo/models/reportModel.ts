@@ -11,7 +11,7 @@ export class ReportModel {
             id: String
         }, {strict: false});
 
-        return MongoConnector.getMongoose().model('nfzDynamic', schema);
+        return MongoConnector.getMongoose().model('reports', schema);
     }
 }
 

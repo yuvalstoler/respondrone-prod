@@ -2,7 +2,6 @@ const request = require('request');
 const _ = require('lodash');
 
 import {
-    AMS_API,
     DBS_API,
 } from '../../../../../classes/dataClasses/api/api_enums';
 
@@ -17,6 +16,7 @@ const projConf = require('./../../../../../../../../config/projConf.json');
 
 
 const url_DBS = services.DBS.protocol + '://' + services.DBS.host + ':' + services.DBS.port;
+const url_MWS = services.MWS.protocol + '://' + services.MWS.host + ':' + services.MWS.port;
 
 const timeout_AV = projConf.timeOutREST;
 
@@ -24,6 +24,9 @@ export class RequestManager {
     static externalServiceURLs: MAP<string> = {};
     public static requestToDBS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_DBS, DBS_API.general + path, bodyObj, timeout_AV);
+    };
+    public static requestToMWS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_MWS, DBS_API.general + path, bodyObj, timeout_AV);
     };
 
 

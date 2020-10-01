@@ -6,6 +6,7 @@ import { Report } from '../../../../../classes/dataClasses/report/report';
 
 import {
     DBS_API,
+    MWS_API,
     RS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 
@@ -102,6 +103,23 @@ export class ReportManager {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
             const newReport: Report = new Report(reportData);
+
+
+            RequestManager.requestToMWS(MWS_API.updateAllReports, newReport.toJsonForSave())
+                .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                    if ( data.success ) {
+                        res.data = data.data;
+                        res.success = true;
+                        const newReportCreated: Report = new Report(data.data);
+                        this.reports.push(newReportCreated);
+                    }
+
+                })
+                .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                    console.log(data);
+                });
+
+
             //todo save - send to DBS
             RequestManager.requestToDBS(DBS_API.setReport, newReport.toJsonForSave())
                 .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
@@ -114,6 +132,7 @@ export class ReportManager {
 
                 })
                 .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                    console.log(data);
 
                 });
 
