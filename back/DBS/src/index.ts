@@ -6,7 +6,9 @@ import {SocketIo} from './websocket/socket.io';
 import {Logger} from './logger/Logger';
 // import {RestManager} from './applicationServices/restConnections/restManager';
 import {ApiManager} from './services/api/ApiManager';
-import {AMS_API} from '../../../classes/dataClasses/api/api_enums';
+import {
+    DBS_API
+} from '../../../classes/dataClasses/api/api_enums';
 import {REST_ROUTER_CONFIG} from '../../../classes/typings/all.typings';
 const services = require('./../../../../../../config/services.json');
 
@@ -22,7 +24,7 @@ class Server {
     }
 
     restRouterConfig: REST_ROUTER_CONFIG [] = [
-        {class: ApiManager, path: '/' + AMS_API.general},
+        {class: ApiManager, path: '/' + DBS_API.general},
     ];
 
     constructor() {

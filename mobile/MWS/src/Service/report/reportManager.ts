@@ -70,11 +70,20 @@ export class ReportManager {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
             const newReport: Report = new Report(reportData);
-            res.data = newReport.toJsonForSave();
+
+            const newReportDataJson: REPORT_DATA = newReport.toJsonForSave();
+            res.data = newReportDataJson;
             res.success = true;
             //    todo send to RS
+            RequestManager.requestToRS(RS_API.newReport, newReportDataJson)
+                .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                    resolve(data);
+                })
+                .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                    resolve(data);
+                });
 
-            resolve(res);
+            // resolve(res);
 
         });
     }

@@ -30,7 +30,7 @@ export class ReportManager {
     reports: Report[] = [];
 
     private constructor() {
-        this.initAllReports();
+        // this.initAllReports();
     }
 
     private initAllReports = () => {
@@ -51,7 +51,7 @@ export class ReportManager {
 
     private getReportsFromDBS = (): Promise<ASYNC_RESPONSE<REPORT_DATA[]>> => {
         return new Promise((resolve, reject) => {
-            RequestManager.requestToDBS(RS_API.getAllReports, {})
+            RequestManager.requestToDBS(DBS_API.readAllReport, {})
                 .then((data: ASYNC_RESPONSE<REPORT_DATA[]>) => {
                     if ( data.success ) {
                         this.reports = Converting.Arr_REPORT_DATA_to_Arr_Report(data.data);

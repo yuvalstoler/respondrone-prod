@@ -45,7 +45,7 @@ export class ApiManager implements IRest {
 
 
     private newReport = (request: Request, response: Response) => {
-        const res: ASYNC_RESPONSE<boolean> = {success: true};
+        const res: ASYNC_RESPONSE<REPORT_DATA> = {success: true};
         const requestBody: REPORT_DATA = request.body;
 
         ReportManager.createReport(requestBody)
@@ -72,7 +72,7 @@ export class ApiManager implements IRest {
 
 
     routers: {} = {
-        [MWS_API.newReport]: this.newReport,
+        [RS_API.newReport]: this.newReport,
         [MWS_API.getVideoSources]: this.getVideoSources,
 
     };
