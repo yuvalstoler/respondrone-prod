@@ -48,7 +48,7 @@ export class ApiManager implements IRest {
         const res: ASYNC_RESPONSE<boolean> = {success: true};
         const requestBody: REPORT_DATA = request.body;
 
-        ReportManager.newReport(requestBody)
+        ReportManager.createReport(requestBody)
             .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                 response.send(res);
             })

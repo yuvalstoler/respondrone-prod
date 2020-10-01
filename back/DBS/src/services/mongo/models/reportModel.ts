@@ -1,6 +1,6 @@
 import {MongoConnector} from "../mongoConnector";
 
-export class NFZDynamicModel {
+export class ReportModel {
 
     constructor() {
     }

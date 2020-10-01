@@ -8,13 +8,12 @@ import {Logger} from './logger/Logger';
 import {ApiManager} from './services/api/ApiManager';
 import {AMS_API} from '../../../classes/dataClasses/api/api_enums';
 import {REST_ROUTER_CONFIG} from '../../../classes/typings/all.typings';
-const servicesConf = require('./../../../../../../config/services.json');
-const projConf = require('./../../../../../../projConf.json');
+const services = require('./../../../../../../config/services.json');
 
 
 class Server {
 
-    private port = servicesConf.DBS.port;
+    private port = services.DBS.port;
     private socketIO: SocketIo;
     private app: any;
 

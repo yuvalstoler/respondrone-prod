@@ -10,6 +10,14 @@ export enum MS_API {
 export enum DBS_API {
     general = 'api',
     setSite = '/setSite',
+
+    setReport = '/setReport',
+    readReport = '/readReport',
+    readAllReport = '/readAllReport',
+    deleteReport = '/deleteReport',
+    deleteAllReport = '/deleteAllReport',
+
+    getAllEvents = '/getAllEvents'
  }
 
 export enum LS_API {
@@ -33,6 +41,7 @@ export enum MWS_API {
 
     general = 'api',
     updateAllReports = '/updateAllReports',
+    updateAllEvents = '/updateAllEvents',
     newReport = '/newReport',
     getVideoSources = '/getVideoSources',
 

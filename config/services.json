@@ -37,7 +37,7 @@
     "protocol": "http",
     "listeners": [],
     "mongo": {
-      "db": "dbs",
+      "db": "responDrone_dbs",
       "url": "mongodb://localhost:27017/",
       "col": "col"
     }
@@ -86,6 +86,12 @@
     "expireIn": 86400,
     "name": "ResponDrone",
     "password": "simplex"
+
+  },
+  "logServer": {
+    "host": "localhost",
+    "protocol": "http",
+    "port": "5000"
 
   }
 }
