@@ -17,6 +17,7 @@ export type REST_ROUTER_CONFIG = { class: IRest, path: string };
 
 
 export enum NOTIFICATION_TYPE {success = 'success', error = 'error', info = 'info', warning = 'warning'}
+
 export type NOTIFICATION = { type?: NOTIFICATION_TYPE, message: string, title: string };
 export type NOTIFICATION_UI = NOTIFICATION & { options?: TOASTER_OPTIONS };
 
@@ -56,9 +57,11 @@ export type ADDRESS_GEOPOINT = GEOPOINT & { address: string };
 
 
 export enum REPORT_TYPE {
-    fire = 'fire',
+    unclassified = 'unclassified',
+    fireAlarm = 'fireAlarm',
     flood = 'flood',
-    roadAccident = 'roadAccident'
+    roadAccident = 'roadAccident',
+    roadBlock = 'roadAccident',
 }
 
 export enum EVENT_TYPE { // TODO - change data fields
@@ -76,13 +79,17 @@ export enum PRIORITY {
 
 export type REPORT_DATA = {
     id?: string,
+    source: string;
+    time: number;
+    createdBy: string
+
     type: REPORT_TYPE,
     priority: PRIORITY,
     description: string,
     location: GEOPOINT3D | ADDRESS_GEOPOINT,
-    media: string[],
-    events: string[],
-
+    mediaIds?: string[],
+    eventIds?: string[],
+    commentIds?: Comment[]
 };
 
 export type EVENT_DATA = { // TODO - change data fields
@@ -95,4 +102,20 @@ export type EVENT_DATA = { // TODO - change data fields
     events: string[],
 
 };
+
+export type COMMENT_DATA = { // TODO - change data fields
+    id?: string,
+    source: string,
+    time: number,
+    createdBy: string,
+    text: string,
+
+};
+
+
+
+
+
+
+
 
