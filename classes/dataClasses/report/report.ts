@@ -4,7 +4,8 @@ import {
     ID_TYPE,
     PRIORITY,
     REPORT_DATA,
-    REPORT_TYPE
+    REPORT_TYPE,
+    SOURCE_TYPE
 } from '../../typings/all.typings';
 import { DataUtility } from '../../applicationClasses/utility/dataUtility';
 
@@ -12,7 +13,7 @@ export class Report {
 
     id: ID_TYPE;
     type: REPORT_TYPE;
-    source: string;
+    source: SOURCE_TYPE;
     time: number;
     createdBy: string
     priority: PRIORITY;
@@ -43,7 +44,7 @@ export class Report {
     private setType = (data: REPORT_TYPE) => {
         this.type = data;
     };
-    private setSource = (data: string) => {
+    private setSource = (data: SOURCE_TYPE) => {
         this.source = data;
     };
     private setTime = (data: number) => {

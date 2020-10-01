@@ -76,6 +76,12 @@ export enum EVENT_TYPE { // TODO - change data fields
 
 }
 
+export enum SOURCE_TYPE { // TODO - change data fields
+    MRF = 'MFR',
+    OSCC = 'OSCC',
+
+}
+
 export enum PRIORITY {
     low = 'low',
     middle = 'middle',
@@ -85,7 +91,7 @@ export enum PRIORITY {
 
 export type REPORT_DATA = {
     id?: ID_TYPE,
-    source: string;
+    source: SOURCE_TYPE;
     time: number;
     createdBy: string
 

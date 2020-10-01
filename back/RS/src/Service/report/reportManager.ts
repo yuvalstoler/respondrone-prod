@@ -53,7 +53,7 @@ export class ReportManager {
             RequestManager.requestToDBS(RS_API.getAllReports, {})
                 .then((data: ASYNC_RESPONSE<REPORT_DATA[]>) => {
                     if ( data.success ) {
-                        this.reports = Converting.Arr_REPORT_DATA_to_Arr_Report(data.data);
+                        // this.reports = Converting.Arr_REPORT_DATA_to_Arr_Report(data.data);
                         resolve(data);
                     }
                     else {
@@ -74,18 +74,18 @@ export class ReportManager {
 
     private getReports = (idObj: ID_OBJ): REPORT_DATA[] => {
         const res: REPORT_DATA[] = [];
-        if(idObj){
-            if(this.reports[idObj.id]){
+        if ( idObj ) {
+            if ( this.reports[idObj.id] ) {
 
             }
         }
-        else{
-            for ( let reportsId in this.reports ) {
-                if(this.reports.)
-            }
-            ach((report: Report) => {
-                res.push(report.toJsonForSave());
-            });
+        else {
+            // for ( let reportsId in this.reports ) {
+            //     if(this.reports.)
+            // }
+            // ach((report: Report) => {
+            //     res.push(report.toJsonForSave());
+            // });
         }
         return res;
     };
