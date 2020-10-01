@@ -1,7 +1,7 @@
 import {Converting} from '../../../../../classes/applicationClasses/utility/converting';
 
 
-import {ES_API} from '../../../../../classes/dataClasses/api/api_enums';
+import {DBS_API, ES_API} from '../../../../../classes/dataClasses/api/api_enums';
 
 import {RequestManager} from '../../AppService/restConnections/requestManager';
 
@@ -39,7 +39,7 @@ export class EventManager {
 
     private getEventsFromDBS = (): Promise<ASYNC_RESPONSE<EVENT_DATA[]>> => {
         return new Promise((resolve, reject) => {
-            RequestManager.requestToDBS(ES_API.getAllEvents, {})
+            RequestManager.requestToDBS(DBS_API.getAllEvents, {})
                 .then((data: ASYNC_RESPONSE<EVENT_DATA[]>) => {
                     if (data.success) {
                         this.events = Converting.Arr_EVENT_DATA_to_Arr_Event(data.data);
@@ -56,7 +56,6 @@ export class EventManager {
                     reject(data);
                 });
         });
-        //get StaticNfz From AMS
 
     };
 

@@ -16,6 +16,8 @@ export enum DBS_API {
     readAllReport = '/readAllReport',
     deleteReport = '/deleteReport',
     deleteAllReport = '/deleteAllReport',
+
+    getAllEvents = '/getAllEvents'
  }
 
 export enum LS_API {
