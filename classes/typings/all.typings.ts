@@ -60,11 +60,14 @@ export type ADDRESS_GEOPOINT = GEOPOINT & { address: string };
 
 
 export enum REPORT_TYPE {
-    unclassified = 'unclassified',
-    fireAlarm = 'fireAlarm',
-    flood = 'flood',
-    roadAccident = 'roadAccident',
-    roadBlock = 'roadAccident',
+    unclassified = 'Unclassified',
+    fireAlarm = 'Fire Alarm',
+    flood = 'Flood',
+    roadAccident = 'road Accident',
+    roadBlock = 'road Block',
+    attackReport = 'Attack Report',
+    explosionReport = 'Explosion Report',
+
 }
 
 export enum EVENT_TYPE { // TODO - change data fields
