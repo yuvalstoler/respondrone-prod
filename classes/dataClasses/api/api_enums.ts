@@ -10,6 +10,8 @@ export enum MS_API {
 export enum DBS_API {
     general = 'api',
     setSite = '/setSite',
+
+    getAllEvents = '/getAllEvents'
  }
 
 export enum LS_API {

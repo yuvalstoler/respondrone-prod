@@ -639,8 +639,18 @@ export class ApiManager implements IRest {
         }
     };
 
+    private getAllEvents = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        DbManager.readAllEvents().then(data => {
+            // get events
+        }).catch(error => {
+            //error getting events
+        })
+    }
 
     routers: {} = {
+        [DBS_API.getAllEvents]:             this.getAllEvents,
+
         [DBS_API.getLogById]:               this.getLogById,
         [DBS_API.addLog]:                   this.addLog,
         [DBS_API.getLog]:                   this.getLog,

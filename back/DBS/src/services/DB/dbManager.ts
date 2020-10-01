@@ -16,6 +16,8 @@ import { NFZStaticModel } from '../mongo/models/nfzStaticModel';
 import { RouteModel } from '../mongo/models/routeModel';
 import { TaskModel } from '../mongo/models/taskModel';
 import { LogsModel } from "../mongo/models/LogsModel";
+import {EventModel} from "../mongo/models/eventModel";
+import {EventClass} from "../../../../../classes/dataClasses/event/event";
 
 const _ = require('lodash');
 
@@ -30,6 +32,7 @@ export class DbManager {
     nfzStaticModel;
     routeModel;
     taskModel;
+    eventModel;
 
 
     private constructor() {
@@ -39,6 +42,7 @@ export class DbManager {
         this.nfzStaticModel = new NFZStaticModel().getSchema();
         this.routeModel = new RouteModel().getSchema();
         this.taskModel = new TaskModel().getSchema();
+        this.eventModel = new EventModel().getSchema();
     }
 
     // ----------------------
@@ -366,6 +370,19 @@ export class DbManager {
                 });
         });
     };
+    //---------------------------
+
+    private  readAllEvents = (): Promise<ASYNC_RESPONSE<EventClass[]>> => {
+        return new Promise(((resolve, reject) => {
+            this.eventModel.find()
+                .exec()
+                .then(result => {
+                // all event in result
+            }).catch(error => {
+                // error getting events
+            })
+        }))
+    }
 
 
     // region API uncions
@@ -396,6 +413,8 @@ export class DbManager {
     public static setTask = DbManager.instance.setTask;
     public static readAllTasks = DbManager.instance.readAllTasks;
     public static deleteTask = DbManager.instance.deleteTask;
+
+    public static readAllEvents = DbManager.instance.readAllEvents;
 
 
     // endregion API uncions
