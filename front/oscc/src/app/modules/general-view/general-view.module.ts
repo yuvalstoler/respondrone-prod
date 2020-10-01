@@ -31,6 +31,7 @@ import { ReportsSituationPictureComponent } from './left-panel/reports-situation
 import { EventsSituationTableComponent } from './left-panel/events-situation-picture/events-situation-table/events-situation-table.component';
 import { LeftNarrowPanelComponent } from './left-narrow-panel/left-narrow-panel.component';
 import { EventPanelComponent } from './left-narrow-panel/event-panel/event-panel.component';
+import { LinkedReportsTableComponent } from './linked-reports-table/linked-reports-table.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { EventPanelComponent } from './left-narrow-panel/event-panel/event-panel
     ReportsSituationPictureComponent,
     EventsSituationTableComponent,
     LeftNarrowPanelComponent,
-    EventPanelComponent
+    EventPanelComponent,
+    LinkedReportsTableComponent
   ],
   imports: [
     CommonModule,
@@ -71,7 +73,8 @@ import { EventPanelComponent } from './left-narrow-panel/event-panel/event-panel
     ReportsSituationPictureComponent,
     EventsSituationTableComponent,
     LeftNarrowPanelComponent,
-    EventPanelComponent
+    EventPanelComponent,
+    LinkedReportsTableComponent
   ],
   providers: [
     PolygonsEditorService,
