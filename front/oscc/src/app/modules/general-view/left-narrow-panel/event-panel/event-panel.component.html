@@ -57,13 +57,16 @@
         <mat-radio-button class="example-radio-button" *ngFor="let location of locations" [value]="location">
         {{location}}
           <div *ngIf="eventModel.location.button==='Add an address' && location === 'Add an address'">
-            <mat-form-field appearance="outline" class="">
+            <!--Address-->
+            <mat-form-field appearance="outline" class="LocationAddress">
               <label>
                 <input matInput class="Label" type="text"
                        placeholder="E.g. Richard St."
                        [(ngModel)]="eventModel.location.address">
               </label>
             </mat-form-field>
+            <div class="LocationGrid">
+            <!--Lat-->
             <mat-form-field appearance="outline" class="">
               <label>
                 <input matInput class="Label" type="text"
@@ -71,6 +74,7 @@
                        [(ngModel)]="eventModel.location.lat">
               </label>
             </mat-form-field>
+            <!--Long-->
             <mat-form-field appearance="outline" class="">
               <label>
                 <input matInput class="Label" type="text"
@@ -78,6 +82,7 @@
                        [(ngModel)]="eventModel.location.long">
               </label>
             </mat-form-field>
+            </div>
           </div>
         </mat-radio-button>
       </mat-radio-group>
