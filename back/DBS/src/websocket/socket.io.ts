@@ -2,7 +2,7 @@ import * as socketIo from 'socket.io';
 import {Logger} from '../logger/Logger';
 
 const _ = require('lodash');
-const projConf = require('./../../../../../../../projConf.json');
+// const projConf = require('./../../../../../../../projConf.json');
 
 // const rooms = _.get(projConf, 'gimbalService.websocketRooms', false);
 

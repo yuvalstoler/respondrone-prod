@@ -11,7 +11,7 @@ export class EventModel {
             id: String
         }, {strict: false});
 
-        return MongoConnector.getMongoose().model('task', schema);
+        return MongoConnector.getMongoose().model('event', schema);
     }
 }
 

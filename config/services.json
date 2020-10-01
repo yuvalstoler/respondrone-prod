@@ -87,5 +87,11 @@
     "name": "ResponDrone",
     "password": "simplex"
 
+  },
+  "logServer": {
+    "host": "localhost",
+    "protocol": "http",
+    "port": "5000"
+
   }
 }
