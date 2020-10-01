@@ -1,1 +1,11 @@
 @import "../../../../../styles/dialogs";
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 5px 5px 10px 15px;
+}
+
+.example-radio-button {
+  margin: 5px;
+}

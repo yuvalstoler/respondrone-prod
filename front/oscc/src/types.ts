@@ -1,6 +1,6 @@
 export type MAP<T> = { [key: string]: T };
 
-export enum Header_Buttons {
+export enum HEADER_BUTTONS {
   none = 'none',
   situationPictures = 'situationPictures',
   missionControl = 'missionControl',
