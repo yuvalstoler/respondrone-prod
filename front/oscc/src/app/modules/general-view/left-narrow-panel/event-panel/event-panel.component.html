@@ -26,7 +26,7 @@
     </div>
     <!--Priority-->
     <div class="DialogContentItem DialogGrid2">
-      <div class="DialogTitle">Priority </div>
+      <div class="DialogTitle">Priority</div>
       <mat-form-field appearance="outline" class="SPMatFormField">
         <mat-select [(ngModel)]="eventModel.priority">
           <mat-option *ngFor="let priority of priorities" [value]="priority">
@@ -49,13 +49,13 @@
     </div>
     <!--Location-->
     <div class="DialogContentItem">
-      <div class="DialogTitle">Location </div>
+      <div class="DialogTitle">Location</div>
       <mat-radio-group
         aria-labelledby="example-radio-group-label"
         class="example-radio-group"
         [(ngModel)]="eventModel.location.button">
         <mat-radio-button class="example-radio-button" *ngFor="let location of locations" [value]="location">
-        {{location}}
+          {{location}}
           <div *ngIf="eventModel.location.button==='Add an address' && location === 'Add an address'">
             <!--Address-->
             <mat-form-field appearance="outline" class="LocationAddress">
@@ -66,22 +66,22 @@
               </label>
             </mat-form-field>
             <div class="LocationGrid">
-            <!--Lat-->
-            <mat-form-field appearance="outline" class="">
-              <label>
-                <input matInput class="Label" type="text"
-                       placeholder="Lat"
-                       [(ngModel)]="eventModel.location.lat">
-              </label>
-            </mat-form-field>
-            <!--Long-->
-            <mat-form-field appearance="outline" class="">
-              <label>
-                <input matInput class="Label" type="text"
-                       placeholder="Long"
-                       [(ngModel)]="eventModel.location.long">
-              </label>
-            </mat-form-field>
+              <!--Lat-->
+              <mat-form-field appearance="outline" class="">
+                <label>
+                  <input matInput class="Label" type="text"
+                         placeholder="Lat"
+                         [(ngModel)]="eventModel.location.lat">
+                </label>
+              </mat-form-field>
+              <!--Long-->
+              <mat-form-field appearance="outline" class="">
+                <label>
+                  <input matInput class="Label" type="text"
+                         placeholder="Long"
+                         [(ngModel)]="eventModel.location.long">
+                </label>
+              </mat-form-field>
             </div>
           </div>
         </mat-radio-button>
@@ -89,7 +89,7 @@
     </div>
     <!--Linked Reports-->
     <div class="DialogContentItem">
-      <div class="DialogTitle">Linked reports </div>
+      <div class="DialogTitle">Linked reports</div>
       <app-linked-reports-table [element]="eventModel"></app-linked-reports-table>
     </div>
     <!--Comments-->
@@ -106,8 +106,11 @@
                    [(ngModel)]="eventModel.comments">
           </label>
         </mat-form-field>
-        <div class="DialogIconContainer">
-          <mat-icon class="DialogIcon">send</mat-icon>
+        <div class="DialogIconContainer"
+             (click)="onSendComment()">
+          <mat-icon class="DialogIcon"
+                    [ngStyle]="{'color': (eventModel.comments === '' || eventModel.comments === undefined) ? 'lightgray' : 'black' }">
+            send</mat-icon>
         </div>
       </div>
     </div>
