@@ -68,9 +68,12 @@ export enum REPORT_TYPE {
 }
 
 export enum EVENT_TYPE { // TODO - change data fields
-    fire = 'fire',
+    unclassified = 'unclassified',
+    fireAlarm = 'fireAlarm',
     flood = 'flood',
-    roadAccident = 'roadAccident'
+    roadAccident = 'roadAccident',
+    roadBlock = 'roadAccident',
+
 }
 
 export enum PRIORITY {
