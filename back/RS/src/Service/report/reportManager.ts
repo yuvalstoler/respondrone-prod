@@ -12,6 +12,8 @@ import { RequestManager } from '../../AppService/restConnections/requestManager'
 
 import {
     ASYNC_RESPONSE,
+    ID_OBJ,
+    MAP,
     REPORT_DATA
 
 } from '../../../../../classes/typings/all.typings';
@@ -24,7 +26,7 @@ export class ReportManager {
     private static instance: ReportManager = new ReportManager();
 
 
-    reports: Report[] = [];
+    reports: MAP<Report> = {};
 
     private constructor() {
         this.initAllReports();
@@ -51,7 +53,7 @@ export class ReportManager {
             RequestManager.requestToDBS(RS_API.getAllReports, {})
                 .then((data: ASYNC_RESPONSE<REPORT_DATA[]>) => {
                     if ( data.success ) {
-                        this.reports = Converting.Arr_REPORT_DATA_to_Arr_Report(data.data);
+                        // this.reports = Converting.Arr_REPORT_DATA_to_Arr_Report(data.data);
                         resolve(data);
                     }
                     else {
@@ -70,15 +72,25 @@ export class ReportManager {
 
     };
 
-    private getReports = (): REPORT_DATA[] => {
+    private getReports = (idObj: ID_OBJ): REPORT_DATA[] => {
         const res: REPORT_DATA[] = [];
-        this.reports.forEach((report: Report) => {
-            res.push(report.toJsonForSave());
-        });
+        if ( idObj ) {
+            if ( this.reports[idObj.id] ) {
+
+            }
+        }
+        else {
+            // for ( let reportsId in this.reports ) {
+            //     if(this.reports.)
+            // }
+            // ach((report: Report) => {
+            //     res.push(report.toJsonForSave());
+            // });
+        }
         return res;
     };
 
-    private newReport = (reportData: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
+    private createReport = (reportData: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
             const newReport: Report = new Report(reportData);
@@ -92,10 +104,25 @@ export class ReportManager {
         });
     }
 
+    private updateReport = (reportData: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
+            const newReport: Report = new Report(reportData);
+            //todo save - send to DBS
+            res.data = newReport.toJsonForSave();
+            res.success = true;
+            //    todo send to RS
 
+            resolve(res);
+
+        });
+    }
     // region API uncions
     public static getReports = ReportManager.instance.getReports;
-    public static newReport = ReportManager.instance.newReport;
+    public static getReport = ReportManager.instance.getReports;
+
+    public static createReport = ReportManager.instance.createReport;
+    public static updateReport = ReportManager.instance.updateReport;
 
 
     // endregion API uncions
