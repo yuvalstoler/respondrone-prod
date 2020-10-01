@@ -24,7 +24,7 @@ export class UpdateListenersManager {
 
     private updateReportListeners = (): Promise<ASYNC_RESPONSE> => {
         return new Promise((resolve, reject) => {
-            const allReportsDta: REPORT_DATA[] = ReportManager.getReports();
+            const allReportsDta: REPORT_DATA[] = ReportManager.getReports(undefined);
             const promisesArr: Promise<ASYNC_RESPONSE>[] = [];
             listeners.forEach((listener: string) => {
                 console.log(Date.now(), 'start updateReportListeners: ', listener);

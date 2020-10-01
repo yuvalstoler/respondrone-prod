@@ -5,6 +5,7 @@ const _ = require('lodash');
 import { Report } from '../../../../../classes/dataClasses/report/report';
 
 import {
+    DBS_API,
     RS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 
@@ -102,6 +103,20 @@ export class ReportManager {
             const res: ASYNC_RESPONSE = {success: false};
             const newReport: Report = new Report(reportData);
             //todo save - send to DBS
+            RequestManager.requestToDBS(DBS_API.setReport, newReport.toJsonForSave())
+                .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                    if ( data.success ) {
+                        res.data = data.data;
+                        res.success = true;
+                        const newReportCreated: Report = new Report(data.data);
+                        this.reports.push(newReportCreated);
+                    }
+
+                })
+                .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+
+                });
+
             res.data = newReport.toJsonForSave();
             res.success = true;
             //    todo send to RS

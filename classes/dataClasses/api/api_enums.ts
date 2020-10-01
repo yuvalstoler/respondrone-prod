@@ -10,6 +10,12 @@ export enum MS_API {
 export enum DBS_API {
     general = 'api',
     setSite = '/setSite',
+
+    setReport = '/setReport',
+    readReport = '/readReport',
+    readAllReport = '/readAllReport',
+    deleteReport = '/deleteReport',
+    deleteAllReport = '/deleteAllReport',
  }
 
 export enum LS_API {
