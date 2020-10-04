@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ApplicationService} from '../../../../services/applicationService/application.service';
 
 @Component({
   selector: 'app-reports-situation-picture',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportsSituationPictureComponent implements OnInit {
 
-  constructor() { }
+  constructor(public applicationService: ApplicationService) { }
 
   ngOnInit(): void {
   }
+
+  onCreateNewReport = () => {
+    this.applicationService.screen.showLeftPanel = false;
+    this.applicationService.screen.showLeftNarrowPanel = true;
+  };
 
 }

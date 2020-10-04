@@ -4,7 +4,7 @@ import {HeaderPanelComponent} from './header-panel/header-panel.component';
 import {GeneralViewRouting} from './general-view.routing';
 import {RouterModule} from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { MapComponent } from './map/map.component'
+import { MapComponent } from './map/map.component';
 import {FormsModule} from '@angular/forms';
 import {
   AngularCesiumModule,
@@ -12,7 +12,6 @@ import {
   PolygonsEditorService,
   ViewerConfiguration
 } from 'angular-cesium';
-import {PipesConfig} from 'angular2parse';
 import { LeftPanelComponent } from './left-panel/left-panel.component';
 
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -35,6 +34,8 @@ import { LinkedReportsTableComponent } from './linked-reports-table/linked-repor
 import { ReportMediaComponent } from './left-narrow-panel/report-media/report-media.component';
 import { ViewMediaComponent } from './view-media/view-media.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { ReportsSituationTableComponent } from './left-panel/reports-situation-picture/reports-situation-table/reports-situation-table.component';
+
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     EventPanelComponent,
     LinkedReportsTableComponent,
     ReportMediaComponent,
-    ViewMediaComponent
+    ViewMediaComponent,
+    ReportsSituationTableComponent
   ],
   imports: [
     CommonModule,

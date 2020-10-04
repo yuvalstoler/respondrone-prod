@@ -1,1 +1,18 @@
-<p>reports-situation-picture works!</p>
+<div>
+  <!--Header-->
+  <div class="HeaderLeftPanel">
+    <div class="LeftSideButton" >Search</div>
+    <!--<mat-form-field class="LeftSideButton">-->
+    <!--<mat-label>Filter</mat-label>-->
+    <!--<input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>-->
+    <!--</mat-form-field>-->
+  </div>
+
+  <div class="HeaderRightPanel">
+    <div class="RightSideButton" (click)="onCreateNewReport()">Create New Report</div>
+  </div>
+  <!--Table-->
+  <div>
+    <app-reports-situation-table></app-reports-situation-table>
+  </div>
+</div>

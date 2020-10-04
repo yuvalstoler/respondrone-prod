@@ -11,7 +11,7 @@ const services = require('./../../../../../../../../config/services.json');
 
 
 const url_FS = services.FS.protocol + '://' + services.FS.host + ':' + services.FS.port;
-const uploadsPath = '../../../../uploads';
+const uploadsPath = path.join(__dirname, '../../../../../../uploads');
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
