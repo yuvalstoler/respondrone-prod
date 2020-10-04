@@ -5,6 +5,7 @@ const _ = require('lodash');
 import { Report } from '../../../../../classes/dataClasses/report/report';
 
 import {
+    REPORT_API,
     RS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 
@@ -32,7 +33,7 @@ export class ReportManager {
 
     private getReportsFromRS = () => {
         //get StaticNfz From AMS
-        RequestManager.requestToRS(RS_API.getAllReports, {})
+        RequestManager.requestToRS(REPORT_API.getAllReports, {})
             .then((data: ASYNC_RESPONSE<REPORT_DATA[]>) => {
                 if ( data.success ) {
                     this.reports = Converting.Arr_REPORT_DATA_to_Arr_Report(data.data);
@@ -75,7 +76,7 @@ export class ReportManager {
             res.data = newReportDataJson;
             res.success = true;
             //    todo send to RS
-            RequestManager.requestToRS(RS_API.newReport, newReportDataJson)
+            RequestManager.requestToRS(REPORT_API.createReport, newReportDataJson)
                 .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                     resolve(data);
                 })

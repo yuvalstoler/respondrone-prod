@@ -14,7 +14,10 @@ import {
     REPORT_DATA,
 } from '../../../../../classes/typings/all.typings';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
-import { DBS_API } from '../../../../../classes/dataClasses/api/api_enums';
+import {
+    DBS_API,
+    REPORT_API
+} from '../../../../../classes/dataClasses/api/api_enums';
 
 
 export class ApiManager implements IRest {
@@ -169,11 +172,11 @@ export class ApiManager implements IRest {
         [DBS_API.getAllEvents]:             this.getAllEvents,
 
 
-        [DBS_API.setReport]: this.setReport,
-        [DBS_API.readReport]: this.readReport,
-        [DBS_API.readAllReport]: this.readAllReport,
-        [DBS_API.deleteReport]: this.deleteReport,
-        [DBS_API.deleteAllReport]: this.deleteAllReport,
+        [REPORT_API.createReport]: this.setReport,
+        [REPORT_API.readReport]: this.readReport,
+        [REPORT_API.readAllReport]: this.readAllReport,
+        [REPORT_API.deleteReport]: this.deleteReport,
+        [REPORT_API.deleteAllReport]: this.deleteAllReport,
 
 
     };

@@ -1,10 +1,8 @@
+import * as core from 'express-serve-static-core';
+
 const _ = require('lodash');
 
 import { ReportManager } from '../report/reportManager';
-import * as core from 'express-serve-static-core';
-
-
-import { GeoPoint } from '../../../../../classes/dataClasses/geo/geoPoint';
 
 import {
     Request,
@@ -12,15 +10,13 @@ import {
 } from 'express';
 import {
     ASYNC_RESPONSE,
-    POINT,
+    ID_OBJ,
     REPORT_DATA,
 } from '../../../../../classes/typings/all.typings';
 
 
-
 import {
-    MWS_API,
-    RS_API
+    REPORT_API,
 } from '../../../../../classes/dataClasses/api/api_enums';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 
@@ -31,7 +27,6 @@ export class ApiManager implements IRest {
 
 
     private constructor() {
-        // this.getDynamicNfzFromWebServer();
     }
 
     public listen = (router: core.Router): boolean => {
@@ -43,37 +38,105 @@ export class ApiManager implements IRest {
         return true;
     };
 
-
     private newReport = (request: Request, response: Response) => {
-        const res: ASYNC_RESPONSE<REPORT_DATA> = {success: true};
         const requestBody: REPORT_DATA = request.body;
-
         ReportManager.createReport(requestBody)
             .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
-                response.send(res);
+                response.send(data);
             })
             .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                 response.send(data);
             });
     };
 
-    private getVideoSources = (request: Request, response: Response) => {
-        const res: ASYNC_RESPONSE<boolean> = {success: true};
-        const requestBody = request.body;
+    private readReport = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<REPORT_DATA> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            ReportManager.readReport(requestBody)
+                .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    res.description = data.description;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
 
-        // NfzManager.createDynamicNFZFromRoute(requestBody)
-        //     .then((data: ASYNC_RESPONSE) => {
-        response.send(res);
-        // })
-        // .catch((data: ASYNC_RESPONSE) => {
-        //     response.send(data);
-        // });
+    private readAllReport = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<REPORT_DATA[]> = {success: false};
+        ReportManager.readAllReport({})
+            .then((data: ASYNC_RESPONSE<REPORT_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
+    private deleteReport = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            ReportManager.deleteReport(requestBody)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    res.description = data.description;
+                    response.send(res);
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private deleteAllReport = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+
+        ReportManager.deleteAllReport()
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
     };
 
 
     routers: {} = {
-        [RS_API.newReport]: this.newReport,
-        [MWS_API.getVideoSources]: this.getVideoSources,
+
+        [REPORT_API.createReport]: this.newReport,
+        [REPORT_API.readReport]: this.readReport,
+        [REPORT_API.readAllReport]: this.readAllReport,
+        [REPORT_API.deleteReport]: this.deleteReport,
+        [REPORT_API.deleteAllReport]: this.deleteAllReport,
 
     };
 

@@ -17,7 +17,8 @@ import {
 
 
 import {
-    MWS_API
+    MWS_API,
+    REPORT_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 
@@ -70,7 +71,7 @@ export class ApiManager implements IRest {
 
 
     routers: {} = {
-        [MWS_API.newReport]: this.createDynamicNFZ,
+        [REPORT_API.createReport]: this.createDynamicNFZ,
         [MWS_API.getVideoSources]: this.getVideoSources,
 
     };
