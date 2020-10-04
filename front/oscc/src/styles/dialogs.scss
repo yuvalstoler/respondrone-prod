@@ -1,28 +1,80 @@
 @import '../styles/colors';
+@import '../styles/variable';
+@import '../styles/override';
+@import '../styles/scrollbar';
 
+.DialogContainer {
+  margin: 0 10px 0px 10px;
+  height: calc(100vh - #{$headerHeight});
 
+  ::ng-deep .mat-form-field {
+    display: block !important;
+  }
 
+  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0.25em 0 0.5em 0 !important;
+  }
 
+  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
+    margin: 0.5em 0 !important;
+  }
 
-.DialogGrid3{
+  ::ng-deep.mat-form-field-wrapper {
+    padding-bottom: 0em !important;
+  }
+}
+
+.DialogHeader {
+  font-size: 19px;
+  text-align: center;
+  padding: 10px;
+  border-bottom: 1px solid $lightGray;
+  margin-bottom: 10px;
+}
+
+.DialogContent{
+  max-height: calc(100vh - #{$headerHeight} - #{$leftPanelNarrowFooterHeight} - #{$leftPanelNarrowHeaderHeight});
+  overflow-x: hidden;
+}
+
+.DialogTitle {
+  font-size: 16px;
+  color: $black;
+  font-weight: 600;
+  margin: 10px 0px 0px 0px;
+}
+
+.DialogGrid2 {
+  display: grid;
+  grid-template-columns: 20% auto;
+}
+
+.DialogGrid3 {
   display: grid;
   grid-template-columns: 3em auto 3em;
 }
 
-
-
-
-
-
-
-
-
-.FooterButtons{
-
+.DialogIconContainer {
+  margin: auto;
 }
-.FooterButtonDelete{
 
+// ============= Footer =================================================
+.FooterButtons {
+  position: absolute;
+  bottom: 5px;
+  z-index: 3;
+  width: calc(#{$leftPanelNarrowWidth} - 30px);
+  height: $leftPanelNarrowFooterHeight;
 }
-.FooterButtonCreate{
 
+.FooterButtonDelete {
+  //width: 90px;
+  float: left;
+}
+
+.FooterButtonCreate {
+  //width: 90px;
+  float: right;
+  background-color: $darkGray;
+  color: $white;
 }

@@ -31,6 +31,10 @@ import { ReportsSituationPictureComponent } from './left-panel/reports-situation
 import { EventsSituationTableComponent } from './left-panel/events-situation-picture/events-situation-table/events-situation-table.component';
 import { LeftNarrowPanelComponent } from './left-narrow-panel/left-narrow-panel.component';
 import { EventPanelComponent } from './left-narrow-panel/event-panel/event-panel.component';
+import { LinkedReportsTableComponent } from './linked-reports-table/linked-reports-table.component';
+import { ReportMediaComponent } from './left-narrow-panel/report-media/report-media.component';
+import { ViewMediaComponent } from './view-media/view-media.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -41,7 +45,10 @@ import { EventPanelComponent } from './left-narrow-panel/event-panel/event-panel
     ReportsSituationPictureComponent,
     EventsSituationTableComponent,
     LeftNarrowPanelComponent,
-    EventPanelComponent
+    EventPanelComponent,
+    LinkedReportsTableComponent,
+    ReportMediaComponent,
+    ViewMediaComponent
   ],
   imports: [
     CommonModule,
@@ -59,6 +66,7 @@ import { EventPanelComponent } from './left-narrow-panel/event-panel/event-panel
     MatSelectModule,
     MatRadioModule,
     MatButtonModule,
+    MatDialogModule,
 
     AngularCesiumModule.forRoot(),
     AngularCesiumWidgetsModule,
@@ -71,12 +79,15 @@ import { EventPanelComponent } from './left-narrow-panel/event-panel/event-panel
     ReportsSituationPictureComponent,
     EventsSituationTableComponent,
     LeftNarrowPanelComponent,
-    EventPanelComponent
+    EventPanelComponent,
+    LinkedReportsTableComponent,
+    ReportMediaComponent
   ],
   providers: [
     PolygonsEditorService,
     ViewerConfiguration
-  ]
+  ],
+  entryComponents: [ViewMediaComponent]
 })
 export class GeneralViewModule {
 

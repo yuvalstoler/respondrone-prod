@@ -20,6 +20,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatSelectModule} from '@angular/material/select';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatButtonModule} from '@angular/material/button';
+import {HttpClientModule} from '@angular/common/http';
 // import {
 //   AngularCesiumModule,
 //   AngularCesiumWidgetsModule,
@@ -38,6 +39,7 @@ import {MatButtonModule} from '@angular/material/button';
     AppRoutingModule,
     BrowserAnimationsModule,
     GeneralViewModule,
+    HttpClientModule,
     AngularCesiumModule.forRoot(),
     // AngularCesiumModule.forRoot(),
     // AngularCesiumWidgetsModule,
