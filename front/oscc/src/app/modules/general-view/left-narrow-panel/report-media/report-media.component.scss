@@ -1,0 +1,42 @@
+.container {
+  position: absolute;
+  top: 200px;
+  left: 50px;
+  width: 300px;
+  height: 500px;
+  border: 1px solid black;
+}
+
+.imagesContainer {
+  display: inline-flex;
+
+  .image {
+    position: relative;
+    margin: 2px;
+  }
+}
+
+
+.remove {
+  position: absolute;
+  color: white;
+  margin-left: 3px;
+}
+
+#inputForChooseFile {
+  display: none;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.inputForm {
+  display: none;
+}
+
+.addMediaBtn {
+  text-decoration: underline;
+  text-align: right;
+  margin-top: -20px;
+}

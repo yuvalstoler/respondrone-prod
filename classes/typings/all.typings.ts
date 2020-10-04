@@ -128,9 +128,10 @@ export type COMMENT_DATA = { // TODO - change data fields
 };
 
 
-
-
-
-
+export type MEDIA_DATA = {
+    url: string,
+    id: string,
+    type: 'image' | 'video'
+};
 
 

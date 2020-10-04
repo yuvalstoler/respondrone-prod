@@ -60,6 +60,16 @@ export enum CCG_API {
 
 }
 
-export enum FS_API{
-    general = 'api'
+export enum FS_API {
+    general = 'api',
+    uploadFile = '/uploadFile',
+    removeFile = '/removeFile',
+    file = '/file/:id',
+}
+
+export enum WS_API {
+    general = 'api',
+    newReport = '/newReport',
+    uploadFile = '/uploadFile',
+    removeFile = '/removeFile',
 }
