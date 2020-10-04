@@ -21,6 +21,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatButtonModule} from '@angular/material/button';
 import {HttpClientModule} from '@angular/common/http';
+import {MatSortModule} from '@angular/material/sort';
 // import {
 //   AngularCesiumModule,
 //   AngularCesiumWidgetsModule,
@@ -54,7 +55,8 @@ import {HttpClientModule} from '@angular/common/http';
     MatListModule,
     MatSelectModule,
     MatRadioModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSortModule
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },

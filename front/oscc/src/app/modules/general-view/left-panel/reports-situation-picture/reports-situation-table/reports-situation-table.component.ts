@@ -1,12 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
+import {SelectionModel} from '@angular/cdk/collections';
+import {MatSort} from '@angular/material/sort';
 
 export interface EventsSituation {
-
   id: string;
-  eventTitle: string;
   source: string;
   priority: string;
   type: string;
@@ -16,6 +15,8 @@ export interface EventsSituation {
   message: string;
   link: string;
   map: string;
+  attachment: string;
+
   descriptionAll: string;
   comments: Array<{source: string, time: number, text: string}>;
   linkedreports: Array<{ID: number, Type: string, Description: string, Time: number}>;
@@ -23,8 +24,9 @@ export interface EventsSituation {
 
 const ELEMENT_DATA: EventsSituation[] = [
   {
-    id: '1000', eventTitle: 'Road 345 block', source: 'FF133', priority: 'warning', type: 'type',
+    id: '1000', source: 'FF133', priority: 'warning', type: 'type',
     description: '1', time: 10, createdBy: 'John Blake', message: 'message', link: 'link', map: 'map',
+    attachment: 'attachment',
     descriptionAll: 'descriptionAlldescriptionAlldescriptionAlldescriptionAll1000',
     comments: [
       {source: 'FF33', time: 12546324562, text: 'We arrived to the building, the situation is under control'},
@@ -32,16 +34,17 @@ const ELEMENT_DATA: EventsSituation[] = [
       {source: 'DD53', time: 12546324582, text: 'We arrived to the building, the situation is under control'}
     ],
     linkedreports: [
-      {ID: 1111, Description: 'Description', Time: 1221321423, Type: 'Fire Alarm'},
-      {ID: 2222, Description: 'Description', Time: 1221344423, Type: 'Fire Alarm'},
-      {ID: 3333, Description: 'Description', Time: 1221333423, Type: 'Road Block'},
-      {ID: 4444, Description: 'Description', Time: 1221352423, Type: 'Fire Alarm'},
-      {ID: 5555, Description: 'Description', Time: 1221324423, Type: 'Road Block'}
+      {ID: 1111, Description: 'Description4', Time: 1221321423, Type: 'Fire Alarm'},
+      {ID: 2222, Description: 'Description3', Time: 1221333423, Type: 'Fire Alarm'},
+      {ID: 3333, Description: 'Description1', Time: 1221322423, Type: 'Road Block'},
+      {ID: 4444, Description: 'Description2', Time: 1221311423, Type: 'Fire Alarm'},
+      {ID: 5555, Description: 'Description5', Time: 1221377423, Type: 'Road Block'}
     ]
   },
   {
-    id: '1001', eventTitle: 'Road 345 block', source: 'PP133', priority: 'warning', type: 'type',
+    id: '1001', source: 'PP133', priority: 'warning', type: 'type',
     description: '1', time: 10, createdBy: 'John Blake', message: 'message', link: 'link', map: 'map',
+    attachment: 'attachment',
     descriptionAll: 'descriptionAlldescriptionAlldescriptionAlldescriptionAll1001',
     comments: [
       {source: 'AA33', time: 12546324562, text: 'We arrived to the building, the situation is under control'},
@@ -49,16 +52,17 @@ const ELEMENT_DATA: EventsSituation[] = [
       {source: 'BB53', time: 12546324582, text: 'We arrived to the building, the situation is under control'}
     ],
     linkedreports: [
-      {ID: 1111, Description: 'Description', Time: 1221321423, Type: 'Fire Alarm'},
-      {ID: 2222, Description: 'Description', Time: 1221344423, Type: 'Fire Alarm'},
-      {ID: 3333, Description: 'Description', Time: 1221333423, Type: 'Road Block'},
-      {ID: 4444, Description: 'Description', Time: 1221352423, Type: 'Fire Alarm'},
-      {ID: 5555, Description: 'Description', Time: 1221324423, Type: 'Road Block'}
+      {ID: 1111, Description: 'Description1', Time: 1221333423, Type: 'Fire Alarm'},
+      {ID: 2222, Description: 'Description5', Time: 1221325423, Type: 'Fire Alarm'},
+      {ID: 3333, Description: 'Description2', Time: 1221353423, Type: 'Road Block'},
+      {ID: 4444, Description: 'Description4', Time: 1221352423, Type: 'Fire Alarm'},
+      {ID: 5555, Description: 'Description3', Time: 1221324423, Type: 'Road Block'}
     ]
   },
   {
-    id: '1002', eventTitle: 'Road 345 block', source: 'ER133', priority: 'warning', type: 'type',
+    id: '1002', source: 'ER133', priority: 'warning', type: 'type',
     description: '1', time: 10, createdBy: 'John Blake', message: 'message', link: 'link', map: 'map',
+    attachment: 'attachment',
     descriptionAll: 'descriptionAlldescriptionAlldescriptionAlldescriptionAll1002',
     comments: [
       {source: 'SS33', time: 12546324562, text: 'We arrived to the building, the situation is under control'},
@@ -66,19 +70,18 @@ const ELEMENT_DATA: EventsSituation[] = [
       {source: 'VV53', time: 12546324582, text: 'We arrived to the building, the situation is under control'}
     ],
     linkedreports: [
-      {ID: 1111, Description: 'Description', Time: 1221321423, Type: 'Fire Alarm'},
-      {ID: 2222, Description: 'Description', Time: 1221344423, Type: 'Fire Alarm'},
-      {ID: 3333, Description: 'Description', Time: 1221333423, Type: 'Road Block'},
-      {ID: 4444, Description: 'Description', Time: 1221352423, Type: 'Fire Alarm'},
-      {ID: 5555, Description: 'Description', Time: 1221324423, Type: 'Road Block'}
+      {ID: 1111, Description: 'Description4', Time: 1221321423, Type: 'Fire Alarm'},
+      {ID: 2222, Description: 'Description1', Time: 1221344423, Type: 'Fire Alarm'},
+      {ID: 3333, Description: 'Description2', Time: 1221333423, Type: 'Road Block'},
+      {ID: 4444, Description: 'Description3', Time: 1221352423, Type: 'Fire Alarm'},
+      {ID: 5555, Description: 'Description5', Time: 1221324423, Type: 'Road Block'}
     ]
   }];
 
-
 @Component({
-  selector: 'app-events-situation-table',
-  templateUrl: './events-situation-table.component.html',
-  styleUrls: ['./events-situation-table.component.scss'],
+  selector: 'app-reports-situation-table',
+  templateUrl: './reports-situation-table.component.html',
+  styleUrls: ['./reports-situation-table.component.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
@@ -87,22 +90,24 @@ const ELEMENT_DATA: EventsSituation[] = [
     ]),
   ]
 })
+export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
-export class EventsSituationTableComponent implements OnInit {
+  @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['select', 'id', 'eventTitle', 'source', 'priority', 'type', 'description', 'time', 'createdBy',
-    'message', 'link', 'map'];
-  // dataSource: EventsSituation[] = [];
+  displayedColumns: string[] = ['select', 'id', 'source', 'priority', 'type', 'description', 'time', 'createdBy',
+    'message', 'link', 'map', 'attachment'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
-  selectedData: any;
   expandedElement: EventsSituation;
   selection = new SelectionModel<EventsSituation>(true, []);
- 
 
-  constructor() {
-  }
+
+  constructor() { }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
   }
 
   private selectRow = (element): void => {
@@ -127,7 +132,6 @@ export class EventsSituationTableComponent implements OnInit {
     this.isAllSelected() ?
       this.selection.clear() :
       this.dataSource.data.forEach(row => {
-          console.log(row);
           this.selection.select(row);
         }
       );
@@ -141,5 +145,6 @@ export class EventsSituationTableComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
 
-}
 
+
+}
