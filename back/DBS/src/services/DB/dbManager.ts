@@ -19,23 +19,23 @@ export class DbManager {
 
     private static instance: DbManager = new DbManager();
 
-    perimeterModel;
-    reportModel;
-    Logs;
-    nfzStaticModel;
-    routeModel;
-    taskModel;
-    eventModel;
-
+    // perimeterModel;
+    // reportModel;
+    // Logs;
+    // nfzStaticModel;
+    // routeModel;
+    // taskModel;
+    // eventModel;
+    perimeterModel = new PerimeterModel().getSchema();
+    Logs = new LogsModel().getSchema();
+    reportModel = new ReportModel().getSchema();
+    nfzStaticModel = new NFZStaticModel().getSchema();
+    routeModel = new RouteModel().getSchema();
+    taskModel = new TaskModel().getSchema();
+    eventModel = new EventModel().getSchema();
 
     private constructor() {
-        this.perimeterModel = new PerimeterModel().getSchema();
-        this.Logs = new LogsModel().getSchema();
-        this.reportModel = new ReportModel().getSchema();
-        this.nfzStaticModel = new NFZStaticModel().getSchema();
-        this.routeModel = new RouteModel().getSchema();
-        this.taskModel = new TaskModel().getSchema();
-        this.eventModel = new EventModel().getSchema();
+
     }
 
     // ----------------------
