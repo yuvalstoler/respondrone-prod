@@ -1,11 +1,19 @@
 <!--<h1 mat-dialog-title></h1>-->
 <div class="close">
-  <button mat-button (click)="onClose()">x</button>
+  <button mat-button (click)="onClose()">
+    <span class="material-icons">close</span>
+  </button>
 </div>
-<div mat-dialog-content *ngIf="data?.type === 'image'">
-  <img [src]="this.data?.url" class="image">
+<div mat-dialog-content *ngIf="data?.type === MEDIA_TYPE.image">
+  <img [src]="this.data?.url" class="media">
 </div>
-<div mat-dialog-content *ngIf="data?.type === 'video'">
-  <video controls [src]="this.data?.url" class="image"></video>
+<div mat-dialog-content *ngIf="data?.type === MEDIA_TYPE.video">
+  <!--<video controls [src]="data?.url" class="media"></video>-->
+  <div id="video-container">
+    <video #videoPlayer class="media" autoplay="false" controls="controls">
+      <source [src]='data?.url' />
+    </video>
+  </div>
+
 </div>
 

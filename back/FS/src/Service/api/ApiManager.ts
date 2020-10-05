@@ -1,31 +1,10 @@
 import * as core from 'express-serve-static-core';
 import {Request, Response} from 'express';
-const path = require('path');
 const _ = require('lodash');
 import {IRest} from '../../../../../classes/dataClasses/interfaces/IRest';
 import {FS_API} from '../../../../../classes/dataClasses/api/api_enums';
 import {ASYNC_RESPONSE} from '../../../../../classes/typings/all.typings';
-const multer = require('multer');
-const fs = require('fs');
-const services = require('./../../../../../../../../config/services.json');
-
-
-const url_FS = services.FS.protocol + '://' + services.FS.host + ':' + services.FS.port;
-const uploadsPath = path.join(__dirname, '../../../../../../uploads');
-
-const storage = multer.diskStorage({
-    destination: (req, file, callback) => {
-        callback(null, uploadsPath);
-    },
-    filename: (req, file, callback) => {
-        callback(null, Date.now() + path.extname(file.originalname));
-    },
-});
-
-const upload = multer({
-    storage: storage,
-    // limits: { fileSize: maxSize },
-}).any('userFiles');
+import {FileManager} from '../fileManager/fileManager';
 
 
 
@@ -52,73 +31,32 @@ export class ApiManager implements IRest {
 
     // ----------------------
     private upload = (request, response: Response) => {
-        const res: ASYNC_RESPONSE = {success: false};
-
-        upload(request, response, (err) => {
-            if (request.files === undefined || request.files.length === 0) {
-                res.data = 'No file selected';
-                response.status(400).send(res);
-            } else if (err) {
-                res.data = `Could not upload file. ${err}`;
-                response.status(500).send(res);
-            } else {
-                const id = request.files[0].filename;
-                let type: 'image' | 'video';
-                if (request.files[0].mimetype === 'image/jpeg') {
-                    type = 'image';
-                } else if (request.files[0].mimetype === 'video/mp4') {
-                    type = 'video';
-                }
-
-                res.success = true;
-                res.data = {
-                    id: id,
-                    type: type,
-                    url: `${url_FS}/api/file/${id}`
-                };
-                response.status(200).send(res);
-            }
-
-        });
+        FileManager.upload(request, response);
     }
     // ----------------------
     private remove = (request, response: Response) => {
-        const res: ASYNC_RESPONSE = {success: false};
+        let res: ASYNC_RESPONSE = {success: false};
 
-        const id = _.get(request, 'body.id');
-        if (id) {
-            fs.unlink(path.join(uploadsPath, `${id}`), (err) => {
-                if (err) {
-                    res.data = `Could not delete file. ${err}`;
-                    response.status(500).send(res);
-                } else {
-                    res.success = true;
+        const mediaData = _.get(request, 'body.data');
+        if (mediaData) {
+            FileManager.remove(mediaData)
+                .then((data: ASYNC_RESPONSE) => {
+                    res = data;
                     response.send(res);
-                }
-            });
+                })
+                .catch((err) => {
+                    res.data = err;
+                    response.send(res);
+                });
         } else {
-            response.send({success: false, data: 'no id'});
+            res.data = 'Missing id';
+            response.send(res);
         }
+
     }
     // ----------------------
     private getFile = (request: Request, response: Response) => {
-        fs.readFile(path.join(uploadsPath, `${request.params.id}`), (err, data) => {
-            if (err) {
-                fs.readFile(path.join(uploadsPath, `One_black_Pixel.png`), (err1, data1) => {
-                    if (err1) {
-                        response.status(503).send({success: false, data: 'internal server error'});
-                    } else {
-                        response.writeHead(200, {'Content-Type': 'image/jpg'});
-                        response.write(data1);
-                        response.end();
-                    }
-                });
-            } else {
-                response.writeHead(200, {'Content-Type': 'image/jpg'});
-                response.write(data);
-                response.end();
-            }
-        });
+        FileManager.getFile(request, response);
     }
 
     // ---------------------------

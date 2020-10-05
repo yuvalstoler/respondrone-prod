@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {MEDIA_DATA} from '../../../../../../../classes/typings/all.typings';
+import {MEDIA_DATA, MEDIA_TYPE} from '../../../../../../../classes/typings/all.typings';
 
 @Component({
   selector: 'app-view-media',
@@ -11,6 +11,8 @@ import {MEDIA_DATA} from '../../../../../../../classes/typings/all.typings';
 
 
 export class ViewMediaComponent implements OnInit {
+
+  MEDIA_TYPE = MEDIA_TYPE;
 
   constructor(
     public dialogRef: MatDialogRef<ViewMediaComponent>,

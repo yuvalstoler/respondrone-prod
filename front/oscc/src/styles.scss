@@ -3,7 +3,12 @@
 @import 'styles/colors';
 @import 'styles/variable';
 
-
+.centerXY {
+  position: relative;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

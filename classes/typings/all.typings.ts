@@ -127,11 +127,16 @@ export type COMMENT_DATA = { // TODO - change data fields
 
 };
 
+export enum MEDIA_TYPE {
+    image = 'image',
+    video = 'video',
+}
 
 export type MEDIA_DATA = {
+    thumbnail: string,
     url: string,
     id: string,
-    type: 'image' | 'video'
+    type: MEDIA_TYPE
 };
 
 

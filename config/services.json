@@ -4,6 +4,11 @@
     "host": "localhost",
     "protocol": "http"
   },
+  "videoStreamService": {
+    "port": "8101",
+    "host": "localhost",
+    "protocol": "http"
+  },
   "RS": {
     "port": "8200",
     "protocol": "http",
@@ -50,7 +55,6 @@
   },
 
 
-
   "webServer": {
     "host": "localhost",
     "protocol": "http",
@@ -63,6 +67,7 @@
     "password": "simplex"
 
   },
+
   "MWS": {
     "port": "7000",
     "host": "localhost",
@@ -75,6 +80,7 @@
     "password": "simplex"
 
   },
+
   "CCG": {
     "host": "localhost",
     "protocol": "http",
@@ -88,6 +94,7 @@
     "password": "simplex"
 
   },
+
   "logServer": {
     "host": "localhost",
     "protocol": "http",

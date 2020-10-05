@@ -7,6 +7,7 @@ import { Report } from '../../../../../classes/dataClasses/report/report';
 import {
     DBS_API,
     MWS_API,
+    REPORT_API,
     RS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 
@@ -52,7 +53,7 @@ export class ReportManager {
 
     private getReportsFromDBS = (): Promise<ASYNC_RESPONSE<REPORT_DATA[]>> => {
         return new Promise((resolve, reject) => {
-            RequestManager.requestToDBS(DBS_API.readAllReport, {})
+            RequestManager.requestToDBS(REPORT_API.readAllReport, {})
                 .then((data: ASYNC_RESPONSE<REPORT_DATA[]>) => {
                     if ( data.success ) {
                         this.reports = Converting.Arr_REPORT_DATA_to_Arr_Report(data.data);
@@ -105,41 +106,37 @@ export class ReportManager {
             const newReport: Report = new Report(reportData);
 
 
-            RequestManager.requestToMWS(MWS_API.updateAllReports, newReport.toJsonForSave())
+            // RequestManager.requestToMWS(MWS_API.updateAllReports, newReport.toJsonForSave())
+            //     .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+            //         if ( data.success ) {
+            //             res.data = data.data;
+            //             res.success = true;
+            //             const newReportCreated: Report = new Report(data.data);
+            //             this.reports.push(newReportCreated);
+            //         }
+            //
+            //     })
+            //     .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+            //         console.log(data);
+            //     });
+            RequestManager.requestToDBS(REPORT_API.createReport, newReport.toJsonForSave())
                 .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                     if ( data.success ) {
                         res.data = data.data;
                         res.success = true;
                         const newReportCreated: Report = new Report(data.data);
                         this.reports.push(newReportCreated);
+                        UpdateListenersManager.updateReportListeners();
+
                     }
-
-                })
-                .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
-                    console.log(data);
-                });
-
-
-            //todo save - send to DBS
-            RequestManager.requestToDBS(DBS_API.setReport, newReport.toJsonForSave())
-                .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
-                    if ( data.success ) {
-                        res.data = data.data;
-                        res.success = true;
-                        const newReportCreated: Report = new Report(data.data);
-                        this.reports.push(newReportCreated);
-                    }
-
                 })
                 .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                     console.log(data);
 
                 });
-
             res.data = newReport.toJsonForSave();
             res.success = true;
-            //    todo send to RS
-
+            //    todo send to listeners
             resolve(res);
 
         });
@@ -151,20 +148,91 @@ export class ReportManager {
 
             const report: Report = this.getReport({id: reportData.id});
             //todo save - send to DBS
-
             res.success = true;
             //    todo send to RS
-
             resolve(res);
-
         });
     }
+
+
+    private readReport = (reportIdData: ID_OBJ): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
+
+            const findedReport: Report = this.reports.find((report: Report) => {
+                return report.id === reportIdData.id;
+            });
+            if ( findedReport ) {
+                res.success = true;
+                res.data = findedReport;
+            }
+            resolve(res);
+        });
+    }
+    private readAllReport = (requestData): Promise<ASYNC_RESPONSE<REPORT_DATA[]>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: true, data: []};
+            this.reports.forEach((report: Report) => {
+                res.data.push(report.toJsonForSave());
+            });
+            resolve(res);
+        });
+    }
+    private deleteReport = (reportIdData: ID_OBJ): Promise<ASYNC_RESPONSE<ID_OBJ>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+            RequestManager.requestToDBS(REPORT_API.deleteReport, reportIdData)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.data = data.data;
+                    res.success = data.success;
+                    if ( data.success ) {
+                        resolve(res);
+                    }
+                    else {
+                        reject(res);
+                    }
+                })
+                .catch((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    console.log(data);
+                    reject(data);
+                });
+        });
+    }
+    private deleteAllReport = (): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
+            RequestManager.requestToDBS(REPORT_API.deleteAllReport, {})
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.data = data.data;
+                    res.success = data.success;
+                    res.description = data.description;
+
+                    if ( data.success ) {
+                        resolve(res);
+                    }
+                    else {
+                        reject(res);
+                    }
+                })
+                .catch((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    console.log(data);
+                    reject(data);
+                });
+        });
+    }
+
+
     // region API uncions
     public static getReports = ReportManager.instance.getReportsDATA;
     public static getReport = ReportManager.instance.getReportsDATA;
 
     public static createReport = ReportManager.instance.createReport;
     public static updateReport = ReportManager.instance.updateReport;
+
+    public static readReport = ReportManager.instance.readReport;
+    public static readAllReport = ReportManager.instance.readAllReport;
+    public static deleteReport = ReportManager.instance.deleteReport;
+    public static deleteAllReport = ReportManager.instance.deleteAllReport;
 
 
     // endregion API uncions

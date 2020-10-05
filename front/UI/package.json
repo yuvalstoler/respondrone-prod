@@ -1,0 +1,12 @@
+{
+  "name": "",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node www.js"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "jsonfile": "^5.0.0"
+  }
+}

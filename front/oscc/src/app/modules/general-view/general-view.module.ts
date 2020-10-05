@@ -24,6 +24,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatSelectModule} from '@angular/material/select';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatButtonModule} from '@angular/material/button';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { EventsSituationPictureComponent } from './left-panel/events-situation-picture/events-situation-picture.component';
 import { ReportsSituationPictureComponent } from './left-panel/reports-situation-picture/reports-situation-picture.component';
@@ -73,6 +74,7 @@ import {MatSortModule} from '@angular/material/sort';
     MatButtonModule,
     MatDialogModule,
     MatSortModule,
+    MatProgressSpinnerModule,
 
     AngularCesiumModule.forRoot(),
     AngularCesiumWidgetsModule,

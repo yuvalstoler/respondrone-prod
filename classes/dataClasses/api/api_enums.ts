@@ -11,14 +11,21 @@ export enum DBS_API {
     general = 'api',
     setSite = '/setSite',
 
-    setReport = '/setReport',
+    getAllEvents = '/getAllEvents',
+
+ }
+
+export enum REPORT_API {
+    createReport = '/createReport',
     readReport = '/readReport',
     readAllReport = '/readAllReport',
     deleteReport = '/deleteReport',
     deleteAllReport = '/deleteAllReport',
+    getAllReports = '/getAllReports',
 
-    getAllEvents = '/getAllEvents'
- }
+}
+
+
 
 export enum LS_API {
     general = 'api',
@@ -31,8 +38,9 @@ export enum TS_API {
 
 export enum RS_API {
     general = 'api',
-    getAllReports = '/getAllReports',
-    newReport = '/newReport',
+
+
+
 
 }
 
