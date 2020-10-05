@@ -3,10 +3,10 @@ var fs = require('fs');
 var express = require('express');
 var app = express();
 //var logger = require('./logger');
-var projConf = require('../../projConf')
+//var projConf = require('../../projConf')
 
 //require('./../webServer/dist/index');
-app.use(express.static(path.join(__dirname, '../oscc/dist/drones')));
+app.use(express.static(path.join(__dirname, '../oscc/dist/oscc')));
 console.log(path.join(__dirname, '../oscc/dist/oscc'))
 app.get('*', function (req, res) {
     res.redirect('/');
