@@ -6,6 +6,12 @@ import {MatDialog} from '@angular/material/dialog';
 import {ViewMediaComponent} from '../../view-media/view-media.component';
 import {MEDIA_DATA} from '../../../../../../../../classes/typings/all.typings';
 
+
+export type PROGRESS_INFO = {
+  percent: number;
+  observer: any;
+};
+
 @Component({
   selector: 'app-report-media',
   templateUrl: './report-media.component.html',
@@ -16,7 +22,7 @@ export class ReportMediaComponent implements OnInit {
   @Input() media: MEDIA_DATA[] = [];
 
   formats = ['.jpg', '.png', '.mp4'];
-  progressInfos: {percent: number, observer: any}[] = [];
+  progressInfos: PROGRESS_INFO[] = [];
   file;
 
   itemsInPage = 3;
@@ -80,7 +86,7 @@ export class ReportMediaComponent implements OnInit {
   }
   // ------------------
   deleteFile = (data: MEDIA_DATA) => {
-    this.connectionService.postTMP('/api/removeFile', {id: data.id})
+    this.connectionService.postTMP('/api/removeFile', {data: data})
       .subscribe((res: any) => {
          if (!res.success) {
            console.log('error deleting file', res.data);
@@ -109,11 +115,16 @@ export class ReportMediaComponent implements OnInit {
     this.currentPage--;
   }
   // ----------------------
-  isShowImage = (index: number) => {
+  isShowImage = (indexInMedia: number) => {
+    const index = indexInMedia + this.progressInfos.length;
+    return (index >= this.itemsInPage * this.currentPage && index < this.itemsInPage * this.currentPage + this.itemsInPage);
+  }
+  // ----------------------
+  isShowProgress = (index: number) => {
     return (index >= this.itemsInPage * this.currentPage && index < this.itemsInPage * this.currentPage + this.itemsInPage);
   }
   // -----------------------
   isAllowNext = () => {
-    return (this.currentPage < Math.ceil(this.media.length / this.itemsInPage) - 1);
+    return (this.currentPage < Math.ceil((this.media.length + this.progressInfos.length) / this.itemsInPage) - 1);
   }
 }

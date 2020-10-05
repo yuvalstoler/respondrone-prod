@@ -29,11 +29,11 @@ export class EventPanelComponent implements OnInit {
         {ID: 5555, Description: 'Description', Time: 1221324423, Type: 'Road Block'}
       ],
       media: [
-        {url: 'http://localhost:8100/api/file/1601525743958.jpg', id: '1601525743958.jpg', type: 'image'},
-        {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
-        {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
-        {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
-        {url: 'http://localhost:8100/api/file/1601533035168.mp4', id: '1601533035168.mp4', type: 'video'},
+        {url: 'http://localhost:8100/api/file/1601525743958.jpg', thumbnail: 'http://localhost:8100/api/file/1601525743958.jpg', id: '1601525743958.jpg', type: 'image'},
+        {url: 'http://localhost:8100/api/file/1601526405336.jpg', thumbnail: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
+        {url: 'http://localhost:8100/api/file/1601526405336.jpg', thumbnail: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
+        {url: 'http://localhost:8100/api/file/1601526405336.jpg', thumbnail: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
+        {url: 'http://localhost:8100/api/file/1601533035168.mp4', thumbnail: 'http://localhost:8100/api/file/1601533035168.mp4.png', id: '1601533035168.mp4', type: 'video'},
       ],
       comments: ''
     };

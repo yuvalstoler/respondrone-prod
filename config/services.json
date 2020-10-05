@@ -4,6 +4,11 @@
     "host": "localhost",
     "protocol": "http"
   },
+  "videoStreamService": {
+    "port": "8101",
+    "host": "localhost",
+    "protocol": "http"
+  },
   "RS": {
     "port": "8200",
     "protocol": "http",

@@ -133,6 +133,7 @@ export enum MEDIA_TYPE {
 }
 
 export type MEDIA_DATA = {
+    thumbnail: string,
     url: string,
     id: string,
     type: MEDIA_TYPE
