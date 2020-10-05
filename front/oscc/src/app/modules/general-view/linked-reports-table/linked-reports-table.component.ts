@@ -23,7 +23,6 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
 
 
   ngAfterViewInit() {
-    // this.element.linkedreports = new MatTableDataSource(this.element.linkedreports);
     this.element.linkedreports.sort = this.sort;
   }
 
@@ -35,7 +34,7 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
     this.element.linkedreports.data = [];
   }
 
-  removeAt(index: number) {
+  removeAt(row, index: number) {
     const data = this.element.linkedreports.data;
     data.splice( index, 1);
 

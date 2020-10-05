@@ -101,6 +101,11 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   constructor() {
+    this.dataSource.data.forEach(data => {
+      data.linkedreports.forEach(linkedreport => {
+        linkedreport['actionsColumn'] = '';
+      });
+    });
   }
 
   ngOnInit(): void {

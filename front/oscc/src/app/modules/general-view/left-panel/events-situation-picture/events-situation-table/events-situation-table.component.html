@@ -14,7 +14,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isSortingDisabled(column)">
           <span *ngIf="column !== 'message' && column !== 'link' && column !== 'map'"
                 class="capitalize">{{column}}</span>
-          <mat-icon class="HPRightSideIcon" *ngIf="column === 'message'">comment</mat-icon>
+          <span matTooltip="Remove all"><mat-icon class="HPRightSideIcon" *ngIf="column === 'message'">comment</mat-icon></span>
           <mat-icon class="HPRightSideIcon" *ngIf="column === 'link'">link</mat-icon>
           <mat-icon class="HPRightSideIcon" *ngIf="column === 'map'">location_on</mat-icon>
         </th>

@@ -21,4 +21,16 @@ export class ReportsSituationPictureComponent implements OnInit {
 
   };
 
+  onDeleteReport = () => {
+
+  };
+
+  onEditReport = () => {
+
+  };
+
+  onArchiveReport = () => {
+
+  };
+
 }
