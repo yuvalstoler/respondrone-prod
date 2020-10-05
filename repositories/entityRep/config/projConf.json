@@ -10,8 +10,8 @@
     "routes": {
       "insert": "/insertNewCommRelayMissionRequest",
       "update": "/updateCommRelayMissionRequest",
-      "getLast": "/getLastCommRelayMissionRequests",
-      "delete": "/deleteCommRelayMissionRequest"
+      "getLast": "/getLastCommRelayMissionRequests/:currentVersion",
+      "delete": "/deleteCommRelayMissionRequest/:id"
     },
     "entityArrKey": "commRelayMissionRequests"
   },
