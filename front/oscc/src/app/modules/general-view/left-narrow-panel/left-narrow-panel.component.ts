@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ApplicationService} from '../../../services/applicationService/application.service';
 
 @Component({
   selector: 'app-left-narrow-panel',
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class LeftNarrowPanelComponent implements OnInit {
   
   
-  constructor() { 
+  constructor(public applicationService: ApplicationService) {
    
   }
 

@@ -1,3 +1,7 @@
-
+<div *ngIf="applicationService.screen.showEventPanel">
   <app-event-panel></app-event-panel>
+</div>
+<div *ngIf="applicationService.screen.showReportPanel">
+  <app-report-panel></app-report-panel>
+</div>
 
