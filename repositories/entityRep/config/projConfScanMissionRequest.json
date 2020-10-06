@@ -10,8 +10,8 @@
     "routes": {
       "insert": "/insertNewScanMissionRequest",
       "update": "/updateScanMissionRequest",
-      "getLast": "/getLastScanMissionRequests",
-      "delete": "/deleteScanMissionRequest"
+      "getLast": "/getLastScanMissionRequests/:currentVersion",
+      "delete": "/deleteScanMissionRequest/:id"
     },
     "entityArrKey": "scanMissionRequests"
   },

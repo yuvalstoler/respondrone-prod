@@ -10,8 +10,8 @@
     "routes": {
       "insert": "/insertNewMission",
       "update": "/updateMission",
-      "getLast": "/getLastMissions",
-      "delete": "/deleteMission"
+      "getLast": "/getLastMissions/:currentVersion",
+      "delete": "/deleteMission/:id"
     },
     "entityArrKey": "missions"
   },

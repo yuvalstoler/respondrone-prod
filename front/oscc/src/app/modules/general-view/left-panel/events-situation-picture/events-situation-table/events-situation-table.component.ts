@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
+import {MatSort} from '@angular/material/sort';
 
-export interface EventsSituation {
+export interface ReportsSituation {
 
   id: string;
   eventTitle: string;
@@ -17,11 +18,11 @@ export interface EventsSituation {
   link: string;
   map: string;
   descriptionAll: string;
-  comments: Array<{source: string, time: number, text: string}>;
-  linkedreports: Array<{ID: number, Type: string, Description: string, Time: number}>;
+  comments: Array<{ source: string, time: number, text: string }>;
+  linkedreports: Array<{ ID: number, Type: string, Description: string, Time: number }>;
 }
 
-const ELEMENT_DATA: EventsSituation[] = [
+const ELEMENT_DATA: ReportsSituation[] = [
   {
     id: '1000', eventTitle: 'Road 345 block', source: 'FF133', priority: 'warning', type: 'type',
     description: '1', time: 10, createdBy: 'John Blake', message: 'message', link: 'link', map: 'map',
@@ -88,26 +89,42 @@ const ELEMENT_DATA: EventsSituation[] = [
   ]
 })
 
-export class EventsSituationTableComponent implements OnInit {
+export class EventsSituationTableComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['select', 'id', 'eventTitle', 'source', 'priority', 'type', 'description', 'time', 'createdBy',
     'message', 'link', 'map'];
   // dataSource: EventsSituation[] = [];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   selectedData: any;
-  expandedElement: EventsSituation;
-  selection = new SelectionModel<EventsSituation>(true, []);
- 
+  expandedElement: ReportsSituation;
+  selection = new SelectionModel<ReportsSituation>(true, []);
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   constructor() {
+    this.dataSource.data.forEach(data => {
+      data.linkedreports.forEach(linkedreport => {
+        linkedreport['actionsColumn'] = '';
+      });
+    });
   }
 
   ngOnInit(): void {
   }
 
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+  }
+
   private selectRow = (element): void => {
     // this.selectedData = aircraft;
     this.expandedElement = this.expandedElement === element ? null : element;
+  };
+  private isSortingDisabled = (columnText: string): boolean => {
+    let res: boolean = false;
+    if (columnText === 'message' || columnText === 'link' || columnText === 'map') {
+      res = true;
+    }
+    return res;
   };
 
   applyFilter(event: Event) {
@@ -134,7 +151,7 @@ export class EventsSituationTableComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: EventsSituation): string {
+  checkboxLabel(row?: ReportsSituation): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }

@@ -5,12 +5,11 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
   </mat-form-field>
 
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort class="mat-elevation-z8"
-         matSortActive="id" matSortDirection="desc">
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort class="mat-elevation-z8">
     <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns; let i = index">
       <!--Rows-->
       <span *ngIf="i !== 0">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isSortingDisabled(column)">
           <span *ngIf="column !== 'message' && column !== 'link' && column !== 'map' && column !== 'attachment'"
                 class="capitalize">{{column}}</span>
           <mat-icon class="HPRightSideIcon" *ngIf="column === 'message'">comment</mat-icon>
@@ -69,6 +68,12 @@
           <div class="example-element-linked">
             <h3>Linked reports</h3>
             <app-linked-reports-table [element]="element"></app-linked-reports-table>
+            <!--Media-->
+            <!--<app-view-media></app-view-media>-->
+            <div>
+              <h3>Media</h3>
+              <app-report-media [media]="element.media"></app-report-media>
+            </div>
           </div>
         </div>
       </td>
@@ -84,4 +89,7 @@
     </tr>
     <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row"></tr>
   </table>
+
+
+
 </div>

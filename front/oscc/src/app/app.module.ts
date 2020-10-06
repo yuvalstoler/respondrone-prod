@@ -56,7 +56,7 @@ import {MatSortModule} from '@angular/material/sort';
     MatSelectModule,
     MatRadioModule,
     MatButtonModule,
-    MatSortModule
+    MatSortModule,
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },

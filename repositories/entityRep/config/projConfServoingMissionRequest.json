@@ -10,8 +10,8 @@
     "routes": {
       "insert": "/insertNewServoingMissionRequest",
       "update": "/updateServoingMissionRequest",
-      "getLast": "/getLastServoingMissionRequests",
-      "delete": "/deleteServoingMissionRequest"
+      "getLast": "/getLastServoingMissionRequests/:currentVersion",
+      "delete": "/deleteServoingMissionRequest/:id"
     },
     "entityArrKey": "servoingMissionRequests"
   },

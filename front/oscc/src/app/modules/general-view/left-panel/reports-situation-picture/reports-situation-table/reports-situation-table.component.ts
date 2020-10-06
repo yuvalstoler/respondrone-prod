@@ -20,6 +20,7 @@ export interface EventsSituation {
   descriptionAll: string;
   comments: Array<{source: string, time: number, text: string}>;
   linkedreports: Array<{ID: number, Type: string, Description: string, Time: number}>;
+  media: Array<any>;
 }
 
 const ELEMENT_DATA: EventsSituation[] = [
@@ -39,7 +40,14 @@ const ELEMENT_DATA: EventsSituation[] = [
       {ID: 3333, Description: 'Description1', Time: 1221322423, Type: 'Road Block'},
       {ID: 4444, Description: 'Description2', Time: 1221311423, Type: 'Fire Alarm'},
       {ID: 5555, Description: 'Description5', Time: 1221377423, Type: 'Road Block'}
-    ]
+    ],
+    media: [
+      {url: 'http://localhost:8100/api/file/1601525743958.jpg', id: '1601525743958.jpg', type: 'image'},
+      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
+      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
+      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
+      {url: 'http://localhost:8100/api/file/1601533035168.mp4', id: '1601533035168.mp4', type: 'video'},
+    ],
   },
   {
     id: '1001', source: 'PP133', priority: 'warning', type: 'type',
@@ -57,7 +65,14 @@ const ELEMENT_DATA: EventsSituation[] = [
       {ID: 3333, Description: 'Description2', Time: 1221353423, Type: 'Road Block'},
       {ID: 4444, Description: 'Description4', Time: 1221352423, Type: 'Fire Alarm'},
       {ID: 5555, Description: 'Description3', Time: 1221324423, Type: 'Road Block'}
-    ]
+    ],
+    media: [
+      {url: 'http://localhost:8100/api/file/1601525743958.jpg', id: '1601525743958.jpg', type: 'image'},
+      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
+      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
+      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
+      {url: 'http://localhost:8100/api/file/1601533035168.mp4', id: '1601533035168.mp4', type: 'video'},
+    ],
   },
   {
     id: '1002', source: 'ER133', priority: 'warning', type: 'type',
@@ -75,7 +90,14 @@ const ELEMENT_DATA: EventsSituation[] = [
       {ID: 3333, Description: 'Description2', Time: 1221333423, Type: 'Road Block'},
       {ID: 4444, Description: 'Description3', Time: 1221352423, Type: 'Fire Alarm'},
       {ID: 5555, Description: 'Description5', Time: 1221324423, Type: 'Road Block'}
-    ]
+    ],
+    media: [
+      {url: 'http://localhost:8100/api/file/1601525743958.jpg', id: '1601525743958.jpg', type: 'image'},
+      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
+      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
+      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
+      {url: 'http://localhost:8100/api/file/1601533035168.mp4', id: '1601533035168.mp4', type: 'video'},
+    ],
   }];
 
 @Component({
@@ -90,20 +112,22 @@ const ELEMENT_DATA: EventsSituation[] = [
     ]),
   ]
 })
-export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
-  @ViewChild(MatSort) sort: MatSort;
+export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['select', 'id', 'source', 'priority', 'type', 'description', 'time', 'createdBy',
     'message', 'link', 'map', 'attachment'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+
+  // displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  dataSource = new MatTableDataSource</*EventsSituation*/ any>(ELEMENT_DATA);
   expandedElement: EventsSituation;
   selection = new SelectionModel<EventsSituation>(true, []);
-
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
   ngAfterViewInit() {
@@ -113,6 +137,14 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
   private selectRow = (element): void => {
     // this.selectedData = aircraft;
     this.expandedElement = this.expandedElement === element ? null : element;
+  };
+
+  private isSortingDisabled = (columnText: string): boolean => {
+    let res: boolean = false;
+    if (columnText === 'message' || columnText === 'link' || columnText === 'map' || columnText === 'attachment') {
+      res = true;
+    }
+    return res;
   };
 
   applyFilter(event: Event) {

@@ -13,4 +13,8 @@ export enum HEADER_BUTTONS {
 export type DISPLAY_ON_SCREEN = {
   showLeftPanel: boolean;
   showLeftNarrowPanel: boolean;
-}
+  showEventPanel: boolean;
+  showReportPanel: boolean;
+};
+
+

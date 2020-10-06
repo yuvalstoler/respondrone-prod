@@ -1,22 +1,21 @@
-import {Component, OnInit} from '@angular/core';
-import {ApplicationService} from 'src/app/services/applicationService/application.service';
-import {HEADER_BUTTONS} from 'src/types';
+import { Component, OnInit } from '@angular/core';
+import {ApplicationService} from '../../../../services/applicationService/application.service';
+import {HEADER_BUTTONS} from '../../../../../types';
 
 @Component({
-  selector: 'app-event-panel',
-  templateUrl: './event-panel.component.html',
-  styleUrls: ['./event-panel.component.scss']
+  selector: 'app-report-panel',
+  templateUrl: './report-panel.component.html',
+  styleUrls: ['./report-panel.component.scss']
 })
-export class EventPanelComponent implements OnInit {
+export class ReportPanelComponent implements OnInit {
 
-  eventModel: any;
+  reportModel: any;
   types = ['Fire Alarm', 'Road Block', 'Accident'];
   priorities = ['Low', 'Normal', 'High'];
-  locations = ['Add an address', 'Choose a location point', 'Create a polygon'];
+  locations = ['Add an address', 'Choose a location point'];
 
   constructor(public applicationService: ApplicationService) {
-    this.eventModel = {
-      title: '',
+    this.reportModel = {
       type: 'fire',
       priority: 'normal',
       description: '',
@@ -28,6 +27,13 @@ export class EventPanelComponent implements OnInit {
         {ID: 4444, Description: 'Description', Time: 1221352423, Type: 'Fire Alarm'},
         {ID: 5555, Description: 'Description', Time: 1221324423, Type: 'Road Block'}
       ],
+      media: [
+        {url: 'http://localhost:8100/api/file/1601525743958.jpg', id: '1601525743958.jpg', type: 'image'},
+        {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
+        {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
+        {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
+        {url: 'http://localhost:8100/api/file/1601533035168.mp4', id: '1601533035168.mp4', type: 'video'},
+      ],
       comments: ''
     };
   }
@@ -36,7 +42,7 @@ export class EventPanelComponent implements OnInit {
   }
 
   onCreateClick = () => {
-    console.log(this.eventModel);
+    console.log(this.reportModel);
     this.clearPanel();
   };
 
@@ -48,8 +54,7 @@ export class EventPanelComponent implements OnInit {
   clearPanel = () => {
     this.applicationService.screen.showLeftNarrowPanel = false;
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
-    this.eventModel = {
-      title: '',
+    this.reportModel = {
       type: 'fire',
       priority: 'normal',
       description: '',
@@ -66,8 +71,8 @@ export class EventPanelComponent implements OnInit {
   };
 
   onSendComment = () => {
-    if (this.eventModel.comments !== '' && this.eventModel.comments !== undefined) {
-      console.log(this.eventModel.comments);
+    if (this.reportModel.comments !== '' && this.reportModel.comments !== undefined) {
+      console.log(this.reportModel.comments);
 
 
     }

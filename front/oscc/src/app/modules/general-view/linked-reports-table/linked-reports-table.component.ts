@@ -1,5 +1,6 @@
 import {Component, OnInit, Input, ViewChild, AfterViewInit} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-linked-reports-table',
@@ -9,7 +10,7 @@ import {MatSort} from '@angular/material/sort';
 export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
 
   @Input() element;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   displayedColumns: string[] = ['ID', 'Type', 'Description', 'Time'];
   
@@ -17,17 +18,28 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.element.linkedreports = new MatTableDataSource(this.element.linkedreports);
   }
 
 
   ngAfterViewInit() {
-    // const element  = new MatTableDataSource(this.element.linkedreports);
-    // element.sort = this.sort;
     this.element.linkedreports.sort = this.sort;
   }
 
   selectRow = (row) => {
     
   };
-  
+
+  removeAll() {
+    this.element.linkedreports.data = [];
+  }
+
+  removeAt(row, index: number) {
+    const data = this.element.linkedreports.data;
+    data.splice( index, 1);
+
+    this.element.linkedreports.data = data;
+  }
+
+
 }

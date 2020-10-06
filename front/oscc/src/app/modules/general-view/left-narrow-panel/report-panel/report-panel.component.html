@@ -1,23 +1,23 @@
 <div class="DialogContainer" *ngIf="true">
-  <div class="DialogHeader">Create new event</div>
+  <div class="DialogHeader">Create new report</div>
   <!--Content-->
   <div class="DialogContent scroll">
-    <!--Title-->
-    <div class="DialogContentItem">
-      <div class="DialogTitle">Event Title</div>
-      <mat-form-field appearance="outline" class="SPMatFormField">
-        <label>
-          <input matInput class="Label" type="text"
-                 placeholder="For example: Fire in the city"
-                 [(ngModel)]="eventModel.title">
-        </label>
-      </mat-form-field>
-    </div>
+    <!--&lt;!&ndash;Title&ndash;&gt;-->
+    <!--<div class="DialogContentItem">-->
+      <!--<div class="DialogTitle">Event Title</div>-->
+      <!--<mat-form-field appearance="outline" class="SPMatFormField">-->
+        <!--<label>-->
+          <!--<input matInput class="Label" type="text"-->
+                 <!--placeholder="For example: Fire in the city"-->
+                 <!--[(ngModel)]="reportModel.title">-->
+        <!--</label>-->
+      <!--</mat-form-field>-->
+    <!--</div>-->
     <!--Type-->
     <div class="DialogContentItem DialogGrid2">
       <div class="DialogTitle">Type</div>
       <mat-form-field appearance="outline" class="SPMatFormField">
-        <mat-select [(ngModel)]="eventModel.type">
+        <mat-select [(ngModel)]="reportModel.type">
           <mat-option *ngFor="let type of types" [value]="type">
             {{type}}
           </mat-option>
@@ -28,7 +28,7 @@
     <div class="DialogContentItem DialogGrid2">
       <div class="DialogTitle">Priority</div>
       <mat-form-field appearance="outline" class="SPMatFormField">
-        <mat-select [(ngModel)]="eventModel.priority">
+        <mat-select [(ngModel)]="reportModel.priority">
           <mat-option *ngFor="let priority of priorities" [value]="priority">
             {{priority}}
           </mat-option>
@@ -43,7 +43,7 @@
             <textarea matInput class="Label"
                       placeholder="Add your description..."
                       [ngStyle]="{'resize': 'none'}" rows="3"
-                      [(ngModel)]="eventModel.description"></textarea>
+                      [(ngModel)]="reportModel.description"></textarea>
         </label>
       </mat-form-field>
     </div>
@@ -53,16 +53,16 @@
       <mat-radio-group
         aria-labelledby="example-radio-group-label"
         class="example-radio-group"
-        [(ngModel)]="eventModel.location.button">
+        [(ngModel)]="reportModel.location.button">
         <mat-radio-button class="example-radio-button" *ngFor="let location of locations" [value]="location">
           {{location}}
-          <div *ngIf="eventModel.location.button==='Add an address' && location === 'Add an address'">
+          <div *ngIf="reportModel.location.button==='Add an address' && location === 'Add an address'">
             <!--Address-->
             <mat-form-field appearance="outline" class="LocationAddress">
               <label>
                 <input matInput class="Label" type="text"
                        placeholder="E.g. Richard St."
-                       [(ngModel)]="eventModel.location.address">
+                       [(ngModel)]="reportModel.location.address">
               </label>
             </mat-form-field>
             <div class="LocationGrid">
@@ -71,7 +71,7 @@
                 <label>
                   <input matInput class="Label" type="text"
                          placeholder="Lat"
-                         [(ngModel)]="eventModel.location.lat">
+                         [(ngModel)]="reportModel.location.lat">
                 </label>
               </mat-form-field>
               <!--Long-->
@@ -79,7 +79,7 @@
                 <label>
                   <input matInput class="Label" type="text"
                          placeholder="Long"
-                         [(ngModel)]="eventModel.location.long">
+                         [(ngModel)]="reportModel.location.long">
                 </label>
               </mat-form-field>
             </div>
@@ -87,15 +87,15 @@
         </mat-radio-button>
       </mat-radio-group>
     </div>
-    <!--&lt;!&ndash;Report media&ndash;&gt;-->
-    <!--<div class="DialogContentItem">-->
-      <!--<div class="DialogTitle">Report media</div>-->
-      <!--<app-report-media [media]="reportModel.media"></app-report-media>-->
-    <!--</div>-->
+    <!--Report media-->
+    <div class="DialogContentItem">
+      <div class="DialogTitle">Report media</div>
+      <app-report-media [media]="reportModel.media"></app-report-media>
+    </div>
     <!--Linked Reports-->
     <div class="DialogContentItem">
       <div class="DialogTitle">Linked reports</div>
-      <app-linked-reports-table [element]="eventModel"></app-linked-reports-table>
+      <app-linked-reports-table [element]="reportModel"></app-linked-reports-table>
     </div>
     <!--Comments-->
     <div class="DialogContentItem">
@@ -108,13 +108,13 @@
           <label>
             <input matInput class="Label" type="text"
                    placeholder="Add your comment..."
-                   [(ngModel)]="eventModel.comments">
+                   [(ngModel)]="reportModel.comments">
           </label>
         </mat-form-field>
         <div class="DialogIconContainer"
              (click)="onSendComment()">
           <mat-icon class="DialogIcon"
-                    [ngStyle]="{'color': (eventModel.comments === '' || eventModel.comments === undefined) ? 'lightgray' : 'black' }">
+                    [ngStyle]="{'color': (reportModel.comments === '' || reportModel.comments === undefined) ? 'lightgray' : 'black' }">
             send</mat-icon>
         </div>
       </div>
@@ -127,7 +127,7 @@
               (click)="onDeleteClick()">Delete
       </button>
       <button mat-raised-button class="FooterButtonCreate"
-              (click)="onCreateClick()">Create New Event
+              (click)="onCreateClick()">Create New Report
       </button>
     </div>
   </div>

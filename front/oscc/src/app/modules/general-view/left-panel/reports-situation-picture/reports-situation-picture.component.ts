@@ -16,6 +16,21 @@ export class ReportsSituationPictureComponent implements OnInit {
   onCreateNewReport = () => {
     this.applicationService.screen.showLeftPanel = false;
     this.applicationService.screen.showLeftNarrowPanel = true;
+    this.applicationService.screen.showEventPanel = false;
+    this.applicationService.screen.showReportPanel = true;
+
+  };
+
+  onDeleteReport = () => {
+
+  };
+
+  onEditReport = () => {
+
+  };
+
+  onArchiveReport = () => {
+
   };
 
 }

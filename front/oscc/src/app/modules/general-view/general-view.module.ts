@@ -36,6 +36,8 @@ import { ReportMediaComponent } from './left-narrow-panel/report-media/report-me
 import { ViewMediaComponent } from './view-media/view-media.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ReportsSituationTableComponent } from './left-panel/reports-situation-picture/reports-situation-table/reports-situation-table.component';
+import { ReportPanelComponent } from './left-narrow-panel/report-panel/report-panel.component';
+import {MatSortModule} from '@angular/material/sort';
 
 
 @NgModule({
@@ -51,7 +53,8 @@ import { ReportsSituationTableComponent } from './left-panel/reports-situation-p
     LinkedReportsTableComponent,
     ReportMediaComponent,
     ViewMediaComponent,
-    ReportsSituationTableComponent
+    ReportsSituationTableComponent,
+    ReportPanelComponent
   ],
   imports: [
     CommonModule,
@@ -70,6 +73,7 @@ import { ReportsSituationTableComponent } from './left-panel/reports-situation-p
     MatRadioModule,
     MatButtonModule,
     MatDialogModule,
+    MatSortModule,
     MatProgressSpinnerModule,
 
     AngularCesiumModule.forRoot(),
