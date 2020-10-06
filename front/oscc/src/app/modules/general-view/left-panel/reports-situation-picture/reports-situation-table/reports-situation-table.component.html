@@ -43,7 +43,8 @@
     <ng-container matColumnDef="expandedDetail">
       <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
         <div class="example-element-detail"
-             [@detailExpand]="element === expandedElement[element.id] ? 'expanded' : 'collapsed'">
+             [@detailExpand]="element === expandedElement[element.id] ? 'expanded' : 'collapsed'"
+             [style.height]="element === expandedElement[element.id] ? 'unset' : '0 !important'">
           <!--Description & Comments-->
           <div class="example-element-description">
             <h3>Description</h3>
@@ -83,7 +84,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"
         class="example-element-row"
-
+        [class.selected]="applicationService.selectedReport === row"
         (click)="selectRow(row)">
       <!--&lt;&ndash;&gt; [ngStyle]="{'background-color': (selectedData === row)? '#7f7f7f' : '' }"-->
     </tr>

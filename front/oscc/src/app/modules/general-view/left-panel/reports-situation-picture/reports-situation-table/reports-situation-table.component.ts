@@ -4,6 +4,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatSort} from '@angular/material/sort';
 import {MAP} from '../../../../../../types';
+import {ApplicationService} from '../../../../../services/applicationService/application.service';
 
 export interface ReportsSituation {
   id: string;
@@ -107,9 +108,10 @@ const ELEMENT_DATA: ReportsSituation[] = [
   styleUrls: ['./reports-situation-table.component.scss'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed, void', style({ height: '0px', minHeight: '0', display: 'none' })),
+      state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+      transition('expanded <=> void', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
     ]),
   ]
 })
@@ -120,22 +122,22 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
     'message', 'link', 'map', 'attachment'];
 
   dataSource = new MatTableDataSource</*ReportsSituation*/ any>(ELEMENT_DATA);
-  expandedElement: MAP<ReportsSituation> = {};
+  expandedElement: MAP</*ReportsSituation*/ any> = {};
   selection = new SelectionModel<ReportsSituation>(true, []);
+  // selectedRow: ReportsSituation = undefined;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
-  constructor() {
+  constructor(private applicationService: ApplicationService) {
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
   }
 
   private selectRow = (element): void => {
+    this.applicationService.selectedReport = element;
     // this.expandedElement = this.expandedElement === element ? null : element;
   };
 
@@ -159,16 +161,6 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
     return numSelected === numRows;
   }
 
-  onChangeAllSelected = (event) => {
-    // if (numSelected === numRows) {
-      this.dataSource.data.forEach(row => {
-        this.onChangeCheckbox(event, row);
-      });
-    // }
-
-    return event ? this.masterToggle() : null;
-  };
-
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
@@ -187,12 +179,28 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
 
+  onChangeAllSelected = (event) => {
+    if (event.checked) {
+      this.dataSource.data.forEach((row: ReportsSituation) => {
+        this.expandedElement[row.id] = this.expandedElement[row.id] || {};
+        this.expandedElement[row.id] = row;
+      });
+    } else {
+      this.dataSource.data.forEach((row: ReportsSituation) => {
+        this.expandedElement[row.id] = {};
+      });
+    }
+    return event ? this.masterToggle() : null;
+  };
+
   onChangeCheckbox = (event, row: ReportsSituation) => {
     if (event.checked) {
-      this.expandedElement[row.id] = this.expandedElement[row.id] || null;
+      this.expandedElement[row.id] = this.expandedElement[row.id] || {};
       this.expandedElement[row.id] = row;
+      this.applicationService.selectedReport = row;
     } else {
-      this.expandedElement[row.id] = null;
+      this.expandedElement[row.id] = {};
+      this.applicationService.selectedReport = undefined;
     }
     return event ? this.selection.toggle(row) : null;
   }

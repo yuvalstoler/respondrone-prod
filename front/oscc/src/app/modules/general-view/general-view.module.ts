@@ -97,8 +97,7 @@ import {MatSortModule} from '@angular/material/sort';
   providers: [
     PolygonsEditorService,
     ViewerConfiguration
-  ],
-  entryComponents: []
+  ]
 })
 export class GeneralViewModule {
 
