@@ -9,7 +9,7 @@ const fs = require('fs');
 
 const uploadsPath = path.join(__dirname, './uploads');
 const services = require(path.join(__dirname, '../../config/services.json'));
-const port = services.videoStreamService.port;
+const port = services.VSS.port;
 
 const mimeNames = {
     '.css': 'text/css',
