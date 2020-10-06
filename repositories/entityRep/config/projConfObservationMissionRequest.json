@@ -10,8 +10,8 @@
     "routes": {
       "insert": "/insertNewObservationMissionRequest",
       "update": "/updateObservationMission",
-      "getLast": "/getLastObservationMissionRequests",
-      "delete": "/deleteObservationMissionRequest"
+      "getLast": "/getLastObservationMissionRequests/:currentVersion",
+      "delete": "/deleteObservationMissionRequest/:id"
     },
     "entityArrKey": "observationMissionRequests"
   },

@@ -1,16 +1,16 @@
 {
   "FS": {
-    "port": "8100",
+    "port": "6100",
     "host": "localhost",
     "protocol": "http"
   },
-  "videoStreamService": {
-    "port": "8101",
+  "VSS": {
+    "port": "6101",
     "host": "localhost",
     "protocol": "http"
   },
   "RS": {
-    "port": "8200",
+    "port": "6200",
     "protocol": "http",
     "host": "localhost",
     "listeners": [
@@ -22,22 +22,22 @@
 
   },
   "ES": {
-    "port": "8300",
+    "port": "6300",
     "host": "localhost",
     "protocol": "http"
   },
   "TS": {
-    "port": "8400",
+    "port": "6400",
     "host": "localhost",
     "protocol": "http"
   },
   "MS": {
-    "port": "8500",
+    "port": "6500",
     "host": "localhost",
     "protocol": "http"
   },
   "DBS": {
-    "port": "8600",
+    "port": "6600",
     "host": "localhost",
     "protocol": "http",
     "listeners": [],
@@ -49,27 +49,13 @@
   },
 
   "MG": {
-    "port": "8700",
+    "port": "6700",
     "host": "localhost",
     "protocol": "http"
   },
-
-
+  
   "webServer": {
-    "host": "localhost",
-    "protocol": "http",
-    "port": "6000",
-    "timeOutREST": 10000,
-    "rateOfClimb": 2,
-    "secret": "4sekgq3sns4l0dj9kmgukn",
-    "expireIn": 86400,
-    "name": "ResponDrone",
-    "password": "simplex"
-
-  },
-
-  "MWS": {
-    "port": "7000",
+    "port": "5000",
     "host": "localhost",
     "protocol": "http",
     "timeOutREST": 10000,
@@ -80,25 +66,11 @@
     "password": "simplex"
 
   },
-
-  "CCG": {
-    "host": "localhost",
-    "protocol": "http",
-    "port": "7100",
-
-    "timeOutREST": 10000,
-    "rateOfClimb": 2,
-    "secret": "4sekgq3sns4l0dj9kmgukn",
-    "expireIn": 86400,
-    "name": "ResponDrone",
-    "password": "simplex"
-
-  },
-
+  
   "logServer": {
+    "port": "6800",
     "host": "localhost",
-    "protocol": "http",
-    "port": "5000"
+    "protocol": "http"
 
   }
 }

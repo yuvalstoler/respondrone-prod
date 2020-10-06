@@ -25,7 +25,15 @@ export enum REPORT_API {
 
 }
 
+export enum EVENT_API {
+    createEvent = '/createEvent',
+    readEvent = '/readEvent',
+    readAllEvent = '/readAllEvent',
+    deleteEvent = '/deleteEvent',
+    deleteAllEvent = '/deleteAllEvent',
+    getAllEvents = '/getAllEvents',
 
+}
 
 export enum LS_API {
     general = 'api',

@@ -10,8 +10,8 @@
     "routes": {
       "insert": "/insertNewNFZ",
       "update": "/updateNFZ",
-      "getLast": "/getLastNFZs",
-      "delete": "/deleteNFZ"
+      "getLast": "/getLastNFZs/:currentVersion",
+      "delete": "/deleteNFZ/:id"
     },
     "entityArrKey": "NFZs"
   },

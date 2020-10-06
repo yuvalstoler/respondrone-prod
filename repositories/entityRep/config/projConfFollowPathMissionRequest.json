@@ -10,8 +10,8 @@
     "routes": {
       "insert": "/insertNewFollowPathMissionRequest",
       "update": "/updateFollowPathMissionRequest",
-      "getLast": "/getLastFollowPathMissionRequests",
-      "delete": "/deleteFollowPathMissionRequest"
+      "getLast": "/getLastFollowPathMissionRequests/:currentVersion",
+      "delete": "/deleteFollowPathMissionRequest/:id"
     },
     "entityArrKey": "followPathMissionRequests"
   },

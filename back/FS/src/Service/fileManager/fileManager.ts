@@ -10,7 +10,7 @@ const services = require('./../../../../../../../../config/services.json');
 
 
 const url_FS = services.FS.protocol + '://' + services.FS.host + ':' + services.FS.port;
-const url_VideoStreamService = services.videoStreamService.protocol + '://' + services.videoStreamService.host + ':' + services.videoStreamService.port;
+const url_VideoStreamService = services.VSS.protocol + '://' + services.VSS.host + ':' + services.VSS.port;
 const uploadsPath = path.join(__dirname, '../../../../../../uploads');
 
 const storage = multer.diskStorage({

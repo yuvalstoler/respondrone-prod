@@ -134,7 +134,7 @@ export class ApiManager implements IRest {
     // ----------------------
     private delete = (request: Request, response: Response) => {
 
-        const id = _.get(request.query, 'id');
+        const id = _.get(request.params, 'id');
 
         if (id) {
             const body: any = {};
@@ -172,7 +172,7 @@ export class ApiManager implements IRest {
     // ----------------------
     private getLast = (request: Request, response: Response) => {
 
-        const currentVersion = parseInt(_.get(request.query, 'currentVersion'), 0);
+        const currentVersion = parseInt(_.get(request.params, 'currentVersion'), 0);
 
         if (Number.isFinite(currentVersion)) {
             DbManager.requests({'collectionVersion': {$gt : currentVersion}})

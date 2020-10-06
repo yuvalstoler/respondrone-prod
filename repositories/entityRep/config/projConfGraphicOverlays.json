@@ -10,8 +10,8 @@
     "routes": {
       "insert": "/insertNewGraphicOverlay",
       "update": "/updateGraphicOverlay",
-      "getLast": "/getLastGraphicOverlays",
-      "delete": "/deleteGraphicOverlay"
+      "getLast": "/getLastGraphicOverlays/:currentVersion",
+      "delete": "/deleteGraphicOverlay/:id"
     },
     "entityArrKey": "graphicOverlays"
   },
