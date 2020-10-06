@@ -1,0 +1,19 @@
+<div class="ConfirmContainer">
+  <div mat-dialog-content class="ConfirmContent">
+    <mat-icon class="ConfirmIcon">
+      error
+    </mat-icon>
+    <p>
+      Are you sure{{data}}?
+    </p>
+  </div>
+  <div mat-dialog-actions class="ConfirmButtons">
+    <button mat-raised-button class="ConfirmButtonCancel"
+            (click)="onNoClick()">Cancel
+    </button>
+    <button mat-raised-button class="ConfirmButtonDelete"
+            [mat-dialog-close]="true"
+    >Delete
+    </button>
+  </div>
+</div>

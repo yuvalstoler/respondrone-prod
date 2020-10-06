@@ -93,7 +93,7 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['select', 'id', 'eventTitle', 'source', 'priority', 'type', 'description', 'time', 'createdBy',
     'message', 'link', 'map'];
-  // dataSource: EventsSituation[] = [];
+  // dataSource: ReportsSituation[] = [];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   selectedData: any;
   expandedElement: ReportsSituation;

@@ -1,9 +1,29 @@
+@import "../../../../../../styles/colors";
+
 table {
   width: 100%;
 }
 
+.selected {
+  background-color: $darkGrey !important;
+
+  ::ng-deep.mat-cell, .mat-footer-cell {
+    color: $white !important;
+  }
+
+  ::ng-deep.mat-checkbox-frame  {
+    //border-color: $white;
+    background-color: $gray
+  }
+}
+
+th{
+  background-color: $gray;
+}
+
 th.mat-sort-header-sorted {
-  color: black;
+  color: $black;
+
 }
 
 tr.example-detail-row {
@@ -11,11 +31,11 @@ tr.example-detail-row {
 }
 
 tr.example-element-row:not(.example-expanded-row):hover {
-  background: whitesmoke;
+  background: $lightGray;
 }
 
 tr.example-element-row:not(.example-expanded-row):active {
-  background: #efefef;
+  background: $lightGray;
 }
 
 .example-element-row td {
