@@ -140,7 +140,7 @@ export class ApiManager implements IRest {
     // ----------------------
     private delete = (request: Request, response: Response) => {
 
-        const id = _.get(request.query, 'id');
+        const id = _.get(request.params, 'id');
 
         if (id) {
             DbManager.delete({id: id})
@@ -214,7 +214,7 @@ export class ApiManager implements IRest {
         [routes.getAll]:           this.getAll,
 
         '/insertDiscovery':         this.insert,
-        '/deleteDiscovery':         this.delete,
+        '/deleteDiscovery/:id':     this.delete,
 
     };
 
