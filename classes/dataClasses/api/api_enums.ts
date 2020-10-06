@@ -17,6 +17,8 @@ export enum DBS_API {
 
 export enum REPORT_API {
     createReport = '/createReport',
+    createReportExternal = '/createReportExternal',
+
     readReport = '/readReport',
     readAllReport = '/readAllReport',
     deleteReport = '/deleteReport',

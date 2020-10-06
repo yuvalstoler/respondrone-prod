@@ -1,1 +1,0 @@
-MWS - Mobile Web Server

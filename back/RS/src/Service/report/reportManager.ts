@@ -102,42 +102,70 @@ export class ReportManager {
 
     private createReport = (reportData: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
         return new Promise((resolve, reject) => {
+
+
+
             const res: ASYNC_RESPONSE = {success: false};
             const newReport: Report = new Report(reportData);
 
 
-            // RequestManager.requestToMWS(MWS_API.updateAllReports, newReport.toJsonForSave())
-            //     .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
-            //         if ( data.success ) {
-            //             res.data = data.data;
-            //             res.success = true;
-            //             const newReportCreated: Report = new Report(data.data);
-            //             this.reports.push(newReportCreated);
-            //         }
-            //
-            //     })
-            //     .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
-            //         console.log(data);
-            //     });
             RequestManager.requestToDBS(REPORT_API.createReport, newReport.toJsonForSave())
                 .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                    res.data = data.data;
+                    res.success = data.success;
+                    res.description = data.description;
                     if ( data.success ) {
-                        res.data = data.data;
-                        res.success = true;
+                        const newReportCreated: Report = new Report(data.data);
+                        this.reports.push(newReportCreated);
+
+                        //todo
+                        UpdateListenersManager.updateReportListeners();
+
+                    }
+                    resolve(res);
+                })
+                .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                    console.log(data);
+                    reject(data);
+                });
+
+
+
+
+        });
+    }
+
+    private createReportExternal = (reportData: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
+        return new Promise((resolve, reject) => {
+
+
+
+            const res: ASYNC_RESPONSE = {success: false};
+            const newReport: Report = new Report(reportData);
+
+
+            RequestManager.requestToDBS(REPORT_API.createReport, newReport.toJsonForSave())
+                .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                    res.data = data.data;
+                    res.success = data.success;
+                    res.description = data.description;
+                    if ( data.success ) {
                         const newReportCreated: Report = new Report(data.data);
                         this.reports.push(newReportCreated);
                         UpdateListenersManager.updateReportListeners();
 
+
+                        //todo start get media process
+
                     }
+                    resolve(res);
                 })
                 .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                     console.log(data);
-
+                    reject(data);
                 });
-            res.data = newReport.toJsonForSave();
-            res.success = true;
-            //    todo send to listeners
-            resolve(res);
+
+
 
         });
     }
@@ -227,6 +255,7 @@ export class ReportManager {
     public static getReport = ReportManager.instance.getReportsDATA;
 
     public static createReport = ReportManager.instance.createReport;
+    public static createReportExternal = ReportManager.instance.createReportExternal;
     public static updateReport = ReportManager.instance.updateReport;
 
     public static readReport = ReportManager.instance.readReport;

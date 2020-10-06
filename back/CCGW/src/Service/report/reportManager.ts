@@ -1,12 +1,11 @@
-import { Converting } from "../../../../../classes/applicationClasses/utility/converting";
-
 const _ = require('lodash');
+
+import { Converting } from '../../../../../classes/applicationClasses/utility/converting';
 
 import { Report } from '../../../../../classes/dataClasses/report/report';
 
 import {
     REPORT_API,
-    RS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 
 import { RequestManager } from '../../AppService/restConnections/requestManager';
@@ -48,6 +47,7 @@ export class ReportManager {
                 console.log('error getReportsFromRS', JSON.stringify(data));
             });
     };
+
     private getReports = (): REPORT_DATA[] => {
         const res: REPORT_DATA[] = [];
         this.reports.forEach((report: Report) => {
@@ -67,16 +67,12 @@ export class ReportManager {
 
         });
     }
+
     private newReport = (reportData: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
         return new Promise((resolve, reject) => {
-            const res: ASYNC_RESPONSE = {success: false};
-            const newReport: Report = new Report(reportData);
-
-            const newReportDataJson: REPORT_DATA = newReport.toJsonForSave();
-            res.data = newReportDataJson;
-            res.success = true;
+            // const res: ASYNC_RESPONSE = {success: false};
             //    todo send to RS
-            RequestManager.requestToRS(REPORT_API.createReport, newReportDataJson)
+            RequestManager.requestToRS(REPORT_API.createReport, reportData)
                 .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                     resolve(data);
                 })
