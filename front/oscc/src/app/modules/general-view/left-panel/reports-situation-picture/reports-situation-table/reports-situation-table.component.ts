@@ -3,8 +3,9 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatSort} from '@angular/material/sort';
+import {MAP} from '../../../../../../types';
 
-export interface EventsSituation {
+export interface ReportsSituation {
   id: string;
   source: string;
   priority: string;
@@ -18,12 +19,12 @@ export interface EventsSituation {
   attachment: string;
 
   descriptionAll: string;
-  comments: Array<{source: string, time: number, text: string}>;
-  linkedreports: Array<{ID: number, Type: string, Description: string, Time: number}>;
+  comments: Array<{ source: string, time: number, text: string }>;
+  linkedreports: Array<{ ID: number, Type: string, Description: string, Time: number }>;
   media: Array<any>;
 }
 
-const ELEMENT_DATA: EventsSituation[] = [
+const ELEMENT_DATA: ReportsSituation[] = [
   {
     id: '1000', source: 'FF133', priority: 'warning', type: 'type',
     description: '1', time: 10, createdBy: 'John Blake', message: 'message', link: 'link', map: 'map',
@@ -118,13 +119,13 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['select', 'id', 'source', 'priority', 'type', 'description', 'time', 'createdBy',
     'message', 'link', 'map', 'attachment'];
 
-  // displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource</*EventsSituation*/ any>(ELEMENT_DATA);
-  expandedElement: EventsSituation;
-  selection = new SelectionModel<EventsSituation>(true, []);
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  dataSource = new MatTableDataSource</*ReportsSituation*/ any>(ELEMENT_DATA);
+  expandedElement: MAP<ReportsSituation> = {};
+  selection = new SelectionModel<ReportsSituation>(true, []);
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
 
@@ -135,8 +136,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
   }
 
   private selectRow = (element): void => {
-    // this.selectedData = aircraft;
-    this.expandedElement = this.expandedElement === element ? null : element;
+    // this.expandedElement = this.expandedElement === element ? null : element;
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -159,6 +159,16 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
     return numSelected === numRows;
   }
 
+  onChangeAllSelected = (event) => {
+    // if (numSelected === numRows) {
+      this.dataSource.data.forEach(row => {
+        this.onChangeCheckbox(event, row);
+      });
+    // }
+
+    return event ? this.masterToggle() : null;
+  };
+
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
@@ -170,13 +180,21 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: EventsSituation): string {
+  checkboxLabel(row?: ReportsSituation): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
 
-
+  onChangeCheckbox = (event, row: ReportsSituation) => {
+    if (event.checked) {
+      this.expandedElement[row.id] = this.expandedElement[row.id] || null;
+      this.expandedElement[row.id] = row;
+    } else {
+      this.expandedElement[row.id] = null;
+    }
+    return event ? this.selection.toggle(row) : null;
+  }
 
 }

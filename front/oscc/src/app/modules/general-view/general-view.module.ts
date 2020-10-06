@@ -89,13 +89,16 @@ import {MatSortModule} from '@angular/material/sort';
     LeftNarrowPanelComponent,
     EventPanelComponent,
     LinkedReportsTableComponent,
-    ReportMediaComponent
+    ReportMediaComponent,
+    ViewMediaComponent,
+    ReportsSituationTableComponent,
+    ReportPanelComponent
   ],
   providers: [
     PolygonsEditorService,
     ViewerConfiguration
   ],
-  entryComponents: [ViewMediaComponent]
+  entryComponents: []
 })
 export class GeneralViewModule {
 
