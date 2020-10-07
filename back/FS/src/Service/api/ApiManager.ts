@@ -34,7 +34,7 @@ export class ApiManager implements IRest {
         FileManager.uploadFile(request, response);
     }
     // ----------------------
-    private removeFile = (request, response: Response) => {
+    private removeFile = (request: Request, response: Response) => {
         let res: ASYNC_RESPONSE = {success: false};
 
         const mediaData = request.body;
@@ -67,7 +67,7 @@ export class ApiManager implements IRest {
     routers = {
         [FS_API.uploadFile]: this.uploadFile,
         [FS_API.removeFile]: this.removeFile,
-        [FS_API.file]: this.getFile,
+        [FS_API.getFile]: this.getFile,
         [FS_API.getFileForSave]: this.getFileForSave,
     };
 

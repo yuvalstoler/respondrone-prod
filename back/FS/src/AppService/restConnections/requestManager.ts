@@ -22,8 +22,8 @@ export class RequestManager {
     public static requestToCCG = (path: string, bodyObj: object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_CCG, CCG_API.general + path, bodyObj, timeout_AV);
     }
-    public static uploadFileToCCG = (req: Request, res: Response, formData: object) => {
-        return RequestManager.uploadFile(req, res, url_CCG, CCG_API.general + CCG_API.uploadFileToMG, formData);
+    public static uploadFileToCCG = (formData: object) => {
+        return RequestManager.uploadFile(url_CCG, CCG_API.general + CCG_API.uploadFileToMG, formData);
     }
 
 
@@ -74,7 +74,7 @@ export class RequestManager {
 
     }
 
-    public static uploadFile(req, res, url, path, formData, timeout: number = timeout_File) {
+    public static uploadFile( url, path, formData, timeout: number = timeout_File) {
         request({
             url: `${url}/${path}`,
             method: 'POST',
@@ -83,9 +83,9 @@ export class RequestManager {
             // timeout: timeout,
         }, (error, resp, body) => {
             if (error || !body || body.error) {
-                res.send({success: false, data: error});
+                // res.send({success: false, data: error});
             } else {
-                res.send(body);
+                // res.send(body);
             }
         });
     }

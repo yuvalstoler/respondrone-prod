@@ -22,7 +22,8 @@ import {
 import {
     FS_API,
     MWS_API,
-    REPORT_API
+    REPORT_API,
+    WS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 import {FileManager} from '../file/fileManager';
@@ -184,7 +185,7 @@ export class ApiManager implements IRest {
         [REPORT_API.deleteReport]: this.deleteReport,
         [REPORT_API.deleteAllReport]: this.deleteAllReport,
 
-        [FS_API.uploadFile]: this.uploadFile,
+        [WS_API.uploadFile]: this.uploadFile,
         [FS_API.removeFile]: this.removeFile,
 
     };

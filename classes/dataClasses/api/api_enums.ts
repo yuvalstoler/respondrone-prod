@@ -82,7 +82,7 @@ export enum FS_API {
     general = 'api',
     uploadFile = '/uploadFile',
     removeFile = '/removeFile',
-    file = '/file/:id',
+    getFile = '/file/:id',
     getFileForSave = '/getFileForSave',
 }
 

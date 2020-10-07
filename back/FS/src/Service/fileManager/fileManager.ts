@@ -151,7 +151,7 @@ export class FileManager {
             const formData = {
                 files: fs.createReadStream(path.join(uploadsPath, `${id}`))
             };
-            RequestManager.uploadFileToCCG(request, response, formData);
+            RequestManager.uploadFileToCCG(formData);
             response.send({success: true});
         }
         else {
