@@ -12,7 +12,7 @@
       "description": "Overlay name"
     },
     "shape": {
-      "oneOf": [
+      "anyOf": [
         {
           "items": {
             "title": "GeoPoint",
