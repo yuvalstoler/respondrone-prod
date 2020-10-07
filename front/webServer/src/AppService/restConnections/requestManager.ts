@@ -1,8 +1,9 @@
 const request = require('request');
+const http = require('http');
 
 import {
     AMS_API,
-    ES_API,
+    ES_API, FS_API,
     RS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 
@@ -16,8 +17,11 @@ const projConf = require('./../../../../../../../../config/projConf.json');
 const url_ES = services.ES.protocol + '://' + services.ES.host + ':' + services.ES.port;
 
 const url_RS = services.RS.protocol + '://' + services.RS.host + ':' + services.RS.port;
+const url_FS = services.FS.protocol + '://' + services.FS.host + ':' + services.FS.port;
 
 const timeout_AV = projConf.timeOutREST;
+const timeout_File = 10 * 60 * 1000; // TODO ??
+
 
 export class RequestManager {
 
@@ -28,6 +32,13 @@ export class RequestManager {
 
     public static requestToRS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_RS, RS_API.general + path, bodyObj, timeout_AV);
+    };
+
+    public static requestToFS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_FS, FS_API.general + path, bodyObj, timeout_AV);
+    };
+    public static uploadFileToFS = (req: Request, res: Response) => {
+        return RequestManager.uploadFile(req, res, {host: services.FS.host, port: services.FS.port, path: `/${FS_API.general}${FS_API.uploadFile}`});
     };
 
 
@@ -77,6 +88,24 @@ export class RequestManager {
 
         });
 
+    }
+
+    public static uploadFile(req, res, urlObj: {host: string, port: number, path: string}, timeout: number = timeout_File) {
+        const httpReq = http.request({
+            host: urlObj.host,
+            port: urlObj.port,
+            path: urlObj.path,
+            method: 'POST',
+            headers: req.headers,
+            // timeout: timeout,
+        }, (resMessage) => {
+            resMessage.pipe(res);
+        });
+
+        req.pipe(httpReq);
+        // httpReq.on('response', (resMessage) => {
+        //     console.log(resMessage.statusCode);
+        // });
     }
 
     public static validURL = (string) => {

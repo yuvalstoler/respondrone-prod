@@ -53,7 +53,12 @@
     "host": "localhost",
     "protocol": "http"
   },
-  
+  "CCG": {
+    "port": "6800",
+    "host": "localhost",
+    "protocol": "http"
+  },
+
   "webServer": {
     "port": "5000",
     "host": "localhost",

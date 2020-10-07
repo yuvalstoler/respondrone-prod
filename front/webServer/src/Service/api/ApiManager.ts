@@ -20,10 +20,12 @@ import {
 
 
 import {
+    FS_API,
     MWS_API,
     REPORT_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
+import {FileManager} from '../file/fileManager';
 
 
 export class ApiManager implements IRest {
@@ -151,6 +153,25 @@ export class ApiManager implements IRest {
         // });
     };
 
+    private uploadFile = (request: Request, response: Response) => {
+        FileManager.uploadFile(request, response);
+    };
+
+    private removeFile = (request: Request, response: Response) => {
+        let res: ASYNC_RESPONSE = {success: false};
+
+        FileManager.removeFile(request.body)
+            .then((data: ASYNC_RESPONSE) => {
+                res = data;
+                response.send(res);
+            })
+            .catch((data) => {
+                res = data;
+                response.send(res);
+            });
+
+    };
+
 
     routers: {} = {
         [MWS_API.getVideoSources]: this.getVideoSources,
@@ -163,7 +184,8 @@ export class ApiManager implements IRest {
         [REPORT_API.deleteReport]: this.deleteReport,
         [REPORT_API.deleteAllReport]: this.deleteAllReport,
 
-
+        [FS_API.uploadFile]: this.uploadFile,
+        [FS_API.removeFile]: this.removeFile,
 
     };
 

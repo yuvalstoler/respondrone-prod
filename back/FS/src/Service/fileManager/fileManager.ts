@@ -1,5 +1,6 @@
 import {Request, Response} from 'express';
 import {ASYNC_RESPONSE, MEDIA_DATA, MEDIA_TYPE} from '../../../../../classes/typings/all.typings';
+import {RequestManager} from '../../AppService/restConnections/requestManager';
 
 const path = require('path');
 const _ = require('lodash');
@@ -41,7 +42,7 @@ export class FileManager {
 
 
     // ----------------------
-    private upload = (request, response: Response) => {
+    private uploadFile = (request, response: Response) => {
         const res: ASYNC_RESPONSE<MEDIA_DATA> = {success: false};
 
         upload(request, response, (err) => {
@@ -101,7 +102,7 @@ export class FileManager {
         });
     }
     // ----------------------
-    private remove = (mediaData: MEDIA_DATA): Promise<ASYNC_RESPONSE> => {
+    private removeFile = (mediaData: MEDIA_DATA): Promise<ASYNC_RESPONSE> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
             fs.unlink(path.join(uploadsPath, `${mediaData.id}`), (err) => {
@@ -143,13 +144,27 @@ export class FileManager {
             }
         });
     }
-
+    // ----------------------
+    private getFileForSave = (request: Request, response: Response) => {
+        const id = request.body.id;
+        if (id) {
+            const formData = {
+                files: fs.createReadStream(path.join(uploadsPath, `${id}`))
+            };
+            RequestManager.uploadFileToCCG(request, response, formData);
+            response.send({success: true});
+        }
+        else {
+            response.send({success: false, data: 'Missing id'});
+        }
+    }
     // ---------------------------
 
     // region API uncions
-    public static upload = FileManager.instance.upload;
-    public static remove = FileManager.instance.remove;
+    public static uploadFile = FileManager.instance.uploadFile;
+    public static removeFile = FileManager.instance.removeFile;
     public static getFile = FileManager.instance.getFile;
+    public static getFileForSave = FileManager.instance.getFileForSave;
     // endregion API uncions
 
 }

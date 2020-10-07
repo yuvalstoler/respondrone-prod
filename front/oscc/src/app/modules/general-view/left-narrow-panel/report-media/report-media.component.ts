@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient, HttpEventType, HttpHeaders} from '@angular/common/http';
 import {ConnectionService} from '../../../../services/connectionService/connection.service';
 import {retry} from 'rxjs/operators';
@@ -8,6 +8,7 @@ import {MEDIA_DATA} from '../../../../../../../../classes/typings/all.typings';
 
 
 export type PROGRESS_INFO = {
+  id: number;
   percent: number;
   observer: any;
 };
@@ -17,11 +18,11 @@ export type PROGRESS_INFO = {
   templateUrl: './report-media.component.html',
   styleUrls: ['./report-media.component.scss']
 })
-export class ReportMediaComponent implements OnInit {
+export class ReportMediaComponent implements OnInit, OnDestroy {
 
   @Input() media: MEDIA_DATA[] = [];
 
-  formats = ['.jpg', '.png', '.mp4'];
+  formats = 'image/*,video/*'; // ['.jpg', '.png', '.mp4'];
   progressInfos: PROGRESS_INFO[] = [];
   file;
 
@@ -58,35 +59,36 @@ export class ReportMediaComponent implements OnInit {
         observe: 'events'
       };
 
-      const index = this.progressInfos.length;
-      this.progressInfos.push({percent: 0, observer: undefined});
-
-      this.progressInfos[index].observer = this.connectionService.postTMP('/api/uploadFile', formData, options)
-        .pipe(retry(3))
-        .subscribe((event: any) => {
-            if (event.type === HttpEventType.UploadProgress) {
-              this.progressInfos[index].percent = Math.round((event.loaded / event.total) * 99);
-            } else if (event.type === HttpEventType.Response) {
-              this.progressInfos[index].percent = 100;
-              const mediaData: MEDIA_DATA = event.body.data;
-              // TODO save mediaData in report
-              // this.progressInfos.splice(index, 1);
-            }
-          },
+      const data: PROGRESS_INFO = {id: Date.now(), percent: 0, observer: undefined};
+      data.observer = this.connectionService.postObservable('/api/uploadFile', formData, options)
+        .subscribe(
+          (event: any) => {
+              if (event.type === HttpEventType.UploadProgress) {
+                data.percent = Math.round((event.loaded / event.total) * 99);
+              } else if (event.type === HttpEventType.Response) {
+                data.percent = 100;
+                if (event.body.success) {
+                  const mediaData: MEDIA_DATA = event.body.data;
+                  // TODO save mediaData in report
+                }
+                this.removeProgressInfo(data.id);
+              }
+            },
           (err) => {
-            console.log('error uploading file', err);
-            // this.progressInfos.splice(index, 1);
+              console.log('error uploading file', err);
+              this.removeProgressInfo(data.id);
           });
+      this.progressInfos.unshift(data);
     }
   };
   // ------------------
-  cancelUpload = (index: number) => {
-    this.progressInfos[index].observer.unsubscribe();
-    // this.progressInfos.splice(index, 1);
+  cancelUpload = (data: PROGRESS_INFO) => {
+    data.observer.unsubscribe();
+    this.removeProgressInfo(data.id);
   }
   // ------------------
   deleteFile = (data: MEDIA_DATA) => {
-    this.connectionService.postTMP('/api/removeFile', {data: data})
+    this.connectionService.postObservable('/api/removeFile', data)
       .subscribe((res: any) => {
          if (!res.success) {
            console.log('error deleting file', res.data);
@@ -95,6 +97,13 @@ export class ReportMediaComponent implements OnInit {
         (err) => {
           console.log('error deleting file', err);
         });
+  }
+  // -----------------
+  removeProgressInfo = (id: number) => {
+    const index = this.progressInfos.findIndex((data: PROGRESS_INFO) => data.id === id);
+    if (index !== -1) {
+      this.progressInfos.splice(index, 1);
+    }
   }
   // -------------------
   onImage = (data: MEDIA_DATA) => {
@@ -126,5 +135,11 @@ export class ReportMediaComponent implements OnInit {
   // -----------------------
   isAllowNext = () => {
     return (this.currentPage < Math.ceil((this.media.length + this.progressInfos.length) / this.itemsInPage) - 1);
+  }
+  // -----------------------
+  ngOnDestroy(): void {
+    this.progressInfos.forEach((data: PROGRESS_INFO) => {
+      data.observer.unsubscribe();
+    });
   }
 }

@@ -75,7 +75,7 @@ export enum CCG_API {
     general = 'api',
     newReport = '/newReport',
     getVideoSources = '/getVideoSources',
-
+    uploadFileToMG = '/uploadFileToMG'
 }
 
 export enum FS_API {
@@ -83,6 +83,7 @@ export enum FS_API {
     uploadFile = '/uploadFile',
     removeFile = '/removeFile',
     file = '/file/:id',
+    getFileForSave = '/getFileForSave',
 }
 
 export enum WS_API {

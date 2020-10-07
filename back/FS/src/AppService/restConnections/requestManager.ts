@@ -1,10 +1,8 @@
 const request = require('request');
+import {Request, Response} from 'express';
 
 import {
-    AMS_API,
-    DBS_API,
-    LS_API,
-    RS_API
+    CCG_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 
 
@@ -13,41 +11,20 @@ import { ASYNC_RESPONSE } from '../../../../../classes/typings/all.typings';
 const services = require('./../../../../../../../../config/services.json');
 const projConf = require('./../../../../../../../../config/projConf.json');
 
-const url_AMS = services.AMS.protocol + '://' + services.AMS.host + ':' + services.AMS.port;
-const url_routeService = services.routeService.protocol + '://' + services.routeService.host + ':' + services.routeService.port;
-const url_FCS = services.droneService.protocol + '://' + services.droneService.host + ':' + services.droneService.port;
-const url_GCS = services.gimbalService.protocol + '://' + services.gimbalService.host + ':' + services.gimbalService.port;
-
-
-const url_DBS = services.DBS.protocol + '://' + services.DBS.host + ':' + services.DBS.port;
-
 const timeout_AV = projConf.timeOutREST;
-const timeout_WS_FCS = projConf.timeOutREST;
-const timeOutREST = projConf.timeOutREST;
-const isUseDBS = true;
+const timeout_File = 10 * 60 * 1000; // TODO ??
 
-
-const url_DTM_Service = services.DTMS.protocol + '://' + services.DTMS.host + ':' + services.DTMS.port;
-const url_LS_Service = services.logService.protocol + '://' + services.logService.host + ':' + services.logService.port;
-
-
-const logServerAlpha = services.logServerAlpha;
-const logServerDji = services.logServerDji;
+const url_CCG = services.CCG.protocol + '://' + services.CCG.host + ':' + services.CCG.port;
 
 export class RequestManager {
 
-    public static requestToAMS_API = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
-        return RequestManager.sendRestRequest(url_AMS, AMS_API.general + path, bodyObj, timeout_AV);
-    };
 
-
-
-    public static requestToDTMS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
-        return RequestManager.sendRestRequest(url_DTM_Service, path, bodyObj, timeOutREST);
-    };
-
-
-
+    public static requestToCCG = (path: string, bodyObj: object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_CCG, CCG_API.general + path, bodyObj, timeout_AV);
+    }
+    public static uploadFileToCCG = (req: Request, res: Response, formData: object) => {
+        return RequestManager.uploadFile(req, res, url_CCG, CCG_API.general + CCG_API.uploadFileToMG, formData);
+    }
 
 
     public static sendRestRequest(url: string, path: string, bodyObj: Object, timeout: number): Promise<ASYNC_RESPONSE> {
@@ -95,6 +72,22 @@ export class RequestManager {
 
         });
 
+    }
+
+    public static uploadFile(req, res, url, path, formData, timeout: number = timeout_File) {
+        request({
+            url: `${url}/${path}`,
+            method: 'POST',
+            formData: formData,
+            json: true
+            // timeout: timeout,
+        }, (error, resp, body) => {
+            if (error || !body || body.error) {
+                res.send({success: false, data: error});
+            } else {
+                res.send(body);
+            }
+        });
     }
 
     public static validURL = (string) => {
