@@ -1,11 +1,10 @@
 <div>
   <!--Header-->
   <div class="HeaderLeftPanel">
-    <div class="LeftSideButton" >Search</div>
-    <!--<mat-form-field class="LeftSideButton">-->
-    <!--<mat-label>Filter</mat-label>-->
-    <!--<input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>-->
-    <!--</mat-form-field>-->
+    <div class="LeftSideButton">
+    <mat-icon>search</mat-icon>
+    <input matInput (keyup)="getFilter($event)" #input>
+    </div>
   </div>
 
   <div class="HeaderRightPanel">

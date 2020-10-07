@@ -1,12 +1,13 @@
-<!--<mat-sidenav-container class="RightPanelContainer">-->
-  <!--<mat-sidenav-content class="RightPanelContent">-->
-    <!--gfrhjtdkg-->
-  <!--</mat-sidenav-content>-->
-<!--</mat-sidenav-container>-->
+
 <div>
   <!--Header-->
   <div>
-    <div class="LeftPanelX" (click)="closeSituationPicture()">X</div>
+    <div class="LeftPanelX" >
+      <button mat-icon-button (click)="closeSituationPicture()">
+        <mat-icon>{{panelIcon}}</mat-icon>
+      </button>
+    </div>
+
     <mat-tab-group animationDuration="0ms">
       <!--Events-->
       <mat-tab label="Events">

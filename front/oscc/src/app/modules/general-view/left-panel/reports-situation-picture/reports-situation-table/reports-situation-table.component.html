@@ -1,9 +1,9 @@
 <div>
 
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-  </mat-form-field>
+  <!--<mat-form-field>-->
+    <!--<mat-label>Filter</mat-label>-->
+    <!--<input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>-->
+  <!--</mat-form-field>-->
 
   <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort class="mat-elevation-z8">
     <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns; let i = index">

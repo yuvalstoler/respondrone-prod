@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
@@ -126,7 +126,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
   selection = new SelectionModel<ReportsSituation>(true, []);
   // selectedRow: ReportsSituation = undefined;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
-
+  // @ViewChild() applyFilter;
   constructor(private applicationService: ApplicationService) {
   }
 
@@ -149,35 +149,35 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
     return res;
   };
 
-  applyFilter(event: Event) {
+  applyFilter = (event: Event) => {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
+  };
 
   /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
+  isAllSelected = () => {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
-  }
+  };
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
+  masterToggle = () => {
     this.isAllSelected() ?
       this.selection.clear() :
       this.dataSource.data.forEach(row => {
           this.selection.select(row);
         }
       );
-  }
+  };
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: ReportsSituation): string {
+  checkboxLabel = (row?: ReportsSituation): string => {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
-  }
+  };
 
   onChangeAllSelected = (event) => {
     if (event.checked) {

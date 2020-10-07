@@ -17,4 +17,9 @@ export type DISPLAY_ON_SCREEN = {
   showReportPanel: boolean;
 };
 
+export enum LEFT_PANEL_ICON {
+  minimize = 'close',
+  expand = 'arrow_forward_ios'
+}
+
 

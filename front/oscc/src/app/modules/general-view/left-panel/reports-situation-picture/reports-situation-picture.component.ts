@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApplicationService} from '../../../../services/applicationService/application.service';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../../../../dialogs/confirm-dialog/confirm-dialog.component';
+import {ReportsSituationTableComponent} from './reports-situation-table/reports-situation-table.component';
 
 @Component({
   selector: 'app-reports-situation-picture',
@@ -9,6 +10,9 @@ import {ConfirmDialogComponent} from '../../../../dialogs/confirm-dialog/confirm
   styleUrls: ['./reports-situation-picture.component.scss']
 })
 export class ReportsSituationPictureComponent implements OnInit {
+
+  @ViewChild(ReportsSituationTableComponent ) childComponent: ReportsSituationTableComponent ;
+
 
   constructor(public applicationService: ApplicationService,
               public dialog: MatDialog) { }
@@ -49,6 +53,10 @@ export class ReportsSituationPictureComponent implements OnInit {
       // todo:  delete data
       }
     });
+  };
+
+  getFilter = (event) => {
+    this.childComponent.applyFilter(event);
   };
 
 }
