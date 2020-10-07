@@ -82,11 +82,11 @@ export class RequestManager {
             json: true
             // timeout: timeout,
         }, (error, resp, body) => {
-            if (error || !body || body.error) {
-                res.send({success: false, data: error});
-            } else {
-                res.send(body);
-            }
+            // if (error || !body || body.error) {
+            //     res.send({success: false, data: error});
+            // } else {
+            //     res.send(body);
+            // }
         });
     }
 

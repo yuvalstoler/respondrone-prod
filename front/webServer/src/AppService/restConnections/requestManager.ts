@@ -1,5 +1,5 @@
 const request = require('request');
-const http = require('http');
+import {Request, Response} from 'express';
 
 import {
     AMS_API,
@@ -38,7 +38,7 @@ export class RequestManager {
         return RequestManager.sendRestRequest(url_FS, FS_API.general + path, bodyObj, timeout_AV);
     };
     public static uploadFileToFS = (req: Request, res: Response) => {
-        return RequestManager.uploadFile(req, res, {host: services.FS.host, port: services.FS.port, path: `/${FS_API.general}${FS_API.uploadFile}`});
+        return RequestManager.uploadFile(req, res, url_FS, FS_API.general + FS_API.uploadFile);
     };
 
 
@@ -90,22 +90,23 @@ export class RequestManager {
 
     }
 
-    public static uploadFile(req, res, urlObj: {host: string, port: number, path: string}, timeout: number = timeout_File) {
-        const httpReq = http.request({
-            host: urlObj.host,
-            port: urlObj.port,
-            path: urlObj.path,
+    public static uploadFile(req: Request, res: Response, url: string, path: string, timeout: number = timeout_File) {
+
+        const options = {
+            url: `${url}/${path}`,
             method: 'POST',
+            json: true,
             headers: req.headers,
             // timeout: timeout,
-        }, (resMessage) => {
-            resMessage.pipe(res);
-        });
+        };
+        const httpReq = request(options)
+            .on('response', (resMessage)  => {
+                resMessage.pipe(res);
+                // console.log(response.statusCode) // 200
+                // console.log(response.headers['content-type']) // 'image/png'
+            });
 
         req.pipe(httpReq);
-        // httpReq.on('response', (resMessage) => {
-        //     console.log(resMessage.statusCode);
-        // });
     }
 
     public static validURL = (string) => {

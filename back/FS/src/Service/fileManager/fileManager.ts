@@ -7,6 +7,7 @@ const _ = require('lodash');
 const multer = require('multer');
 const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
+const FormData = require('form-data');
 const services = require('./../../../../../../../../config/services.json');
 
 
@@ -153,6 +154,13 @@ export class FileManager {
             };
             RequestManager.uploadFileToCCG(request, response, formData);
             response.send({success: true});
+
+            // const form = new FormData();
+            // form.append('files', fs.createReadStream(path.join(uploadsPath, `${id}`)));
+            // response.setHeader('x-Content-Type', 'multipart/form-data; boundary=' + form._boundary);
+            // response.setHeader('Content-Type', 'text/plain');
+            // form.pipe(response);
+
         }
         else {
             response.send({success: false, data: 'Missing id'});
