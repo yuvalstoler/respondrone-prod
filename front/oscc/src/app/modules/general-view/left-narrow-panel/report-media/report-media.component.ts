@@ -83,7 +83,7 @@ export class ReportMediaComponent implements OnInit {
   cancelUpload = (index: number) => {
     this.progressInfos[index].observer.unsubscribe();
     // this.progressInfos.splice(index, 1);
-  }
+  };
   // ------------------
   deleteFile = (data: MEDIA_DATA) => {
     this.connectionService.postTMP('/api/removeFile', {data: data})
@@ -95,7 +95,7 @@ export class ReportMediaComponent implements OnInit {
         (err) => {
           console.log('error deleting file', err);
         });
-  }
+  };
   // -------------------
   onImage = (data: MEDIA_DATA) => {
     const dialogRef = this.dialog.open(ViewMediaComponent, {
@@ -105,26 +105,30 @@ export class ReportMediaComponent implements OnInit {
 
     // dialogRef.afterClosed().subscribe(result => {
     // });
-  }
+  };
   // ---------------------
   next = () => {
     this.currentPage++;
-  }
+  };
   // ---------------------
   prev = () => {
     this.currentPage--;
-  }
+  };
   // ----------------------
   isShowImage = (indexInMedia: number) => {
     const index = indexInMedia + this.progressInfos.length;
     return (index >= this.itemsInPage * this.currentPage && index < this.itemsInPage * this.currentPage + this.itemsInPage);
-  }
+  };
   // ----------------------
   isShowProgress = (index: number) => {
     return (index >= this.itemsInPage * this.currentPage && index < this.itemsInPage * this.currentPage + this.itemsInPage);
-  }
+  };
   // -----------------------
-  isAllowNext = () => {
-    return (this.currentPage < Math.ceil((this.media.length + this.progressInfos.length) / this.itemsInPage) - 1);
+  isAllowNext = (): boolean => {
+    let res: boolean;
+    if (Array.isArray(this.media) && this.media.length > 0) {
+      res = (this.currentPage < Math.ceil((this.media.length + this.progressInfos.length) / this.itemsInPage) - 1);
+    }
+    return res;
   }
 }

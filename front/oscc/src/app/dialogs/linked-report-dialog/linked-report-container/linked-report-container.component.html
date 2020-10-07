@@ -1,0 +1,18 @@
+<div>
+  <!--Header-->
+  <div class="HeaderLeftPanel">
+    <div class="LeftSideButton">
+      <mat-icon>search</mat-icon>
+      <input matInput (keyup)="getFilter($event)" #input>
+    </div>
+  </div>
+
+  <div class="HeaderRightPanel">
+    <div class="RightSideButton" (click)="onCreateNewReport()">Create New Report</div>
+  </div>
+  <!--Table-->
+  <div>
+    <app-linked-report-table></app-linked-report-table>
+  </div>
+</div>
+

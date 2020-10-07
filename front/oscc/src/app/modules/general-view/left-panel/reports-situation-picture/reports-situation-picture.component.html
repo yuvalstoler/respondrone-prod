@@ -8,10 +8,14 @@
   </div>
 
   <div class="HeaderRightPanel">
-    <div class="RightSideButton" *ngIf="applicationService.selectedReport !== undefined" (click)="onArchiveReport()">Archive</div>
-    <div class="RightSideButton" *ngIf="applicationService.selectedReport !== undefined" (click)="onEditReport()">Edit</div>
-    <div class="RightSideButton" *ngIf="applicationService.selectedReport !== undefined" (click)="onDeleteReport()">Delete</div>
-    <div class="RightSideButton" (click)="onCreateNewReport()">Create New Report</div>
+    <div class="RightSideButton" *ngIf="applicationService.selectedReport !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         (click)="onArchiveReport()">Archive</div>
+    <div class="RightSideButton" *ngIf="applicationService.selectedReport !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         (click)="onEditReport()">Edit</div>
+    <div class="RightSideButton" *ngIf="applicationService.selectedReport !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         (click)="onDeleteReport()">Delete</div>
+    <div class="RightSideButton" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         (click)="onCreateNewReport()">Create New Report</div>
   </div>
   <!--Table-->
   <div>

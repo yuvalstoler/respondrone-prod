@@ -18,8 +18,8 @@ export type DISPLAY_ON_SCREEN = {
 };
 
 export enum LEFT_PANEL_ICON {
-  minimize = 'close',
-  expand = 'arrow_forward_ios'
+  minimize = 'arrow_forward_ios',
+  expand = 'close'
 }
 
 

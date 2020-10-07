@@ -26,6 +26,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import {MatIconModule} from '@angular/material/icon';
+import { LinkedReportDialogComponent } from './dialogs/linked-report-dialog/linked-report-dialog.component';
+import { LinkedReportContainerComponent } from './dialogs/linked-report-dialog/linked-report-container/linked-report-container.component';
+import { LinkedReportTableComponent } from './dialogs/linked-report-dialog/linked-report-table/linked-report-table.component';
 // import {
 //   AngularCesiumModule,
 //   AngularCesiumWidgetsModule,
@@ -38,7 +41,10 @@ import {MatIconModule} from '@angular/material/icon';
     AppComponent,
     GeneralViewComponent,
     LoginComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    LinkedReportDialogComponent,
+    LinkedReportContainerComponent,
+    LinkedReportTableComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +77,8 @@ import {MatIconModule} from '@angular/material/icon';
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    LinkedReportDialogComponent
   ]
 })
 export class AppModule {

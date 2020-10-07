@@ -1,44 +1,5 @@
-table {
-  width: 100%;
-}
+@import "../../../../../../styles/table";
 
-th.mat-sort-header-sorted {
-  color: black;
-}
-
-tr.example-detail-row {
-  height: 0;
-}
-
-tr.example-element-row:not(.example-expanded-row):hover {
-  background: whitesmoke;
-}
-
-tr.example-element-row:not(.example-expanded-row):active {
-  background: #efefef;
-}
-
-.example-element-row td {
-  border-bottom-width: 0;
-}
-
-.example-element-detail {
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: auto auto;
-}
-
-.example-element-description {
-  padding: 16px;
-}
-
-.example-element-comments {
-  padding: 16px;
-}
-
-.example-element-linked {
-  padding: 16px;
-}
 
 .CommentsGrid{
   display: grid;
@@ -59,7 +20,4 @@ tr.example-element-row:not(.example-expanded-row):active {
 .CommentsGrid4{
   grid-row: 2;
   grid-column: 2/ 3;
-}
-.capitalize {
-  text-transform: capitalize;
 }

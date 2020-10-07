@@ -1,4 +1,10 @@
 <div class="LinkedReportsTable">
+  <div >
+    <span class="DialogTitle">Linked reports</span>
+    <span class="DialogLink" (click)="onAddReport()">Add Report</span>
+    <span class="DialogLink" (click)="onNewReport()">New Report</span>
+  </div>
+
   <table mat-table [dataSource]="element.linkedreports" matSort class="mat-elevation-z8">
     <!--<ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns; let i = index">-->
         <!--<th mat-header-cell *matHeaderCellDef>{{column}}</th>-->

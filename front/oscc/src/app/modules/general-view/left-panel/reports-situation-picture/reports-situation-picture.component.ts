@@ -3,6 +3,7 @@ import {ApplicationService} from '../../../../services/applicationService/applic
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../../../../dialogs/confirm-dialog/confirm-dialog.component';
 import {ReportsSituationTableComponent} from './reports-situation-table/reports-situation-table.component';
+import {LEFT_PANEL_ICON} from '../../../../../types';
 
 @Component({
   selector: 'app-reports-situation-picture',
@@ -12,7 +13,7 @@ import {ReportsSituationTableComponent} from './reports-situation-table/reports-
 export class ReportsSituationPictureComponent implements OnInit {
 
   @ViewChild(ReportsSituationTableComponent ) childComponent: ReportsSituationTableComponent ;
-
+  LEFT_PANEL_ICON =  LEFT_PANEL_ICON;
 
   constructor(public applicationService: ApplicationService,
               public dialog: MatDialog) { }
@@ -21,11 +22,8 @@ export class ReportsSituationPictureComponent implements OnInit {
   }
 
   onCreateNewReport = () => {
-    this.applicationService.screen.showLeftPanel = false;
-    this.applicationService.screen.showLeftNarrowPanel = true;
-    this.applicationService.screen.showEventPanel = false;
-    this.applicationService.screen.showReportPanel = true;
-
+    this.applicationService.selectedReport = undefined;
+    this.openReportPanel();
   };
 
   onDeleteReport = () => {
@@ -35,6 +33,14 @@ export class ReportsSituationPictureComponent implements OnInit {
 
   onEditReport = () => {
   //   todo: open editReport leftNarrowPanel
+   this.openReportPanel();
+  };
+
+  private openReportPanel = () => {
+    this.applicationService.screen.showLeftPanel = false;
+    this.applicationService.screen.showLeftNarrowPanel = true;
+    this.applicationService.screen.showEventPanel = false;
+    this.applicationService.screen.showReportPanel = true;
   };
 
   onArchiveReport = () => {

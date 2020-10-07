@@ -1,0 +1,50 @@
+@import "./colors";
+@import "./variable";
+
+.HeaderLeftPanel {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  height: 50px;
+
+
+  .LeftSideButton {
+    margin: auto 10px;
+    text-align: center;
+    height: $headerSituationPicture;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border-radius: 8px;
+    border: 1px solid $gray;
+    width: 9em;
+    padding: 0 10px;
+  }
+}
+
+.HeaderRightPanel {
+  position: inherit;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  height: 50px;
+
+  .RightSideButton {
+    margin: auto 5px;
+    text-align: center;
+    height: $headerSituationPicture;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border-radius: 8px;
+    background-color: gray;
+    color: white;
+    padding: 0px 10px;
+    width: 9em;
+  }
+}

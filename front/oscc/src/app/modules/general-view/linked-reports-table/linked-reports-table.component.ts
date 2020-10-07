@@ -1,6 +1,8 @@
 import {Component, OnInit, Input, ViewChild, AfterViewInit} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import {MatDialog} from '@angular/material/dialog';
+import {LinkedReportDialogComponent} from '../../../dialogs/linked-report-dialog/linked-report-dialog.component';
 
 @Component({
   selector: 'app-linked-reports-table',
@@ -14,7 +16,7 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['ID', 'Type', 'Description', 'Time'];
   
-  constructor() {
+  constructor( public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -41,5 +43,26 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
     this.element.linkedreports.data = data;
   }
 
+  onNewReport = () => {
+
+  };
+
+  onAddReport = () => {
+    this.openAddLinkedReportDialog();
+  };
+
+  openAddLinkedReportDialog = (): void => {
+    const dialogRef = this.dialog.open(LinkedReportDialogComponent, {
+      minWidth: '500px',
+      disableClose: true,
+      data: ' you want to permanently delete the selected report'
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // todo:  data
+      }
+    });
+  };
 
 }

@@ -3,7 +3,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatSort} from '@angular/material/sort';
-import {MAP} from '../../../../../../types';
+import {LEFT_PANEL_ICON, MAP} from '../../../../../../types';
 import {ApplicationService} from '../../../../../services/applicationService/application.service';
 
 export interface ReportsSituation {
@@ -27,8 +27,8 @@ export interface ReportsSituation {
 
 const ELEMENT_DATA: ReportsSituation[] = [
   {
-    id: '1000', source: 'FF133', priority: 'warning', type: 'type',
-    description: '1', time: 10, createdBy: 'John Blake', message: 'message', link: 'link', map: 'map',
+    id: '1000', source: 'FF133', priority: 'Low', type: 'Fire Alarm',
+    description: 'description1', time: 10, createdBy: 'John Blake', message: 'message', link: 'link', map: 'map',
     attachment: 'attachment',
     descriptionAll: 'descriptionAlldescriptionAlldescriptionAlldescriptionAll1000',
     comments: [
@@ -52,8 +52,8 @@ const ELEMENT_DATA: ReportsSituation[] = [
     ],
   },
   {
-    id: '1001', source: 'PP133', priority: 'warning', type: 'type',
-    description: '1', time: 10, createdBy: 'John Blake', message: 'message', link: 'link', map: 'map',
+    id: '1001', source: 'PP133', priority: 'Normal', type: 'Road Block',
+    description: 'description2', time: 10, createdBy: 'John Blake', message: 'message', link: 'link', map: 'map',
     attachment: 'attachment',
     descriptionAll: 'descriptionAlldescriptionAlldescriptionAlldescriptionAll1001',
     comments: [
@@ -77,8 +77,8 @@ const ELEMENT_DATA: ReportsSituation[] = [
     ],
   },
   {
-    id: '1002', source: 'ER133', priority: 'warning', type: 'type',
-    description: '1', time: 10, createdBy: 'John Blake', message: 'message', link: 'link', map: 'map',
+    id: '1002', source: 'ER133', priority: 'High', type: 'Accident',
+    description: 'description3', time: 10, createdBy: 'John Blake', message: 'message', link: 'link', map: 'map',
     attachment: 'attachment',
     descriptionAll: 'descriptionAlldescriptionAlldescriptionAlldescriptionAll1002',
     comments: [
@@ -120,13 +120,14 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['select', 'id', 'source', 'priority', 'type', 'description', 'time', 'createdBy',
     'message', 'link', 'map', 'attachment'];
-
+  displayedColumnsMinimize: string[] = ['id', 'priority', 'type'];
   dataSource = new MatTableDataSource</*ReportsSituation*/ any>(ELEMENT_DATA);
   expandedElement: MAP</*ReportsSituation*/ any> = {};
   selection = new SelectionModel<ReportsSituation>(true, []);
-  // selectedRow: ReportsSituation = undefined;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
-  // @ViewChild() applyFilter;
+
+  LEFT_PANEL_ICON = LEFT_PANEL_ICON;
+
   constructor(private applicationService: ApplicationService) {
   }
 
@@ -137,7 +138,12 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
   }
 
   private selectRow = (element): void => {
-    this.applicationService.selectedReport = element;
+    if (this.applicationService.selectedReport === undefined) {
+      this.applicationService.selectedReport = element;
+    } else {
+      this.applicationService.selectedReport = undefined;
+    }
+
     // this.expandedElement = this.expandedElement === element ? null : element;
   };
 

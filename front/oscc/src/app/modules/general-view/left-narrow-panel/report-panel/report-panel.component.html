@@ -1,5 +1,6 @@
-<div class="DialogContainer" *ngIf="true">
-  <div class="DialogHeader">Create new report</div>
+<div class="DialogContainer">
+  <div class="DialogHeader" *ngIf="applicationService.selectedReport === undefined">Create new report</div>
+  <div class="DialogHeader" *ngIf="applicationService.selectedReport !== undefined">Edit report</div>
   <!--Content-->
   <div class="DialogContent scroll">
     <!--&lt;!&ndash;Title&ndash;&gt;-->
@@ -94,7 +95,6 @@
     </div>
     <!--Linked Reports-->
     <div class="DialogContentItem">
-      <div class="DialogTitle">Linked reports</div>
       <app-linked-reports-table [element]="reportModel"></app-linked-reports-table>
     </div>
     <!--Comments-->

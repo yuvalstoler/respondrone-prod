@@ -13,7 +13,7 @@
   <!--[disableClose]="true"-->
   <mat-sidenav-container>
     <mat-sidenav #sidenav class="LeftPanel"
-                 [ngClass]="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)? 'LeftNarrowPanel' : 'LeftPanel'"
+                 [ngClass]="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)? 'LeftPanel' : 'LeftNarrowPanel'"
                  mode="side"
                  [(opened)]="applicationService.screen.showLeftPanel">
       <app-left-panel></app-left-panel>
