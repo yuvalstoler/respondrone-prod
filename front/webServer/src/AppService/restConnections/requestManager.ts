@@ -1,8 +1,9 @@
 const request = require('request');
+import {Request, Response} from 'express';
 
 import {
     AMS_API,
-    ES_API,
+    ES_API, FS_API,
     RS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 
@@ -16,8 +17,11 @@ const projConf = require('./../../../../../../../../config/projConf.json');
 const url_ES = services.ES.protocol + '://' + services.ES.host + ':' + services.ES.port;
 
 const url_RS = services.RS.protocol + '://' + services.RS.host + ':' + services.RS.port;
+const url_FS = services.FS.protocol + '://' + services.FS.host + ':' + services.FS.port;
 
 const timeout_AV = projConf.timeOutREST;
+const timeout_File = 10 * 60 * 1000; // TODO ??
+
 
 export class RequestManager {
 
@@ -28,6 +32,13 @@ export class RequestManager {
 
     public static requestToRS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_RS, RS_API.general + path, bodyObj, timeout_AV);
+    };
+
+    public static requestToFS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_FS, FS_API.general + path, bodyObj, timeout_AV);
+    };
+    public static uploadFileToFS = (req: Request, res: Response) => {
+        return RequestManager.uploadFile(req, res, url_FS, FS_API.general + FS_API.uploadFile);
     };
 
 
@@ -77,6 +88,25 @@ export class RequestManager {
 
         });
 
+    }
+
+    public static uploadFile(req: Request, res: Response, url: string, path: string, timeout: number = timeout_File) {
+
+        const options = {
+            url: `${url}/${path}`,
+            method: 'POST',
+            json: true,
+            headers: req.headers,
+            // timeout: timeout,
+        };
+        const httpReq = request(options)
+            .on('response', (resMessage)  => {
+                resMessage.pipe(res);
+                // console.log(response.statusCode) // 200
+                // console.log(response.headers['content-type']) // 'image/png'
+            });
+
+        req.pipe(httpReq);
     }
 
     public static validURL = (string) => {

@@ -1,3 +1,4 @@
+import { ReportManager } from "../report/reportManager";
 
 const _ = require('lodash');
 import * as core from 'express-serve-static-core';
@@ -12,6 +13,7 @@ import {
 import {
     ASYNC_RESPONSE,
     POINT,
+    REPORT_DATA,
 } from '../../../../../classes/typings/all.typings';
 
 
@@ -43,18 +45,19 @@ export class ApiManager implements IRest {
     };
 
 
-    private createDynamicNFZ = (request: Request, response: Response) => {
+    private newReport = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<boolean> = {success: true};
-        const requestBody = request.body;
+        const requestBody: REPORT_DATA = request.body;
 
-        // NfzManager.createDynamicNFZFromRoute(requestBody)
-        //     .then((data: ASYNC_RESPONSE) => {
-        response.send(res);
-        // })
-        // .catch((data: ASYNC_RESPONSE) => {
-        //     response.send(data);
-        // });
+        ReportManager.newReport(requestBody)
+            .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(data);
+            });
     };
+
 
     private getVideoSources = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<boolean> = {success: true};
@@ -71,7 +74,7 @@ export class ApiManager implements IRest {
 
 
     routers: {} = {
-        [REPORT_API.createReport]: this.createDynamicNFZ,
+        [REPORT_API.createReport]: this.newReport,
         [MWS_API.getVideoSources]: this.getVideoSources,
 
     };

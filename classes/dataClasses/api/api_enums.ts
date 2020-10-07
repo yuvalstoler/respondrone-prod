@@ -17,6 +17,8 @@ export enum DBS_API {
 
 export enum REPORT_API {
     createReport = '/createReport',
+    createReportExternal = '/createReportExternal',
+
     readReport = '/readReport',
     readAllReport = '/readAllReport',
     deleteReport = '/deleteReport',
@@ -73,14 +75,15 @@ export enum CCG_API {
     general = 'api',
     newReport = '/newReport',
     getVideoSources = '/getVideoSources',
-
+    uploadFileToMG = '/uploadFileToMG'
 }
 
 export enum FS_API {
     general = 'api',
     uploadFile = '/uploadFile',
     removeFile = '/removeFile',
-    file = '/file/:id',
+    getFile = '/file/:id',
+    getFileForSave = '/getFileForSave',
 }
 
 export enum WS_API {

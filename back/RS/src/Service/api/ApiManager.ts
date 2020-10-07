@@ -48,7 +48,16 @@ export class ApiManager implements IRest {
                 response.send(data);
             });
     };
-
+    private createReportExternal = (request: Request, response: Response) => {
+        const requestBody: REPORT_DATA = request.body;
+        ReportManager.createReportExternal(requestBody)
+            .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(data);
+            });
+    };
     private readReport = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<REPORT_DATA> = {success: false};
         const requestBody: ID_OBJ = request.body;
@@ -133,6 +142,8 @@ export class ApiManager implements IRest {
     routers: {} = {
 
         [REPORT_API.createReport]: this.newReport,
+        [REPORT_API.createReportExternal]: this.createReportExternal,
+
         [REPORT_API.readReport]: this.readReport,
         [REPORT_API.readAllReport]: this.readAllReport,
         [REPORT_API.deleteReport]: this.deleteReport,

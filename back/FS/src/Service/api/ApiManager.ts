@@ -30,16 +30,16 @@ export class ApiManager implements IRest {
 
 
     // ----------------------
-    private upload = (request, response: Response) => {
-        FileManager.upload(request, response);
+    private uploadFile = (request, response: Response) => {
+        FileManager.uploadFile(request, response);
     }
     // ----------------------
-    private remove = (request, response: Response) => {
+    private removeFile = (request: Request, response: Response) => {
         let res: ASYNC_RESPONSE = {success: false};
 
-        const mediaData = _.get(request, 'body.data');
+        const mediaData = request.body;
         if (mediaData) {
-            FileManager.remove(mediaData)
+            FileManager.removeFile(mediaData)
                 .then((data: ASYNC_RESPONSE) => {
                     res = data;
                     response.send(res);
@@ -49,7 +49,7 @@ export class ApiManager implements IRest {
                     response.send(res);
                 });
         } else {
-            res.data = 'Missing id';
+            res.data = 'Missing data';
             response.send(res);
         }
 
@@ -58,13 +58,17 @@ export class ApiManager implements IRest {
     private getFile = (request: Request, response: Response) => {
         FileManager.getFile(request, response);
     }
-
+    // ----------------------
+    private getFileForSave = (request: Request, response: Response) => {
+        FileManager.getFileForSave(request, response);
+    }
     // ---------------------------
 
     routers = {
-        [FS_API.uploadFile]: this.upload,
-        [FS_API.removeFile]: this.remove,
-        [FS_API.file]: this.getFile
+        [FS_API.uploadFile]: this.uploadFile,
+        [FS_API.removeFile]: this.removeFile,
+        [FS_API.getFile]: this.getFile,
+        [FS_API.getFileForSave]: this.getFileForSave,
     };
 
     // region API uncions
