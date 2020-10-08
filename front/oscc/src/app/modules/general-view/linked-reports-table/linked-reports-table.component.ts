@@ -14,7 +14,7 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
   @Input() element;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
-  displayedColumns: string[] = ['ID', 'Type', 'Description', 'Time'];
+  displayedColumns: string[] = ['ID', 'Type', 'Description', 'Time', 'actionsColumn'];
   
   constructor( public dialog: MatDialog) {
   }
@@ -36,12 +36,12 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
     this.element.linkedreports.data = [];
   }
 
-  removeAt(row, index: number) {
+  removeAt = (index: number) => {
     const data = this.element.linkedreports.data;
     data.splice( index, 1);
 
     this.element.linkedreports.data = data;
-  }
+  };
 
   onNewReport = () => {
 

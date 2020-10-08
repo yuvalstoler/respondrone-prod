@@ -38,6 +38,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { ReportsSituationTableComponent } from './left-panel/reports-situation-picture/reports-situation-table/reports-situation-table.component';
 import { ReportPanelComponent } from './left-narrow-panel/report-panel/report-panel.component';
 import {MatSortModule} from '@angular/material/sort';
+import { LinkedEventsTableComponent } from './linked-events-table/linked-events-table.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import {MatSortModule} from '@angular/material/sort';
     ReportMediaComponent,
     ViewMediaComponent,
     ReportsSituationTableComponent,
-    ReportPanelComponent
+    ReportPanelComponent,
+    LinkedEventsTableComponent
   ],
   imports: [
     CommonModule,

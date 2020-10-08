@@ -1,0 +1,13 @@
+@import "../../../../styles/dialogs";
+
+
+.LinkedReportsTable{
+  ::ng-deep.mat-elevation-z8 {
+    box-shadow: none !important;
+    width: 100% !important;
+  }
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}

@@ -17,7 +17,7 @@ export class HeaderPanelComponent implements OnInit {
   }
 
   onSituationPicture = () => {
-    if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.situationPictures){
+    if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.situationPictures) {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
       this.applicationService.screen.showLeftPanel = false;
     } else {
@@ -27,7 +27,7 @@ export class HeaderPanelComponent implements OnInit {
   };
 
   onMissionControl = () => {
-    if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.missionControl){
+    if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.missionControl) {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
     } else {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;
@@ -35,7 +35,7 @@ export class HeaderPanelComponent implements OnInit {
   };
 
   onLiveVideo = () => {
-    if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.liveVideo){
+    if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.liveVideo) {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
     } else {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.liveVideo;
@@ -43,7 +43,7 @@ export class HeaderPanelComponent implements OnInit {
   };
 
   onMedia = () => {
-    if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.media){
+    if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.media) {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
     } else {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.media;
@@ -51,7 +51,7 @@ export class HeaderPanelComponent implements OnInit {
   };
 
   onToolbox = () => {
-    if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.toolbox){
+    if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.toolbox) {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
     } else {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.toolbox;
@@ -59,7 +59,7 @@ export class HeaderPanelComponent implements OnInit {
   };
 
   onView = () => {
-    if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.view){
+    if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.view) {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
     } else {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.view;

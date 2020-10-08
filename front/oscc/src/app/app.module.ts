@@ -29,6 +29,9 @@ import {MatIconModule} from '@angular/material/icon';
 import { LinkedReportDialogComponent } from './dialogs/linked-report-dialog/linked-report-dialog.component';
 import { LinkedReportContainerComponent } from './dialogs/linked-report-dialog/linked-report-container/linked-report-container.component';
 import { LinkedReportTableComponent } from './dialogs/linked-report-dialog/linked-report-table/linked-report-table.component';
+import { LinkedEventDialogComponent } from './dialogs/linked-event-dialog/linked-event-dialog.component';
+import { LinkedEventContainerComponent } from './dialogs/linked-event-dialog/linked-event-container/linked-event-container.component';
+import { LinkedEventTableComponent } from './dialogs/linked-event-dialog/linked-event-table/linked-event-table.component';
 // import {
 //   AngularCesiumModule,
 //   AngularCesiumWidgetsModule,
@@ -44,7 +47,10 @@ import { LinkedReportTableComponent } from './dialogs/linked-report-dialog/linke
     ConfirmDialogComponent,
     LinkedReportDialogComponent,
     LinkedReportContainerComponent,
-    LinkedReportTableComponent
+    LinkedReportTableComponent,
+    LinkedEventDialogComponent,
+    LinkedEventContainerComponent,
+    LinkedEventTableComponent
   ],
   imports: [
     BrowserModule,
@@ -78,7 +84,8 @@ import { LinkedReportTableComponent } from './dialogs/linked-report-dialog/linke
   bootstrap: [AppComponent],
   entryComponents: [
     ConfirmDialogComponent,
-    LinkedReportDialogComponent
+    LinkedReportDialogComponent,
+    LinkedEventDialogComponent,
   ]
 })
 export class AppModule {

@@ -1,0 +1,17 @@
+<div class="HeaderLinked">
+  <div mat-dialog-title class="HeaderContainer">
+    <span class="HeaderContainerTitle">Add linked event</span>
+    <span class="HeaderContainerX">
+    <button  mat-icon-button (click)="onNoClick()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </span>
+  </div>
+  <div mat-dialog-content>
+    <app-linked-event-container ></app-linked-event-container>
+  </div>
+  <div mat-dialog-actions class="HeaderFooter">
+    <button mat-button mat-dialog-close class="FooterButton">Add</button>
+  </div>
+</div>
+<!--[createEvent]="onCreateNewEvent()"-->

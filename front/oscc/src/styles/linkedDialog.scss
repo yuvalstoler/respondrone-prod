@@ -1,0 +1,30 @@
+@import "./colors";
+
+.HeaderLinked {
+  ::ng-deep.mat-dialog-title {
+    margin: 0 0 !important;
+  }
+}
+
+.HeaderContainer {
+  display: block;
+
+  .HeaderContainerTitle {
+
+  }
+
+  .HeaderContainerX {
+    margin: -5px 0px;
+    float: right;
+  }
+
+}
+
+.HeaderFooter {
+  float: right;
+}
+
+.FooterButton {
+  background: $lightGray;
+  width: 8em;
+}

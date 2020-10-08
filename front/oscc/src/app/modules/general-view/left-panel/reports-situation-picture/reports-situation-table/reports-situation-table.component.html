@@ -37,14 +37,18 @@
 
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
     <ng-container matColumnDef="expandedDetail">
-      <td *matCellDef="let element" [attr.colspan]="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns.length: displayedColumnsMinimize.length" mat-cell>
+      <td *matCellDef="let element"
+          [attr.colspan]="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns.length: displayedColumnsMinimize.length"
+          mat-cell>
         <div [@detailExpand]="element === expandedElement[element.id] ? 'expanded' : 'collapsed'"
              [style.height]="element === expandedElement[element.id] ? 'unset' : '0 !important'"
              class="example-element-detail">
           <!--Description & Comments-->
-          <div class="example-element-description">
-            <h3>Description</h3>
-            <div>{{element.descriptionAll}}</div>
+          <div>
+            <div class="example-element-description">
+              <h3>Description</h3>
+              <div>{{element.descriptionAll}}</div>
+            </div>
             <!--Comments array-->
             <div class="example-element-comments">
               <h3>Comments</h3>
@@ -59,11 +63,13 @@
 
               </mat-list-item>
             </div>
+
           </div>
+
 
           <!--Linked reports table-->
           <div class="example-element-linked">
-            <app-linked-reports-table [element]="element"></app-linked-reports-table>
+            <app-linked-events-table [element]="element"></app-linked-events-table>
             <!--Media-->
             <!--<app-view-media></app-view-media>-->
             <div>
@@ -76,8 +82,11 @@
     </ng-container>
 
 
-    <tr *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize" mat-header-row></tr>
-    <tr (click)="selectRow(row)" *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;"
+    <tr
+      *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize"
+      mat-header-row></tr>
+    <tr (click)="selectRow(row)"
+        *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;"
         [class.selected]="applicationService.selectedReport === row"
         class="example-element-row"
         mat-row>

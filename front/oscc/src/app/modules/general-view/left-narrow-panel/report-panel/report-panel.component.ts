@@ -28,7 +28,7 @@ export class ReportPanelComponent implements OnInit {
         priority: this.applicationService.selectedReport.priority,
         description: this.applicationService.selectedReport.description,
         location: {address: '', lat: null, long: null, button: ''},
-        linkedreports: this.applicationService.selectedReport.linkedreports,
+        linkedevents: this.applicationService.selectedReport.linkedevents,
         media: this.applicationService.selectedReport.media,
         comments: ''
       };
@@ -38,7 +38,7 @@ export class ReportPanelComponent implements OnInit {
         priority: 'normal',
         description: '',
         location: {address: '', lat: null, long: null, button: ''},
-        linkedreports: [
+        linkedevents: [
           {ID: 1111, Description: 'Description', Time: 1221321423, Type: 'Fire Alarm'},
           {ID: 2222, Description: 'Description', Time: 1221344423, Type: 'Fire Alarm'},
           {ID: 3333, Description: 'Description', Time: 1221333423, Type: 'Road Block'},
@@ -76,7 +76,7 @@ export class ReportPanelComponent implements OnInit {
         priority: 'normal',
         description: '',
         location: {address: '', lat: null, long: null, button: ''},
-        linkedreports: [
+        linkedevents: [
           {ID: 1111, Description: 'Description', Time: 1221321423, Type: 'Fire Alarm'},
           {ID: 2222, Description: 'Description', Time: 1221344423, Type: 'Fire Alarm'},
           {ID: 3333, Description: 'Description', Time: 1221333423, Type: 'Road Block'},

@@ -21,7 +21,7 @@ export interface ReportsSituation {
 
   descriptionAll: string;
   comments: Array<{ source: string, time: number, text: string }>;
-  linkedreports: Array<{ ID: number, Type: string, Description: string, Time: number }>;
+  linkedevents: Array<{ ID: number, Type: string, Description: string, Time: number }>;
   media: Array<any>;
 }
 
@@ -36,7 +36,7 @@ const ELEMENT_DATA: ReportsSituation[] = [
       {source: 'OS23', time: 12546324577, text: 'We arrived to the building, the situation is under control'},
       {source: 'DD53', time: 12546324582, text: 'We arrived to the building, the situation is under control'}
     ],
-    linkedreports: [
+    linkedevents: [
       {ID: 1111, Description: 'Description4', Time: 1221321423, Type: 'Fire Alarm'},
       {ID: 2222, Description: 'Description3', Time: 1221333423, Type: 'Fire Alarm'},
       {ID: 3333, Description: 'Description1', Time: 1221322423, Type: 'Road Block'},
@@ -61,7 +61,7 @@ const ELEMENT_DATA: ReportsSituation[] = [
       {source: 'SS23', time: 12546324577, text: 'We arrived to the building, the situation is under control'},
       {source: 'BB53', time: 12546324582, text: 'We arrived to the building, the situation is under control'}
     ],
-    linkedreports: [
+    linkedevents: [
       {ID: 1111, Description: 'Description1', Time: 1221333423, Type: 'Fire Alarm'},
       {ID: 2222, Description: 'Description5', Time: 1221325423, Type: 'Fire Alarm'},
       {ID: 3333, Description: 'Description2', Time: 1221353423, Type: 'Road Block'},
@@ -86,7 +86,7 @@ const ELEMENT_DATA: ReportsSituation[] = [
       {source: 'GGS23', time: 12546324577, text: 'We arrived to the building, the situation is under control'},
       {source: 'VV53', time: 12546324582, text: 'We arrived to the building, the situation is under control'}
     ],
-    linkedreports: [
+    linkedevents: [
       {ID: 1111, Description: 'Description4', Time: 1221321423, Type: 'Fire Alarm'},
       {ID: 2222, Description: 'Description1', Time: 1221344423, Type: 'Fire Alarm'},
       {ID: 3333, Description: 'Description2', Time: 1221333423, Type: 'Road Block'},
