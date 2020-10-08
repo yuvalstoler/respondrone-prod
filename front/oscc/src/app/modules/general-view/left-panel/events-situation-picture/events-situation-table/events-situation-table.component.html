@@ -1,39 +1,32 @@
 <div>
-
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-  </mat-form-field>
-  <!--location_on-->
-  <!--comment-->
-  <!--link-->
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort class="mat-elevation-z8">
-    <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns; let i = index">
+  <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort multiTemplateDataRows>
+    <ng-container *ngFor="let column of (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;
+    let i = index" matColumnDef="{{column}}">
       <!--Rows-->
-      <span *ngIf="i !== 0">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="isSortingDisabled(column)">
+      <span *ngIf="column !== 'select'">
+        <th *matHeaderCellDef [disabled]="isSortingDisabled(column)" mat-header-cell mat-sort-header>
           <span *ngIf="column !== 'message' && column !== 'link' && column !== 'map'"
                 class="capitalize">{{column}}</span>
-          <span matTooltip="Remove all"><mat-icon class="HPRightSideIcon" *ngIf="column === 'message'">comment</mat-icon></span>
-          <mat-icon class="HPRightSideIcon" *ngIf="column === 'link'">link</mat-icon>
-          <mat-icon class="HPRightSideIcon" *ngIf="column === 'map'">location_on</mat-icon>
+          <mat-icon *ngIf="column === 'message'" class="HPRightSideIcon">comment</mat-icon>
+          <mat-icon *ngIf="column === 'link'" class="HPRightSideIcon">link</mat-icon>
+          <mat-icon *ngIf="column === 'map'" class="HPRightSideIcon">location_on</mat-icon>
         </th>
-        <td mat-cell *matCellDef="let element">{{element[column]}}</td>
+        <td *matCellDef="let element" mat-cell>{{element[column]}}</td>
       </span>
       <!--Checkbox-->
-      <span *ngIf="i === 0">
-      <th mat-header-cell *matHeaderCellDef>
-        <mat-checkbox (change)="$event ? masterToggle() : null"
+      <span *ngIf="column === 'select'">
+      <th *matHeaderCellDef mat-header-cell>
+        <mat-checkbox (change)="onChangeAllSelected($event)"
+                      [aria-label]="checkboxLabel()"
                       [checked]="selection.hasValue() && isAllSelected()"
-                      [indeterminate]="selection.hasValue() && !isAllSelected()"
-                      [aria-label]="checkboxLabel()">
+                      [indeterminate]="selection.hasValue() && !isAllSelected()">
         </mat-checkbox>
       </th>
-        <td mat-cell *matCellDef="let row">
-        <mat-checkbox (click)="$event.stopPropagation()"
-                      (change)="$event ? selection.toggle(row) : null"
-                      [checked]="selection.isSelected(row)"
-                      [aria-label]="checkboxLabel(row)">
+        <td *matCellDef="let row" mat-cell>
+        <mat-checkbox (change)="onChangeCheckbox($event, row)"
+                      (click)="$event.stopPropagation()"
+                      [aria-label]="checkboxLabel(row)"
+                      [checked]="selection.isSelected(row)">
           </mat-checkbox>
       </td>
       </span>
@@ -42,9 +35,12 @@
 
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
     <ng-container matColumnDef="expandedDetail">
-      <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-        <div class="example-element-detail"
-             [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+      <td *matCellDef="let element"
+          [attr.colspan]="(applicationService.panelIcon === LEFT_PANEL_ICON.expand) ? displayedColumns.length : displayedColumnsMinimize.length"
+          mat-cell>
+        <div [@detailExpand]="element === expandedElement[element.id] ? 'expanded' : 'collapsed'"
+             [style.height]="element === expandedElement[element.id] ? 'unset' : '0 !important'"
+             class="example-element-detail">
           <!--Description & Comments-->
           <div class="example-element-description">
             <h3>Description</h3>
@@ -54,33 +50,33 @@
               <h3>Comments</h3>
               <mat-list-item *ngFor="let comment of element.comments">
 
-                <div mat-line class="CommentsGrid">
-                  <mat-icon mat-list-icon class="CommentsGrid1">account_circle</mat-icon>
+                <div class="CommentsGrid" mat-line>
+                  <mat-icon class="CommentsGrid1" mat-list-icon>account_circle</mat-icon>
                   <div class="CommentsGrid2"> {{comment.source}}</div>
                   <div class="CommentsGrid3">{{comment.time | date}}</div>
                   <div class="CommentsGrid4"> {{comment.text}}</div>
                 </div>
-
               </mat-list-item>
             </div>
           </div>
-
           <!--Linked reports table-->
           <div class="example-element-linked">
-          <app-linked-reports-table [element]="element"></app-linked-reports-table>
+            <app-linked-reports-table [element]="element"></app-linked-reports-table>
           </div>
         </div>
       </td>
     </ng-container>
 
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+    <tr *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize"
+        mat-header-row></tr>
+    <tr (click)="selectRow(row)"
+        *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;"
+        [class.selected]="applicationService.selectedEvent === row"
         class="example-element-row"
-        [class.example-expanded-row]="expandedElement === row"
-        (click)="selectRow(row)">
+        mat-row>
       <!--&lt;&ndash;&gt; [ngStyle]="{'background-color': (selectedData === row)? '#7f7f7f' : '' }"-->
     </tr>
-    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    <tr *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row" mat-row></tr>
   </table>
 </div>

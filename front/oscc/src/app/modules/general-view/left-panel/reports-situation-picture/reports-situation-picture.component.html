@@ -2,20 +2,27 @@
   <!--Header-->
   <div class="HeaderLeftPanel">
     <div class="LeftSideButton">
-    <mat-icon>search</mat-icon>
-    <input matInput (keyup)="getFilter($event)" #input>
+      <mat-icon>search</mat-icon>
+      <input #input (keyup)="getFilter($event)" matInput>
     </div>
   </div>
 
   <div class="HeaderRightPanel">
-    <div class="RightSideButton" *ngIf="applicationService.selectedReport !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
-         (click)="onArchiveReport()">Archive</div>
-    <div class="RightSideButton" *ngIf="applicationService.selectedReport !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
-         (click)="onEditReport()">Edit</div>
-    <div class="RightSideButton" *ngIf="applicationService.selectedReport !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
-         (click)="onDeleteReport()">Delete</div>
-    <div class="RightSideButton" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand"
-         (click)="onCreateNewReport()">Create New Report</div>
+    <div (click)="onArchiveReport()"
+         *ngIf="applicationService.selectedReport !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         class="RightSideButton">Archive
+    </div>
+    <div (click)="onEditReport()"
+         *ngIf="applicationService.selectedReport !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         class="RightSideButton">Edit
+    </div>
+    <div (click)="onDeleteReport()"
+         *ngIf="applicationService.selectedReport !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         class="RightSideButton">Delete
+    </div>
+    <div (click)="onCreateNewReport()" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         class="RightSideButton">Create New Report
+    </div>
   </div>
   <!--Table-->
   <div>
