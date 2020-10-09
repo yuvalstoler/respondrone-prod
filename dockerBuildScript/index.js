@@ -123,10 +123,11 @@ for (let prop in names) {
                     dataObj.scripts[keyPackJSON] = fullString;
                 });
 
-                fs.writeFileSync(pathBase + names[prop].nameOfGroupRepositories + '/' + file, JSON.stringify(dataObj), 'utf8');
+                //fs.writeFileSync(pathBase + names[prop].nameOfGroupRepositories + '/' + file, JSON.stringify(dataObj), 'utf8');
 
             }
-            utils.copyFileSync(pathBase + names[prop].nameOfGroupRepositories + '/' + file, targetPath + names[prop].nameOfGroupRepositories + '/' + names[prop].serviceName + '/' + file);
+            fs.writeFileSync(targetPath + names[prop].nameOfGroupRepositories + '/' + names[prop].serviceName + '/' + file);
+            //utils.copyFileSync(pathBase + names[prop].nameOfGroupRepositories + '/' + file, targetPath + names[prop].nameOfGroupRepositories + '/' + names[prop].serviceName + '/' + file);
         }
     });
 
