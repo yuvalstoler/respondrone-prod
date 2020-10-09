@@ -135,7 +135,7 @@ export class ReportManager {
         });
     }
 
-    private createReportExternal = (reportData: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
+    private createReportFromMGW = (reportData: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
         return new Promise((resolve, reject) => {
 
 
@@ -255,7 +255,7 @@ export class ReportManager {
     public static getReport = ReportManager.instance.getReportsDATA;
 
     public static createReport = ReportManager.instance.createReport;
-    public static createReportExternal = ReportManager.instance.createReportExternal;
+    public static createReportFromMGW = ReportManager.instance.createReportFromMGW;
     public static updateReport = ReportManager.instance.updateReport;
 
     public static readReport = ReportManager.instance.readReport;

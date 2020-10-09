@@ -31,7 +31,7 @@ export class ApiManager implements IRest {
 
     // ----------------------
     private uploadFile = (request, response: Response) => {
-        FileManager.uploadFile(request, response);
+        FileManager.uploadFileTest(request, response);
     }
     // ----------------------
     private removeFile = (request: Request, response: Response) => {
@@ -62,6 +62,11 @@ export class ApiManager implements IRest {
     private getFileForSave = (request: Request, response: Response) => {
         FileManager.getFileForSave(request, response);
     }
+
+    private getFileFromTest = (request: Request, response: Response) => {
+        FileManager.getFileFromTest(request, response);
+    }
+
     // ---------------------------
 
     routers = {
@@ -69,6 +74,8 @@ export class ApiManager implements IRest {
         [FS_API.removeFile]: this.removeFile,
         [FS_API.getFile]: this.getFile,
         [FS_API.getFileForSave]: this.getFileForSave,
+        [FS_API.getFileFromTest]: this.getFileFromTest,
+
     };
 
     // region API uncions

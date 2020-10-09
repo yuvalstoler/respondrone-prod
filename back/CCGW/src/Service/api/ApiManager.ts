@@ -1,27 +1,25 @@
-import { ReportManager } from "../report/reportManager";
-
 const _ = require('lodash');
+
 import * as core from 'express-serve-static-core';
-
-
-import { GeoPoint } from '../../../../../classes/dataClasses/geo/geoPoint';
-
 import {
     Request,
     Response
 } from 'express';
+
+
 import {
     ASYNC_RESPONSE,
-    POINT,
     REPORT_DATA,
 } from '../../../../../classes/typings/all.typings';
-
-
-
 import {
+    CCGW_API,
     MWS_API,
     REPORT_API
 } from '../../../../../classes/dataClasses/api/api_enums';
+
+
+
+import { ExternalApiManager } from '../externalAPI/externalApiManager';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 
 
@@ -45,11 +43,11 @@ export class ApiManager implements IRest {
     };
 
 
-    private newReport = (request: Request, response: Response) => {
+    private createReportFromMGW = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<boolean> = {success: true};
         const requestBody: REPORT_DATA = request.body;
 
-        ReportManager.newReport(requestBody)
+        ExternalApiManager.createReportFromMGW(requestBody)
             .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                 response.send(res);
             })
@@ -74,7 +72,8 @@ export class ApiManager implements IRest {
 
 
     routers: {} = {
-        [REPORT_API.createReport]: this.newReport,
+        [CCGW_API.createReportFromMGW]: this.createReportFromMGW,
+        [REPORT_API.createReport]: this.createReportFromMGW,
         [MWS_API.getVideoSources]: this.getVideoSources,
 
     };

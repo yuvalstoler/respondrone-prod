@@ -3,10 +3,7 @@ import _ from "lodash";
 const request = require('request');
 
 import {
-    AMS_API,
-    DBS_API,
-    LS_API,
-    RS_API
+    API_GENERAL,
 } from '../../../../../classes/dataClasses/api/api_enums';
 
 
@@ -39,11 +36,11 @@ const logServerDji = services.logServerDji;
 export class RequestManager {
     static externalServiceURLs: MAP<string> = {};
     public static requestToAMS_API = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
-        return RequestManager.sendRestRequest(url_AMS, AMS_API.general + path, bodyObj, timeout_AV);
+        return RequestManager.sendRestRequest(url_AMS, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
 
     public static requestToDBS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
-        return RequestManager.sendRestRequest(url_DBS, DBS_API.general + path, bodyObj, timeout_AV);
+        return RequestManager.sendRestRequest(url_DBS, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
 
 

@@ -2,9 +2,8 @@ const request = require('request');
 import {Request, Response} from 'express';
 
 import {
-    AMS_API,
-    ES_API, FS_API,
-    RS_API
+    API_GENERAL,
+    FS_API,
 } from '../../../../../classes/dataClasses/api/api_enums';
 
 
@@ -27,18 +26,18 @@ export class RequestManager {
 
 
     public static requestToES = (path: string, bodyObj: object): Promise<ASYNC_RESPONSE> => {
-        return  RequestManager.sendRestRequest(url_ES, ES_API.general + path, bodyObj, timeout_AV);
+        return  RequestManager.sendRestRequest(url_ES, API_GENERAL.general + path, bodyObj, timeout_AV);
     }
 
     public static requestToRS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
-        return RequestManager.sendRestRequest(url_RS, RS_API.general + path, bodyObj, timeout_AV);
+        return RequestManager.sendRestRequest(url_RS, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
 
     public static requestToFS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
-        return RequestManager.sendRestRequest(url_FS, FS_API.general + path, bodyObj, timeout_AV);
+        return RequestManager.sendRestRequest(url_FS, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
     public static uploadFileToFS = (req: Request, res: Response) => {
-        return RequestManager.uploadFile(req, res, url_FS, FS_API.general + FS_API.uploadFile);
+        return RequestManager.uploadFile(req, res, url_FS, API_GENERAL.general + FS_API.uploadFile);
     };
 
 

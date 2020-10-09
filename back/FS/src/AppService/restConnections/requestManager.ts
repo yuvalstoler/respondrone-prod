@@ -2,6 +2,7 @@ const request = require('request');
 import {Request, Response} from 'express';
 
 import {
+    API_GENERAL,
     CCG_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 
@@ -20,10 +21,10 @@ export class RequestManager {
 
 
     public static requestToCCG = (path: string, bodyObj: object): Promise<ASYNC_RESPONSE> => {
-        return RequestManager.sendRestRequest(url_CCG, CCG_API.general + path, bodyObj, timeout_AV);
+        return RequestManager.sendRestRequest(url_CCG, API_GENERAL.general + path, bodyObj, timeout_AV);
     }
     public static uploadFileToCCG = (formData: object) => {
-        return RequestManager.uploadFile(url_CCG, CCG_API.general + CCG_API.uploadFileToMG, formData);
+        return RequestManager.uploadFile(url_CCG, API_GENERAL.general + CCG_API.uploadFileToMG, formData);
     }
 
 

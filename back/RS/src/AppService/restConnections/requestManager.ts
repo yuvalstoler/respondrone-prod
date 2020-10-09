@@ -2,7 +2,7 @@ const request = require('request');
 const _ = require('lodash');
 
 import {
-    DBS_API,
+    API_GENERAL,
 } from '../../../../../classes/dataClasses/api/api_enums';
 
 
@@ -23,10 +23,10 @@ const timeout_AV = projConf.timeOutREST;
 export class RequestManager {
     static externalServiceURLs: MAP<string> = {};
     public static requestToDBS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
-        return RequestManager.sendRestRequest(url_DBS, DBS_API.general + path, bodyObj, timeout_AV);
+        return RequestManager.sendRestRequest(url_DBS, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
     public static requestToMWS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
-        return RequestManager.sendRestRequest(url_MWS, DBS_API.general + path, bodyObj, timeout_AV);
+        return RequestManager.sendRestRequest(url_MWS, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
 
 

@@ -17,7 +17,7 @@ const services = require('./../../../../../../config/services.json');
 import {Logger} from './logger/Logger';
 import {ApiManager} from './Service/api/ApiManager';
 import {
-    RS_API
+    API_GENERAL,
 } from '../../../classes/dataClasses/api/api_enums';
 import { REST_ROUTER_CONFIG } from '../../../classes/typings/all.typings';
 
@@ -37,7 +37,7 @@ export class Server {
 
     restRouterConfig: REST_ROUTER_CONFIG [] = [
 
-        {class: ApiManager, path: '/' + RS_API.general},
+        {class: ApiManager, path: '/' + API_GENERAL.general},
 
     ];
 

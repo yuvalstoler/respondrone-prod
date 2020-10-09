@@ -7,7 +7,7 @@ import {Logger} from './logger/Logger';
 // import {RestManager} from './applicationServices/restConnections/restManager';
 import {ApiManager} from './services/api/ApiManager';
 import {
-    DBS_API
+    API_GENERAL,
 } from '../../../classes/dataClasses/api/api_enums';
 import {REST_ROUTER_CONFIG} from '../../../classes/typings/all.typings';
 const services = require('./../../../../../../config/services.json');
@@ -24,7 +24,7 @@ class Server {
     }
 
     restRouterConfig: REST_ROUTER_CONFIG [] = [
-        {class: ApiManager, path: '/' + DBS_API.general},
+        {class: ApiManager, path: '/' + API_GENERAL.general},
     ];
 
     constructor() {

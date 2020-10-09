@@ -1,7 +1,7 @@
 const request = require('request');
 
 import {
-    RS_API
+    API_GENERAL,
 } from '../../../../../classes/dataClasses/api/api_enums';
 
 
@@ -20,7 +20,7 @@ const url_RS = services.RS.protocol + '://' + services.RS.host + ':' + services.
 export class RequestManager {
 
     public static requestToRS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
-        return RequestManager.sendRestRequest(url_RS, RS_API.general + path, bodyObj, timeout_AV);
+        return RequestManager.sendRestRequest(url_RS, API_GENERAL.general + path, bodyObj, timeout_AV);
     }
 
 

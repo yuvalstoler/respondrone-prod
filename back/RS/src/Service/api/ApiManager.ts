@@ -17,6 +17,7 @@ import {
 
 import {
     REPORT_API,
+    RS_API,
 } from '../../../../../classes/dataClasses/api/api_enums';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 
@@ -48,9 +49,9 @@ export class ApiManager implements IRest {
                 response.send(data);
             });
     };
-    private createReportExternal = (request: Request, response: Response) => {
+    private createReportFromMGW = (request: Request, response: Response) => {
         const requestBody: REPORT_DATA = request.body;
-        ReportManager.createReportExternal(requestBody)
+        ReportManager.createReportFromMGW(requestBody)
             .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                 response.send(data);
             })
@@ -142,7 +143,7 @@ export class ApiManager implements IRest {
     routers: {} = {
 
         [REPORT_API.createReport]: this.newReport,
-        [REPORT_API.createReportExternal]: this.createReportExternal,
+        [RS_API.createReportFromMGW]: this.createReportFromMGW,
 
         [REPORT_API.readReport]: this.readReport,
         [REPORT_API.readAllReport]: this.readAllReport,
