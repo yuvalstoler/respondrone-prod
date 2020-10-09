@@ -1,6 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ApplicationService} from '../../../../services/applicationService/application.service';
 import {HEADER_BUTTONS} from '../../../../../types';
+import {
+  LOCATION_TYPE,
+  MEDIA_DATA,
+  PRIORITY,
+  REPORT_DATA_UI,
+  REPORT_TYPE,
+  SOURCE_TYPE
+} from '../../../../../../../../classes/typings/all.typings';
+import * as _ from 'lodash';
+import {ReportService} from '../../../../services/reportService/report.service';
 
 @Component({
   selector: 'app-report-panel',
@@ -9,61 +19,81 @@ import {HEADER_BUTTONS} from '../../../../../types';
 })
 export class ReportPanelComponent implements OnInit {
 
-  reportModel: any;
-  types = ['Fire Alarm', 'Road Block', 'Accident'];
-  priorities = ['Low', 'Normal', 'High'];
+  reportModel: REPORT_DATA_UI;
+  types = Object.values(REPORT_TYPE);
+  priorities = Object.values(PRIORITY);
   locations = ['Add an address', 'Choose a location point'];
+  comment = '';
 
-  constructor(public applicationService: ApplicationService) {
-  }
+  defaultReport: REPORT_DATA_UI = {
+    source: SOURCE_TYPE.OSCC,
+    createdBy: undefined,
+    time: undefined,
+    type: this.types[0],
+    priority: this.priorities[0],
+    description: '',
+    locationType: LOCATION_TYPE.none,
+    location: undefined,
+    eventIds: [],
+    commentIds: [],
+    events: [],
+    media: [],
+    comments: [],
+    modeDefine: undefined
+  };
 
-  ngOnInit(): void {
+  LOCATION_TYPE = LOCATION_TYPE;
+
+  constructor(public applicationService: ApplicationService,
+              public reportService: ReportService) {
     this.initReportModel();
   }
 
+  ngOnInit(): void {
+  }
+
   private initReportModel = () => {
-    if (this.applicationService.selectedReport !== undefined) {
-      this.reportModel = {
-        type: this.applicationService.selectedReport.type,
-        priority: this.applicationService.selectedReport.priority,
-        description: this.applicationService.selectedReport.description,
-        location: {address: '', lat: null, long: null, button: ''},
-        linkedevents: this.applicationService.selectedReport.linkedevents,
-        media: this.applicationService.selectedReport.media,
-        comments: ''
-      };
+    if (this.applicationService.selectedReport) {
+      this.reportModel = _.cloneDeep(this.applicationService.selectedReport);
     } else {
-      this.reportModel = {
-        type: 'fire',
-        priority: 'normal',
-        description: '',
-        location: {address: '', lat: null, long: null, button: ''},
-        linkedevents: [
-          {ID: 1111, Description: 'Description', Time: 1221321423, Type: 'Fire Alarm'},
-          {ID: 2222, Description: 'Description', Time: 1221344423, Type: 'Fire Alarm'},
-          {ID: 3333, Description: 'Description', Time: 1221333423, Type: 'Road Block'},
-          {ID: 4444, Description: 'Description', Time: 1221352423, Type: 'Fire Alarm'},
-          {ID: 5555, Description: 'Description', Time: 1221324423, Type: 'Road Block'}
-        ],
-        media: [
-          {url: 'http://localhost:8100/api/file/1601525743958.jpg', id: '1601525743958.jpg', type: 'image'},
-          {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
-          {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
-          {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
-          {url: 'http://localhost:8100/api/file/1601533035168.mp4', id: '1601533035168.mp4', type: 'video'},
-        ],
-        comments: ''
-      };
+      this.reportModel = _.cloneDeep(this.defaultReport);
     }
-  };
+  }
+
+  onChangeLocation = (location: string) => {
+    if (location === 'Add an address') {
+      this.reportModel.location = {address: '', longitude: undefined, latitude: undefined};
+      this.reportModel.locationType = LOCATION_TYPE.address;
+    } else if (location === 'Choose a location point') {
+      this.reportModel.location = undefined;
+      this.reportModel.locationType = LOCATION_TYPE.locationPoint;
+      // TODO: choose from map
+    }
+  }
+
+  onAddMedia = (newMedia: MEDIA_DATA) => {
+    this.reportModel.media.unshift(newMedia);
+  }
+
+  onDeleteMedia = (newMedia: MEDIA_DATA) => {
+    const index = this.reportModel.media.findIndex((data: MEDIA_DATA) => data.id === newMedia.id);
+    if (index !== -1) {
+      this.reportModel.media.splice(index, 1);
+    }
+  }
 
   onCreateClick = () => {
-    console.log(this.reportModel);
+    this.reportService.createReport(this.reportModel);
     this.clearPanel();
   };
 
   onDeleteClick = () => {
     console.log('delete');
+    if (!this.reportModel.id) {
+      this.reportModel.media.forEach((data: MEDIA_DATA) => {
+        // TODO: remove media
+      });
+    }
     this.clearPanel();
   };
 
@@ -71,28 +101,14 @@ export class ReportPanelComponent implements OnInit {
     this.applicationService.screen.showLeftNarrowPanel = false;
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
     // if (this.applicationService.selectedReport === undefined) {
-      this.reportModel = {
-        type: 'fire',
-        priority: 'normal',
-        description: '',
-        location: {address: '', lat: null, long: null, button: ''},
-        linkedevents: [
-          {ID: 1111, Description: 'Description', Time: 1221321423, Type: 'Fire Alarm'},
-          {ID: 2222, Description: 'Description', Time: 1221344423, Type: 'Fire Alarm'},
-          {ID: 3333, Description: 'Description', Time: 1221333423, Type: 'Road Block'},
-          {ID: 4444, Description: 'Description', Time: 1221352423, Type: 'Fire Alarm'},
-          {ID: 5555, Description: 'Description', Time: 1221324423, Type: 'Road Block'}
-        ],
-        comments: ''
-      };
+      this.reportModel = _.cloneDeep(this.defaultReport);
     // }
   };
 
+
   onSendComment = () => {
-    if (this.reportModel.comments !== '' && this.reportModel.comments !== undefined) {
-      console.log(this.reportModel.comments);
-
-
+    if (this.comment !== '' && this.comment !== undefined) {
+      console.log(this.comment);
     }
   };
 

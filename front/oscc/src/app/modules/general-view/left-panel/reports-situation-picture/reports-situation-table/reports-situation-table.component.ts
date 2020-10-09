@@ -5,101 +5,10 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {MatSort} from '@angular/material/sort';
 import {LEFT_PANEL_ICON, MAP} from '../../../../../../types';
 import {ApplicationService} from '../../../../../services/applicationService/application.service';
+import {ReportService} from '../../../../../services/reportService/report.service';
+import {REPORT_DATA_UI} from '../../../../../../../../../classes/typings/all.typings';
 
-export interface ReportsSituation {
-  id: string;
-  source: string;
-  priority: string;
-  type: string;
-  description: string;
-  time: number;
-  createdBy: string;
-  message: string;
-  link: string;
-  map: string;
-  attachment: string;
-  descriptionAll: string;
-  comments: Array<{ source: string, time: number, text: string }>;
-  linkedevents: Array<{ ID: number, Type: string, Description: string, Time: number }>;
-  media: Array<any>;
-}
 
-const ELEMENT_DATA: ReportsSituation[] = [
-  {
-    id: '1000', source: 'FF133', priority: 'Low', type: 'Fire Alarm',
-    description: 'description1', time: 10, createdBy: 'John Blake', message: 'message', link: 'link', map: 'map',
-    attachment: 'attachment',
-    descriptionAll: 'descriptionAlldescriptionAlldescriptionAlldescriptionAll1000',
-    comments: [
-      {source: 'FF33', time: 12546324562, text: 'We arrived to the building, the situation is under control'},
-      {source: 'OS23', time: 12546324577, text: 'We arrived to the building, the situation is under control'},
-      {source: 'DD53', time: 12546324582, text: 'We arrived to the building, the situation is under control'}
-    ],
-    linkedevents: [
-      {ID: 1111, Description: 'Description4', Time: 1221321423, Type: 'Fire Alarm'},
-      {ID: 2222, Description: 'Description3', Time: 1221333423, Type: 'Fire Alarm'},
-      {ID: 3333, Description: 'Description1', Time: 1221322423, Type: 'Road Block'},
-      {ID: 4444, Description: 'Description2', Time: 1221311423, Type: 'Fire Alarm'},
-      {ID: 5555, Description: 'Description5', Time: 1221377423, Type: 'Road Block'}
-    ],
-    media: [
-      {url: 'http://localhost:8100/api/file/1601525743958.jpg', id: '1601525743958.jpg', type: 'image'},
-      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
-      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
-      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
-      {url: 'http://localhost:8100/api/file/1601533035168.mp4', id: '1601533035168.mp4', type: 'video'},
-    ],
-  },
-  {
-    id: '1001', source: 'PP133', priority: 'Normal', type: 'Road Block',
-    description: 'description2', time: 10, createdBy: 'John Blake', message: 'message', link: 'link', map: 'map',
-    attachment: 'attachment',
-    descriptionAll: 'descriptionAlldescriptionAlldescriptionAlldescriptionAll1001',
-    comments: [
-      {source: 'AA33', time: 12546324562, text: 'We arrived to the building, the situation is under control'},
-      {source: 'SS23', time: 12546324577, text: 'We arrived to the building, the situation is under control'},
-      {source: 'BB53', time: 12546324582, text: 'We arrived to the building, the situation is under control'}
-    ],
-    linkedevents: [
-      {ID: 1111, Description: 'Description1', Time: 1221333423, Type: 'Fire Alarm'},
-      {ID: 2222, Description: 'Description5', Time: 1221325423, Type: 'Fire Alarm'},
-      {ID: 3333, Description: 'Description2', Time: 1221353423, Type: 'Road Block'},
-      {ID: 4444, Description: 'Description4', Time: 1221352423, Type: 'Fire Alarm'},
-      {ID: 5555, Description: 'Description3', Time: 1221324423, Type: 'Road Block'}
-    ],
-    media: [
-      {url: 'http://localhost:8100/api/file/1601525743958.jpg', id: '1601525743958.jpg', type: 'image'},
-      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
-      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
-      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
-      {url: 'http://localhost:8100/api/file/1601533035168.mp4', id: '1601533035168.mp4', type: 'video'},
-    ],
-  },
-  {
-    id: '1002', source: 'ER133', priority: 'High', type: 'Accident',
-    description: 'description3', time: 10, createdBy: 'John Blake', message: 'message', link: 'link', map: 'map',
-    attachment: 'attachment',
-    descriptionAll: 'descriptionAlldescriptionAlldescriptionAlldescriptionAll1002',
-    comments: [
-      {source: 'SS33', time: 12546324562, text: 'We arrived to the building, the situation is under control'},
-      {source: 'GGS23', time: 12546324577, text: 'We arrived to the building, the situation is under control'},
-      {source: 'VV53', time: 12546324582, text: 'We arrived to the building, the situation is under control'}
-    ],
-    linkedevents: [
-      {ID: 1111, Description: 'Description4', Time: 1221321423, Type: 'Fire Alarm'},
-      {ID: 2222, Description: 'Description1', Time: 1221344423, Type: 'Fire Alarm'},
-      {ID: 3333, Description: 'Description2', Time: 1221333423, Type: 'Road Block'},
-      {ID: 4444, Description: 'Description3', Time: 1221352423, Type: 'Fire Alarm'},
-      {ID: 5555, Description: 'Description5', Time: 1221324423, Type: 'Road Block'}
-    ],
-    media: [
-      {url: 'http://localhost:8100/api/file/1601525743958.jpg', id: '1601525743958.jpg', type: 'image'},
-      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
-      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
-      {url: 'http://localhost:8100/api/file/1601526405336.jpg', id: '1601526405336.jpg', type: 'image'},
-      {url: 'http://localhost:8100/api/file/1601533035168.mp4', id: '1601533035168.mp4', type: 'video'},
-    ],
-  }];
 
 @Component({
   selector: 'app-reports-situation-table',
@@ -117,17 +26,24 @@ const ELEMENT_DATA: ReportsSituation[] = [
 
 export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['select', 'id', 'source', 'priority', 'type', 'description', 'time', 'createdBy',
-    'message', 'link', 'map', 'attachment'];
+  displayedColumns: string[] = ['select', 'id', 'source', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map', 'attachment'];
   displayedColumnsMinimize: string[] = ['id', 'priority', 'type'];
-  dataSource = new MatTableDataSource</*ReportsSituation*/ any>(ELEMENT_DATA);
-  expandedElement: MAP</*ReportsSituation*/ any> = {};
-  selection = new SelectionModel<ReportsSituation>(true, []);
+  dataSource = new MatTableDataSource<REPORT_DATA_UI>();
+
+  expandedElement: MAP<REPORT_DATA_UI> = {};
+  selection = new SelectionModel<REPORT_DATA_UI>(true, []);
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
 
-  constructor(private applicationService: ApplicationService) {
+  constructor(public applicationService: ApplicationService,
+              public reportService: ReportService) {
+
+    this.reportService.reports$.subscribe((isNewData: boolean) => {
+      if (isNewData) {
+        this.dataSource.data = [...this.reportService.reports.data];
+      }
+    });
   }
 
   ngOnInit(): void {}
@@ -177,7 +93,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
   };
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel = (row?: ReportsSituation): string => {
+  checkboxLabel = (row?: REPORT_DATA_UI): string => {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
@@ -186,25 +102,23 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
   onChangeAllSelected = (event) => {
     if (event.checked) {
-      this.dataSource.data.forEach((row: ReportsSituation) => {
-        this.expandedElement[row.id] = this.expandedElement[row.id] || {};
+      this.dataSource.data.forEach((row: REPORT_DATA_UI) => {
         this.expandedElement[row.id] = row;
       });
     } else {
-      this.dataSource.data.forEach((row: ReportsSituation) => {
-        this.expandedElement[row.id] = {};
+      this.dataSource.data.forEach((row: REPORT_DATA_UI) => {
+        delete this.expandedElement[row.id];
       });
     }
     return event ? this.masterToggle() : null;
   };
 
-  onChangeCheckbox = (event, row: ReportsSituation) => {
+  onChangeCheckbox = (event, row: REPORT_DATA_UI) => {
     if (event.checked) {
-      this.expandedElement[row.id] = this.expandedElement[row.id] || {};
       this.expandedElement[row.id] = row;
       this.applicationService.selectedReport = row;
     } else {
-      this.expandedElement[row.id] = {};
+      delete this.expandedElement[row.id];
       this.applicationService.selectedReport = undefined;
     }
     return event ? this.selection.toggle(row) : null;

@@ -57,6 +57,7 @@ export type GEOPOINT = { latitude: number, longitude: number };
 export type GEOPOINT_UI = { lat: number, lng: number };
 export type GEOPOINT3D = GEOPOINT & { altitude?: number };
 export type ADDRESS_GEOPOINT = GEOPOINT & { address: string };
+export type POLYGON_GEOPOINT = GEOPOINT3D[];
 
 
 export enum REPORT_TYPE {
@@ -91,32 +92,95 @@ export enum PRIORITY {
     high = 'High'
 }
 
+export enum LOCATION_TYPE {
+    none = 'none',
+    address = 'address',
+    locationPoint = 'locationPoint',
+    polygon = 'polygon'
+}
+export type COMMENT = {
+    source: string,
+    time: number,
+    text: string
+}
 
 export type REPORT_DATA = {
     id?: ID_TYPE,
     source: SOURCE_TYPE;
     time: number;
-    createdBy: string
-
+    createdBy: string,
     type: REPORT_TYPE,
     priority: PRIORITY,
     description: string,
+    locationType: LOCATION_TYPE;
     location: GEOPOINT3D | ADDRESS_GEOPOINT,
-    mediaIds?: string[],
-    eventIds?: string[],
-    commentIds?: Comment[]
+    media: MEDIA_DATA[],
+    eventIds: string[],
+    commentIds: string[]
 };
+export type REPORT_DATA_UI = REPORT_DATA & {
+    events: LINKED_EVENT_DATA[],
+    comments: COMMENT[],
+    modeDefine: REPORT_DATA_MD,
+};
+export type LINKED_REPORT_DATA = {
+    id: ID_TYPE,
+    time: number,
+    createdBy: string,
+    type: REPORT_TYPE,
+    description: string
+}
+export type REPORT_DATA_MD = {
+    styles: {},
+    tableData: {
+        message: TABLE_DATA_MD,
+        priority: TABLE_DATA_MD,
+        link: TABLE_DATA_MD,
+        map: TABLE_DATA_MD,
+        attachment: TABLE_DATA_MD,
+    }
+}
+
+export type TABLE_DATA_MD = {
+    type: 'matIcon' | 'text',
+    data: string,
+    color?: string
+}
 
 export type EVENT_DATA = { // TODO - change data fields
     id?: ID_TYPE,
+    time: number,
+    createdBy: string,
+    title: string,
     type: EVENT_TYPE,
     priority: PRIORITY,
     description: string,
-    location: GEOPOINT3D | ADDRESS_GEOPOINT,
-    media: string[],
-    events: string[],
-
+    locationType: LOCATION_TYPE,
+    location: GEOPOINT3D | ADDRESS_GEOPOINT | POLYGON_GEOPOINT,
+    reportIds: string[],
+    commentIds: string[],
 };
+export type EVENT_DATA_UI = EVENT_DATA & {
+    reports: LINKED_REPORT_DATA[],
+    comments: COMMENT[],
+    modeDefine: EVENT_DATA_MD,
+};
+export type LINKED_EVENT_DATA = {
+    id: ID_TYPE,
+    time: number,
+    createdBy: string,
+    type: EVENT_TYPE,
+    description: string,
+}
+export type EVENT_DATA_MD = {
+    styles: {},
+    tableData: {
+        message: TABLE_DATA_MD,
+        priority: TABLE_DATA_MD,
+        link: TABLE_DATA_MD,
+        map: TABLE_DATA_MD,
+    }
+}
 
 export type COMMENT_DATA = { // TODO - change data fields
     id?: ID_TYPE,

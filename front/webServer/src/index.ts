@@ -48,15 +48,11 @@ export class Server {
         this.middleware();
         this.listen();
 
-        const socketIO_Server: SocketIO = new SocketIO(this.server);
+        const functionsToCallOnConnect = [];
+        SocketIO.setServer(this.server);
+        SocketIO.startConnectToWS(functionsToCallOnConnect);
 
-
-
-
-        // start websocket 'algorithmManager.sendMissionStatus' - function that call on connect to WS
-        const functionsToCallOnConnect = []; // [AlgorithmManager.sendMissionStatus];
-        socketIO_Server.startConnectToWS(functionsToCallOnConnect);
-        this.routes(socketIO_Server);
+        this.routes();
 
 
          this.test();
@@ -116,7 +112,7 @@ export class Server {
     }
 
     // Configure API endpoints.
-    private routes(socketIO: SocketIO): void {
+    private routes(): void {
         this.app.use('/', express.static(path.join(__dirname, 'public')));
 
     }

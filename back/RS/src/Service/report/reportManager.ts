@@ -32,7 +32,7 @@ export class ReportManager {
     reports: Report[] = [];
 
     private constructor() {
-        // this.initAllReports();
+        this.initAllReports();
     }
 
     private initAllReports = () => {
@@ -214,6 +214,8 @@ export class ReportManager {
                     res.data = data.data;
                     res.success = data.success;
                     if ( data.success ) {
+
+                        UpdateListenersManager.updateReportListeners();
                         resolve(res);
                     }
                     else {

@@ -89,6 +89,8 @@ export enum WS_API {
     newReport = '/newReport',
     uploadFile = '/uploadFile',
     removeFile = '/removeFile',
+    updateAllReports = '/updateAllReports',
+    updateAllEvents = '/updateAllEvents',
 }
 
 export enum CCGW_API {

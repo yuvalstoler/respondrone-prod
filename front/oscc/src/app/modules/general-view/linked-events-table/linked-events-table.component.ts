@@ -3,6 +3,7 @@ import {MatSort} from '@angular/material/sort';
 import {MatDialog} from '@angular/material/dialog';
 import {MatTableDataSource} from '@angular/material/table';
 import {LinkedEventDialogComponent} from '../../../dialogs/linked-event-dialog/linked-event-dialog.component';
+import {LINKED_EVENT_DATA, REPORT_DATA_UI} from '../../../../../../../classes/typings/all.typings';
 
 @Component({
   selector: 'app-linked-events-table',
@@ -11,21 +12,22 @@ import {LinkedEventDialogComponent} from '../../../dialogs/linked-event-dialog/l
 })
 export class LinkedEventsTableComponent implements OnInit, AfterViewInit {
 
-  @Input() element;
+  @Input() element: REPORT_DATA_UI;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   displayedColumns: string[] = ['ID', 'Type', 'Description', 'Time', 'actionsColumn'];
+  dataSource = new MatTableDataSource<LINKED_EVENT_DATA>();
 
   constructor( public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
-    this.element.linkedevents = new MatTableDataSource(this.element.linkedevents);
+    this.dataSource = new MatTableDataSource(this.element.events);
   }
 
 
   ngAfterViewInit() {
-    this.element.linkedevents.sort = this.sort;
+    this.dataSource.sort = this.sort;
   }
 
   selectRow = (row) => {
@@ -33,14 +35,14 @@ export class LinkedEventsTableComponent implements OnInit, AfterViewInit {
   };
 
   removeAll() {
-    this.element.linkedevents.data = [];
+    this.dataSource.data = [];
   }
 
   removeAt = (index: number) => {
-    const data = this.element.linkedevents.data;
+    const data = this.dataSource.data;
     data.splice( index, 1);
 
-    this.element.linkedevents.data = data;
+    this.dataSource.data = data;
   };
 
   onNewEvent = () => {

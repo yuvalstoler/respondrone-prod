@@ -8,14 +8,14 @@ import {
 } from 'express';
 
 import {
-    ASYNC_RESPONSE,
+    ASYNC_RESPONSE, EVENT_DATA,
     ID_OBJ,
     ID_TYPE,
     REPORT_DATA,
 } from '../../../../../classes/typings/all.typings';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 import {
-    DBS_API,
+    EVENT_API,
     REPORT_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 
@@ -159,18 +159,127 @@ export class ApiManager implements IRest {
 
     // ----------------------
 
-    private getAllEvents = (request: Request, response: Response) => {
-        const res: ASYNC_RESPONSE = {success: false};
-        DbManager.readAllEvents().then(data => {
-            // get events
-        }).catch(error => {
-            //error getting events
-        })
-    }
+    private setEvent = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<EVENT_DATA> = {success: false};
+
+        const requestBody: EVENT_DATA = request.body;
+
+        if ( requestBody ) {
+            DbManager.setEvent(requestBody)
+                .then((data: ASYNC_RESPONSE<EVENT_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing requestBody';
+            response.send(res);
+        }
+    };
+
+    private readEvent = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<EVENT_DATA> = {success: false};
+
+        const requestBody: ID_OBJ = request.body;
+
+
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.readEvent(requestBody)
+                .then((data: ASYNC_RESPONSE<EVENT_DATA>) => {
+                    res.success = data.success;
+
+                    res.data = data.data;
+
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private readAllEvent = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<EVENT_DATA[]> = {success: false};
+
+        const requestBody = request.body;
+
+
+        DbManager.readAllEvent({})
+            .then((data: ASYNC_RESPONSE<EVENT_DATA[]>) => {
+                res.success = data.success;
+
+                res.data = data.data;
+
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
+    private deleteEvent = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+
+        const requestBody: ID_OBJ = request.body;
+
+
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.deleteEvent(requestBody)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private deleteAllEvent = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+
+        const requestBody = request.body;
+
+
+        DbManager.deleteAllEvent({})
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
+
 
     routers: {} = {
-        [DBS_API.getAllEvents]:             this.getAllEvents,
-
 
         [REPORT_API.createReport]: this.setReport,
         [REPORT_API.readReport]: this.readReport,
@@ -178,6 +287,11 @@ export class ApiManager implements IRest {
         [REPORT_API.deleteReport]: this.deleteReport,
         [REPORT_API.deleteAllReport]: this.deleteAllReport,
 
+        [EVENT_API.createEvent]: this.setEvent,
+        [EVENT_API.readEvent]: this.readEvent,
+        [EVENT_API.readAllEvent]: this.readAllEvent,
+        [EVENT_API.deleteEvent]: this.deleteEvent,
+        [EVENT_API.deleteAllEvent]: this.deleteAllEvent,
 
     };
 

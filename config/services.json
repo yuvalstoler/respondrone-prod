@@ -24,7 +24,10 @@
   "ES": {
     "port": "6300",
     "host": "localhost",
-    "protocol": "http"
+    "protocol": "http",
+    "listeners": [
+      "webServer"
+    ]
   },
   "TS": {
     "port": "6400",
@@ -70,6 +73,11 @@
     "name": "ResponDrone",
     "password": "simplex"
 
+  },
+  "MWS": {
+    "port": "5001",
+    "host": "localhost",
+    "protocol": "http"
   },
   
   "logServer": {

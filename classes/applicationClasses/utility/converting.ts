@@ -3,7 +3,7 @@ import {
     REPORT_DATA
 } from '../../typings/all.typings';
 import { Report } from '../../dataClasses/report/report';
-import {EventClass} from "../../dataClasses/event/event";
+import {Event} from "../../dataClasses/event/event";
 
 
 
@@ -20,12 +20,12 @@ export class Converting {
         return res;
     }
 
-    public static Arr_EVENT_DATA_to_Arr_Event = (eventDataArr: EVENT_DATA[]): EventClass[] => {
-        const res: EventClass[] = [];
+    public static Arr_EVENT_DATA_to_Arr_Event = (eventDataArr: EVENT_DATA[]): Event[] => {
+        const res: Event[] = [];
         //    todo data vaidation
         if ( Array.isArray(eventDataArr) ) {
             eventDataArr.forEach((eventData: EVENT_DATA) => {
-                res.push(new EventClass(eventData));
+                res.push(new Event(eventData));
             });
         }
         return res;
