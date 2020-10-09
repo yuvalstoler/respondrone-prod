@@ -22,7 +22,10 @@ templatesFiles.PackageJson = 'package.json';
 templatesFiles.dockerComposePlus = 'dockerComposePlus.yml';
 const templates = {};
 const excludeFolders4copy = ['config', 'template'];
-const targetPath = '/tmp/test/';
+const targetPath = '../../RD/';
+if (!fs.existsSync(targetPath)) {
+    fs.mkdirSync(targetPath);
+}
 
 if (!fs.existsSync(targetPath)) {
     fs.mkdirSync(targetPath);
