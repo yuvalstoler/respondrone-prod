@@ -113,7 +113,7 @@ for (let prop in names) {
                 keysPackJSON.forEach((keyPackJSON) => {
                     const arrStr = dataObj.scripts[keyPackJSON].split('cd /usr/src/');
                     let oldName = arrStr[1].split(' ');
-                    oldName[0] = names[prop].nameOfGroupRepositories;
+                    oldName[0] = names[prop].nameOfGroupRepositories + '/' + names[prop].serviceName;
                     let strEnd = ' ';
                     for (let i = 1; i < oldName.length; i++) {
                         strEnd += oldName[i] + ' ';
@@ -128,8 +128,8 @@ for (let prop in names) {
 
                 fs.writeFileSync(targetPath + names[prop].nameOfGroupRepositories + '/' + names[prop].serviceName + '/' + file, JSON.stringify(dataObj), 'utf8');
 
-            }else {
-              //  fs.writeFileSync(targetPath + names[prop].nameOfGroupRepositories + '/' + names[prop].serviceName + '/' + file);
+            } else {
+                //  fs.writeFileSync(targetPath + names[prop].nameOfGroupRepositories + '/' + names[prop].serviceName + '/' + file);
                 utils.copyFileSync(pathBase + names[prop].nameOfGroupRepositories + '/' + file, targetPath + names[prop].nameOfGroupRepositories + '/' + names[prop].serviceName + '/' + file);
             }
             //
