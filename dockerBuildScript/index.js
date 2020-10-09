@@ -67,7 +67,7 @@ for (let prop in templatesFiles) {
 for (let key in projconfs) {
     projconfs[key].LogsMongo = templates.ProjConfFile.LogsMongo;
     for (let mongoKey in templates.ProjConfFile.Mongo) {
-        if (projconfs[key].hasOwnProperty('Mongo') && projconfs[key].Mongo.hasOwnProperty(mongoKey)
+        if (projconfs[key].hasOwnProperty('Mongo')
             && projconfs.hasOwnProperty(key) && projconfs[key].hasOwnProperty('Mongo')
         ) {
             projconfs[key].Mongo[mongoKey] = templates.ProjConfFile.Mongo[mongoKey];
