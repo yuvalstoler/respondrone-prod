@@ -1,18 +1,31 @@
 <div>
   <!--Header-->
   <div class="HeaderLeftPanel">
-    <div class="LeftSideButton" >Search</div>
-  <!--<mat-form-field class="LeftSideButton">-->
-    <!--<mat-label>Filter</mat-label>-->
-    <!--<input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>-->
-  <!--</mat-form-field>-->
-</div>
+    <div class="LeftSideButton">
+      <mat-icon>search</mat-icon>
+      <input #input (keyup)="getFilter($event)" matInput>
+    </div>
+  </div>
 
   <div class="HeaderRightPanel">
-    <div class="RightSideButton" (click)="onCreateNewEvent()">Create New Event</div>
+    <div (click)="onArchiveEvent()"
+         *ngIf="applicationService.selectedEvent !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         class="RightSideButton">Archive
+    </div>
+    <div (click)="onEditEvent()"
+         *ngIf="applicationService.selectedEvent !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         class="RightSideButton">Edit
+    </div>
+    <div (click)="onDeleteEvent()"
+         *ngIf="applicationService.selectedEvent !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         class="RightSideButton">Delete
+    </div>
+    <div (click)="onCreateNewEvent()" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         class="RightSideButton">Create New Event
+    </div>
   </div>
   <!--Table-->
-<div>
-  <app-events-situation-table></app-events-situation-table>
-</div>
+  <div>
+    <app-events-situation-table></app-events-situation-table>
+  </div>
 </div>

@@ -18,7 +18,6 @@ export interface ReportsSituation {
   link: string;
   map: string;
   attachment: string;
-
   descriptionAll: string;
   comments: Array<{ source: string, time: number, text: string }>;
   linkedevents: Array<{ ID: number, Type: string, Description: string, Time: number }>;

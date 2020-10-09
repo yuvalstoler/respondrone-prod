@@ -1,5 +1,4 @@
 <div>
-  <!--&& applicationService.panelIcon === LEFT_PANEL_ICON.expand-->
   <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort multiTemplateDataRows>
     <ng-container *ngFor="let column of (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;
     let i = index" matColumnDef="{{column}}">
@@ -45,6 +44,7 @@
              class="example-element-detail">
           <!--Description & Comments-->
           <div>
+            <!--Description-->
             <div class="example-element-description">
               <h3>Description</h3>
               <div>{{element.descriptionAll}}</div>
@@ -63,27 +63,23 @@
 
               </mat-list-item>
             </div>
-
           </div>
-
-
-          <!--Linked reports table-->
+          <!--Linked events table-->
           <div class="example-element-linked">
             <app-linked-events-table [element]="element"></app-linked-events-table>
             <!--Media-->
-            <!--<app-view-media></app-view-media>-->
             <div>
               <h3>Media</h3>
               <app-report-media [media]="element.media"></app-report-media>
             </div>
           </div>
+
         </div>
       </td>
     </ng-container>
 
 
-    <tr
-      *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize"
+    <tr *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize"
       mat-header-row></tr>
     <tr (click)="selectRow(row)"
         *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;"
