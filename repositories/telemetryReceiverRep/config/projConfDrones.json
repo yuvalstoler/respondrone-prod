@@ -1,4 +1,6 @@
 {
+  "serviceName": "TelemetryReceiverDrones",
+
   "TelemetryService": {
     "port": "4701",
     "host": "localhost",

@@ -1,4 +1,6 @@
 {
+  "serviceName": "mission",
+
   "EntityService": {
     "port": "4604",
     "host": "localhost",

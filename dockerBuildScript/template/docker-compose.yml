@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: unless-stopped
+#    env_file: ./DBS/.env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=simplex
+      - MONGO_INITDB_ROOT_PASSWORD=simplex_password
+    volumes:
+      - ./data:/data/db
+#      - "./mongo-entrypoint/:/docker-entrypoint-initdb.d/"
+    ports:
+      - '27017:27017'
+    command: mongod
+
+volumes:
+  mongo:
+  node_modules:

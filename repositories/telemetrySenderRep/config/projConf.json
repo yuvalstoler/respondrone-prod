@@ -1,4 +1,6 @@
 {
+  "serviceName": "",
+
   "TelemetryService": {
     "port": "4704",
     "host": "localhost",

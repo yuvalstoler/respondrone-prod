@@ -1,4 +1,6 @@
 {
+  "serviceName": "graphicOverlay",
+
   "EntityService": {
     "port": "4602",
     "host": "localhost",

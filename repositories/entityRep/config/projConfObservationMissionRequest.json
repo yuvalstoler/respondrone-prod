@@ -1,4 +1,6 @@
 {
+  "serviceName": "observationMissionRequest",
+
   "EntityService": {
     "port": "4606",
     "host": "localhost",

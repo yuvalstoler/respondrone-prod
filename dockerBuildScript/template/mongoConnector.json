@@ -1,0 +1,2 @@
+{"const mongoURL":"const mongoURL = `mongodb://${projConf.Mongo.username}:${projConf.Mongo.password}@${projConf.Mongo.hostname}:${projConf.Mongo.port}/${projConf.Mongo.db}?authSource=admin`;",
+"const logsMongoURL":"const logsMongoURL = `mongodb://${projConf.LogsMongo.username}:${projConf.LogsMongo.password}@${projConf.LogsMongo.hostname}:${projConf.LogsMongo.port}/${projConf.LogsMongo.db}?authSource=admin`;"}

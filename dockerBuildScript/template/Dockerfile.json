@@ -1,0 +1,10 @@
+[
+  "FROM node:12-alpine",
+  "WORKDIR /usr/src/$name",
+  "RUN ls",
+  "ADD $name /usr/src/$name",
+  "RUN npm install",
+  "RUN npm run tsc",
+  "CMD [\"npm\", \"start\" ]",
+  "EXPOSE $port"
+]

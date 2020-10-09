@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "tsc": "cd /usr/src/ComRelayMissonRequest && ls && tsc",
+    "start": "cd /usr/src/ComRelayMissonRequest/dist &&  node index.js"
+  },
+  "dependencies": {
+    "typescript": "^3.4.3"
+  }
+}

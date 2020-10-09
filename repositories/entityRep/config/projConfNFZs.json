@@ -1,4 +1,6 @@
 {
+  "serviceName": "nfz",
+
   "EntityService": {
     "port": "4605",
     "host": "localhost",

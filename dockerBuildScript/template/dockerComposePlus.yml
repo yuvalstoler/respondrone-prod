@@ -1,0 +1,9 @@
+version: "3.7"
+services:
+
+  $name:
+    build:
+      context: .
+      dockerfile: $name/Dockerfile
+    ports:
+      - $port:$port

@@ -1,4 +1,6 @@
 {
+  "serviceName": "TelemetrySenderFRs",
+
   "TelemetryService": {
     "port": "4705",
     "host": "localhost",

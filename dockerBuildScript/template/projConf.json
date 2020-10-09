@@ -1,0 +1,19 @@
+{
+  "EntityService": {
+    "port": "4600"
+  },
+  "Mongo": {
+    "username": "simplex",
+    "password": "simplex_password",
+    "port": "27017",
+    "hostname": "mongo"
+  },
+  "LogsMongo": {
+    "db": "repositoryLogs",
+    "col": "log",
+    "username": "simplex",
+    "password": "simplex_password",
+    "port": "27017",
+    "hostname": "mongo"
+  }
+}

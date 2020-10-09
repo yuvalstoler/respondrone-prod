@@ -1,4 +1,6 @@
 {
+  "serviceName": "commRelayMissionRequest",
+
   "EntityService": {
     "port": "4600",
     "host": "localhost",

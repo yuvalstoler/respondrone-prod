@@ -1,4 +1,5 @@
 {
+  "serviceName": "",
   "EntityService": {
     "port": "4600",
     "host": "localhost",

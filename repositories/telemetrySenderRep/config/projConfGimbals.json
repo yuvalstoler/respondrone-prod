@@ -1,4 +1,6 @@
 {
+  "serviceName": "TelemetrySenderGimbals",
+
   "TelemetryService": {
     "port": "4706",
     "host": "localhost",

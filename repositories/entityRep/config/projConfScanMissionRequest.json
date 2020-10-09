@@ -1,4 +1,6 @@
 {
+  "serviceName": "scanMissionRequest",
+
   "EntityService": {
     "port": "4607",
     "host": "localhost",

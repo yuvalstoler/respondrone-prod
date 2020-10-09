@@ -1,4 +1,6 @@
 {
+  "serviceName": "missionRoute",
+
   "EntityService": {
     "port": "4603",
     "host": "localhost",

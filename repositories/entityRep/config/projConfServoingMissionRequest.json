@@ -1,4 +1,6 @@
 {
+  "serviceName": "servoingMissionRequest",
+
   "EntityService": {
     "port": "4608",
     "host": "localhost",

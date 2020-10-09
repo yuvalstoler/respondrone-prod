@@ -1,4 +1,6 @@
 {
+  "serviceName": "followPathMissionRequest",
+
   "EntityService": {
     "port": "4601",
     "host": "localhost",
