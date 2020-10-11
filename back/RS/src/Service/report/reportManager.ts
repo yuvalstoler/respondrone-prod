@@ -5,7 +5,7 @@ const _ = require('lodash');
 import { Report } from '../../../../../classes/dataClasses/report/report';
 
 import {
-    DBS_API,
+    DBS_API, FS_API,
     MWS_API,
     REPORT_API,
     RS_API
@@ -15,8 +15,8 @@ import { RequestManager } from '../../AppService/restConnections/requestManager'
 
 import {
     ASYNC_RESPONSE,
-    ID_OBJ,
-    MAP,
+    ID_OBJ, ID_TYPE, IDs_OBJ,
+    MAP, MEDIA_DATA,
     REPORT_DATA
 
 } from '../../../../../classes/typings/all.typings';
@@ -31,8 +31,14 @@ export class ReportManager {
 
     reports: Report[] = [];
 
+    fileIds = {};
+    isInterval;
+    interval;
+
+
     private constructor() {
         this.initAllReports();
+        this.requestToDownloadFilesInterval();
     }
 
     private initAllReports = () => {
@@ -156,8 +162,8 @@ export class ReportManager {
                         this.reports.push(newReportCreated);
                         UpdateListenersManager.updateReportListeners();
 
-
-                        //todo start get media process
+                        const mediaIds: ID_TYPE[] = newReportCreated.media.map((media: MEDIA_DATA) => media.id);
+                        this.requestToDownloadFiles({ids: mediaIds});
 
                     }
                     resolve(res);
@@ -170,6 +176,34 @@ export class ReportManager {
 
 
         });
+    }
+
+    private requestToDownloadFiles = (reportIds: IDs_OBJ) => {
+        RequestManager.requestToFS(FS_API.requestToDownloadFiles, reportIds)
+            .then((data: ASYNC_RESPONSE) => {
+                if (data.success) {
+                    this.isInterval = false;
+                    this.fileIds = {};
+                    console.log('success');
+                }
+                else {
+                    Object.assign(this.fileIds, reportIds.ids);
+                    this.isInterval = true;
+                }
+            })
+            .catch(() => {
+                Object.assign(this.fileIds, reportIds.ids);
+                this.isInterval = true;
+            });
+    }
+
+    private requestToDownloadFilesInterval = () => {
+        setInterval(() => {
+            if (this.isInterval) {
+                const ids: IDs_OBJ = {ids: Object.values(this.fileIds)};
+                this.requestToDownloadFiles(ids);
+            }
+        }, 5000);
     }
 
     private updateReport = (reportData: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {

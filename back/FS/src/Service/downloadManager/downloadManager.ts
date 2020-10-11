@@ -42,15 +42,34 @@ export class DownloadManager {
 
     private static instance: DownloadManager = new DownloadManager();
 
-    private constructor() {
+    fileIds = {};
+    isInterval;
+    interval;
 
+    private constructor() {
+        this.requestToDownloadFilesInterval();
     }
 
 
     // ----------------------
     private requestToDownloadFiles = (requestData: IDs_OBJ ) => {
         const res: ASYNC_RESPONSE<MEDIA_DATA> = {success: false};
-
+        RequestManager.requestToCCG('/getFile', requestData)
+            .then((data: ASYNC_RESPONSE) => {
+                if (data.success) {
+                    this.isInterval = false;
+                    this.fileIds = {};
+                    console.log('success');
+                }
+                else {
+                    Object.assign(this.fileIds, requestData.ids);
+                    this.isInterval = true;
+                }
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                Object.assign(this.fileIds, requestData.ids);
+                this.isInterval = true;
+            });
 
     }
 
@@ -58,6 +77,15 @@ export class DownloadManager {
         const res: ASYNC_RESPONSE<MEDIA_DATA> = {success: false};
 
 
+    }
+
+    private requestToDownloadFilesInterval = () => {
+        setInterval(() => {
+            if (this.isInterval) {
+                const ids: IDs_OBJ = {ids: Object.values(this.fileIds)};
+                this.requestToDownloadFiles(ids);
+            }
+        }, 5000);
     }
 
 
