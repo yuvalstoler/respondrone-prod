@@ -1,5 +1,6 @@
 <div class="DialogContainer" *ngIf="true">
-  <div class="DialogHeader">Create new event</div>
+  <div class="DialogHeader" *ngIf="applicationService.selectedEvent === undefined">Create new event</div>
+  <div class="DialogHeader" *ngIf="applicationService.selectedEvent !== undefined">Edit event</div>
   <!--Content-->
   <div class="DialogContent scroll">
     <!--Title-->
@@ -124,7 +125,7 @@
   <div class="FooterButtons">
     <div>
       <button mat-raised-button class="FooterButtonDelete"
-              (click)="onDeleteClick()">Delete
+              (click)="onDeleteClick()">Cancel
       </button>
       <button mat-raised-button class="FooterButtonCreate"
               (click)="onCreateClick()">Create New Event

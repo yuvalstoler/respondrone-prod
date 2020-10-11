@@ -14,7 +14,7 @@ export class GeneralViewComponent implements OnInit {
   LEFT_PANEL_ICON =  LEFT_PANEL_ICON;
 
   constructor(public applicationService: ApplicationService,
-              private cesiumService: CesiumService) { }
+              public cesiumService: CesiumService) { }
 
   ngOnInit(): void {
   }
