@@ -6,6 +6,7 @@ const _ = require('lodash');
 import {
     ASYNC_RESPONSE,
     FILE_DB_DATA,
+    FILE_GW_DATA,
     ID_OBJ,
     REPORT_DATA,
     UPDATE_FILE_STATUS,
@@ -22,7 +23,7 @@ export class InternalApiManager {
 
     private static instance: InternalApiManager = new InternalApiManager();
 
-    private fileById = (fileId: ID_OBJ): Promise<ASYNC_RESPONSE<Buffer>> => {
+    private fileById = (fileId: ID_OBJ): Promise<ASYNC_RESPONSE<FILE_GW_DATA>> => {
 
         return RequestManager.requestToMG(MG_API.fileById, fileId);
 

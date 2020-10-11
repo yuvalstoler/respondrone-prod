@@ -12,6 +12,7 @@ import {
 import {
     ASYNC_RESPONSE,
     FILE_DB_DATA,
+    FILE_GW_DATA,
     ID_OBJ,
     REPORT_DATA,
     UPDATE_FILE_STATUS,
@@ -78,13 +79,13 @@ export class ApiManager implements IRest {
 
 
     //--------------------------------
-    private fileById = (request: Request, response: Response) => {
+    private getFileById = (request: Request, response: Response) => {
         const fileId: ID_OBJ = request.body;
         InternalApiManager.fileById(fileId)
-            .then((data: ASYNC_RESPONSE<Buffer>) => {
+            .then((data: ASYNC_RESPONSE<FILE_GW_DATA>) => {
                 response.send(data);
             })
-            .catch((data: ASYNC_RESPONSE<Buffer>) => {
+            .catch((data: ASYNC_RESPONSE<FILE_GW_DATA>) => {
                 response.send(data);
             });
     };
@@ -107,7 +108,7 @@ export class ApiManager implements IRest {
         [MWS_API.getVideoSources]: this.getVideoSources,
 
 
-        [CCGW_API.fileById]: this.fileById,
+        [CCGW_API.getFileById]: this.getFileById,
         [CCGW_API.updateFileStatus]: this.updateFileStatus,
 
 

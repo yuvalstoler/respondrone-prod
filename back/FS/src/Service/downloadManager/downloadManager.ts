@@ -13,11 +13,15 @@ const services = require('./../../../../../../../../config/services.json');
 
 import {
     ASYNC_RESPONSE,
+    FILE_GW_DATA,
+    ID_OBJ,
+    ID_TYPE,
     IDs_OBJ,
     MEDIA_DATA,
     MEDIA_TYPE
 } from '../../../../../classes/typings/all.typings';
 import { RequestManager } from '../../AppService/restConnections/requestManager';
+import { CCGW_API } from "../../../../../classes/dataClasses/api/api_enums";
 
 
 const uploadsPath = path.join(__dirname, '../../../../../../uploads');
@@ -52,24 +56,50 @@ export class DownloadManager {
 
 
     // ----------------------
-    private requestToDownloadFiles = (requestData: IDs_OBJ ) => {
+
+    private requestToDownloadFile = (requestData: ID_OBJ) => {
         const res: ASYNC_RESPONSE<MEDIA_DATA> = {success: false};
-        RequestManager.requestToCCG('/getFile', requestData)
-            .then((data: ASYNC_RESPONSE) => {
-                if (data.success) {
+        RequestManager.requestToCCG(CCGW_API.getFileById, requestData)
+            .then((data: ASYNC_RESPONSE<FILE_GW_DATA>) => {
+                if ( data.success ) {
                     this.isInterval = false;
                     this.fileIds = {};
                     console.log('success');
+                //    todo write file and update DB
                 }
                 else {
-                    Object.assign(this.fileIds, requestData.ids);
-                    this.isInterval = true;
+                //   todo
                 }
             })
             .catch((data: ASYNC_RESPONSE) => {
-                Object.assign(this.fileIds, requestData.ids);
-                this.isInterval = true;
+            //todo
             });
+
+    }
+
+    private requestToDownloadFiles = (requestData: IDs_OBJ) => {
+        const res: ASYNC_RESPONSE<MEDIA_DATA> = {success: false};
+
+        requestData.ids.forEach((id: ID_TYPE) => {
+            this.requestToDownloadFile({id: id});
+        });
+
+        // RequestManager.requestToCCG(CCGW_API.getFileById, requestData)
+        //     .then((data: ASYNC_RESPONSE<FILE_GW_DATA>) => {
+        //         if ( data.success ) {
+        //             this.isInterval = false;
+        //             this.fileIds = {};
+        //             console.log('success');
+        //         }
+        //         else {
+        //             Object.assign(this.fileIds, requestData.ids);
+        //             this.isInterval = true;
+        //         }
+        //     })
+        //     .catch((data: ASYNC_RESPONSE) => {
+        //         Object.assign(this.fileIds, requestData.ids);
+        //         this.isInterval = true;
+        //     });
 
     }
 
@@ -81,7 +111,7 @@ export class DownloadManager {
 
     private requestToDownloadFilesInterval = () => {
         setInterval(() => {
-            if (this.isInterval) {
+            if ( this.isInterval ) {
                 const ids: IDs_OBJ = {ids: Object.values(this.fileIds)};
                 this.requestToDownloadFiles(ids);
             }
@@ -93,8 +123,8 @@ export class DownloadManager {
 
     // region API uncions
     public static requestToDownloadFiles = DownloadManager.instance.requestToDownloadFiles;
+    public static requestToDownloadFile = DownloadManager.instance.requestToDownloadFile;
     public static getDownloadStatus = DownloadManager.instance.getDownloadStatus;
-
 
 
     // endregion API uncions

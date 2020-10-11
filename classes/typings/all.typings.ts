@@ -226,3 +226,6 @@ export type UPDATE_FILE_STATUS = {
     fileStatus: FILE_STATUS,
 
 };
+export type FILE_GW_DATA = FILE_DB_DATA & {
+    byteArray: string,
+};
