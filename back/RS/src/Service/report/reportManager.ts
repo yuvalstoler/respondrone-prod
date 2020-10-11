@@ -32,7 +32,7 @@ export class ReportManager {
     reports: Report[] = [];
 
     private constructor() {
-        // this.initAllReports();
+        this.initAllReports();
     }
 
     private initAllReports = () => {
@@ -115,12 +115,14 @@ export class ReportManager {
                     res.success = data.success;
                     res.description = data.description;
                     if ( data.success ) {
-                        const newReportCreated: Report = new Report(data.data);
-                        this.reports.push(newReportCreated);
+                        const report: Report = this.reports.find(element => element.id === data.data.id);
+                        if (report) {
+                            report.setValues(data.data);
+                        } else {
+                            this.reports.push(new Report(data.data));
+                        }
 
-                        //todo
                         UpdateListenersManager.updateReportListeners();
-
                     }
                     resolve(res);
                 })
@@ -214,6 +216,12 @@ export class ReportManager {
                     res.data = data.data;
                     res.success = data.success;
                     if ( data.success ) {
+                        const index = this.reports.findIndex(element => element.id === data.data.id);
+                        if (index !== -1) {
+                            this.reports.splice(index, 1);
+                        }
+                        UpdateListenersManager.updateReportListeners();
+
                         resolve(res);
                     }
                     else {

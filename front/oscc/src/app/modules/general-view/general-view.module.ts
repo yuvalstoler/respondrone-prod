@@ -99,6 +99,9 @@ import { LinkedEventsTableComponent } from './linked-events-table/linked-events-
   providers: [
     PolygonsEditorService,
     ViewerConfiguration
+  ],
+  entryComponents: [
+    ViewMediaComponent
   ]
 })
 export class GeneralViewModule {

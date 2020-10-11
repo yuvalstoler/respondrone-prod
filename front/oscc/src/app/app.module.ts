@@ -32,6 +32,13 @@ import { LinkedReportTableComponent } from './dialogs/linked-report-dialog/linke
 import { LinkedEventDialogComponent } from './dialogs/linked-event-dialog/linked-event-dialog.component';
 import { LinkedEventContainerComponent } from './dialogs/linked-event-dialog/linked-event-container/linked-event-container.component';
 import { LinkedEventTableComponent } from './dialogs/linked-event-dialog/linked-event-table/linked-event-table.component';
+import {ToastrModule} from 'ngx-toastr';
+import {SocketIoModule, SocketIoConfig} from 'ngx-socket-io';
+import {SOCKET_CONFIG} from '../environments/environment';
+
+const config: SocketIoConfig = SOCKET_CONFIG;
+
+
 // import {
 //   AngularCesiumModule,
 //   AngularCesiumWidgetsModule,
@@ -59,6 +66,8 @@ import { LinkedEventTableComponent } from './dialogs/linked-event-dialog/linked-
     GeneralViewModule,
     HttpClientModule,
     AngularCesiumModule.forRoot(),
+    SocketIoModule.forRoot(config),
+    ToastrModule.forRoot(),
     // AngularCesiumModule.forRoot(),
     // AngularCesiumWidgetsModule,
 

@@ -1,13 +1,16 @@
 import {
     ADDRESS_GEOPOINT,
     GEOPOINT3D,
-    ID_TYPE,
+    ID_TYPE, LINKED_REPORT_DATA,
+    LOCATION_TYPE,
+    MEDIA_DATA,
     PRIORITY,
     REPORT_DATA,
+    REPORT_DATA_UI,
     REPORT_TYPE,
     SOURCE_TYPE
 } from '../../typings/all.typings';
-import { DataUtility } from '../../applicationClasses/utility/dataUtility';
+import {DataUtility} from '../../applicationClasses/utility/dataUtility';
 
 export class Report {
 
@@ -18,10 +21,11 @@ export class Report {
     createdBy: string
     priority: PRIORITY;
     description: string = '';
+    locationType: LOCATION_TYPE = LOCATION_TYPE.none;
     location: GEOPOINT3D | ADDRESS_GEOPOINT;
-    mediaIds: string[] = [];
+    media: MEDIA_DATA[] = [];
     eventIds: string[] = [];
-    commentIds: string[];
+    commentIds: string[] = [];
 
     constructor(data: REPORT_DATA) {
         if ( data ) {
@@ -69,10 +73,17 @@ export class Report {
         }
     };
 
-    private setMedia = (data: string[]) => {
+    private setLocationType = (data: LOCATION_TYPE) => {
+        const res: boolean = LOCATION_TYPE[data] !== undefined;
+        if ( res ) {
+            this.locationType = data;
+        }
+    };
+
+    private setMedia = (data: MEDIA_DATA[]) => {
         const res: boolean = Array.isArray(data);// || todo validate array of strings
         if ( res ) {
-            this.mediaIds = data;
+            this.media = data;
         }
     };
     private setEvents = (data: string[]) => {
@@ -111,10 +122,46 @@ export class Report {
             type: this.type,
             priority: this.priority,
             description: this.description,
+            locationType: this.locationType,
             location: this.location,
-            mediaIds: this.mediaIds,
+            media: this.media,
             eventIds: this.eventIds,
+            commentIds: this.commentIds,
+        };
+    };
 
+    public toJsonForUI = (): REPORT_DATA_UI => {
+        return {
+            id: this.id,
+            source: this.source,
+            time: this.time,
+            createdBy: this.createdBy,
+            type: this.type,
+            priority: this.priority,
+            description: this.description,
+            locationType: this.locationType,
+            location: this.location,
+            media: this.media,
+            eventIds: this.eventIds,
+            commentIds: this.commentIds,
+
+            events: [],
+            comments: [
+                {source: 'FF33', time: 12546324562, text: 'We arrived to the building, the situation is under control'},
+                {source: 'OS23', time: 12546324577, text: 'We arrived to the building, the situation is under control'},
+                {source: 'DD53', time: 12546324582, text: 'We arrived to the building, the situation is under control'}
+            ],
+            modeDefine: undefined
+        };
+    };
+
+    public toJsonLinked = (): LINKED_REPORT_DATA => {
+        return {
+            id: this.id,
+            time: this.time,
+            createdBy: this.createdBy,
+            type: this.type,
+            description: this.description,
         };
     };
 
@@ -127,10 +174,11 @@ export class Report {
 
         priority: this.setPriority,
         description: this.setDescription,
+        locationType: this.setLocationType,
         location: this.setLocation,
         media: this.setMedia,
-        events: this.setEvents,
-        comments: this.setComments,
+        eventIds: this.setEvents,
+        commentIds: this.setComments,
     };
 
 

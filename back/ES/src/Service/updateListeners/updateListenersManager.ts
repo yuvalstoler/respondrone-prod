@@ -2,8 +2,8 @@ import {
     ASYNC_RESPONSE, EVENT_DATA,
 } from '../../../../../classes/typings/all.typings';
 import { RequestManager } from '../../AppService/restConnections/requestManager';
-import { MWS_API } from '../../../../../classes/dataClasses/api/api_enums';
-import {EventManager} from "../event/eventManager";
+import {API_GENERAL, MWS_API} from '../../../../../classes/dataClasses/api/api_enums';
+import {EventManager} from '../event/eventManager';
 
 const _ = require('lodash');
 
@@ -11,7 +11,7 @@ const _ = require('lodash');
 const services = require('./../../../../../../../../config/services.json');
 
 const listeners: string[] = services.RS.listeners;
-const updateRouteListenersURL = MWS_API.general + MWS_API.updateAllEvents;
+const updateRouteListenersURL = API_GENERAL.general + MWS_API.updateAllEvents;
 
 export class UpdateListenersManager {
 
@@ -23,7 +23,7 @@ export class UpdateListenersManager {
 
     private updateEventListeners = (): Promise<ASYNC_RESPONSE> => {
         return new Promise((resolve, reject) => {
-            const allEventsData: EVENT_DATA[] = EventManager.getEvents();
+            const allEventsData: EVENT_DATA[] = EventManager.getEvents(undefined);
             const promisesArr: Promise<ASYNC_RESPONSE>[] = [];
             listeners.forEach((listener: string) => {
                 console.log(Date.now(), 'start updateEventListeners: ', listener);

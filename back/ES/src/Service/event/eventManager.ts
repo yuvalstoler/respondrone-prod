@@ -1,13 +1,13 @@
 import {Converting} from '../../../../../classes/applicationClasses/utility/converting';
 
 
-import {DBS_API, ES_API} from '../../../../../classes/dataClasses/api/api_enums';
+import {DBS_API, ES_API, EVENT_API} from '../../../../../classes/dataClasses/api/api_enums';
 
 import {RequestManager} from '../../AppService/restConnections/requestManager';
 
-import {ASYNC_RESPONSE, EVENT_DATA} from '../../../../../classes/typings/all.typings';
+import {ASYNC_RESPONSE, EVENT_DATA, ID_OBJ} from '../../../../../classes/typings/all.typings';
 import {UpdateListenersManager} from '../updateListeners/updateListenersManager';
-import {EventClass} from '../../../../../classes/dataClasses/event/event';
+import {Event} from '../../../../../classes/dataClasses/event/event';
 
 
 export class EventManager {
@@ -16,7 +16,7 @@ export class EventManager {
     private static instance: EventManager = new EventManager();
 
 
-    events: EventClass[] = [];
+    events: Event[] = [];
 
     private constructor() {
         this.initAllEvents();
@@ -30,6 +30,7 @@ export class EventManager {
             })
             .catch((data: ASYNC_RESPONSE<EVENT_DATA[]>) => {
                 setTimeout(() => {
+
                     this.initAllEvents();
                 }, 5000);
             });
@@ -39,52 +40,187 @@ export class EventManager {
 
     private getEventsFromDBS = (): Promise<ASYNC_RESPONSE<EVENT_DATA[]>> => {
         return new Promise((resolve, reject) => {
-            RequestManager.requestToDBS(DBS_API.getAllEvents, {})
+            RequestManager.requestToDBS(EVENT_API.readAllEvent, {})
                 .then((data: ASYNC_RESPONSE<EVENT_DATA[]>) => {
-                    if (data.success) {
+                    if ( data.success ) {
                         this.events = Converting.Arr_EVENT_DATA_to_Arr_Event(data.data);
                         resolve(data);
-                    } else {
+                    }
+                    else {
                         //todo logger
-                        console.log('error getEventsFromDBS', JSON.stringify(data));
+                        console.log('error getEventsFromRS', JSON.stringify(data));
                         reject(data);
                     }
                 })
                 .catch((data: ASYNC_RESPONSE<EVENT_DATA[]>) => {
                     //todo logger
-                    console.log('error getEventsFromDBS', JSON.stringify(data));
+                    console.log('error getEventsFromRS', JSON.stringify(data));
                     reject(data);
                 });
         });
+        //get StaticNfz From AMS
 
     };
 
-    private getEvents = (): EVENT_DATA[] => {
+    private getEventsDATA = (idObj: ID_OBJ): EVENT_DATA[] => {
         const res: EVENT_DATA[] = [];
-        this.events.forEach((event: EventClass) => {
-            res.push(event.toJsonForSave());
-        });
+        if ( idObj ) {
+            const found = this.events.find(element => element.id === idObj.id);
+            if ( found ) {
+                res.push(found.toJsonForSave());
+            }
+        }
+        else {
+            this.events.forEach((event: Event) => {
+                res.push(event.toJsonForSave());
+            });
+        }
         return res;
     };
 
-    private newEvent = (eventData: EVENT_DATA): Promise<ASYNC_RESPONSE<EVENT_DATA>> => {
+    private getEvent = (idObj: ID_OBJ): Event => {
+        let res: Event;
+        if ( idObj ) {
+            res = this.events.find(element => element.id === idObj.id);
+        }
+
+        return res;
+    };
+
+    private createEvent = (eventData: EVENT_DATA): Promise<ASYNC_RESPONSE<EVENT_DATA>> => {
+        return new Promise((resolve, reject) => {
+
+
+
+            const res: ASYNC_RESPONSE = {success: false};
+            const newEvent: Event = new Event(eventData);
+
+
+            RequestManager.requestToDBS(EVENT_API.createEvent, newEvent.toJsonForSave())
+                .then((data: ASYNC_RESPONSE<EVENT_DATA>) => {
+                    res.data = data.data;
+                    res.success = data.success;
+                    res.description = data.description;
+                    if ( data.success ) {
+                        const event: Event = this.events.find(element => element.id === data.data.id);
+                        if (event) {
+                            event.setValues(data.data);
+                        } else {
+                            this.events.push(new Event(data.data));
+                        }
+
+                        UpdateListenersManager.updateEventListeners();
+                    }
+                    resolve(res);
+                })
+                .catch((data: ASYNC_RESPONSE<EVENT_DATA>) => {
+                    console.log(data);
+                    reject(data);
+                });
+
+
+
+
+        });
+    }
+
+    private updateEvent = (eventData: EVENT_DATA): Promise<ASYNC_RESPONSE<EVENT_DATA>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
-            const newEvent: EventClass = new EventClass(eventData);
+
+            const event: Event = this.getEvent({id: eventData.id});
             //todo save - send to DBS
-            res.data = newEvent.toJsonForSave();
             res.success = true;
             //    todo send to RS
-
             resolve(res);
+        });
+    }
 
+
+    private readEvent = (eventIdData: ID_OBJ): Promise<ASYNC_RESPONSE<EVENT_DATA>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
+
+            const findedEvent: Event = this.events.find((event: Event) => {
+                return event.id === eventIdData.id;
+            });
+            if ( findedEvent ) {
+                res.success = true;
+                res.data = findedEvent;
+            }
+            resolve(res);
+        });
+    }
+    private readAllEvent = (requestData): Promise<ASYNC_RESPONSE<EVENT_DATA[]>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: true, data: []};
+            this.events.forEach((event: Event) => {
+                res.data.push(event.toJsonForSave());
+            });
+            resolve(res);
+        });
+    }
+    private deleteEvent = (eventIdData: ID_OBJ): Promise<ASYNC_RESPONSE<ID_OBJ>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+            RequestManager.requestToDBS(EVENT_API.deleteEvent, eventIdData)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.data = data.data;
+                    res.success = data.success;
+                    if ( data.success ) {
+                        const index = this.events.findIndex(element => element.id === data.data.id);
+                        if (index !== -1) {
+                            this.events.splice(index, 1);
+                        }
+                        UpdateListenersManager.updateEventListeners();
+
+                        resolve(res);
+                    }
+                    else {
+                        reject(res);
+                    }
+                })
+                .catch((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    console.log(data);
+                    reject(data);
+                });
+        });
+    }
+    private deleteAllEvent = (): Promise<ASYNC_RESPONSE<EVENT_DATA>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
+            RequestManager.requestToDBS(EVENT_API.deleteAllEvent, {})
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.data = data.data;
+                    res.success = data.success;
+                    res.description = data.description;
+
+                    if ( data.success ) {
+                        resolve(res);
+                    }
+                    else {
+                        reject(res);
+                    }
+                })
+                .catch((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    console.log(data);
+                    reject(data);
+                });
         });
     }
 
 
     // region API uncions
-    public static getEvents = EventManager.instance.getEvents;
-    public static newEvent = EventManager.instance.newEvent;
+    public static getEvents = EventManager.instance.getEventsDATA;
+    public static getEvent = EventManager.instance.getEventsDATA;
+
+    public static createEvent = EventManager.instance.createEvent;
+    public static updateEvent = EventManager.instance.updateEvent;
+
+    public static readEvent = EventManager.instance.readEvent;
+    public static readAllEvent = EventManager.instance.readAllEvent;
+    public static deleteEvent = EventManager.instance.deleteEvent;
+    public static deleteAllEvent = EventManager.instance.deleteAllEvent;
 
 
     // endregion API uncions

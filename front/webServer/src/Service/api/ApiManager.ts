@@ -11,7 +11,7 @@ import {
     Response
 } from 'express';
 import {
-    ASYNC_RESPONSE,
+    ASYNC_RESPONSE, EVENT_DATA,
     ID_OBJ,
     POINT,
     REPORT_DATA,
@@ -20,6 +20,7 @@ import {
 
 
 import {
+    EVENT_API,
     FS_API,
     MWS_API,
     REPORT_API,
@@ -27,6 +28,7 @@ import {
 } from '../../../../../classes/dataClasses/api/api_enums';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 import {FileManager} from '../file/fileManager';
+import {EventManager} from '../event/eventManager';
 
 
 export class ApiManager implements IRest {
@@ -48,6 +50,7 @@ export class ApiManager implements IRest {
         return true;
     };
 
+    // ========================================================================
 
     private createReport = (request: Request, response: Response) => {
         const requestBody: REPORT_DATA = request.body;
@@ -114,7 +117,6 @@ export class ApiManager implements IRest {
                     res.data = data.data;
                     res.description = data.description;
                     response.send(res);
-                    response.send(res);
                 });
         }
         else {
@@ -140,6 +142,133 @@ export class ApiManager implements IRest {
 
     };
 
+    private updateAllReports = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody: REPORT_DATA[] = request.body;
+        ReportManager.updateAllReports(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
+    // ========================================================================
+
+    private createEvent = (request: Request, response: Response) => {
+        const requestBody: EVENT_DATA = request.body;
+        EventManager.createEvent(requestBody)
+            .then((data: ASYNC_RESPONSE<EVENT_DATA>) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<EVENT_DATA>) => {
+                response.send(data);
+            });
+    };
+
+    private readEvent = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<EVENT_DATA> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            EventManager.readEvent(requestBody)
+                .then((data: ASYNC_RESPONSE<EVENT_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    res.description = data.description;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private readAllEvent = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<EVENT_DATA[]> = {success: false};
+        EventManager.readAllEvent({})
+            .then((data: ASYNC_RESPONSE<EVENT_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
+    private deleteEvent = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            EventManager.deleteEvent(requestBody)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    res.description = data.description;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private deleteAllEvent = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+
+        EventManager.deleteAllEvent()
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
+    private updateAllEvents = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody: EVENT_DATA[] = request.body;
+        EventManager.updateAllEvents(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
+    // ========================================================================
 
     private getVideoSources = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<boolean> = {success: true};
@@ -185,8 +314,17 @@ export class ApiManager implements IRest {
         [REPORT_API.deleteReport]: this.deleteReport,
         [REPORT_API.deleteAllReport]: this.deleteAllReport,
 
+        [EVENT_API.createEvent]: this.createEvent,
+        [EVENT_API.readEvent]: this.readEvent,
+        [EVENT_API.readAllEvent]: this.readAllEvent,
+        [EVENT_API.deleteEvent]: this.deleteEvent,
+        [EVENT_API.deleteAllEvent]: this.deleteAllEvent,
+
         [WS_API.uploadFile]: this.uploadFile,
         [FS_API.removeFile]: this.removeFile,
+
+        [WS_API.updateAllReports]: this.updateAllReports,
+        [WS_API.updateAllEvents]: this.updateAllEvents,
 
     };
 

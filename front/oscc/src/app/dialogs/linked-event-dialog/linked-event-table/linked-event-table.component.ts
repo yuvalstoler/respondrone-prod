@@ -3,28 +3,9 @@ import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import {ApplicationService} from '../../../services/applicationService/application.service';
 import {MatSort} from '@angular/material/sort';
+import {EVENT_DATA_UI} from '../../../../../../../classes/typings/all.typings';
+import {EventService} from '../../../services/eventService/event.service';
 
-export interface LinkedEvent {
-  id: string;
-  type: string;
-  description: string;
-  time: number;
-  createdBy: string;
-}
-
-const ELEMENT_DATA: LinkedEvent[] = [
-  {
-    id: '1000', type: 'Fire Alarm',
-    description: 'description1', time: 10, createdBy: 'John Blake'
-  },
-  {
-    id: '1001', type: 'Road Block',
-    description: 'description2', time: 10, createdBy: 'John Blake'
-  },
-  {
-    id: '1002', type: 'Accident',
-    description: 'description3', time: 10, createdBy: 'John Blake'
-  }];
 
 
 @Component({
@@ -35,12 +16,19 @@ const ELEMENT_DATA: LinkedEvent[] = [
 export class LinkedEventTableComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['select', 'id', 'type', 'description', 'time', 'createdBy'];
-  dataSource = new MatTableDataSource< any>(ELEMENT_DATA);
-  selection = new SelectionModel<LinkedEvent>(true, []);
+  dataSource = new MatTableDataSource<EVENT_DATA_UI>();
+  selection = new SelectionModel<EVENT_DATA_UI>(true, []);
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
 
-  constructor(private applicationService: ApplicationService) {
+  constructor(private applicationService: ApplicationService,
+              public eventService: EventService) {
+
+    this.eventService.events$.subscribe((isNewData: boolean) => {
+      if (isNewData) {
+        this.dataSource.data = [...this.eventService.events.data];
+      }
+    });
   }
 
   ngOnInit(): void {}
@@ -72,6 +60,14 @@ export class LinkedEventTableComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   };
 
+  getSelectedEvents = () => {
+    try {
+      return this.selection.selected.map(data => data.id);
+    } catch (e) {
+      return [];
+    }
+  }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected = () => {
     const numSelected = this.selection.selected.length;
@@ -90,7 +86,7 @@ export class LinkedEventTableComponent implements OnInit, AfterViewInit {
   };
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel = (row?: LinkedEvent): string => {
+  checkboxLabel = (row?: EVENT_DATA_UI): string => {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
@@ -111,7 +107,7 @@ export class LinkedEventTableComponent implements OnInit, AfterViewInit {
     return event ? this.masterToggle() : null;
   };
 
-  onChangeCheckbox = (event, row: LinkedEvent) => {
+  onChangeCheckbox = (event, row: EVENT_DATA_UI) => {
     // if (event.checked) {
     //   this.expandedElement[row.id] = this.expandedElement[row.id] || {};
     //   this.expandedElement[row.id] = row;

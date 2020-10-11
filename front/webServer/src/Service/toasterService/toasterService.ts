@@ -2,10 +2,10 @@ import {SocketIO} from '../../websocket/socket.io';
 import { NOTIFICATION_UI } from '../../../../../classes/typings/all.typings';
 
 export class ToasterService {
-    private static socketServer: SocketIO;
+    // private static socketServer: SocketIO;
 
     public static setSocketServer(_socketClient: SocketIO) {
-        ToasterService.socketServer = _socketClient;
+        // ToasterService.socketServer = _socketClient;
     }
 
     /*  Usage Example:                                         *\
@@ -13,12 +13,12 @@ export class ToasterService {
         ToasterService.sendToaster(data);
     \*                                                         */
     public static sendToaster = (dataToSend: NOTIFICATION_UI) => {
-        if (ToasterService.socketServer) {
+        // if (ToasterService.socketServer) {
             try {
-                ToasterService.socketServer.emit('proxy_ui_toaster', dataToSend);
+               SocketIO.emit('proxy_ui_toaster', dataToSend);
             } catch (e) {
             }
-        }
+        // }
 
     };
 

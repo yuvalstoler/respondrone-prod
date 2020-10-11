@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {HttpClient, HttpEventType, HttpHeaders} from '@angular/common/http';
 import {ConnectionService} from '../../../../services/connectionService/connection.service';
 import {retry} from 'rxjs/operators';
@@ -21,6 +21,8 @@ export type PROGRESS_INFO = {
 export class ReportMediaComponent implements OnInit, OnDestroy {
 
   @Input() media: MEDIA_DATA[] = [];
+  @Output() onAddMedia = new EventEmitter<MEDIA_DATA>();
+  @Output() onDeleteMedia = new EventEmitter<MEDIA_DATA>();
 
   formats = 'image/*,video/*'; // ['.jpg', '.png', '.mp4'];
   progressInfos: PROGRESS_INFO[] = [];
@@ -69,7 +71,7 @@ export class ReportMediaComponent implements OnInit, OnDestroy {
                 data.percent = 100;
                 if (event.body.success) {
                   const mediaData: MEDIA_DATA = event.body.data;
-                  // TODO save mediaData in report
+                  this.onAddMedia.emit(mediaData);
                 }
                 this.removeProgressInfo(data.id);
               }
@@ -90,7 +92,9 @@ export class ReportMediaComponent implements OnInit, OnDestroy {
   deleteFile = (data: MEDIA_DATA) => {
     this.connectionService.postObservable('/api/removeFile', data)
       .subscribe((res: any) => {
-         if (!res.success) {
+         if (res.success) {
+           this.onDeleteMedia.emit(data);
+         } else {
            console.log('error deleting file', res.data);
          }
         },
@@ -142,6 +146,7 @@ export class ReportMediaComponent implements OnInit, OnDestroy {
   };
   // -----------------------
   ngOnDestroy(): void {
+    // TODO fix media is still saved
     this.progressInfos.forEach((data: PROGRESS_INFO) => {
       data.observer.unsubscribe();
     });

@@ -1,8 +1,9 @@
 import * as socketIo from 'socket.io';
-import { MAP } from "../../../../classes/typings/all.typings";
+import { MAP } from '../../../../classes/typings/all.typings';
 
 
 export class SocketIO {
+    private static instance: SocketIO = SocketIO.getInstance();
     webSocket: any;
 
 
@@ -22,9 +23,19 @@ export class SocketIO {
         SystemTelemetry: 'SystemTelemetry'*/
     };
 
-    constructor(server) {
-        this.webSocket = socketIo.listen(server);
+    private constructor() {
     }
+
+    private static getInstance() {
+        if ( !SocketIO.instance ) {
+            SocketIO.instance = new SocketIO();
+        }
+        return SocketIO.instance;
+    }
+
+    private setServer = (server) => {
+        this.webSocket = socketIo.listen(server);
+    };
 
     public startConnectToWS = (sendsOnConnect: Function[]) => {
         this.connectToWebsocket(sendsOnConnect);
@@ -95,10 +106,10 @@ export class SocketIO {
 
     }
 
-
-
-    public emit = (room: string, data) => {
-        this.webSocket.emit(room, data);
+    private emit = (room: string, data) => {
+        if ( this.webSocket ) {
+            this.webSocket.emit(room, data);
+        }
     };
 
     private onceSendToUI() {
@@ -106,4 +117,9 @@ export class SocketIO {
         this.emit('proxy_ui_restartUI', {command: 'restart'});
     }
 
+    // region API functions
+    public static setServer = SocketIO.instance.setServer;
+    public static startConnectToWS = SocketIO.instance.startConnectToWS;
+    public static addToSortConfig = SocketIO.instance.addToSortConfig;
+    public static emit = SocketIO.instance.emit;
 }

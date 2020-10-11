@@ -4,7 +4,7 @@ import {
     REPORT_DATA
 } from '../../../../../classes/typings/all.typings';
 import { RequestManager } from '../../AppService/restConnections/requestManager';
-import { MWS_API } from '../../../../../classes/dataClasses/api/api_enums';
+import {API_GENERAL, MWS_API} from '../../../../../classes/dataClasses/api/api_enums';
 
 const _ = require('lodash');
 
@@ -12,7 +12,7 @@ const _ = require('lodash');
 const services = require('./../../../../../../../../config/services.json');
 
 const listeners: string[] = services.RS.listeners;
-const updateRouteListenersURL = MWS_API.general + MWS_API.updateAllReports;
+const updateRouteListenersURL = API_GENERAL.general + MWS_API.updateAllReports;
 
 export class UpdateListenersManager {
 

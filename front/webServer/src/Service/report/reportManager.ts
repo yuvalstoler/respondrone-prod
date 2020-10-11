@@ -12,10 +12,14 @@ import { RequestManager } from '../../AppService/restConnections/requestManager'
 
 import {
     ASYNC_RESPONSE,
-    ID_OBJ,
-    REPORT_DATA
+    ID_OBJ, ID_TYPE, LINKED_REPORT_DATA,
+    REPORT_DATA, REPORT_DATA_UI
 
 } from '../../../../../classes/typings/all.typings';
+import {SocketIO} from '../../websocket/socket.io';
+import {EventManager} from '../event/eventManager';
+import {ReportMdLogic} from '../../../../../classes/modeDefineTSSchemas/reports/reportMdLogic';
+import {DataUtility} from '../../../../../classes/applicationClasses/utility/dataUtility';
 
 
 export class ReportManager {
@@ -33,7 +37,7 @@ export class ReportManager {
 
     private getReportsFromRS = () => {
         //get StaticNfz From AMS
-        RequestManager.requestToRS(REPORT_API.getAllReports, {})
+        RequestManager.requestToRS(REPORT_API.readAllReport, {})
             .then((data: ASYNC_RESPONSE<REPORT_DATA[]>) => {
                 if ( data.success ) {
                     this.reports = Converting.Arr_REPORT_DATA_to_Arr_Report(data.data);
@@ -55,14 +59,23 @@ export class ReportManager {
         });
         return res;
     }
+    private getLinkedReports = (ids: ID_TYPE[]): LINKED_REPORT_DATA[] => {
+        const res: LINKED_REPORT_DATA[] = [];
+        this.reports.forEach((report: Report) => {
+            if (ids.indexOf(report.id) !== -1) {
+                const data = report.toJsonLinked();
+                res.push(data);
+            }
+        });
+        return res;
+    }
 
-    private updateAllReports = (reportData: REPORT_DATA[]): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
+    private updateAllReports = (reportData: REPORT_DATA[]): Promise<ASYNC_RESPONSE> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
             this.reports = Converting.Arr_REPORT_DATA_to_Arr_Report(reportData);
             res.success = true;
-            //    todo send to RS
-
+            this.sendDataToUI();
             resolve(res);
 
         });
@@ -70,6 +83,9 @@ export class ReportManager {
     private createReport = (reportData: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
+
+            reportData.id = reportData.id || DataUtility.generateID();
+            reportData.time = Date.now();
             const newReport: Report = new Report(reportData);
 
             const newReportDataJson: REPORT_DATA = newReport.toJsonForSave();
@@ -106,9 +122,10 @@ export class ReportManager {
     private readAllReport = (requestData): Promise<ASYNC_RESPONSE<REPORT_DATA[]>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: true, data: []};
-            this.reports.forEach((report: Report) => {
-                res.data.push(report.toJsonForSave());
-            });
+            // this.reports.forEach((report: Report) => {
+            //     res.data.push(report.toJsonForSave());
+            // });
+            res.data = this.getDataForUI();
             resolve(res);
         });
     }
@@ -155,6 +172,24 @@ export class ReportManager {
         });
     }
 
+
+    private getDataForUI = (): REPORT_DATA_UI[] => {
+        const res: REPORT_DATA_UI[] = [];
+        this.reports.forEach((report: Report) => {
+            const reportDataUI: REPORT_DATA_UI = report.toJsonForUI();
+            reportDataUI.events = EventManager.getLinkedEvents(report.eventIds);
+            reportDataUI.modeDefine = ReportMdLogic.validate(reportDataUI);
+
+            res.push(reportDataUI);
+        });
+        return res;
+    };
+
+    private sendDataToUI = (): void => {
+        const jsonForSend: REPORT_DATA_UI[] = this.getDataForUI();
+        SocketIO.emit('webServer_reportsData', jsonForSend);
+    };
+
     // region API uncions
 
     public static getReports = ReportManager.instance.getReports;
@@ -165,6 +200,8 @@ export class ReportManager {
     public static readAllReport = ReportManager.instance.readAllReport;
     public static deleteReport = ReportManager.instance.deleteReport;
     public static deleteAllReport = ReportManager.instance.deleteAllReport;
+
+    public static getLinkedReports = ReportManager.instance.getLinkedReports;
 
 
     // endregion API uncions

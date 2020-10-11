@@ -4,28 +4,11 @@ import {MAP} from '../../../../types';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatSort} from '@angular/material/sort';
 import {ApplicationService} from '../../../services/applicationService/application.service';
+import {REPORT_DATA_UI} from '../../../../../../../classes/typings/all.typings';
+import {ReportService} from '../../../services/reportService/report.service';
 
-export interface LinkedReport {
-  id: string;
-  type: string;
-  description: string;
-  time: number;
-  createdBy: string;
-}
 
-const ELEMENT_DATA: LinkedReport[] = [
-  {
-    id: '1000', type: 'Fire Alarm',
-    description: 'description1', time: 10, createdBy: 'John Blake'
-  },
-  {
-    id: '1001', type: 'Road Block',
-    description: 'description2', time: 10, createdBy: 'John Blake'
-  },
-  {
-    id: '1002', type: 'Accident',
-    description: 'description3', time: 10, createdBy: 'John Blake'
-  }];
+
 
 @Component({
   selector: 'app-linked-report-table',
@@ -35,12 +18,19 @@ const ELEMENT_DATA: LinkedReport[] = [
 export class LinkedReportTableComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['select', 'id', 'type', 'description', 'time', 'createdBy'];
-  dataSource = new MatTableDataSource</*ReportsSituation*/ any>(ELEMENT_DATA);
-  selection = new SelectionModel<LinkedReport>(true, []);
+  dataSource = new MatTableDataSource<REPORT_DATA_UI>();
+  selection = new SelectionModel<REPORT_DATA_UI>(true, []);
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
 
-  constructor(private applicationService: ApplicationService) {
+  constructor(private applicationService: ApplicationService,
+              public reportService: ReportService) {
+
+    this.reportService.reports$.subscribe((isNewData: boolean) => {
+      if (isNewData) {
+        this.dataSource.data = [...this.reportService.reports.data];
+      }
+    });
   }
 
   ngOnInit(): void {}
@@ -72,6 +62,14 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   };
 
+  getSelectedReports = () => {
+    try {
+      return this.selection.selected.map(data => data.id);
+    } catch (e) {
+      return [];
+    }
+  }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected = () => {
     const numSelected = this.selection.selected.length;
@@ -90,7 +88,7 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
   };
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel = (row?: LinkedReport): string => {
+  checkboxLabel = (row?: REPORT_DATA_UI): string => {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
@@ -111,7 +109,7 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
     return event ? this.masterToggle() : null;
   };
 
-  onChangeCheckbox = (event, row: LinkedReport) => {
+  onChangeCheckbox = (event, row: REPORT_DATA_UI) => {
     // if (event.checked) {
     //   this.expandedElement[row.id] = this.expandedElement[row.id] || {};
     //   this.expandedElement[row.id] = row;

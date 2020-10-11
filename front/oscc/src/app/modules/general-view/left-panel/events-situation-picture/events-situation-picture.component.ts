@@ -4,6 +4,7 @@ import {LEFT_PANEL_ICON} from '../../../../../types';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../../../../dialogs/confirm-dialog/confirm-dialog.component';
 import {EventsSituationTableComponent} from './events-situation-table/events-situation-table.component';
+import {EventService} from '../../../../services/eventService/event.service';
 
 @Component({
   selector: 'app-events-situation-picture',
@@ -16,6 +17,7 @@ export class EventsSituationPictureComponent implements OnInit {
   LEFT_PANEL_ICON =  LEFT_PANEL_ICON;
 
   constructor(public applicationService: ApplicationService,
+              public eventService: EventService,
               public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -56,7 +58,9 @@ export class EventsSituationPictureComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // todo:  delete data
+        if (this.applicationService.selectedEvent) {
+          this.eventService.deleteEvent({id: this.applicationService.selectedEvent.id});
+        }
       }
     });
   };

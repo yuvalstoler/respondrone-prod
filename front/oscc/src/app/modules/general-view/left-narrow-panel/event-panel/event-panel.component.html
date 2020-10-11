@@ -52,11 +52,12 @@
       <div class="DialogTitle">Location</div>
       <mat-radio-group
         aria-labelledby="example-radio-group-label"
-        class="example-radio-group"
-        [(ngModel)]="eventModel.location.button">
-        <mat-radio-button class="example-radio-button" *ngFor="let location of locations" [value]="location">
+        class="example-radio-group">
+        <!--[(ngModel)]="eventModel.location.button"-->
+        <mat-radio-button class="example-radio-button" *ngFor="let location of locations"
+                          [value]="location" (click)="onChangeLocation(location)">
           {{location}}
-          <div *ngIf="eventModel.location.button==='Add an address' && location === 'Add an address'">
+          <div *ngIf="location === 'Add an address' && eventModel.locationType === LOCATION_TYPE.address">
             <!--Address-->
             <mat-form-field appearance="outline" class="LocationAddress">
               <label>
@@ -71,7 +72,7 @@
                 <label>
                   <input matInput class="Label" type="text"
                          placeholder="Lat"
-                         [(ngModel)]="eventModel.location.lat">
+                         [(ngModel)]="eventModel.location.latitude">
                 </label>
               </mat-form-field>
               <!--Long-->
@@ -79,7 +80,7 @@
                 <label>
                   <input matInput class="Label" type="text"
                          placeholder="Long"
-                         [(ngModel)]="eventModel.location.long">
+                         [(ngModel)]="eventModel.location.longitude">
                 </label>
               </mat-form-field>
             </div>
@@ -107,13 +108,13 @@
           <label>
             <input matInput class="Label" type="text"
                    placeholder="Add your comment..."
-                   [(ngModel)]="eventModel.comments">
+                   [(ngModel)]="comment">
           </label>
         </mat-form-field>
         <div class="DialogIconContainer"
              (click)="onSendComment()">
           <mat-icon class="DialogIcon"
-                    [ngStyle]="{'color': (eventModel.comments === '' || eventModel.comments === undefined) ? 'lightgray' : 'black' }">
+                    [ngStyle]="{'color': (comment === '' || comment === undefined) ? 'lightgray' : 'black' }">
             send</mat-icon>
         </div>
       </div>
