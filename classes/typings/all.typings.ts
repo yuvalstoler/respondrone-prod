@@ -211,6 +211,7 @@ export enum FILE_STATUS {
     error = 'error',
     notFund = 'notFund',
 }
+
 export type FILE_DB_DATA = {
     _id?: ID_TYPE,
     type: MEDIA_TYPE,
