@@ -81,7 +81,7 @@ export class EventManager {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
 
-            eventData.id = DataUtility.generateID();
+            eventData.id = eventData.id || DataUtility.generateID();
             eventData.time = Date.now();
             const newEvent: Event = new Event(eventData);
 
@@ -141,7 +141,7 @@ export class EventManager {
                     }
                 })
                 .catch((data: ASYNC_RESPONSE<ID_OBJ>) => {
-                    console.log(data);
+                    console.log('delete event', data);
                     reject(data);
                 });
         });

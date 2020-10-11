@@ -23,4 +23,9 @@ export class LinkedReportContainerComponent implements OnInit {
   onCreateNewReport = () => {
 
   };
+
+  getSelectedEvents = () => {
+    const reportIdArr = this.childComponent.getSelectedReports();
+    return reportIdArr;
+  }
 }

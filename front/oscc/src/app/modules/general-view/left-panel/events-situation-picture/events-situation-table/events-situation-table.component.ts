@@ -26,7 +26,7 @@ import {EventService} from '../../../../../services/eventService/event.service';
 
 export class EventsSituationTableComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['select', 'id', 'eventTitle', 'source', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map'];
+  displayedColumns: string[] = ['select', 'id', 'title', 'source', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map'];
   displayedColumnsMinimize: string[] = ['id', 'priority', 'type'];
   dataSource = new MatTableDataSource<EVENT_DATA_UI>();
 

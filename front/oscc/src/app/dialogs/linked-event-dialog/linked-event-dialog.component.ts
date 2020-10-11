@@ -1,6 +1,7 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ApplicationService} from '../../services/applicationService/application.service';
+import {LinkedEventContainerComponent} from './linked-event-container/linked-event-container.component';
 
 @Component({
   selector: 'app-linked-event-dialog',
@@ -8,6 +9,8 @@ import {ApplicationService} from '../../services/applicationService/application.
   styleUrls: ['./linked-event-dialog.component.scss']
 })
 export class LinkedEventDialogComponent implements OnInit {
+
+  @ViewChild(LinkedEventContainerComponent ) childComponent: LinkedEventContainerComponent ;
 
   constructor(private applicationService: ApplicationService,
               public dialogRef: MatDialogRef<LinkedEventDialogComponent>,
@@ -18,6 +21,11 @@ export class LinkedEventDialogComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close(false);
+  }
+
+  onAddClick(): void {
+    const data = this.childComponent.getSelectedEvents();
+    this.dialogRef.close(data);
   }
 
   onCreateNewEvent = () => {

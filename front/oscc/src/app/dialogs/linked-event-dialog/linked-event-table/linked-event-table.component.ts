@@ -60,6 +60,14 @@ export class LinkedEventTableComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   };
 
+  getSelectedEvents = () => {
+    try {
+      return this.selection.selected.map(data => data.id);
+    } catch (e) {
+      return [];
+    }
+  }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected = () => {
     const numSelected = this.selection.selected.length;
