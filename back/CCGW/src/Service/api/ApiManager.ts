@@ -1,3 +1,5 @@
+import { InternalApiManager } from "../internalAPI/internalApiManager";
+
 const _ = require('lodash');
 
 import * as core from 'express-serve-static-core';
@@ -9,7 +11,10 @@ import {
 
 import {
     ASYNC_RESPONSE,
+    FILE_DB_DATA,
+    ID_OBJ,
     REPORT_DATA,
+    UPDATE_FILE_STATUS,
 } from '../../../../../classes/typings/all.typings';
 import {
     CCGW_API,
@@ -71,10 +76,41 @@ export class ApiManager implements IRest {
     };
 
 
+
+    //--------------------------------
+    private fileById = (request: Request, response: Response) => {
+        const fileId: ID_OBJ = request.body;
+        InternalApiManager.fileById(fileId)
+            .then((data: ASYNC_RESPONSE<Buffer>) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<Buffer>) => {
+                response.send(data);
+            });
+    };
+
+    private updateFileStatus = (request: Request, response: Response) => {
+        const fileStatus: UPDATE_FILE_STATUS = request.body;
+        InternalApiManager.updateFileStatus(fileStatus)
+            .then((data: ASYNC_RESPONSE<FILE_DB_DATA>) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<FILE_DB_DATA>) => {
+                response.send(data);
+            });
+    };
+    //--------------------------------
+
     routers: {} = {
         [CCGW_API.createReportFromMGW]: this.createReportFromMGW,
         [REPORT_API.createReport]: this.createReportFromMGW,
         [MWS_API.getVideoSources]: this.getVideoSources,
+
+
+        [CCGW_API.fileById]: this.fileById,
+        [CCGW_API.updateFileStatus]: this.updateFileStatus,
+
+
 
     };
 

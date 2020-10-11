@@ -221,3 +221,8 @@ export type FILE_DB_DATA = {
     fileStatus: FILE_STATUS,
 
 };
+export type UPDATE_FILE_STATUS = {
+    id: ID_TYPE,
+    fileStatus: FILE_STATUS,
+
+};
