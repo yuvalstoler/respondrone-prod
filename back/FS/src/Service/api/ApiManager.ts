@@ -1,11 +1,19 @@
 import * as core from 'express-serve-static-core';
-import {Request, Response} from 'express';
-const _ = require('lodash');
-import {IRest} from '../../../../../classes/dataClasses/interfaces/IRest';
-import {FS_API} from '../../../../../classes/dataClasses/api/api_enums';
-import {ASYNC_RESPONSE} from '../../../../../classes/typings/all.typings';
-import {FileManager} from '../fileManager/fileManager';
+import {
+    Request,
+    Response
+} from 'express';
 
+const _ = require('lodash');
+import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
+import { FS_API } from '../../../../../classes/dataClasses/api/api_enums';
+import {
+    ASYNC_RESPONSE,
+    
+    IDs_OBJ
+} from '../../../../../classes/typings/all.typings';
+import { FileManager } from '../fileManager/fileManager';
+import { DownloadManager } from '../downloadManager/downloadManager';
 
 
 export class ApiManager implements IRest {
@@ -19,14 +27,13 @@ export class ApiManager implements IRest {
 
     // ----------------------
     public listen = (router: core.Router): boolean => {
-        for (const path1 in this.routers) {
+        for ( const path1 in this.routers ) {
             if ( this.routers.hasOwnProperty(path1) ) {
                 router.use(path1, this.routers[path1]);
             }
         }
         return true;
     }
-
 
 
     // ----------------------
@@ -38,7 +45,7 @@ export class ApiManager implements IRest {
         let res: ASYNC_RESPONSE = {success: false};
 
         const mediaData = request.body;
-        if (mediaData) {
+        if ( mediaData ) {
             FileManager.removeFile(mediaData)
                 .then((data: ASYNC_RESPONSE) => {
                     res = data;
@@ -48,7 +55,8 @@ export class ApiManager implements IRest {
                     res.data = err;
                     response.send(res);
                 });
-        } else {
+        }
+        else {
             res.data = 'Missing data';
             response.send(res);
         }
@@ -66,7 +74,19 @@ export class ApiManager implements IRest {
     private getFileFromTest = (request: Request, response: Response) => {
         FileManager.getFileFromTest(request, response);
     }
+    
+    // ---------------------------
 
+    private requestToDownloadFiles = (request: Request, response: Response) => {
+        const filesIds: IDs_OBJ = request.body;
+        DownloadManager.requestToDownloadFiles(filesIds);
+        response.send({success: true});
+    }
+    private getDownloadStatus = (request: Request, response: Response) => {
+        const filesIds: IDs_OBJ = request.body;
+        DownloadManager.getDownloadStatus(filesIds);
+        response.send({success: true});
+    }
     // ---------------------------
 
     routers = {
@@ -75,6 +95,10 @@ export class ApiManager implements IRest {
         [FS_API.getFile]: this.getFile,
         [FS_API.getFileForSave]: this.getFileForSave,
         [FS_API.getFileFromTest]: this.getFileFromTest,
+
+        [FS_API.requestToDownloadFiles]: this.requestToDownloadFiles,
+        [FS_API.getDownloadStatus]: this.getDownloadStatus,
+
 
     };
 

@@ -13,6 +13,7 @@ export type TOASTER_OPTIONS = Partial<{ timeOut: number, extendedTimeOut: number
 
 export type ID_TYPE = string;
 export type ID_OBJ = { id: ID_TYPE };
+export type IDs_OBJ = { ids: ID_TYPE[] };
 
 
 export type ASYNC_RESPONSE<T = any> = { success: boolean, description?: string, data?: T };
@@ -199,8 +200,23 @@ export enum MEDIA_TYPE {
 export type MEDIA_DATA = {
     thumbnail: string,
     url: string,
-    id: string,
+    id: ID_TYPE,
     type: MEDIA_TYPE
 };
 
+export enum FILE_STATUS {
+    unknown = 'unknown',
+    inProcess = 'inProcess',
+    downloaded = 'downloaded',
+    error = 'error',
+    notFund = 'notFund',
+}
+export type FILE_DB_DATA = {
+    _id?: ID_TYPE,
+    type: MEDIA_TYPE,
+    originFileName: string,
+    fsName: string,
+    fsPath: string,
+    fileStatus: FILE_STATUS,
 
+};

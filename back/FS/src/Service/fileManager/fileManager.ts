@@ -8,7 +8,7 @@ const _ = require('lodash');
 const multer = require('multer');
 const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
-const FormData = require('form-data');
+
 const services = require('./../../../../../../../../config/services.json');
 
 import {
@@ -37,8 +37,6 @@ const upload = multer({
     // limits: { fileSize: maxSize },
 }).any('userFiles');
 
-const filePath = require('path').join(__dirname, './../../../../../../../../logo.png');
-const filePath1 = require('path').join(__dirname, './../../../../../../../../logo1.png');
 const filePath2 = require('path').join(__dirname, './../../../../../../../../logo2.png');
 
 export class FileManager {

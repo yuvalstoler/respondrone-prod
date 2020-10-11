@@ -81,6 +81,8 @@ export enum FS_API {
     getFile = '/file/:id',
     getFileForSave = '/getFileForSave',
     getFileFromTest = '/getFileFromTest',
+    requestToDownloadFiles = '/requestToDownloadFiles',
+    getDownloadStatus = '/getDownloadStatus',
 
 
 }

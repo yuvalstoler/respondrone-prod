@@ -14,10 +14,7 @@
     "protocol": "http",
     "host": "localhost",
     "listeners": [
-      "webServer",
-      "MWS",
-      "MG",
-      "CCG"
+      "webServer"
     ]
 
   },
