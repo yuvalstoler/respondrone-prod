@@ -117,7 +117,6 @@ export class ApiManager implements IRest {
                     res.data = data.data;
                     res.description = data.description;
                     response.send(res);
-                    response.send(res);
                 });
         }
         else {
@@ -226,7 +225,6 @@ export class ApiManager implements IRest {
                     res.success = data.success;
                     res.data = data.data;
                     res.description = data.description;
-                    response.send(res);
                     response.send(res);
                 });
         }

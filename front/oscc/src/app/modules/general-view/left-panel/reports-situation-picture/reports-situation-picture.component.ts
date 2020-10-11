@@ -4,6 +4,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../../../../dialogs/confirm-dialog/confirm-dialog.component';
 import {ReportsSituationTableComponent} from './reports-situation-table/reports-situation-table.component';
 import {LEFT_PANEL_ICON} from '../../../../../types';
+import {ReportService} from '../../../../services/reportService/report.service';
 
 @Component({
   selector: 'app-reports-situation-picture',
@@ -16,6 +17,7 @@ export class ReportsSituationPictureComponent implements OnInit {
   LEFT_PANEL_ICON =  LEFT_PANEL_ICON;
 
   constructor(public applicationService: ApplicationService,
+              public reportService: ReportService,
               public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -56,7 +58,9 @@ export class ReportsSituationPictureComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-      // todo:  delete data
+        if (this.applicationService.selectedReport) {
+          this.reportService.deleteReport({id: this.applicationService.selectedReport.id});
+        }
       }
     });
   };

@@ -102,12 +102,14 @@ export class EventManager {
                     res.success = data.success;
                     res.description = data.description;
                     if ( data.success ) {
-                        const newEventCreated: Event = new Event(data.data);
-                        this.events.push(newEventCreated);
+                        const event: Event = this.events.find(element => element.id === data.data.id);
+                        if (event) {
+                            event.setValues(data.data);
+                        } else {
+                            this.events.push(new Event(data.data));
+                        }
 
-                        //todo
                         UpdateListenersManager.updateEventListeners();
-
                     }
                     resolve(res);
                 })
@@ -166,6 +168,10 @@ export class EventManager {
                     res.data = data.data;
                     res.success = data.success;
                     if ( data.success ) {
+                        const index = this.events.findIndex(element => element.id === data.data.id);
+                        if (index !== -1) {
+                            this.events.splice(index, 1);
+                        }
                         UpdateListenersManager.updateEventListeners();
 
                         resolve(res);

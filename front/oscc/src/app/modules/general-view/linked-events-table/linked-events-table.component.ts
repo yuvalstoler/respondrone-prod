@@ -4,6 +4,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {MatTableDataSource} from '@angular/material/table';
 import {LinkedEventDialogComponent} from '../../../dialogs/linked-event-dialog/linked-event-dialog.component';
 import {LINKED_EVENT_DATA, REPORT_DATA_UI} from '../../../../../../../classes/typings/all.typings';
+import {ReportService} from '../../../services/reportService/report.service';
 
 @Component({
   selector: 'app-linked-events-table',
@@ -18,7 +19,8 @@ export class LinkedEventsTableComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['ID', 'Type', 'Description', 'Time', 'actionsColumn'];
   dataSource = new MatTableDataSource<LINKED_EVENT_DATA>();
 
-  constructor( public dialog: MatDialog) {
+  constructor( public dialog: MatDialog,
+               public reportService: ReportService) {
   }
 
   ngOnInit(): void {
@@ -38,11 +40,20 @@ export class LinkedEventsTableComponent implements OnInit, AfterViewInit {
     this.dataSource.data = [];
   }
 
-  removeAt = (index: number) => {
-    const data = this.dataSource.data;
-    data.splice( index, 1);
+  removeAt = (row: LINKED_EVENT_DATA) => {
+    // const data = this.dataSource.data;
+    // data.splice( index, 1);
+    // this.dataSource.data = data;
+    const report = this.reportService.reports.data.find(data => data.id === this.element.id);
+    if (report && row.id) {
+      const index = report.eventIds.indexOf(row.id);
+      if (index !== -1) {
+        report.eventIds.splice(index, 1);
+        this.reportService.createReport(report);
+      }
+    }
 
-    this.dataSource.data = data;
+
   };
 
   onNewEvent = () => {
@@ -61,8 +72,12 @@ export class LinkedEventsTableComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        // todo:  data
+      if (result && Array.isArray(result)) {
+        const report = this.reportService.reports.data.find(data => data.id === this.element.id);
+        if (report) {
+          report.eventIds = result;
+          this.reportService.createReport(report);
+        }
       }
     });
   };

@@ -84,7 +84,7 @@ export class ReportManager {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
 
-            reportData.id = DataUtility.generateID();
+            reportData.id = reportData.id || DataUtility.generateID();
             reportData.time = Date.now();
             const newReport: Report = new Report(reportData);
 

@@ -12,6 +12,9 @@ npm i;
 cd $home/back/ES;
 npm i;
 
+cd $home/back/DBS;
+npm i;
+
 cd $home/front/webServer;
 npm i;
 

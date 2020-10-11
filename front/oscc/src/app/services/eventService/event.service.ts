@@ -27,47 +27,6 @@ export class EventService {
     this.socketService.connected$.subscribe(this.init);
     this.socketService.connectToRoom('webServer_eventsData').subscribe(this.updateEvents);
 
-    // setTimeout(() => {
-    //
-    //
-    //   this.events.data.push({
-    //     id: '1234',
-    //     title: 'aaa',
-    //     time: 1221321423,
-    //     type: EVENT_TYPE.fireAlarm,
-    //     createdBy: 'someoneee',
-    //     priority: PRIORITY.low,
-    //     description: 'blah blahhh',
-    //     locationType: undefined,
-    //     location: undefined,
-    //     reportIds: [],
-    //     commentIds: [],
-    //     reports: [
-    //       {
-    //         id: '123',
-    //         time: 1221321423,
-    //         createdBy: 'blah blah',
-    //         type: REPORT_TYPE.fireAlarm,
-    //         description: 'test description'
-    //       }
-    //     ],
-    //     comments: [
-    //       {source: 'FF33', time: 12546324562, text: 'We arrived to the building, the situation is under control'},
-    //       {source: 'OS23', time: 12546324577, text: 'We arrived to the building, the situation is under control'},
-    //       {source: 'DD53', time: 12546324582, text: 'We arrived to the building, the situation is under control'}
-    //     ],
-    //     modeDefine: {
-    //       styles: {},
-    //       tableData: {
-    //         message: {type: 'text', data: '3', color: ''},
-    //         priority: {type: 'matIcon', data: 'warning', color: '#FF0000'},
-    //         link: {type: 'matIcon', data: 'link', color: '#00FF00'},
-    //         map: {type: 'matIcon', data: 'location_on', color: '#0000FF'},
-    //       }
-    //     }
-    //   });
-    //   this.events$.next(true);
-    // }, 7000);
   }
   // ----------------------
   private init = (isConnected: boolean = true): void => {

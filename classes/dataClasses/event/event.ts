@@ -46,6 +46,9 @@ export class Event {
     private setType = (data: EVENT_TYPE) => {
         this.type = data;
     };
+    private setTitle = (data: string) => {
+        this.title = data;
+    };
     private setPriority = (data: PRIORITY) => {
         this.priority = data;
     };
@@ -151,6 +154,7 @@ export class Event {
         id: this.setId,
         time: this.setTime,
         createdBy: this.setCreatedBy,
+        title: this.setTitle,
         type: this.setType,
         priority: this.setPriority,
         description: this.setDescription,
