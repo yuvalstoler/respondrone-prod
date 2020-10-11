@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DISPLAY_ON_SCREEN, HEADER_BUTTONS, LEFT_PANEL_ICON} from 'src/types';
 import {ApplicationService} from 'src/app/services/applicationService/application.service';
+import {CesiumService} from '../../services/cesium/cesium.service';
 
 @Component({
   selector: 'app-general-view',
@@ -12,7 +13,8 @@ export class GeneralViewComponent implements OnInit {
   Header_Buttons = HEADER_BUTTONS;
   LEFT_PANEL_ICON =  LEFT_PANEL_ICON;
 
-  constructor(public applicationService: ApplicationService) { }
+  constructor(public applicationService: ApplicationService,
+              private cesiumService: CesiumService) { }
 
   ngOnInit(): void {
   }

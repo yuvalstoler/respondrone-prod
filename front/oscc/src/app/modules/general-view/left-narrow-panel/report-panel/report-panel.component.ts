@@ -58,7 +58,7 @@ export class ReportPanelComponent implements OnInit {
     } else {
       this.reportModel = _.cloneDeep(this.defaultReport);
     }
-  }
+  };
 
   onChangeLocation = (location: string) => {
     if (location === 'Add an address') {
@@ -69,18 +69,18 @@ export class ReportPanelComponent implements OnInit {
       this.reportModel.locationType = LOCATION_TYPE.locationPoint;
       // TODO: choose from map
     }
-  }
+  };
 
   onAddMedia = (newMedia: MEDIA_DATA) => {
     this.reportModel.media.unshift(newMedia);
-  }
+  };
 
   onDeleteMedia = (newMedia: MEDIA_DATA) => {
     const index = this.reportModel.media.findIndex((data: MEDIA_DATA) => data.id === newMedia.id);
     if (index !== -1) {
       this.reportModel.media.splice(index, 1);
     }
-  }
+  };
 
   onCreateClick = () => {
     this.reportService.createReport(this.reportModel);

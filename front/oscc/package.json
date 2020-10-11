@@ -29,7 +29,8 @@
     "ngx-toastr": "^13.1.0",
     "rxjs": "~6.6.3",
     "tslib": "^2.0.0",
-    "zone.js": "~0.10.2"
+    "zone.js": "~0.10.2",
+    "@turf/turf": "^5.1.6"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1001.3",

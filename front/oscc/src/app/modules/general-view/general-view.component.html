@@ -4,34 +4,44 @@
 
 
   <!--Content-->
-  <div class="MapContent">
+
+  <!--Map Cesium-->
+  <div >
     <app-map></app-map>
+    <div class="MapContent"
+         id="{{cesiumService?.maps[0]?.containerId}}">
+    </div>
+    <!--<div class="cesium-two"-->
+    <!--id="{{mapAvService?.maps[1]?.containerId}}">-->
+    <!--</div>-->
   </div>
+
+
   <!--[position]="'start'"-->
   <!--[(opened)]="applicationService.screen.showLeftPanel"-->
   <!--Left Panel-->
   <!--[disableClose]="true"-->
   <mat-sidenav-container>
-    <mat-sidenav #sidenav class="LeftPanel"
+    <mat-sidenav #sidenav [(opened)]="applicationService.screen.showLeftPanel"
                  [ngClass]="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)? 'LeftPanel' : 'LeftNarrowPanel'"
-                 mode="side"
-                 [(opened)]="applicationService.screen.showLeftPanel">
+                 class="LeftPanel"
+                 mode="side">
       <app-left-panel></app-left-panel>
     </mat-sidenav>
   </mat-sidenav-container>
 
   <mat-sidenav-container>
-    <mat-sidenav #sidenav class="LeftNarrowPanel"
-                 mode="side"
-                 [(opened)]="applicationService.screen.showLeftNarrowPanel">
+    <mat-sidenav #sidenav [(opened)]="applicationService.screen.showLeftNarrowPanel"
+                 class="LeftNarrowPanel"
+                 mode="side">
       <app-left-narrow-panel></app-left-narrow-panel>
     </mat-sidenav>
   </mat-sidenav-container>
 
   <!--<mat-sidenav-container class="example-container" *ngIf="shouldRun">-->
-    <!--<mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"-->
-                 <!--(closed)="events.push('close!')">-->
-      <!--Sidenav content-->
-    <!--</mat-sidenav>-->
+  <!--<mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"-->
+  <!--(closed)="events.push('close!')">-->
+  <!--Sidenav content-->
+  <!--</mat-sidenav>-->
 
 </div>
