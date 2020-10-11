@@ -1,5 +1,5 @@
 const request = require('request');
-import {Request, Response} from 'express';
+
 
 import {
     API_GENERAL,
@@ -16,6 +16,7 @@ const timeout_AV = projConf.timeOutREST;
 const timeout_File = 10 * 60 * 1000; // TODO ??
 
 const url_CCG = services.CCG.protocol + '://' + services.CCG.host + ':' + services.CCG.port;
+const url_DBS = services.DBS.protocol + '://' + services.DBS.host + ':' + services.DBS.port;
 
 export class RequestManager {
 
@@ -23,10 +24,14 @@ export class RequestManager {
     public static requestToCCG = (path: string, bodyObj: object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_CCG, API_GENERAL.general + path, bodyObj, timeout_AV);
     }
+
+    public static requestToDBS = (path: string, bodyObj: object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_DBS, API_GENERAL.general + path, bodyObj, timeout_AV);
+    }
+
     public static uploadFileToCCG = (formData: object) => {
         return RequestManager.uploadFile(url_CCG, API_GENERAL.general + CCG_API.uploadFileToMG, formData);
     }
-
 
     public static sendRestRequest(url: string, path: string, bodyObj: Object, timeout: number): Promise<ASYNC_RESPONSE> {
         return new Promise((resolve, reject) => {
@@ -75,7 +80,7 @@ export class RequestManager {
 
     }
 
-    public static uploadFile( url, path, formData, timeout: number = timeout_File) {
+    public static uploadFile(url, path, formData, timeout: number = timeout_File) {
         request({
             url: `${url}/${path}`,
             method: 'POST',
