@@ -204,4 +204,19 @@ export type MEDIA_DATA = {
     type: MEDIA_TYPE
 };
 
+export enum FILE_STATUS {
+    unknown = 'unknown',
+    inProcess = 'inProcess',
+    downloaded = 'downloaded',
+    error = 'error',
+    notFund = 'notFund',
+}
+export type FILE_DB_DATA = {
+    _id?: ID_TYPE,
+    type: MEDIA_TYPE,
+    originFileName: string,
+    fsName: string,
+    fsPath: string,
+    fileStatus: FILE_STATUS,
 
+};
