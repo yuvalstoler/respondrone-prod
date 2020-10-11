@@ -211,12 +211,18 @@ export enum FILE_STATUS {
     error = 'error',
     notFund = 'notFund',
 }
+
 export type FILE_DB_DATA = {
     _id?: ID_TYPE,
     type: MEDIA_TYPE,
     originFileName: string,
     fsName: string,
     fsPath: string,
+    fileStatus: FILE_STATUS,
+
+};
+export type UPDATE_FILE_STATUS = {
+    id: ID_TYPE,
     fileStatus: FILE_STATUS,
 
 };

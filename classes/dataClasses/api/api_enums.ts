@@ -97,6 +97,20 @@ export enum WS_API {
 
 export enum CCGW_API {
     createReportFromMGW = '/createReportFromMGW',
+    fileById = '/fileById',
+    updateFileStatus = '/updateFileStatus',
+}
 
+export enum MG_API {
+    createReport_in_OSCC = '/createReport_in_OSCC',
+    getFile = '/getFile',
+
+    readReport = '/readReport',
+    readAllReport = '/readAllReport',
+    deleteReport = '/deleteReport',
+    deleteAllReport = '/deleteAllReport',
+    getAllReports = '/getAllReports',
+    fileById = '/fileById',
+    updateFileStatus = '/updateFileStatus',
 
 }
