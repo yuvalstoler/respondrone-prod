@@ -11,9 +11,29 @@ export enum MS_API {
 }
 
 export enum DBS_API {
+
     setSite = '/setSite',
 
     getAllEvents = '/getAllEvents',
+
+    saveFileData = '/saveFileData',
+    readFileData = '/readFileData',
+    updateFileData = '/updateFileData',
+
+    createEvent = '/createEvent',
+    readEvent = '/readEvent',
+    readAllEvent = '/readAllEvent',
+    deleteEvent = '/deleteEvent',
+    deleteAllEvent = '/deleteAllEvent',
+
+
+    createReport = '/createReport',
+    readReport = '/readReport',
+    readAllReport = '/readAllReport',
+    deleteReport = '/deleteReport',
+    deleteAllReport = '/deleteAllReport',
+    getAllReports = '/getAllReports',
+
 
 }
 
@@ -85,7 +105,7 @@ export enum FS_API {
     getFileForSave = '/getFileForSave',
     getFileFromTest = '/getFileFromTest',
     requestToDownloadFiles = '/requestToDownloadFiles',
-    getDownloadStatus = '/getDownloadStatus',
+    getFileData = '/getFileData',
     updateListenersFS = '/updateListenersFS',
 
 
