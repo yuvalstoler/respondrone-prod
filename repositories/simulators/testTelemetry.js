@@ -12,12 +12,12 @@ const url_drones = "ws://localhost:4701";
 const url_frs = "ws://localhost:4702";
 const url_gimbals = "ws://localhost:4703";
 
+let ws_drones;
+let ws_frs;
+let ws_gimbals;
 
 class Server
 {
-//    ws_drones;
- //   ws_frs;
-  //  ws_gimbals;
 
     constructor() {
         this.port = 4800;
