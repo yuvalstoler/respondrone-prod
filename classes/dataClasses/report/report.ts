@@ -1,16 +1,20 @@
 import {
-    ADDRESS_GEOPOINT, COMMENT,
+    ADDRESS_GEOPOINT,
+    COMMENT,
     GEOPOINT3D,
-    ID_TYPE, LINKED_REPORT_DATA,
+    ID_TYPE,
+    LINKED_REPORT_DATA,
     LOCATION_TYPE,
     FILE_FS_DATA,
     PRIORITY,
     REPORT_DATA,
     REPORT_DATA_UI,
     REPORT_TYPE,
-    SOURCE_TYPE
+    SOURCE_TYPE,
+    ADDRESS,
+    MAP
 } from '../../typings/all.typings';
-import {DataUtility} from '../../applicationClasses/utility/dataUtility';
+import { DataUtility } from '../../applicationClasses/utility/dataUtility';
 
 export class Report {
 
@@ -22,8 +26,10 @@ export class Report {
     priority: PRIORITY;
     description: string = '';
     locationType: LOCATION_TYPE = LOCATION_TYPE.none;
-    location: GEOPOINT3D | ADDRESS_GEOPOINT;
+    location: GEOPOINT3D;
+    address: ADDRESS;
     media: FILE_FS_DATA[] = [];
+    mediaFileIds: MAP<boolean> = {}
     eventIds: string[] = [];
     comments: COMMENT[] = [];
 
@@ -66,13 +72,18 @@ export class Report {
             this.description = data;
         }
     };
-    private setLocation = (data: GEOPOINT3D | ADDRESS_GEOPOINT) => {
+    private setLocation = (data: GEOPOINT3D) => {
         const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS_GEOPOINT
         if ( res ) {
             this.location = data;
         }
     };
-
+    private setAddress = (data: ADDRESS) => {
+        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS_GEOPOINT
+        if ( res ) {
+            this.address = data;
+        }
+    };
     private setLocationType = (data: LOCATION_TYPE) => {
         const res: boolean = LOCATION_TYPE[data] !== undefined;
         if ( res ) {
@@ -80,10 +91,16 @@ export class Report {
         }
     };
 
-    private setMedia = (data: FILE_FS_DATA[]) => {
+    private setMedia = (data: FILE_FS_DATA[] = []) => {
         const res: boolean = Array.isArray(data);// || todo validate array of strings
         if ( res ) {
             this.media = data;
+        }
+    };
+    private setMediaFileIds = (data: MAP<boolean> = {}) => {
+        const res: boolean = Array.isArray(data);// || todo validate array of strings
+        if ( res ) {
+            this.mediaFileIds = data;
         }
     };
     private setEvents = (data: string[]) => {
@@ -125,6 +142,7 @@ export class Report {
             locationType: this.locationType,
             location: this.location,
             media: this.media,
+            mediaFileIds: this.mediaFileIds,
             eventIds: this.eventIds,
             comments: this.comments,
         };
@@ -142,6 +160,7 @@ export class Report {
             locationType: this.locationType,
             location: this.location,
             media: this.media,
+            mediaFileIds: this.mediaFileIds,
             eventIds: this.eventIds,
             comments: this.comments,
             events: [],
@@ -170,7 +189,9 @@ export class Report {
         description: this.setDescription,
         locationType: this.setLocationType,
         location: this.setLocation,
+        address: this.setAddress,
         media: this.setMedia,
+        mediaFileIds: this.setMediaFileIds,
         eventIds: this.setEvents,
         comments: this.setComments,
     };

@@ -1,12 +1,15 @@
-import {get, set} from './safe';
-import {MAP} from '../../typings/all.typings';
+import {
+    get,
+    set
+} from './safe';
+import { MAP } from '../../typings/all.typings';
 
 
 export class DataUtility {
 
 
     public static setValues = (objForUpdate, data, saveConfig: Object) => {
-        for (const key in saveConfig) {
+        for ( const key in saveConfig ) {
             if ( saveConfig.hasOwnProperty(key) && get(() => data[saveConfig[key]]) !== undefined ) {
                 set(objForUpdate, key, get(() => data[saveConfig[key]]));
             }
@@ -35,6 +38,7 @@ export class DataUtility {
             }).join('\n');
         return csvContent;
     }
+
     public static generateID(): string {
         return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
     }
@@ -55,10 +59,20 @@ export class DataUtility {
         return res;
     };
 
+    public static arrPrimitivesToMAP_boolean = (objArr: any[]): MAP<any> => {
+        const res: MAP<any> = {};
+        if ( Array.isArray(objArr) ) {
+            objArr.forEach((primitive) => {
+                res[primitive] = true;
+            });
+        }
+        return res;
+    };
+
     public static mapToArr = (obj: MAP<any>): any[] => {
         const res: any[] = [];
         if ( obj ) {
-            for (const id in obj) {
+            for ( const id in obj ) {
                 if ( obj.hasOwnProperty(id) ) {
                     res.push(obj[id]);
                 }
@@ -70,10 +84,10 @@ export class DataUtility {
     public static mapMapToArr = (obj: MAP<MAP<any>>): any[] => {
         const res: any[] = [];
         if ( obj ) {
-            for (const firstId in obj) {
+            for ( const firstId in obj ) {
                 if ( obj.hasOwnProperty(firstId) ) {
                     const internalMap = obj[firstId] || {};
-                    for (const secondId in internalMap) {
+                    for ( const secondId in internalMap ) {
                         if ( internalMap.hasOwnProperty(secondId) ) {
                             res.push(obj[firstId][secondId]);
                         }
@@ -87,10 +101,10 @@ export class DataUtility {
     public static mapMapToMap = (obj: MAP<MAP<any>>): MAP<any> => {
         const res: MAP<any> = {};
         if ( obj ) {
-            for (const firstId in obj) {
+            for ( const firstId in obj ) {
                 if ( obj.hasOwnProperty(firstId) ) {
                     const internalMap = obj[firstId] || {};
-                    for (const secondId in internalMap) {
+                    for ( const secondId in internalMap ) {
                         if ( internalMap.hasOwnProperty(secondId) ) {
                             res[secondId] = obj[firstId][secondId];
                         }
@@ -103,19 +117,20 @@ export class DataUtility {
 
     public static validConfigParams = (parameters: any[]): boolean => {
         let res = true;
-        if (Array.isArray(parameters)) {
-            for (let i = 0; i < parameters.length; i++) {
-                if (parameters[i] === undefined) {
+        if ( Array.isArray(parameters) ) {
+            for ( let i = 0; i < parameters.length; i++ ) {
+                if ( parameters[i] === undefined ) {
                     res = false;
                     i = parameters.length;
                 }
             }
             parameters.forEach((parameter) => {
-                if (parameter === undefined) {
+                if ( parameter === undefined ) {
                     res = false;
                 }
             });
-        } else {
+        }
+        else {
             res = false;
         }
         return res;
@@ -123,12 +138,12 @@ export class DataUtility {
 
     public static mapMapToMap_secondId = (obj: MAP<MAP<any>>): MAP<any> => {
         const res: MAP<any> = {};
-        if (obj) {
-            for (const firstId in obj) {
-                if (obj.hasOwnProperty(firstId)) {
+        if ( obj ) {
+            for ( const firstId in obj ) {
+                if ( obj.hasOwnProperty(firstId) ) {
                     const internalMap = obj[firstId] || {};
-                    for (const secondId in internalMap) {
-                        if (internalMap.hasOwnProperty(secondId)) {
+                    for ( const secondId in internalMap ) {
+                        if ( internalMap.hasOwnProperty(secondId) ) {
                             res[secondId] = obj[firstId][secondId];
                         }
                     }
@@ -140,7 +155,7 @@ export class DataUtility {
 
     public static prepareTimeStamp = (date): string => {
         let res = '';
-        if (date) {
+        if ( date ) {
             date = new Date(date);
             const year = date.getFullYear();
             const month = (date.getMonth() + 1 < 10) ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);

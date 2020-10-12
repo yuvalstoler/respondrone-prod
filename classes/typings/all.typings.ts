@@ -59,6 +59,7 @@ export type GEOPOINT_UI = { lat: number, lng: number };
 export type GEOPOINT3D = GEOPOINT & { altitude?: number };
 export type ADDRESS_GEOPOINT = GEOPOINT & { address: string };
 export type POLYGON_GEOPOINT = GEOPOINT3D[];
+export type ADDRESS = string;
 
 
 export enum REPORT_TYPE {
@@ -99,6 +100,7 @@ export enum LOCATION_TYPE {
     locationPoint = 'locationPoint',
     polygon = 'polygon'
 }
+
 export type COMMENT = {
     source: string,
     time: number,
@@ -114,8 +116,10 @@ export type REPORT_DATA = {
     priority: PRIORITY,
     description: string,
     locationType: LOCATION_TYPE;
-    location: GEOPOINT3D | ADDRESS_GEOPOINT,
+    location?: GEOPOINT3D,
+    address?: ADDRESS,
     media: FILE_FS_DATA[],
+    mediaFileIds: MAP<boolean>,
     eventIds: string[],
     comments: COMMENT[]
 };
