@@ -17,7 +17,7 @@ import {
     ID_OBJ,
     ID_TYPE,
     IDs_OBJ,
-    MEDIA_DATA,
+    FILE_FS_DATA,
     MEDIA_TYPE
 } from '../../../../../classes/typings/all.typings';
 import { RequestManager } from '../../AppService/restConnections/requestManager';
@@ -58,7 +58,7 @@ export class DownloadManager {
     // ----------------------
 
     private requestToDownloadFile = (requestData: ID_OBJ) => {
-        const res: ASYNC_RESPONSE<MEDIA_DATA> = {success: false};
+        const res: ASYNC_RESPONSE<FILE_FS_DATA> = {success: false};
         RequestManager.requestToCCG(CCGW_API.getFileById, requestData)
             .then((data: ASYNC_RESPONSE<FILE_GW_DATA>) => {
                 if ( data.success ) {
@@ -78,7 +78,7 @@ export class DownloadManager {
     }
 
     private requestToDownloadFiles = (requestData: IDs_OBJ) => {
-        const res: ASYNC_RESPONSE<MEDIA_DATA> = {success: false};
+        const res: ASYNC_RESPONSE<FILE_FS_DATA> = {success: false};
 
         requestData.ids.forEach((id: ID_TYPE) => {
             this.requestToDownloadFile({id: id});
@@ -104,7 +104,7 @@ export class DownloadManager {
     }
 
     private getDownloadStatus = (requestData: IDs_OBJ) => {
-        const res: ASYNC_RESPONSE<MEDIA_DATA> = {success: false};
+        const res: ASYNC_RESPONSE<FILE_FS_DATA> = {success: false};
 
 
     }

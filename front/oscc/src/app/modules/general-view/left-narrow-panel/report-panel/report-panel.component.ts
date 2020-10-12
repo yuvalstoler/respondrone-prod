@@ -4,7 +4,7 @@ import {HEADER_BUTTONS} from '../../../../../types';
 import {
   LINKED_EVENT_DATA,
   LOCATION_TYPE,
-  MEDIA_DATA,
+  FILE_FS_DATA,
   PRIORITY,
   REPORT_DATA_UI,
   REPORT_TYPE,
@@ -73,12 +73,12 @@ export class ReportPanelComponent implements OnInit {
     }
   };
 
-  onAddMedia = (newMedia: MEDIA_DATA) => {
+  onAddMedia = (newMedia: FILE_FS_DATA) => {
     this.reportModel.media.unshift(newMedia);
   };
 
-  onDeleteMedia = (newMedia: MEDIA_DATA) => {
-    const index = this.reportModel.media.findIndex((data: MEDIA_DATA) => data.id === newMedia.id);
+  onDeleteMedia = (newMedia: FILE_FS_DATA) => {
+    const index = this.reportModel.media.findIndex((data: FILE_FS_DATA) => data.id === newMedia.id);
     if (index !== -1) {
       this.reportModel.media.splice(index, 1);
     }
@@ -94,7 +94,7 @@ export class ReportPanelComponent implements OnInit {
   onDeleteClick = () => {
     console.log('delete');
     if (!this.reportModel.id) {
-      this.reportModel.media.forEach((data: MEDIA_DATA) => {
+      this.reportModel.media.forEach((data: FILE_FS_DATA) => {
         // TODO: remove media
       });
     }
