@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import {ApplicationService} from '../../../services/applicationService/application.service';
@@ -35,6 +35,15 @@ export class LinkedEventTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+  }
+
+
+  checkSelected = (arr: string[]) => {
+    this.dataSource.data.forEach(row => {
+      if (arr.indexOf(row.id) !== -1) {
+        this.selection.select(row);
+      }
+    });
   }
 
   private selectRow = (element): void => {

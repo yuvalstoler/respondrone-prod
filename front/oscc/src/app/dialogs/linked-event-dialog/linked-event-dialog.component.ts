@@ -14,9 +14,12 @@ export class LinkedEventDialogComponent implements OnInit {
 
   constructor(private applicationService: ApplicationService,
               public dialogRef: MatDialogRef<LinkedEventDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) { }
+              @Inject(MAT_DIALOG_DATA) public data: string[]) { }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.childComponent.checkSelected(this.data);
+    }, 500);
   }
 
   onNoClick(): void {

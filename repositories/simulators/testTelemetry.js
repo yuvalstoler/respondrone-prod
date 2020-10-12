@@ -15,9 +15,9 @@ const url_gimbals = "ws://localhost:4703";
 
 class Server
 {
-    ws_drones;
-    ws_frs;
-    ws_gimbals;
+//    ws_drones;
+ //   ws_frs;
+  //  ws_gimbals;
 
     constructor() {
         this.port = 4800;

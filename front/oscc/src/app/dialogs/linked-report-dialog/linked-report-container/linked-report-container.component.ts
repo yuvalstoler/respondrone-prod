@@ -20,6 +20,10 @@ export class LinkedReportContainerComponent implements OnInit {
     this.childComponent.applyFilter(event);
   };
 
+  checkSelected = (arr: string[]) => {
+    this.childComponent.checkSelected(arr);
+  }
+
   onCreateNewReport = () => {
 
   };

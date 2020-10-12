@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, OnInit, Input, ViewChild, AfterViewInit, Output, EventEmitter} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from '@angular/material/dialog';
@@ -14,13 +14,13 @@ import {EventService} from '../../../services/eventService/event.service';
 export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
 
   @Input() element: EVENT_DATA_UI;
+  @Output() updateLinkedReports = new EventEmitter<string[]>();
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   displayedColumns: string[] = ['ID', 'Type', 'Description', 'Time', 'actionsColumn'];
   dataSource = new MatTableDataSource<LINKED_REPORT_DATA>();
 
-  constructor( public dialog: MatDialog,
-               public eventService: EventService) {
+  constructor( public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -41,17 +41,12 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
   }
 
   removeAt = (row: LINKED_REPORT_DATA) => {
-    // const data = this.dataSource.data;
-    // data.splice( index, 1);
-    // this.dataSource.data = data;
-    const event = this.eventService.events.data.find(data => data.id === this.element.id);
-    if (event && row.id) {
-      const index = event.reportIds.indexOf(row.id);
-      if (index !== -1) {
-        event.reportIds.splice(index, 1);
-        this.eventService.createEvent(event);
-      }
+    const reportIds = [...this.element.reportIds];
+    const index = reportIds.indexOf(row.id);
+    if (index !== -1) {
+      reportIds.splice(index, 1);
     }
+    this.updateLinkedReports.emit(reportIds);
   };
 
   onNewReport = () => {
@@ -66,16 +61,12 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(LinkedReportDialogComponent, {
       minWidth: '500px',
       disableClose: true,
-      data: ' you want to permanently delete the selected report'
+      data: this.element.reportIds
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result  && Array.isArray(result)) {
-        const event = this.eventService.events.data.find(data => data.id === this.element.id);
-        if (event) {
-          event.reportIds = result;
-          this.eventService.createEvent(event);
-        }
+    dialogRef.afterClosed().subscribe((result: string[]) => {
+      if (result && Array.isArray(result)) {
+        this.updateLinkedReports.emit(result);
       }
     });
   };

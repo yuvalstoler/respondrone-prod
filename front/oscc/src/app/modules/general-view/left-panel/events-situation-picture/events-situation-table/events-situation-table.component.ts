@@ -7,6 +7,8 @@ import {LEFT_PANEL_ICON, MAP} from '../../../../../../types';
 import {ApplicationService} from '../../../../../services/applicationService/application.service';
 import {EVENT_DATA_UI} from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
+import {ReportService} from '../../../../../services/reportService/report.service';
+import * as _ from 'lodash';
 
 
 
@@ -37,7 +39,8 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
 
   constructor(public applicationService: ApplicationService,
-              public eventService: EventService) {
+              public eventService: EventService,
+              public reportService: ReportService) {
 
     this.eventService.events$.subscribe((isNewData: boolean) => {
       if (isNewData) {
@@ -125,6 +128,25 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
     return event ? this.selection.toggle(row) : null;
   }
 
+  onUpdateLinkedReports = (result: string[], element: EVENT_DATA_UI) => {
+    if (result && Array.isArray(result)) {
+      const event = this.eventService.getEventById(element.id);
+      if (event) {
+        const addedReports = _.differenceWith(result, event.reportIds, (o1, o2) => {
+          return o1 === o2;
+        });
+        this.reportService.linkReportsToEvent(addedReports, event.id); // TODO
+
+        const removedReports = _.differenceWith(event.reportIds, result, (o1, o2) => {
+          return o1 === o2;
+        });
+        this.reportService.unlinkReportsFromEvent(removedReports, event.id); // TODO
+
+        event.reportIds = result;
+        this.eventService.createEvent(event);
+      }
+    }
+  }
 
 }
 

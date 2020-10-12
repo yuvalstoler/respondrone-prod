@@ -1,5 +1,5 @@
 import {
-    ADDRESS_GEOPOINT,
+    ADDRESS_GEOPOINT, COMMENT,
     GEOPOINT3D,
     ID_TYPE, LINKED_REPORT_DATA,
     LOCATION_TYPE,
@@ -25,7 +25,7 @@ export class Report {
     location: GEOPOINT3D | ADDRESS_GEOPOINT;
     media: FILE_FS_DATA[] = [];
     eventIds: string[] = [];
-    commentIds: string[] = [];
+    comments: COMMENT[] = [];
 
     constructor(data: REPORT_DATA) {
         if ( data ) {
@@ -92,8 +92,8 @@ export class Report {
             this.eventIds = data;
         }
     };
-    private setComments = (data: string[]) => {
-        this.commentIds = data;
+    private setComments = (data: COMMENT[]) => {
+        this.comments = data;
     };
     public setValues = (data: Partial<REPORT_DATA>, saveConfig: Object = this.saveConfig) => {
         for ( const key in saveConfig ) {
@@ -126,7 +126,7 @@ export class Report {
             location: this.location,
             media: this.media,
             eventIds: this.eventIds,
-            commentIds: this.commentIds,
+            comments: this.comments,
         };
     };
 
@@ -143,14 +143,8 @@ export class Report {
             location: this.location,
             media: this.media,
             eventIds: this.eventIds,
-            commentIds: this.commentIds,
-
+            comments: this.comments,
             events: [],
-            comments: [
-                {source: 'FF33', time: 12546324562, text: 'We arrived to the building, the situation is under control'},
-                {source: 'OS23', time: 12546324577, text: 'We arrived to the building, the situation is under control'},
-                {source: 'DD53', time: 12546324582, text: 'We arrived to the building, the situation is under control'}
-            ],
             modeDefine: undefined
         };
     };
@@ -178,7 +172,7 @@ export class Report {
         location: this.setLocation,
         media: this.setMedia,
         eventIds: this.setEvents,
-        commentIds: this.setComments,
+        comments: this.setComments,
     };
 
 

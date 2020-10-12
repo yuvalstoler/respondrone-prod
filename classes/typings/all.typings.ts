@@ -117,7 +117,7 @@ export type REPORT_DATA = {
     location: GEOPOINT3D | ADDRESS_GEOPOINT,
     media: FILE_FS_DATA[],
     eventIds: string[],
-    commentIds: string[]
+    comments: COMMENT[]
 };
 export type REPORT_DATA_UI = REPORT_DATA & {
     events: LINKED_EVENT_DATA[],
@@ -134,6 +134,7 @@ export type LINKED_REPORT_DATA = {
 export type REPORT_DATA_MD = {
     styles: {},
     tableData: {
+        time: TABLE_DATA_MD,
         message: TABLE_DATA_MD,
         priority: TABLE_DATA_MD,
         link: TABLE_DATA_MD,
@@ -143,8 +144,8 @@ export type REPORT_DATA_MD = {
 }
 
 export type TABLE_DATA_MD = {
-    type: 'matIcon' | 'text',
-    data: string,
+    type: 'image' | 'matIcon' | 'text' | 'date',
+    data: string | number,
     color?: string
 }
 
@@ -159,7 +160,7 @@ export type EVENT_DATA = { // TODO - change data fields
     locationType: LOCATION_TYPE,
     location: GEOPOINT3D | ADDRESS_GEOPOINT | POLYGON_GEOPOINT,
     reportIds: string[],
-    commentIds: string[],
+    comments: COMMENT[],
 };
 export type EVENT_DATA_UI = EVENT_DATA & {
     reports: LINKED_REPORT_DATA[],
@@ -176,6 +177,7 @@ export type LINKED_EVENT_DATA = {
 export type EVENT_DATA_MD = {
     styles: {},
     tableData: {
+        time: TABLE_DATA_MD,
         message: TABLE_DATA_MD,
         priority: TABLE_DATA_MD,
         link: TABLE_DATA_MD,

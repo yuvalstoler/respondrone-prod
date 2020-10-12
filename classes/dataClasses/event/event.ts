@@ -1,5 +1,5 @@
 import {
-    ADDRESS_GEOPOINT, EVENT_DATA, EVENT_DATA_UI, EVENT_TYPE,
+    ADDRESS_GEOPOINT, COMMENT, EVENT_DATA, EVENT_DATA_UI, EVENT_TYPE,
     GEOPOINT3D, LINKED_EVENT_DATA, LOCATION_TYPE, POLYGON_GEOPOINT,
     PRIORITY,
 } from '../../typings/all.typings';
@@ -17,7 +17,7 @@ export class Event {
     locationType: LOCATION_TYPE = LOCATION_TYPE.none;
     location: GEOPOINT3D | ADDRESS_GEOPOINT | POLYGON_GEOPOINT;
     reportIds: string[] = [];
-    commentIds: string[] = [];
+    comments: COMMENT[] = [];
 
     constructor(data: EVENT_DATA) {
         if ( data ) {
@@ -79,8 +79,8 @@ export class Event {
             this.reportIds = data;
         }
     };
-    private setComments = (data: string[]) => {
-        this.commentIds = data;
+    private setComments = (data: COMMENT[]) => {
+        this.comments = data;
     };
     public setValues = (data: Partial<EVENT_DATA>, saveConfig: Object = this.saveConfig) => {
         for ( const key in saveConfig ) {
@@ -112,7 +112,7 @@ export class Event {
             locationType: this.locationType,
             location: this.location,
             reportIds: this.reportIds,
-            commentIds: this.commentIds,
+            comments: this.comments,
         };
     };
 
@@ -138,14 +138,8 @@ export class Event {
             locationType: this.locationType,
             location: this.location,
             reportIds: this.reportIds,
-            commentIds: this.commentIds,
-
+            comments: this.comments,
             reports: [],
-            comments: [
-                {source: 'FF33', time: 12546324562, text: 'We arrived to the building, the situation is under control'},
-                {source: 'OS23', time: 12546324577, text: 'We arrived to the building, the situation is under control'},
-                {source: 'DD53', time: 12546324582, text: 'We arrived to the building, the situation is under control'}
-            ],
             modeDefine: undefined
         };
     };
@@ -161,7 +155,7 @@ export class Event {
         locationType: this.setLocationType,
         location: this.setLocation,
         reportIds: this.setReports,
-        commentIds: this.setComments,
+        comments: this.setComments,
     };
 
 

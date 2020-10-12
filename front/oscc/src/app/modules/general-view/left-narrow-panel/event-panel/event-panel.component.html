@@ -96,11 +96,23 @@
     <!--</div>-->
     <!--Linked Reports-->
     <div class="DialogContentItem">
-      <app-linked-reports-table [element]="eventModel"></app-linked-reports-table>
+      <app-linked-reports-table [element]="eventModel"
+                                (updateLinkedReports)="onUpdateLinkedReports($event)">
+      </app-linked-reports-table>
     </div>
     <!--Comments-->
     <div class="DialogContentItem">
       <span class="DialogTitle">Comments</span>
+      <div>
+        <mat-list-item *ngFor="let comment of eventModel.comments">
+          <div class="CommentsGrid" mat-line>
+            <mat-icon class="CommentsGrid1" mat-list-icon>account_circle</mat-icon>
+            <div class="CommentsGrid2"> {{comment.source}}</div>
+            <div class="CommentsGrid3">{{comment.time | date}}</div>
+            <div class="CommentsGrid4"> {{comment.text}}</div>
+          </div>
+        </mat-list-item>
+      </div>
       <div class="DialogGrid3">
         <div class="DialogIconContainer">
           <mat-icon class="DialogIcon">account_circle</mat-icon>
@@ -112,7 +124,7 @@
                    [(ngModel)]="comment">
           </label>
         </mat-form-field>
-        <div class="DialogIconContainer"
+        <div class="DialogIconContainer pointer"
              (click)="onSendComment()">
           <mat-icon class="DialogIcon"
                     [ngStyle]="{'color': (comment === '' || comment === undefined) ? 'lightgray' : 'black' }">
