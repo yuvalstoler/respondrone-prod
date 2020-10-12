@@ -84,7 +84,7 @@ export class EventService {
         this.events.data.push(newEvent);
       }
     });
-  }
+  };
   // ----------------------
   public createEvent = (eventData: EVENT_DATA, cb?: Function) => {
     this.connectionService.post('/api/createEvent', eventData)
@@ -126,7 +126,7 @@ export class EventService {
       type: event.type,
       description: event.description,
     };
-  }
+  };
   // -----------------------
   public linkEventsToReport = (eventIds: string[], reportId: string) => {
     eventIds.forEach((eventId: string) => {
@@ -134,7 +134,7 @@ export class EventService {
       event.reportIds.push(reportId);
       this.createEvent(event);
     });
-  }
+  };
   // -----------------------
   public unlinkEventsFromReport = (eventIds: string[], reportId: string) => {
     eventIds.forEach((eventId: string) => {
@@ -145,7 +145,7 @@ export class EventService {
         this.createEvent(event);
       }
     });
-  }
+  };
   // -----------------------
   public getEventById = (eventId: string): EVENT_DATA_UI => {
     return this.events.data.find(data => data.id === eventId);

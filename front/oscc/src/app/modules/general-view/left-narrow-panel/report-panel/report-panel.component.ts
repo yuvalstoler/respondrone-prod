@@ -5,7 +5,6 @@ import {
   GEOPOINT3D,
   LINKED_EVENT_DATA,
   LOCATION_TYPE,
-  MEDIA_DATA, POINT,
   FILE_FS_DATA,
   PRIORITY,
   REPORT_DATA_UI,
@@ -43,7 +42,8 @@ export class ReportPanelComponent implements OnInit {
     comments: [],
     events: [],
     media: [],
-    modeDefine: undefined
+    modeDefine: undefined,
+    mediaFileIds: undefined
   };
 
   LOCATION_TYPE = LOCATION_TYPE;

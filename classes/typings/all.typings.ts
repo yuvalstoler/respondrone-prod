@@ -59,7 +59,6 @@ export type GEOPOINT_UI = { lat: number, lng: number };
 export type GEOPOINT3D = GEOPOINT & { altitude?: number };
 export type ADDRESS = string;
 export type POLYGON_GEOPOINT = GEOPOINT3D[];
-export type ADDRESS = string;
 
 
 export enum REPORT_TYPE {

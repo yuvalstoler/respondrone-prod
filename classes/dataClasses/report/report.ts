@@ -1,5 +1,4 @@
 import {
-    ADDRESS,
     COMMENT,
     GEOPOINT3D,
     ID_TYPE,
@@ -28,11 +27,8 @@ export class Report {
     locationType: LOCATION_TYPE = LOCATION_TYPE.none;
     location: GEOPOINT3D;
     address: ADDRESS;
-    media: MEDIA_DATA[] = [];
-    location: GEOPOINT3D;
-    address: ADDRESS;
     media: FILE_FS_DATA[] = [];
-    mediaFileIds: MAP<boolean> = {}
+    mediaFileIds: MAP<boolean> = {};
     eventIds: string[] = [];
     comments: COMMENT[] = [];
 

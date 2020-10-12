@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {DISPLAY_ON_SCREEN, LEFT_PANEL_ICON} from 'src/types';
-import {EVENT_DATA_UI, REPORT_DATA_UI, REPORT_DATA_UI} from "../../../../../../classes/typings/all.typings";
+import {DISPLAY_ON_SCREEN, LEFT_PANEL_ICON, STATE_DRAW} from 'src/types';
+import {EVENT_DATA_UI, REPORT_DATA_UI} from '../../../../../../classes/typings/all.typings';
 
 
 @Injectable({
