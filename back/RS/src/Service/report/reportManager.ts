@@ -16,7 +16,7 @@ import { RequestManager } from '../../AppService/restConnections/requestManager'
 import {
     ASYNC_RESPONSE,
     ID_OBJ, ID_TYPE, IDs_OBJ,
-    MAP, MEDIA_DATA,
+    MAP, FILE_FS_DATA,
     REPORT_DATA
 
 } from '../../../../../classes/typings/all.typings';
@@ -162,7 +162,7 @@ export class ReportManager {
                         this.reports.push(newReportCreated);
                         UpdateListenersManager.updateReportListeners();
 
-                        const mediaIds: ID_TYPE[] = newReportCreated.media.map((media: MEDIA_DATA) => media.id);
+                        const mediaIds: ID_TYPE[] = newReportCreated.media.map((media: FILE_FS_DATA) => media.id);
                         this.requestToDownloadFiles({ids: mediaIds});
 
                     }

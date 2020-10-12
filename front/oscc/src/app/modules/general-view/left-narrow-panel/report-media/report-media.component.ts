@@ -4,7 +4,7 @@ import {ConnectionService} from '../../../../services/connectionService/connecti
 import {retry} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
 import {ViewMediaComponent} from '../../view-media/view-media.component';
-import {MEDIA_DATA} from '../../../../../../../../classes/typings/all.typings';
+import {FILE_FS_DATA} from '../../../../../../../../classes/typings/all.typings';
 
 
 export type PROGRESS_INFO = {
@@ -20,9 +20,9 @@ export type PROGRESS_INFO = {
 })
 export class ReportMediaComponent implements OnInit, OnDestroy {
 
-  @Input() media: MEDIA_DATA[] = [];
-  @Output() onAddMedia = new EventEmitter<MEDIA_DATA>();
-  @Output() onDeleteMedia = new EventEmitter<MEDIA_DATA>();
+  @Input() media: FILE_FS_DATA[] = [];
+  @Output() onAddMedia = new EventEmitter<FILE_FS_DATA>();
+  @Output() onDeleteMedia = new EventEmitter<FILE_FS_DATA>();
 
   formats = 'image/*,video/*'; // ['.jpg', '.png', '.mp4'];
   progressInfos: PROGRESS_INFO[] = [];
@@ -70,7 +70,7 @@ export class ReportMediaComponent implements OnInit, OnDestroy {
               } else if (event.type === HttpEventType.Response) {
                 data.percent = 100;
                 if (event.body.success) {
-                  const mediaData: MEDIA_DATA = event.body.data;
+                  const mediaData: FILE_FS_DATA = event.body.data;
                   this.onAddMedia.emit(mediaData);
                 }
                 this.removeProgressInfo(data.id);
@@ -89,7 +89,7 @@ export class ReportMediaComponent implements OnInit, OnDestroy {
     this.removeProgressInfo(data.id);
   };
   // ------------------
-  deleteFile = (data: MEDIA_DATA) => {
+  deleteFile = (data: FILE_FS_DATA) => {
     this.connectionService.postObservable('/api/removeFile', data)
       .subscribe((res: any) => {
          if (res.success) {
@@ -110,7 +110,7 @@ export class ReportMediaComponent implements OnInit, OnDestroy {
     }
   };
   // -------------------
-  onImage = (data: MEDIA_DATA) => {
+  onImage = (data: FILE_FS_DATA) => {
     const dialogRef = this.dialog.open(ViewMediaComponent, {
       width: '50%',
       data: data

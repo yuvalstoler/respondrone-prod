@@ -141,13 +141,13 @@ export class ApiManager implements IRest {
 
     routers: {} = {
 
-        [REPORT_API.createReport]: this.newReport,
         [RS_API.createReportFromMGW]: this.createReportFromMGW,
 
-        [REPORT_API.readReport]: this.readReport,
-        [REPORT_API.readAllReport]: this.readAllReport,
-        [REPORT_API.deleteReport]: this.deleteReport,
-        [REPORT_API.deleteAllReport]: this.deleteAllReport,
+        [RS_API.createReport]: this.newReport,
+        [RS_API.readReport]: this.readReport,
+        [RS_API.readAllReport]: this.readAllReport,
+        [RS_API.deleteReport]: this.deleteReport,
+        [RS_API.deleteAllReport]: this.deleteAllReport,
 
     };
 

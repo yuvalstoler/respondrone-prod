@@ -3,7 +3,7 @@ import {
     GEOPOINT3D,
     ID_TYPE, LINKED_REPORT_DATA,
     LOCATION_TYPE,
-    MEDIA_DATA,
+    FILE_FS_DATA,
     PRIORITY,
     REPORT_DATA,
     REPORT_DATA_UI,
@@ -23,7 +23,7 @@ export class Report {
     description: string = '';
     locationType: LOCATION_TYPE = LOCATION_TYPE.none;
     location: GEOPOINT3D | ADDRESS_GEOPOINT;
-    media: MEDIA_DATA[] = [];
+    media: FILE_FS_DATA[] = [];
     eventIds: string[] = [];
     commentIds: string[] = [];
 
@@ -80,7 +80,7 @@ export class Report {
         }
     };
 
-    private setMedia = (data: MEDIA_DATA[]) => {
+    private setMedia = (data: FILE_FS_DATA[]) => {
         const res: boolean = Array.isArray(data);// || todo validate array of strings
         if ( res ) {
             this.media = data;

@@ -104,7 +104,6 @@ export class ApiManager implements IRest {
 
     routers: {} = {
         [CCGW_API.createReportFromMGW]: this.createReportFromMGW,
-        [REPORT_API.createReport]: this.createReportFromMGW,
         [MWS_API.getVideoSources]: this.getVideoSources,
 
 

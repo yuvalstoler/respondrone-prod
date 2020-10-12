@@ -115,7 +115,7 @@ export type REPORT_DATA = {
     description: string,
     locationType: LOCATION_TYPE;
     location: GEOPOINT3D | ADDRESS_GEOPOINT,
-    media: MEDIA_DATA[],
+    media: FILE_FS_DATA[],
     eventIds: string[],
     commentIds: string[]
 };
@@ -197,7 +197,7 @@ export enum MEDIA_TYPE {
     video = 'video',
 }
 
-export type MEDIA_DATA = {
+export type FILE_FS_DATA = {
     thumbnail: string,
     url: string,
     id: ID_TYPE,
@@ -213,7 +213,7 @@ export enum FILE_STATUS {
 }
 
 export type FILE_DB_DATA = {
-    _id?: ID_TYPE,
+    id: ID_TYPE,
     type: MEDIA_TYPE,
     originFileName: string,
     fsName: string,

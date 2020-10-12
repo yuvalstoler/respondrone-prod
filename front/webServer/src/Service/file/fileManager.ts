@@ -8,7 +8,7 @@ import { RequestManager } from '../../AppService/restConnections/requestManager'
 
 import {
     ASYNC_RESPONSE,
-    MEDIA_DATA,
+    FILE_FS_DATA,
 } from '../../../../../classes/typings/all.typings';
 
 
@@ -26,7 +26,7 @@ export class FileManager {
     };
 
 
-    private removeFile = (obj: MEDIA_DATA) => {
+    private removeFile = (obj: FILE_FS_DATA) => {
         return new Promise((resolve, reject) => {
             RequestManager.requestToFS(FS_API.removeFile, obj)
                 .then((data: ASYNC_RESPONSE) => {

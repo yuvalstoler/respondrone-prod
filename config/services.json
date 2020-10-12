@@ -2,7 +2,11 @@
   "FS": {
     "port": "6100",
     "host": "localhost",
-    "protocol": "http"
+    "protocol": "http",
+    "listeners": [
+      "RS"
+    ]
+
   },
   "VSS": {
     "port": "6101",
