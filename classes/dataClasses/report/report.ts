@@ -1,5 +1,4 @@
 import {
-    ADDRESS_GEOPOINT,
     COMMENT,
     GEOPOINT3D,
     ID_TYPE,
@@ -22,14 +21,14 @@ export class Report {
     type: REPORT_TYPE;
     source: SOURCE_TYPE;
     time: number;
-    createdBy: string
+    createdBy: string;
     priority: PRIORITY;
     description: string = '';
     locationType: LOCATION_TYPE = LOCATION_TYPE.none;
     location: GEOPOINT3D;
     address: ADDRESS;
     media: FILE_FS_DATA[] = [];
-    mediaFileIds: MAP<boolean> = {}
+    mediaFileIds: MAP<boolean> = {};
     eventIds: string[] = [];
     comments: COMMENT[] = [];
 
@@ -73,17 +72,19 @@ export class Report {
         }
     };
     private setLocation = (data: GEOPOINT3D) => {
-        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS_GEOPOINT
+        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
         if ( res ) {
             this.location = data;
         }
     };
+
     private setAddress = (data: ADDRESS) => {
-        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS_GEOPOINT
+        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
         if ( res ) {
             this.address = data;
         }
     };
+
     private setLocationType = (data: LOCATION_TYPE) => {
         const res: boolean = LOCATION_TYPE[data] !== undefined;
         if ( res ) {
@@ -141,6 +142,7 @@ export class Report {
             description: this.description,
             locationType: this.locationType,
             location: this.location,
+            address: this.address,
             media: this.media,
             mediaFileIds: this.mediaFileIds,
             eventIds: this.eventIds,
@@ -159,6 +161,7 @@ export class Report {
             description: this.description,
             locationType: this.locationType,
             location: this.location,
+            address: this.address,
             media: this.media,
             mediaFileIds: this.mediaFileIds,
             eventIds: this.eventIds,

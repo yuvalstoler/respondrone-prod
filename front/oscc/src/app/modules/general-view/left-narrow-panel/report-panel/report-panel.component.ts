@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {ApplicationService} from '../../../../services/applicationService/application.service';
-import {HEADER_BUTTONS} from '../../../../../types';
+import {EVENT_LISTENER_DATA, HEADER_BUTTONS, STATE_DRAW} from '../../../../../types';
 import {
+  GEOPOINT3D,
   LINKED_EVENT_DATA,
   LOCATION_TYPE,
   FILE_FS_DATA,
   PRIORITY,
   REPORT_DATA_UI,
   REPORT_TYPE,
-  SOURCE_TYPE
+  SOURCE_TYPE,
 } from '../../../../../../../../classes/typings/all.typings';
 import * as _ from 'lodash';
 import {ReportService} from '../../../../services/reportService/report.service';
@@ -34,13 +35,15 @@ export class ReportPanelComponent implements OnInit {
     type: this.types[0],
     priority: this.priorities[0],
     description: '',
-    locationType: LOCATION_TYPE.none,
-    location: undefined,
+    locationType: LOCATION_TYPE.address,
+    location:  {longitude: undefined, latitude: undefined},
+    address: '',
     eventIds: [],
     comments: [],
     events: [],
     media: [],
-    modeDefine: undefined
+    modeDefine: undefined,
+    mediaFileIds: undefined
   };
 
   LOCATION_TYPE = LOCATION_TYPE;
@@ -49,6 +52,12 @@ export class ReportPanelComponent implements OnInit {
               public reportService: ReportService,
               public eventService: EventService) {
     this.initReportModel();
+
+    // TODO: add location on panel
+    this.reportService.locationPoint$.subscribe(latlon => {
+      this.reportModel.location = {longitude: latlon.longitude, latitude: latlon.latitude};
+
+    });
   }
 
   ngOnInit(): void {
@@ -64,13 +73,31 @@ export class ReportPanelComponent implements OnInit {
 
   onChangeLocation = (location: string) => {
     if (location === 'Add an address') {
-      this.reportModel.location = {address: '', longitude: undefined, latitude: undefined};
+      this.reportModel.location = {longitude: undefined, latitude: undefined};
       this.reportModel.locationType = LOCATION_TYPE.address;
+      this.reportService.deleteLocationPointTemp();
+
     } else if (location === 'Choose a location point') {
-      this.reportModel.location = undefined;
-      this.reportModel.locationType = LOCATION_TYPE.locationPoint;
-      // TODO: choose from map
+      this.reportModel.address = '';
+      if (this.reportModel.location.latitude === undefined && this.reportModel.location.longitude === undefined) {
+        this.reportModel.locationType = LOCATION_TYPE.locationPoint;
+        this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
+      }
     }
+  };
+
+  locationChanged = (event) => {
+    console.log(event.currentTarget.value);
+    console.log(this.reportModel.location);
+
+    this.applicationService.stateDraw = STATE_DRAW.notDraw;
+   if (this.reportModel.location.latitude !== undefined && this.reportModel.location.longitude !== undefined) {
+     const locationPoint: GEOPOINT3D = {
+       longitude: this.reportModel.location.longitude,
+       latitude: this.reportModel.location.latitude
+     };
+     this.reportService.createOrUpdateLocationTemp(locationPoint);
+   }
   };
 
   onAddMedia = (newMedia: FILE_FS_DATA) => {
@@ -99,6 +126,7 @@ export class ReportPanelComponent implements OnInit {
       });
     }
     this.clearPanel();
+  //   todo: delete temp location
   };
 
   clearPanel = () => {

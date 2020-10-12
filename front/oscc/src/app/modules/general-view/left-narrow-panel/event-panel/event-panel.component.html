@@ -8,9 +8,9 @@
       <div class="DialogTitle">Event Title</div>
       <mat-form-field appearance="outline" class="SPMatFormField">
         <label>
-          <input matInput class="Label" type="text"
+          <input [(ngModel)]="eventModel.title" class="Label" matInput
                  placeholder="For example: Fire in the city"
-                 [(ngModel)]="eventModel.title">
+                 type="text">
         </label>
       </mat-form-field>
     </div>
@@ -41,10 +41,10 @@
       <div class="DialogTitle">Description</div>
       <mat-form-field appearance="outline" class="SPMatFormField">
         <label>
-            <textarea matInput class="Label"
-                      placeholder="Add your description..."
-                      [ngStyle]="{'resize': 'none'}" rows="3"
-                      [(ngModel)]="eventModel.description"></textarea>
+            <textarea [(ngModel)]="eventModel.description" [ngStyle]="{'resize': 'none'}"
+                      class="Label"
+                      matInput placeholder="Add your description..."
+                      rows="3"></textarea>
         </label>
       </mat-form-field>
     </div>
@@ -54,34 +54,36 @@
       <mat-radio-group
         aria-labelledby="example-radio-group-label"
         class="example-radio-group">
-        <!--[(ngModel)]="eventModel.location.button"-->
-        <mat-radio-button class="example-radio-button" *ngFor="let location of locations"
-                          [value]="location" (click)="onChangeLocation(location)">
+        <mat-radio-button (click)="onChangeLocation(location)" *ngFor="let location of locations"
+                          [value]="location" class="example-radio-button">
           {{location}}
           <div *ngIf="location === 'Add an address' && eventModel.locationType === LOCATION_TYPE.address">
             <!--Address-->
             <mat-form-field appearance="outline" class="LocationAddress">
               <label>
-                <input matInput class="Label" type="text"
+                <input [(ngModel)]="reportModel.address" class="Label" matInput
                        placeholder="E.g. Richard St."
-                       [(ngModel)]="eventModel.location.address">
+                       type="text">
               </label>
             </mat-form-field>
+          </div>
+          <div *ngIf="location === 'Choose a location point' && eventModel.locationType === LOCATION_TYPE.locationPoint">
+            <!--Location-->
             <div class="LocationGrid">
               <!--Lat-->
               <mat-form-field appearance="outline" class="">
                 <label>
-                  <input matInput class="Label" type="text"
+                  <input [(ngModel)]="eventModel.location.latitude" class="Label" matInput
                          placeholder="Lat"
-                         [(ngModel)]="eventModel.location.latitude">
+                         type="text">
                 </label>
               </mat-form-field>
               <!--Long-->
               <mat-form-field appearance="outline" class="">
                 <label>
-                  <input matInput class="Label" type="text"
+                  <input [(ngModel)]="eventModel.location.longitude" class="Label" matInput
                          placeholder="Long"
-                         [(ngModel)]="eventModel.location.longitude">
+                         type="text">
                 </label>
               </mat-form-field>
             </div>
@@ -91,8 +93,8 @@
     </div>
     <!--&lt;!&ndash;Report media&ndash;&gt;-->
     <!--<div class="DialogContentItem">-->
-      <!--<div class="DialogTitle">Report media</div>-->
-      <!--<app-report-media [media]="reportModel.media"></app-report-media>-->
+    <!--<div class="DialogTitle">Report media</div>-->
+    <!--<app-report-media [media]="reportModel.media"></app-report-media>-->
     <!--</div>-->
     <!--Linked Reports-->
     <div class="DialogContentItem">
@@ -119,16 +121,17 @@
         </div>
         <mat-form-field appearance="outline" class="SPMatFormField">
           <label>
-            <input matInput class="Label" type="text"
+            <input [(ngModel)]="comment" class="Label" matInput
                    placeholder="Add your comment..."
-                   [(ngModel)]="comment">
+                   type="text">
           </label>
         </mat-form-field>
-        <div class="DialogIconContainer pointer"
-             (click)="onSendComment()">
-          <mat-icon class="DialogIcon"
-                    [ngStyle]="{'color': (comment === '' || comment === undefined) ? 'lightgray' : 'black' }">
-            send</mat-icon>
+        <div (click)="onSendComment()"
+             class="DialogIconContainer pointer">
+          <mat-icon [ngStyle]="{'color': (comment === '' || comment === undefined) ? 'lightgray' : 'black' }"
+                    class="DialogIcon">
+            send
+          </mat-icon>
         </div>
       </div>
     </div>
@@ -136,11 +139,11 @@
   <!--Footer-->
   <div class="FooterButtons">
     <div>
-      <button mat-raised-button class="FooterButtonDelete"
-              (click)="onDeleteClick()">Cancel
+      <button (click)="onDeleteClick()" class="FooterButtonDelete"
+              mat-raised-button>Cancel
       </button>
-      <button mat-raised-button class="FooterButtonCreate"
-              (click)="onCreateClick()">Create New Event
+      <button (click)="onCreateClick()" class="FooterButtonCreate"
+              mat-raised-button>Create New Event
       </button>
     </div>
   </div>

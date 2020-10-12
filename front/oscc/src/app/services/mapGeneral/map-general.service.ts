@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {CesiumService} from '../cesium/cesium.service';
-import {MAP} from '../../../../../../classes/typings/all.typings';
+import {GEOPOINT3D, MAP} from '../../../../../../classes/typings/all.typings';
 import {CesiumDrawerService} from '../cesium/mapDrawCesium/cesium-drawer.service';
 
 @Injectable({
@@ -24,7 +24,7 @@ export class MapGeneralService {
     // if (this.mapSelected === MAP_TYPE.Cesium || this.mapSelected === MAP_TYPE.AllMaps) {
       this.cesiumService.createMap(mapId[0]);
       // this.cesiumDomId = mapId[0];
-      // this.setListenerCallbacks(mapId[0]);
+      this.setListenerCallbacks(mapId[0]);
     // }
   };
 
@@ -90,5 +90,28 @@ export class MapGeneralService {
     this.cesiumDrawerService.setMouseUpCallback(mapDomId, listenerName, callback);
   };
 
+
+  // Location Point ===========================================================================================================
+  // from Service ======
+  public createLocationPointFromServer = (locationPoint: GEOPOINT3D, locationId: string): boolean => {
+    const domId = undefined;
+    let res = false;
+      res = this.cesiumDrawerService.createLocationPointFromServer(domId, locationPoint, locationId);
+    return res;
+  };
+
+  public createOrUpdateLocationTemp = (locationPoint: GEOPOINT3D, locationId: string) => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.createOrUpdateLocationTemp(domId, locationPoint, locationId);
+    return res;
+  };
+
+  public deleteLocationPointTemp = (locationId: string) => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.deleteLocationPointFromMap(domId, locationId);
+    return res;
+  };
 
 }

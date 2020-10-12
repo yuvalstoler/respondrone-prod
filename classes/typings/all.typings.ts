@@ -57,9 +57,8 @@ export enum BOOLEAN_NUMBER {
 export type GEOPOINT = { latitude: number, longitude: number };
 export type GEOPOINT_UI = { lat: number, lng: number };
 export type GEOPOINT3D = GEOPOINT & { altitude?: number };
-export type ADDRESS_GEOPOINT = GEOPOINT & { address: string };
-export type POLYGON_GEOPOINT = GEOPOINT3D[];
 export type ADDRESS = string;
+export type POLYGON_GEOPOINT = GEOPOINT3D[];
 
 
 export enum REPORT_TYPE {
@@ -162,7 +161,9 @@ export type EVENT_DATA = { // TODO - change data fields
     priority: PRIORITY,
     description: string,
     locationType: LOCATION_TYPE,
-    location: GEOPOINT3D | ADDRESS_GEOPOINT | POLYGON_GEOPOINT,
+    location: GEOPOINT3D,
+    address: ADDRESS,
+    polygon: POLYGON_GEOPOINT,
     reportIds: string[],
     comments: COMMENT[],
 };

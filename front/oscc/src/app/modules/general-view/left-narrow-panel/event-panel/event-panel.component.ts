@@ -31,7 +31,9 @@ export class EventPanelComponent implements OnInit {
     priority: this.priorities[0],
     description: '',
     locationType: LOCATION_TYPE.none,
-    location: undefined,
+    location:  {longitude: undefined, latitude: undefined},
+    address: '',
+    polygon: [],
     reportIds: [],
     comments: [],
     reports: [],
@@ -52,22 +54,25 @@ export class EventPanelComponent implements OnInit {
     } else {
       this.eventModel = _.cloneDeep(this.defaultEvent);
     }
-  }
+  };
 
   onChangeLocation = (location: string) => {
     if (location === 'Add an address') {
-      this.eventModel.location = {address: '', longitude: undefined, latitude: undefined};
+      this.eventModel.location = {longitude: undefined, latitude: undefined};
+      this.eventModel.polygon = [];
       this.eventModel.locationType = LOCATION_TYPE.address;
     } else if (location === 'Choose a location point') {
-      this.eventModel.location = undefined;
+      this.eventModel.address = '';
+      this.eventModel.polygon = [];
       this.eventModel.locationType = LOCATION_TYPE.locationPoint;
       // TODO: choose from map
     } else if (location === 'Create a polygon') {
-      this.eventModel.location = undefined;
+      this.eventModel.location = {longitude: undefined, latitude: undefined};
+      this.eventModel.address = '';
       this.eventModel.locationType = LOCATION_TYPE.polygon;
       // TODO: choose from map
     }
-  }
+  };
 
   ngOnInit(): void {
   }

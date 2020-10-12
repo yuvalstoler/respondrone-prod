@@ -1,5 +1,5 @@
 import {
-    ADDRESS_GEOPOINT, COMMENT, EVENT_DATA, EVENT_DATA_UI, EVENT_TYPE,
+    ADDRESS, COMMENT, EVENT_DATA, EVENT_DATA_UI, EVENT_TYPE,
     GEOPOINT3D, LINKED_EVENT_DATA, LOCATION_TYPE, POLYGON_GEOPOINT,
     PRIORITY,
 } from '../../typings/all.typings';
@@ -9,13 +9,15 @@ export class Event {
 
     id: string = '';
     time: number;
-    createdBy: string
+    createdBy: string;
     title: string;
     type: EVENT_TYPE;
     priority: PRIORITY;
     description: string = '';
     locationType: LOCATION_TYPE = LOCATION_TYPE.none;
-    location: GEOPOINT3D | ADDRESS_GEOPOINT | POLYGON_GEOPOINT;
+    location: GEOPOINT3D;
+    address: ADDRESS;
+    polygon: POLYGON_GEOPOINT;
     reportIds: string[] = [];
     comments: COMMENT[] = [];
 
@@ -66,10 +68,24 @@ export class Event {
             this.locationType = data;
         }
     };
-    private setLocation = (data: GEOPOINT3D | ADDRESS_GEOPOINT | POLYGON_GEOPOINT) => {
-        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS_GEOPOINT
+    private setLocation = (data: GEOPOINT3D) => {
+        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
         if ( res ) {
             this.location = data;
+        }
+    };
+
+    private setAddress = (data: ADDRESS) => {
+        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
+        if ( res ) {
+            this.address = data;
+        }
+    };
+
+    private setPolygon = (data: POLYGON_GEOPOINT) => {
+        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
+        if ( res ) {
+            this.polygon = data;
         }
     };
 
@@ -111,6 +127,8 @@ export class Event {
             description: this.description,
             locationType: this.locationType,
             location: this.location,
+            address: this.address,
+            polygon: this.polygon,
             reportIds: this.reportIds,
             comments: this.comments,
         };
@@ -137,6 +155,8 @@ export class Event {
             description: this.description,
             locationType: this.locationType,
             location: this.location,
+            address: this.address,
+            polygon: this.polygon,
             reportIds: this.reportIds,
             comments: this.comments,
             reports: [],
@@ -154,6 +174,8 @@ export class Event {
         description: this.setDescription,
         locationType: this.setLocationType,
         location: this.setLocation,
+        address: this.setAddress,
+        polygon: this.setPolygon,
         reportIds: this.setReports,
         comments: this.setComments,
     };

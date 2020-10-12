@@ -55,7 +55,8 @@
         aria-labelledby="example-radio-group-label"
         class="example-radio-group">
         <!--[(ngModel)]="reportModel.location.button"-->
-        <mat-radio-button class="example-radio-button" *ngFor="let location of locations"
+        <mat-radio-button class="example-radio-button" *ngFor="let location of locations; let i = index"
+                          [checked]="i === 0"
                           [value]="location" (click)="onChangeLocation(location)">
           {{location}}
           <div *ngIf="location === 'Add an address' && reportModel.locationType === LOCATION_TYPE.address">
@@ -64,23 +65,31 @@
               <label>
                 <input matInput class="Label" type="text"
                        placeholder="E.g. Richard St."
-                       [(ngModel)]="reportModel.location.address">
+                       [(ngModel)]="reportModel.address">
               </label>
             </mat-form-field>
+          </div>
+          <div *ngIf="location === 'Choose a location point' && reportModel.locationType === LOCATION_TYPE.locationPoint">
             <div class="LocationGrid">
               <!--Lat-->
               <mat-form-field appearance="outline" class="">
                 <label>
-                  <input matInput class="Label" type="text"
+                  <input matInput class="Label" type="number"
+                         min="0"
                          placeholder="Lat"
+                         (change)="locationChanged($event, 'latitude')"
+                         (keyup)="locationChanged($event, 'latitude')"
                          [(ngModel)]="reportModel.location.latitude">
                 </label>
               </mat-form-field>
               <!--Long-->
               <mat-form-field appearance="outline" class="">
                 <label>
-                  <input matInput class="Label" type="text"
+                  <input matInput class="Label" type="number"
+                         min="0"
                          placeholder="Long"
+                         (change)="locationChanged($event, 'longitude')"
+                         (keyup)="locationChanged($event, 'longitude')"
                          [(ngModel)]="reportModel.location.longitude">
                 </label>
               </mat-form-field>
