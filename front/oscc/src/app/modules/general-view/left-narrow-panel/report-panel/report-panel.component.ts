@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ApplicationService} from '../../../../services/applicationService/application.service';
 import {HEADER_BUTTONS} from '../../../../../types';
 import {
+  LINKED_EVENT_DATA,
   LOCATION_TYPE,
   MEDIA_DATA,
   PRIORITY,
@@ -11,6 +12,7 @@ import {
 } from '../../../../../../../../classes/typings/all.typings';
 import * as _ from 'lodash';
 import {ReportService} from '../../../../services/reportService/report.service';
+import {EventService} from '../../../../services/eventService/event.service';
 
 @Component({
   selector: 'app-report-panel',
@@ -35,17 +37,17 @@ export class ReportPanelComponent implements OnInit {
     locationType: LOCATION_TYPE.none,
     location: undefined,
     eventIds: [],
-    commentIds: [],
+    comments: [],
     events: [],
     media: [],
-    comments: [],
     modeDefine: undefined
   };
 
   LOCATION_TYPE = LOCATION_TYPE;
 
   constructor(public applicationService: ApplicationService,
-              public reportService: ReportService) {
+              public reportService: ReportService,
+              public eventService: EventService) {
     this.initReportModel();
   }
 
@@ -84,6 +86,7 @@ export class ReportPanelComponent implements OnInit {
 
   onCreateClick = () => {
     this.reportService.createReport(this.reportModel);
+    this.eventService.linkEventsToReport(this.reportModel.eventIds, this.reportModel.id); // TODO
     this.clearPanel();
   };
 
@@ -108,8 +111,21 @@ export class ReportPanelComponent implements OnInit {
 
   onSendComment = () => {
     if (this.comment !== '' && this.comment !== undefined) {
-      console.log(this.comment);
+      this.reportModel.comments.push({source: '', time: Date.now(), text: this.comment});
+      this.comment = '';
     }
   };
+
+  onUpdateLinkedEvents = (linkedEventIds: string[]) => {
+    if (linkedEventIds && Array.isArray(linkedEventIds)) {
+      this.reportModel.eventIds = linkedEventIds;
+      const linkedEvents = [];
+      this.reportModel.eventIds.forEach((eventId: string) => {
+        const linkedEvent: LINKED_EVENT_DATA = this.eventService.getLinkedEvent(eventId);
+        linkedEvents.push(linkedEvent);
+      });
+      this.reportModel.events = linkedEvents;
+    }
+  }
 
 }

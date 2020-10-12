@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MAP} from '../../../../types';
 import {SelectionModel} from '@angular/cdk/collections';
@@ -22,7 +22,6 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
   selection = new SelectionModel<REPORT_DATA_UI>(true, []);
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
-
   constructor(private applicationService: ApplicationService,
               public reportService: ReportService) {
 
@@ -37,6 +36,15 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+  }
+
+
+  checkSelected = (arr: string[]) => {
+    this.dataSource.data.forEach(row => {
+      if (arr.indexOf(row.id) !== -1) {
+        this.selection.select(row);
+      }
+    });
   }
 
   private selectRow = (element): void => {

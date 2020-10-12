@@ -21,6 +21,10 @@ export class LinkedEventContainerComponent implements OnInit {
     this.childComponent.applyFilter(event);
   };
 
+  checkSelected = (arr: string[]) => {
+    this.childComponent.checkSelected(arr);
+  }
+
   onCreateNewEvent = () => {
     // this.createEvent.onCreateNewEvent();
   };

@@ -5,7 +5,7 @@ import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
   ASYNC_RESPONSE, EVENT_TYPE,
-  ID_OBJ, MEDIA_TYPE,
+  ID_OBJ, LINKED_REPORT_DATA, MEDIA_TYPE,
   PRIORITY,
   REPORT_DATA,
   REPORT_DATA_UI,
@@ -112,4 +112,38 @@ export class ReportService {
         this.toasterService.error({message: 'error deleting report', title: ''});
       });
   };
+  // -----------------------
+  public getLinkedReport = (reportId: string): LINKED_REPORT_DATA => {
+    const report = this.getReportById(reportId);
+    return {
+      id: report.id,
+      time: report.time,
+      createdBy: report.createdBy,
+      type: report.type,
+      description: report.description,
+    };
+  }
+  // -----------------------
+  public linkReportsToEvent = (reportIds: string[], eventId: string) => {
+    reportIds.forEach((reportId: string) => {
+      const report = this.getReportById(reportId);
+      report.eventIds.push(eventId);
+      this.createReport(report);
+    });
+  }
+  // -----------------------
+  public unlinkReportsFromEvent = (reportIds: string[], eventId: string) => {
+    reportIds.forEach((reportId: string) => {
+      const report = this.getReportById(reportId);
+      const index = report.eventIds.indexOf(eventId);
+      if (index !== -1) {
+        report.eventIds.splice(index, 1);
+        this.createReport(report);
+      }
+    });
+  }
+  // -----------------------
+  public getReportById = (eventId: string): REPORT_DATA_UI => {
+    return this.reports.data.find(data => data.id === eventId);
+  }
 }

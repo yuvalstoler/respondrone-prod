@@ -13,11 +13,19 @@
         </th>
         <td *matCellDef="let element" mat-cell>
           <span *ngIf="element.modeDefine?.tableData[column]">
-             <mat-icon class="HPRightSideIcon" *ngIf="element.modeDefine?.tableData[column]?.type === 'matIcon'" [ngStyle]="{'color': element.modeDefine?.tableData[column]?.color}">
+            <mat-icon class="HPRightSideIcon"
+                      *ngIf="element.modeDefine?.tableData[column]?.type === 'matIcon'"
+                      [ngStyle]="{'color': element.modeDefine?.tableData[column]?.color}">
                {{element.modeDefine?.tableData[column]?.data}}
              </mat-icon>
+            <img class="tableImage"
+                 *ngIf="element.modeDefine?.tableData[column]?.type === 'image'"
+                 [src]="element.modeDefine?.tableData[column]?.data">
             <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'">
                {{element.modeDefine?.tableData[column]?.data}}
+            </span>
+            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'date'">
+               {{element.modeDefine?.tableData[column]?.data | date:'hh:mm'}}
             </span>
           </span>
           <span *ngIf="!element.modeDefine?.tableData[column]">
@@ -73,7 +81,9 @@
           </div>
           <!--Linked reports table-->
           <div class="example-element-linked">
-            <app-linked-reports-table [element]="element"></app-linked-reports-table>
+            <app-linked-reports-table [element]="element"
+                                      (updateLinkedReports)="onUpdateLinkedReports($event, element)">
+            </app-linked-reports-table>
           </div>
         </div>
       </td>
