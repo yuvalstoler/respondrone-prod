@@ -10,6 +10,7 @@ const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
 
 const services = require('./../../../../../../../../config/services.json');
+const url_FS = services.FS.protocol + '://' + services.FS.host + ':' + services.FS.port;
 
 import {
     ASYNC_RESPONSE,
@@ -25,6 +26,7 @@ import {
 } from '../../../../../classes/typings/all.typings';
 import { RequestManager } from '../../AppService/restConnections/requestManager';
 import {
+    API_GENERAL,
     CCGW_API,
     DBS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
@@ -95,21 +97,26 @@ export class DownloadManager {
     }
 
 
-    private saveFileFromMGW = (dileGwData: FILE_GW_DATA) => {
-        //todo promise
-
-        const buffer = Converting.base64_to_Buffer(dileGwData.byteArray);
-        fs.writeFile(uploadsPath + '/' + dileGwData.fsName, buffer, (err) => {
-            if ( !err ) {
-                //
-
-            }
-            else {
-
-            }
-
+    private saveFileFromMGW = (dileGwData: FILE_GW_DATA): Promise<ASYNC_RESPONSE<FILE_FS_DATA>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
+            const buffer = Converting.base64_to_Buffer(dileGwData.byteArray);
+            fs.writeFile(uploadsPath + '/' + dileGwData.fsName, buffer, (err) => {
+                if ( !err ) {
+                    const fileFsData: FILE_FS_DATA = {
+                        id: dileGwData.id,
+                        type: dileGwData.type,
+                        thumbnail: `${url_FS}/${API_GENERAL.general}/file/${dileGwData.fsName}`,
+                        url: `${url_FS}/${API_GENERAL.general}/file/${dileGwData.fsName}`
+                    };
+                    res.data = fileFsData;
+                    resolve(res);
+                }
+                else {
+                    reject(res);
+                }
+            });
         });
-
     }
 
     private downloadFileIntervalProcess = () => {
@@ -121,25 +128,30 @@ export class DownloadManager {
                             this.fileDbDataMap[fileId].fileStatus = FILE_STATUS.inProcess;
                             this.requestToDownloadFile({id: fileId})
                                 .then((data: ASYNC_RESPONSE<FILE_GW_DATA>) => {
-                                    this.saveFileFromMGW(data.data);
+                                    this.saveFileFromMGW(data.data)
+                                        .then((saveFileData: ASYNC_RESPONSE<FILE_FS_DATA>) => {
+                                            const fieldsForUpdate: Partial<FILE_DB_DATA> = {
+                                                fileName: data.data.fileName,
+                                                fileStatus: FILE_STATUS.downloaded,
+                                                fsName: data.data.fsName,
+                                                fsPath: data.data.fsPath,
+                                                type: data.data.type,
+                                            };
 
-                                    const fieldsForUpdate: Partial<FILE_DB_DATA> = {
-                                        fileName: data.data.fileName,
-                                        fileStatus: FILE_STATUS.downloaded,
-                                        fsName: data.data.fsName,
-                                        fsPath: data.data.fsPath,
-                                        type: data.data.type,
-                                    };
+                                            this.fileDbDataMap[fileId].fileStatus = FILE_STATUS.downloaded;
+                                            const fileDbData: FILE_DB_DATA = this.prepare_FILE_DB(fileId, fieldsForUpdate);
+                                            RequestManager.requestToDBS(DBS_API.saveFileData, fileDbData)
+                                                .then((dataDBS: ASYNC_RESPONSE<FILE_DB_DATA>) => {
 
-                                    this.fileDbDataMap[fileId].fileStatus = FILE_STATUS.downloaded;
-                                    const fileDbData: FILE_DB_DATA = this.prepare_FILE_DB(fileId, fieldsForUpdate);
-                                    RequestManager.requestToDBS(DBS_API.saveFileData, fileDbData)
-                                        .then((dataDBS: ASYNC_RESPONSE<FILE_DB_DATA>) => {
+                                                })
+                                                .catch((dataDBS: ASYNC_RESPONSE<FILE_DB_DATA>) => {
 
+                                                });
                                         })
-                                        .catch((dataDBS: ASYNC_RESPONSE<FILE_DB_DATA>) => {
+                                        .catch((saveFileData: ASYNC_RESPONSE<FILE_FS_DATA>) => {
 
                                         });
+
 
                                 })
                                 .catch((data: ASYNC_RESPONSE<FILE_GW_DATA>) => {
@@ -185,10 +197,17 @@ export class DownloadManager {
         };
     }
     private getFileData = (fileId: ID_OBJ) => {
-        const res: ASYNC_RESPONSE<FILE_DB_DATA> = {success: false};
+        const res: ASYNC_RESPONSE<FILE_FS_DATA> = {success: false};
         if ( this.fileDbDataMap.hasOwnProperty(fileId.id) ) {
             res.success = true;
-            res.data = this.fileDbDataMap[fileId.id];
+            const fileDbData: FILE_DB_DATA = this.fileDbDataMap[fileId.id];
+            const fileFsData: FILE_FS_DATA = {
+                id: fileDbData.id,
+                type: fileDbData.type,
+                thumbnail: `${url_FS}/${API_GENERAL.general}/file/${fileDbData.fsName}`,
+                url: `${url_FS}/${API_GENERAL.general}/file/${fileDbData.fsName}`
+            };
+            res.data = fileFsData;
         }
         return res;
     }

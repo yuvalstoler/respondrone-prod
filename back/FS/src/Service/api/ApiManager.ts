@@ -9,6 +9,7 @@ import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 import { FS_API } from '../../../../../classes/dataClasses/api/api_enums';
 import {
     ASYNC_RESPONSE,
+    FILE_FS_DATA,
     ID_OBJ,
 
     IDs_OBJ
@@ -75,7 +76,7 @@ export class ApiManager implements IRest {
     private getFileFromTest = (request: Request, response: Response) => {
         FileManager.getFileFromTest(request, response);
     }
-    
+
     // ---------------------------
 
     private requestToDownloadFiles = (request: Request, response: Response) => {
@@ -86,8 +87,8 @@ export class ApiManager implements IRest {
 
     private getFileData = (request: Request, response: Response) => {
         const filesIds: ID_OBJ = request.body;
-        DownloadManager.getFileData(filesIds);
-        response.send({success: true});
+        const res: ASYNC_RESPONSE<FILE_FS_DATA> = DownloadManager.getFileData(filesIds);
+        response.send(res);
     }
 
 
