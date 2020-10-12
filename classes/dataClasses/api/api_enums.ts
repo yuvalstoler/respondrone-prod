@@ -19,6 +19,7 @@ export enum DBS_API {
     saveFileData = '/saveFileData',
     readFileData = '/readFileData',
     updateFileData = '/updateFileData',
+    getAllFileData = '/getAllFileData',
 
     createEvent = '/createEvent',
     readEvent = '/readEvent',

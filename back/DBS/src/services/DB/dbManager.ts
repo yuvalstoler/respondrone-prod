@@ -11,7 +11,7 @@ import { NFZStaticModel } from '../mongo/models/nfzStaticModel';
 import { RouteModel } from '../mongo/models/routeModel';
 import { TaskModel } from '../mongo/models/taskModel';
 import { LogsModel } from "../mongo/models/LogsModel";
-import {EventModel} from "../mongo/models/eventModel";
+import { EventModel } from "../mongo/models/eventModel";
 import { FileDataModel } from "../mongo/models/fileDataModel";
 
 const _ = require('lodash');
@@ -211,6 +211,21 @@ export class DbManager {
                 });
         });
     };
+    private getAllFileData = (): Promise<ASYNC_RESPONSE<FILE_DB_DATA[]>> => {
+        return new Promise((resolve, reject) => {
+            this.fileDataModel.find({})
+                .exec()
+                .then((result: FILE_DB_DATA[]) => {
+                    const obj = result;
+                    resolve({success: (obj !== undefined), data: obj} as ASYNC_RESPONSE<FILE_DB_DATA[]>);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE<FILE_DB_DATA[]>);
+                });
+        });
+    };
+
     private updateFileData = (data: Partial<FILE_DB_DATA>): Promise<ASYNC_RESPONSE<FILE_DB_DATA>> => {
         return new Promise((resolve, reject) => {
             this.fileDataModel
@@ -225,6 +240,7 @@ export class DbManager {
                 });
         });
     };
+
     private deleteFileData = (data: Partial<FILE_DB_DATA>): Promise<ASYNC_RESPONSE<FILE_DB_DATA>> => {
         return new Promise((resolve, reject) => {
             this.fileDataModel
@@ -260,6 +276,7 @@ export class DbManager {
     public static readFileData = DbManager.instance.readFileData;
     public static updateFileData = DbManager.instance.updateFileData;
     public static deleteFileData = DbManager.instance.deleteFileData;
+    public static getAllFileData = DbManager.instance.getAllFileData;
 
 
     // endregion API uncions

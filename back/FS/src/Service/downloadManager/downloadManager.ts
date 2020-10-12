@@ -27,9 +27,8 @@ import { RequestManager } from '../../AppService/restConnections/requestManager'
 import {
     CCGW_API,
     DBS_API
-} from "../../../../../classes/dataClasses/api/api_enums";
-import { UpdateListenersManager } from "../updateListeners/updateListenersManager";
-import { Converting } from "../../../../../classes/applicationClasses/utility/converting";
+} from '../../../../../classes/dataClasses/api/api_enums';
+import { Converting } from '../../../../../classes/applicationClasses/utility/converting';
 
 
 const uploadsPath = path.join(__dirname, '../../../../../../uploads');
@@ -62,7 +61,7 @@ export class DownloadManager {
     downloadFileInterval;
 
     private constructor() {
-        this.requestToDownloadFilesInterval();
+        this.get_fileDbDataMap_fromDB();
     }
 
 
@@ -194,13 +193,27 @@ export class DownloadManager {
         return res;
     }
 
-    private requestToDownloadFilesInterval = () => {
-        setInterval(() => {
-            if ( this.isInterval ) {
-                const ids: IDs_OBJ = {ids: Object.values(this.fileIds)};
-                this.requestToDownloadFiles(ids);
-            }
-        }, 5000);
+    private get_fileDbDataMap_fromDB = () => {
+        RequestManager.requestToDBS(DBS_API.getAllFileData, {})
+            .then((data: ASYNC_RESPONSE<FILE_DB_DATA[]>) => {
+                if ( data.success ) {
+                    data.data.forEach((fileDbData: FILE_DB_DATA) => {
+                        this.fileDbDataMap[fileDbData.id] = fileDbData;
+                    });
+                    this.downloadFileIntervalProcess();
+                }
+                else {
+                    setTimeout(() => {
+                        this.get_fileDbDataMap_fromDB();
+                    }, 2000);
+
+                }
+            })
+            .catch((data: ASYNC_RESPONSE<FILE_DB_DATA[]>) => {
+                setTimeout(() => {
+                    this.get_fileDbDataMap_fromDB();
+                }, 2000);
+            });
     }
 
 

@@ -321,6 +321,20 @@ export class ApiManager implements IRest {
             })
     }
 
+    private getAllFileData = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        // const data: Partial<FILE_DB_DATA> = request.body;
+
+        DbManager.getAllFileData()
+            .then((data: ASYNC_RESPONSE<FILE_DB_DATA[]>) => {
+                response.send(data);
+
+            })
+            .catch((data: ASYNC_RESPONSE<FILE_DB_DATA>) => {
+                response.send(data);
+            })
+    }
+
     // ----------------------
 
 
@@ -341,6 +355,7 @@ export class ApiManager implements IRest {
         [DBS_API.saveFileData]: this.saveFileData,
         [DBS_API.readFileData]: this.readFileData,
         [DBS_API.updateFileData]: this.updateFileData,
+        [DBS_API.getAllFileData]: this.getAllFileData,
 
     };
 
