@@ -3,11 +3,12 @@ import {ApplicationService} from 'src/app/services/applicationService/applicatio
 import {HEADER_BUTTONS} from 'src/types';
 import {
   EVENT_DATA_UI,
-  EVENT_TYPE, LOCATION_TYPE,
+  EVENT_TYPE, LINKED_REPORT_DATA, LOCATION_TYPE,
   PRIORITY,
 } from '../../../../../../../../classes/typings/all.typings';
 import * as _ from 'lodash';
 import {EventService} from '../../../../services/eventService/event.service';
+import {ReportService} from '../../../../services/reportService/report.service';
 
 @Component({
   selector: 'app-event-panel',
@@ -34,16 +35,16 @@ export class EventPanelComponent implements OnInit {
     address: '',
     polygon: [],
     reportIds: [],
-    commentIds: [],
-    reports: [],
     comments: [],
+    reports: [],
     modeDefine: undefined
   };
 
   LOCATION_TYPE = LOCATION_TYPE;
 
   constructor(public applicationService: ApplicationService,
-              public eventService: EventService) {
+              public eventService: EventService,
+              public reportService: ReportService) {
     this.initEventModel();
   }
 
@@ -77,7 +78,10 @@ export class EventPanelComponent implements OnInit {
   }
 
   onCreateClick = () => {
-    this.eventService.createEvent(this.eventModel);
+    this.eventService.createEvent(this.eventModel, (event: EVENT_DATA_UI) => {
+      this.reportService.linkReportsToEvent(event.reportIds, event.id);
+    });
+    this.reportService.linkReportsToEvent(this.eventModel.reportIds, this.eventModel.id); // TODO
     this.clearPanel();
   };
 
@@ -94,8 +98,21 @@ export class EventPanelComponent implements OnInit {
 
   onSendComment = () => {
     if (this.comment !== '' && this.comment !== undefined) {
-      console.log(this.comment);
+      this.eventModel.comments.push({source: '', time: Date.now(), text: this.comment});
+      this.comment = '';
     }
   };
+
+  onUpdateLinkedReports = (linkedReportIds: string[]) => {
+    if (linkedReportIds && Array.isArray(linkedReportIds)) {
+      this.eventModel.reportIds = linkedReportIds;
+      const linkedReports = [];
+      this.eventModel.reportIds.forEach((reportId: string) => {
+        const linkedReport: LINKED_REPORT_DATA = this.reportService.getLinkedReport(reportId);
+        linkedReports.push(linkedReport);
+      });
+      this.eventModel.reports = linkedReports;
+    }
+  }
 
 }

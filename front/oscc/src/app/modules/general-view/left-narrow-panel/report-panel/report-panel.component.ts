@@ -3,15 +3,18 @@ import {ApplicationService} from '../../../../services/applicationService/applic
 import {EVENT_LISTENER_DATA, HEADER_BUTTONS, STATE_DRAW} from '../../../../../types';
 import {
   GEOPOINT3D,
+  LINKED_EVENT_DATA,
   LOCATION_TYPE,
   MEDIA_DATA, POINT,
+  FILE_FS_DATA,
   PRIORITY,
   REPORT_DATA_UI,
   REPORT_TYPE,
-  SOURCE_TYPE
+  SOURCE_TYPE,
 } from '../../../../../../../../classes/typings/all.typings';
 import * as _ from 'lodash';
 import {ReportService} from '../../../../services/reportService/report.service';
+import {EventService} from '../../../../services/eventService/event.service';
 
 @Component({
   selector: 'app-report-panel',
@@ -37,17 +40,17 @@ export class ReportPanelComponent implements OnInit {
     location:  {longitude: undefined, latitude: undefined},
     address: '',
     eventIds: [],
-    commentIds: [],
+    comments: [],
     events: [],
     media: [],
-    comments: [],
     modeDefine: undefined
   };
 
   LOCATION_TYPE = LOCATION_TYPE;
 
   constructor(public applicationService: ApplicationService,
-              public reportService: ReportService) {
+              public reportService: ReportService,
+              public eventService: EventService) {
     this.initReportModel();
 
     // TODO: add location on panel
@@ -97,26 +100,28 @@ export class ReportPanelComponent implements OnInit {
    }
   };
 
-  onAddMedia = (newMedia: MEDIA_DATA) => {
+  onAddMedia = (newMedia: FILE_FS_DATA) => {
     this.reportModel.media.unshift(newMedia);
   };
 
-  onDeleteMedia = (newMedia: MEDIA_DATA) => {
-    const index = this.reportModel.media.findIndex((data: MEDIA_DATA) => data.id === newMedia.id);
+  onDeleteMedia = (newMedia: FILE_FS_DATA) => {
+    const index = this.reportModel.media.findIndex((data: FILE_FS_DATA) => data.id === newMedia.id);
     if (index !== -1) {
       this.reportModel.media.splice(index, 1);
     }
   };
 
   onCreateClick = () => {
-    this.reportService.createReport(this.reportModel);
+    this.reportService.createReport(this.reportModel, (report: REPORT_DATA_UI) => {
+      this.eventService.linkEventsToReport(report.eventIds, report.id); // TODO
+    });
     this.clearPanel();
   };
 
   onDeleteClick = () => {
     console.log('delete');
     if (!this.reportModel.id) {
-      this.reportModel.media.forEach((data: MEDIA_DATA) => {
+      this.reportModel.media.forEach((data: FILE_FS_DATA) => {
         // TODO: remove media
       });
     }
@@ -135,8 +140,21 @@ export class ReportPanelComponent implements OnInit {
 
   onSendComment = () => {
     if (this.comment !== '' && this.comment !== undefined) {
-      console.log(this.comment);
+      this.reportModel.comments.push({source: '', time: Date.now(), text: this.comment});
+      this.comment = '';
     }
   };
+
+  onUpdateLinkedEvents = (linkedEventIds: string[]) => {
+    if (linkedEventIds && Array.isArray(linkedEventIds)) {
+      this.reportModel.eventIds = linkedEventIds;
+      const linkedEvents = [];
+      this.reportModel.eventIds.forEach((eventId: string) => {
+        const linkedEvent: LINKED_EVENT_DATA = this.eventService.getLinkedEvent(eventId);
+        linkedEvents.push(linkedEvent);
+      });
+      this.reportModel.events = linkedEvents;
+    }
+  }
 
 }

@@ -1,16 +1,20 @@
 import {
     ADDRESS,
+    COMMENT,
     GEOPOINT3D,
-    ID_TYPE, LINKED_REPORT_DATA,
+    ID_TYPE,
+    LINKED_REPORT_DATA,
     LOCATION_TYPE,
-    MEDIA_DATA,
+    FILE_FS_DATA,
     PRIORITY,
     REPORT_DATA,
     REPORT_DATA_UI,
     REPORT_TYPE,
-    SOURCE_TYPE
+    SOURCE_TYPE,
+    ADDRESS,
+    MAP
 } from '../../typings/all.typings';
-import {DataUtility} from '../../applicationClasses/utility/dataUtility';
+import { DataUtility } from '../../applicationClasses/utility/dataUtility';
 
 export class Report {
 
@@ -25,8 +29,12 @@ export class Report {
     location: GEOPOINT3D;
     address: ADDRESS;
     media: MEDIA_DATA[] = [];
+    location: GEOPOINT3D;
+    address: ADDRESS;
+    media: FILE_FS_DATA[] = [];
+    mediaFileIds: MAP<boolean> = {}
     eventIds: string[] = [];
-    commentIds: string[] = [];
+    comments: COMMENT[] = [];
 
     constructor(data: REPORT_DATA) {
         if ( data ) {
@@ -88,10 +96,16 @@ export class Report {
         }
     };
 
-    private setMedia = (data: MEDIA_DATA[]) => {
+    private setMedia = (data: FILE_FS_DATA[] = []) => {
         const res: boolean = Array.isArray(data);// || todo validate array of strings
         if ( res ) {
             this.media = data;
+        }
+    };
+    private setMediaFileIds = (data: MAP<boolean> = {}) => {
+        const res: boolean = Array.isArray(data);// || todo validate array of strings
+        if ( res ) {
+            this.mediaFileIds = data;
         }
     };
     private setEvents = (data: string[]) => {
@@ -100,8 +114,8 @@ export class Report {
             this.eventIds = data;
         }
     };
-    private setComments = (data: string[]) => {
-        this.commentIds = data;
+    private setComments = (data: COMMENT[]) => {
+        this.comments = data;
     };
     public setValues = (data: Partial<REPORT_DATA>, saveConfig: Object = this.saveConfig) => {
         for ( const key in saveConfig ) {
@@ -134,8 +148,9 @@ export class Report {
             location: this.location,
             address: this.address,
             media: this.media,
+            mediaFileIds: this.mediaFileIds,
             eventIds: this.eventIds,
-            commentIds: this.commentIds,
+            comments: this.comments,
         };
     };
 
@@ -152,15 +167,10 @@ export class Report {
             location: this.location,
             address: this.address,
             media: this.media,
+            mediaFileIds: this.mediaFileIds,
             eventIds: this.eventIds,
-            commentIds: this.commentIds,
-
+            comments: this.comments,
             events: [],
-            comments: [
-                {source: 'FF33', time: 12546324562, text: 'We arrived to the building, the situation is under control'},
-                {source: 'OS23', time: 12546324577, text: 'We arrived to the building, the situation is under control'},
-                {source: 'DD53', time: 12546324582, text: 'We arrived to the building, the situation is under control'}
-            ],
             modeDefine: undefined
         };
     };
@@ -188,8 +198,9 @@ export class Report {
         location: this.setLocation,
         address: this.setAddress,
         media: this.setMedia,
+        mediaFileIds: this.setMediaFileIds,
         eventIds: this.setEvents,
-        commentIds: this.setComments,
+        comments: this.setComments,
     };
 
 

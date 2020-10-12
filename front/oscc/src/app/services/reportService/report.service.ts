@@ -5,7 +5,7 @@ import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
   ASYNC_RESPONSE, EVENT_TYPE, GEOPOINT3D,
-  ID_OBJ, MEDIA_TYPE,
+  ID_OBJ, MEDIA_TYPE, LINKED_REPORT_DATA,
   PRIORITY,
   REPORT_DATA,
   REPORT_DATA_UI,
@@ -100,11 +100,18 @@ export class ReportService {
     });
   }
   // ----------------------
-  public createReport = (reportData: REPORT_DATA) => {
+  public createReport = (reportData: REPORT_DATA, cb?: Function) => {
     this.connectionService.post('/api/createReport', reportData)
       .then((data: ASYNC_RESPONSE) => {
         if (!data.success) {
           this.toasterService.error({message: 'error creating report', title: ''});
+        }
+        else {
+          if (cb) {
+            try {
+              cb(data.data);
+            } catch (e) {}
+          }
         }
       })
       .catch(e => {
@@ -123,15 +130,48 @@ export class ReportService {
         this.toasterService.error({message: 'error deleting report', title: ''});
       });
   };
-  
-  
-  public drawReportLocation = (event: EVENT_LISTENER_DATA): void  => {
-      if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
-        const locationPoint: GEOPOINT3D = {longitude: event.pointLatLng[0], latitude: event.pointLatLng[1]};
-        const locationId: string = 'temp';
-        this.drawReportLocationFromServer(locationPoint, locationId);
-        this.applicationService.stateDraw = STATE_DRAW.notDraw;
+  // -----------------------
+  public getLinkedReport = (reportId: string): LINKED_REPORT_DATA => {
+    const report = this.getReportById(reportId);
+    return {
+      id: report.id,
+      time: report.time,
+      createdBy: report.createdBy,
+      type: report.type,
+      description: report.description,
+    };
+  }
+  // -----------------------
+  public linkReportsToEvent = (reportIds: string[], eventId: string) => {
+    reportIds.forEach((reportId: string) => {
+      const report = this.getReportById(reportId);
+      report.eventIds.push(eventId);
+      this.createReport(report);
+    });
+  }
+  // -----------------------
+  public unlinkReportsFromEvent = (reportIds: string[], eventId: string) => {
+    reportIds.forEach((reportId: string) => {
+      const report = this.getReportById(reportId);
+      const index = report.eventIds.indexOf(eventId);
+      if (index !== -1) {
+        report.eventIds.splice(index, 1);
+        this.createReport(report);
       }
+    });
+  }
+  // -----------------------
+  public getReportById = (eventId: string): REPORT_DATA_UI => {
+    return this.reports.data.find(data => data.id === eventId);
+  }
+  // ------------------------
+  public drawReportLocation = (event: EVENT_LISTENER_DATA): void  => {
+    if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
+      const locationPoint: GEOPOINT3D = {longitude: event.pointLatLng[0], latitude: event.pointLatLng[1]};
+      const locationId: string = 'temp';
+      this.drawReportLocationFromServer(locationPoint, locationId);
+      this.applicationService.stateDraw = STATE_DRAW.notDraw;
+    }
   };
 
   public drawReportLocationFromServer = (locationPoint: GEOPOINT3D, locationId: string) => {
@@ -151,5 +191,4 @@ export class ReportService {
     this.locationPoint$.next({longitude: undefined, latitude: undefined});
   };
 
-  
 }

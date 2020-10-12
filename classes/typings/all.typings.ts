@@ -13,6 +13,7 @@ export type TOASTER_OPTIONS = Partial<{ timeOut: number, extendedTimeOut: number
 
 export type ID_TYPE = string;
 export type ID_OBJ = { id: ID_TYPE };
+export type IDs_OBJ = { ids: ID_TYPE[] };
 
 
 export type ASYNC_RESPONSE<T = any> = { success: boolean, description?: string, data?: T };
@@ -58,6 +59,7 @@ export type GEOPOINT_UI = { lat: number, lng: number };
 export type GEOPOINT3D = GEOPOINT & { altitude?: number };
 export type ADDRESS = string;
 export type POLYGON_GEOPOINT = GEOPOINT3D[];
+export type ADDRESS = string;
 
 
 export enum REPORT_TYPE {
@@ -98,6 +100,7 @@ export enum LOCATION_TYPE {
     locationPoint = 'locationPoint',
     polygon = 'polygon'
 }
+
 export type COMMENT = {
     source: string,
     time: number,
@@ -113,11 +116,12 @@ export type REPORT_DATA = {
     priority: PRIORITY,
     description: string,
     locationType: LOCATION_TYPE;
-    location: GEOPOINT3D,
-    address: ADDRESS,
-    media: MEDIA_DATA[],
+    location?: GEOPOINT3D,
+    address?: ADDRESS,
+    media: FILE_FS_DATA[],
+    mediaFileIds: MAP<boolean>,
     eventIds: string[],
-    commentIds: string[]
+    comments: COMMENT[]
 };
 export type REPORT_DATA_UI = REPORT_DATA & {
     events: LINKED_EVENT_DATA[],
@@ -134,6 +138,7 @@ export type LINKED_REPORT_DATA = {
 export type REPORT_DATA_MD = {
     styles: {},
     tableData: {
+        time: TABLE_DATA_MD,
         message: TABLE_DATA_MD,
         priority: TABLE_DATA_MD,
         link: TABLE_DATA_MD,
@@ -143,8 +148,8 @@ export type REPORT_DATA_MD = {
 }
 
 export type TABLE_DATA_MD = {
-    type: 'matIcon' | 'text',
-    data: string,
+    type: 'image' | 'matIcon' | 'text' | 'date',
+    data: string | number,
     color?: string
 }
 
@@ -161,7 +166,7 @@ export type EVENT_DATA = { // TODO - change data fields
     address: ADDRESS,
     polygon: POLYGON_GEOPOINT,
     reportIds: string[],
-    commentIds: string[],
+    comments: COMMENT[],
 };
 export type EVENT_DATA_UI = EVENT_DATA & {
     reports: LINKED_REPORT_DATA[],
@@ -178,6 +183,7 @@ export type LINKED_EVENT_DATA = {
 export type EVENT_DATA_MD = {
     styles: {},
     tableData: {
+        time: TABLE_DATA_MD,
         message: TABLE_DATA_MD,
         priority: TABLE_DATA_MD,
         link: TABLE_DATA_MD,
@@ -199,11 +205,35 @@ export enum MEDIA_TYPE {
     video = 'video',
 }
 
-export type MEDIA_DATA = {
+export type FILE_FS_DATA = {
     thumbnail: string,
     url: string,
-    id: string,
+    id: ID_TYPE,
     type: MEDIA_TYPE
 };
 
+export enum FILE_STATUS {
+    unknown = 'unknown',
+    inProcess = 'inProcess',
+    downloaded = 'downloaded',
+    error = 'error',
+    notFund = 'notFund',
+}
 
+export type FILE_DB_DATA = {
+    id: ID_TYPE,
+    type: MEDIA_TYPE,
+    originFileName: string,
+    fsName: string,
+    fsPath: string,
+    fileStatus: FILE_STATUS,
+
+};
+export type UPDATE_FILE_STATUS = {
+    id: ID_TYPE,
+    fileStatus: FILE_STATUS,
+
+};
+export type FILE_GW_DATA = FILE_DB_DATA & {
+    byteArray: string,
+};

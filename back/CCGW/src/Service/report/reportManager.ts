@@ -6,6 +6,7 @@ import { Report } from '../../../../../classes/dataClasses/report/report';
 
 import {
     REPORT_API,
+    RS_API,
 } from '../../../../../classes/dataClasses/api/api_enums';
 
 import { RequestManager } from '../../AppService/restConnections/requestManager';
@@ -72,7 +73,7 @@ export class ReportManager {
         return new Promise((resolve, reject) => {
             // const res: ASYNC_RESPONSE = {success: false};
             //    todo send to RS
-            RequestManager.requestToRS(REPORT_API.createReport, reportData)
+            RequestManager.requestToRS(RS_API.createReport, reportData)
                 .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                     resolve(data);
                 })

@@ -19,8 +19,6 @@ export enum DBS_API {
 
 export enum REPORT_API {
     createReport = '/createReport',
-    createReportExternal = '/createReportExternal',
-
     readReport = '/readReport',
     readAllReport = '/readAllReport',
     deleteReport = '/deleteReport',
@@ -48,9 +46,14 @@ export enum TS_API {
 }
 
 export enum RS_API {
+    createReport = '/createReport',
+    readReport = '/readReport',
+    readAllReport = '/readAllReport',
+    deleteReport = '/deleteReport',
+    deleteAllReport = '/deleteAllReport',
 
     createReportFromMGW = '/createReportFromMGW',
-
+    updateListenersFS = '/updateListenersFS',
 
 }
 
@@ -81,6 +84,9 @@ export enum FS_API {
     getFile = '/file/:id',
     getFileForSave = '/getFileForSave',
     getFileFromTest = '/getFileFromTest',
+    requestToDownloadFiles = '/requestToDownloadFiles',
+    getDownloadStatus = '/getDownloadStatus',
+    updateListenersFS = '/updateListenersFS',
 
 
 }
@@ -95,6 +101,21 @@ export enum WS_API {
 
 export enum CCGW_API {
     createReportFromMGW = '/createReportFromMGW',
+    getFileById = '/fileById',
+    updateFileStatus = '/updateFileStatus',
 
+}
+
+export enum MG_API {
+    createReport_in_OSCC = '/createReport_in_OSCC',
+    getFile = '/getFile',
+
+    readReport = '/readReport',
+    readAllReport = '/readAllReport',
+    deleteReport = '/deleteReport',
+    deleteAllReport = '/deleteAllReport',
+    getAllReports = '/getAllReports',
+    fileById = '/fileById',
+    updateFileStatus = '/updateFileStatus',
 
 }

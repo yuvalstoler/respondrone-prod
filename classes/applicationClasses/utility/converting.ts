@@ -30,4 +30,15 @@ export class Converting {
         }
         return res;
     }
+
+    public static base64_to_Buffer = (base64: string): Buffer => {
+        return new Buffer(base64, "base64");
+    }
+
+    public static Buffer_to_base64 = (buffer: Buffer): string => {
+        return buffer.toString('base64');
+    }
+
+
+
 }

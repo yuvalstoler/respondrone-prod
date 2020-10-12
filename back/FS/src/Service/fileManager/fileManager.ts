@@ -8,12 +8,12 @@ const _ = require('lodash');
 const multer = require('multer');
 const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
-const FormData = require('form-data');
+
 const services = require('./../../../../../../../../config/services.json');
 
 import {
     ASYNC_RESPONSE,
-    MEDIA_DATA,
+    FILE_FS_DATA,
     MEDIA_TYPE
 } from '../../../../../classes/typings/all.typings';
 import { RequestManager } from '../../AppService/restConnections/requestManager';
@@ -37,8 +37,6 @@ const upload = multer({
     // limits: { fileSize: maxSize },
 }).any('userFiles');
 
-const filePath = require('path').join(__dirname, './../../../../../../../../logo.png');
-const filePath1 = require('path').join(__dirname, './../../../../../../../../logo1.png');
 const filePath2 = require('path').join(__dirname, './../../../../../../../../logo2.png');
 
 export class FileManager {
@@ -53,7 +51,7 @@ export class FileManager {
 
     // ----------------------
     private uploadFile = (request, response: Response) => {
-        const res: ASYNC_RESPONSE<MEDIA_DATA> = {success: false};
+        const res: ASYNC_RESPONSE<FILE_FS_DATA> = {success: false};
 
         upload(request, response, (err) => {
             if ( request.files === undefined || request.files.length === 0 ) {
@@ -95,7 +93,7 @@ export class FileManager {
     }
 
     private uploadFileTest = (request, response: Response) => {
-        const res: ASYNC_RESPONSE<MEDIA_DATA> = {success: false};
+        const res: ASYNC_RESPONSE<FILE_FS_DATA> = {success: false};
 
         upload(request, response, (err) => {
             if ( request.files === undefined || request.files.length === 0 ) {
@@ -137,7 +135,7 @@ export class FileManager {
     }
 
     private uploadFileFromServer = (request, response: Response) => {
-        const res: ASYNC_RESPONSE<MEDIA_DATA> = {success: false};
+        const res: ASYNC_RESPONSE<FILE_FS_DATA> = {success: false};
         request.pipe(fs.createWriteStream(filePath2));
         response.send({success: true});
 
@@ -169,7 +167,7 @@ export class FileManager {
         });
     }
     // ----------------------
-    private removeFile = (mediaData: MEDIA_DATA): Promise<ASYNC_RESPONSE> => {
+    private removeFile = (mediaData: FILE_FS_DATA): Promise<ASYNC_RESPONSE> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
             fs.unlink(path.join(uploadsPath, `${mediaData.id}`), (err) => {

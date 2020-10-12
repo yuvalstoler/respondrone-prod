@@ -6,7 +6,7 @@ import {
   ASYNC_RESPONSE,
   EVENT_DATA,
   EVENT_DATA_UI, EVENT_TYPE,
-  ID_OBJ, MEDIA_TYPE, PRIORITY, REPORT_TYPE, SOURCE_TYPE,
+  ID_OBJ, LINKED_EVENT_DATA, MEDIA_TYPE, PRIORITY, REPORT_DATA, REPORT_TYPE, SOURCE_TYPE,
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
@@ -71,26 +71,33 @@ export class EventService {
   };
   // ----------------------
   private updateData = (reportData: EVENT_DATA_UI[]): void => {
-    reportData.forEach((newReport: EVENT_DATA_UI) => {
-      const existingReport: EVENT_DATA_UI = this.events.data.find(d => d.id === newReport.id);
-      if (existingReport) {
-        // existingReport.setValues(newReport);
-        for (const fieldName in existingReport) {
-          if (existingReport.hasOwnProperty(fieldName)) {
-            existingReport[fieldName] = newReport[fieldName];
+    reportData.forEach((newEvent: EVENT_DATA_UI) => {
+      const existingEvent: EVENT_DATA_UI = this.getEventById(newEvent.id);
+      if (existingEvent) {
+        // existingEvent.setValues(newEvent);
+        for (const fieldName in existingEvent) {
+          if (existingEvent.hasOwnProperty(fieldName)) {
+            existingEvent[fieldName] = newEvent[fieldName];
           }
         }
       } else {
-        this.events.data.push(newReport);
+        this.events.data.push(newEvent);
       }
     });
   }
   // ----------------------
-  public createEvent = (eventData: EVENT_DATA) => {
+  public createEvent = (eventData: EVENT_DATA, cb?: Function) => {
     this.connectionService.post('/api/createEvent', eventData)
       .then((data: ASYNC_RESPONSE) => {
         if (!data.success) {
           this.toasterService.error({message: 'error creating event', title: ''});
+        }
+        else {
+          if (cb) {
+            try {
+              cb(data.data);
+            } catch (e) {}
+          }
         }
       })
       .catch(e => {
@@ -109,4 +116,38 @@ export class EventService {
         this.toasterService.error({message: 'error creating event', title: ''});
       });
   };
+  // -----------------------
+  public getLinkedEvent = (eventId): LINKED_EVENT_DATA => {
+    const event = this.getEventById(eventId);
+    return {
+      id: event.id,
+      time: event.time,
+      createdBy: event.createdBy,
+      type: event.type,
+      description: event.description,
+    };
+  }
+  // -----------------------
+  public linkEventsToReport = (eventIds: string[], reportId: string) => {
+    eventIds.forEach((eventId: string) => {
+      const event = this.getEventById(eventId);
+      event.reportIds.push(reportId);
+      this.createEvent(event);
+    });
+  }
+  // -----------------------
+  public unlinkEventsFromReport = (eventIds: string[], reportId: string) => {
+    eventIds.forEach((eventId: string) => {
+      const event = this.getEventById(eventId);
+      const index = event.reportIds.indexOf(reportId);
+      if (index !== -1) {
+        event.reportIds.splice(index, 1);
+        this.createEvent(event);
+      }
+    });
+  }
+  // -----------------------
+  public getEventById = (eventId: string): EVENT_DATA_UI => {
+    return this.events.data.find(data => data.id === eventId);
+  }
 }

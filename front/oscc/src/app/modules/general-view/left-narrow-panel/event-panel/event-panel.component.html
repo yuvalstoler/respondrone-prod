@@ -1,5 +1,6 @@
-<div *ngIf="true" class="DialogContainer">
-  <div class="DialogHeader">Create new event</div>
+<div class="DialogContainer" *ngIf="true">
+  <div class="DialogHeader" *ngIf="applicationService.selectedEvent === undefined">Create new event</div>
+  <div class="DialogHeader" *ngIf="applicationService.selectedEvent !== undefined">Edit event</div>
   <!--Content-->
   <div class="DialogContent scroll">
     <!--Title-->
@@ -97,11 +98,23 @@
     <!--</div>-->
     <!--Linked Reports-->
     <div class="DialogContentItem">
-      <app-linked-reports-table [element]="eventModel"></app-linked-reports-table>
+      <app-linked-reports-table [element]="eventModel"
+                                (updateLinkedReports)="onUpdateLinkedReports($event)">
+      </app-linked-reports-table>
     </div>
     <!--Comments-->
     <div class="DialogContentItem">
       <span class="DialogTitle">Comments</span>
+      <div>
+        <mat-list-item *ngFor="let comment of eventModel.comments">
+          <div class="CommentsGrid" mat-line>
+            <mat-icon class="CommentsGrid1" mat-list-icon>account_circle</mat-icon>
+            <div class="CommentsGrid2"> {{comment.source}}</div>
+            <div class="CommentsGrid3">{{comment.time | date}}</div>
+            <div class="CommentsGrid4"> {{comment.text}}</div>
+          </div>
+        </mat-list-item>
+      </div>
       <div class="DialogGrid3">
         <div class="DialogIconContainer">
           <mat-icon class="DialogIcon">account_circle</mat-icon>
@@ -114,7 +127,7 @@
           </label>
         </mat-form-field>
         <div (click)="onSendComment()"
-             class="DialogIconContainer">
+             class="DialogIconContainer pointer">
           <mat-icon [ngStyle]="{'color': (comment === '' || comment === undefined) ? 'lightgray' : 'black' }"
                     class="DialogIcon">
             send
@@ -127,7 +140,7 @@
   <div class="FooterButtons">
     <div>
       <button (click)="onDeleteClick()" class="FooterButtonDelete"
-              mat-raised-button>Delete
+              mat-raised-button>Cancel
       </button>
       <button (click)="onCreateClick()" class="FooterButtonCreate"
               mat-raised-button>Create New Event

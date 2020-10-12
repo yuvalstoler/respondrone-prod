@@ -6,6 +6,7 @@ import { Report } from '../../../../../classes/dataClasses/report/report';
 
 import {
     DBS_API,
+    FS_API,
     MWS_API,
     REPORT_API,
     RS_API
@@ -16,7 +17,10 @@ import { RequestManager } from '../../AppService/restConnections/requestManager'
 import {
     ASYNC_RESPONSE,
     ID_OBJ,
+    ID_TYPE,
+    IDs_OBJ,
     MAP,
+    FILE_FS_DATA,
     REPORT_DATA
 
 } from '../../../../../classes/typings/all.typings';
@@ -31,8 +35,14 @@ export class ReportManager {
 
     reports: Report[] = [];
 
+    fileIds = {};
+    isInterval;
+    interval;
+
+
     private constructor() {
         this.initAllReports();
+        this.requestToDownloadFilesInterval();
     }
 
     private initAllReports = () => {
@@ -104,7 +114,6 @@ export class ReportManager {
         return new Promise((resolve, reject) => {
 
 
-
             const res: ASYNC_RESPONSE = {success: false};
             const newReport: Report = new Report(reportData);
 
@@ -116,9 +125,10 @@ export class ReportManager {
                     res.description = data.description;
                     if ( data.success ) {
                         const report: Report = this.reports.find(element => element.id === data.data.id);
-                        if (report) {
+                        if ( report ) {
                             report.setValues(data.data);
-                        } else {
+                        }
+                        else {
                             this.reports.push(new Report(data.data));
                         }
 
@@ -132,14 +142,11 @@ export class ReportManager {
                 });
 
 
-
-
         });
     }
 
     private createReportFromMGW = (reportData: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
         return new Promise((resolve, reject) => {
-
 
 
             const res: ASYNC_RESPONSE = {success: false};
@@ -156,8 +163,8 @@ export class ReportManager {
                         this.reports.push(newReportCreated);
                         UpdateListenersManager.updateReportListeners();
 
-
-                        //todo start get media process
+                        const mediaIds: ID_TYPE[] = newReportCreated.media.map((media: FILE_FS_DATA) => media.id);
+                        this.requestToDownloadFiles({ids: mediaIds});
 
                     }
                     resolve(res);
@@ -168,8 +175,35 @@ export class ReportManager {
                 });
 
 
-
         });
+    }
+
+    private requestToDownloadFiles = (reportIds: IDs_OBJ) => {
+        RequestManager.requestToFS(FS_API.requestToDownloadFiles, reportIds)
+            .then((data: ASYNC_RESPONSE) => {
+                if ( data.success ) {
+                    this.isInterval = false;
+                    this.fileIds = {};
+                    console.log('success');
+                }
+                else {
+                    Object.assign(this.fileIds, reportIds.ids);
+                    this.isInterval = true;
+                }
+            })
+            .catch(() => {
+                Object.assign(this.fileIds, reportIds.ids);
+                this.isInterval = true;
+            });
+    }
+
+    private requestToDownloadFilesInterval = () => {
+        setInterval(() => {
+            if ( this.isInterval ) {
+                const ids: IDs_OBJ = {ids: Object.values(this.fileIds)};
+                this.requestToDownloadFiles(ids);
+            }
+        }, 5000);
     }
 
     private updateReport = (reportData: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
@@ -184,6 +218,38 @@ export class ReportManager {
         });
     }
 
+    private updateMedia = (mediaData: FILE_FS_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
+
+            const report: Report = this.findReportByFileId(mediaData.id);
+            const isMediaExistInReport: boolean = this.checkIfMediaExistInReport(report, mediaData.id);
+            if ( !isMediaExistInReport ) {
+                report.media.push(mediaData);
+                //     update listeners
+                UpdateListenersManager.updateReportListeners();
+
+            }
+
+            res.success = true;
+
+            resolve(res);
+        });
+    }
+
+    private checkIfMediaExistInReport = (report: Report, mediaId: ID_TYPE): boolean => {
+        const fileFsDataInReport: FILE_FS_DATA = report.media.find((fileFsData: FILE_FS_DATA) => {
+            return (fileFsData && fileFsData.id === mediaId);
+        });
+        return fileFsDataInReport ? true : false;
+    }
+
+    private findReportByFileId = (id: ID_TYPE): Report => {
+        const res: Report = this.reports.find((report) => {
+            return (report && report.mediaFileIds && report.mediaFileIds.hasOwnProperty(id));
+        });
+        return res;
+    }
 
     private readReport = (reportIdData: ID_OBJ): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
         return new Promise((resolve, reject) => {
@@ -217,7 +283,7 @@ export class ReportManager {
                     res.success = data.success;
                     if ( data.success ) {
                         const index = this.reports.findIndex(element => element.id === data.data.id);
-                        if (index !== -1) {
+                        if ( index !== -1 ) {
                             this.reports.splice(index, 1);
                         }
                         UpdateListenersManager.updateReportListeners();
@@ -265,6 +331,7 @@ export class ReportManager {
     public static createReport = ReportManager.instance.createReport;
     public static createReportFromMGW = ReportManager.instance.createReportFromMGW;
     public static updateReport = ReportManager.instance.updateReport;
+    public static updateMedia = ReportManager.instance.updateMedia;
 
     public static readReport = ReportManager.instance.readReport;
     public static readAllReport = ReportManager.instance.readAllReport;

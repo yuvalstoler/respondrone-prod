@@ -1,5 +1,6 @@
 const request = require('request');
-import {Request, Response} from 'express';
+const _ = require('lodash');
+
 
 import {
     API_GENERAL,
@@ -7,7 +8,10 @@ import {
 } from '../../../../../classes/dataClasses/api/api_enums';
 
 
-import { ASYNC_RESPONSE } from '../../../../../classes/typings/all.typings';
+import {
+    ASYNC_RESPONSE,
+    MAP
+} from '../../../../../classes/typings/all.typings';
 // for webServer
 const services = require('./../../../../../../../../config/services.json');
 const projConf = require('./../../../../../../../../config/projConf.json');
@@ -16,19 +20,44 @@ const timeout_AV = projConf.timeOutREST;
 const timeout_File = 10 * 60 * 1000; // TODO ??
 
 const url_CCG = services.CCG.protocol + '://' + services.CCG.host + ':' + services.CCG.port;
+const url_DBS = services.DBS.protocol + '://' + services.DBS.host + ':' + services.DBS.port;
 
 export class RequestManager {
 
+    static externalServiceURLs: MAP<string> = {};
 
     public static requestToCCG = (path: string, bodyObj: object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_CCG, API_GENERAL.general + path, bodyObj, timeout_AV);
     }
+
+    public static requestToDBS = (path: string, bodyObj: object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_DBS, API_GENERAL.general + path, bodyObj, timeout_AV);
+    }
+
     public static uploadFileToCCG = (formData: object) => {
         return RequestManager.uploadFile(url_CCG, API_GENERAL.general + CCG_API.uploadFileToMG, formData);
     }
 
 
-    public static sendRestRequest(url: string, path: string, bodyObj: Object, timeout: number): Promise<ASYNC_RESPONSE> {
+    public static requestToExternalService = (serviceName: string, path: string, bodyObj: Object = {}): Promise<ASYNC_RESPONSE> => {
+
+        if ( !RequestManager.externalServiceURLs.hasOwnProperty(serviceName) ) {
+            const protocol = _.get(services, [serviceName, 'protocol']);
+            const host = _.get(services, [serviceName, 'host']);
+            const port = _.get(services, [serviceName, 'port']);
+
+            const url = protocol + '://' + host + ':' + port;
+            if ( protocol && host && port && RequestManager.validURL(url) ) {
+                RequestManager.externalServiceURLs[serviceName] = url;
+            }
+        }
+
+        return RequestManager.sendRestRequest(RequestManager.externalServiceURLs[serviceName], path, bodyObj);
+    };
+
+
+
+    public static sendRestRequest(url: string, path: string, bodyObj: Object, timeout: number = timeout_AV): Promise<ASYNC_RESPONSE> {
         return new Promise((resolve, reject) => {
             (async () => {
                 const IP_ = url.split('://');
@@ -75,7 +104,7 @@ export class RequestManager {
 
     }
 
-    public static uploadFile( url, path, formData, timeout: number = timeout_File) {
+    public static uploadFile(url, path, formData, timeout: number = timeout_File) {
         request({
             url: `${url}/${path}`,
             method: 'POST',

@@ -109,11 +109,23 @@
     </div>
     <!--Linked Reports-->
     <div class="DialogContentItem">
-      <app-linked-events-table [element]="reportModel"></app-linked-events-table>
+      <app-linked-events-table [element]="reportModel"
+                               (updateLinkedEvents)="onUpdateLinkedEvents($event)">
+      </app-linked-events-table>
     </div>
     <!--Comments-->
     <div class="DialogContentItem">
       <span class="DialogTitle">Comments</span>
+      <div>
+        <mat-list-item *ngFor="let comment of reportModel.comments">
+          <div class="CommentsGrid" mat-line>
+            <mat-icon class="CommentsGrid1" mat-list-icon>account_circle</mat-icon>
+            <div class="CommentsGrid2"> {{comment.source}}</div>
+            <div class="CommentsGrid3">{{comment.time | date}}</div>
+            <div class="CommentsGrid4"> {{comment.text}}</div>
+          </div>
+        </mat-list-item>
+      </div>
       <div class="DialogGrid3">
         <div class="DialogIconContainer">
           <mat-icon class="DialogIcon">account_circle</mat-icon>
@@ -125,7 +137,7 @@
                    [(ngModel)]="comment">
           </label>
         </mat-form-field>
-        <div class="DialogIconContainer"
+        <div class="DialogIconContainer pointer"
              (click)="onSendComment()">
           <mat-icon class="DialogIcon"
                     [ngStyle]="{'color': (comment === '' || comment === undefined) ? 'lightgray' : 'black' }">
@@ -138,7 +150,7 @@
   <div class="FooterButtons">
     <div>
       <button mat-raised-button class="FooterButtonDelete"
-              (click)="onDeleteClick()">Delete
+              (click)="onDeleteClick()">Cancel
       </button>
       <button mat-raised-button class="FooterButtonCreate"
               (click)="onCreateClick()">Create New Report

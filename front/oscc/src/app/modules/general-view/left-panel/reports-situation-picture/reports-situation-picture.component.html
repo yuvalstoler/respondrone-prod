@@ -10,18 +10,18 @@
   <div class="HeaderRightPanel">
     <div (click)="onArchiveReport()"
          *ngIf="applicationService.selectedReport !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
-         class="RightSideButton">Archive
+         class="RightSideButton pointer">Archive
     </div>
     <div (click)="onEditReport()"
          *ngIf="applicationService.selectedReport !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
-         class="RightSideButton">Edit
+         class="RightSideButton pointer">Edit
     </div>
     <div (click)="onDeleteReport()"
          *ngIf="applicationService.selectedReport !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
-         class="RightSideButton">Delete
+         class="RightSideButton pointer">Delete
     </div>
     <div (click)="onCreateNewReport()" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand"
-         class="RightSideButton">Create New Report
+         class="RightSideButton pointer">Create New Report
     </div>
   </div>
   <!--Table-->

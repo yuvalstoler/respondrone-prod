@@ -5,6 +5,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../../../../dialogs/confirm-dialog/confirm-dialog.component';
 import {EventsSituationTableComponent} from './events-situation-table/events-situation-table.component';
 import {EventService} from '../../../../services/eventService/event.service';
+import {ReportService} from '../../../../services/reportService/report.service';
 
 @Component({
   selector: 'app-events-situation-picture',
@@ -18,6 +19,7 @@ export class EventsSituationPictureComponent implements OnInit {
 
   constructor(public applicationService: ApplicationService,
               public eventService: EventService,
+              public reportService: ReportService,
               public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -59,6 +61,8 @@ export class EventsSituationPictureComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         if (this.applicationService.selectedEvent) {
+          // TODO
+          this.reportService.unlinkReportsFromEvent(this.applicationService.selectedEvent.reportIds, this.applicationService.selectedEvent.id)
           this.eventService.deleteEvent({id: this.applicationService.selectedEvent.id});
         }
       }
