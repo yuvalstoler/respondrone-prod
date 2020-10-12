@@ -12,9 +12,9 @@
 .MapContent{
   position: absolute;
   top: $headerHeight;
-  left: 0px;
+  right: 0px;
   height: calc(100vh - #{$headerHeight});
-  width: 100vw;
+  width: 30vw;
   z-index: 1;
 }
 .LeftPanel{

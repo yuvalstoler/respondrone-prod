@@ -1,5 +1,5 @@
 import {
-    ADDRESS_GEOPOINT,
+    ADDRESS,
     GEOPOINT3D,
     ID_TYPE, LINKED_REPORT_DATA,
     LOCATION_TYPE,
@@ -18,11 +18,12 @@ export class Report {
     type: REPORT_TYPE;
     source: SOURCE_TYPE;
     time: number;
-    createdBy: string
+    createdBy: string;
     priority: PRIORITY;
     description: string = '';
     locationType: LOCATION_TYPE = LOCATION_TYPE.none;
-    location: GEOPOINT3D | ADDRESS_GEOPOINT;
+    location: GEOPOINT3D;
+    address: ADDRESS;
     media: MEDIA_DATA[] = [];
     eventIds: string[] = [];
     commentIds: string[] = [];
@@ -66,10 +67,17 @@ export class Report {
             this.description = data;
         }
     };
-    private setLocation = (data: GEOPOINT3D | ADDRESS_GEOPOINT) => {
-        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS_GEOPOINT
+    private setLocation = (data: GEOPOINT3D) => {
+        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
         if ( res ) {
             this.location = data;
+        }
+    };
+
+    private setAddress = (data: ADDRESS) => {
+        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
+        if ( res ) {
+            this.address = data;
         }
     };
 
@@ -124,6 +132,7 @@ export class Report {
             description: this.description,
             locationType: this.locationType,
             location: this.location,
+            address: this.address,
             media: this.media,
             eventIds: this.eventIds,
             commentIds: this.commentIds,
@@ -141,6 +150,7 @@ export class Report {
             description: this.description,
             locationType: this.locationType,
             location: this.location,
+            address: this.address,
             media: this.media,
             eventIds: this.eventIds,
             commentIds: this.commentIds,
@@ -176,6 +186,7 @@ export class Report {
         description: this.setDescription,
         locationType: this.setLocationType,
         location: this.setLocation,
+        address: this.setAddress,
         media: this.setMedia,
         eventIds: this.setEvents,
         commentIds: this.setComments,

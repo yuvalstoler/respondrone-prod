@@ -21,7 +21,7 @@ export class CesiumService {
     }*/
   ];
   cesiumViewer: MAP<any> = {};
-  // keys - [domId][type][id of entity data (for example: AirVehicleId)]; value - Leaflet object
+  // keys - [domId][type][id of entity data (for example: AirVehicleId)]; value - Cesium object
   cesiumMapObjects: MAP<MAP<MAP<any>>> = {};
   //scene
   scene: MAP<any> = {};
@@ -84,7 +84,8 @@ export class CesiumService {
         fullscreenButton: false,
         skyAtmosphere: false,
         homeButton: false,
-        skyBox: false
+        skyBox: false,
+        // requestRenderMode: true
       }
     );
 
@@ -123,5 +124,8 @@ export class CesiumService {
     return res;
   };
 
+  public removeItemCEFromMap = (mapDomId: string, cesiumObject) => {
+    this.cesiumViewer[mapDomId].entities.remove(cesiumObject);
+  };
 
 }

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import {MAP, POINT} from '../../../../../../../classes/typings/all.typings';
+import {CARTESIAN3, GEOPOINT3D, MAP, POINT, POINT3D} from '../../../../../../../classes/typings/all.typings';
 import {CesiumService} from '../cesium.service';
 import {Cartesian2} from 'angular-cesium';
 import {EventListener} from '../event-listener';
 import {GeoCalculate} from '../../classes/geoCalculate';
+import * as _ from 'lodash';
+import {TYPE_OBJECTS_CE} from '../../../../types';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +14,119 @@ export class CesiumDrawerService {
 
   eventListenersObj: { [key: string]: EventListener } = {};
   eventsHandlerCvMap: any = {};
+  locationTemp: any;
 
   constructor(private cesiumService: CesiumService) { }
+
+  public createLocationPointFromServer = (domId: string, locationPoint: GEOPOINT3D, locationId: string) => {
+    let res = false;
+    const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        if (locationPoint) {
+          this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE] =
+            this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE] || {};
+          this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE][locationId] =
+            this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE][locationId] || {};
+          this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE][locationId] =
+            this.createMarkerLocation(mapDomId, mapsCE[mapDomId], locationPoint);
+
+          if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE][locationId]) {
+            res = true;
+          }
+        }
+      }
+    }
+    return res;
+  };
+
+  private createMarkerLocation = (mapDomId: string, mapCE: any, locationPoint: GEOPOINT3D): {} => {
+    const position = this.arrayPointsToCartesian3([[locationPoint.longitude, locationPoint.latitude, 5]]);
+    this.locationTemp = {data: position[0]};
+    const marker = this.cesiumService.cesiumViewer[mapDomId].entities.add({
+        position: this.cesiumServiceSetCallbackProperty(this.locationTemp),
+        billboard: {
+          image: '../../../assets/markerGreen.png',
+          width: 25, // default: undefined
+          height: 43, // default: undefined
+          // horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          // verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+        }
+      })
+    ;
+    this.cesiumService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
+    return marker;
+  };
+
+
+  public createOrUpdateLocationTemp = (domId: string, locationPoint: GEOPOINT3D, locationId: string) => {
+    let res = false;
+    const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        if (this.cesiumService.cesiumMapObjects.hasOwnProperty(mapDomId) && this.cesiumService.cesiumMapObjects[mapDomId] !== undefined) {
+          // edit locationPoint
+          if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.locationPointCE)) {
+            if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE].hasOwnProperty(locationId) &&
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE][locationId] !== {}) {
+              this.editLocation(locationPoint);
+              res = true;
+            }
+          }
+          if (!res) {
+            this.createLocationPointFromServer(domId, locationPoint, locationId);
+          }
+        }
+      }
+    }
+    return res;
+  };
+
+  private editLocation = (locationPoint: GEOPOINT3D): void => {
+    const position = this.arrayPointsToCartesian3([[locationPoint.longitude, locationPoint.latitude, 5]]);
+    this.locationTemp.data = position[0];
+  };
+
+  public deleteLocationPointFromMap = (domId: string, locationId: string) => {
+    let res = false;
+    const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        if (this.cesiumService.cesiumMapObjects.hasOwnProperty(mapDomId) && this.cesiumService.cesiumMapObjects[mapDomId] !== undefined) {
+          // delete locationPoint
+          if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.locationPointCE)) {
+            if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE].hasOwnProperty(locationId) &&
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE][locationId] !== {}) {
+              this.cesiumService.removeItemCEFromMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE][locationId]);
+              delete this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE][locationId];
+              this.locationTemp = undefined;
+              res = true;
+            }
+          }
+        }
+      }
+    }
+    return res;
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  public cesiumServiceSetCallbackProperty = (property): any => {
+    return new Cesium.CallbackProperty( () => {
+      return property.data;
+    }, false);
+  };
 
 
   // ======================Event Listener=================================================================================
@@ -227,7 +340,6 @@ export class CesiumDrawerService {
     }
   };
 
-
   public pixelsToLatlong = (mapDomId: string, clickPositionMap: { x: number, y: number }): POINT => {
     let clickPosition: POINT;
     if (clickPositionMap !== undefined) {
@@ -242,5 +354,18 @@ export class CesiumDrawerService {
     }
     return clickPosition;
   };
+
+  public arrayPointsToCartesian3 = (positions: POINT[] | POINT3D[]): CARTESIAN3[] => {
+    const _positions: CARTESIAN3[] = [];
+    for (let i = 0; i < positions.length; i++) {
+      _positions.push(this.pointDegreesToCartesian3(positions[i]));
+    }
+    return _positions;
+  };
+
+  private pointDegreesToCartesian3 = (position: POINT | POINT3D): CARTESIAN3 => {
+    return Cesium.Cartesian3.fromDegrees(position[0], position[1], position[2] || 0);
+  };
+
 
 }

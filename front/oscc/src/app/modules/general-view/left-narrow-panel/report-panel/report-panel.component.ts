@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ApplicationService} from '../../../../services/applicationService/application.service';
-import {HEADER_BUTTONS} from '../../../../../types';
+import {EVENT_LISTENER_DATA, HEADER_BUTTONS, STATE_DRAW} from '../../../../../types';
 import {
+  GEOPOINT3D,
   LOCATION_TYPE,
-  MEDIA_DATA,
+  MEDIA_DATA, POINT,
   PRIORITY,
   REPORT_DATA_UI,
   REPORT_TYPE,
@@ -32,8 +33,9 @@ export class ReportPanelComponent implements OnInit {
     type: this.types[0],
     priority: this.priorities[0],
     description: '',
-    locationType: LOCATION_TYPE.none,
-    location: undefined,
+    locationType: LOCATION_TYPE.address,
+    location:  {longitude: undefined, latitude: undefined},
+    address: '',
     eventIds: [],
     commentIds: [],
     events: [],
@@ -47,6 +49,12 @@ export class ReportPanelComponent implements OnInit {
   constructor(public applicationService: ApplicationService,
               public reportService: ReportService) {
     this.initReportModel();
+
+    // TODO: add location on panel
+    this.reportService.locationPoint$.subscribe(latlon => {
+      this.reportModel.location = {longitude: latlon.longitude, latitude: latlon.latitude};
+
+    });
   }
 
   ngOnInit(): void {
@@ -62,13 +70,31 @@ export class ReportPanelComponent implements OnInit {
 
   onChangeLocation = (location: string) => {
     if (location === 'Add an address') {
-      this.reportModel.location = {address: '', longitude: undefined, latitude: undefined};
+      this.reportModel.location = {longitude: undefined, latitude: undefined};
       this.reportModel.locationType = LOCATION_TYPE.address;
+      this.reportService.deleteLocationPointTemp();
+
     } else if (location === 'Choose a location point') {
-      this.reportModel.location = undefined;
-      this.reportModel.locationType = LOCATION_TYPE.locationPoint;
-      // TODO: choose from map
+      this.reportModel.address = '';
+      if (this.reportModel.location.latitude === undefined && this.reportModel.location.longitude === undefined) {
+        this.reportModel.locationType = LOCATION_TYPE.locationPoint;
+        this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
+      }
     }
+  };
+
+  locationChanged = (event) => {
+    console.log(event.currentTarget.value);
+    console.log(this.reportModel.location);
+
+    this.applicationService.stateDraw = STATE_DRAW.notDraw;
+   if (this.reportModel.location.latitude !== undefined && this.reportModel.location.longitude !== undefined) {
+     const locationPoint: GEOPOINT3D = {
+       longitude: this.reportModel.location.longitude,
+       latitude: this.reportModel.location.latitude
+     };
+     this.reportService.createOrUpdateLocationTemp(locationPoint);
+   }
   };
 
   onAddMedia = (newMedia: MEDIA_DATA) => {
@@ -95,6 +121,7 @@ export class ReportPanelComponent implements OnInit {
       });
     }
     this.clearPanel();
+  //   todo: delete temp location
   };
 
   clearPanel = () => {

@@ -4,7 +4,7 @@ import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
-  ASYNC_RESPONSE, EVENT_TYPE,
+  ASYNC_RESPONSE, EVENT_TYPE, GEOPOINT3D,
   ID_OBJ, MEDIA_TYPE,
   PRIORITY,
   REPORT_DATA,
@@ -14,6 +14,9 @@ import {
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
+import {ApplicationService} from '../applicationService/application.service';
+import {EVENT_LISTENER_DATA, STATE_DRAW} from '../../../types';
+import {MapGeneralService} from '../mapGeneral/map-general.service';
 
 
 @Injectable({
@@ -23,14 +26,22 @@ export class ReportService {
 
   reports: {data: REPORT_DATA_UI[]} = {data: []};
   reports$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  locationPoint$: BehaviorSubject<GEOPOINT3D> = new BehaviorSubject({longitude: undefined, latitude: undefined});
 
   constructor(private connectionService: ConnectionService,
               private socketService: SocketService,
-              private toasterService: CustomToasterService) {
+              private toasterService: CustomToasterService,
+              private applicationService: ApplicationService,
+              private mapGeneralService: MapGeneralService) {
     this.socketService.connected$.subscribe(this.init);
     this.socketService.connectToRoom('webServer_reportsData').subscribe(this.updateReports);
-
+    this.setEventCallbacks();
   }
+
+  public setEventCallbacks = () => {
+    this.mapGeneralService.setMouseDownCallback(undefined, 'reportLocation', this.drawReportLocation);
+  };
+
   // ----------------------
   private init = (isConnected: boolean = true): void => {
     if (isConnected) {
@@ -112,4 +123,33 @@ export class ReportService {
         this.toasterService.error({message: 'error deleting report', title: ''});
       });
   };
+  
+  
+  public drawReportLocation = (event: EVENT_LISTENER_DATA): void  => {
+      if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
+        const locationPoint: GEOPOINT3D = {longitude: event.pointLatLng[0], latitude: event.pointLatLng[1]};
+        const locationId: string = 'temp';
+        this.drawReportLocationFromServer(locationPoint, locationId);
+        this.applicationService.stateDraw = STATE_DRAW.notDraw;
+      }
+  };
+
+  public drawReportLocationFromServer = (locationPoint: GEOPOINT3D, locationId: string) => {
+    this.mapGeneralService.createLocationPointFromServer(locationPoint, locationId);
+    this.locationPoint$.next(locationPoint);
+    // todo: open toaster
+
+  };
+
+  public createOrUpdateLocationTemp = (locationPoint: GEOPOINT3D) => {
+    this.mapGeneralService.createOrUpdateLocationTemp(locationPoint, 'temp');
+  };
+
+  public deleteLocationPointTemp = () => {
+    const locationId: string = 'temp';
+    this.mapGeneralService.deleteLocationPointTemp(locationId);
+    this.locationPoint$.next({longitude: undefined, latitude: undefined});
+  };
+
+  
 }
