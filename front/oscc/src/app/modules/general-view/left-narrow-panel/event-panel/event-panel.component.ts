@@ -73,7 +73,9 @@ export class EventPanelComponent implements OnInit {
   }
 
   onCreateClick = () => {
-    this.eventService.createEvent(this.eventModel);
+    this.eventService.createEvent(this.eventModel, (event: EVENT_DATA_UI) => {
+      this.reportService.linkReportsToEvent(event.reportIds, event.id);
+    });
     this.reportService.linkReportsToEvent(this.eventModel.reportIds, this.eventModel.id); // TODO
     this.clearPanel();
   };

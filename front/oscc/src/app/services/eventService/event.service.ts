@@ -6,7 +6,7 @@ import {
   ASYNC_RESPONSE,
   EVENT_DATA,
   EVENT_DATA_UI, EVENT_TYPE,
-  ID_OBJ, LINKED_EVENT_DATA, MEDIA_TYPE, PRIORITY, REPORT_TYPE, SOURCE_TYPE,
+  ID_OBJ, LINKED_EVENT_DATA, MEDIA_TYPE, PRIORITY, REPORT_DATA, REPORT_TYPE, SOURCE_TYPE,
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
@@ -86,11 +86,18 @@ export class EventService {
     });
   }
   // ----------------------
-  public createEvent = (eventData: EVENT_DATA) => {
+  public createEvent = (eventData: EVENT_DATA, cb?: Function) => {
     this.connectionService.post('/api/createEvent', eventData)
       .then((data: ASYNC_RESPONSE) => {
         if (!data.success) {
           this.toasterService.error({message: 'error creating event', title: ''});
+        }
+        else {
+          if (cb) {
+            try {
+              cb(data.data);
+            } catch (e) {}
+          }
         }
       })
       .catch(e => {

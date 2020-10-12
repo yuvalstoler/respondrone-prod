@@ -89,11 +89,18 @@ export class ReportService {
     });
   }
   // ----------------------
-  public createReport = (reportData: REPORT_DATA) => {
+  public createReport = (reportData: REPORT_DATA, cb?: Function) => {
     this.connectionService.post('/api/createReport', reportData)
       .then((data: ASYNC_RESPONSE) => {
         if (!data.success) {
           this.toasterService.error({message: 'error creating report', title: ''});
+        }
+        else {
+          if (cb) {
+            try {
+              cb(data.data);
+            } catch (e) {}
+          }
         }
       })
       .catch(e => {

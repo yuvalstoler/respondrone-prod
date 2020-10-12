@@ -85,8 +85,9 @@ export class ReportPanelComponent implements OnInit {
   };
 
   onCreateClick = () => {
-    this.reportService.createReport(this.reportModel);
-    this.eventService.linkEventsToReport(this.reportModel.eventIds, this.reportModel.id); // TODO
+    this.reportService.createReport(this.reportModel, (report: REPORT_DATA_UI) => {
+      this.eventService.linkEventsToReport(report.eventIds, report.id); // TODO
+    });
     this.clearPanel();
   };
 
