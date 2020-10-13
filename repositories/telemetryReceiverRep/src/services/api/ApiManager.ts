@@ -4,6 +4,7 @@ import {Request, Response} from 'express';
 
 const _ = require('lodash');
 import {IRest} from '../../classes/IRest';
+import {SocketManager} from "../socket/SocketManager";
 const projConf = require("./../../../config/projConf.json");
 
 
@@ -25,6 +26,10 @@ export class ApiManager implements IRest {
     // ---------------------------
 
     routers = {
+        '/data': (request, response) => {
+            const data = SocketManager.getData()
+            response.json(data);
+        }
     };
 
     // region API uncions

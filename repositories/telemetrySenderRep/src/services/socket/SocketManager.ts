@@ -6,7 +6,7 @@ import {DbManager} from '../db/dbManager';
 const _ = require('lodash');
 const projConf = require("./../../../config/projConf.json");
 // const schemas = projConf.TelemetryService.schemas;
-const sendTelemetryInterval = projConf.TelemetryService.sendTelemetryInterval;
+// const sendTelemetryInterval = projConf.TelemetryService.sendTelemetryInterval;
 const telemetryType = projConf.TelemetryService.telemetryType;
 const telemetryServerSocketUrl = `ws://${projConf.TelemetryService.TelemetryServer.host}:${projConf.TelemetryService.TelemetryServer.port}`
 // const Ajv = require('ajv');
@@ -29,7 +29,7 @@ export class SocketManager {
     private initSocket = (server) => {
         this.startWebsocketServer(server);
         this.startWebsocketClient();
-        this.startSendData();
+        // this.startSendData();
     }
     // ----------------------
     // private loadSchemas = () => {
@@ -76,8 +76,8 @@ export class SocketManager {
         });
 
         this.webSocketClient.on('message', (message) => {
-            // TODO validate?
             this.telemetryStr = message;
+            this.sendData();
         });
 
         this.webSocketClient.on('error',  (err) => {
@@ -92,8 +92,8 @@ export class SocketManager {
         });
     }
     // ---------------------------
-    private startSendData = () => {
-        setInterval(() => {
+    private sendData = () => {
+        // setInterval(() => {
             if (this.webSocketServer && this.webSocketServer.clients && this.telemetryStr) {
                 this.webSocketServer.clients.forEach((client) => {
                     if (client.readyState === WebSocket.OPEN) {
@@ -101,7 +101,7 @@ export class SocketManager {
                     }
                 });
             }
-        }, sendTelemetryInterval)
+       // }, sendTelemetryInterval)
     }
     // ---------------------------
     private saveToLog = (url: string, data: any, response: any) => {
@@ -114,9 +114,15 @@ export class SocketManager {
         DbManager.saveLog(obj); // TODO: external service?
     };
     // ---------------------------
+    getData = () => {
+        return {
+            str: this.telemetryStr,
+        }
+    }
 
     // region API uncions
     public static initSocket = SocketManager.instance.initSocket;
+    public static getData = SocketManager.instance.getData;
 
     // endregion API uncions
 

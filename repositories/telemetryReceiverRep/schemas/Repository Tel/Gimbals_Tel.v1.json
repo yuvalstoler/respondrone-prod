@@ -42,25 +42,71 @@
             ],
             "description": "The visual analytics algorithms running for a drone"
           },
-          "pitch": {
-            "type": "number",
-            "description": "Gimbal pitch angle"
+          "gimbalParameters": {
+            "title": "gimbalParameters.v1",
+            "type": "object",
+            "properties": {
+              "pitch": {
+                "type": "number",
+                "minimum": -10,
+                "maximum": 10,
+                "description": "Delta pitch"
+              },
+              "yaw": {
+                "type": "number",
+                "minimum": -10,
+                "maximum": 10,
+                "description": "Delta yaw"
+              }
+            },
+            "required": [
+              "pitch",
+              "yaw"
+            ]
           },
-          "yaw": {
-            "type": "number",
-            "description": "The gimbal yaw angle"
+          "visibleCameraParameters": {
+            "title": "visibleCameraParameters.v1",
+            "type": "object",
+            "properties": {
+              "zoomVisibleCamera": {
+                "type": "number",
+                "maximum": 100,
+                "minimum": 0
+              }
+            },
+            "required": [
+              "zoomVisibleCamera"
+            ]
           },
-          "roll": {
-            "type": "number",
-            "description": "The gimbal roll angle"
-          },
-          "opticalCameraZoom": {
-            "type": "number",
-            "description": "The current optical camera zoom percentage"
-          },
-          "infraredCameraZoom": {
-            "type": "number",
-            "description": "The current infrared camera zoom percentage"
+          "infraredCameraParameters": {
+            "title": "infraredCameraParameters.v1",
+            "type": "object",
+            "properties": {
+              "zoomInfraredCamera": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "colorPalettInfraredCamera": {
+                "type": "string",
+                "enum": [
+                  "WhiteHot",
+                  "BlackHot",
+                  "Rainbow",
+                  "RainHC",
+                  "IronBow",
+                  "Lava",
+                  "Arctic",
+                  "GlowBow",
+                  "GrradedFire",
+                  "Hottest"
+                ]
+              }
+            },
+            "required": [
+              "zoomInfraredCamera",
+              "colorPalettInfraredCamera"
+            ]
           },
           "trackedEntity": {
             "type": "number",
@@ -104,9 +150,9 @@
         "required": [
           "id",
           "droneId",
-          "pitch",
-          "yaw",
-          "roll"
+          "gimbalParameters",
+          "visibleCameraParameters",
+          "infraredCameraParameters"
         ]
       }
     }
