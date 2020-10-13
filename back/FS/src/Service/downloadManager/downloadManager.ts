@@ -22,7 +22,8 @@ import {
     MEDIA_TYPE,
     FILE_DB_DATA,
     FILE_STATUS,
-    MAP
+    MAP,
+    FILE_DB_FS_DATA
 } from '../../../../../classes/typings/all.typings';
 import { RequestManager } from '../../AppService/restConnections/requestManager';
 import {
@@ -197,7 +198,7 @@ export class DownloadManager {
         };
     }
     private getFileData = (fileId: ID_OBJ) => {
-        const res: ASYNC_RESPONSE<FILE_FS_DATA> = {success: false};
+        const res: ASYNC_RESPONSE<FILE_DB_FS_DATA> = {success: false};
         if ( this.fileDbDataMap.hasOwnProperty(fileId.id) ) {
             res.success = true;
             const fileDbData: FILE_DB_DATA = this.fileDbDataMap[fileId.id];
@@ -207,7 +208,10 @@ export class DownloadManager {
                 thumbnail: `${url_FS}/${API_GENERAL.general}/file/${fileDbData.fsName}`,
                 url: `${url_FS}/${API_GENERAL.general}/file/${fileDbData.fsName}`
             };
-            res.data = fileFsData;
+            res.data = {
+                fileDbData: fileDbData,
+                fileFsData: fileFsData
+            };
         }
         return res;
     }

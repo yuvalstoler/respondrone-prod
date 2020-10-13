@@ -228,10 +228,13 @@ export type FILE_DB_DATA = {
     fsName: string,
     fsPath: string,
     fileStatus: FILE_STATUS,
-
-
-
 };
+
+export type FILE_DB_FS_DATA = {
+    fileDbData: FILE_DB_DATA,
+    fileFsData: FILE_FS_DATA
+} ;
+
 export type UPDATE_FILE_STATUS = {
     id: ID_TYPE,
     fileStatus: FILE_STATUS,
