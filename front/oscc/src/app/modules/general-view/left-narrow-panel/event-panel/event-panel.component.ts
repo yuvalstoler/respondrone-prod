@@ -13,6 +13,7 @@ import * as _ from 'lodash';
 import {EventService} from '../../../../services/eventService/event.service';
 import {ReportService} from '../../../../services/reportService/report.service';
 import {LocationService} from '../../../../services/locationService/location.service';
+import {PolygonService} from '../../../../services/polygonService/polygon.service';
 
 @Component({
   selector: 'app-event-panel',
@@ -49,6 +50,7 @@ export class EventPanelComponent implements OnInit {
   constructor(public applicationService: ApplicationService,
               public eventService: EventService,
               public locationService: LocationService,
+              public polygonService: PolygonService,
               public reportService: ReportService) {
     this.initEventModel();
 
@@ -91,9 +93,12 @@ export class EventPanelComponent implements OnInit {
       }
 
     } else if (location === 'Create a polygon') {
+      this.locationService.deleteLocationPointTemp();
+      this.locationService.removeBillboard();
       this.eventModel.location = {longitude: undefined, latitude: undefined};
       this.eventModel.address = '';
       this.eventModel.locationType = LOCATION_TYPE.polygon;
+      this.applicationService.stateDraw = STATE_DRAW.drawBillboard;
       // TODO: choose from map
     }
   };
@@ -121,8 +126,7 @@ export class EventPanelComponent implements OnInit {
     this.clearPanel();
   };
 
-  onDeleteClick = () => {
-    console.log('delete');
+  onCancelClick = () => {
     this.clearPanel();
   };
 
@@ -130,6 +134,10 @@ export class EventPanelComponent implements OnInit {
     this.applicationService.screen.showLeftNarrowPanel = false;
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
     this.eventModel = _.cloneDeep(this.defaultEvent);
+    this.applicationService.stateDraw = STATE_DRAW.notDraw;
+    this.locationService.deleteLocationPointTemp();
+    this.locationService.removeBillboard();
+
   };
 
   onSendComment = () => {

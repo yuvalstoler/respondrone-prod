@@ -122,23 +122,23 @@ export class ReportPanelComponent implements OnInit {
     this.clearPanel();
   };
 
-  onDeleteClick = () => {
-    console.log('delete');
+  onCancelClick = () => {
     if (!this.reportModel.id) {
       this.reportModel.media.forEach((data: FILE_FS_DATA) => {
         // TODO: remove media
       });
     }
     this.clearPanel();
-    //   todo: delete temp location
+
   };
 
   clearPanel = () => {
     this.applicationService.screen.showLeftNarrowPanel = false;
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
-    // if (this.applicationService.selectedReport === undefined) {
     this.reportModel = _.cloneDeep(this.defaultReport);
-    // }
+    this.applicationService.stateDraw = STATE_DRAW.notDraw;
+    this.locationService.deleteLocationPointTemp();
+    this.locationService.removeBillboard();
   };
 
   onSendComment = () => {

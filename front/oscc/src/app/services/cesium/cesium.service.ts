@@ -26,6 +26,17 @@ export class CesiumService {
   //scene
   scene: MAP<any> = {};
 
+  colors = {
+    polygonNFZ: 'rgba(255, 52, 47, 1)',
+    dynamicNFZ: 'rgba(23, 173, 17, 1)',
+    polygon: 'rgba(26, 115, 255, 1)',
+    selected: 'rgba(250, 17, 255, 1)',
+    notSelected: 'rgba(255, 253, 34, 1)',
+    polylineStop: '#ffffff',
+    polylineStart: 'rgba(89, 177, 241, 1)',
+    borderColor: '#000000'
+  };
+
   constructor(private viewerConf: ViewerConfiguration) {
     // viewerConf.viewerOptions = [{
     //   selectionIndicator: false,

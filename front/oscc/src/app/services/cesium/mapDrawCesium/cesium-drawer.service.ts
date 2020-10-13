@@ -14,9 +14,13 @@ export class CesiumDrawerService {
   eventListenersObj: { [key: string]: EventListener } = {};
   eventsHandlerCvMap: any = {};
   locationTemp: any;
+  tempPolygon: any;
+  tempPerimeterPosition: any;
 
   constructor(private cesiumService: CesiumService) {
   }
+
+  // ==================LOCATION=========================================================================================
 
   public createLocationPointFromServer = (domId: string, locationPoint: GEOPOINT3D, locationId: string) => {
     let res = false;
@@ -107,6 +111,8 @@ export class CesiumDrawerService {
     return res;
   };
 
+  // ==================BILLBOARD========================================================================================
+
   public createBillboardObject = (domId: string, locationPoint: GEOPOINT3D, billboardId: string): boolean => {
     let res = false;
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
@@ -171,6 +177,75 @@ export class CesiumDrawerService {
     }
     return res;
   };
+
+  // ==================POLYGON==========================================================================================
+  public drawPolygonManually = (domId: string, latlong: POINT[], id: string, color: string): boolean => {
+    // create new Polygon
+    let res = false;
+    if (Array.isArray(latlong) && latlong.length > 0) {
+      const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+      for (const mapDomId in mapsCE) {
+        if (mapsCE.hasOwnProperty(mapDomId)) {
+          // create
+          if (this.tempPolygon === undefined) {
+            this.tempPolygon = this.createPolygonManually(mapDomId, latlong, color);
+            res = true;
+          } else {
+            this.updatePolygonManually(mapDomId, latlong, color);
+            res = true;
+          }
+        }
+      }
+    }
+    return res;
+  };
+
+  private createPolygonManually = (mapDomId: string, latlong: POINT[], color: string): {} => {
+    // const positions = this.arrayPointsToCartesian3(latlong);
+    this.tempPerimeterPosition = {data: this.arrayPointsToCartesian3(latlong)};
+
+    return this.cesiumService.cesiumViewer[mapDomId].entities.add({
+      name: 'polygon',
+      polyline: {
+        positions: this.cesiumServiceSetCallbackProperty(this.tempPerimeterPosition), /*positions,*/
+        width: 4,
+        material: color ? this.rgbaToCesiumColor(color) : this.rgbaToCesiumColor(this.cesiumService.colors.polygon),
+        clampToGround: true
+      }
+    });
+    // this.mapAvService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
+    // const polylineInstance = new Cesium.GeometryInstance({
+    //   geometry: new Cesium.GroundPolylineGeometry({
+    //     positions: this.cesiumServiceSetCallbackProperty(this.tempPerimeterPosition),
+    //     width: 4.0 // px
+    //   }),
+    //   attributes: {
+    //     color: Cesium.ColorGeometryInstanceAttribute.fromColor(this.rgbaToCesiumColor(this.mapAvService.colors.polygonPerimeter))
+    //   }
+    // });
+    //
+    // const polylineGroundPrimitive = new Cesium.GroundPolylinePrimitive({
+    //   geometryInstances: polylineInstance,
+    //   show: true,
+    //   appearance: new Cesium.PolylineColorAppearance()
+    // });
+    //
+    // return this.mapAvService.scene[mapDomId].primitives.add(polylineGroundPrimitive);
+  };
+
+  private updatePolygonManually = (mapDomId: string, latlong: POINT[], color: string): void => {
+    this.tempPerimeterPosition.data = this.arrayPointsToCartesian3(latlong);
+    this.tempPolygon.polyline.material.color.setValue(this.rgbaToCesiumColor(color));
+  };
+
+
+
+
+
+
+
+
+
 
 
 
@@ -421,5 +496,7 @@ export class CesiumDrawerService {
     return Cesium.Cartesian3.fromDegrees(position[0], position[1], position[2] || 0);
   };
 
-
+  public rgbaToCesiumColor = (rgba) => {
+    return Cesium.Color.fromCssColorString(rgba || 'rgba(255, 255 ,255 ,1)');
+  };
 }

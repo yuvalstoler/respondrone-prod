@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {CesiumService} from '../cesium/cesium.service';
 import {GEOPOINT3D, MAP} from '../../../../../../classes/typings/all.typings';
 import {CesiumDrawerService} from '../cesium/mapDrawCesium/cesium-drawer.service';
@@ -18,13 +18,14 @@ export class MapGeneralService {
   public doubleClickListener: MAP<any> = {};
 
   constructor(private cesiumService: CesiumService,
-              private cesiumDrawerService: CesiumDrawerService) { }
+              private cesiumDrawerService: CesiumDrawerService) {
+  }
 
   public createCesiumMap = (mapId: string[]): void => {
     // if (this.mapSelected === MAP_TYPE.Cesium || this.mapSelected === MAP_TYPE.AllMaps) {
-      this.cesiumService.createMap(mapId[0]);
-      // this.cesiumDomId = mapId[0];
-      this.setListenerCallbacks(mapId[0]);
+    this.cesiumService.createMap(mapId[0]);
+    // this.cesiumDomId = mapId[0];
+    this.setListenerCallbacks(mapId[0]);
     // }
   };
 
@@ -96,7 +97,7 @@ export class MapGeneralService {
   public createLocationPointFromServer = (locationPoint: GEOPOINT3D, locationId: string): boolean => {
     const domId = undefined;
     let res = false;
-      res = this.cesiumDrawerService.createLocationPointFromServer(domId, locationPoint, locationId);
+    res = this.cesiumDrawerService.createLocationPointFromServer(domId, locationPoint, locationId);
     return res;
   };
 
@@ -127,4 +128,13 @@ export class MapGeneralService {
     res = this.cesiumDrawerService.removeBillboardFromMap(domId, billboardId);
     return res;
   };
+
+  public drawPolygonManually = (arrayPoints: Array<any>, id: string, isCross: boolean) => {
+    const domId = undefined;
+    let res = false;
+    const color = isCross ? '#ff3c54' : '#59b1f1';
+    res = this.cesiumDrawerService.drawPolygonManually(domId, arrayPoints, id, color);
+    return res;
+  };
+
 }

@@ -28,15 +28,9 @@ export enum LEFT_PANEL_ICON {
 export enum STATE_DRAW {
   notDraw = 'notDraw',
   drawLocationPoint = 'drawLocationPoint',
-  editLocationPoint = 'editLocationPoint'
-  // drawPerimeter = 'drawPerimeter',
-  // drawPolygonNFZ = 'drawPolygonNFZ',
-  // deletePolygonNFZ = 'deletePolygonNFZ',
-  // drawViewNow = 'drawViewNow',
-  // drawViewWASP = 'drawViewWASP',
-  // drawRoutePolyline = 'drawRoutePolyline',
-  // editRoutePolyline = 'editRoutePolyline',
-  // selectRoutePolyline = 'selectRoutePolyline'
+  editLocationPoint = 'editLocationPoint',
+  drawBillboard = 'drawBillboard',
+  drawPolygon = 'drawPolygon'
 }
 
 export type EVENT_LISTENER_DATA = {
