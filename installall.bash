@@ -15,6 +15,9 @@ npm i;
 cd $home/back/DBS;
 npm i;
 
+cd $home/back/CCGW;
+npm i;
+
 cd $home/front/webServer;
 npm i;
 

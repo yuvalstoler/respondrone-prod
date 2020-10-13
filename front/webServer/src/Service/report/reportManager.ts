@@ -1,25 +1,30 @@
-import { Converting } from '../../../../../classes/applicationClasses/utility/converting';
+import {Converting} from '../../../../../classes/applicationClasses/utility/converting';
+import {Report} from '../../../../../classes/dataClasses/report/report';
 
-const _ = require('lodash');
+import {REPORT_API} from '../../../../../classes/dataClasses/api/api_enums';
 
-import { Report } from '../../../../../classes/dataClasses/report/report';
-
-import {
-    REPORT_API,
-} from '../../../../../classes/dataClasses/api/api_enums';
-
-import { RequestManager } from '../../AppService/restConnections/requestManager';
+import {RequestManager} from '../../AppService/restConnections/requestManager';
 
 import {
     ASYNC_RESPONSE,
-    ID_OBJ, ID_TYPE, LINKED_REPORT_DATA,
-    REPORT_DATA, REPORT_DATA_UI
-
+    FILE_FS_DATA,
+    ID_OBJ,
+    ID_TYPE,
+    LINKED_REPORT_DATA,
+    MEDIA_TYPE,
+    REPORT_DATA,
+    REPORT_DATA_UI
 } from '../../../../../classes/typings/all.typings';
 import {SocketIO} from '../../websocket/socket.io';
 import {EventManager} from '../event/eventManager';
 import {ReportMdLogic} from '../../../../../classes/modeDefineTSSchemas/reports/reportMdLogic';
 import {DataUtility} from '../../../../../classes/applicationClasses/utility/dataUtility';
+
+const _ = require('lodash');
+
+const services = require('./../../../../../../../../config/services.json');
+const url_FS = services.FS.protocol + '://' + services.FS.host + ':' + services.FS.port;
+const url_VideoStreamService = services.VSS.protocol + '://' + services.VSS.host + ':' + services.VSS.port;
 
 
 export class ReportManager {
@@ -178,12 +183,26 @@ export class ReportManager {
         this.reports.forEach((report: Report) => {
             const reportDataUI: REPORT_DATA_UI = report.toJsonForUI();
             reportDataUI.events = EventManager.getLinkedEvents(report.eventIds);
+            reportDataUI.media = this.updateMedia(report.media);
             reportDataUI.modeDefine = ReportMdLogic.validate(reportDataUI);
 
             res.push(reportDataUI);
         });
         return res;
     };
+
+    private updateMedia = (media: FILE_FS_DATA[]): FILE_FS_DATA[] => {
+        media.forEach((data: FILE_FS_DATA) => {
+            if (data.type === MEDIA_TYPE.image) {
+                data.fullUrl = url_FS + data.url;
+            }
+            else if (data.type === MEDIA_TYPE.video) {
+                data.fullUrl = url_VideoStreamService + data.url;
+            }
+            data.fullThumbnail = url_FS + data.thumbnail;
+        });
+        return media;
+    }
 
     private sendDataToUI = (): void => {
         const jsonForSend: REPORT_DATA_UI[] = this.getDataForUI();

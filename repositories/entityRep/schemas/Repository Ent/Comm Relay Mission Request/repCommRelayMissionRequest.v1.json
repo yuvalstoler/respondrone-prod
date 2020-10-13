@@ -28,7 +28,7 @@
           "description": "Type of comm relay fixed or dynamic\nDynamic - folow FRs\nArea - Cover area"
         },
         "missionData": {
-          "anyOf": [
+          "oneOf": [
             {
               "properties": {
                 "area": {
@@ -84,7 +84,10 @@
                     "type": "string"
                   }
                 }
-              }
+              },
+              "required": [
+                "FRs"
+              ]
             }
           ],
           "description": "area - incase type is area\nFRs - in case type is dynamic",

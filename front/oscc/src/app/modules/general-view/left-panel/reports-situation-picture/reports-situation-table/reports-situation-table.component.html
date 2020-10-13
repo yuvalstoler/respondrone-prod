@@ -92,7 +92,11 @@
             <!--Media-->
             <div>
               <h3>Media</h3>
-              <app-report-media [media]="element.media"></app-report-media>
+              <app-report-media
+                [media]="element.media"
+                (onAddMedia)="onAddMedia($event, element)"
+                (onDeleteMedia)="onDeleteMedia($event, element)">
+              </app-report-media>
             </div>
           </div>
 

@@ -7,6 +7,7 @@ pm2 delete webServer;
 pm2 delete RS;
 pm2 delete ES;
 pm2 delete FS;
+pm2 delete CCGW;
 pm2 delete DBS;
 pm2 delete videoStream;
 
@@ -33,6 +34,11 @@ cd $home/back/DBS;
 tsc;
 cd dist/back/DBS/src
 pm2 start index.js -n DBS
+
+cd $home/back/CCGW;
+tsc;
+cd dist/back/CCGW/src
+pm2 start index.js -n CCGW
 
 cd $home/front/webServer;
 tsc;

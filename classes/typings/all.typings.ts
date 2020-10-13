@@ -200,6 +200,7 @@ export type COMMENT_DATA = { // TODO - change data fields
 };
 
 export enum MEDIA_TYPE {
+    unknown = 'unknown',
     image = 'image',
     video = 'video',
 }
@@ -208,7 +209,10 @@ export type FILE_FS_DATA = {
     thumbnail: string,
     url: string,
     id: ID_TYPE,
-    type: MEDIA_TYPE
+    type: MEDIA_TYPE,
+
+    fullUrl?: string,
+    fullThumbnail?: string
 };
 
 export enum FILE_STATUS {
@@ -217,17 +221,23 @@ export enum FILE_STATUS {
     downloaded = 'downloaded',
     error = 'error',
     notFund = 'notFund',
+    needToDownload = 'needToDownload',
 }
 
 export type FILE_DB_DATA = {
     id: ID_TYPE,
     type: MEDIA_TYPE,
-    originFileName: string,
+    fileName: string,
     fsName: string,
     fsPath: string,
     fileStatus: FILE_STATUS,
-
 };
+
+export type FILE_DB_FS_DATA = {
+    fileDbData: FILE_DB_DATA,
+    fileFsData: FILE_FS_DATA
+} ;
+
 export type UPDATE_FILE_STATUS = {
     id: ID_TYPE,
     fileStatus: FILE_STATUS,

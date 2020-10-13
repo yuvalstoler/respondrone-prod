@@ -11,9 +11,30 @@ export enum MS_API {
 }
 
 export enum DBS_API {
+
     setSite = '/setSite',
 
     getAllEvents = '/getAllEvents',
+
+    saveFileData = '/saveFileData',
+    readFileData = '/readFileData',
+    updateFileData = '/updateFileData',
+    getAllFileData = '/getAllFileData',
+
+    createEvent = '/createEvent',
+    readEvent = '/readEvent',
+    readAllEvent = '/readAllEvent',
+    deleteEvent = '/deleteEvent',
+    deleteAllEvent = '/deleteAllEvent',
+
+
+    createReport = '/createReport',
+    readReport = '/readReport',
+    readAllReport = '/readAllReport',
+    deleteReport = '/deleteReport',
+    deleteAllReport = '/deleteAllReport',
+    getAllReports = '/getAllReports',
+
 
 }
 
@@ -85,7 +106,7 @@ export enum FS_API {
     getFileForSave = '/getFileForSave',
     getFileFromTest = '/getFileFromTest',
     requestToDownloadFiles = '/requestToDownloadFiles',
-    getDownloadStatus = '/getDownloadStatus',
+    getFileData = '/getFileData',
     updateListenersFS = '/updateListenersFS',
 
 
@@ -101,7 +122,7 @@ export enum WS_API {
 
 export enum CCGW_API {
     createReportFromMGW = '/createReportFromMGW',
-    getFileById = '/fileById',
+    getFileById = '/getFileById',
     updateFileStatus = '/updateFileStatus',
 
 }
@@ -115,7 +136,7 @@ export enum MG_API {
     deleteReport = '/deleteReport',
     deleteAllReport = '/deleteAllReport',
     getAllReports = '/getAllReports',
-    fileById = '/fileById',
+    getFileById = '/getFileById',
     updateFileStatus = '/updateFileStatus',
 
 }

@@ -21,7 +21,7 @@ import {
     IDs_OBJ,
     MAP,
     FILE_FS_DATA,
-    REPORT_DATA
+    REPORT_DATA, FILE_DB_FS_DATA, FILE_STATUS
 
 } from '../../../../../classes/typings/all.typings';
 import { UpdateListenersManager } from '../updateListeners/updateListenersManager';
@@ -35,14 +35,13 @@ export class ReportManager {
 
     reports: Report[] = [];
 
-    fileIds = {};
-    isInterval;
-    interval;
+    fileIdsForDownload = {};
+    fileIdsForFileData = {};
 
 
     private constructor() {
         this.initAllReports();
-        this.requestToDownloadFilesInterval();
+        this.startInterval();
     }
 
     private initAllReports = () => {
@@ -50,6 +49,7 @@ export class ReportManager {
             .then((data: ASYNC_RESPONSE<REPORT_DATA[]>) => {
                 //    todo send to listeners
                 UpdateListenersManager.updateReportListeners();
+                this.checkIfMissingFileData();
             })
             .catch((data: ASYNC_RESPONSE<REPORT_DATA[]>) => {
                 setTimeout(() => {
@@ -59,6 +59,16 @@ export class ReportManager {
             });
         //    todo like AMS NFZ (or perimeter)
 
+    }
+
+    private checkIfMissingFileData = () => {
+        this.reports.forEach((report: Report) => {
+            for (const mediaFileId in report.mediaFileIds) {
+                if (!this.checkIfMediaExistInReport(report, mediaFileId)) {
+                    this.fileIdsForFileData[mediaFileId] = true;
+                }
+            }
+        });
     }
 
     private getReportsFromDBS = (): Promise<ASYNC_RESPONSE<REPORT_DATA[]>> => {
@@ -163,7 +173,7 @@ export class ReportManager {
                         this.reports.push(newReportCreated);
                         UpdateListenersManager.updateReportListeners();
 
-                        const mediaIds: ID_TYPE[] = newReportCreated.media.map((media: FILE_FS_DATA) => media.id);
+                        const mediaIds: ID_TYPE[] = Object.keys(newReportCreated.mediaFileIds);
                         this.requestToDownloadFiles({ids: mediaIds});
 
                     }
@@ -178,30 +188,66 @@ export class ReportManager {
         });
     }
 
-    private requestToDownloadFiles = (reportIds: IDs_OBJ) => {
-        RequestManager.requestToFS(FS_API.requestToDownloadFiles, reportIds)
+    private requestToDownloadFiles = (fileIds: IDs_OBJ) => {
+        RequestManager.requestToFS(FS_API.requestToDownloadFiles, fileIds)
             .then((data: ASYNC_RESPONSE) => {
                 if ( data.success ) {
-                    this.isInterval = false;
-                    this.fileIds = {};
-                    console.log('success');
+                    fileIds.ids.forEach((id) => {
+                        delete this.fileIdsForDownload[id];
+                        this.fileIdsForFileData[id] = true;
+                    });
                 }
                 else {
-                    Object.assign(this.fileIds, reportIds.ids);
-                    this.isInterval = true;
+                    fileIds.ids.forEach((id) => {
+                        this.fileIdsForDownload[id] = true;
+                    });
                 }
             })
             .catch(() => {
-                Object.assign(this.fileIds, reportIds.ids);
-                this.isInterval = true;
+                fileIds.ids.forEach((id) => {
+                    this.fileIdsForDownload[id] = true;
+                });
             });
     }
 
-    private requestToDownloadFilesInterval = () => {
+    private requestToGetFileData = (obj: ID_OBJ) => {
+        RequestManager.requestToFS(FS_API.getFileData, obj)
+            .then((data: ASYNC_RESPONSE<FILE_DB_FS_DATA>) => {
+                if ( data.success && _.get(data, 'data.data.fileDbData.fileStatus') === FILE_STATUS.downloaded && data.data.fileFsData) {
+                    const report = this.findReportByFileId(obj.id); // TODO change
+                    if (report) {
+                        const reportData = report.toJsonForSave();
+                        delete reportData.mediaFileIds[obj.id];
+                        reportData.media.push(data.data.fileFsData);
+                        this.createReport(reportData)
+                            .then((res: ASYNC_RESPONSE) => {
+                                if (res.success) {
+                                    delete this.fileIdsForFileData[obj.id];
+                                }
+                            })
+                            .catch((res: ASYNC_RESPONSE) => {
+                            });
+                    }
+                }
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+
+            });
+    }
+
+    private startInterval = () => {
         setInterval(() => {
-            if ( this.isInterval ) {
-                const ids: IDs_OBJ = {ids: Object.values(this.fileIds)};
+            if (Object.keys(this.fileIdsForDownload).length > 0) {
+                const ids: IDs_OBJ = {ids: Object.keys(this.fileIdsForDownload)};
                 this.requestToDownloadFiles(ids);
+            }
+
+            if (Object.keys(this.fileIdsForFileData).length > 0) {
+                for (const id in this.fileIdsForFileData) {
+                    if (this.fileIdsForFileData.hasOwnProperty(id)) {
+                        this.requestToGetFileData({id: id});
+                    }
+                }
             }
         }, 5000);
     }

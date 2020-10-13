@@ -53,7 +53,7 @@
   },
 
   "MG": {
-    "port": "6700",
+    "port": "9700",
     "host": "localhost",
     "protocol": "http"
   },
@@ -75,11 +75,7 @@
     "password": "simplex"
 
   },
-  "MWS": {
-    "port": "5001",
-    "host": "localhost",
-    "protocol": "http"
-  },
+
   
   "logServer": {
     "port": "6800",

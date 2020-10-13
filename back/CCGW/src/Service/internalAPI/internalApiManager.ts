@@ -25,7 +25,7 @@ export class InternalApiManager {
 
     private fileById = (fileId: ID_OBJ): Promise<ASYNC_RESPONSE<FILE_GW_DATA>> => {
 
-        return RequestManager.requestToMG(MG_API.fileById, fileId);
+        return RequestManager.requestToMG(MG_API.getFileById, fileId);
 
     }
     private updateFileStatus = (fileStatus: UPDATE_FILE_STATUS): Promise<ASYNC_RESPONSE<FILE_DB_DATA>> => {

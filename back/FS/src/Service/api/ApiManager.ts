@@ -9,7 +9,10 @@ import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 import { FS_API } from '../../../../../classes/dataClasses/api/api_enums';
 import {
     ASYNC_RESPONSE,
-    
+    FILE_DB_FS_DATA,
+    FILE_FS_DATA,
+    ID_OBJ,
+
     IDs_OBJ
 } from '../../../../../classes/typings/all.typings';
 import { FileManager } from '../fileManager/fileManager';
@@ -74,7 +77,7 @@ export class ApiManager implements IRest {
     private getFileFromTest = (request: Request, response: Response) => {
         FileManager.getFileFromTest(request, response);
     }
-    
+
     // ---------------------------
 
     private requestToDownloadFiles = (request: Request, response: Response) => {
@@ -82,11 +85,14 @@ export class ApiManager implements IRest {
         DownloadManager.requestToDownloadFiles(filesIds);
         response.send({success: true});
     }
-    private getDownloadStatus = (request: Request, response: Response) => {
-        const filesIds: IDs_OBJ = request.body;
-        DownloadManager.getDownloadStatus(filesIds);
-        response.send({success: true});
+
+    private getFileData = (request: Request, response: Response) => {
+        const filesIds: ID_OBJ = request.body;
+        const res: ASYNC_RESPONSE<FILE_DB_FS_DATA> = DownloadManager.getFileData(filesIds);
+        response.send(res);
     }
+
+
     // ---------------------------
 
     routers = {
@@ -97,7 +103,7 @@ export class ApiManager implements IRest {
         [FS_API.getFileFromTest]: this.getFileFromTest,
 
         [FS_API.requestToDownloadFiles]: this.requestToDownloadFiles,
-        [FS_API.getDownloadStatus]: this.getDownloadStatus,
+        [FS_API.getFileData]: this.getFileData,
 
 
     };
