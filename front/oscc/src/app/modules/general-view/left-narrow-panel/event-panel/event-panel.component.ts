@@ -1,14 +1,18 @@
 import {Component, OnInit} from '@angular/core';
 import {ApplicationService} from 'src/app/services/applicationService/application.service';
-import {HEADER_BUTTONS} from 'src/types';
+import {HEADER_BUTTONS, STATE_DRAW} from 'src/types';
 import {
   EVENT_DATA_UI,
-  EVENT_TYPE, LINKED_REPORT_DATA, LOCATION_TYPE,
+  EVENT_TYPE,
+  GEOPOINT3D,
+  LINKED_REPORT_DATA,
+  LOCATION_TYPE,
   PRIORITY,
 } from '../../../../../../../../classes/typings/all.typings';
 import * as _ from 'lodash';
 import {EventService} from '../../../../services/eventService/event.service';
 import {ReportService} from '../../../../services/reportService/report.service';
+import {LocationService} from '../../../../services/locationService/location.service';
 
 @Component({
   selector: 'app-event-panel',
@@ -44,8 +48,17 @@ export class EventPanelComponent implements OnInit {
 
   constructor(public applicationService: ApplicationService,
               public eventService: EventService,
+              public locationService: LocationService,
               public reportService: ReportService) {
     this.initEventModel();
+
+    // add location on panel
+    this.locationService.locationPoint$.subscribe(latlon => {
+      this.eventModel.location = {longitude: latlon.longitude, latitude: latlon.latitude};
+    });
+  }
+
+  ngOnInit(): void {
   }
 
   private initEventModel = () => {
@@ -61,11 +74,22 @@ export class EventPanelComponent implements OnInit {
       this.eventModel.location = {longitude: undefined, latitude: undefined};
       this.eventModel.polygon = [];
       this.eventModel.locationType = LOCATION_TYPE.address;
+      this.applicationService.stateDraw = STATE_DRAW.notDraw;
+      this.locationService.deleteLocationPointTemp();
+      this.locationService.removeBillboard();
+
+
     } else if (location === 'Choose a location point') {
       this.eventModel.address = '';
       this.eventModel.polygon = [];
       this.eventModel.locationType = LOCATION_TYPE.locationPoint;
-      // TODO: choose from map
+      // choose from map
+
+      if (this.eventModel.location.latitude === undefined && this.eventModel.location.longitude === undefined) {
+        this.eventModel.locationType = LOCATION_TYPE.locationPoint;
+        this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
+      }
+
     } else if (location === 'Create a polygon') {
       this.eventModel.location = {longitude: undefined, latitude: undefined};
       this.eventModel.address = '';
@@ -74,8 +98,20 @@ export class EventPanelComponent implements OnInit {
     }
   };
 
-  ngOnInit(): void {
-  }
+  locationChanged = (event) => {
+    if (event.target.value !== '') {
+      this.applicationService.stateDraw = STATE_DRAW.notDraw;
+      this.locationService.removeBillboard();
+      if (this.eventModel.location.latitude !== undefined && this.eventModel.location.longitude !== undefined) {
+        const locationPoint: GEOPOINT3D = {
+          longitude: this.eventModel.location.longitude,
+          latitude: this.eventModel.location.latitude
+        };
+        this.locationService.createOrUpdateLocationTemp(locationPoint);
+        this.applicationService.stateDraw = STATE_DRAW.editLocationPoint;
+      }
+    }
+  };
 
   onCreateClick = () => {
     this.eventService.createEvent(this.eventModel, (event: EVENT_DATA_UI) => {

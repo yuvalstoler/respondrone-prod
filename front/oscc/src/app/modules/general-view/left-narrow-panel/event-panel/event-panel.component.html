@@ -54,36 +54,43 @@
       <mat-radio-group
         aria-labelledby="example-radio-group-label"
         class="example-radio-group">
-        <mat-radio-button (click)="onChangeLocation(location)" *ngFor="let location of locations"
-                          [value]="location" class="example-radio-button">
+        <mat-radio-button class="example-radio-button" *ngFor="let location of locations; let i = index"
+                          [checked]="i === 0"
+                          [value]="location" (click)="onChangeLocation(location)">
           {{location}}
+          <!--Address-->
           <div *ngIf="location === 'Add an address' && eventModel.locationType === LOCATION_TYPE.address">
-            <!--Address-->
             <mat-form-field appearance="outline" class="LocationAddress">
               <label>
-                <input [(ngModel)]="reportModel.address" class="Label" matInput
+                <input matInput class="Label" type="text"
                        placeholder="E.g. Richard St."
-                       type="text">
+                       [(ngModel)]="eventModel.address">
               </label>
             </mat-form-field>
           </div>
+          <!--Location-->
           <div *ngIf="location === 'Choose a location point' && eventModel.locationType === LOCATION_TYPE.locationPoint">
-            <!--Location-->
             <div class="LocationGrid">
               <!--Lat-->
               <mat-form-field appearance="outline" class="">
                 <label>
-                  <input [(ngModel)]="eventModel.location.latitude" class="Label" matInput
+                  <input matInput class="Label" type="number"
+                         min="0"
                          placeholder="Lat"
-                         type="text">
+                         (change)="locationChanged($event, 'latitude')"
+                         (keyup)="locationChanged($event, 'latitude')"
+                         [(ngModel)]="eventModel.location.latitude">
                 </label>
               </mat-form-field>
               <!--Long-->
               <mat-form-field appearance="outline" class="">
                 <label>
-                  <input [(ngModel)]="eventModel.location.longitude" class="Label" matInput
+                  <input matInput class="Label" type="number"
+                         min="0"
                          placeholder="Long"
-                         type="text">
+                         (change)="locationChanged($event, 'longitude')"
+                         (keyup)="locationChanged($event, 'longitude')"
+                         [(ngModel)]="eventModel.location.longitude">
                 </label>
               </mat-form-field>
             </div>
@@ -91,11 +98,6 @@
         </mat-radio-button>
       </mat-radio-group>
     </div>
-    <!--&lt;!&ndash;Report media&ndash;&gt;-->
-    <!--<div class="DialogContentItem">-->
-    <!--<div class="DialogTitle">Report media</div>-->
-    <!--<app-report-media [media]="reportModel.media"></app-report-media>-->
-    <!--</div>-->
     <!--Linked Reports-->
     <div class="DialogContentItem">
       <app-linked-reports-table [element]="eventModel"

@@ -162,7 +162,7 @@ export class CesiumDrawerService {
               this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.billboardCE][billboardId] !== {}) {
               this.cesiumService.removeItemCEFromMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.billboardCE][billboardId]);
               // delete this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.billboardCE][billboardId];
-              this.locationTemp = undefined;
+              // this.locationTemp = undefined;
               res = true;
             }
           }

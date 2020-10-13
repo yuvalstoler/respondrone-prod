@@ -150,4 +150,9 @@ export class EventService {
   public getEventById = (eventId: string): EVENT_DATA_UI => {
     return this.events.data.find(data => data.id === eventId);
   }
+
+
+
+
+
 }
