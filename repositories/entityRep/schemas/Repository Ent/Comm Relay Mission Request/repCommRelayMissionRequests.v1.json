@@ -77,7 +77,10 @@
                       "type": "string"
                     }
                   }
-                }
+                },
+                "required": [
+                  "FRs"
+                ]
               }
             ],
             "description": "area - incase type is area\nFRs - in case type is dynamic",

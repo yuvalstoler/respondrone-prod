@@ -99,7 +99,7 @@ export class Report {
         }
     };
     private setMediaFileIds = (data: MAP<boolean> = {}) => {
-        const res: boolean = Array.isArray(data);// || todo validate array of strings
+        const res: boolean = data && typeof data === 'object';// || todo validate array of strings
         if ( res ) {
             this.mediaFileIds = data;
         }

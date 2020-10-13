@@ -21,7 +21,7 @@ import {
     IDs_OBJ,
     MAP,
     FILE_FS_DATA,
-    REPORT_DATA, FILE_DB_DATA, FILE_STATUS
+    REPORT_DATA, FILE_DB_FS_DATA, FILE_STATUS
 
 } from '../../../../../classes/typings/all.typings';
 import { UpdateListenersManager } from '../updateListeners/updateListenersManager';
@@ -188,23 +188,23 @@ export class ReportManager {
         });
     }
 
-    private requestToDownloadFiles = (reportIds: IDs_OBJ) => {
-        RequestManager.requestToFS(FS_API.requestToDownloadFiles, reportIds)
+    private requestToDownloadFiles = (fileIds: IDs_OBJ) => {
+        RequestManager.requestToFS(FS_API.requestToDownloadFiles, fileIds)
             .then((data: ASYNC_RESPONSE) => {
                 if ( data.success ) {
-                    reportIds.ids.forEach((id) => {
+                    fileIds.ids.forEach((id) => {
                         delete this.fileIdsForDownload[id];
                         this.fileIdsForFileData[id] = true;
                     });
                 }
                 else {
-                    reportIds.ids.forEach((id) => {
+                    fileIds.ids.forEach((id) => {
                         this.fileIdsForDownload[id] = true;
                     });
                 }
             })
             .catch(() => {
-                reportIds.ids.forEach((id) => {
+                fileIds.ids.forEach((id) => {
                     this.fileIdsForDownload[id] = true;
                 });
             });
@@ -212,9 +212,22 @@ export class ReportManager {
 
     private requestToGetFileData = (obj: ID_OBJ) => {
         RequestManager.requestToFS(FS_API.getFileData, obj)
-            .then((data: ASYNC_RESPONSE<FILE_DB_DATA>) => {
-                if ( data.success && data.data.fileStatus === FILE_STATUS.downloaded) {
-                    delete this.fileIdsForFileData[obj.id];
+            .then((data: ASYNC_RESPONSE<FILE_DB_FS_DATA>) => {
+                if ( data.success && _.get(data, 'data.data.fileDbData.fileStatus') === FILE_STATUS.downloaded && data.data.fileFsData) {
+                    const report = this.findReportByFileId(obj.id); // TODO change
+                    if (report) {
+                        const reportData = report.toJsonForSave();
+                        delete reportData.mediaFileIds[obj.id];
+                        reportData.media.push(data.data.fileFsData);
+                        this.createReport(reportData)
+                            .then((res: ASYNC_RESPONSE) => {
+                                if (res.success) {
+                                    delete this.fileIdsForFileData[obj.id];
+                                }
+                            })
+                            .catch((res: ASYNC_RESPONSE) => {
+                            });
+                    }
                 }
             })
             .catch((data: ASYNC_RESPONSE) => {
