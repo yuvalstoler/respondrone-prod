@@ -122,7 +122,7 @@ export enum WS_API {
 
 export enum CCGW_API {
     createReportFromMGW = '/createReportFromMGW',
-    getFileById = '/fileById',
+    getFileById = '/getFileById',
     updateFileStatus = '/updateFileStatus',
 
 }
@@ -136,7 +136,7 @@ export enum MG_API {
     deleteReport = '/deleteReport',
     deleteAllReport = '/deleteAllReport',
     getAllReports = '/getAllReports',
-    fileById = '/fileById',
+    getFileById = '/getFileById',
     updateFileStatus = '/updateFileStatus',
 
 }

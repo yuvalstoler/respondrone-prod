@@ -173,7 +173,7 @@ export class ReportManager {
                         this.reports.push(newReportCreated);
                         UpdateListenersManager.updateReportListeners();
 
-                        const mediaIds: ID_TYPE[] = newReportCreated.media.map((media: FILE_FS_DATA) => media.id);
+                        const mediaIds: ID_TYPE[] = Object.keys(newReportCreated.mediaFileIds);
                         this.requestToDownloadFiles({ids: mediaIds});
 
                     }
