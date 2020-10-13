@@ -87,6 +87,7 @@ export class SocketManager {
                                     success: false,
                                     description: errors[0] ? `${errors[0].dataPath} ${errors[0].message} ${JSON.stringify(errors[0].params)}` : 'validation failed',
                                 };
+                                this.errors.push(res);
                                 this.saveToLog(telemetryType, this.message, res);
                             }
                         }
@@ -95,6 +96,7 @@ export class SocketManager {
                                 success: false,
                                 description: 'validation error ' + JSON.stringify(e),
                             };
+                            this.errors.push(res);
                             this.saveToLog(telemetryType, this.message, res);
                         }
 
@@ -117,9 +119,18 @@ export class SocketManager {
         DbManager.saveLog(obj); // TODO: external service?
     };
     // ---------------------------
+    errors = []
+    getData = () => {
+        return {
+            message: this.message,
+            str: this.telemetryStr,
+            errors: this.errors
+        }
+    }
 
     // region API uncions
     public static initSocket = SocketManager.instance.initSocket;
+    public static getData = SocketManager.instance.getData;
 
     // endregion API uncions
 

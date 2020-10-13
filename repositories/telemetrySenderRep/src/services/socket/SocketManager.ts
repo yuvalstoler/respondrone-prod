@@ -114,9 +114,15 @@ export class SocketManager {
         DbManager.saveLog(obj); // TODO: external service?
     };
     // ---------------------------
+    getData = () => {
+        return {
+            str: this.telemetryStr,
+        }
+    }
 
     // region API uncions
     public static initSocket = SocketManager.instance.initSocket;
+    public static getData = SocketManager.instance.getData;
 
     // endregion API uncions
 
