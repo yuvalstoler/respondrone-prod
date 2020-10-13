@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ApplicationService} from '../../../../services/applicationService/application.service';
-import {EVENT_LISTENER_DATA, HEADER_BUTTONS, STATE_DRAW} from '../../../../../types';
+import {HEADER_BUTTONS, STATE_DRAW} from '../../../../../types';
 import {
+  FILE_FS_DATA,
   GEOPOINT3D,
   LINKED_EVENT_DATA,
   LOCATION_TYPE,
-  FILE_FS_DATA,
   PRIORITY,
   REPORT_DATA_UI,
   REPORT_TYPE,
@@ -36,7 +36,7 @@ export class ReportPanelComponent implements OnInit {
     priority: this.priorities[0],
     description: '',
     locationType: LOCATION_TYPE.address,
-    location:  {longitude: undefined, latitude: undefined},
+    location: {longitude: undefined, latitude: undefined},
     address: '',
     eventIds: [],
     comments: [],
@@ -75,7 +75,9 @@ export class ReportPanelComponent implements OnInit {
     if (location === 'Add an address') {
       this.reportModel.location = {longitude: undefined, latitude: undefined};
       this.reportModel.locationType = LOCATION_TYPE.address;
+      this.applicationService.stateDraw = STATE_DRAW.notDraw;
       this.reportService.deleteLocationPointTemp();
+      this.reportService.removeBillboard();
 
     } else if (location === 'Choose a location point') {
       this.reportModel.address = '';
@@ -87,17 +89,13 @@ export class ReportPanelComponent implements OnInit {
   };
 
   locationChanged = (event) => {
-    console.log(event.currentTarget.value);
-    console.log(this.reportModel.location);
-
-    this.applicationService.stateDraw = STATE_DRAW.notDraw;
-   if (this.reportModel.location.latitude !== undefined && this.reportModel.location.longitude !== undefined) {
-     const locationPoint: GEOPOINT3D = {
-       longitude: this.reportModel.location.longitude,
-       latitude: this.reportModel.location.latitude
-     };
-     this.reportService.createOrUpdateLocationTemp(locationPoint);
-   }
+    if (this.reportModel.location.latitude !== undefined && this.reportModel.location.longitude !== undefined) {
+      const locationPoint: GEOPOINT3D = {
+        longitude: this.reportModel.location.longitude,
+        latitude: this.reportModel.location.latitude
+      };
+      this.reportService.createOrUpdateLocationTemp(locationPoint);
+    }
   };
 
   onAddMedia = (newMedia: FILE_FS_DATA) => {
@@ -126,14 +124,14 @@ export class ReportPanelComponent implements OnInit {
       });
     }
     this.clearPanel();
-  //   todo: delete temp location
+    //   todo: delete temp location
   };
 
   clearPanel = () => {
     this.applicationService.screen.showLeftNarrowPanel = false;
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
     // if (this.applicationService.selectedReport === undefined) {
-      this.reportModel = _.cloneDeep(this.defaultReport);
+    this.reportModel = _.cloneDeep(this.defaultReport);
     // }
   };
 

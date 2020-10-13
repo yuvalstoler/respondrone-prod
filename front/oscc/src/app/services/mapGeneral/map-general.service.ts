@@ -114,4 +114,17 @@ export class MapGeneralService {
     return res;
   };
 
+  public createBillboard = (locationPoint: GEOPOINT3D, billboardId: string): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.createBillboardObject(domId, locationPoint, billboardId);
+    return res;
+  };
+
+  public removeBillboard = (billboardId: string): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.removeBillboardFromMap(domId, billboardId);
+    return res;
+  };
 }

@@ -4,19 +4,20 @@ import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
-  ASYNC_RESPONSE, EVENT_TYPE, GEOPOINT3D,
-  ID_OBJ, MEDIA_TYPE, LINKED_REPORT_DATA,
-  PRIORITY,
+  ASYNC_RESPONSE,
+  GEOPOINT3D,
+  ID_OBJ,
+  LINKED_REPORT_DATA,
+  POINT,
   REPORT_DATA,
-  REPORT_DATA_UI,
-  REPORT_TYPE,
-  SOURCE_TYPE
+  REPORT_DATA_UI
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {ApplicationService} from '../applicationService/application.service';
 import {EVENT_LISTENER_DATA, STATE_DRAW} from '../../../types';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
+import {DrawMarkerClass} from '../classes/drawMarkerClass';
 
 
 @Injectable({
@@ -24,9 +25,13 @@ import {MapGeneralService} from '../mapGeneral/map-general.service';
 })
 export class ReportService {
 
-  reports: {data: REPORT_DATA_UI[]} = {data: []};
+  reports: { data: REPORT_DATA_UI[] } = {data: []};
   reports$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   locationPoint$: BehaviorSubject<GEOPOINT3D> = new BehaviorSubject({longitude: undefined, latitude: undefined});
+  locationPointTemp: POINT;
+  drawMarkerClass: DrawMarkerClass;
+  downClick: boolean = false;
+  isMarker: boolean = false;
 
   constructor(private connectionService: ConnectionService,
               private socketService: SocketService,
@@ -36,10 +41,15 @@ export class ReportService {
     this.socketService.connected$.subscribe(this.init);
     this.socketService.connectToRoom('webServer_reportsData').subscribe(this.updateReports);
     this.setEventCallbacks();
+    this.drawMarkerClass = new DrawMarkerClass();
+
   }
 
   public setEventCallbacks = () => {
-    this.mapGeneralService.setMouseDownCallback(undefined, 'reportLocation', this.drawReportLocation);
+    this.mapGeneralService.setMouseOverCallback(undefined, 'reportLocationDraw', this.drawReportLocation);
+    this.mapGeneralService.setMouseDownCallback(undefined, 'reportLocationDraw', this.drawReportLocation);
+    this.mapGeneralService.setMouseDownCallback(undefined, 'reportLocationEdit', this.editReportLocation);
+    this.mapGeneralService.setMouseOverCallback(undefined, 'reportLocationEdit', this.editReportLocation);
   };
 
   // ----------------------
@@ -98,19 +108,19 @@ export class ReportService {
         this.reports.data.push(newReport);
       }
     });
-  }
+  };
   // ----------------------
   public createReport = (reportData: REPORT_DATA, cb?: Function) => {
     this.connectionService.post('/api/createReport', reportData)
       .then((data: ASYNC_RESPONSE) => {
         if (!data.success) {
           this.toasterService.error({message: 'error creating report', title: ''});
-        }
-        else {
+        } else {
           if (cb) {
             try {
               cb(data.data);
-            } catch (e) {}
+            } catch (e) {
+            }
           }
         }
       })
@@ -140,7 +150,7 @@ export class ReportService {
       type: report.type,
       description: report.description,
     };
-  }
+  };
   // -----------------------
   public linkReportsToEvent = (reportIds: string[], eventId: string) => {
     reportIds.forEach((reportId: string) => {
@@ -148,7 +158,7 @@ export class ReportService {
       report.eventIds.push(eventId);
       this.createReport(report);
     });
-  }
+  };
   // -----------------------
   public unlinkReportsFromEvent = (reportIds: string[], eventId: string) => {
     reportIds.forEach((reportId: string) => {
@@ -159,26 +169,76 @@ export class ReportService {
         this.createReport(report);
       }
     });
-  }
+  };
   // -----------------------
   public getReportById = (eventId: string): REPORT_DATA_UI => {
     return this.reports.data.find(data => data.id === eventId);
-  }
+  };
   // ------------------------
-  public drawReportLocation = (event: EVENT_LISTENER_DATA): void  => {
+  public drawReportLocation = (event: EVENT_LISTENER_DATA): void => {
     if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
       const locationPoint: GEOPOINT3D = {longitude: event.pointLatLng[0], latitude: event.pointLatLng[1]};
-      const locationId: string = 'temp';
-      this.drawReportLocationFromServer(locationPoint, locationId);
-      this.applicationService.stateDraw = STATE_DRAW.notDraw;
+      // open billboard on mouseOver
+      if (event.type === 'mouseOver') {
+        this.removeBillboard();
+        this.drawBillboard(locationPoint);
+        this.locationPointTemp = undefined;
+      }
+      // draw marker on mouseDown
+      if (event.type === 'mouseDown') {
+        this.drawReportLocationFromServer(locationPoint, 'temp');
+        this.removeBillboard();
+        this.locationPointTemp = event.pointLatLng;
+      }
+      // edit LocationPoint after draw =>
+      if (this.locationPointTemp !== undefined) {
+        this.isMarker = false;
+        this.downClick = false;
+        this.applicationService.stateDraw = STATE_DRAW.editLocationPoint;
+      }
     }
+  };
+
+  public editReportLocation = (event: EVENT_LISTENER_DATA): void => {
+    if (this.applicationService.stateDraw === STATE_DRAW.editLocationPoint) {
+      const locationPoint: GEOPOINT3D = {longitude: event.pointLatLng[0], latitude: event.pointLatLng[1]};
+      // click on marker,(mousedown)
+      if (event.type === 'mouseDown' && !this.downClick) {
+        this.isMarker = this.drawMarkerClass.checkIfMarkerExist(event, this.locationPointTemp, event.distance);
+      }
+      //  if exist marker, mouseOver on new place
+      if (event.type === 'mouseOver') {
+        if (this.isMarker) {
+          // edit marker location
+          this.deleteLocationPointTemp();
+          this.drawReportLocationFromServer(locationPoint, 'temp');
+          this.downClick = true;
+        }
+      }
+      // mouseDown on map, close draw
+      if (event.type === 'mouseDown' && this.downClick) {
+        // close edit
+        this.isMarker = false;
+        this.downClick = false;
+        this.applicationService.stateDraw = STATE_DRAW.notDraw;
+        // setTimeout(() => {
+        //   this.applicationService.stateDraw = STATE_DRAW.editLocationPoint;
+        // }, 500);
+      }
+    }
+  };
+
+  private drawBillboard = (locationPoint: GEOPOINT3D) => {
+    this.mapGeneralService.createBillboard(locationPoint, 'temp');
+  };
+
+  public removeBillboard = () => {
+    this.mapGeneralService.removeBillboard('temp');
   };
 
   public drawReportLocationFromServer = (locationPoint: GEOPOINT3D, locationId: string) => {
     this.mapGeneralService.createLocationPointFromServer(locationPoint, locationId);
     this.locationPoint$.next(locationPoint);
-    // todo: open toaster
-
   };
 
   public createOrUpdateLocationTemp = (locationPoint: GEOPOINT3D) => {

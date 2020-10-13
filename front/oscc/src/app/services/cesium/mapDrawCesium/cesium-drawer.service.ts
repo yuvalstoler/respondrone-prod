@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {CARTESIAN3, GEOPOINT3D, MAP, POINT, POINT3D} from '../../../../../../../classes/typings/all.typings';
 import {CesiumService} from '../cesium.service';
 import {Cartesian2} from 'angular-cesium';
 import {EventListener} from '../event-listener';
 import {GeoCalculate} from '../../classes/geoCalculate';
-import * as _ from 'lodash';
 import {TYPE_OBJECTS_CE} from '../../../../types';
 
 @Injectable({
@@ -16,7 +15,8 @@ export class CesiumDrawerService {
   eventsHandlerCvMap: any = {};
   locationTemp: any;
 
-  constructor(private cesiumService: CesiumService) { }
+  constructor(private cesiumService: CesiumService) {
+  }
 
   public createLocationPointFromServer = (domId: string, locationPoint: GEOPOINT3D, locationId: string) => {
     let res = false;
@@ -29,7 +29,7 @@ export class CesiumDrawerService {
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE][locationId] =
             this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE][locationId] || {};
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE][locationId] =
-            this.createMarkerLocation(mapDomId, mapsCE[mapDomId], locationPoint);
+            this.createMarkerLocationEntity(mapDomId, mapsCE[mapDomId], locationPoint);
 
           if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE][locationId]) {
             res = true;
@@ -40,24 +40,22 @@ export class CesiumDrawerService {
     return res;
   };
 
-  private createMarkerLocation = (mapDomId: string, mapCE: any, locationPoint: GEOPOINT3D): {} => {
+  private createMarkerLocationEntity = (mapDomId: string, mapCE: any, locationPoint: GEOPOINT3D): {} => {
     const position = this.arrayPointsToCartesian3([[locationPoint.longitude, locationPoint.latitude, 5]]);
     this.locationTemp = {data: position[0]};
     const marker = this.cesiumService.cesiumViewer[mapDomId].entities.add({
-        position: this.cesiumServiceSetCallbackProperty(this.locationTemp),
-        billboard: {
-          image: '../../../assets/markerGreen.png',
-          width: 25, // default: undefined
-          height: 43, // default: undefined
-          // horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-          // verticalOrigin: Cesium.VerticalOrigin.BOTTOM
-        }
-      })
-    ;
+      position: this.cesiumServiceSetCallbackProperty(this.locationTemp),
+      billboard: {
+        image: '../../../assets/markerGreen.png',
+        width: 25, // default: undefined
+        height: 43, // default: undefined
+        // horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        // verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+      }
+    });
     this.cesiumService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
     return marker;
   };
-
 
   public createOrUpdateLocationTemp = (domId: string, locationPoint: GEOPOINT3D, locationId: string) => {
     let res = false;
@@ -87,7 +85,7 @@ export class CesiumDrawerService {
     this.locationTemp.data = position[0];
   };
 
-  public deleteLocationPointFromMap = (domId: string, locationId: string) => {
+  public deleteLocationPointFromMap = (domId: string, locationId: string): boolean => {
     let res = false;
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
     for (const mapDomId in mapsCE) {
@@ -109,27 +107,83 @@ export class CesiumDrawerService {
     return res;
   };
 
+  public createBillboardObject = (domId: string, locationPoint: GEOPOINT3D, billboardId: string): boolean => {
+    let res = false;
+    const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        if (locationPoint) {
+          this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.billboardCE] =
+            this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.billboardCE] || {};
+          this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.billboardCE][billboardId] =
+            this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.billboardCE][billboardId] || {};
+          this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.billboardCE][billboardId] =
+            this.createBillboardEntity(mapDomId, mapsCE[mapDomId], locationPoint);
+
+          if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.billboardCE][billboardId]) {
+            res = true;
+          }
+        }
+      }
+    }
+    return res;
+  };
+
+  private createBillboardEntity = (mapDomId: string, mapCE: any, locationPoint: GEOPOINT3D) => {
+    const text = 'Click on map to set the report\'s location';
+    // const position = this.arrayPointsToCartesian3([[locationPoint.longitude, locationPoint.latitude, 5]]);
+    const billboard = this.cesiumService.cesiumViewer[mapDomId].entities.add({
+      name : 'billboard',
+      position : Cesium.Cartesian3.fromDegrees(locationPoint.longitude, locationPoint.latitude),
+      label : {
+        text : text,
+        font : '14pt monospace',
+        style: Cesium.LabelStyle.FILL,
+        outlineWidth : 2,
+        verticalOrigin : Cesium.VerticalOrigin.BOTTOM,
+        background: Cesium.Color.GRAY,
+        color: Cesium.Color.WHITE,
+        pixelOffset : new Cesium.Cartesian2(0, -9)
+      }
+    });
+    this.cesiumService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
+    return billboard;
+  };
+
+  public removeBillboardFromMap = (domId: string, billboardId: string): boolean => {
+    let res = false;
+    const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        if (this.cesiumService.cesiumMapObjects.hasOwnProperty(mapDomId) && this.cesiumService.cesiumMapObjects[mapDomId] !== undefined) {
+          // delete locationPoint
+          if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.billboardCE)) {
+            if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.billboardCE].hasOwnProperty(billboardId) &&
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.billboardCE][billboardId] !== {}) {
+              this.cesiumService.removeItemCEFromMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.billboardCE][billboardId]);
+              // delete this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.billboardCE][billboardId];
+              this.locationTemp = undefined;
+              res = true;
+            }
+          }
+        }
+      }
+    }
+    return res;
+  };
 
 
 
 
-
-
-
-
-
-
-
-
+  // ====================== Callback   =================================================================================
 
   public cesiumServiceSetCallbackProperty = (property): any => {
-    return new Cesium.CallbackProperty( () => {
+    return new Cesium.CallbackProperty(() => {
       return property.data;
     }, false);
   };
 
-
-  // ======================Event Listener=================================================================================
+  // ======================Event Listener===============================================================================
 
   // ---------------left Click--------------------
   public setLeftClickCallback = (domId: string, listenerName: string, callback) => {

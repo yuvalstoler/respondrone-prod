@@ -27,7 +27,8 @@ export enum LEFT_PANEL_ICON {
 
 export enum STATE_DRAW {
   notDraw = 'notDraw',
-  drawLocationPoint = 'drawLocationPoint'
+  drawLocationPoint = 'drawLocationPoint',
+  editLocationPoint = 'editLocationPoint'
   // drawPerimeter = 'drawPerimeter',
   // drawPolygonNFZ = 'drawPolygonNFZ',
   // deletePolygonNFZ = 'deletePolygonNFZ',
@@ -46,6 +47,7 @@ export type EVENT_LISTENER_DATA = {
 };
 
 export enum TYPE_OBJECTS_CE {
- locationPointCE = 'locationPointCE'
+  locationPointCE = 'locationPointCE',
+  billboardCE = 'billboardCE'
 }
 
