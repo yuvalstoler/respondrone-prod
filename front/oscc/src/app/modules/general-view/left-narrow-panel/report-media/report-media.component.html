@@ -28,7 +28,7 @@
       <div class="remove pointer" (click)="deleteFile(image)">
         <span class="material-icons">close</span>
       </div>
-      <img [src]="image.thumbnail" class="imageIcon" (click)="onImage(image)">
+      <img [src]="image.fullThumbnail" class="imageIcon" (click)="onImage(image)">
     </div>
   </div>
   <div *ngIf="isAllowNext()" (click)="next()" class="pointer"> » </div>
