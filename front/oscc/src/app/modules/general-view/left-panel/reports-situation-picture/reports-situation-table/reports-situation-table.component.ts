@@ -6,7 +6,7 @@ import {MatSort} from '@angular/material/sort';
 import {LEFT_PANEL_ICON, MAP} from '../../../../../../types';
 import {ApplicationService} from '../../../../../services/applicationService/application.service';
 import {ReportService} from '../../../../../services/reportService/report.service';
-import {REPORT_DATA_UI} from '../../../../../../../../../classes/typings/all.typings';
+import {FILE_FS_DATA, REPORT_DATA_UI} from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
 import * as _ from 'lodash';
 
@@ -147,4 +147,25 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
         }
       }
   }
+
+  onAddMedia = (newMedia: FILE_FS_DATA, element: REPORT_DATA_UI) => {
+    const report = this.reportService.getReportById(element.id);
+    if (report) {
+      report.media.unshift(newMedia);
+      this.reportService.createReport(report);
+    }
+  };
+
+  onDeleteMedia = (newMedia: FILE_FS_DATA, element: REPORT_DATA_UI) => {
+    const report = this.reportService.getReportById(element.id);
+    if (report) {
+      const index = report.media.findIndex((data: FILE_FS_DATA) => data.id === newMedia.id);
+      if (index !== -1) {
+        report.media.splice(index, 1);
+      }
+      this.reportService.createReport(report);
+    }
+
+  };
+
 }

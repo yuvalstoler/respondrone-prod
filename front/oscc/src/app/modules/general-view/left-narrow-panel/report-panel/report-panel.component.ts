@@ -132,6 +132,7 @@ export class ReportPanelComponent implements OnInit {
   clearPanel = () => {
     this.applicationService.screen.showLeftNarrowPanel = false;
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
+    this.applicationService.screen.showReportPanel = false;
     // if (this.applicationService.selectedReport === undefined) {
       this.reportModel = _.cloneDeep(this.defaultReport);
     // }

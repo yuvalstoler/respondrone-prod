@@ -173,7 +173,7 @@ export class ReportManager {
                         this.reports.push(newReportCreated);
                         UpdateListenersManager.updateReportListeners();
 
-                        const mediaIds: ID_TYPE[] = newReportCreated.media.map((media: FILE_FS_DATA) => media.id);
+                        const mediaIds: ID_TYPE[] = Object.keys(newReport.mediaFileIds);
                         this.requestToDownloadFiles({ids: mediaIds});
 
                     }
@@ -213,7 +213,7 @@ export class ReportManager {
     private requestToGetFileData = (obj: ID_OBJ) => {
         RequestManager.requestToFS(FS_API.getFileData, obj)
             .then((data: ASYNC_RESPONSE<FILE_DB_FS_DATA>) => {
-                if ( data.success && _.get(data, 'data.data.fileDbData.fileStatus') === FILE_STATUS.downloaded && data.data.fileFsData) {
+                if ( data.success && data.data.fileFsData) {
                     const report = this.findReportByFileId(obj.id); // TODO change
                     if (report) {
                         const reportData = report.toJsonForSave();
