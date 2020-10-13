@@ -209,7 +209,10 @@ export type FILE_FS_DATA = {
     thumbnail: string,
     url: string,
     id: ID_TYPE,
-    type: MEDIA_TYPE
+    type: MEDIA_TYPE,
+
+    fullUrl?: string,
+    fullThumbnail?: string
 };
 
 export enum FILE_STATUS {

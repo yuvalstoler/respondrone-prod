@@ -50,47 +50,47 @@ export class FileManager {
 
 
     // ----------------------
-    private uploadFile = (request, response: Response) => {
-        const res: ASYNC_RESPONSE<FILE_FS_DATA> = {success: false};
-
-        upload(request, response, (err) => {
-            if ( request.files === undefined || request.files.length === 0 ) {
-                res.description = 'No file selected';
-                response.status(400).send(res);
-            }
-            else if ( err ) {
-                res.description = `Could not upload file. ${err}`;
-                response.status(500).send(res);
-            }
-            else {
-                const id = request.files[0].filename;
-                res.success = true;
-
-                if ( request.files[0].mimetype.indexOf('image') !== -1 ) {
-                    res.data = {
-                        id: id,
-                        type: MEDIA_TYPE.image,
-                        url: `${url_FS}/api/file/${id}`,
-                        thumbnail: `${url_FS}/api/file/${id}`,
-                    };
-                    response.status(200).send(res);
-                }
-                else if ( request.files[0].mimetype.indexOf('video') !== -1 ) {
-                    const thumbnailName = `${id}.png`;
-                    this.saveThumbnail(id, thumbnailName)
-                        .finally(() => {
-                            res.data = {
-                                id: id,
-                                type: MEDIA_TYPE.video,
-                                url: `${url_VideoStreamService}/${id}`,
-                                thumbnail: `${url_FS}/api/file/${thumbnailName}`,
-                            };
-                            response.status(200).send(res);
-                        });
-                }
-            }
-        });
-    }
+    // private uploadFile = (request, response: Response) => {
+    //     const res: ASYNC_RESPONSE<FILE_FS_DATA> = {success: false};
+    //
+    //     upload(request, response, (err) => {
+    //         if ( request.files === undefined || request.files.length === 0 ) {
+    //             res.description = 'No file selected';
+    //             response.status(400).send(res);
+    //         }
+    //         else if ( err ) {
+    //             res.description = `Could not upload file. ${err}`;
+    //             response.status(500).send(res);
+    //         }
+    //         else {
+    //             const id = request.files[0].filename;
+    //             res.success = true;
+    //
+    //             if ( request.files[0].mimetype.indexOf('image') !== -1 ) {
+    //                 res.data = {
+    //                     id: id,
+    //                     type: MEDIA_TYPE.image,
+    //                     url: `${url_FS}/api/file/${id}`,
+    //                     thumbnail: `${url_FS}/api/file/${id}`,
+    //                 };
+    //                 response.status(200).send(res);
+    //             }
+    //             else if ( request.files[0].mimetype.indexOf('video') !== -1 ) {
+    //                 const thumbnailName = `${id}.png`;
+    //                 this.saveThumbnail(id, thumbnailName)
+    //                     .finally(() => {
+    //                         res.data = {
+    //                             id: id,
+    //                             type: MEDIA_TYPE.video,
+    //                             url: `${url_VideoStreamService}/${id}`,
+    //                             thumbnail: `${url_FS}/api/file/${thumbnailName}`,
+    //                         };
+    //                         response.status(200).send(res);
+    //                     });
+    //             }
+    //         }
+    //     });
+    // }
 
     private uploadFileTest = (request, response: Response) => {
         const res: ASYNC_RESPONSE<FILE_FS_DATA> = {success: false};
@@ -112,8 +112,11 @@ export class FileManager {
                     res.data = {
                         id: id,
                         type: MEDIA_TYPE.image,
-                        url: `${url_FS}/api/file/${id}`,
-                        thumbnail: `${url_FS}/api/file/${id}`,
+                        url: `/api/file/${id}`,
+                        thumbnail: `/api/file/${id}`,
+
+                        fullUrl: `${url_FS}/api/file/${id}`,
+                        fullThumbnail: `${url_FS}/api/file/${id}`
                     };
                     response.status(200).send(res);
                 }
@@ -124,8 +127,11 @@ export class FileManager {
                             res.data = {
                                 id: id,
                                 type: MEDIA_TYPE.video,
-                                url: `${url_VideoStreamService}/${id}`,
-                                thumbnail: `${url_FS}/api/file/${thumbnailName}`,
+                                url: `/${id}`,
+                                thumbnail: `/api/file/${thumbnailName}`,
+
+                                fullUrl: `${url_VideoStreamService}/${id}`,
+                                fullThumbnail: `${url_FS}/api/file/${thumbnailName}`,
                             };
                             response.status(200).send(res);
                         });
@@ -236,7 +242,7 @@ export class FileManager {
     // ---------------------------
 
     // region API uncions
-    public static uploadFile = FileManager.instance.uploadFile;
+    // public static uploadFile = FileManager.instance.uploadFile;
     public static uploadFileTEST = FileManager.instance.uploadFileFromServer;
     public static removeFile = FileManager.instance.removeFile;
     public static getFile = FileManager.instance.getFile;

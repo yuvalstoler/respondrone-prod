@@ -93,6 +93,7 @@ export class EventPanelComponent implements OnInit {
   clearPanel = () => {
     this.applicationService.screen.showLeftNarrowPanel = false;
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
+    this.applicationService.screen.showEventPanel = false;
     this.eventModel = _.cloneDeep(this.defaultEvent);
   };
 
