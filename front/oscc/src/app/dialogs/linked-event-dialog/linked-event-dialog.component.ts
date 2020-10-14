@@ -31,6 +31,10 @@ export class LinkedEventDialogComponent implements OnInit {
     this.dialogRef.close(data);
   }
 
+  isEnableAddBtn() {
+    return this.childComponent && this.childComponent.childComponent && this.childComponent.childComponent.getNumOfSelected() > 0;
+  }
+
   onCreateNewEvent = () => {
     this.onNoClick();
     this.applicationService.screen.showLeftPanel = false;

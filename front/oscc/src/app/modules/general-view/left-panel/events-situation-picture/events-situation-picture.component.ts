@@ -27,13 +27,13 @@ export class EventsSituationPictureComponent implements OnInit {
   }
 
   onCreateNewEvent = () => {
-    this.applicationService.selectedEvent = undefined;
+    this.applicationService.selectedEvents = [];
     this.openEventPanel();
   };
 
   onDeleteEvent = () => {
     //   add confirmWindow
-    this.openConfirmDialog(this.applicationService.selectedEvent);
+    this.openConfirmDialog();
   };
 
   onEditEvent = () => {
@@ -52,7 +52,7 @@ export class EventsSituationPictureComponent implements OnInit {
     //  todo: move it to the archive folder
   };
 
-  openConfirmDialog = (data): void => {
+  openConfirmDialog = (): void => {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: '250px',
       disableClose: true,
@@ -75,5 +75,7 @@ export class EventsSituationPictureComponent implements OnInit {
   getFilter = (event) => {
     this.childComponent.applyFilter(event);
   };
+
+
 
 }

@@ -9,18 +9,18 @@
 
   <div class="HeaderRightPanel">
     <div (click)="onArchiveEvent()"
-         *ngIf="applicationService.selectedEvent !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         *ngIf="applicationService.selectedEvents.length > 0"
          class="RightSideButton pointer">Archive
     </div>
     <div (click)="onEditEvent()"
-         *ngIf="applicationService.selectedEvent !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         *ngIf="applicationService.selectedEvents.length === 1"
          class="RightSideButton pointer">Edit
     </div>
     <div (click)="onDeleteEvent()"
-         *ngIf="applicationService.selectedEvent !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         *ngIf="applicationService.selectedEvents.length > 0"
          class="RightSideButton pointer">Delete
     </div>
-    <div (click)="onCreateNewEvent()" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+    <div (click)="onCreateNewEvent()"
          class="RightSideButton pointer">Create New Event
     </div>
   </div>

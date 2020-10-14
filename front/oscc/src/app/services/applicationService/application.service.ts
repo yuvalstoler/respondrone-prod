@@ -10,8 +10,8 @@ export class ApplicationService {
 
   selectedHeaderPanelButton = undefined;
   screen: DISPLAY_ON_SCREEN;
-  selectedReport: REPORT_DATA_UI = undefined;
-  selectedEvent: EVENT_DATA_UI = undefined;
+  selectedReports: REPORT_DATA_UI[] = [];
+  selectedEvents: EVENT_DATA_UI[] = [];
   panelIcon: LEFT_PANEL_ICON = LEFT_PANEL_ICON.expand;
   stateDraw: STATE_DRAW = STATE_DRAW.notDraw;
 

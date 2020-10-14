@@ -65,8 +65,8 @@ export class EventPanelComponent implements OnInit {
   }
 
   private initEventModel = () => {
-    if (this.applicationService.selectedEvent) {
-      this.eventModel = _.cloneDeep(this.applicationService.selectedEvent);
+    if (this.applicationService.selectedEvents.length === 1) {
+      this.eventModel = _.cloneDeep(this.applicationService.selectedEvents[0]);
     } else {
       this.eventModel = _.cloneDeep(this.defaultEvent);
     }

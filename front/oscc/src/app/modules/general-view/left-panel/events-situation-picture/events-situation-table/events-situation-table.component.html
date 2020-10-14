@@ -94,9 +94,9 @@
         mat-header-row></tr>
     <tr (click)="selectRow(row)"
         *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;"
-        [class.selected]="applicationService.selectedEvent === row"
-        class="example-element-row"
+        class="example-element-row pointer"
         mat-row>
+<!--      [class.selected]="applicationService.selectedEvent === row"-->
       <!--&lt;&ndash;&gt; [ngStyle]="{'background-color': (selectedData === row)? '#7f7f7f' : '' }"-->
     </tr>
     <tr *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row" mat-row></tr>

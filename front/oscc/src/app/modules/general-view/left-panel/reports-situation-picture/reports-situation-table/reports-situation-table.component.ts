@@ -55,14 +55,16 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  private selectRow = (element): void => {
-    if (this.applicationService.selectedReport === undefined) {
-      this.applicationService.selectedReport = element;
-    } else {
-      this.applicationService.selectedReport = undefined;
-    }
+  private selectRow = (row: REPORT_DATA_UI): void => {
+    // if (this.applicationService.selectedReport === undefined) {
+    //   this.applicationService.selectedReport = element;
+    // } else {
+    //   this.applicationService.selectedReport = undefined;
+    // }
 
     // this.expandedElement = this.expandedElement === element ? null : element;
+
+    this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -95,6 +97,20 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle = () => {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      this.applicationService.selectedReports = [];
+    } else {
+      this.dataSource.data.forEach(row => {
+        this.selection.select(row);
+
+        const selectedIndex = this.applicationService.selectedReports.findIndex(data => data.id === row.id);
+        const report = this.reportService.getReportById(row.id);
+        if (selectedIndex === -1 && report) {
+          this.applicationService.selectedReports.push(report);
+        }
+      });
+    }
     this.isAllSelected() ?
       this.selection.clear() :
       this.dataSource.data.forEach(row => {
@@ -112,27 +128,40 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
   };
 
   onChangeAllSelected = (event) => {
-    if (event.checked) {
-      this.dataSource.data.forEach((row: REPORT_DATA_UI) => {
-        this.expandedElement[row.id] = row;
-      });
-    } else {
-      this.dataSource.data.forEach((row: REPORT_DATA_UI) => {
-        delete this.expandedElement[row.id];
-      });
-    }
+    // if (event.checked) {
+    //   this.dataSource.data.forEach((row: REPORT_DATA_UI) => {
+    //     this.expandedElement[row.id] = row;
+    //   });
+    // } else {
+    //   this.dataSource.data.forEach((row: REPORT_DATA_UI) => {
+    //     delete this.expandedElement[row.id];
+    //   });
+    // }
     return event ? this.masterToggle() : null;
   };
 
-  onChangeCheckbox = (event, row: REPORT_DATA_UI) => {
-    if (event.checked) {
-      this.expandedElement[row.id] = row;
-      this.applicationService.selectedReport = row;
+  onChangeCheckbox = ($event, row: REPORT_DATA_UI) => {
+    // if (event.checked) {
+    //   this.expandedElement[row.id] = row;
+    //   this.applicationService.selectedReport = row;
+    // } else {
+    //   delete this.expandedElement[row.id];
+    //   this.applicationService.selectedReport = undefined;
+    // }
+
+    if ($event.checked) {
+      const selectedIndex = this.applicationService.selectedReports.findIndex(data => data.id === row.id);
+      const event = this.reportService.getReportById(row.id);
+      if (selectedIndex === -1 && event) {
+        this.applicationService.selectedReports.push(event);
+      }
     } else {
-      delete this.expandedElement[row.id];
-      this.applicationService.selectedReport = undefined;
+      const selectedIndex = this.applicationService.selectedReports.findIndex(data => data.id === row.id);
+      if (selectedIndex !== -1) {
+        this.applicationService.selectedReports.splice(selectedIndex);
+      }
     }
-    return event ? this.selection.toggle(row) : null;
+    return $event ? this.selection.toggle(row) : null;
   }
 
   onUpdateLinkedEvents = (result: string[], element: REPORT_DATA_UI) => {

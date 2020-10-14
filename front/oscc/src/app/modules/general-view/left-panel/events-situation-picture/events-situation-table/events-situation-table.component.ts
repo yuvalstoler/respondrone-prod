@@ -56,13 +56,14 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  private selectRow = (element): void => {
-    if (this.applicationService.selectedEvent === undefined) {
-      this.applicationService.selectedEvent = element;
-    } else {
-      this.applicationService.selectedEvent = undefined;
-    }
+  private selectRow = (row: EVENT_DATA_UI): void => {
+    // if (this.applicationService.selectedEvent === undefined) {
+    //   this.applicationService.selectedEvent = element;
+    // } else {
+    //   this.applicationService.selectedEvent = undefined;
+    // }
     // this.expandedElement = this.expandedElement === element ? null : element;
+    this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -95,12 +96,20 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle = () => {
-    this.isAllSelected() ?
-      this.selection.clear() :
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      this.applicationService.selectedEvents = [];
+    } else {
       this.dataSource.data.forEach(row => {
-          this.selection.select(row);
+        this.selection.select(row);
+
+        const selectedIndex = this.applicationService.selectedEvents.findIndex(data => data.id === row.id);
+        const event = this.eventService.getEventById(row.id);
+        if (selectedIndex === -1 && event) {
+          this.applicationService.selectedEvents.push(event);
         }
-      );
+      });
+    }
   };
 
   /** The label for the checkbox on the passed row */
@@ -112,27 +121,39 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
   };
 
   onChangeAllSelected = (event) => {
-    if (event.checked) {
-      this.dataSource.data.forEach((row: EVENT_DATA_UI) => {
-        this.expandedElement[row.id] = row;
-      });
-    } else {
-      this.dataSource.data.forEach((row: EVENT_DATA_UI) => {
-        delete this.expandedElement[row.id];
-      });
-    }
+    // if (event.checked) {
+    //   this.dataSource.data.forEach((row: EVENT_DATA_UI) => {
+    //     this.expandedElement[row.id] = row;
+    //   });
+    // } else {
+    //   this.dataSource.data.forEach((row: EVENT_DATA_UI) => {
+    //     delete this.expandedElement[row.id];
+    //   });
+    // }
     return event ? this.masterToggle() : null;
   };
 
-  onChangeCheckbox = (event, row: EVENT_DATA_UI) => {
-    if (event.checked) {
-      this.expandedElement[row.id] = row;
-      this.applicationService.selectedEvent = row;
+  onChangeCheckbox = ($event, row: EVENT_DATA_UI) => {
+    // if (event.checked) {
+    //   this.expandedElement[row.id] = row;
+    //   this.applicationService.selectedEvent = row;
+    // } else {
+    //   delete this.expandedElement[row.id];
+    //   this.applicationService.selectedEvent = undefined;
+    // }
+    if ($event.checked) {
+      const selectedIndex = this.applicationService.selectedEvents.findIndex(data => data.id === row.id);
+      const event = this.eventService.getEventById(row.id);
+      if (selectedIndex === -1 && event) {
+        this.applicationService.selectedEvents.push(event);
+      }
     } else {
-      delete this.expandedElement[row.id];
-      this.applicationService.selectedEvent = undefined;
+      const selectedIndex = this.applicationService.selectedEvents.findIndex(data => data.id === row.id);
+      if (selectedIndex !== -1) {
+        this.applicationService.selectedEvents.splice(selectedIndex);
+      }
     }
-    return event ? this.selection.toggle(row) : null;
+    return $event ? this.selection.toggle(row) : null;
   }
 
   onUpdateLinkedReports = (result: string[], element: EVENT_DATA_UI) => {

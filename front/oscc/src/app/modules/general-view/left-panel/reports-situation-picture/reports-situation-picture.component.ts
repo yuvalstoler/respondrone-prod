@@ -27,13 +27,13 @@ export class ReportsSituationPictureComponent implements OnInit {
   }
 
   onCreateNewReport = () => {
-    this.applicationService.selectedReport = undefined;
+    this.applicationService.selectedReports = [];
     this.openReportPanel();
   };
 
   onDeleteReport = () => {
   //   todo: add confirmWindow
-    this.openConfirmDialog(this.applicationService.selectedReport);
+    this.openConfirmDialog();
   };
 
   onEditReport = () => {
@@ -52,7 +52,7 @@ export class ReportsSituationPictureComponent implements OnInit {
   //  todo: move it to the archive folder
   };
 
-  openConfirmDialog = (data): void => {
+  openConfirmDialog = (): void => {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: '250px',
       disableClose: true,

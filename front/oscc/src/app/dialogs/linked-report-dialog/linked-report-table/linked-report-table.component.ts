@@ -40,11 +40,13 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
 
 
   checkSelected = (arr: string[]) => {
-    this.dataSource.data.forEach(row => {
-      if (arr.indexOf(row.id) !== -1) {
-        this.selection.select(row);
-      }
-    });
+    // this.dataSource.data.forEach(row => {
+    //   if (arr.indexOf(row.id) !== -1) {
+    //     this.selection.select(row);
+    //   }
+    // });
+    const dataWithoutSelected = this.reportService.reports.data.filter((data) => arr.indexOf(data.id) === -1);
+    this.dataSource.data = [...dataWithoutSelected];
   }
 
   private selectRow = (element): void => {
@@ -76,6 +78,10 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
     } catch (e) {
       return [];
     }
+  }
+
+  getNumOfSelected = () => {
+    return this.selection.selected.length;
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

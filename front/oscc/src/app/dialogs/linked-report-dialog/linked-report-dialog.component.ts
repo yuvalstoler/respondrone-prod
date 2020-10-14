@@ -28,4 +28,8 @@ export class LinkedReportDialogComponent implements OnInit {
     const data = this.childComponent.getSelectedEvents();
     this.dialogRef.close(data);
   }
+
+  isEnableAddBtn() {
+    return this.childComponent && this.childComponent.childComponent && this.childComponent.childComponent.getNumOfSelected() > 0;
+  }
 }

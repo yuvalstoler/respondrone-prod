@@ -66,8 +66,8 @@ export class ReportPanelComponent implements OnInit {
   }
 
   private initReportModel = () => {
-    if (this.applicationService.selectedReport) {
-      this.reportModel = _.cloneDeep(this.applicationService.selectedReport);
+    if (this.applicationService.selectedReports.length === 1) {
+      this.reportModel = _.cloneDeep(this.applicationService.selectedReports[0]);
     } else {
       this.reportModel = _.cloneDeep(this.defaultReport);
     }
