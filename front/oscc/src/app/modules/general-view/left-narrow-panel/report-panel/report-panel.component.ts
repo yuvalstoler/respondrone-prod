@@ -26,7 +26,7 @@ export class ReportPanelComponent implements OnInit {
   reportModel: REPORT_DATA_UI;
   types = Object.values(REPORT_TYPE);
   priorities = Object.values(PRIORITY);
-  locations = ['Add an address', 'Choose a location point'];
+  locations = ['No location', 'Add an address', 'Choose a location point'];
   comment = '';
 
   defaultReport: REPORT_DATA_UI = {
@@ -36,13 +36,14 @@ export class ReportPanelComponent implements OnInit {
     type: this.types[0],
     priority: this.priorities[0],
     description: '',
-    locationType: LOCATION_TYPE.address,
+    locationType: LOCATION_TYPE.none,
     location: {longitude: undefined, latitude: undefined},
     address: '',
     eventIds: [],
     comments: [],
     events: [],
     media: [],
+    idView: '',
     modeDefine: undefined,
     mediaFileIds: undefined
   };
@@ -73,7 +74,14 @@ export class ReportPanelComponent implements OnInit {
   };
 
   onChangeLocation = (location: string) => {
-    if (location === 'Add an address') {
+    if (location === 'No location') {
+      this.reportModel.locationType = LOCATION_TYPE.none;
+      this.reportModel.location = {longitude: undefined, latitude: undefined};
+      this.reportModel.address = '';
+      this.locationService.deleteLocationPointTemp();
+      this.locationService.removeBillboard();
+
+    } else if (location === 'Add an address') {
       this.reportModel.location = {longitude: undefined, latitude: undefined};
       this.reportModel.locationType = LOCATION_TYPE.address;
       this.applicationService.stateDraw = STATE_DRAW.notDraw;

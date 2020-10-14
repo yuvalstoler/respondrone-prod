@@ -178,6 +178,65 @@ export class CesiumDrawerService {
     return res;
   };
 
+  // ==================ICON========================================================================================
+
+  public createIconObject = (domId: string, locationPoint: GEOPOINT3D, billboardId: string, iconUrl: string): boolean => {
+    let res = false;
+    const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        if (locationPoint) {
+          this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE] =
+            this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE] || {};
+          this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId] =
+            this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId] || {};
+          this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId] =
+            this.createIconEntity(mapDomId, mapsCE[mapDomId], locationPoint, iconUrl);
+
+          if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId]) {
+            res = true;
+          }
+        }
+      }
+    }
+    return res;
+  };
+
+  private createIconEntity = (mapDomId: string, mapCE: any, locationPoint: GEOPOINT3D, iconUrl: string) => {
+    const billboard = this.cesiumService.cesiumViewer[mapDomId].entities.add({
+      position : Cesium.Cartesian3.fromDegrees(locationPoint.longitude, locationPoint.latitude),
+      billboard: {
+        image: iconUrl,
+        width: 30,
+        height: 30
+      }
+    });
+    this.cesiumService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
+    return billboard;
+  };
+
+  public removeIconFromMap = (domId: string, billboardId: string): boolean => {
+    let res = false;
+    const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        if (this.cesiumService.cesiumMapObjects.hasOwnProperty(mapDomId) && this.cesiumService.cesiumMapObjects[mapDomId] !== undefined) {
+          // delete locationPoint
+          if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.iconCE)) {
+            if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE].hasOwnProperty(billboardId) &&
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId] !== {}) {
+              this.cesiumService.removeItemCEFromMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId]);
+              // delete this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId];
+              // this.locationTemp = undefined;
+              res = true;
+            }
+          }
+        }
+      }
+    }
+    return res;
+  };
+
   // ==================POLYGON==========================================================================================
   public drawPolygonManually = (domId: string, latlong: POINT[], id: string, color: string): boolean => {
     // create new Polygon

@@ -31,6 +31,7 @@ export class Report {
     mediaFileIds: MAP<boolean> = {};
     eventIds: string[] = [];
     comments: COMMENT[] = [];
+    idView: string = '';
 
     constructor(data: REPORT_DATA) {
         if ( data ) {
@@ -113,6 +114,10 @@ export class Report {
     private setComments = (data: COMMENT[]) => {
         this.comments = data;
     };
+    private setIdView = (data: string) => {
+        this.idView = data;
+    };
+
     public setValues = (data: Partial<REPORT_DATA>, saveConfig: Object = this.saveConfig) => {
         for ( const key in saveConfig ) {
             if ( saveConfig.hasOwnProperty(key) ) {
@@ -147,6 +152,7 @@ export class Report {
             mediaFileIds: this.mediaFileIds,
             eventIds: this.eventIds,
             comments: this.comments,
+            idView: this.idView,
         };
     };
 
@@ -167,6 +173,7 @@ export class Report {
             eventIds: this.eventIds,
             comments: this.comments,
             events: [],
+            idView: this.idView,
             modeDefine: undefined
         };
     };
@@ -178,6 +185,8 @@ export class Report {
             createdBy: this.createdBy,
             type: this.type,
             description: this.description,
+            idView: this.idView,
+            modeDefine: undefined
         };
     };
 
@@ -197,6 +206,7 @@ export class Report {
         mediaFileIds: this.setMediaFileIds,
         eventIds: this.setEvents,
         comments: this.setComments,
+        idView: this.setIdView,
     };
 
 

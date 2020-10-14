@@ -205,8 +205,8 @@ export class DownloadManager {
             const fileFsData: FILE_FS_DATA = {
                 id: fileDbData.id,
                 type: fileDbData.type,
-                thumbnail: `${url_FS}/${API_GENERAL.general}/file/${fileDbData.fsName}`,
-                url: `${url_FS}/${API_GENERAL.general}/file/${fileDbData.fsName}`
+                thumbnail: `/${API_GENERAL.general}/file/${fileDbData.fsName}`,
+                url: `/${API_GENERAL.general}/file/${fileDbData.fsName}`
             };
             res.data = {
                 fileDbData: fileDbData,

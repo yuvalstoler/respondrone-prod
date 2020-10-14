@@ -120,7 +120,8 @@ export type REPORT_DATA = {
     media: FILE_FS_DATA[],
     mediaFileIds: MAP<boolean>,
     eventIds: string[],
-    comments: COMMENT[]
+    comments: COMMENT[],
+    idView: string
 };
 export type REPORT_DATA_UI = REPORT_DATA & {
     events: LINKED_EVENT_DATA[],
@@ -132,11 +133,16 @@ export type LINKED_REPORT_DATA = {
     time: number,
     createdBy: string,
     type: REPORT_TYPE,
-    description: string
+    description: string,
+    idView: string,
+    modeDefine: REPORT_DATA_MD,
 }
 export type REPORT_DATA_MD = {
-    styles: {},
+    styles: {
+        icon: string
+    },
     tableData: {
+        id: TABLE_DATA_MD,
         time: TABLE_DATA_MD,
         message: TABLE_DATA_MD,
         priority: TABLE_DATA_MD,
@@ -148,7 +154,7 @@ export type REPORT_DATA_MD = {
 
 export type TABLE_DATA_MD = {
     type: 'image' | 'matIcon' | 'text' | 'date',
-    data: string | number,
+    data: any,
     color?: string
 }
 
@@ -166,6 +172,7 @@ export type EVENT_DATA = { // TODO - change data fields
     polygon: POLYGON_GEOPOINT,
     reportIds: string[],
     comments: COMMENT[],
+    idView: string
 };
 export type EVENT_DATA_UI = EVENT_DATA & {
     reports: LINKED_REPORT_DATA[],
@@ -178,10 +185,15 @@ export type LINKED_EVENT_DATA = {
     createdBy: string,
     type: EVENT_TYPE,
     description: string,
+    idView: string,
+    modeDefine: EVENT_DATA_MD,
 }
 export type EVENT_DATA_MD = {
-    styles: {},
+    styles: {
+        icon: string
+    },
     tableData: {
+        id: TABLE_DATA_MD,
         time: TABLE_DATA_MD,
         message: TABLE_DATA_MD,
         priority: TABLE_DATA_MD,

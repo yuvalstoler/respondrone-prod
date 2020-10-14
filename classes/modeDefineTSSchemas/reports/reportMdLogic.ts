@@ -17,7 +17,7 @@ export class ReportMdLogic implements IModeDefine {
     public static validate(data: REPORT_DATA_UI): REPORT_DATA_MD {
         const obj: REPORT_DATA_MD = {
             styles: {
-                icon: this.getPriorityIcon(data)
+                icon: this.getPriorityIcon(data).data
             },
             tableData: ReportMdLogic.tableData(data)
         };
@@ -40,6 +40,10 @@ export class ReportMdLogic implements IModeDefine {
 
     private static tableData = (data: REPORT_DATA_UI) => {
         let res = {
+            id: {
+                type: 'text',
+                data: data.idView
+            } as TABLE_DATA_MD,
             time: {
                 type: 'date',
                 data: data.time

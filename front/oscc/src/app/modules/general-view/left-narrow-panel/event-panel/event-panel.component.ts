@@ -25,7 +25,7 @@ export class EventPanelComponent implements OnInit {
   eventModel: EVENT_DATA_UI;
   types = Object.values(EVENT_TYPE);
   priorities = Object.values(PRIORITY);
-  locations = ['Add an address', 'Choose a location point', 'Create a polygon'];
+  locations = ['No location', 'Add an address', 'Choose a location point', 'Create a polygon'];
   comment = '';
 
   defaultEvent: EVENT_DATA_UI = {
@@ -42,6 +42,7 @@ export class EventPanelComponent implements OnInit {
     reportIds: [],
     comments: [],
     reports: [],
+    idView: '',
     modeDefine: undefined
   };
 
@@ -72,7 +73,15 @@ export class EventPanelComponent implements OnInit {
   };
 
   onChangeLocation = (location: string) => {
-    if (location === 'Add an address') {
+    if (location === 'No location') {
+      this.eventModel.locationType = LOCATION_TYPE.none;
+      this.eventModel.location = {longitude: undefined, latitude: undefined};
+      this.eventModel.address = '';
+      this.eventModel.polygon = [];
+      this.locationService.deleteLocationPointTemp();
+      this.locationService.removeBillboard();
+
+    } else if (location === 'Add an address') {
       this.eventModel.location = {longitude: undefined, latitude: undefined};
       this.eventModel.polygon = [];
       this.eventModel.locationType = LOCATION_TYPE.address;
@@ -122,7 +131,6 @@ export class EventPanelComponent implements OnInit {
     this.eventService.createEvent(this.eventModel, (event: EVENT_DATA_UI) => {
       this.reportService.linkReportsToEvent(event.reportIds, event.id);
     });
-    this.reportService.linkReportsToEvent(this.eventModel.reportIds, this.eventModel.id); // TODO
     this.clearPanel();
   };
 

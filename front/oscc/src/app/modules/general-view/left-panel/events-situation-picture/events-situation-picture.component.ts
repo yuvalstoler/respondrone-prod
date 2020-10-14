@@ -6,6 +6,7 @@ import {ConfirmDialogComponent} from '../../../../dialogs/confirm-dialog/confirm
 import {EventsSituationTableComponent} from './events-situation-table/events-situation-table.component';
 import {EventService} from '../../../../services/eventService/event.service';
 import {ReportService} from '../../../../services/reportService/report.service';
+import {EVENT_DATA_UI} from '../../../../../../../../classes/typings/all.typings';
 
 @Component({
   selector: 'app-events-situation-picture',
@@ -60,11 +61,13 @@ export class EventsSituationPictureComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        if (this.applicationService.selectedEvent) {
-          // TODO
-          this.reportService.unlinkReportsFromEvent(this.applicationService.selectedEvent.reportIds, this.applicationService.selectedEvent.id)
-          this.eventService.deleteEvent({id: this.applicationService.selectedEvent.id});
-        }
+        const selectedEvents: EVENT_DATA_UI[] = this.childComponent.getSelectedEvents();
+        selectedEvents.forEach((eventData: EVENT_DATA_UI, index: number) => {
+          setTimeout(() => {
+            this.reportService.unlinkReportsFromEvent(eventData.reportIds, eventData.id);
+            this.eventService.deleteEvent({id: eventData.id});
+          }, index * 500);
+        });
       }
     });
   };

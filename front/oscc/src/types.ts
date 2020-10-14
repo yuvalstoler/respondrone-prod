@@ -42,6 +42,7 @@ export type EVENT_LISTENER_DATA = {
 
 export enum TYPE_OBJECTS_CE {
   locationPointCE = 'locationPointCE',
-  billboardCE = 'billboardCE'
+  billboardCE = 'billboardCE',
+  iconCE = 'iconCE',
 }
 

@@ -89,14 +89,11 @@ export class ReportManager {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
 
-            reportData.id = reportData.id || DataUtility.generateID();
-            reportData.time = Date.now();
             const newReport: Report = new Report(reportData);
-
             const newReportDataJson: REPORT_DATA = newReport.toJsonForSave();
             res.data = newReportDataJson;
             res.success = true;
-            //    todo send to RS
+
             RequestManager.requestToRS(REPORT_API.createReport, newReportDataJson)
                 .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                     resolve(data);

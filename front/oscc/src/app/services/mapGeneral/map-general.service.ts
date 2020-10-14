@@ -137,4 +137,18 @@ export class MapGeneralService {
     return res;
   };
 
+  public createIcon = (locationPoint: GEOPOINT3D, billboardId: string, iconUrl: string): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.createIconObject(domId, locationPoint, billboardId, iconUrl);
+    return res;
+  };
+
+  public removeIcon = (billboardId: string): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.removeIconFromMap(domId, billboardId);
+    return res;
+  };
+
 }

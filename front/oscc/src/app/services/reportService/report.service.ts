@@ -7,6 +7,7 @@ import {
   ASYNC_RESPONSE,
   ID_OBJ,
   LINKED_REPORT_DATA,
+  LOCATION_TYPE,
   REPORT_DATA,
   REPORT_DATA_UI
 } from '../../../../../../classes/typings/all.typings';
@@ -83,9 +84,11 @@ export class ReportService {
       return o1['id'] === o2['id'];
     });
     if (notExist.length > 0) {
-      notExist.forEach((data: Report) => {
+      notExist.forEach((data: REPORT_DATA_UI) => {
         const index = this.reports.data.findIndex(d => d.id === data.id);
         this.reports.data.splice(index, 1);
+        this.mapGeneralService.removeIcon(data.id);
+
       });
     }
   };
@@ -103,8 +106,18 @@ export class ReportService {
       } else {
         this.reports.data.push(newReport);
       }
+      this.drawReport(newReport);
     });
   };
+  // ----------------------
+  private drawReport = (report: REPORT_DATA_UI) => {
+    if (report.locationType === LOCATION_TYPE.locationPoint && report.location.latitude && report.location.longitude) {
+      this.mapGeneralService.createIcon(report.location, report.id, report.modeDefine.styles.icon);
+    }
+    else {
+      this.mapGeneralService.removeIcon(report.id);
+    }
+  }
   // ----------------------
   public createReport = (reportData: REPORT_DATA, cb?: Function) => {
     this.connectionService.post('/api/createReport', reportData)
@@ -145,6 +158,8 @@ export class ReportService {
       createdBy: report.createdBy,
       type: report.type,
       description: report.description,
+      idView: report.idView,
+      modeDefine: report.modeDefine,
     };
   };
   // -----------------------
