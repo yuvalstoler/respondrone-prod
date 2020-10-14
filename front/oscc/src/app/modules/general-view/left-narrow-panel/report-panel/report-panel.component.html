@@ -1,6 +1,6 @@
 <div class="DialogContainer">
-  <div class="DialogHeader" *ngIf="applicationService.selectedReport === undefined">Create new report</div>
-  <div class="DialogHeader" *ngIf="applicationService.selectedReport !== undefined">Edit report</div>
+  <div class="DialogHeader" *ngIf="applicationService.selectedReports[0] === undefined">Create new report</div>
+  <div class="DialogHeader" *ngIf="applicationService.selectedReports[0] !== undefined">Edit report</div>
   <!--Content-->
   <div class="DialogContent scroll">
     <!--&lt;!&ndash;Title&ndash;&gt;-->

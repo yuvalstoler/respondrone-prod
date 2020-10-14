@@ -1,6 +1,6 @@
 <div class="DialogContainer" *ngIf="true">
-  <div class="DialogHeader" *ngIf="applicationService.selectedEvent === undefined">Create new event</div>
-  <div class="DialogHeader" *ngIf="applicationService.selectedEvent !== undefined">Edit event</div>
+  <div class="DialogHeader" *ngIf="applicationService.selectedEvents[0] === undefined">Create new event</div>
+  <div class="DialogHeader" *ngIf="applicationService.selectedEvents[0] !== undefined">Edit event</div>
   <!--Content-->
   <div class="DialogContent scroll">
     <!--Title-->
