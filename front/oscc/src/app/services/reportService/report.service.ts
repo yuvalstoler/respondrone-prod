@@ -87,7 +87,9 @@ export class ReportService {
       notExist.forEach((data: REPORT_DATA_UI) => {
         const index = this.reports.data.findIndex(d => d.id === data.id);
         this.reports.data.splice(index, 1);
-        this.mapGeneralService.removeIcon(data.id);
+        //TODO: delete data from MAP
+        this.mapGeneralService.deleteIcon(data.id);
+        this.mapGeneralService.deletePolygonManually(data.id);
 
       });
     }
@@ -115,9 +117,11 @@ export class ReportService {
       this.mapGeneralService.createIcon(report.location, report.id, report.modeDefine.styles.icon);
     }
     else {
-      this.mapGeneralService.removeIcon(report.id);
+      this.mapGeneralService.deleteIcon(report.id);
+      this.mapGeneralService.deletePolygonManually(report.id);
     }
-  }
+  };
+
   // ----------------------
   public createReport = (reportData: REPORT_DATA, cb?: Function) => {
     this.connectionService.post('/api/createReport', reportData)

@@ -117,7 +117,6 @@ export class CesiumService {
     });
   };
 
-
   public getMapByDomId = (domId): MAP<any> => {
     const res: MAP<any> = {};
     if (domId === undefined) {

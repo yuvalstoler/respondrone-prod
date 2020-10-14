@@ -146,8 +146,8 @@ export class ReportPanelComponent implements OnInit {
 
   clearPanel = () => {
     this.applicationService.screen.showLeftNarrowPanel = false;
-    this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
     this.applicationService.screen.showReportPanel = false;
+    this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.situationPictures;
     this.reportModel = _.cloneDeep(this.defaultReport);
     this.applicationService.stateDraw = STATE_DRAW.notDraw;
     this.locationService.deleteLocationPointTemp();

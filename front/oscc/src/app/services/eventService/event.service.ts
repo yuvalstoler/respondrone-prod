@@ -67,7 +67,9 @@ export class EventService {
       notExist.forEach((data: EVENT_DATA_UI) => {
         const index = this.events.data.findIndex(d => d.id === data.id);
         this.events.data.splice(index, 1);
-        this.mapGeneralService.removeIcon(data.id);
+        //TODO: delete data from MAP
+        this.mapGeneralService.deleteIcon(data.id);
+        this.mapGeneralService.deletePolygonManually(data.id);
       });
     }
   };
@@ -90,13 +92,14 @@ export class EventService {
   };
   // ----------------------
   private drawEvent = (event: EVENT_DATA_UI) => {
-    if (event.locationType === LOCATION_TYPE.locationPoint && event.location.latitude && event.location.longitude) {
+    if (event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.latitude && event.location.longitude) {
       this.mapGeneralService.createIcon(event.location, event.id, event.modeDefine.styles.icon);
-    } else if (event.locationType === LOCATION_TYPE.polygon && event.polygon.length > 0) {
-      this.mapGeneralService.drawPolygonFromServer(event.polygon, event.id);
+    } else if (event.locationType === LOCATION_TYPE.polygon && event.polygon && event.polygon.length > 0) {
+      this.mapGeneralService.drawPolygonFromServer(event.polygon, event.id, event.title);
     }
     else {
-      this.mapGeneralService.removeIcon(event.id);
+      this.mapGeneralService.deleteIcon(event.id);
+      this.mapGeneralService.deletePolygonManually(event.id);
     }
   };
   // ----------------------

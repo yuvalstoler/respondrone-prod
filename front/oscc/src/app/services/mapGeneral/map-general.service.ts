@@ -129,11 +129,10 @@ export class MapGeneralService {
     return res;
   };
 
-  public drawPolygonFromServer = (arrayPoints: POINT3D[], id: string) => {
+  public drawPolygonFromServer = (arrayPoints: POINT3D[], id: string, title: string) => {
     const domId = undefined;
     let res = false;
-    const color = '#ffd00b';
-    res = this.cesiumDrawerService.drawPolygonFromServer(domId, arrayPoints, id, color);
+    res = this.cesiumDrawerService.drawPolygonFromServer(domId, arrayPoints, id, title);
     return res;
   };
 
@@ -166,10 +165,10 @@ export class MapGeneralService {
     return res;
   };
 
-  public removeIcon = (billboardId: string): boolean => {
+  public deleteIcon = (billboardId: string): boolean => {
     const domId = undefined;
     let res = false;
-    res = this.cesiumDrawerService.removeIconFromMap(domId, billboardId);
+    res = this.cesiumDrawerService.deleteIconFromMap(domId, billboardId);
     return res;
   };
 

@@ -42,7 +42,7 @@ export class EventsSituationPictureComponent implements OnInit {
   };
 
   private openEventPanel = () => {
-    this.applicationService.screen.showLeftPanel = false;
+    // this.applicationService.screen.showLeftPanel = false;
     this.applicationService.screen.showLeftNarrowPanel = true;
     this.applicationService.screen.showEventPanel = true;
     this.applicationService.screen.showReportPanel = false;

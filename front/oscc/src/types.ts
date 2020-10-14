@@ -43,6 +43,7 @@ export enum TYPE_OBJECTS_CE {
   locationPointCE = 'locationPointCE',
   billboardCE = 'billboardCE',
   iconCE = 'iconCE',
-  polygonCE = 'polygonCE'
+  polygonCE = 'polygonCE',
+  labelPolygonCE = 'labelPolygonCE'
 }
 

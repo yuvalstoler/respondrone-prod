@@ -42,7 +42,7 @@ export class ReportsSituationPictureComponent implements OnInit {
   };
 
   private openReportPanel = () => {
-    this.applicationService.screen.showLeftPanel = false;
+    // this.applicationService.screen.showLeftPanel = false;
     this.applicationService.screen.showLeftNarrowPanel = true;
     this.applicationService.screen.showEventPanel = false;
     this.applicationService.screen.showReportPanel = true;

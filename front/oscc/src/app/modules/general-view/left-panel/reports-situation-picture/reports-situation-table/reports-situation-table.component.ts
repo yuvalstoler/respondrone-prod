@@ -86,7 +86,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
     } catch (e) {
       return [];
     }
-  }
+  };
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected = () => {

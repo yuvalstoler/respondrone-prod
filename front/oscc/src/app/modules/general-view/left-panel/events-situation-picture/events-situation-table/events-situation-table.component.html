@@ -18,12 +18,15 @@
                       [ngStyle]="{'color': element.modeDefine?.tableData[column]?.color}">
                {{element.modeDefine?.tableData[column]?.data}}
              </mat-icon>
+            <!--image-->
             <img class="tableImage"
                  *ngIf="element.modeDefine?.tableData[column]?.type === 'image'"
                  [src]="element.modeDefine?.tableData[column]?.data">
+            <!--text-->
             <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'">
                {{element.modeDefine?.tableData[column]?.data}}
             </span>
+            <!--data-->
             <span *ngIf="element.modeDefine?.tableData[column]?.type === 'date'">
                {{element.modeDefine?.tableData[column]?.data | date:'hh:mm'}}
             </span>
@@ -51,6 +54,8 @@
       </td>
       </span>
     </ng-container>
+
+    <!--[ngStyle]="{'width' : (column === 'description')? '60px' : '' }"-->
 
 
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
