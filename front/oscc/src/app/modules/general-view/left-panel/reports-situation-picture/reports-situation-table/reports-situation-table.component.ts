@@ -53,6 +53,13 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+
+    this.applicationService.selectedReports.forEach(report => {
+      const row = this.dataSource.data.find(obj => obj.id === report.id);
+      if (row) {
+        this.selection.select(row);
+      }
+    });
   }
 
   private selectRow = (row: REPORT_DATA_UI): void => {
@@ -111,12 +118,6 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
         }
       });
     }
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => {
-          this.selection.select(row);
-        }
-      );
   };
 
   /** The label for the checkbox on the passed row */
@@ -158,7 +159,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
     } else {
       const selectedIndex = this.applicationService.selectedReports.findIndex(data => data.id === row.id);
       if (selectedIndex !== -1) {
-        this.applicationService.selectedReports.splice(selectedIndex);
+        this.applicationService.selectedReports.splice(selectedIndex, 1);
       }
     }
     return $event ? this.selection.toggle(row) : null;

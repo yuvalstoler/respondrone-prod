@@ -7,7 +7,7 @@
     </div>
   </div>
 
-  <div class="HeaderRightPanel">
+  <div class="HeaderRightPanel" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand">
     <div (click)="onArchiveReport()"
          *ngIf="applicationService.selectedReports.length > 0"
          class="RightSideButton pointer">Archive

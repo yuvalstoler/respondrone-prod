@@ -54,6 +54,13 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+
+    this.applicationService.selectedEvents.forEach(event => {
+      const row = this.dataSource.data.find(obj => obj.id === event.id);
+      if (row) {
+        this.selection.select(row);
+      }
+    });
   }
 
   private selectRow = (row: EVENT_DATA_UI): void => {
@@ -150,7 +157,7 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
     } else {
       const selectedIndex = this.applicationService.selectedEvents.findIndex(data => data.id === row.id);
       if (selectedIndex !== -1) {
-        this.applicationService.selectedEvents.splice(selectedIndex);
+        this.applicationService.selectedEvents.splice(selectedIndex, 1);
       }
     }
     return $event ? this.selection.toggle(row) : null;

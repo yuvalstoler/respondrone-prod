@@ -58,8 +58,8 @@
       <td *matCellDef="let element"
           [attr.colspan]="(applicationService.panelIcon === LEFT_PANEL_ICON.expand) ? displayedColumns.length : displayedColumnsMinimize.length"
           mat-cell>
-        <div [@detailExpand]="expandedElement[element.id] && element.id === expandedElement[element.id].id ? 'expanded' : 'collapsed'"
-             [style.height]="expandedElement[element.id] && element.id === expandedElement[element.id].id ? 'unset' : '0 !important'"
+        <div [@detailExpand]="applicationService.panelIcon === LEFT_PANEL_ICON.expand && expandedElement[element.id] && element.id === expandedElement[element.id].id ? 'expanded' : 'collapsed'"
+             [style.height]="applicationService.panelIcon === LEFT_PANEL_ICON.expand && expandedElement[element.id] && element.id === expandedElement[element.id].id ? 'unset' : '0 !important'"
              class="example-element-detail">
           <!--Description & Comments-->
           <div class="example-element-description">
