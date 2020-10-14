@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {CesiumService} from '../cesium/cesium.service';
-import {GEOPOINT3D, MAP} from '../../../../../../classes/typings/all.typings';
+import {GEOPOINT3D, MAP, POINT, POINT3D} from '../../../../../../classes/typings/all.typings';
 import {CesiumDrawerService} from '../cesium/mapDrawCesium/cesium-drawer.service';
 
 @Injectable({
@@ -129,11 +129,33 @@ export class MapGeneralService {
     return res;
   };
 
-  public drawPolygonManually = (arrayPoints: Array<any>, id: string, isCross: boolean) => {
+  public drawPolygonFromServer = (arrayPoints: POINT3D[], id: string) => {
+    const domId = undefined;
+    let res = false;
+    const color = '#ffd00b';
+    res = this.cesiumDrawerService.drawPolygonFromServer(domId, arrayPoints, id, color);
+    return res;
+  };
+
+  public drawPolygonManually = (arrayPoints: POINT3D[], id: string, isCross: boolean) => {
     const domId = undefined;
     let res = false;
     const color = isCross ? '#ff3c54' : '#59b1f1';
     res = this.cesiumDrawerService.drawPolygonManually(domId, arrayPoints, id, color);
+    return res;
+  };
+
+  public removePolygonManually = (polygonId: string) => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.removePolygonManually(domId, polygonId);
+    return res;
+  };
+
+  public deletePolygonManually = (polygonId: string) => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.deletePolygonManually(domId, polygonId);
     return res;
   };
 

@@ -169,7 +169,7 @@ export type EVENT_DATA = { // TODO - change data fields
     locationType: LOCATION_TYPE,
     location: GEOPOINT3D,
     address: ADDRESS,
-    polygon: POLYGON_GEOPOINT,
+    polygon: POINT3D[],
     reportIds: string[],
     comments: COMMENT[],
     idView: string

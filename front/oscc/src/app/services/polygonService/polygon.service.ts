@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {DrawPolygonClass} from '../classes/drawPolygonClass';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
 import {EVENT_LISTENER_DATA, STATE_DRAW} from '../../../types';
 import {ApplicationService} from '../applicationService/application.service';
 import {GEOPOINT3D, POINT3D} from '../../../../../../classes/typings/all.typings';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class PolygonService {
 
   drawerPolygonClass: DrawPolygonClass;
   isCross: boolean = false;
+  polygon$: BehaviorSubject<POINT3D[]> = new BehaviorSubject([]);
 
   constructor(public mapGeneralService: MapGeneralService,
               public applicationService: ApplicationService) {
@@ -20,9 +22,9 @@ export class PolygonService {
   }
 
   public setEventCallbacks = () => {
-    // show billboard
-    this.mapGeneralService.setMouseOverCallback(undefined, 'billboardDraw', this.showBillboard);
-    this.mapGeneralService.setMouseDownCallback(undefined, 'billboardDraw', this.showBillboard);
+    // // show billboard
+    // this.mapGeneralService.setMouseOverCallback(undefined, 'billboardDraw', this.showBillboard);
+    // this.mapGeneralService.setMouseDownCallback(undefined, 'billboardDraw', this.showBillboard);
     // create polygon
     this.mapGeneralService.setMouseDownCallback(undefined, 'perimeterDraw', this.drawManually);
     this.mapGeneralService.setMouseOverCallback(undefined, 'perimeterDraw', this.drawManually);
@@ -35,52 +37,42 @@ export class PolygonService {
   };
 
 
-  public showBillboard = (event: EVENT_LISTENER_DATA) => {
-    if (this.applicationService.stateDraw === STATE_DRAW.drawBillboard) {
-      const locationPoint: GEOPOINT3D = {longitude: event.pointLatLng[0], latitude: event.pointLatLng[1]};
-      if (event.type === 'mouseOver') {
-        this.removeBillboard();
-        this.drawBillboard(locationPoint);
-      }
-      if (event.type === 'mouseDown') {
-        this.applicationService.stateDraw = STATE_DRAW.drawPolygon;
-
-      }
-    }
-  };
+  // public showBillboard = (event: EVENT_LISTENER_DATA) => {
+  //   if (this.applicationService.stateDraw === STATE_DRAW.drawBillboard) {
+  //     const locationPoint: GEOPOINT3D = {longitude: event.pointLatLng[0], latitude: event.pointLatLng[1]};
+  //     if (event.type === 'mouseOver') {
+  //       this.removeBillboard();
+  //       this.drawBillboard(locationPoint);
+  //     }
+  //     if (event.type === 'mouseDown') {
+  //       this.applicationService.stateDraw = STATE_DRAW.drawPolygonManually;
+  //
+  //     }
+  //   }
+  // };
 
   public drawManually = (event: EVENT_LISTENER_DATA) => {
     if (this.applicationService.stateDraw === STATE_DRAW.drawPolygon) {
       const points: POINT3D[] = this.drawerPolygonClass.mouseEvents(event);
       this.isCross = this.drawerPolygonClass.checkCrossPolygon(points);
-      this.removeBillboard();
-      this.drawPerimeter(points, 'temp', this.isCross);
-        if (event.type === 'doubleClick' && points.length >= 4) {
-          this.applicationService.stateDraw = STATE_DRAW.notDraw;
-          // if (this.isCross) {
-          //   // todo: add dialog
-          //   // this.openDialog(points, this.isCross);
-          // } else {
-          //
-          //   // this.tempArrayPointsScanPerimeter = Object.assign([], points);
-          //   // this.arrayPointsScanPerimeter.perimeter = Object.assign([], points);
+      this.drawPolygon(points, 'temp', this.isCross);
+      if (event.type === 'doubleClick'/* && points.length >= 4*/) {
+        this.polygon$.next(points);
+        // this.applicationService.stateDraw = STATE_DRAW.notDraw;
+        // if (this.isCross) {
+        //   // this.openDialog(points, this.isCross);
+        // } else {
+        //
+        //   // this.tempArrayPointsScanPerimeter = Object.assign([], points);
+        //   // this.arrayPointsScanPerimeter.perimeter = Object.assign([], points);
 
-          this.isCross = false;
-          // }
-        }
+        this.isCross = false;
+        // }
+      }
     }
   };
 
-
-  private drawBillboard = (locationPoint: GEOPOINT3D) => {
-    this.mapGeneralService.createBillboard(locationPoint, 'temp');
-  };
-
-  public removeBillboard = () => {
-    this.mapGeneralService.removeBillboard('temp');
-  };
-
-  public drawPerimeter = (latlong: POINT3D[], id: string, isCross: boolean): void => {
+  public drawPolygon = (latlong: POINT3D[], id: string, isCross: boolean): void => {
     if (latlong) {
       if (Array.isArray(latlong) && latlong.length >= 3
         && latlong[0][0] === latlong[latlong.length - 1][0] && latlong[0][1] === latlong[latlong.length - 1][1]) {
@@ -89,6 +81,9 @@ export class PolygonService {
     }
   };
 
-
+  public deletePolygonManually = () => {
+    this.mapGeneralService.deletePolygonManually('temp');
+    this.polygon$.next([]);
+  };
 
 }
