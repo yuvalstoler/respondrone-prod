@@ -271,7 +271,7 @@ export class CesiumDrawerService {
         positions: this.cesiumServiceSetCallbackProperty(this.tempPerimeterPosition),
         width: 4,
         material: color ? this.rgbaToCesiumColor(color) : this.rgbaToCesiumColor(this.cesiumService.colors.polygon),
-        clampToGround: true
+        // clampToGround: true
       }
     });
     this.cesiumService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
@@ -297,7 +297,7 @@ export class CesiumDrawerService {
             this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon] || {};
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon] =
             this.createPolygonFromServerEntity(mapDomId, mapsCE[mapDomId], positions, color);
-          this.tempPolygon = this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon];
+
           res = true;
         }
       }
@@ -314,7 +314,7 @@ export class CesiumDrawerService {
         positions: positionCE,
         width: 4,
         material: color ? this.rgbaToCesiumColor(color) : this.rgbaToCesiumColor(this.cesiumService.colors.polygonFromServer),
-        clampToGround: true
+        // clampToGround: true
       }
     });
     this.cesiumService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
@@ -352,6 +352,7 @@ export class CesiumDrawerService {
               this.cesiumService.removeItemCEFromMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon]);
               delete this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon];
               this.tempPolygon = undefined;
+              this.tempPerimeterPosition = undefined;
               res = true;
             }
           }

@@ -84,7 +84,7 @@ export class CesiumService {
         }),
 
         sceneModePicker: true,
-        sceneMode: Cesium.SceneMode.SCENE3D,
+        sceneMode: Cesium.SceneMode.SCENE2D,
         navigationHelpButton: false,
         timeline: false,
         selectionIndicator: false,
