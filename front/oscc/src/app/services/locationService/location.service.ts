@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {EVENT_LISTENER_DATA, STATE_DRAW} from '../../../types';
-import {GEOPOINT3D, POINT} from '../../../../../../classes/typings/all.typings';
+import {GEOPOINT3D, NOTIFICATION_UI, POINT} from '../../../../../../classes/typings/all.typings';
 import {DrawMarkerClass} from '../classes/drawMarkerClass';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
@@ -35,16 +35,16 @@ export class LocationService {
   public drawLocation = (event: EVENT_LISTENER_DATA): void => {
     if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
       const locationPoint: GEOPOINT3D = {longitude: event.pointLatLng[0], latitude: event.pointLatLng[1]};
-      // open billboard on mouseOver
+      // open marker on mouseOver
       if (event.type === 'mouseOver') {
-        this.removeBillboard();
-        this.drawBillboard(locationPoint);
+        this.mapGeneralService.deleteLocationPointTemp('temp');
+        this.drawLocationFromServer(locationPoint, 'temp');
         this.locationPointTemp = undefined;
       }
       // draw marker on mouseDown
       if (event.type === 'mouseDown') {
+        this.mapGeneralService.deleteLocationPointTemp('temp');
         this.drawLocationFromServer(locationPoint, 'temp');
-        this.removeBillboard();
         this.locationPointTemp = event.pointLatLng;
       }
       // edit LocationPoint after draw =>

@@ -29,7 +29,6 @@ export enum STATE_DRAW {
   notDraw = 'notDraw',
   drawLocationPoint = 'drawLocationPoint',
   editLocationPoint = 'editLocationPoint',
-  drawBillboard = 'drawBillboard',
   drawPolygon = 'drawPolygon'
 }
 
@@ -44,5 +43,6 @@ export enum TYPE_OBJECTS_CE {
   locationPointCE = 'locationPointCE',
   billboardCE = 'billboardCE',
   iconCE = 'iconCE',
+  polygonCE = 'polygonCE'
 }
 

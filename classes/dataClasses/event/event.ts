@@ -1,6 +1,6 @@
 import {
     ADDRESS, COMMENT, EVENT_DATA, EVENT_DATA_UI, EVENT_TYPE,
-    GEOPOINT3D, LINKED_EVENT_DATA, LOCATION_TYPE, POLYGON_GEOPOINT,
+    GEOPOINT3D, LINKED_EVENT_DATA, LOCATION_TYPE, POINT3D, POLYGON_GEOPOINT,
     PRIORITY,
 } from '../../typings/all.typings';
 import { DataUtility } from '../../applicationClasses/utility/dataUtility';
@@ -17,7 +17,7 @@ export class Event {
     locationType: LOCATION_TYPE = LOCATION_TYPE.none;
     location: GEOPOINT3D;
     address: ADDRESS;
-    polygon: POLYGON_GEOPOINT;
+    polygon: POINT3D[];
     reportIds: string[] = [];
     comments: COMMENT[] = [];
     idView: string = '';
@@ -83,7 +83,7 @@ export class Event {
         }
     };
 
-    private setPolygon = (data: POLYGON_GEOPOINT) => {
+    private setPolygon = (data: POINT3D[]) => {
         const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
         if ( res ) {
             this.polygon = data;

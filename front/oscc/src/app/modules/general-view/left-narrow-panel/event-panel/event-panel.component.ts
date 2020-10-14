@@ -6,7 +6,7 @@ import {
   EVENT_TYPE,
   GEOPOINT3D,
   LINKED_REPORT_DATA,
-  LOCATION_TYPE,
+  LOCATION_TYPE, POINT3D,
   PRIORITY,
 } from '../../../../../../../../classes/typings/all.typings';
 import * as _ from 'lodash';
@@ -14,6 +14,7 @@ import {EventService} from '../../../../services/eventService/event.service';
 import {ReportService} from '../../../../services/reportService/report.service';
 import {LocationService} from '../../../../services/locationService/location.service';
 import {PolygonService} from '../../../../services/polygonService/polygon.service';
+import {CustomToasterService} from '../../../../services/toasterService/custom-toaster.service';
 
 @Component({
   selector: 'app-event-panel',
@@ -36,7 +37,7 @@ export class EventPanelComponent implements OnInit {
     priority: this.priorities[0],
     description: '',
     locationType: LOCATION_TYPE.none,
-    location:  {longitude: undefined, latitude: undefined},
+    location: {longitude: undefined, latitude: undefined},
     address: '',
     polygon: [],
     reportIds: [],
@@ -52,12 +53,17 @@ export class EventPanelComponent implements OnInit {
               public eventService: EventService,
               public locationService: LocationService,
               public polygonService: PolygonService,
+              public customToasterService: CustomToasterService,
               public reportService: ReportService) {
     this.initEventModel();
 
     // add location on panel
     this.locationService.locationPoint$.subscribe(latlon => {
       this.eventModel.location = {longitude: latlon.longitude, latitude: latlon.latitude};
+    });
+
+    this.polygonService.polygon$.subscribe((positions: POINT3D[]) => {
+      this.eventModel.polygon = positions;
     });
   }
 
@@ -79,7 +85,7 @@ export class EventPanelComponent implements OnInit {
       this.eventModel.address = '';
       this.eventModel.polygon = [];
       this.locationService.deleteLocationPointTemp();
-      this.locationService.removeBillboard();
+      this.polygonService.deletePolygonManually();
 
     } else if (location === 'Add an address') {
       this.eventModel.location = {longitude: undefined, latitude: undefined};
@@ -87,14 +93,15 @@ export class EventPanelComponent implements OnInit {
       this.eventModel.locationType = LOCATION_TYPE.address;
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
       this.locationService.deleteLocationPointTemp();
-      this.locationService.removeBillboard();
-
+      this.polygonService.deletePolygonManually();
 
     } else if (location === 'Choose a location point') {
+      // toaster
+      this.customToasterService.info({message: 'Click on map to set the event\'s location', title: 'location'});
       this.eventModel.address = '';
       this.eventModel.polygon = [];
       this.eventModel.locationType = LOCATION_TYPE.locationPoint;
-      // choose from map
+      this.polygonService.deletePolygonManually();
 
       if (this.eventModel.location.latitude === undefined && this.eventModel.location.longitude === undefined) {
         this.eventModel.locationType = LOCATION_TYPE.locationPoint;
@@ -102,20 +109,20 @@ export class EventPanelComponent implements OnInit {
       }
 
     } else if (location === 'Create a polygon') {
+      // toaster
+      this.customToasterService.info(
+        {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
       this.locationService.deleteLocationPointTemp();
-      this.locationService.removeBillboard();
       this.eventModel.location = {longitude: undefined, latitude: undefined};
       this.eventModel.address = '';
       this.eventModel.locationType = LOCATION_TYPE.polygon;
-      this.applicationService.stateDraw = STATE_DRAW.drawBillboard;
-      // TODO: choose from map
+      this.applicationService.stateDraw = STATE_DRAW.drawPolygon;
     }
   };
 
   locationChanged = (event) => {
     if (event.target.value !== '') {
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
-      this.locationService.removeBillboard();
       if (this.eventModel.location.latitude !== undefined && this.eventModel.location.longitude !== undefined) {
         const locationPoint: GEOPOINT3D = {
           longitude: this.eventModel.location.longitude,
@@ -146,7 +153,7 @@ export class EventPanelComponent implements OnInit {
     this.applicationService.stateDraw = STATE_DRAW.notDraw;
     this.locationService.deleteLocationPointTemp();
     this.locationService.removeBillboard();
-
+    this.polygonService.deletePolygonManually();
   };
 
   onSendComment = () => {

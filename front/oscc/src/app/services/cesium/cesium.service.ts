@@ -30,6 +30,7 @@ export class CesiumService {
     polygonNFZ: 'rgba(255, 52, 47, 1)',
     dynamicNFZ: 'rgba(23, 173, 17, 1)',
     polygon: 'rgba(26, 115, 255, 1)',
+    polygonFromServer: 'rgba(255, 208, 11, 1)',
     selected: 'rgba(250, 17, 255, 1)',
     notSelected: 'rgba(255, 253, 34, 1)',
     polylineStop: '#ffffff',
@@ -83,7 +84,7 @@ export class CesiumService {
         }),
 
         sceneModePicker: true,
-        sceneMode: Cesium.SceneMode.SCENE3D,
+        sceneMode: Cesium.SceneMode.SCENE2D,
         navigationHelpButton: false,
         timeline: false,
         selectionIndicator: false,

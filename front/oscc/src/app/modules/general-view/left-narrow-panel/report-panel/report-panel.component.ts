@@ -15,6 +15,7 @@ import * as _ from 'lodash';
 import {ReportService} from '../../../../services/reportService/report.service';
 import {EventService} from '../../../../services/eventService/event.service';
 import {LocationService} from '../../../../services/locationService/location.service';
+import {CustomToasterService} from '../../../../services/toasterService/custom-toaster.service';
 
 @Component({
   selector: 'app-report-panel',
@@ -53,6 +54,7 @@ export class ReportPanelComponent implements OnInit {
   constructor(public applicationService: ApplicationService,
               public locationService: LocationService,
               public reportService: ReportService,
+              public customToasterService: CustomToasterService,
               public eventService: EventService) {
     this.initReportModel();
 
@@ -89,6 +91,8 @@ export class ReportPanelComponent implements OnInit {
       this.locationService.removeBillboard();
 
     } else if (location === 'Choose a location point') {
+      // TODO: toaster
+      this.customToasterService.info({message: 'Click on map to set the report\'s location', title: 'location'});
       this.reportModel.address = '';
       if (this.reportModel.location.latitude === undefined && this.reportModel.location.longitude === undefined) {
         this.reportModel.locationType = LOCATION_TYPE.locationPoint;

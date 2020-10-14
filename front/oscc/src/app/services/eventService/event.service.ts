@@ -10,7 +10,6 @@ import {
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
-import {Event} from '../../../../../../classes/dataClasses/event/event';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
 
 
@@ -94,12 +93,12 @@ export class EventService {
     if (event.locationType === LOCATION_TYPE.locationPoint && event.location.latitude && event.location.longitude) {
       this.mapGeneralService.createIcon(event.location, event.id, event.modeDefine.styles.icon);
     } else if (event.locationType === LOCATION_TYPE.polygon && event.polygon.length > 0) {
-      this.mapGeneralService.drawPolygonManually(event.polygon, event.id, false);
+      this.mapGeneralService.drawPolygonFromServer(event.polygon, event.id);
     }
     else {
       this.mapGeneralService.removeIcon(event.id);
     }
-  }
+  };
   // ----------------------
   public createEvent = (eventData: EVENT_DATA, cb?: Function) => {
     this.connectionService.post('/api/createEvent', eventData)
