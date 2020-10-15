@@ -36,6 +36,8 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
   selection = new SelectionModel<REPORT_DATA_UI>(true, []);
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
+  panelOpenState = false;
+
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
 
   constructor(public applicationService: ApplicationService,
@@ -163,7 +165,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
       }
     }
     return $event ? this.selection.toggle(row) : null;
-  }
+  };
 
   onUpdateLinkedEvents = (result: string[], element: REPORT_DATA_UI) => {
       if (result && Array.isArray(result)) {
@@ -184,7 +186,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
           this.reportService.createReport(report);
         }
       }
-  }
+  };
 
   onAddMedia = (newMedia: FILE_FS_DATA, element: REPORT_DATA_UI) => {
     const report = this.reportService.getReportById(element.id);

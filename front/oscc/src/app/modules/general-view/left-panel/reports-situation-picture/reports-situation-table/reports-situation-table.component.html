@@ -4,7 +4,8 @@
     let i = index" matColumnDef="{{column}}">
       <!--Rows-->
       <span *ngIf="column !== 'select'">
-        <th *matHeaderCellDef [disabled]="isSortingDisabled(column)" mat-header-cell mat-sort-header>
+        <th *matHeaderCellDef [disabled]="isSortingDisabled(column)"
+            mat-header-cell mat-sort-header>
           <span *ngIf="column !== 'message' && column !== 'link' && column !== 'map' && column !== 'attachment'"
                 class="capitalize">{{column}}</span>
           <mat-icon *ngIf="column === 'message'" class="HPRightSideIcon">comment</mat-icon>
@@ -14,17 +15,20 @@
         </th>
         <td *matCellDef="let element" mat-cell>
           <span *ngIf="element.modeDefine?.tableData[column]">
-            <mat-icon class="HPRightSideIcon"
-                       *ngIf="element.modeDefine?.tableData[column]?.type === 'matIcon'"
-                       [ngStyle]="{'color': element.modeDefine?.tableData[column]?.color}">
+            <mat-icon *ngIf="element.modeDefine?.tableData[column]?.type === 'matIcon'"
+                      [ngStyle]="{'color': element.modeDefine?.tableData[column]?.color}"
+                      class="HPRightSideIcon">
                {{element.modeDefine?.tableData[column]?.data}}
              </mat-icon>
-            <img class="tableImage"
-                  *ngIf="element.modeDefine?.tableData[column]?.type === 'image'"
-                  [src]="element.modeDefine?.tableData[column]?.data">
+            <!--image-->
+            <img *ngIf="element.modeDefine?.tableData[column]?.type === 'image'"
+                 [src]="element.modeDefine?.tableData[column]?.data"
+                 class="tableImage">
+            <!--text-->
             <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'">
                {{element.modeDefine?.tableData[column]?.data}}
             </span>
+            <!--data-->
             <span *ngIf="element.modeDefine?.tableData[column]?.type === 'date'">
                {{element.modeDefine?.tableData[column]?.data | date:'hh:mm'}}
             </span>
@@ -36,7 +40,7 @@
       </span>
       <!--Checkbox-->
       <span *ngIf="column === 'select'">
-      <th *matHeaderCellDef mat-header-cell>
+      <th *matHeaderCellDef class="tableCheckbox" mat-header-cell>
         <mat-checkbox (change)="onChangeAllSelected($event)"
                       [aria-label]="checkboxLabel()"
                       [checked]="selection.hasValue() && isAllSelected()"
@@ -53,70 +57,63 @@
       </span>
     </ng-container>
 
-
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
     <ng-container matColumnDef="expandedDetail">
       <td *matCellDef="let element"
-          [attr.colspan]="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns.length: displayedColumnsMinimize.length"
+          [attr.colspan]="(applicationService.panelIcon === LEFT_PANEL_ICON.expand) ? displayedColumns.length : displayedColumnsMinimize.length"
           mat-cell>
-        <div [@detailExpand]="applicationService.panelIcon === LEFT_PANEL_ICON.expand && expandedElement[element.id] && element.id === expandedElement[element.id].id ? 'expanded' : 'collapsed'"
-             [style.height]="applicationService.panelIcon === LEFT_PANEL_ICON.expand && expandedElement[element.id] && element.id === expandedElement[element.id].id ? 'unset' : '0 !important'"
-             class="example-element-detail">
+        <div
+          [@detailExpand]="applicationService.panelIcon === LEFT_PANEL_ICON.expand && expandedElement[element.id] && element.id === expandedElement[element.id].id ? 'expanded' : 'collapsed'"
+          [style.height]="applicationService.panelIcon === LEFT_PANEL_ICON.expand && expandedElement[element.id] && element.id === expandedElement[element.id].id ? 'unset' : '0 !important'"
+          class="example-element-detail">
           <!--Description & Comments-->
-          <div>
-            <!--Description-->
-            <div class="example-element-description">
-              <h3>Description</h3>
-              <div>{{element.description}}</div>
-            </div>
-            <!--Comments array-->
-            <div class="example-element-comments">
-              <h3>Comments</h3>
-              <mat-list-item *ngFor="let comment of element.comments">
-
-                <div class="CommentsGrid" mat-line>
-                  <mat-icon class="CommentsGrid1" mat-list-icon>account_circle</mat-icon>
-                  <div class="CommentsGrid2"> {{comment.source}}</div>
-                  <div class="CommentsGrid3">{{comment.time | date}}</div>
-                  <div class="CommentsGrid4"> {{comment.text}}</div>
+          <mat-accordion>
+            <mat-expansion-panel (closed)="panelOpenState = false" (opened)="panelOpenState = true"
+                                 class="example-element-description">
+              <mat-expansion-panel-header>
+                <div class="expendTitle">
+                  Description
                 </div>
-
-              </mat-list-item>
-            </div>
+              </mat-expansion-panel-header>
+              <div>{{element.description}}</div>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <!--Comments array-->
+          <div class="example-element-comments">
+            <app-comments-panel [comments]="element.comments"></app-comments-panel>
           </div>
+          <!--</mat-accordion>-->
+
           <!--Linked events table-->
           <div class="example-element-linked">
-            <app-linked-events-table [element]="element"
-                                     (updateLinkedEvents)="onUpdateLinkedEvents($event, element)">
+            <app-linked-events-table (updateLinkedEvents)="onUpdateLinkedEvents($event, element)"
+                                     [element]="element">
             </app-linked-events-table>
             <!--Media-->
-            <div>
-              <h3>Media</h3>
+            <div class="example-element-media">
               <app-report-media
-                [media]="element.media"
                 (onAddMedia)="onAddMedia($event, element)"
-                (onDeleteMedia)="onDeleteMedia($event, element)">
+                (onDeleteMedia)="onDeleteMedia($event, element)"
+                [media]="element.media">
               </app-report-media>
             </div>
           </div>
-
         </div>
       </td>
     </ng-container>
 
 
-    <tr *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize"
+
+    <tr
+      *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize"
       mat-header-row></tr>
     <tr (click)="selectRow(row)"
         *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;"
         class="example-element-row pointer"
         mat-row>
-<!--      [class.selected]="applicationService.selectedReport === row"-->
+      <!--      [class.selected]="applicationService.selectedReport === row"-->
       <!--&lt;&ndash;&gt; [ngStyle]="{'background-color': (selectedData === row)? '#7f7f7f' : '' }"-->
     </tr>
     <tr *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row" mat-row></tr>
   </table>
-
-  <!--[class.example-expanded-row]="expandedElement[row.id] === row"-->
-
 </div>

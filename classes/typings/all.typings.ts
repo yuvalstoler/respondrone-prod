@@ -164,6 +164,7 @@ export type EVENT_DATA = { // TODO - change data fields
     createdBy: string,
     title: string,
     type: EVENT_TYPE,
+    source: SOURCE_TYPE,
     priority: PRIORITY,
     description: string,
     locationType: LOCATION_TYPE,

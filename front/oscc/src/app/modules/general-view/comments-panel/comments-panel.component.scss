@@ -1,0 +1,62 @@
+@import "../../../../styles/scrollbar";
+
+.CommentTitle {
+  font-size: 16px;
+  color: $black;
+  font-weight: 600;
+  //margin: 10px 0px 0px 0px;
+}
+.CommentContainer{
+  margin-top: 10px;
+  max-height: 10.5em;
+}
+
+.CommentsGrid{
+  display: grid;
+  grid-template-columns: 2.5em auto 3em;
+}
+.CommentsGrid1{
+  grid-row: 1;
+  grid-column: 1;
+  margin: auto;
+}
+.CommentsGrid2{
+  grid-row: 1;
+  grid-column: 2;
+  margin: auto 5px;
+}
+.CommentsGrid3{
+  grid-row: 1;
+  grid-column: 3;
+  margin: auto;
+}
+.CommentsGrid4{
+  grid-row: 2;
+  grid-column: 2/ span 2;
+  margin: auto 5px;
+}
+
+.CommentSendGrid3 {
+  display: grid;
+  grid-template-columns: 2.5em auto 3em;
+
+  ::ng-deep .mat-form-field {
+    display: block !important;
+  }
+
+  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0.25em 0 0.5em 0 !important;
+  }
+
+  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
+    margin: 0.5em 0 !important;
+  }
+
+  ::ng-deep.mat-form-field-wrapper {
+    padding-bottom: 0em !important;
+  }
+}
+
+.CommentIconContainer {
+  margin: auto;
+}

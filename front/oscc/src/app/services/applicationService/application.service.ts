@@ -17,7 +17,7 @@ export class ApplicationService {
 
   constructor() {
     this.screen = {
-      showLeftPanel: false,
+      showLeftPanel: true,
       showLeftNarrowPanel: false,
       showEventPanel: false,
       showReportPanel: false

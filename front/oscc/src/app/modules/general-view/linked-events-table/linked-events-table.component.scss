@@ -1,5 +1,11 @@
 @import "../../../../styles/dialogs";
 
+.tableScroll {
+  max-height: 215px;
+  overflow: auto;
+  margin-top: 15px;
+}
+
 
 .LinkedReportsTable{
   ::ng-deep.mat-elevation-z8 {
@@ -7,7 +13,13 @@
     width: 100% !important;
   }
 }
+.LinkedHeader{
+  margin-top: 15px;
+}
 
 th.mat-sort-header-sorted {
   color: black;
+}
+.disabled{
+  color: $lightGray;
 }

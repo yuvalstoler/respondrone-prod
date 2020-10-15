@@ -28,13 +28,15 @@ import * as _ from 'lodash';
 
 export class EventsSituationTableComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['select', 'id', 'title', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map'];
+  displayedColumns: string[] = ['select', 'id', 'title', 'source', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map'];
   displayedColumnsMinimize: string[] = ['id', 'priority', 'type'];
   dataSource = new MatTableDataSource<EVENT_DATA_UI>();
 
   expandedElement: MAP<EVENT_DATA_UI> = {};
   selection = new SelectionModel<EVENT_DATA_UI>(true, []);
   @ViewChild(MatSort, {static: false}) sort: MatSort;
+
+  panelOpenState = false;
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
 
@@ -161,7 +163,7 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
       }
     }
     return $event ? this.selection.toggle(row) : null;
-  }
+  };
 
   onUpdateLinkedReports = (result: string[], element: EVENT_DATA_UI) => {
     if (result && Array.isArray(result)) {
@@ -181,7 +183,9 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
         this.eventService.createEvent(event);
       }
     }
-  }
+  };
+
+
 
 }
 

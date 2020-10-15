@@ -1,4 +1,6 @@
 @import '../../../../../styles/colors';
+@import '../../../../../styles/dialogs';
+
 
 .container {
   position: absolute;
@@ -53,4 +55,13 @@
   text-decoration: underline;
   text-align: right;
   margin-top: -20px;
+}
+.LinkedHeader{
+  margin-top: 15px;
+}
+.MediaIcon{
+  color: $darkGrey;
+}
+.revert{
+  transform: rotate(180deg);
 }

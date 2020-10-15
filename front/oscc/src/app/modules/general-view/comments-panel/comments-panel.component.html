@@ -1,0 +1,31 @@
+<div>
+  <div class="CommentTitle">Comments</div>
+  <div class="CommentContainer scroll">
+    <mat-list-item *ngFor="let comment of comments">
+      <div class="CommentsGrid" mat-line>
+        <mat-icon class="CommentsGrid1" mat-list-icon>account_circle</mat-icon>
+        <div class="CommentsGrid2"> {{comment.source}} TEST</div>
+        <div class="CommentsGrid3">{{comment.time | date:'hh:mm'}}</div>
+        <div class="CommentsGrid4"> {{comment.text}}</div>
+      </div>
+    </mat-list-item>
+  </div>
+  <div class="CommentSendGrid3">
+    <div class="CommentIconContainer">
+      <mat-icon class="CommentIcon">account_circle</mat-icon>
+    </div>
+    <mat-form-field appearance="outline" class="">
+      <label>
+        <input [(ngModel)]="comment" class="Label" matInput
+               placeholder="Add your comment..."
+               type="text">
+      </label>
+    </mat-form-field>
+    <div (click)="onSendComment()"
+         class="CommentIconContainer pointer">
+      <mat-icon [ngStyle]="{'color': (comment === '' || comment === undefined) ? 'lightgray' : 'black' }"
+                class="CommentIcon">send
+      </mat-icon>
+    </div>
+  </div>
+</div>

@@ -7,7 +7,7 @@ import {
   GEOPOINT3D,
   LINKED_REPORT_DATA,
   LOCATION_TYPE, POINT3D,
-  PRIORITY,
+  PRIORITY, SOURCE_TYPE,
 } from '../../../../../../../../classes/typings/all.typings';
 import * as _ from 'lodash';
 import {EventService} from '../../../../services/eventService/event.service';
@@ -34,6 +34,7 @@ export class EventPanelComponent implements OnInit {
     time: undefined,
     title: '',
     type: this.types[0],
+    source: SOURCE_TYPE.OSCC,
     priority: this.priorities[0],
     description: '',
     locationType: LOCATION_TYPE.none,
