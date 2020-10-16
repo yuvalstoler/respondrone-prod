@@ -12,6 +12,10 @@
     box-shadow: none !important;
     width: 100% !important;
   }
+  ::ng-deep tr.mat-header-row {
+    height: 30px !important;
+    background-color: $lightGray;
+  }
 }
 .LinkedHeader{
   margin-top: 15px;
