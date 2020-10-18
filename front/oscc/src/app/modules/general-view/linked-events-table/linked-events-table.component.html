@@ -8,7 +8,7 @@
           </div>
       </mat-panel-title>
       <mat-panel-description>
-         <span (click)="onAddEvent()"
+         <span (click)="onAddEvent($event)"
                [ngStyle]="{'color': (eventService.events.data.length <= 0) ? 'lightgray': '',
                       'border-bottom': (eventService.events.data.length <= 0) ? 'none' : ''}"
                class="DialogLink pointer">Add Event</span>

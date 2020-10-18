@@ -54,7 +54,8 @@ export class LinkedEventsTableComponent implements OnInit, AfterViewInit {
 
   };
 
-  onAddEvent = () => {
+  onAddEvent = (event) => {
+    event.stopPropagation();
     if (this.eventService.events.data.length > 0) {
       this.openAddLinkedEventDialog();
     }

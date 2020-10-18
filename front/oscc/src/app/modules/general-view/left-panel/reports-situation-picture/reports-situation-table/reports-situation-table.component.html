@@ -110,6 +110,7 @@
     ></tr>
     <tr (click)="selectRow(row)"
         *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;"
+        [ngStyle]="{'background-color': (expandedElement[row.id])? '#f2f2f2' : '' }"
         class="example-element-row pointer"
         mat-row>
       <!--      [class.selected]="applicationService.selectedReport === row"-->
