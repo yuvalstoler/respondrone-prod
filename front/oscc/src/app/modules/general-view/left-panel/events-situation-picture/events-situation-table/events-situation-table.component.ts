@@ -5,7 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {LEFT_PANEL_ICON, MAP} from '../../../../../../types';
 import {ApplicationService} from '../../../../../services/applicationService/application.service';
-import {EVENT_DATA_UI} from '../../../../../../../../../classes/typings/all.typings';
+import {COMMENT, EVENT_DATA_UI} from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
 import {ReportService} from '../../../../../services/reportService/report.service';
 import * as _ from 'lodash';
@@ -189,5 +189,13 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
     this.panelOpenState = index;
   };
 
+  onChangeComments = (comments: COMMENT[], element: EVENT_DATA_UI) => {
+    const event = this.eventService.getEventById(element.id);
+    if (event) {
+      const newEvent = {...event};
+      newEvent.comments = comments;
+      this.eventService.createEvent(newEvent);
+    }
+  }
 }
 

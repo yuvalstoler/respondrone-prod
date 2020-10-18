@@ -34,7 +34,6 @@ export class EventPanelComponent implements OnInit {
     time: undefined,
     title: '',
     type: this.types[0],
-    source: SOURCE_TYPE.OSCC,
     priority: this.priorities[0],
     description: '',
     locationType: LOCATION_TYPE.none,
