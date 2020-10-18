@@ -1,4 +1,4 @@
-<div>
+<div class="table-scroll scroll">
   <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort multiTemplateDataRows>
     <ng-container *ngFor="let column of (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;
     let i = index" matColumnDef="{{column}}">
@@ -67,21 +67,23 @@
           [style.height]="applicationService.panelIcon === LEFT_PANEL_ICON.expand && expandedElement[element.id] && element.id === expandedElement[element.id].id ? 'unset' : '0 !important'"
           class="example-element-detail">
           <!--Description & Comments-->
-          <mat-accordion>
-            <mat-expansion-panel class="example-element-description">
-              <mat-expansion-panel-header>
-                <div class="expendTitle">
-                  Description
-                </div>
-              </mat-expansion-panel-header>
-              <div>{{element.description}}</div>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <!--Comments array-->
-          <div class="example-element-comments">
-            <app-comments-panel [comments]="element.comments"></app-comments-panel>
+          <div class="example-element-description">
+            <mat-accordion>
+              <mat-expansion-panel (opened)="expendPanelDescription(true)" [expanded]="panelOpenState">
+                <mat-expansion-panel-header>
+                  <div class="expendTitle">
+                    Description
+                  </div>
+                </mat-expansion-panel-header>
+                <div class="description-content scroll">{{element.description}}</div>
+              </mat-expansion-panel>
+            </mat-accordion>
+            <!--Comments array-->
+            <div class="example-element-comments">
+              <app-comments-panel [comments]="element.comments"
+                                  [isOpenDescription]="panelOpenState"></app-comments-panel>
+            </div>
           </div>
-          <!--</mat-accordion>-->
 
           <!--Linked events table-->
           <div class="example-element-linked">
@@ -102,10 +104,9 @@
     </ng-container>
 
 
-
-    <tr
-      *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize"
-      mat-header-row></tr>
+    <tr *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize; sticky: true"
+        mat-header-row
+    ></tr>
     <tr (click)="selectRow(row)"
         *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;"
         class="example-element-row pointer"

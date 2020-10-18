@@ -1,8 +1,15 @@
 @import "./colors";
 @import "scrollbar";
+@import "variable";
 
 table {
   width: 100%;
+}
+
+.table-scroll {
+  max-height: calc(100vh - #{$headerHeight} - 120px);
+  overflow: auto;
+  margin-top: 15px;
 }
 
 .tableCheckbox {

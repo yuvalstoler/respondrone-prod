@@ -1,4 +1,4 @@
-<div>
+<div class="table-scroll scroll">
   <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort multiTemplateDataRows>
     <ng-container *ngFor="let column of (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;
     let i = index" matColumnDef="{{column}}">
@@ -68,8 +68,6 @@
           class="example-element-detail">
           <!--Description & Comments-->
           <div class="example-element-description">
-            <!--<div class="expendTitle">Description</div>-->
-            <!--<div>{{element.description}}</div>-->
             <mat-accordion>
               <mat-expansion-panel [expanded]="panelOpenState" (opened)="expendPanelDescription(true)">
                 <mat-expansion-panel-header>
@@ -86,7 +84,6 @@
                                   [isOpenDescription]="panelOpenState"></app-comments-panel>
             </div>
           </div>
-          <!--</mat-accordion>-->
 
           <!--Linked reports table-->
           <div class="example-element-linked">
@@ -99,9 +96,9 @@
     </ng-container>
 
 
-    <tr
-      *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize"
-      mat-header-row></tr>
+    <tr  mat-header-row
+      *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand) ? displayedColumns: displayedColumnsMinimize; sticky: true"
+     ></tr>
     <tr (click)="selectRow(row)"
         *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;"
         class="example-element-row pointer"

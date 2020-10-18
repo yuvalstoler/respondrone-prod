@@ -21,6 +21,15 @@
   margin-top: 15px;
 }
 
+.DialogLink{
+  float: right;
+  border-bottom: 1px solid $black;
+  font-size: 14px;
+  position: absolute;
+  right: 50px;
+}
+
+
 th.mat-sort-header-sorted {
   color: black;
 }

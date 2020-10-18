@@ -208,4 +208,8 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
   };
 
+  private expendPanelDescription = (index: boolean) => {
+    this.panelOpenState = index;
+  };
+
 }

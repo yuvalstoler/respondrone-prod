@@ -63,13 +63,6 @@
   margin: auto;
 }
 
-.DialogLink{
-  float: right;
-  border-bottom: 1px solid $black;
-  margin-left: 15px;
-  font-size: 14px;
-}
-
 
 .DialogButtonX{
   background-color: transparent;
@@ -98,4 +91,7 @@
 }
 ::ng-deep.mat-expansion-panel:not([class*=mat-elevation-z]) {
   box-shadow: none;
+}
+.mat-expansion-panel-header.mat-expanded {
+  height: 30px;
 }
