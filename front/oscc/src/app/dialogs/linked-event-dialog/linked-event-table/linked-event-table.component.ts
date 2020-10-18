@@ -47,6 +47,8 @@ export class LinkedEventTableComponent implements OnInit, AfterViewInit {
     //   }
     // });
     this.idsToRemove = arr;
+    const dataWithoutIdsToRemove = this.eventService.events.data.filter((data) => this.idsToRemove.indexOf(data.id) === -1);
+    this.dataSource.data = [...dataWithoutIdsToRemove];
   }
 
   private selectRow = (element): void => {

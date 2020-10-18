@@ -81,7 +81,9 @@
             <!--Comments array-->
             <div class="example-element-comments">
               <app-comments-panel [comments]="element.comments"
-                                  [isOpenDescription]="panelOpenState"></app-comments-panel>
+                                  (changeComments)="onChangeComments($event, element)"
+                                  [isOpenDescription]="panelOpenState">
+              </app-comments-panel>
             </div>
           </div>
 

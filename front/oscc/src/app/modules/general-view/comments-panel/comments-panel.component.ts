@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {COMMENT} from '../../../../../../../classes/typings/all.typings';
 
 @Component({
@@ -10,6 +10,7 @@ export class CommentsPanelComponent implements OnInit {
 
   @Input() comments: COMMENT[];
   @Input() isOpenDescription: boolean;
+  @Output() changeComments = new EventEmitter<COMMENT[]>();
   comment = '';
 
   constructor() { }
@@ -19,7 +20,8 @@ export class CommentsPanelComponent implements OnInit {
 
   onSendComment = () => {
     if (this.comment !== '' && this.comment !== undefined) {
-      this.comments.push({source: '', time: Date.now(), text: this.comment});
+      const newComment = {source: '', time: Date.now(), text: this.comment};
+      this.changeComments.emit([...this.comments, ...[newComment]]);
       this.comment = '';
     }
   };

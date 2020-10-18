@@ -27,7 +27,7 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
               public reportService: ReportService) {
 
     this.reportService.reports$.subscribe((isNewData: boolean) => {
-      if (isNewData) {
+      if (isNewData && this.idsToRemove) {
         const dataWithoutSelected = this.reportService.reports.data.filter((data) => this.idsToRemove.indexOf(data.id) === -1);
         this.dataSource.data = [...dataWithoutSelected];
       }
@@ -48,6 +48,8 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
     //   }
     // });
     this.idsToRemove = arr;
+    const dataWithoutSelected = this.reportService.reports.data.filter((data) => this.idsToRemove.indexOf(data.id) === -1);
+    this.dataSource.data = [...dataWithoutSelected];
   }
 
   private selectRow = (element): void => {

@@ -6,7 +6,12 @@ import {MatSort} from '@angular/material/sort';
 import {LEFT_PANEL_ICON, MAP} from '../../../../../../types';
 import {ApplicationService} from '../../../../../services/applicationService/application.service';
 import {ReportService} from '../../../../../services/reportService/report.service';
-import {FILE_FS_DATA, REPORT_DATA_UI} from '../../../../../../../../../classes/typings/all.typings';
+import {
+  COMMENT,
+  EVENT_DATA_UI,
+  FILE_FS_DATA,
+  REPORT_DATA_UI
+} from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
 import * as _ from 'lodash';
 
@@ -212,4 +217,12 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
     this.panelOpenState = index;
   };
 
+  onChangeComments = (comments: COMMENT[], element: EVENT_DATA_UI) => {
+    const report = this.reportService.getReportById(element.id);
+    if (report) {
+      const newReport = {...report};
+      newReport.comments = comments;
+      this.reportService.createReport(newReport);
+    }
+  }
 }

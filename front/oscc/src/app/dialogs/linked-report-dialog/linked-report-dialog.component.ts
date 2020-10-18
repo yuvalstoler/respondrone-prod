@@ -15,9 +15,15 @@ export class LinkedReportDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: string[]) { }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.childComponent.checkSelected(this.data);
-    }, 500);
+    this.updateLinkedData();
+  }
+
+  updateLinkedData = () => {
+    if (this.childComponent && this.childComponent.childComponent) {
+      this.childComponent.childComponent.checkSelected(this.data);
+    } else {
+      setTimeout(this.updateLinkedData, 50);
+    }
   }
 
   onNoClick(): void {
