@@ -1,4 +1,5 @@
 @import "./colors";
+@import "scrollbar";
 
 table {
   width: 100%;
@@ -72,8 +73,12 @@ tr.example-element-row:not(.example-expanded-row):active {
   }
 
  ::ng-deep .mat-expansion-panel-body {
-    padding: 0 24px 16px 5px;
+    padding: 0 0px 16px 5px;
   }
+}
+.description-content{
+  overflow: auto;
+  max-height: 4.5em;
 }
 
 .example-element-comments {

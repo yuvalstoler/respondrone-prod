@@ -8,12 +8,19 @@
 }
 .CommentContainer{
   margin-top: 10px;
+
+}
+.CommentDescriptionOpen{
+  max-height: 6.5em;
+}
+.CommentDescriptionClose{
   max-height: 10.5em;
 }
 
 .CommentsGrid{
   display: grid;
   grid-template-columns: 2.5em auto 3em;
+  overflow: hidden;
 }
 .CommentsGrid1{
   grid-row: 1;

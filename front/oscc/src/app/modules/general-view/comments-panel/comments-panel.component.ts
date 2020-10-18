@@ -9,6 +9,7 @@ import {COMMENT} from '../../../../../../../classes/typings/all.typings';
 export class CommentsPanelComponent implements OnInit {
 
   @Input() comments: COMMENT[];
+  @Input() isOpenDescription: boolean;
   comment = '';
 
   constructor() { }
