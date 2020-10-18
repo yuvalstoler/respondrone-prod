@@ -35,6 +35,12 @@ export enum DBS_API {
     deleteAllReport = '/deleteAllReport',
     getAllReports = '/getAllReports',
 
+    createTask = '/createTask',
+    readTask = '/readTask',
+    readAllTask = '/readAllTask',
+    deleteTask = '/deleteTask',
+    deleteAllTask = '/deleteAllTask',
+    getAllTasks = '/getAllTasks',
 
 }
 
@@ -63,6 +69,9 @@ export enum LS_API {
 }
 
 export enum TS_API {
+    createTask = '/createTask',
+    getAllTasks = '/getAllTasks',
+    getTaskById = '/getTaskById',
 
 }
 
@@ -124,6 +133,9 @@ export enum CCGW_API {
     createReportFromMGW = '/createReportFromMGW',
     getFileById = '/getFileById',
     updateFileStatus = '/updateFileStatus',
+
+    getTasks = '/getTasks',
+    getTaskById = '/getTaskById',
 
 }
 

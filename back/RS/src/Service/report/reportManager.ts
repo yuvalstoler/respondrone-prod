@@ -1,15 +1,14 @@
-import { Converting } from '../../../../../classes/applicationClasses/utility/converting';
+import { DataUtility } from "../../../../../classes/applicationClasses/utility/dataUtility";
 
 const _ = require('lodash');
+
+import { Converting } from '../../../../../classes/applicationClasses/utility/converting';
 
 import { Report } from '../../../../../classes/dataClasses/report/report';
 
 import {
     DBS_API,
     FS_API,
-    MWS_API,
-    REPORT_API,
-    RS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 
 import { RequestManager } from '../../AppService/restConnections/requestManager';
@@ -19,9 +18,10 @@ import {
     ID_OBJ,
     ID_TYPE,
     IDs_OBJ,
-    MAP,
     FILE_FS_DATA,
-    REPORT_DATA, FILE_DB_FS_DATA, FILE_STATUS
+    REPORT_DATA,
+    FILE_DB_FS_DATA,
+    FILE_STATUS
 
 } from '../../../../../classes/typings/all.typings';
 import { UpdateListenersManager } from '../updateListeners/updateListenersManager';
@@ -63,8 +63,8 @@ export class ReportManager {
 
     private checkIfMissingFileData = () => {
         this.reports.forEach((report: Report) => {
-            for (const mediaFileId in report.mediaFileIds) {
-                if (!this.checkIfMediaExistInReport(report, mediaFileId)) {
+            for ( const mediaFileId in report.mediaFileIds ) {
+                if ( !this.checkIfMediaExistInReport(report, mediaFileId) ) {
                     this.fileIdsForFileData[mediaFileId] = true;
                 }
             }
@@ -73,7 +73,7 @@ export class ReportManager {
 
     private getReportsFromDBS = (): Promise<ASYNC_RESPONSE<REPORT_DATA[]>> => {
         return new Promise((resolve, reject) => {
-            RequestManager.requestToDBS(REPORT_API.readAllReport, {})
+            RequestManager.requestToDBS(DBS_API.readAllReport, {})
                 .then((data: ASYNC_RESPONSE<REPORT_DATA[]>) => {
                     if ( data.success ) {
                         this.reports = Converting.Arr_REPORT_DATA_to_Arr_Report(data.data);
@@ -122,13 +122,10 @@ export class ReportManager {
 
     private createReport = (reportData: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
         return new Promise((resolve, reject) => {
-
-
             const res: ASYNC_RESPONSE = {success: false};
+            reportData.id = reportData.id || DataUtility.generateID();
             const newReport: Report = new Report(reportData);
-
-
-            RequestManager.requestToDBS(REPORT_API.createReport, newReport.toJsonForSave())
+            RequestManager.requestToDBS(DBS_API.createReport, newReport.toJsonForSave())
                 .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                     res.data = data.data;
                     res.success = data.success;
@@ -150,8 +147,6 @@ export class ReportManager {
                     console.log(data);
                     reject(data);
                 });
-
-
         });
     }
 
@@ -163,7 +158,7 @@ export class ReportManager {
             const newReport: Report = new Report(reportData);
 
 
-            RequestManager.requestToDBS(REPORT_API.createReport, newReport.toJsonForSave())
+            RequestManager.requestToDBS(DBS_API.createReport, newReport.toJsonForSave())
                 .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                     res.data = data.data;
                     res.success = data.success;
@@ -213,15 +208,15 @@ export class ReportManager {
     private requestToGetFileData = (obj: ID_OBJ) => {
         RequestManager.requestToFS(FS_API.getFileData, obj)
             .then((data: ASYNC_RESPONSE<FILE_DB_FS_DATA>) => {
-                if ( data.success && _.get(data, 'data.data.fileDbData.fileStatus') === FILE_STATUS.downloaded && data.data.fileFsData) {
+                if ( data.success && _.get(data, 'data.data.fileDbData.fileStatus') === FILE_STATUS.downloaded && data.data.fileFsData ) {
                     const report = this.findReportByFileId(obj.id); // TODO change
-                    if (report) {
+                    if ( report ) {
                         const reportData = report.toJsonForSave();
                         delete reportData.mediaFileIds[obj.id];
                         reportData.media.push(data.data.fileFsData);
                         this.createReport(reportData)
                             .then((res: ASYNC_RESPONSE) => {
-                                if (res.success) {
+                                if ( res.success ) {
                                     delete this.fileIdsForFileData[obj.id];
                                 }
                             })
@@ -237,14 +232,14 @@ export class ReportManager {
 
     private startInterval = () => {
         setInterval(() => {
-            if (Object.keys(this.fileIdsForDownload).length > 0) {
+            if ( Object.keys(this.fileIdsForDownload).length > 0 ) {
                 const ids: IDs_OBJ = {ids: Object.keys(this.fileIdsForDownload)};
                 this.requestToDownloadFiles(ids);
             }
 
-            if (Object.keys(this.fileIdsForFileData).length > 0) {
-                for (const id in this.fileIdsForFileData) {
-                    if (this.fileIdsForFileData.hasOwnProperty(id)) {
+            if ( Object.keys(this.fileIdsForFileData).length > 0 ) {
+                for ( const id in this.fileIdsForFileData ) {
+                    if ( this.fileIdsForFileData.hasOwnProperty(id) ) {
                         this.requestToGetFileData({id: id});
                     }
                 }
@@ -274,9 +269,7 @@ export class ReportManager {
                 report.media.push(mediaData);
                 //     update listeners
                 UpdateListenersManager.updateReportListeners();
-
             }
-
             res.success = true;
 
             resolve(res);
@@ -320,10 +313,11 @@ export class ReportManager {
             resolve(res);
         });
     }
+
     private deleteReport = (reportIdData: ID_OBJ): Promise<ASYNC_RESPONSE<ID_OBJ>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
-            RequestManager.requestToDBS(REPORT_API.deleteReport, reportIdData)
+            RequestManager.requestToDBS(DBS_API.deleteReport, reportIdData)
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.data = data.data;
                     res.success = data.success;
@@ -346,10 +340,11 @@ export class ReportManager {
                 });
         });
     }
+
     private deleteAllReport = (): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
-            RequestManager.requestToDBS(REPORT_API.deleteAllReport, {})
+            RequestManager.requestToDBS(DBS_API.deleteAllReport, {})
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.data = data.data;
                     res.success = data.success;

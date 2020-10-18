@@ -4,10 +4,15 @@ const _ = require('lodash');
 
 import {
     ASYNC_RESPONSE,
+    ID_OBJ,
     REPORT_DATA,
+    TASK_DATA,
 
 } from '../../../../../classes/typings/all.typings';
-import { RS_API } from "../../../../../classes/dataClasses/api/api_enums";
+import {
+    RS_API,
+    TS_API
+} from "../../../../../classes/dataClasses/api/api_enums";
 
 
 export class ExternalApiManager {
@@ -37,11 +42,37 @@ export class ExternalApiManager {
         });
     }
 
+    private getTasks = (): Promise<ASYNC_RESPONSE<TASK_DATA[]>> => {
+        return new Promise((resolve, reject) => {
+            //     send REST to OSCC
+            RequestManager.requestToTS(TS_API.getAllTasks, {})
+                .then((data: ASYNC_RESPONSE<TASK_DATA[]>) => {
+                    resolve(data);
+                })
+                .catch((data: ASYNC_RESPONSE<TASK_DATA[]>) => {
+                    reject(data);
+                });
+        });
+    }
+    private getTaskById = (idObj: ID_OBJ): Promise<ASYNC_RESPONSE<TASK_DATA>> => {
+        return new Promise((resolve, reject) => {
+            //     send REST to OSCC
+            RequestManager.requestToTS(TS_API.getTaskById, idObj)
+                .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                    resolve(data);
+                })
+                .catch((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                    reject(data);
+                });
+        });
+    }
 
 
     // region API uncions
 
     public static createReportFromMGW = ExternalApiManager.instance.createReportFromMGW;
+    public static getTasks = ExternalApiManager.instance.getTasks;
+    public static getTaskById = ExternalApiManager.instance.getTaskById;
 
 
     // endregion API uncions

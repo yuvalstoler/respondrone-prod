@@ -1,9 +1,8 @@
+import { TaskManager } from "../task/taskManager";
 
 const _ = require('lodash');
 import * as core from 'express-serve-static-core';
 
-
-import { GeoPoint } from '../../../../../classes/dataClasses/geo/geoPoint';
 
 import {
     Request,
@@ -11,9 +10,9 @@ import {
 } from 'express';
 import {
     ASYNC_RESPONSE,
-    POINT,
+    ID_OBJ,
+    TASK_DATA,
 } from '../../../../../classes/typings/all.typings';
-
 
 
 import {
@@ -29,7 +28,6 @@ export class ApiManager implements IRest {
 
 
     private constructor() {
-        // this.getDynamicNfzFromWebServer();
     }
 
     public listen = (router: core.Router): boolean => {
@@ -41,36 +39,38 @@ export class ApiManager implements IRest {
         return true;
     };
 
-
-    private newReport = (request: Request, response: Response) => {
-        const res: ASYNC_RESPONSE<boolean> = {success: true};
-        const requestBody = request.body;
-
-        // NfzManager.createDynamicNFZFromRoute(requestBody)
-        //     .then((data: ASYNC_RESPONSE) => {
+    private createTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<TASK_DATA[]> = {success: true};
+        const requestBody: TASK_DATA = request.body;
+        TaskManager.createTask(requestBody)
+            .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                response.send(data);
+            });
         response.send(res);
-        // })
-        // .catch((data: ASYNC_RESPONSE) => {
-        //     response.send(data);
-        // });
+
     };
 
-    private getVideoSources = (request: Request, response: Response) => {
-        const res: ASYNC_RESPONSE<boolean> = {success: true};
-        const requestBody = request.body;
-
-        // NfzManager.createDynamicNFZFromRoute(requestBody)
-        //     .then((data: ASYNC_RESPONSE) => {
+    private getTasks = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<TASK_DATA[]> = {success: true};
+        res.data = TaskManager.getTasks();
         response.send(res);
-        // })
-        // .catch((data: ASYNC_RESPONSE) => {
-        //     response.send(data);
-        // });
-    };
 
+    };
+    private getTaskById = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<TASK_DATA> = {success: true};
+        const requestBody: ID_OBJ = request.body;
+        res.data = TaskManager.getTaskById(requestBody);
+        response.send(res);
+    };
 
     routers: {} = {
+        [TS_API.createTask]: this.createTask,
 
+        [TS_API.getAllTasks]: this.getTasks,
+        [TS_API.getTaskById]: this.getTaskById,
 
     };
 
