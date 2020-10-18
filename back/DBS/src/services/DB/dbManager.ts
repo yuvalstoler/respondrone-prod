@@ -3,7 +3,7 @@ import {
     EVENT_DATA,
     FILE_DB_DATA,
     ID_OBJ,
-    REPORT_DATA,
+    REPORT_DATA, TASK_DATA,
 } from '../../../../../classes/typings/all.typings';
 import { PerimeterModel } from '../mongo/models/perimeterModel';
 import { ReportModel } from '../mongo/models/reportModel';
@@ -25,6 +25,7 @@ export class DbManager {
     reportModel = new ReportModel().getSchema();
     fileDataModel = new FileDataModel().getSchema();
     eventModel = new EventModel().getSchema();
+    taskModel = new TaskModel().getSchema();
 
     private constructor() {
 
@@ -182,6 +183,82 @@ export class DbManager {
         });
     };
 
+    // --------------------------------
+
+    private setTask = (data: TASK_DATA): Promise<ASYNC_RESPONSE<TASK_DATA>> => {
+        return new Promise((resolve, reject) => {
+            this.taskModel
+                .findOneAndUpdate({id: data.id}, data, {new: true, upsert: true})
+                .exec()
+                .then((result: TASK_DATA) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private readTask = (data: ID_OBJ): Promise<ASYNC_RESPONSE<TASK_DATA>> => {
+        return new Promise((resolve, reject) => {
+            this.taskModel.find(data)
+                .exec()
+                .then((result: TASK_DATA) => {
+                    const obj = result[0];
+                    resolve({success: (obj !== undefined), data: obj} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private readAllTask = (data = {}): Promise<ASYNC_RESPONSE<TASK_DATA[]>> => {
+        return new Promise((resolve, reject) => {
+            this.taskModel.find(data)
+                .exec()
+                .then((result: TASK_DATA[]) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private deleteTask = (data: ID_OBJ): Promise<ASYNC_RESPONSE<ID_OBJ>> => {
+        return new Promise((resolve, reject) => {
+            this.taskModel
+                .findOneAndDelete(data)
+                .exec()
+                .then((result: ID_OBJ) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private deleteAllTask = (data = {}): Promise<ASYNC_RESPONSE<TASK_DATA>> => {
+        return new Promise((resolve, reject) => {
+            this.taskModel
+                .deleteMany(data)
+                .exec()
+                .then((result: TASK_DATA) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
     //---------------------------------
     private createFileData = (data: FILE_DB_DATA): Promise<ASYNC_RESPONSE<FILE_DB_DATA>> => {
         return new Promise((resolve, reject) => {
@@ -271,6 +348,12 @@ export class DbManager {
     public static readAllEvent = DbManager.instance.readAllEvent;
     public static deleteEvent = DbManager.instance.deleteEvent;
     public static deleteAllEvent = DbManager.instance.deleteAllEvent;
+
+    public static setTask = DbManager.instance.setTask;
+    public static readTask = DbManager.instance.readTask;
+    public static readAllTask = DbManager.instance.readAllTask;
+    public static deleteTask = DbManager.instance.deleteTask;
+    public static deleteAllTask = DbManager.instance.deleteAllTask;
 
     public static createFileData = DbManager.instance.createFileData;
     public static readFileData = DbManager.instance.readFileData;

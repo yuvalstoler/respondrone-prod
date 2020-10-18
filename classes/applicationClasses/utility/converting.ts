@@ -1,9 +1,10 @@
 import {
     EVENT_DATA,
-    REPORT_DATA
+    REPORT_DATA, TASK_DATA
 } from '../../typings/all.typings';
 import { Report } from '../../dataClasses/report/report';
 import {Event} from "../../dataClasses/event/event";
+import {Task} from "../../dataClasses/task/task";
 
 
 
@@ -26,6 +27,17 @@ export class Converting {
         if ( Array.isArray(eventDataArr) ) {
             eventDataArr.forEach((eventData: EVENT_DATA) => {
                 res.push(new Event(eventData));
+            });
+        }
+        return res;
+    }
+
+    public static Arr_TASK_DATA_to_Arr_Task = (taskDataArr: TASK_DATA[]): Task[] => {
+        const res: Task[] = [];
+        //    todo data vaidation
+        if ( Array.isArray(taskDataArr) ) {
+            taskDataArr.forEach((data: TASK_DATA) => {
+                res.push(new Task(data));
             });
         }
         return res;

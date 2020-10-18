@@ -20,6 +20,7 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['select', 'id', 'type', 'description', 'time', 'createdBy'];
   dataSource = new MatTableDataSource<REPORT_DATA_UI>();
   selection = new SelectionModel<REPORT_DATA_UI>(true, []);
+  idsToRemove;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   constructor(private applicationService: ApplicationService,
@@ -27,7 +28,8 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
 
     this.reportService.reports$.subscribe((isNewData: boolean) => {
       if (isNewData) {
-        this.dataSource.data = [...this.reportService.reports.data];
+        const dataWithoutSelected = this.reportService.reports.data.filter((data) => this.idsToRemove.indexOf(data.id) === -1);
+        this.dataSource.data = [...dataWithoutSelected];
       }
     });
   }
@@ -45,8 +47,7 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
     //     this.selection.select(row);
     //   }
     // });
-    const dataWithoutSelected = this.reportService.reports.data.filter((data) => arr.indexOf(data.id) === -1);
-    this.dataSource.data = [...dataWithoutSelected];
+    this.idsToRemove = arr;
   }
 
   private selectRow = (element): void => {
