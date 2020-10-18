@@ -35,6 +35,12 @@ export enum DBS_API {
     deleteAllReport = '/deleteAllReport',
     getAllReports = '/getAllReports',
 
+    createTask = '/createTask',
+    readTask = '/readTask',
+    readAllTask = '/readAllTask',
+    deleteTask = '/deleteTask',
+    deleteAllTask = '/deleteAllTask',
+
 
 }
 
@@ -55,6 +61,16 @@ export enum EVENT_API {
     deleteEvent = '/deleteEvent',
     deleteAllEvent = '/deleteAllEvent',
     getAllEvents = '/getAllEvents',
+
+}
+
+export enum TASK_API {
+    createTask = '/createTask',
+    readTask = '/readTask',
+    readAllTask = '/readAllTask',
+    deleteTask = '/deleteTask',
+    deleteAllTask = '/deleteAllTask',
+    getAllTasks = '/getAllTasks',
 
 }
 
@@ -82,6 +98,7 @@ export enum RS_API {
 export enum MWS_API {
     updateAllReports = '/updateAllReports',
     updateAllEvents = '/updateAllEvents',
+    updateAllTasks = '/updateAllTasks',
     newReport = '/newReport',
     getVideoSources = '/getVideoSources',
 
@@ -118,6 +135,7 @@ export enum WS_API {
     removeFile = '/removeFile',
     updateAllReports = '/updateAllReports',
     updateAllEvents = '/updateAllEvents',
+    updateAllTasks = '/updateAllTasks',
 }
 
 export enum CCGW_API {

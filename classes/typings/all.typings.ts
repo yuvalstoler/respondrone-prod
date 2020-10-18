@@ -73,12 +73,12 @@ export enum REPORT_TYPE {
 }
 
 export enum EVENT_TYPE { // TODO - change data fields
-    unclassified = 'unclassified',
-    fireAlarm = 'fireAlarm',
-    flood = 'flood',
-    roadAccident = 'roadAccident',
-    roadBlock = 'roadAccident',
-
+    general = 'general',
+    emergency = 'emergency',
+    criminal = 'criminal',
+    terror = 'terror',
+    accident = 'accident',
+    info = 'info',
 }
 
 export enum SOURCE_TYPE { // TODO - change data fields
@@ -164,7 +164,6 @@ export type EVENT_DATA = { // TODO - change data fields
     createdBy: string,
     title: string,
     type: EVENT_TYPE,
-    source: SOURCE_TYPE,
     priority: PRIORITY,
     description: string,
     locationType: LOCATION_TYPE,
@@ -211,6 +210,82 @@ export type COMMENT_DATA = { // TODO - change data fields
     text: string,
 
 };
+
+
+export type GROUND_RESOURCE_DATA = {
+    id: ID_TYPE;
+    time: number;
+    type: GROUND_RESOURCE_TYPE;
+    connectionStatus: CONNECTION_STATUS;
+    name: string
+    location: GEOPOINT3D;
+}
+
+export type GROUND_RESOURCE_DATA_UI = {
+    id: ID_TYPE;
+    time: number;
+    type: GROUND_RESOURCE_TYPE;
+    connectionStatus: CONNECTION_STATUS;
+    name: string
+    location: GEOPOINT3D;
+}
+
+
+export enum GROUND_RESOURCE_TYPE {
+    police = 'Police squad',
+    fireFighter = 'Fire fighter',
+    paramedic = 'Paramedic'
+}
+
+export enum CONNECTION_STATUS {
+    offline = 'Offline',
+    active = 'Active',
+}
+
+
+
+export type TASK_DATA = {
+    id: ID_TYPE;
+    time: number;
+    createdBy: string;
+    title: string;
+    type: TASK_TYPE;
+    priority: PRIORITY;
+    description: string;
+    resources: string;
+    status: TASK_STATUS;
+    geographicInstructions;
+    assigneeIds: ID_TYPE[];
+    comments: COMMENT[]
+    idView: string;
+}
+
+export type TASK_DATA_UI = TASK_DATA & {
+    groundResources: GROUND_RESOURCE_DATA_UI[]
+}
+
+export enum GEOGRAPHIC_INSTRUCTION_TYPE {
+    arrow= 'arrow',
+    addressPoint = 'addressPoint',
+}
+export type GEOGRAPHIC_INSTRUCTION = {
+    type: GEOGRAPHIC_INSTRUCTION_TYPE,
+    location: GEOPOINT3D
+}
+
+export enum TASK_STATUS {
+    pending = 'pending',
+    inProgress = 'inProgress',
+    rejected = 'rejected',
+    polygon = 'polygon'
+}
+
+
+export enum TASK_TYPE { // TODO - change data fields
+    general = 'general',
+    rescue = 'rescue',
+    fire = 'fire'
+}
 
 export enum MEDIA_TYPE {
     unknown = 'unknown',

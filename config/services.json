@@ -33,7 +33,11 @@
   "TS": {
     "port": "6400",
     "host": "localhost",
-    "protocol": "http"
+    "protocol": "http",
+
+    "listeners": [
+      "webServer"
+    ]
   },
   "MS": {
     "port": "6500",

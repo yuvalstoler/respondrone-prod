@@ -14,7 +14,7 @@ import {
     ASYNC_RESPONSE, EVENT_DATA,
     ID_OBJ,
     POINT,
-    REPORT_DATA,
+    REPORT_DATA, TASK_DATA,
 } from '../../../../../classes/typings/all.typings';
 
 
@@ -23,12 +23,13 @@ import {
     EVENT_API,
     FS_API,
     MWS_API,
-    REPORT_API,
+    REPORT_API, TASK_API,
     WS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 import {FileManager} from '../file/fileManager';
 import {EventManager} from '../event/eventManager';
+import {TaskManager} from '../task/taskManager';
 
 
 export class ApiManager implements IRest {
@@ -267,6 +268,114 @@ export class ApiManager implements IRest {
                 response.send(res);
             });
     };
+    // ========================================================================
+
+    private createTask = (request: Request, response: Response) => {
+        const requestBody: TASK_DATA = request.body;
+        TaskManager.createTask(requestBody)
+            .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                response.send(data);
+            });
+    };
+
+    private readTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<TASK_DATA> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            TaskManager.readTask(requestBody)
+                .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    res.description = data.description;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private readAllTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<TASK_DATA[]> = {success: false};
+        TaskManager.readAllTask({})
+            .then((data: ASYNC_RESPONSE<TASK_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
+    private deleteTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            TaskManager.deleteTask(requestBody)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    res.description = data.description;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private deleteAllTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+
+        TaskManager.deleteAllTask()
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
+    private updateAllTasks = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody: TASK_DATA[] = request.body;
+        TaskManager.updateAllTasks(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
 
     // ========================================================================
 
@@ -320,11 +429,18 @@ export class ApiManager implements IRest {
         [EVENT_API.deleteEvent]: this.deleteEvent,
         [EVENT_API.deleteAllEvent]: this.deleteAllEvent,
 
+        [TASK_API.createTask]: this.createTask,
+        [TASK_API.readTask]: this.readTask,
+        [TASK_API.readAllTask]: this.readAllTask,
+        [TASK_API.deleteTask]: this.deleteTask,
+        [TASK_API.deleteAllTask]: this.deleteAllTask,
+
         [WS_API.uploadFile]: this.uploadFile,
         [FS_API.removeFile]: this.removeFile,
 
         [WS_API.updateAllReports]: this.updateAllReports,
         [WS_API.updateAllEvents]: this.updateAllEvents,
+        [WS_API.updateAllTasks]: this.updateAllTasks,
 
     };
 
