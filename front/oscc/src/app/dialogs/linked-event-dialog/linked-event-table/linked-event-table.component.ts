@@ -49,7 +49,7 @@ export class LinkedEventTableComponent implements OnInit, AfterViewInit {
     this.idsToRemove = arr;
     const dataWithoutIdsToRemove = this.eventService.events.data.filter((data) => this.idsToRemove.indexOf(data.id) === -1);
     this.dataSource.data = [...dataWithoutIdsToRemove];
-  }
+  };
 
   private selectRow = (element): void => {
     // if (this.applicationService.selectedReport === undefined) {
@@ -80,11 +80,11 @@ export class LinkedEventTableComponent implements OnInit, AfterViewInit {
     } catch (e) {
       return [];
     }
-  }
+  };
 
   getNumOfSelected = () => {
     return this.selection.selected.length;
-  }
+  };
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected = () => {

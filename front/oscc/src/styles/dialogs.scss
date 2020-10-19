@@ -3,9 +3,17 @@
 @import '../styles/override';
 @import '../styles/scrollbar';
 
+::ng-deep.mat-dialog-container{
+  padding: 0;
+  overflow: hidden;
+}
+
 .DialogContainer {
-  margin: 0 10px 0px 10px;
-  height: calc(100vh - #{$headerHeight});
+
+ ::ng-deep.mat-dialog-title {
+    margin: 0 0 5px;
+   padding: 10px;
+  }
 
   ::ng-deep .mat-form-field {
     display: block !important;
@@ -22,19 +30,31 @@
   ::ng-deep.mat-form-field-wrapper {
     padding-bottom: 0em !important;
   }
+
+  ::ng-deep.mat-dialog-actions {
+    padding: 5px 20px;
+    margin-bottom: 0px;
+    justify-content: flex-end;
+  }
+
+
 }
 
 .DialogHeader {
   font-size: 19px;
-  text-align: center;
-  padding: 10px;
-  border-bottom: 1px solid $lightGray;
-  margin-bottom: 10px;
+  text-align: left;
+  //padding: 10px;
+  //border-bottom: 1px solid $lightGray;
+  //margin-bottom: 10px;
+  background-color: $darkGray;
+  color: $white;
 }
 
 .DialogContent{
-  max-height: calc(100vh - #{$headerHeight} - #{$leftPanelNarrowFooterHeight} - #{$leftPanelNarrowHeaderHeight});
-  overflow-x: hidden;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  margin: 0 20px;
+  padding: 0;
 }
 
 .DialogTitle {
@@ -43,6 +63,7 @@
   font-weight: 600;
   margin: 10px 0px 0px 0px;
 }
+
 .DialogNotElement{
   font-size: 18px;
   color: $black;
@@ -63,35 +84,33 @@
   margin: auto;
 }
 
-
 .DialogButtonX{
   background-color: transparent;
   border: none;
 }
 
 // ============= Footer =================================================
-.FooterButtons {
-  position: absolute;
-  bottom: 5px;
-  z-index: 3;
-  width: calc(#{$leftPanelNarrowWidth} - 30px);
-  height: $leftPanelNarrowFooterHeight;
+
+.DialogActions {
+
 }
 
-.FooterButtonDelete {
+.DialogActionsDelete {
   //width: 90px;
   float: left;
 }
 
-.FooterButtonCreate {
+.DialogActionsCreate {
   //width: 90px;
   float: right;
   background-color: $darkGray;
   color: $white;
 }
+
 ::ng-deep.mat-expansion-panel:not([class*=mat-elevation-z]) {
   box-shadow: none;
 }
+
 .mat-expansion-panel-header.mat-expanded {
   height: 30px;
 }

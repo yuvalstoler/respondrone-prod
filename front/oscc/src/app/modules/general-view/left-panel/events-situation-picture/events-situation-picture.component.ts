@@ -7,6 +7,8 @@ import {EventsSituationTableComponent} from './events-situation-table/events-sit
 import {EventService} from '../../../../services/eventService/event.service';
 import {ReportService} from '../../../../services/reportService/report.service';
 import {EVENT_DATA_UI} from '../../../../../../../../classes/typings/all.typings';
+import {LinkedEventDialogComponent} from "../../../../dialogs/linked-event-dialog/linked-event-dialog.component";
+import {EventDialogComponent} from "../../../../dialogs/event-dialog/event-dialog.component";
 
 @Component({
   selector: 'app-events-situation-picture',
@@ -32,20 +34,25 @@ export class EventsSituationPictureComponent implements OnInit {
   };
 
   onDeleteEvent = () => {
-    //   add confirmWindow
     this.openConfirmDialog();
   };
 
   onEditEvent = () => {
-    //  open editEvent leftNarrowPanel
     this.openEventPanel();
   };
 
   private openEventPanel = () => {
-    // this.applicationService.screen.showLeftPanel = false;
-    this.applicationService.screen.showLeftNarrowPanel = true;
-    this.applicationService.screen.showEventPanel = true;
-    this.applicationService.screen.showReportPanel = false;
+    const dialogRef = this.dialog.open(EventDialogComponent, {
+      minWidth: '500px',
+      disableClose: true,
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe((result: string[]) => {
+      if (result && Array.isArray(result)) {
+
+      }
+    });
   };
 
   onArchiveEvent = () => {

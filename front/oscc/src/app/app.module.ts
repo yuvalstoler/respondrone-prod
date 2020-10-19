@@ -37,6 +37,7 @@ import { LinkedEventTableComponent } from './dialogs/linked-event-dialog/linked-
 import {ToastrModule} from 'ngx-toastr';
 import {SocketIoModule, SocketIoConfig} from 'ngx-socket-io';
 import {SOCKET_CONFIG} from '../environments/environment';
+import { EventDialogComponent } from './dialogs/event-dialog/event-dialog.component';
 
 const config: SocketIoConfig = SOCKET_CONFIG;
 
@@ -59,7 +60,8 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     LinkedReportTableComponent,
     LinkedEventDialogComponent,
     LinkedEventContainerComponent,
-    LinkedEventTableComponent
+    LinkedEventTableComponent,
+    EventDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -98,6 +100,7 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     ConfirmDialogComponent,
     LinkedReportDialogComponent,
     LinkedEventDialogComponent,
+    EventDialogComponent
   ]
 })
 export class AppModule {

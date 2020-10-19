@@ -1,8 +1,10 @@
-<div class="DialogContainer" *ngIf="true">
-  <div class="DialogHeader" *ngIf="applicationService.selectedEvents[0] === undefined">Create new event</div>
-  <div class="DialogHeader" *ngIf="applicationService.selectedEvents[0] !== undefined">Edit event</div>
+<div class="DialogContainer">
+  <!--Header-->
+  <div mat-dialog-title class="DialogHeader">
+    <span>Create new event</span>
+  </div>
   <!--Content-->
-  <div class="DialogContent scroll">
+  <mat-dialog-content class="DialogContent">
     <!--Title-->
     <div class="DialogContentItem">
       <div class="DialogTitle">Event Title</div>
@@ -137,18 +139,16 @@
         </div>
       </div>
     </div>
-  </div>
-  <!--Footer-->
-  <div class="DialogActions">
-    <div>
-      <button (click)="onCancelClick()" class="DialogActionsDelete"
-              mat-raised-button>Cancel
-      </button>
-      <button (click)="onCreateClick()" class="DialogActionsCreate"
-              mat-raised-button>Create New Event
-      </button>
-    </div>
+  </mat-dialog-content>
+   <!--Action-->
+  <div mat-dialog-actions class="DialogActions">
+    <button mat-raised-button class="DialogActionsDelete"
+            (click)="onNoClick()">Delete
+    </button>
+    <button mat-raised-button class="DialogActionsCreate"
+            (click)="onCreateClick()"
+            [mat-dialog-close]="true">
+      Create new event
+    </button>
   </div>
 </div>
-
-

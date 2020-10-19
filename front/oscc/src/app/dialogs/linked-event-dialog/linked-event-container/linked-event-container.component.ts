@@ -28,5 +28,6 @@ export class LinkedEventContainerComponent implements OnInit {
   getSelectedEvents = () => {
     const reportIdArr = this.childComponent.getSelectedEvents();
     return reportIdArr;
-  }
+  };
+
 }
