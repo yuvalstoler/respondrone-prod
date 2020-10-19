@@ -5,6 +5,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {LinkedReportDialogComponent} from '../../../dialogs/linked-report-dialog/linked-report-dialog.component';
 import {EVENT_DATA_UI, LINKED_REPORT_DATA} from '../../../../../../../classes/typings/all.typings';
 import {ReportService} from '../../../services/reportService/report.service';
+import {ApplicationService} from "../../../services/applicationService/application.service";
 
 @Component({
   selector: 'app-linked-reports-table',
@@ -21,7 +22,8 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<LINKED_REPORT_DATA>();
 
   constructor( public dialog: MatDialog,
-               public reportService: ReportService) {
+               public reportService: ReportService,
+               public applicationService: ApplicationService) {
   }
 
   ngOnInit(): void {
@@ -66,7 +68,8 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result: string[]) => {
       if (result && Array.isArray(result)) {
-        this.updateLinkedReports.emit(result);
+        const allLinked = [...this.element.reportIds, ...result];
+        this.updateLinkedReports.emit(allLinked);
       }
     });
   };

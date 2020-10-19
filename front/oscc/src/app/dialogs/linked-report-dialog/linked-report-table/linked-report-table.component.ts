@@ -23,7 +23,7 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
   idsToRemove;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
-  constructor(private applicationService: ApplicationService,
+  constructor(public applicationService: ApplicationService,
               public reportService: ReportService) {
 
     this.reportService.reports$.subscribe((isNewData: boolean) => {

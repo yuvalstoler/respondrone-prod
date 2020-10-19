@@ -22,7 +22,7 @@ export class LinkedEventTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
 
-  constructor(private applicationService: ApplicationService,
+  constructor(public applicationService: ApplicationService,
               public eventService: EventService) {
 
     this.eventService.events$.subscribe((isNewData: boolean) => {

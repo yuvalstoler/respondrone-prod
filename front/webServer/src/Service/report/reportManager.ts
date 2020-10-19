@@ -81,6 +81,7 @@ export class ReportManager {
             this.reports = Converting.Arr_REPORT_DATA_to_Arr_Report(reportData);
             res.success = true;
             this.sendDataToUI();
+            EventManager.sendDataToUI();
             resolve(res);
 
         });
@@ -218,6 +219,7 @@ export class ReportManager {
     public static deleteAllReport = ReportManager.instance.deleteAllReport;
 
     public static getLinkedReports = ReportManager.instance.getLinkedReports;
+    public static sendDataToUI = ReportManager.instance.sendDataToUI;
 
 
     // endregion API uncions

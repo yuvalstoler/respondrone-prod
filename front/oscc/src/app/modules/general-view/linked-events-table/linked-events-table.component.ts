@@ -5,6 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {LinkedEventDialogComponent} from '../../../dialogs/linked-event-dialog/linked-event-dialog.component';
 import {LINKED_EVENT_DATA, REPORT_DATA_UI} from '../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../services/eventService/event.service';
+import {ApplicationService} from "../../../services/applicationService/application.service";
 
 @Component({
   selector: 'app-linked-events-table',
@@ -21,7 +22,8 @@ export class LinkedEventsTableComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<LINKED_EVENT_DATA>();
 
   constructor(public dialog: MatDialog,
-              public eventService: EventService) {
+              public eventService: EventService,
+              public applicationService: ApplicationService) {
   }
 
   ngOnInit(): void {
@@ -69,7 +71,8 @@ export class LinkedEventsTableComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result: string[]) => {
       if (result && Array.isArray(result)) {
-        this.updateLinkedEvents.emit(result);
+        const allLinked = [...this.element.eventIds, ...result];
+        this.updateLinkedEvents.emit(allLinked);
       }
     });
   };
