@@ -20,14 +20,16 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['select', 'id', 'type', 'description', 'time', 'createdBy'];
   dataSource = new MatTableDataSource<REPORT_DATA_UI>();
   selection = new SelectionModel<REPORT_DATA_UI>(true, []);
+  idsToRemove;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   constructor(private applicationService: ApplicationService,
               public reportService: ReportService) {
 
     this.reportService.reports$.subscribe((isNewData: boolean) => {
-      if (isNewData) {
-        this.dataSource.data = [...this.reportService.reports.data];
+      if (isNewData && this.idsToRemove) {
+        const dataWithoutSelected = this.reportService.reports.data.filter((data) => this.idsToRemove.indexOf(data.id) === -1);
+        this.dataSource.data = [...dataWithoutSelected];
       }
     });
   }
@@ -40,11 +42,14 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
 
 
   checkSelected = (arr: string[]) => {
-    this.dataSource.data.forEach(row => {
-      if (arr.indexOf(row.id) !== -1) {
-        this.selection.select(row);
-      }
-    });
+    // this.dataSource.data.forEach(row => {
+    //   if (arr.indexOf(row.id) !== -1) {
+    //     this.selection.select(row);
+    //   }
+    // });
+    this.idsToRemove = arr;
+    const dataWithoutSelected = this.reportService.reports.data.filter((data) => this.idsToRemove.indexOf(data.id) === -1);
+    this.dataSource.data = [...dataWithoutSelected];
   }
 
   private selectRow = (element): void => {
@@ -76,6 +81,10 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
     } catch (e) {
       return [];
     }
+  }
+
+  getNumOfSelected = () => {
+    return this.selection.selected.length;
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

@@ -4,7 +4,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from '@angular/material/dialog';
 import {LinkedReportDialogComponent} from '../../../dialogs/linked-report-dialog/linked-report-dialog.component';
 import {EVENT_DATA_UI, LINKED_REPORT_DATA} from '../../../../../../../classes/typings/all.typings';
-import {EventService} from '../../../services/eventService/event.service';
+import {ReportService} from '../../../services/reportService/report.service';
 
 @Component({
   selector: 'app-linked-reports-table',
@@ -20,7 +20,8 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['ID', 'Type', 'Description', 'Time', 'actionsColumn'];
   dataSource = new MatTableDataSource<LINKED_REPORT_DATA>();
 
-  constructor( public dialog: MatDialog) {
+  constructor( public dialog: MatDialog,
+               public reportService: ReportService) {
   }
 
   ngOnInit(): void {
@@ -49,17 +50,16 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
     this.updateLinkedReports.emit(reportIds);
   };
 
-  onNewReport = () => {
-
-  };
-
   onAddReport = () => {
-    this.openAddLinkedReportDialog();
+    if (this.reportService.reports.data.length > 0) {
+      this.openAddLinkedReportDialog();
+    }
+
   };
 
   openAddLinkedReportDialog = (): void => {
     const dialogRef = this.dialog.open(LinkedReportDialogComponent, {
-      minWidth: '500px',
+      width: '500px',
       disableClose: true,
       data: this.element.reportIds
     });
@@ -70,5 +70,7 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
       }
     });
   };
+
+
 
 }

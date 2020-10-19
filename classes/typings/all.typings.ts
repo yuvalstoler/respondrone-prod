@@ -73,12 +73,12 @@ export enum REPORT_TYPE {
 }
 
 export enum EVENT_TYPE { // TODO - change data fields
-    unclassified = 'unclassified',
-    fireAlarm = 'fireAlarm',
-    flood = 'flood',
-    roadAccident = 'roadAccident',
-    roadBlock = 'roadAccident',
-
+    general = 'general',
+    emergency = 'emergency',
+    criminal = 'criminal',
+    terror = 'terror',
+    accident = 'accident',
+    info = 'info',
 }
 
 export enum SOURCE_TYPE { // TODO - change data fields
@@ -120,7 +120,8 @@ export type REPORT_DATA = {
     media: FILE_FS_DATA[],
     mediaFileIds: MAP<boolean>,
     eventIds: string[],
-    comments: COMMENT[]
+    comments: COMMENT[],
+    idView: string
 };
 export type REPORT_DATA_UI = REPORT_DATA & {
     events: LINKED_EVENT_DATA[],
@@ -132,11 +133,16 @@ export type LINKED_REPORT_DATA = {
     time: number,
     createdBy: string,
     type: REPORT_TYPE,
-    description: string
+    description: string,
+    idView: string,
+    modeDefine: REPORT_DATA_MD,
 }
 export type REPORT_DATA_MD = {
-    styles: {},
+    styles: {
+        icon: string
+    },
     tableData: {
+        id: TABLE_DATA_MD,
         time: TABLE_DATA_MD,
         message: TABLE_DATA_MD,
         priority: TABLE_DATA_MD,
@@ -148,7 +154,7 @@ export type REPORT_DATA_MD = {
 
 export type TABLE_DATA_MD = {
     type: 'image' | 'matIcon' | 'text' | 'date',
-    data: string | number,
+    data: any,
     color?: string
 }
 
@@ -163,9 +169,10 @@ export type EVENT_DATA = { // TODO - change data fields
     locationType: LOCATION_TYPE,
     location: GEOPOINT3D,
     address: ADDRESS,
-    polygon: POLYGON_GEOPOINT,
+    polygon: POINT3D[],
     reportIds: string[],
     comments: COMMENT[],
+    idView: string
 };
 export type EVENT_DATA_UI = EVENT_DATA & {
     reports: LINKED_REPORT_DATA[],
@@ -178,10 +185,15 @@ export type LINKED_EVENT_DATA = {
     createdBy: string,
     type: EVENT_TYPE,
     description: string,
+    idView: string,
+    modeDefine: EVENT_DATA_MD,
 }
 export type EVENT_DATA_MD = {
-    styles: {},
+    styles: {
+        icon: string
+    },
     tableData: {
+        id: TABLE_DATA_MD,
         time: TABLE_DATA_MD,
         message: TABLE_DATA_MD,
         priority: TABLE_DATA_MD,
@@ -198,6 +210,82 @@ export type COMMENT_DATA = { // TODO - change data fields
     text: string,
 
 };
+
+
+export type GROUND_RESOURCE_DATA = {
+    id: ID_TYPE;
+    time: number;
+    type: GROUND_RESOURCE_TYPE;
+    connectionStatus: CONNECTION_STATUS;
+    name: string
+    location: GEOPOINT3D;
+}
+
+export type GROUND_RESOURCE_DATA_UI = {
+    id: ID_TYPE;
+    time: number;
+    type: GROUND_RESOURCE_TYPE;
+    connectionStatus: CONNECTION_STATUS;
+    name: string
+    location: GEOPOINT3D;
+}
+
+
+export enum GROUND_RESOURCE_TYPE {
+    police = 'Police squad',
+    fireFighter = 'Fire fighter',
+    paramedic = 'Paramedic'
+}
+
+export enum CONNECTION_STATUS {
+    offline = 'Offline',
+    active = 'Active',
+}
+
+
+
+export type TASK_DATA = {
+    id: ID_TYPE;
+    time: number;
+    createdBy: string;
+    title: string;
+    type: TASK_TYPE;
+    priority: PRIORITY;
+    description: string;
+    resources: string;
+    status: TASK_STATUS;
+    geographicInstructions;
+    assigneeIds: ID_TYPE[];
+    comments: COMMENT[]
+    idView: string;
+}
+
+export type TASK_DATA_UI = TASK_DATA & {
+    groundResources: GROUND_RESOURCE_DATA_UI[]
+}
+
+export enum GEOGRAPHIC_INSTRUCTION_TYPE {
+    arrow= 'arrow',
+    addressPoint = 'addressPoint',
+}
+export type GEOGRAPHIC_INSTRUCTION = {
+    type: GEOGRAPHIC_INSTRUCTION_TYPE,
+    location: GEOPOINT3D
+}
+
+export enum TASK_STATUS {
+    pending = 'pending',
+    inProgress = 'inProgress',
+    rejected = 'rejected',
+    polygon = 'polygon'
+}
+
+
+export enum TASK_TYPE { // TODO - change data fields
+    general = 'general',
+    rescue = 'rescue',
+    fire = 'fire'
+}
 
 export enum MEDIA_TYPE {
     unknown = 'unknown',

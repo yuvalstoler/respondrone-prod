@@ -1,8 +1,32 @@
 @import "./colors";
+@import "scrollbar";
+@import "variable";
 
 table {
   width: 100%;
 }
+
+.table-scroll {
+  max-height: calc(100vh - #{$headerHeight} - 120px);
+  overflow: auto;
+  margin-top: 15px;
+}
+
+.tableCheckbox {
+  width: 30px;
+}
+
+.mat-column-description {
+  max-width: 11em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 5px;
+}
+
+//.mat-column-description:hover {
+//  overflow: visible;
+//}
 
 .selected {
   background-color: $darkGrey !important;
@@ -23,7 +47,6 @@ th{
 
 th.mat-sort-header-sorted {
   color: $black;
-
 }
 
 tr.example-detail-row {
@@ -44,19 +67,37 @@ tr.example-element-row:not(.example-expanded-row):active {
 .example-element-detail {
   overflow: hidden;
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 35% auto;
+  max-height: 20em;
 }
 
 .example-element-description {
-  padding: 16px;
+  grid-column: 1;
+  grid-row: 1;
+
+  .mat-expansion-panel-header.mat-expanded {
+    height: 30px;
+  }
+
+ ::ng-deep .mat-expansion-panel-body {
+    padding: 0 0px 16px 5px;
+  }
+}
+.description-content{
+  overflow: auto;
+  max-height: 4.5em;
 }
 
 .example-element-comments {
-  padding: 16px;
+  //grid-column: 1;
+  //grid-row: 2;
 }
 
 .example-element-linked {
-  padding: 16px;
+  //padding: 16px;
+  grid-column: 2;
+  grid-row: 1;
+  margin-left: 5px;
 }
 
 .capitalize {
@@ -66,4 +107,16 @@ tr.example-element-row:not(.example-expanded-row):active {
 .tableImage {
   height:30px;
   width: 30px;
+}
+.expendTitle {
+  font-size: 16px;
+  color: $black;
+  font-weight: 600;
+  //margin: 10px 0px 0px 0px;
+}
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+ box-shadow: none;
+}
+.mat-expansion-panel-header {
+  padding: 0 10px 0 0;
 }

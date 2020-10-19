@@ -6,11 +6,11 @@ import {
   ASYNC_RESPONSE,
   EVENT_DATA,
   EVENT_DATA_UI, EVENT_TYPE,
-  ID_OBJ, LINKED_EVENT_DATA, MEDIA_TYPE, PRIORITY, REPORT_DATA, REPORT_TYPE, SOURCE_TYPE,
+  ID_OBJ, LINKED_EVENT_DATA, LOCATION_TYPE, MEDIA_TYPE, PRIORITY, REPORT_DATA, REPORT_TYPE, SOURCE_TYPE,
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
-import {Event} from '../../../../../../classes/dataClasses/event/event';
+import {MapGeneralService} from '../mapGeneral/map-general.service';
 
 
 @Injectable({
@@ -23,7 +23,8 @@ export class EventService {
 
   constructor(private connectionService: ConnectionService,
               private socketService: SocketService,
-              private toasterService: CustomToasterService) {
+              private toasterService: CustomToasterService,
+              private mapGeneralService: MapGeneralService) {
     this.socketService.connected$.subscribe(this.init);
     this.socketService.connectToRoom('webServer_eventsData').subscribe(this.updateEvents);
 
@@ -63,9 +64,12 @@ export class EventService {
       return o1['id'] === o2['id'];
     });
     if (notExist.length > 0) {
-      notExist.forEach((data: Event) => {
+      notExist.forEach((data: EVENT_DATA_UI) => {
         const index = this.events.data.findIndex(d => d.id === data.id);
         this.events.data.splice(index, 1);
+        //TODO: delete data from MAP
+        this.mapGeneralService.deleteIcon(data.id);
+        this.mapGeneralService.deletePolygonManually(data.id);
       });
     }
   };
@@ -83,7 +87,20 @@ export class EventService {
       } else {
         this.events.data.push(newEvent);
       }
+      this.drawEvent(newEvent);
     });
+  };
+  // ----------------------
+  private drawEvent = (event: EVENT_DATA_UI) => {
+    if (event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.latitude && event.location.longitude) {
+      this.mapGeneralService.createIcon(event.location, event.id, event.modeDefine.styles.icon);
+    } else if (event.locationType === LOCATION_TYPE.polygon && event.polygon && event.polygon.length > 0) {
+      this.mapGeneralService.drawPolygonFromServer(event.polygon, event.id, event.title);
+    }
+    else {
+      this.mapGeneralService.deleteIcon(event.id);
+      this.mapGeneralService.deletePolygonManually(event.id);
+    }
   };
   // ----------------------
   public createEvent = (eventData: EVENT_DATA, cb?: Function) => {
@@ -125,6 +142,8 @@ export class EventService {
       createdBy: event.createdBy,
       type: event.type,
       description: event.description,
+      idView: event.idView,
+      modeDefine: event.modeDefine,
     };
   };
   // -----------------------
@@ -150,4 +169,9 @@ export class EventService {
   public getEventById = (eventId: string): EVENT_DATA_UI => {
     return this.events.data.find(data => data.id === eventId);
   }
+
+
+
+
+
 }

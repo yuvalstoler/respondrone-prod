@@ -2,11 +2,11 @@
 <div>
   <!--Header-->
   <div>
-    <div class="LeftPanelX" >
-      <button mat-icon-button (click)="closeSituationPicture()">
-        <mat-icon>{{applicationService.panelIcon}}</mat-icon>
-      </button>
-    </div>
+    <!--<div class="LeftPanelX" >-->
+      <!--<button mat-icon-button (click)="closeSituationPicture()">-->
+        <!--<mat-icon>{{applicationService.panelIcon}}</mat-icon>-->
+      <!--</button>-->
+    <!--</div>-->
 
     <mat-tab-group animationDuration="0ms">
       <!--Events-->
@@ -16,6 +16,14 @@
       <!--Reports-->
       <mat-tab label="Reports">
         <app-reports-situation-picture></app-reports-situation-picture>
+      </mat-tab>
+      <!--Button-->
+      <mat-tab disabled>
+        <ng-template mat-tab-label>
+          <button mat-icon-button (click)="closeSituationPicture()">
+            <mat-icon>{{applicationService.panelIcon}}</mat-icon>
+          </button>
+        </ng-template>
       </mat-tab>
     </mat-tab-group>
 

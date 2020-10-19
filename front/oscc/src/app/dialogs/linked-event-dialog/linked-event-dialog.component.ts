@@ -17,9 +17,15 @@ export class LinkedEventDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: string[]) { }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.childComponent.checkSelected(this.data);
-    }, 500);
+    this.updateLinkedData();
+  }
+
+  updateLinkedData = () => {
+    if (this.childComponent && this.childComponent.childComponent) {
+      this.childComponent.childComponent.checkSelected(this.data);
+    } else {
+      setTimeout(this.updateLinkedData, 50);
+    }
   }
 
   onNoClick(): void {
@@ -29,6 +35,10 @@ export class LinkedEventDialogComponent implements OnInit {
   onAddClick(): void {
     const data = this.childComponent.getSelectedEvents();
     this.dialogRef.close(data);
+  }
+
+  isEnableAddBtn() {
+    return this.childComponent && this.childComponent.childComponent && this.childComponent.childComponent.getNumOfSelected() > 0;
   }
 
   onCreateNewEvent = () => {

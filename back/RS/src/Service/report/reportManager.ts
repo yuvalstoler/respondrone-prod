@@ -25,6 +25,7 @@ import {
 
 } from '../../../../../classes/typings/all.typings';
 import { UpdateListenersManager } from '../updateListeners/updateListenersManager';
+import {DataUtility} from '../../../../../classes/applicationClasses/utility/dataUtility';
 
 
 export class ReportManager {
@@ -81,13 +82,13 @@ export class ReportManager {
                     }
                     else {
                         //todo logger
-                        console.log('error getReportsFromRS', JSON.stringify(data));
+                        console.log('error getReportsFromDB', JSON.stringify(data));
                         reject(data);
                     }
                 })
                 .catch((data: ASYNC_RESPONSE<REPORT_DATA[]>) => {
                     //todo logger
-                    console.log('error getReportsFromRS', JSON.stringify(data));
+                    console.log('error getReportsFromDB', JSON.stringify(data));
                     reject(data);
                 });
         });
@@ -124,6 +125,8 @@ export class ReportManager {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
             reportData.id = reportData.id || DataUtility.generateID();
+            reportData.time = reportData.time || Date.now();
+            reportData.idView = reportData.idView || DataUtility.generateIDForView();
             const newReport: Report = new Report(reportData);
             RequestManager.requestToDBS(DBS_API.createReport, newReport.toJsonForSave())
                 .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
@@ -152,9 +155,11 @@ export class ReportManager {
 
     private createReportFromMGW = (reportData: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
         return new Promise((resolve, reject) => {
-
-
             const res: ASYNC_RESPONSE = {success: false};
+
+            reportData.id = reportData.id || DataUtility.generateID();
+            reportData.time = reportData.time || Date.now();
+            reportData.idView = reportData.idView || DataUtility.generateIDForView();
             const newReport: Report = new Report(reportData);
 
 
@@ -208,7 +213,7 @@ export class ReportManager {
     private requestToGetFileData = (obj: ID_OBJ) => {
         RequestManager.requestToFS(FS_API.getFileData, obj)
             .then((data: ASYNC_RESPONSE<FILE_DB_FS_DATA>) => {
-                if ( data.success && _.get(data, 'data.data.fileDbData.fileStatus') === FILE_STATUS.downloaded && data.data.fileFsData ) {
+                if ( data.success && _.get(data, 'data.fileDbData.fileStatus') === FILE_STATUS.downloaded && data.data.fileFsData) {
                     const report = this.findReportByFileId(obj.id); // TODO change
                     if ( report ) {
                         const reportData = report.toJsonForSave();

@@ -1,5 +1,6 @@
 @import "../../../styles/colors";
 @import "../../../styles/variable";
+@import "../../../styles/override";
 
 .HeaderPanel{
   background: $black;
@@ -14,7 +15,7 @@
   top: $headerHeight;
   right: 0px;
   height: calc(100vh - #{$headerHeight});
-  width: 30vw;
+  width: 50vw;
   z-index: 1;
 }
 .LeftPanel{

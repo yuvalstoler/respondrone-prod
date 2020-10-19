@@ -8,6 +8,7 @@ import {RequestManager} from '../../AppService/restConnections/requestManager';
 import {ASYNC_RESPONSE, EVENT_DATA, ID_OBJ} from '../../../../../classes/typings/all.typings';
 import {UpdateListenersManager} from '../updateListeners/updateListenersManager';
 import {Event} from '../../../../../classes/dataClasses/event/event';
+import {DataUtility} from '../../../../../classes/applicationClasses/utility/dataUtility';
 
 
 export class EventManager {
@@ -48,13 +49,13 @@ export class EventManager {
                     }
                     else {
                         //todo logger
-                        console.log('error getEventsFromRS', JSON.stringify(data));
+                        console.log('error getEventsFromDB', JSON.stringify(data));
                         reject(data);
                     }
                 })
                 .catch((data: ASYNC_RESPONSE<EVENT_DATA[]>) => {
                     //todo logger
-                    console.log('error getEventsFromRS', JSON.stringify(data));
+                    console.log('error getEventsFromDB', JSON.stringify(data));
                     reject(data);
                 });
         });
@@ -89,12 +90,12 @@ export class EventManager {
 
     private createEvent = (eventData: EVENT_DATA): Promise<ASYNC_RESPONSE<EVENT_DATA>> => {
         return new Promise((resolve, reject) => {
-
-
-
             const res: ASYNC_RESPONSE = {success: false};
-            const newEvent: Event = new Event(eventData);
 
+            eventData.id = eventData.id || DataUtility.generateID();
+            eventData.time = eventData.time || Date.now();
+            eventData.idView = eventData.idView || DataUtility.generateIDForView();
+            const newEvent: Event = new Event(eventData);
 
             RequestManager.requestToDBS(EVENT_API.createEvent, newEvent.toJsonForSave())
                 .then((data: ASYNC_RESPONSE<EVENT_DATA>) => {
@@ -117,10 +118,6 @@ export class EventManager {
                     console.log(data);
                     reject(data);
                 });
-
-
-
-
         });
     }
 

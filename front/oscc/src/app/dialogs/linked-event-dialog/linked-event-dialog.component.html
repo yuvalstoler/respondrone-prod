@@ -11,7 +11,7 @@
     <app-linked-event-container ></app-linked-event-container>
   </div>
   <div mat-dialog-actions class="HeaderFooter">
-    <button mat-button mat-dialog-close class="FooterButton" (click)="onAddClick()">Add</button>
+    <button mat-button mat-dialog-close class="FooterButton" [disabled]="!this.isEnableAddBtn()" (click)="onAddClick()">Add</button>
   </div>
 </div>
 <!--[createEvent]="onCreateNewEvent()"-->

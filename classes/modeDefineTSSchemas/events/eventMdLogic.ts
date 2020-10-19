@@ -11,7 +11,7 @@ export class EventMdLogic implements IModeDefine {
     public static validate(data: EVENT_DATA_UI): EVENT_DATA_MD {
         const obj: EVENT_DATA_MD = {
             styles: {
-                icon: this.getPriorityIcon(data)
+                icon: this.getPriorityIcon(data).data
             },
             tableData: EventMdLogic.tableData(data)
         };
@@ -34,6 +34,10 @@ export class EventMdLogic implements IModeDefine {
 
     private static tableData = (data: EVENT_DATA_UI) => {
         let res = {
+            id: {
+                type: 'text',
+                data: data.idView
+            } as TABLE_DATA_MD,
             time: {
                 type: 'date',
                 data: data.time

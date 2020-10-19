@@ -25,6 +25,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatExpansionModule} from '@angular/material/expansion';
+
 
 import { EventsSituationPictureComponent } from './left-panel/events-situation-picture/events-situation-picture.component';
 import { ReportsSituationPictureComponent } from './left-panel/reports-situation-picture/reports-situation-picture.component';
@@ -39,6 +41,7 @@ import { ReportsSituationTableComponent } from './left-panel/reports-situation-p
 import { ReportPanelComponent } from './left-narrow-panel/report-panel/report-panel.component';
 import {MatSortModule} from '@angular/material/sort';
 import { LinkedEventsTableComponent } from './linked-events-table/linked-events-table.component';
+import { CommentsPanelComponent } from './comments-panel/comments-panel.component';
 
 
 @NgModule({
@@ -56,7 +59,8 @@ import { LinkedEventsTableComponent } from './linked-events-table/linked-events-
     ViewMediaComponent,
     ReportsSituationTableComponent,
     ReportPanelComponent,
-    LinkedEventsTableComponent
+    LinkedEventsTableComponent,
+    CommentsPanelComponent
   ],
   imports: [
     CommonModule,
@@ -77,6 +81,7 @@ import { LinkedEventsTableComponent } from './linked-events-table/linked-events-
     MatDialogModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    MatExpansionModule,
 
     AngularCesiumModule.forRoot(),
     AngularCesiumWidgetsModule,

@@ -3,7 +3,7 @@ const _ = require('lodash');
 
 
 import {
-    API_GENERAL
+    API_GENERAL,
 } from '../../../../../classes/dataClasses/api/api_enums';
 
 
@@ -15,39 +15,30 @@ import {
 const services = require('./../../../../../../../../config/services.json');
 const projConf = require('./../../../../../../../../config/projConf.json');
 
-const url_AMS = services.AMS.protocol + '://' + services.AMS.host + ':' + services.AMS.port;
-const url_routeService = services.routeService.protocol + '://' + services.routeService.host + ':' + services.routeService.port;
-const url_FCS = services.droneService.protocol + '://' + services.droneService.host + ':' + services.droneService.port;
-const url_GCS = services.gimbalService.protocol + '://' + services.gimbalService.host + ':' + services.gimbalService.port;
-
 
 const url_DBS = services.DBS.protocol + '://' + services.DBS.host + ':' + services.DBS.port;
+const url_WS = services.webServer.protocol + '://' + services.webServer.host + ':' + services.webServer.port;
+// const url_MWS = services.MWS.protocol + '://' + services.MWS.host + ':' + services.MWS.port;
 
 const timeout_AV = projConf.timeOutREST;
-const timeout_WS_FCS = projConf.timeOutREST;
-const timeOutREST = projConf.timeOutREST;
-const isUseDBS = true;
-
-
-const url_DTM_Service = services.DTMS.protocol + '://' + services.DTMS.host + ':' + services.DTMS.port;
-const url_LS_Service = services.logService.protocol + '://' + services.logService.host + ':' + services.logService.port;
-
-
-const logServerAlpha = services.logServerAlpha;
-const logServerDji = services.logServerDji;
 
 export class RequestManager {
     static externalServiceURLs: MAP<string> = {};
+    public static requestToDBS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_DBS, API_GENERAL.general + path, bodyObj, timeout_AV);
+
 
 
     public static requestToAMS_API = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_AMS, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
-
-
-    public static requestToDTMS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
-        return RequestManager.sendRestRequest(url_DTM_Service, path, bodyObj, timeOutREST);
+    public static requestToWS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_WS, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
+    // public static requestToMWS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
+    //     return RequestManager.sendRestRequest(url_MWS, API_GENERAL.general + path, bodyObj, timeout_AV);
+    // };
+
 
     public static requestToExternalService = (serviceName: string, path: string, bodyObj: Object = {}): Promise<ASYNC_RESPONSE> => {
 
@@ -62,9 +53,10 @@ export class RequestManager {
             }
         }
 
+
+
         return RequestManager.sendRestRequest(RequestManager.externalServiceURLs[serviceName], path, bodyObj);
     };
-
 
     public static sendRestRequest(url: string, path: string, bodyObj: Object, timeout: number = timeout_AV): Promise<ASYNC_RESPONSE> {
         return new Promise((resolve, reject) => {

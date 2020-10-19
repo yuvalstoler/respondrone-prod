@@ -1,13 +1,13 @@
 import {
     ADDRESS, COMMENT, EVENT_DATA, EVENT_DATA_UI, EVENT_TYPE,
-    GEOPOINT3D, LINKED_EVENT_DATA, LOCATION_TYPE, POLYGON_GEOPOINT,
+    GEOPOINT3D, ID_TYPE, LINKED_EVENT_DATA, LOCATION_TYPE, POINT3D, POLYGON_GEOPOINT,
     PRIORITY,
 } from '../../typings/all.typings';
 import { DataUtility } from '../../applicationClasses/utility/dataUtility';
 
 export class Event {
 
-    id: string = '';
+    id: ID_TYPE;
     time: number;
     createdBy: string;
     title: string;
@@ -17,9 +17,10 @@ export class Event {
     locationType: LOCATION_TYPE = LOCATION_TYPE.none;
     location: GEOPOINT3D;
     address: ADDRESS;
-    polygon: POLYGON_GEOPOINT;
+    polygon: POINT3D[];
     reportIds: string[] = [];
     comments: COMMENT[] = [];
+    idView: string = '';
 
     constructor(data: EVENT_DATA) {
         if ( data ) {
@@ -82,7 +83,7 @@ export class Event {
         }
     };
 
-    private setPolygon = (data: POLYGON_GEOPOINT) => {
+    private setPolygon = (data: POINT3D[]) => {
         const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
         if ( res ) {
             this.polygon = data;
@@ -98,6 +99,10 @@ export class Event {
     private setComments = (data: COMMENT[]) => {
         this.comments = data;
     };
+    private setIdView = (data: string) => {
+        this.idView = data;
+    };
+
     public setValues = (data: Partial<EVENT_DATA>, saveConfig: Object = this.saveConfig) => {
         for ( const key in saveConfig ) {
             if ( saveConfig.hasOwnProperty(key) ) {
@@ -131,6 +136,7 @@ export class Event {
             polygon: this.polygon,
             reportIds: this.reportIds,
             comments: this.comments,
+            idView: this.idView,
         };
     };
 
@@ -141,6 +147,8 @@ export class Event {
             createdBy: this.createdBy,
             type: this.type,
             description: this.description,
+            idView: this.idView,
+            modeDefine: undefined
         };
     };
 
@@ -160,6 +168,7 @@ export class Event {
             reportIds: this.reportIds,
             comments: this.comments,
             reports: [],
+            idView: this.idView,
             modeDefine: undefined
         };
     };
@@ -178,6 +187,7 @@ export class Event {
         polygon: this.setPolygon,
         reportIds: this.setReports,
         comments: this.setComments,
+        idView: this.setIdView,
     };
 
 

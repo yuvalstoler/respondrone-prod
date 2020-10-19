@@ -1,26 +1,34 @@
 import {
     ADDRESS,
+    COMMENT,
+    GEOGRAPHIC_INSTRUCTION,
     GEOPOINT3D,
     ID_TYPE,
+    PRIORITY,
     TASK_DATA,
+    TASK_DATA_UI,
     TASK_STATUS,
-    TASK_TYPE
+    TASK_TYPE,
 } from '../../typings/all.typings';
-import { DataUtility } from '../../applicationClasses/utility/dataUtility';
+import {DataUtility} from '../../applicationClasses/utility/dataUtility';
 
 export class Task {
 
     id: ID_TYPE;
-    type: TASK_TYPE;
     time: number;
+    createdBy: string;
+    title: string;
+    type: TASK_TYPE;
+    priority: PRIORITY;
     description: string = '';
+    resources: string = '';
+    status: TASK_STATUS = TASK_STATUS.pending;
+    geographicInstructions: GEOGRAPHIC_INSTRUCTION[] = [];
+    assigneeIds: string[] = [];
+    comments: COMMENT[] = [];
+    idView: string = '';
     location: GEOPOINT3D;
     address: ADDRESS;
-    reportIds: string[] = [];
-    eventIds: string[] = [];
-    status: TASK_STATUS;
-    commentIds: string[];
-
     constructor(data: TASK_DATA) {
         if ( data ) {
             this.setValues(data, this.saveConfig);
@@ -39,11 +47,20 @@ export class Task {
         }
     };
 
+    private setTime = (data: number) => {
+        this.time = data;
+    };
+    private setCreatedBy = (data: string) => {
+        this.createdBy = data;
+    };
     private setType = (data: TASK_TYPE) => {
         this.type = data;
     };
-    private setTime = (data: number) => {
-        this.time = data;
+    private setTitle = (data: string) => {
+        this.title = data;
+    };
+    private setPriority = (data: PRIORITY) => {
+        this.priority = data;
     };
 
     private setDescription = (data: any) => {
@@ -53,37 +70,46 @@ export class Task {
         }
     };
     private setLocation = (data: GEOPOINT3D) => {
-        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS_GEOPOINT
-        if ( res ) {
-            this.location = data;
-        }
-    };
+            const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS_GEOPOINT
+            if ( res ) {
+                this.location = data;
+            }
+        };
     private setAddress = (data: ADDRESS) => {
-        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS_GEOPOINT
+            const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS_GEOPOINT
+            if ( res ) {
+                this.address = data;
+            }
+        };
+    private setResources = (data: any) => {
+        const res: boolean = typeof data === 'string' || data instanceof String;
         if ( res ) {
-            this.address = data;
+            this.resources = data;
         }
     };
 
-    private setReportIds = (data: string[]) => {
-        const res: boolean = Array.isArray(data);// || todo validate array of strings
-        if ( res ) {
-            this.reportIds = data;
-        }
-    };
-
-    private setEventIds = (data: string[]) => {
-        const res: boolean = Array.isArray(data);// || todo validate array of strings
-        if ( res ) {
-            this.eventIds = data;
-        }
-    };
     private setStatus = (data: TASK_STATUS) => {
         this.status = data;
     };
-    private setComments = (data: string[]) => {
-        this.commentIds = data;
+
+    private setGeographicInstructions = (data: GEOGRAPHIC_INSTRUCTION[]) => {
+        this.geographicInstructions = data;
     };
+
+    private setAssigneeIds = (data: ID_TYPE[]) => {
+        const res: boolean = Array.isArray(data)
+        if ( res ) {
+            this.assigneeIds = data;
+        }
+    };
+
+    private setComments = (data: COMMENT[]) => {
+        this.comments = data;
+    };
+    private setIdView = (data: string) => {
+        this.idView = data;
+    };
+
     public setValues = (data: Partial<TASK_DATA>, saveConfig: Object = this.saveConfig) => {
         for ( const key in saveConfig ) {
             if ( saveConfig.hasOwnProperty(key) ) {
@@ -105,30 +131,56 @@ export class Task {
     public toJsonForSave = (): TASK_DATA => {
         return {
             id: this.id,
-            type: this.type,
             time: this.time,
+            createdBy: this.createdBy,
+            title: this.title,
+            type: this.type,
+            priority: this.priority,
             description: this.description,
-            location: this.location,
-            address: this.address,
-            reportIds: this.reportIds,
-            eventIds: this.eventIds,
+            resources: this.resources,
             status: this.status,
-            commentIds: this.commentIds,
+            geographicInstructions: this.geographicInstructions,
+            assigneeIds: this.assigneeIds,
+            comments: this.comments,
+            idView: this.idView,
+        };
+    };
+
+
+    public toJsonForUI = (): TASK_DATA_UI => {
+        return {
+            id: this.id,
+            time: this.time,
+            createdBy: this.createdBy,
+            title: this.title,
+            type: this.type,
+            priority: this.priority,
+            description: this.description,
+            resources: this.resources,
+            status: this.status,
+            geographicInstructions: this.geographicInstructions,
+            assigneeIds: this.assigneeIds,
+            comments: this.comments,
+            idView: this.idView,
+
+            groundResources: []
         };
     };
 
     saveConfig = {
         id: this.setId,
-        type: this.setType,
         time: this.setTime,
+        createdBy: this.setCreatedBy,
+        title: this.setTitle,
+        type: this.setType,
+        priority: this.setPriority,
         description: this.setDescription,
-        location: this.setLocation,
-        address: this.setAddress,
-        reportIds: this.setReportIds,
-        eventIds: this.setEventIds,
+        resources: this.setResources,
         status: this.setStatus,
+        geographicInstructions: this.setGeographicInstructions,
+        assigneeIds: this.setAssigneeIds,
         comments: this.setComments,
+        idView: this.setIdView,
     };
-
 
 }

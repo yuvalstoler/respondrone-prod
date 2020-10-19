@@ -1,13 +1,60 @@
 @import "../../../../styles/dialogs";
 
+.tableScroll {
+  max-height: 130px;
+  overflow: auto;
+  margin-bottom: 5px;
+}
 
-.LinkedReportsTable{
+
+.LinkedEventsTable{
   ::ng-deep.mat-elevation-z8 {
     box-shadow: none !important;
     width: 100% !important;
   }
+
+  ::ng-deep tr.mat-header-row {
+    height: 30px !important;
+    background-color: $lightGray;
+  }
+
+  ::ng-deep.mat-expansion-panel-body {
+    padding: 5px 0 0;
+  }
+
+}
+
+
+
+.LinkedHeader{
+  margin-top: 15px;
 }
 
 th.mat-sort-header-sorted {
   color: black;
 }
+.disabled{
+  color: $lightGray;
+}
+
+.DialogLink{
+  float: right;
+  border-bottom: 1px solid $black;
+  font-size: 14px;
+  position: absolute;
+  right: 30px;
+  color: $black;
+}
+.expendTitle {
+  font-size: 16px;
+  color: $black;
+  font-weight: 600;
+  //margin: 10px 0px 0px 0px;
+}
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+  box-shadow: none;
+}
+.mat-expansion-panel-header {
+  padding: 0 10px 0 0;
+}
+

@@ -43,6 +43,10 @@ export class DataUtility {
         return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
     }
 
+    public static generateIDForView(): string {
+        return '' + Math.floor(Math.random() * Math.floor(99999));
+    }
+
     public static checkIsNumber = (num) => {
         return Number.isFinite(num);
     };

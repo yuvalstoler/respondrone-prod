@@ -6,6 +6,7 @@ import {ReportsSituationTableComponent} from './reports-situation-table/reports-
 import {LEFT_PANEL_ICON} from '../../../../../types';
 import {ReportService} from '../../../../services/reportService/report.service';
 import {EventService} from '../../../../services/eventService/event.service';
+import {REPORT_DATA_UI} from '../../../../../../../../classes/typings/all.typings';
 
 @Component({
   selector: 'app-reports-situation-picture',
@@ -26,13 +27,13 @@ export class ReportsSituationPictureComponent implements OnInit {
   }
 
   onCreateNewReport = () => {
-    this.applicationService.selectedReport = undefined;
+    this.applicationService.selectedReports = [];
     this.openReportPanel();
   };
 
   onDeleteReport = () => {
   //   todo: add confirmWindow
-    this.openConfirmDialog(this.applicationService.selectedReport);
+    this.openConfirmDialog();
   };
 
   onEditReport = () => {
@@ -41,7 +42,7 @@ export class ReportsSituationPictureComponent implements OnInit {
   };
 
   private openReportPanel = () => {
-    this.applicationService.screen.showLeftPanel = false;
+    // this.applicationService.screen.showLeftPanel = false;
     this.applicationService.screen.showLeftNarrowPanel = true;
     this.applicationService.screen.showEventPanel = false;
     this.applicationService.screen.showReportPanel = true;
@@ -51,7 +52,7 @@ export class ReportsSituationPictureComponent implements OnInit {
   //  todo: move it to the archive folder
   };
 
-  openConfirmDialog = (data): void => {
+  openConfirmDialog = (): void => {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: '250px',
       disableClose: true,
@@ -60,11 +61,13 @@ export class ReportsSituationPictureComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        if (this.applicationService.selectedReport) {
-          // TODO
-          this.eventService.unlinkEventsFromReport(this.applicationService.selectedReport.eventIds, this.applicationService.selectedReport.id);
-          this.reportService.deleteReport({id: this.applicationService.selectedReport.id});
-        }
+        const selectedReports: REPORT_DATA_UI[] = this.childComponent.getSelectedReports();
+        selectedReports.forEach((reportData: REPORT_DATA_UI, index: number) => {
+          setTimeout(() => {
+            this.eventService.unlinkEventsFromReport(reportData.eventIds, reportData.id);
+            this.reportService.deleteReport({id: reportData.id});
+          }, index * 500);
+        });
       }
     });
   };

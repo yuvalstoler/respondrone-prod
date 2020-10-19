@@ -280,6 +280,127 @@ export class ApiManager implements IRest {
             });
 
     };
+
+    // ----------------------
+
+    private setTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<TASK_DATA> = {success: false};
+
+        const requestBody: TASK_DATA = request.body;
+
+        if ( requestBody ) {
+            DbManager.setTask(requestBody)
+                .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing requestBody';
+            response.send(res);
+        }
+    };
+
+    private readTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<TASK_DATA> = {success: false};
+
+        const requestBody: ID_OBJ = request.body;
+
+
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.readTask(requestBody)
+                .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                    res.success = data.success;
+
+                    res.data = data.data;
+
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private readAllTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<TASK_DATA[]> = {success: false};
+
+        const requestBody = request.body;
+
+
+        DbManager.readAllTask({})
+            .then((data: ASYNC_RESPONSE<TASK_DATA[]>) => {
+                res.success = data.success;
+
+                res.data = data.data;
+
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
+    private deleteTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+
+        const requestBody: ID_OBJ = request.body;
+
+
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.deleteTask(requestBody)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private deleteAllTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+
+        const requestBody = request.body;
+
+
+        DbManager.deleteAllTask({})
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
     // ----------------------
 
     private saveFileData = (request: Request, response: Response) => {

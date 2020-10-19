@@ -1,6 +1,6 @@
 <div class="DialogContainer">
-  <div class="DialogHeader" *ngIf="applicationService.selectedReport === undefined">Create new report</div>
-  <div class="DialogHeader" *ngIf="applicationService.selectedReport !== undefined">Edit report</div>
+  <div class="DialogHeader" *ngIf="applicationService.selectedReports[0] === undefined">Create new report</div>
+  <div class="DialogHeader" *ngIf="applicationService.selectedReports[0] !== undefined">Edit report</div>
   <!--Content-->
   <div class="DialogContent scroll">
     <!--&lt;!&ndash;Title&ndash;&gt;-->
@@ -150,7 +150,7 @@
   <div class="FooterButtons">
     <div>
       <button mat-raised-button class="FooterButtonDelete"
-              (click)="onDeleteClick()">Cancel
+              (click)="onCancelClick()">Cancel
       </button>
       <button mat-raised-button class="FooterButtonCreate"
               (click)="onCreateClick()">Create New Report

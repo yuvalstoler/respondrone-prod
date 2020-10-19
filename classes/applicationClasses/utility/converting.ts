@@ -44,6 +44,7 @@ export class Converting {
         return res;
     }
 
+
     public static base64_to_Buffer = (base64: string): Buffer => {
         return new Buffer(base64, "base64");
     }

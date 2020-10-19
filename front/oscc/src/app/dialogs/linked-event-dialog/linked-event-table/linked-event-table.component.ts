@@ -18,6 +18,7 @@ export class LinkedEventTableComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['select', 'id', 'type', 'description', 'time', 'createdBy'];
   dataSource = new MatTableDataSource<EVENT_DATA_UI>();
   selection = new SelectionModel<EVENT_DATA_UI>(true, []);
+  idsToRemove;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
 
@@ -25,8 +26,9 @@ export class LinkedEventTableComponent implements OnInit, AfterViewInit {
               public eventService: EventService) {
 
     this.eventService.events$.subscribe((isNewData: boolean) => {
-      if (isNewData) {
-        this.dataSource.data = [...this.eventService.events.data];
+      if (isNewData && this.idsToRemove) {
+        const dataWithoutIdsToRemove = this.eventService.events.data.filter((data) => this.idsToRemove.indexOf(data.id) === -1);
+        this.dataSource.data = [...dataWithoutIdsToRemove];
       }
     });
   }
@@ -39,11 +41,14 @@ export class LinkedEventTableComponent implements OnInit, AfterViewInit {
 
 
   checkSelected = (arr: string[]) => {
-    this.dataSource.data.forEach(row => {
-      if (arr.indexOf(row.id) !== -1) {
-        this.selection.select(row);
-      }
-    });
+    // this.dataSource.data.forEach(row => {
+    //   if (arr.indexOf(row.id) !== -1) {
+    //     this.selection.select(row);
+    //   }
+    // });
+    this.idsToRemove = arr;
+    const dataWithoutIdsToRemove = this.eventService.events.data.filter((data) => this.idsToRemove.indexOf(data.id) === -1);
+    this.dataSource.data = [...dataWithoutIdsToRemove];
   }
 
   private selectRow = (element): void => {
@@ -75,6 +80,10 @@ export class LinkedEventTableComponent implements OnInit, AfterViewInit {
     } catch (e) {
       return [];
     }
+  }
+
+  getNumOfSelected = () => {
+    return this.selection.selected.length;
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

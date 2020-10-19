@@ -81,14 +81,11 @@ export class EventManager {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
 
-            eventData.id = eventData.id || DataUtility.generateID();
-            eventData.time = Date.now();
             const newEvent: Event = new Event(eventData);
-
             const newEventDataJson: EVENT_DATA = newEvent.toJsonForSave();
             res.data = newEventDataJson;
             res.success = true;
-            //    todo send to RS
+
             RequestManager.requestToES(EVENT_API.createEvent, newEventDataJson)
                 .then((data: ASYNC_RESPONSE<EVENT_DATA>) => {
                     resolve(data);

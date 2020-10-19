@@ -5,15 +5,15 @@ import {
 } from '../../../../../classes/typings/all.typings';
 import { RequestManager } from '../../AppService/restConnections/requestManager';
 import {API_GENERAL, MWS_API} from '../../../../../classes/dataClasses/api/api_enums';
-import { TaskManager } from '../task/taskManager';
+import {TaskManager} from '../task/taskManager';
 
 const _ = require('lodash');
 
 
 const services = require('./../../../../../../../../config/services.json');
 
-const listeners: string[] = services.RS.listeners;
-const updateRouteListenersURL = API_GENERAL.general + MWS_API.updateAllReports;
+const listeners: string[] = services.TS.listeners;
+const updateRouteListenersURL = API_GENERAL.general + MWS_API.updateAllTasks;
 
 export class UpdateListenersManager {
 
@@ -25,23 +25,23 @@ export class UpdateListenersManager {
 
     private updateTaskListeners = (): Promise<ASYNC_RESPONSE> => {
         return new Promise((resolve, reject) => {
-            const allReportsDta: TASK_DATA[] = TaskManager.getTasks();
+            const allTasksDta: TASK_DATA[] = TaskManager.getTasks(undefined);
             const promisesArr: Promise<ASYNC_RESPONSE>[] = [];
             listeners.forEach((listener: string) => {
-                console.log(Date.now(), 'start updateReportListeners: ', listener);
-                const requestPromise = RequestManager.requestToExternalService(listener, updateRouteListenersURL, allReportsDta);
+                console.log(Date.now(), 'start updateTaskListeners: ', listener);
+                const requestPromise = RequestManager.requestToExternalService(listener, updateRouteListenersURL, allTasksDta);
                 promisesArr.push(requestPromise);
             });
 
             const res: ASYNC_RESPONSE = {success: false};
             Promise.all(promisesArr)
                 .then((result: ASYNC_RESPONSE[]) => {
-                    console.log(Date.now(), 'finish *then* updateReportListeners');
+                    console.log(Date.now(), 'finish *then* updateTaskListeners');
                     res.success = true;
                     resolve(res);
                 })
                 .catch((error: ASYNC_RESPONSE[]) => {
-                    console.log(Date.now(), 'finish *catch* updateReportListeners');
+                    console.log(Date.now(), 'finish *catch* updateTaskListeners');
                     resolve(res);
                 });
         });

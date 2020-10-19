@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ApplicationService} from '../../../../services/applicationService/application.service';
-import {EVENT_LISTENER_DATA, HEADER_BUTTONS, STATE_DRAW} from '../../../../../types';
+import {HEADER_BUTTONS, STATE_DRAW} from '../../../../../types';
 import {
+  FILE_FS_DATA,
   GEOPOINT3D,
   LINKED_EVENT_DATA,
   LOCATION_TYPE,
-  FILE_FS_DATA,
   PRIORITY,
   REPORT_DATA_UI,
   REPORT_TYPE,
@@ -14,6 +14,8 @@ import {
 import * as _ from 'lodash';
 import {ReportService} from '../../../../services/reportService/report.service';
 import {EventService} from '../../../../services/eventService/event.service';
+import {LocationService} from '../../../../services/locationService/location.service';
+import {CustomToasterService} from '../../../../services/toasterService/custom-toaster.service';
 
 @Component({
   selector: 'app-report-panel',
@@ -25,7 +27,7 @@ export class ReportPanelComponent implements OnInit {
   reportModel: REPORT_DATA_UI;
   types = Object.values(REPORT_TYPE);
   priorities = Object.values(PRIORITY);
-  locations = ['Add an address', 'Choose a location point'];
+  locations = ['No location', 'Add an address', 'Choose a location point'];
   comment = '';
 
   defaultReport: REPORT_DATA_UI = {
@@ -35,13 +37,14 @@ export class ReportPanelComponent implements OnInit {
     type: this.types[0],
     priority: this.priorities[0],
     description: '',
-    locationType: LOCATION_TYPE.address,
-    location:  {longitude: undefined, latitude: undefined},
+    locationType: LOCATION_TYPE.none,
+    location: {longitude: undefined, latitude: undefined},
     address: '',
     eventIds: [],
     comments: [],
     events: [],
     media: [],
+    idView: '',
     modeDefine: undefined,
     mediaFileIds: undefined
   };
@@ -49,14 +52,15 @@ export class ReportPanelComponent implements OnInit {
   LOCATION_TYPE = LOCATION_TYPE;
 
   constructor(public applicationService: ApplicationService,
+              public locationService: LocationService,
               public reportService: ReportService,
+              public customToasterService: CustomToasterService,
               public eventService: EventService) {
     this.initReportModel();
 
-    // TODO: add location on panel
-    this.reportService.locationPoint$.subscribe(latlon => {
+    // add location on panel
+    this.locationService.locationPoint$.subscribe(latlon => {
       this.reportModel.location = {longitude: latlon.longitude, latitude: latlon.latitude};
-
     });
   }
 
@@ -64,20 +68,31 @@ export class ReportPanelComponent implements OnInit {
   }
 
   private initReportModel = () => {
-    if (this.applicationService.selectedReport) {
-      this.reportModel = _.cloneDeep(this.applicationService.selectedReport);
+    if (this.applicationService.selectedReports.length === 1) {
+      this.reportModel = _.cloneDeep(this.applicationService.selectedReports[0]);
     } else {
       this.reportModel = _.cloneDeep(this.defaultReport);
     }
   };
 
   onChangeLocation = (location: string) => {
-    if (location === 'Add an address') {
+    if (location === 'No location') {
+      this.reportModel.locationType = LOCATION_TYPE.none;
+      this.reportModel.location = {longitude: undefined, latitude: undefined};
+      this.reportModel.address = '';
+      this.locationService.deleteLocationPointTemp();
+      this.locationService.removeBillboard();
+
+    } else if (location === 'Add an address') {
       this.reportModel.location = {longitude: undefined, latitude: undefined};
       this.reportModel.locationType = LOCATION_TYPE.address;
-      this.reportService.deleteLocationPointTemp();
+      this.applicationService.stateDraw = STATE_DRAW.notDraw;
+      this.locationService.deleteLocationPointTemp();
+      this.locationService.removeBillboard();
 
     } else if (location === 'Choose a location point') {
+      // TODO: toaster
+      this.customToasterService.info({message: 'Click on map to set the report\'s location', title: 'location'});
       this.reportModel.address = '';
       if (this.reportModel.location.latitude === undefined && this.reportModel.location.longitude === undefined) {
         this.reportModel.locationType = LOCATION_TYPE.locationPoint;
@@ -87,17 +102,18 @@ export class ReportPanelComponent implements OnInit {
   };
 
   locationChanged = (event) => {
-    console.log(event.currentTarget.value);
-    console.log(this.reportModel.location);
-
-    this.applicationService.stateDraw = STATE_DRAW.notDraw;
-   if (this.reportModel.location.latitude !== undefined && this.reportModel.location.longitude !== undefined) {
-     const locationPoint: GEOPOINT3D = {
-       longitude: this.reportModel.location.longitude,
-       latitude: this.reportModel.location.latitude
-     };
-     this.reportService.createOrUpdateLocationTemp(locationPoint);
-   }
+    if (event.target.value !== '') {
+      this.applicationService.stateDraw = STATE_DRAW.notDraw;
+      this.locationService.removeBillboard();
+      if (this.reportModel.location.latitude !== undefined && this.reportModel.location.longitude !== undefined) {
+        const locationPoint: GEOPOINT3D = {
+          longitude: this.reportModel.location.longitude,
+          latitude: this.reportModel.location.latitude
+        };
+        this.locationService.createOrUpdateLocationTemp(locationPoint);
+        this.applicationService.stateDraw = STATE_DRAW.editLocationPoint;
+      }
+    }
   };
 
   onAddMedia = (newMedia: FILE_FS_DATA) => {
@@ -118,26 +134,25 @@ export class ReportPanelComponent implements OnInit {
     this.clearPanel();
   };
 
-  onDeleteClick = () => {
-    console.log('delete');
+  onCancelClick = () => {
     if (!this.reportModel.id) {
       this.reportModel.media.forEach((data: FILE_FS_DATA) => {
         // TODO: remove media
       });
     }
     this.clearPanel();
-  //   todo: delete temp location
+
   };
 
   clearPanel = () => {
     this.applicationService.screen.showLeftNarrowPanel = false;
-    this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
     this.applicationService.screen.showReportPanel = false;
-    // if (this.applicationService.selectedReport === undefined) {
-      this.reportModel = _.cloneDeep(this.defaultReport);
-    // }
+    this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.situationPictures;
+    this.reportModel = _.cloneDeep(this.defaultReport);
+    this.applicationService.stateDraw = STATE_DRAW.notDraw;
+    this.locationService.deleteLocationPointTemp();
+    this.locationService.removeBillboard();
   };
-
 
   onSendComment = () => {
     if (this.comment !== '' && this.comment !== undefined) {
