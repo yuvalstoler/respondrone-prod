@@ -34,5 +34,8 @@ export class ConnectionService {
     return this.http.put(server + url, body).toPromise();
   }
 
+  getJson(url: string): any {
+    return this.http.get(url).toPromise();
+  }
 
 }

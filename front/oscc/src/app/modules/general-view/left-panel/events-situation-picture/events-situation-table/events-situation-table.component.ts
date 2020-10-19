@@ -28,12 +28,13 @@ import * as _ from 'lodash';
 
 export class EventsSituationTableComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['select', 'id', 'title', 'source', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map'];
+  displayedColumns: string[] = ['select', 'id', 'title', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map'];
   displayedColumnsMinimize: string[] = ['id', 'priority', 'type'];
   dataSource = new MatTableDataSource<EVENT_DATA_UI>();
 
   expandedElement: MAP<EVENT_DATA_UI> = {};
   selection = new SelectionModel<EVENT_DATA_UI>(true, []);
+  selectedElement: EVENT_DATA_UI;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   panelOpenState = false;
@@ -72,7 +73,16 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
     //   this.applicationService.selectedEvent = undefined;
     // }
     // this.expandedElement = this.expandedElement === element ? null : element;
+
+    if (this.selectedElement) {
+      this.eventService.unselectIcon(this.selectedElement);
+    }
+    this.selectedElement = row;
+    this.eventService.selectIcon(row);
+
     this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
+
+
   };
 
   private isSortingDisabled = (columnText: string): boolean => {

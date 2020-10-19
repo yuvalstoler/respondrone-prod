@@ -1,0 +1,25 @@
+{
+  "reportTypes": [
+    "Unclassified",
+    "Fire alarm",
+    "Flood",
+    "Road accident",
+    "Road block",
+    "Attack Report",
+    "Explosion Report"
+  ],
+  "eventTypes": [
+    "General",
+    "Emergency",
+    "Criminal",
+    "Terror",
+    "Accident",
+    "Info",
+    "Explosion Report"
+  ],
+  "taskTypes": [
+    "General",
+    "Rescue",
+    "Fire"
+  ]
+}

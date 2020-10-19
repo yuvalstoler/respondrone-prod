@@ -11,7 +11,8 @@ export class EventMdLogic implements IModeDefine {
     public static validate(data: EVENT_DATA_UI): EVENT_DATA_MD {
         const obj: EVENT_DATA_MD = {
             styles: {
-                icon: this.getPriorityIcon(data).data
+                icon: this.getPriorityIcon(data).data,
+                selectedIcon: this.getPriorityIcon(data).data,
             },
             tableData: EventMdLogic.tableData(data)
         };

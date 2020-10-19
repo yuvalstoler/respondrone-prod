@@ -236,6 +236,29 @@ export class CesiumDrawerService {
     return res;
   };
 
+  public editIcon = (domId: string, billboardId: string, iconUrl: string, size: number): boolean => {
+    let res = false;
+    const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        if (this.cesiumService.cesiumMapObjects.hasOwnProperty(mapDomId) && this.cesiumService.cesiumMapObjects[mapDomId] !== undefined) {
+          // delete locationPoint
+          if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.iconCE)) {
+            if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE].hasOwnProperty(billboardId) &&
+                this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId] !== {} &&
+                this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId].billboard) {
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId].billboard.image.setValue(iconUrl);
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId].billboard.width.setValue(size);
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId].billboard.height.setValue(size);
+              res = true;
+            }
+          }
+        }
+      }
+    }
+    return res;
+  };
+
   // ==================POLYGON==========================================================================================
   // ========= Manually ====================
   public drawPolygonManually = (domId: string, positions: POINT3D[], idPolygon: string, color: string): boolean => {

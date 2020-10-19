@@ -24,7 +24,7 @@ import {CustomToasterService} from '../../../../services/toasterService/custom-t
 export class EventPanelComponent implements OnInit {
 
   eventModel: EVENT_DATA_UI;
-  types = Object.values(EVENT_TYPE);
+  types = this.applicationService.typesConfig.eventTypes;
   priorities = Object.values(PRIORITY);
   locations = ['No location', 'Add an address', 'Choose a location point', 'Create a polygon'];
   comment = '';

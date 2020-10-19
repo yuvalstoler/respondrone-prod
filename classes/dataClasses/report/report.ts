@@ -18,7 +18,7 @@ import { DataUtility } from '../../applicationClasses/utility/dataUtility';
 export class Report {
 
     id: ID_TYPE;
-    type: REPORT_TYPE;
+    type: string; // REPORT_TYPE;
     source: SOURCE_TYPE;
     time: number;
     createdBy: string;

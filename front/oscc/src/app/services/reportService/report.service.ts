@@ -107,7 +107,7 @@ export class ReportService {
         }
       } else {
         this.reports.data.push(newReport);
-        if (newReport.source === SOURCE_TYPE.MRF && (newReport.time - Date.now()) < 1000 * 60 * 5) {
+        if (newReport.source === SOURCE_TYPE.MRF && (Date.now() - newReport.time) < 1000 * 60 * 5) {
           this.toasterService.info({message: 'Report added from FR', title: ''});
         }
       }
@@ -181,10 +181,12 @@ export class ReportService {
   public unlinkReportsFromEvent = (reportIds: string[], eventId: string) => {
     reportIds.forEach((reportId: string) => {
       const report = this.getReportById(reportId);
-      const index = report.eventIds.indexOf(eventId);
-      if (index !== -1) {
-        report.eventIds.splice(index, 1);
-        this.createReport(report);
+      if (report) {
+        const index = report.eventIds.indexOf(eventId);
+        if (index !== -1) {
+          report.eventIds.splice(index, 1);
+          this.createReport(report);
+        }
       }
     });
   };
@@ -193,6 +195,14 @@ export class ReportService {
     return this.reports.data.find(data => data.id === eventId);
   };
   // ------------------------
+  public selectIcon = (report: REPORT_DATA_UI) => {
+    this.mapGeneralService.editIcon(report.id, report.modeDefine.styles.selectedIcon, 40);
+  }
+  // ------------------------
+  public unselectIcon = (report: REPORT_DATA_UI) => {
+    this.mapGeneralService.editIcon(report.id, report.modeDefine.styles.icon, 30);
+  }
+
   // public drawLocation = (event: EVENT_LISTENER_DATA): void => {
   //   if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
   //     const locationPoint: GEOPOINT3D = {longitude: event.pointLatLng[0], latitude: event.pointLatLng[1]};
