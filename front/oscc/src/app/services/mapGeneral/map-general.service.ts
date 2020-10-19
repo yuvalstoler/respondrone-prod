@@ -172,4 +172,11 @@ export class MapGeneralService {
     return res;
   };
 
+  public editIcon = (billboardId: string, iconUrl: string, size: number): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.editIcon(domId, billboardId, iconUrl, size);
+    return res;
+  };
+
 }

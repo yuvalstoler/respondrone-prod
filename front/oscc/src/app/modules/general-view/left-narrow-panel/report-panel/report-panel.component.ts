@@ -25,7 +25,7 @@ import {CustomToasterService} from '../../../../services/toasterService/custom-t
 export class ReportPanelComponent implements OnInit {
 
   reportModel: REPORT_DATA_UI;
-  types = Object.values(REPORT_TYPE);
+  types = this.applicationService.typesConfig.reportTypes;
   priorities = Object.values(PRIORITY);
   locations = ['No location', 'Add an address', 'Choose a location point'];
   comment = '';

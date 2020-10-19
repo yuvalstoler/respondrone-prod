@@ -39,6 +39,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
   expandedElement: MAP<REPORT_DATA_UI> = {};
   selection = new SelectionModel<REPORT_DATA_UI>(true, []);
+  selectedElement: REPORT_DATA_UI;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   panelOpenState = false;
@@ -77,6 +78,12 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
     // }
 
     // this.expandedElement = this.expandedElement === element ? null : element;
+
+    if (this.selectedElement) {
+      this.reportService.unselectIcon(this.selectedElement);
+    }
+    this.selectedElement = row;
+    this.reportService.selectIcon(row);
 
     this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
   };

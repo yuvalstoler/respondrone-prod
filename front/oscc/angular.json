@@ -34,6 +34,11 @@
                 "glob": "**/*",
                 "input": "./node_modules/cesium/Build/Cesium",
                 "output": "./assets/cesium"
+              },
+              {
+                "glob": "typesConfig.json",
+                "input": "./../../",
+                "output": "/"
               }
             ],
             "styles": [

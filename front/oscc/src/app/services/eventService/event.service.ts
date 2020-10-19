@@ -6,7 +6,7 @@ import {
   ASYNC_RESPONSE,
   EVENT_DATA,
   EVENT_DATA_UI, EVENT_TYPE,
-  ID_OBJ, LINKED_EVENT_DATA, LOCATION_TYPE, MEDIA_TYPE, PRIORITY, REPORT_DATA, REPORT_TYPE, SOURCE_TYPE,
+  ID_OBJ, LINKED_EVENT_DATA, LOCATION_TYPE, MEDIA_TYPE, PRIORITY, REPORT_DATA, REPORT_DATA_UI, REPORT_TYPE, SOURCE_TYPE,
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
@@ -158,10 +158,12 @@ export class EventService {
   public unlinkEventsFromReport = (eventIds: string[], reportId: string) => {
     eventIds.forEach((eventId: string) => {
       const event = this.getEventById(eventId);
-      const index = event.reportIds.indexOf(reportId);
-      if (index !== -1) {
-        event.reportIds.splice(index, 1);
-        this.createEvent(event);
+      if (event) {
+        const index = event.reportIds.indexOf(reportId);
+        if (index !== -1) {
+          event.reportIds.splice(index, 1);
+          this.createEvent(event);
+        }
       }
     });
   };
@@ -169,7 +171,14 @@ export class EventService {
   public getEventById = (eventId: string): EVENT_DATA_UI => {
     return this.events.data.find(data => data.id === eventId);
   }
-
+  // ------------------------
+  public selectIcon = (event: EVENT_DATA_UI) => {
+    this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.selectedIcon, 40);
+  }
+  // ------------------------
+  public unselectIcon = (event: EVENT_DATA_UI) => {
+    this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.icon, 30);
+  }
 
 
 

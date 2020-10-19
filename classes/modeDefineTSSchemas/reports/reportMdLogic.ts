@@ -17,7 +17,8 @@ export class ReportMdLogic implements IModeDefine {
     public static validate(data: REPORT_DATA_UI): REPORT_DATA_MD {
         const obj: REPORT_DATA_MD = {
             styles: {
-                icon: this.getPriorityIcon(data).data
+                icon: this.getPriorityIcon(data).data,
+                selectedIcon: this.getPriorityIcon(data).data
             },
             tableData: ReportMdLogic.tableData(data)
         };

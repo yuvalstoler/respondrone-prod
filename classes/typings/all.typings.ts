@@ -117,7 +117,7 @@ export type REPORT_DATA = {
     source: SOURCE_TYPE;
     time: number;
     createdBy: string,
-    type: REPORT_TYPE,
+    type: string, // REPORT_TYPE,
     priority: PRIORITY,
     description: string,
     locationType: LOCATION_TYPE;
@@ -138,14 +138,15 @@ export type LINKED_REPORT_DATA = {
     id: ID_TYPE,
     time: number,
     createdBy: string,
-    type: REPORT_TYPE,
+    type: string, // REPORT_TYPE,
     description: string,
     idView: string,
     modeDefine: REPORT_DATA_MD,
 }
 export type REPORT_DATA_MD = {
     styles: {
-        icon: string
+        icon: string,
+        selectedIcon: string,
     },
     tableData: {
         id: TABLE_DATA_MD,
@@ -169,7 +170,7 @@ export type EVENT_DATA = { // TODO - change data fields
     time: number,
     createdBy: string,
     title: string,
-    type: EVENT_TYPE,
+    type: string; // EVENT_TYPE,
     priority: PRIORITY,
     description: string,
     locationType: LOCATION_TYPE,
@@ -189,14 +190,15 @@ export type LINKED_EVENT_DATA = {
     id: ID_TYPE,
     time: number,
     createdBy: string,
-    type: EVENT_TYPE,
+    type: string; // EVENT_TYPE,
     description: string,
     idView: string,
     modeDefine: EVENT_DATA_MD,
 }
 export type EVENT_DATA_MD = {
     styles: {
-        icon: string
+        icon: string,
+        selectedIcon: string,
     },
     tableData: {
         id: TABLE_DATA_MD,

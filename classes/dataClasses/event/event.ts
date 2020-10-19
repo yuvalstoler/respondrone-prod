@@ -11,7 +11,7 @@ export class Event {
     time: number;
     createdBy: string;
     title: string;
-    type: EVENT_TYPE;
+    type: string; // EVENT_TYPE;
     priority: PRIORITY;
     description: string = '';
     locationType: LOCATION_TYPE = LOCATION_TYPE.none;
