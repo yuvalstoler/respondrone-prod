@@ -30,7 +30,7 @@
         <!-- ID Column -->
         <ng-container matColumnDef="ID">
           <th *matHeaderCellDef mat-header-cell mat-sort-header>ID</th>
-          <td *matCellDef="let row" mat-cell>{{row.id}}</td>
+          <td *matCellDef="let row" mat-cell>{{row.idView}}</td>
         </ng-container>
 
         <!-- Type Column -->
@@ -48,7 +48,7 @@
         <!-- Time Column -->
         <ng-container matColumnDef="Time">
           <th *matHeaderCellDef mat-header-cell mat-sort-header>Time</th>
-          <td *matCellDef="let row" mat-cell>{{row.time | date:'hh:dd'}}</td>
+          <td *matCellDef="let row" mat-cell>{{row.time | customDate: applicationService.now}}</td>
         </ng-container>
 
         <!--Delete Row-->

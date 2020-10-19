@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Report} from '../../../../../../classes/dataClasses/report/report';
 import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
@@ -9,7 +8,8 @@ import {
   LINKED_REPORT_DATA,
   LOCATION_TYPE,
   REPORT_DATA,
-  REPORT_DATA_UI
+  REPORT_DATA_UI,
+  SOURCE_TYPE
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
@@ -107,6 +107,9 @@ export class ReportService {
         }
       } else {
         this.reports.data.push(newReport);
+        if (newReport.source === SOURCE_TYPE.MRF && (newReport.time - Date.now()) < 1000 * 60 * 5) {
+          this.toasterService.info({message: 'Report added from FR', title: ''});
+        }
       }
       this.drawReport(newReport);
     });

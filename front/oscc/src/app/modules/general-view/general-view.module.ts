@@ -42,6 +42,7 @@ import { ReportPanelComponent } from './left-narrow-panel/report-panel/report-pa
 import {MatSortModule} from '@angular/material/sort';
 import { LinkedEventsTableComponent } from './linked-events-table/linked-events-table.component';
 import { CommentsPanelComponent } from './comments-panel/comments-panel.component';
+import {CustomDatePipe} from "../../pipes/custom.datepipe";
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { CommentsPanelComponent } from './comments-panel/comments-panel.componen
     ReportsSituationTableComponent,
     ReportPanelComponent,
     LinkedEventsTableComponent,
-    CommentsPanelComponent
+    CommentsPanelComponent,
+    CustomDatePipe
   ],
   imports: [
     CommonModule,
@@ -99,7 +101,8 @@ import { CommentsPanelComponent } from './comments-panel/comments-panel.componen
     ReportMediaComponent,
     ViewMediaComponent,
     ReportsSituationTableComponent,
-    ReportPanelComponent
+    ReportPanelComponent,
+    CustomDatePipe
   ],
   providers: [
     PolygonsEditorService,

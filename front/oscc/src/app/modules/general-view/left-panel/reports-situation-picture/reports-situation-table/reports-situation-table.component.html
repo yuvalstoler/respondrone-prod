@@ -30,7 +30,7 @@
             </span>
             <!--data-->
             <span *ngIf="element.modeDefine?.tableData[column]?.type === 'date'">
-               {{element.modeDefine?.tableData[column]?.data | date:'hh:mm'}}
+               {{element.modeDefine?.tableData[column]?.data | customDate: applicationService.now}}
             </span>
           </span>
           <span *ngIf="!element.modeDefine?.tableData[column]">

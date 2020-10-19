@@ -73,6 +73,7 @@ export class EventManager {
             this.events = Converting.Arr_EVENT_DATA_to_Arr_Event(eventData);
             res.success = true;
             this.sendDataToUI();
+            ReportManager.sendDataToUI();
             resolve(res);
 
         });
@@ -195,6 +196,7 @@ export class EventManager {
     public static deleteAllEvent = EventManager.instance.deleteAllEvent;
 
     public static getLinkedEvents = EventManager.instance.getLinkedEvents;
+    public static sendDataToUI = EventManager.instance.sendDataToUI;
 
 
     // endregion API uncions

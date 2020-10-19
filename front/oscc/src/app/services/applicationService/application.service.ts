@@ -14,8 +14,13 @@ export class ApplicationService {
   selectedEvents: EVENT_DATA_UI[] = [];
   panelIcon: LEFT_PANEL_ICON = LEFT_PANEL_ICON.expand;
   stateDraw: STATE_DRAW = STATE_DRAW.notDraw;
+  now = Date.now();
 
   constructor() {
+    setInterval(() => {
+      this.now = Date.now();
+    }, 1000);
+
     this.screen = {
       showLeftPanel: true,
       showLeftNarrowPanel: false,
