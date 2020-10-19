@@ -3,6 +3,7 @@
 @import 'styles/colors';
 @import 'styles/variable';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import '~@angular/material/theming';
 
 @font-face {
   font-family: 'Heebo';
@@ -37,8 +38,8 @@ html, body { height: 100%; }
 body {
   margin: 0; font-family: 'Heebo', serif;
 }
-//$custom-typography: (
-//  $font-family: 'Roboto, monospace',
-//  $headline: mat-typography-level(32px, 48px, 700),
-//  $body-1: mat-typography-level(16px, 24px, 500)
-//);
+
+$custom-typography: mat-typography-config(
+  $font-family: 'Heebo'
+);
+@include angular-material-typography($custom-typography);
