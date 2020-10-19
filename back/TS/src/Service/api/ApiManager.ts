@@ -51,6 +51,8 @@ export class ApiManager implements IRest {
                 response.send(data);
             });
         response.send(res);
+    }
+
     private newTask = (request: Request, response: Response) => {
         const requestBody: TASK_DATA = request.body;
         TaskManager.createTask(requestBody)
@@ -150,20 +152,20 @@ export class ApiManager implements IRest {
 
 
     private getTaskById = (request: Request, response: Response) => {
-        const res: ASYNC_RESPONSE<TASK_DATA> = {success: true};
+        const res: ASYNC_RESPONSE<TASK_DATA[]> = {success: true};
         const requestBody: ID_OBJ = request.body;
-        res.data = TaskManager.getTaskById(requestBody);
+        res.data = TaskManager.getTasks(requestBody);
         response.send(res);
     };
 
     routers: {} = {
         [TS_API.createTask]: this.createTask,
 
-        [TASK_API.createTask]: this.newTask,
-        [TASK_API.readTask]: this.readTask,
-        [TASK_API.readAllTask]: this.readAllTask,
-        [TASK_API.deleteTask]: this.deleteTask,
-        [TASK_API.deleteAllTask]: this.deleteAllTask,
+        [TS_API.createTask]: this.newTask,
+        [TS_API.readTask]: this.readTask,
+        [TS_API.readAllTask]: this.readAllTask,
+        [TS_API.deleteTask]: this.deleteTask,
+        [TS_API.deleteAllTask]: this.deleteAllTask,
         [TS_API.getAllTasks]: this.getTasks,
         [TS_API.getTaskById]: this.getTaskById,
 

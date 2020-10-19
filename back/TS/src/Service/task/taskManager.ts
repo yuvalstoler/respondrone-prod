@@ -63,7 +63,7 @@ export class TaskManager {
 
     };
 
-    private getTasksDATA = (idObj: ID_OBJ): TASK_DATA[] => {
+    private getTasksDATA = (idObj: ID_OBJ = undefined): TASK_DATA[] => {
         const res: TASK_DATA[] = [];
         if ( idObj ) {
             const found = this.tasks.find(element => element.id === idObj.id);

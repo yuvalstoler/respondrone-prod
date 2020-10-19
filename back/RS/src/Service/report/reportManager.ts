@@ -1,5 +1,3 @@
-import { DataUtility } from "../../../../../classes/applicationClasses/utility/dataUtility";
-
 const _ = require('lodash');
 
 import { Converting } from '../../../../../classes/applicationClasses/utility/converting';
@@ -25,7 +23,7 @@ import {
 
 } from '../../../../../classes/typings/all.typings';
 import { UpdateListenersManager } from '../updateListeners/updateListenersManager';
-import {DataUtility} from '../../../../../classes/applicationClasses/utility/dataUtility';
+import { DataUtility } from '../../../../../classes/applicationClasses/utility/dataUtility';
 
 
 export class ReportManager {
@@ -213,7 +211,7 @@ export class ReportManager {
     private requestToGetFileData = (obj: ID_OBJ) => {
         RequestManager.requestToFS(FS_API.getFileData, obj)
             .then((data: ASYNC_RESPONSE<FILE_DB_FS_DATA>) => {
-                if ( data.success && _.get(data, 'data.fileDbData.fileStatus') === FILE_STATUS.downloaded && data.data.fileFsData) {
+                if ( data.success && _.get(data, 'data.fileDbData.fileStatus') === FILE_STATUS.downloaded && data.data.fileFsData ) {
                     const report = this.findReportByFileId(obj.id); // TODO change
                     if ( report ) {
                         const reportData = report.toJsonForSave();

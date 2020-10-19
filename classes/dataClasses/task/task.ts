@@ -143,6 +143,8 @@ export class Task {
             assigneeIds: this.assigneeIds,
             comments: this.comments,
             idView: this.idView,
+            address: this.address,
+            location: this.location
         };
     };
 
@@ -163,7 +165,9 @@ export class Task {
             comments: this.comments,
             idView: this.idView,
 
-            groundResources: []
+            groundResources: [],
+            address: this.address,
+            location: this.location
         };
     };
 
@@ -181,6 +185,8 @@ export class Task {
         assigneeIds: this.setAssigneeIds,
         comments: this.setComments,
         idView: this.setIdView,
+        address: this.setAddress,
+        location: this.setLocation
     };
 
 }

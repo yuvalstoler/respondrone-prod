@@ -84,6 +84,11 @@ export enum TS_API {
     getAllTasks = '/getAllTasks',
     getTaskById = '/getTaskById',
 
+    readTask = '/readTask',
+    readAllTask = '/readAllTask',
+    deleteTask = '/deleteTask',
+    deleteAllTask = '/deleteAllTask',
+
 }
 
 export enum RS_API {

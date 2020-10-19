@@ -26,12 +26,9 @@ export class RequestManager {
     static externalServiceURLs: MAP<string> = {};
     public static requestToDBS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_DBS, API_GENERAL.general + path, bodyObj, timeout_AV);
+    }
 
 
-
-    public static requestToAMS_API = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
-        return RequestManager.sendRestRequest(url_AMS, API_GENERAL.general + path, bodyObj, timeout_AV);
-    };
     public static requestToWS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_WS, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
@@ -52,7 +49,6 @@ export class RequestManager {
                 RequestManager.externalServiceURLs[serviceName] = url;
             }
         }
-
 
 
         return RequestManager.sendRestRequest(RequestManager.externalServiceURLs[serviceName], path, bodyObj);

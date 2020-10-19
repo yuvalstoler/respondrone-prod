@@ -252,6 +252,8 @@ export type TASK_DATA = {
     type: TASK_TYPE;
     priority: PRIORITY;
     description: string;
+    location: GEOPOINT3D;
+    address: ADDRESS;
     resources: string;
     status: TASK_STATUS;
     geographicInstructions;
@@ -336,29 +338,9 @@ export type FILE_GW_DATA = FILE_DB_DATA & {
 
 };
 
-export enum TASK_STATUS  {
-    pending = 'pending',
-    resolve = 'resolve',
-    reject = 'reject',
-};
 export enum TASK_TYPE  {
     fireInTheCity = 'fireInTheCity',
     carAccident = 'carAccident',
     forestFire = 'forestFire',
 };
-export type TASK_DATA = {
-    id: ID_TYPE;
-    type: TASK_TYPE;
-    time: number;
-    description: string;
 
-    location: GEOPOINT3D;
-    address: ADDRESS;
-    reportIds: string[];
-    eventIds: string[];
-    status: TASK_STATUS;
-    commentIds: string[];
-
-
-
-};
