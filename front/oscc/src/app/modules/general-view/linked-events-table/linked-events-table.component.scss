@@ -1,9 +1,9 @@
 @import "../../../../styles/dialogs";
 
 .tableScroll {
-  max-height: 215px;
+  max-height: 130px;
   overflow: auto;
-  margin-top: 15px;
+  margin-bottom: 5px;
 }
 
 
@@ -16,6 +16,10 @@
   ::ng-deep tr.mat-header-row {
     height: 30px !important;
     background-color: $lightGray;
+  }
+
+  ::ng-deep.mat-expansion-panel-body {
+    padding: 5px 0 0;
   }
 
 }
@@ -38,7 +42,8 @@ th.mat-sort-header-sorted {
   border-bottom: 1px solid $black;
   font-size: 14px;
   position: absolute;
-  right: 50px;
+  right: 30px;
+  color: $black;
 }
 .expendTitle {
   font-size: 16px;
@@ -52,8 +57,4 @@ th.mat-sort-header-sorted {
 .mat-expansion-panel-header {
   padding: 0 10px 0 0;
 }
-.tableScroll {
-  max-height: 100px;
-  overflow: auto;
-  margin-top: 15px;
-}
+

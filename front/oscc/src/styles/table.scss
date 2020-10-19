@@ -1,8 +1,15 @@
 @import "./colors";
 @import "scrollbar";
+@import "variable";
 
 table {
   width: 100%;
+}
+
+.table-scroll {
+  max-height: calc(100vh - #{$headerHeight} - 120px);
+  overflow: auto;
+  margin-top: 15px;
 }
 
 .tableCheckbox {
@@ -61,7 +68,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   overflow: hidden;
   display: grid;
   grid-template-columns: 35% auto;
-  height: 20em;
+  max-height: 20em;
 }
 
 .example-element-description {
@@ -89,7 +96,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 .example-element-linked {
   //padding: 16px;
   grid-column: 2;
-  grid-row: 1 /span 2;
+  grid-row: 1;
   margin-left: 5px;
 }
 

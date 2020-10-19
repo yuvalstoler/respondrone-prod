@@ -213,6 +213,10 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
   };
 
+  private expendPanelDescription = (index: boolean) => {
+    this.panelOpenState = index;
+  };
+
   onChangeComments = (comments: COMMENT[], element: EVENT_DATA_UI) => {
     const report = this.reportService.getReportById(element.id);
     if (report) {
