@@ -2,6 +2,7 @@
 @import '../styles/variable';
 @import '../styles/override';
 @import '../styles/scrollbar';
+@import '../styles/comments';
 
 ::ng-deep.mat-dialog-container{
   padding: 0;
@@ -30,31 +31,48 @@
   ::ng-deep.mat-form-field-wrapper {
     padding-bottom: 0em !important;
   }
-
+  //footer
   ::ng-deep.mat-dialog-actions {
     padding: 5px 20px;
     margin-bottom: 0px;
     justify-content: flex-end;
   }
+  //location
+  ::ng-deep.mat-radio-button {
+    display: block;
+  }
+  ::ng-deep.mat-radio-label {
+    align-items: start !important;
+  }
 
-
+  .example-radio-button {
+    margin: 5px;
+  }
 }
 
 .DialogHeader {
   font-size: 19px;
   text-align: left;
-  //padding: 10px;
-  //border-bottom: 1px solid $lightGray;
-  //margin-bottom: 10px;
   background-color: $darkGray;
   color: $white;
 }
 
 .DialogContent{
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 49% 49%;
   margin: 0 20px;
   padding: 0;
+
+  .item1{
+    grid-row: 1;
+    grid-column: 1;
+    padding: 5px;
+  }
+  .item2{
+    grid-row: 1;
+    grid-column: 2;
+    padding: 5px;
+  }
 }
 
 .DialogTitle {
@@ -65,16 +83,19 @@
 }
 
 .DialogNotElement{
-  font-size: 18px;
+  font-size: 16px;
   color: $black;
   margin: 10px;
 }
 
 .DialogGrid2 {
   display: grid;
-  grid-template-columns: 20% auto;
+  grid-template-columns: 45% 45%;
 }
-
+.DialogGrid22{
+  display: grid;
+  grid-template-columns: 30% 30%;
+}
 .DialogGrid3 {
   display: grid;
   grid-template-columns: 3em auto 3em;

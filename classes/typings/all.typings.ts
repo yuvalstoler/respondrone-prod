@@ -1,4 +1,4 @@
-import { IRest } from "../dataClasses/interfaces/IRest";
+import {IRest} from "../dataClasses/interfaces/IRest";
 
 
 export type MAP<T> = { [key: string]: T };
@@ -84,7 +84,13 @@ export enum EVENT_TYPE { // TODO - change data fields
 export enum SOURCE_TYPE { // TODO - change data fields
     MRF = 'MFR',
     OSCC = 'OSCC',
+}
 
+export enum LOCATION_NAMES {
+    noLocation = 'No location',
+    address = 'Add an address',
+    locationPoint = 'Add a location point',
+    polygon = 'Create a polygon'
 }
 
 export enum PRIORITY {
@@ -243,7 +249,6 @@ export enum CONNECTION_STATUS {
 }
 
 
-
 export type TASK_DATA = {
     id: ID_TYPE;
     time: number;
@@ -267,9 +272,10 @@ export type TASK_DATA_UI = TASK_DATA & {
 }
 
 export enum GEOGRAPHIC_INSTRUCTION_TYPE {
-    arrow= 'arrow',
+    arrow = 'arrow',
     addressPoint = 'addressPoint',
 }
+
 export type GEOGRAPHIC_INSTRUCTION = {
     type: GEOGRAPHIC_INSTRUCTION_TYPE,
     location: GEOPOINT3D
@@ -338,7 +344,7 @@ export type FILE_GW_DATA = FILE_DB_DATA & {
 
 };
 
-export enum TASK_TYPE  {
+export enum TASK_TYPE {
     fireInTheCity = 'fireInTheCity',
     carAccident = 'carAccident',
     forestFire = 'forestFire',

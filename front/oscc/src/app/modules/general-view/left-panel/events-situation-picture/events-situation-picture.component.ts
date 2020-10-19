@@ -43,7 +43,7 @@ export class EventsSituationPictureComponent implements OnInit {
 
   private openEventPanel = () => {
     const dialogRef = this.dialog.open(EventDialogComponent, {
-      minWidth: '500px',
+     width: '45vw',
       disableClose: true,
       data: {}
     });

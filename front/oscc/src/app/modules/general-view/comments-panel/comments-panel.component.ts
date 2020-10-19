@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {COMMENT} from '../../../../../../../classes/typings/all.typings';
+import {ApplicationService} from "../../../services/applicationService/application.service";
 
 @Component({
   selector: 'app-comments-panel',
@@ -13,7 +14,7 @@ export class CommentsPanelComponent implements OnInit {
   @Output() changeComments = new EventEmitter<COMMENT[]>();
   comment = '';
 
-  constructor() { }
+  constructor(public applicationService: ApplicationService) { }
 
   ngOnInit(): void {
   }

@@ -6,8 +6,11 @@
                       'border-bottom': (reportService.reports.data.length <= 0) ? 'none' : ''}"
           class="DialogLink pointer">Add Report</span>
   </div>
-  <div *ngIf="reportService.reports.data.length <= 0 || element.reports.length <= 0" class="DialogNotElement">
+  <div *ngIf="reportService.reports.data.length <= 0" class="DialogNotElement">
     No linked Reports
+  </div>
+  <div *ngIf="element.reports.length <= 0" class="DialogNotElement">
+    Add linked report by clicking on the “Add report” button.
   </div>
   <div class="tableScroll scroll">
     <table *ngIf="reportService?.reports?.data?.length > 0 && element?.reports?.length > 0"

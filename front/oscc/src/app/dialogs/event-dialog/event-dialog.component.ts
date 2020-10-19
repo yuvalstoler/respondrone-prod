@@ -1,9 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {
+  COMMENT,
   EVENT_DATA_UI,
   EVENT_TYPE,
-  GEOPOINT3D, LINKED_REPORT_DATA,
+  GEOPOINT3D, LINKED_REPORT_DATA, LOCATION_NAMES,
   LOCATION_TYPE, POINT3D,
   PRIORITY
 } from '../../../../../../classes/typings/all.typings';
@@ -26,7 +27,7 @@ export class EventDialogComponent implements OnInit {
   eventModel: EVENT_DATA_UI;
   types = Object.values(EVENT_TYPE);
   priorities = Object.values(PRIORITY);
-  locations = ['No location', 'Add an address', 'Choose a location point', 'Create a polygon'];
+  locations = Object.values(LOCATION_NAMES);
   comment = '';
 
   defaultEvent: EVENT_DATA_UI = {
@@ -47,6 +48,7 @@ export class EventDialogComponent implements OnInit {
     modeDefine: undefined
   };
 
+  LOCATION_NAMES = LOCATION_NAMES;
   LOCATION_TYPE = LOCATION_TYPE;
 
   constructor(public applicationService: ApplicationService,
@@ -86,7 +88,7 @@ export class EventDialogComponent implements OnInit {
   };
 
   onChangeLocation = (location: string) => {
-    if (location === 'No location') {
+    if (location === LOCATION_NAMES.noLocation) {
       this.eventModel.locationType = LOCATION_TYPE.none;
       this.eventModel.location = {longitude: undefined, latitude: undefined};
       this.eventModel.address = '';
@@ -94,7 +96,7 @@ export class EventDialogComponent implements OnInit {
       this.locationService.deleteLocationPointTemp();
       this.polygonService.deletePolygonManually();
 
-    } else if (location === 'Add an address') {
+    } else if (location === LOCATION_NAMES.address) {
       this.eventModel.location = {longitude: undefined, latitude: undefined};
       this.eventModel.polygon = [];
       this.eventModel.locationType = LOCATION_TYPE.address;
@@ -102,7 +104,7 @@ export class EventDialogComponent implements OnInit {
       this.locationService.deleteLocationPointTemp();
       this.polygonService.deletePolygonManually();
 
-    } else if (location === 'Choose a location point') {
+    } else if (location === LOCATION_NAMES.locationPoint) {
       // toaster
       this.customToasterService.info({message: 'Click on map to set the event\'s location', title: 'location'});
       this.eventModel.address = '';
@@ -115,7 +117,7 @@ export class EventDialogComponent implements OnInit {
         this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
       }
 
-    } else if (location === 'Create a polygon') {
+    } else if (location === LOCATION_NAMES.polygon) {
       // toaster
       this.customToasterService.info(
         {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
@@ -161,12 +163,12 @@ export class EventDialogComponent implements OnInit {
     this.polygonService.deletePolygonManually();
   };
 
-  onSendComment = () => {
-    if (this.comment !== '' && this.comment !== undefined) {
-      this.eventModel.comments.push({source: '', time: Date.now(), text: this.comment});
-      this.comment = '';
-    }
-  };
+  // onSendComment = () => {
+  //   if (this.comment !== '' && this.comment !== undefined) {
+  //     this.eventModel.comments.push({source: '', time: Date.now(), text: this.comment});
+  //     this.comment = '';
+  //   }
+  // };
 
   onUpdateLinkedReports = (linkedReportIds: string[]) => {
     if (linkedReportIds && Array.isArray(linkedReportIds)) {
@@ -178,6 +180,10 @@ export class EventDialogComponent implements OnInit {
       });
       this.eventModel.reports = linkedReports;
     }
-  }
+  };
+
+  onChangeComments = (comments: COMMENT[]) => {
+   this.eventModel.comments = comments;
+  };
 
 }
