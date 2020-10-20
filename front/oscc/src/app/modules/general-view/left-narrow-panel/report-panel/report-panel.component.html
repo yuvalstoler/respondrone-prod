@@ -77,7 +77,6 @@
                   <input matInput class="Label" type="number"
                          min="0"
                          placeholder="Lat"
-                         (click)="$event.stopPropagation()"
                          (change)="locationChanged($event, 'latitude')"
                          (keyup)="locationChanged($event, 'latitude')"
                          [(ngModel)]="reportModel.location.latitude">
@@ -89,7 +88,6 @@
                   <input matInput class="Label" type="number"
                          min="0"
                          placeholder="Long"
-                         (click)="$event.stopPropagation()"
                          (change)="locationChanged($event, 'longitude')"
                          (keyup)="locationChanged($event, 'longitude')"
                          [(ngModel)]="reportModel.location.longitude">

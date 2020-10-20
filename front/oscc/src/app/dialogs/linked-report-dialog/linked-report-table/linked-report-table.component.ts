@@ -1,6 +1,5 @@
 import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {MAP} from '../../../../types';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatSort} from '@angular/material/sort';
 import {ApplicationService} from '../../../services/applicationService/application.service';
@@ -50,7 +49,7 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
     this.idsToRemove = arr;
     const dataWithoutSelected = this.reportService.reports.data.filter((data) => this.idsToRemove.indexOf(data.id) === -1);
     this.dataSource.data = [...dataWithoutSelected];
-  }
+  };
 
   private selectRow = (element): void => {
     // if (this.applicationService.selectedReport === undefined) {
@@ -81,11 +80,11 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
     } catch (e) {
       return [];
     }
-  }
+  };
 
   getNumOfSelected = () => {
     return this.selection.selected.length;
-  }
+  };
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected = () => {

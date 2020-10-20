@@ -55,7 +55,6 @@
 
     <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
     <tr (click)="selectRow(row)" *matRowDef="let row; columns: displayedColumns;"
-
         class="example-element-row"
         mat-row>
       <!--[class.selected]="applicationService.selectedReport === row"-->

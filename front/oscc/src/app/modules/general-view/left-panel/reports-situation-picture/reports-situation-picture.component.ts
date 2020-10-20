@@ -7,6 +7,8 @@ import {LEFT_PANEL_ICON} from '../../../../../types';
 import {ReportService} from '../../../../services/reportService/report.service';
 import {EventService} from '../../../../services/eventService/event.service';
 import {REPORT_DATA_UI} from '../../../../../../../../classes/typings/all.typings';
+import {EventDialogComponent} from "../../../../dialogs/event-dialog/event-dialog.component";
+import {ReportDialogComponent} from "../../../../dialogs/report-dialog/report-dialog.component";
 
 @Component({
   selector: 'app-reports-situation-picture',
@@ -42,10 +44,17 @@ export class ReportsSituationPictureComponent implements OnInit {
   };
 
   private openReportPanel = () => {
-    // this.applicationService.screen.showLeftPanel = false;
-    this.applicationService.screen.showLeftNarrowPanel = true;
-    this.applicationService.screen.showEventPanel = false;
-    this.applicationService.screen.showReportPanel = true;
+    const dialogRef = this.dialog.open(ReportDialogComponent, {
+      width: '45vw',
+      disableClose: true,
+      data: {title: 'Create new report'}
+    });
+
+    dialogRef.afterClosed().subscribe((result: string[]) => {
+      if (result) {
+        console.log(result);
+      }
+    });
   };
 
   onArchiveReport = () => {

@@ -89,6 +89,7 @@
           <!--Linked events table-->
           <div class="example-element-linked">
             <app-linked-events-table (updateLinkedEvents)="onUpdateLinkedEvents($event, element)"
+                                     [isAllColumns]="true"
                                      [element]="element">
             </app-linked-events-table>
             <!--Media-->

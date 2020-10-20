@@ -20,7 +20,7 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   displayedColumns: string[] = ['ID', 'Type', 'Description', 'Time', 'actionsColumn'];
-  dataSource = new MatTableDataSource<LINKED_REPORT_DATA>();
+  dataSource:  MatTableDataSource<LINKED_REPORT_DATA>;
 
   constructor( public dialog: MatDialog,
                public reportService: ReportService,
@@ -39,10 +39,6 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
   selectRow = (row) => {
 
   };
-
-  removeAll() {
-    this.dataSource.data = [];
-  }
 
   removeAt = (row: LINKED_REPORT_DATA) => {
     const reportIds = [...this.element.reportIds];

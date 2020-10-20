@@ -5,7 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {LinkedEventDialogComponent} from '../../../dialogs/linked-event-dialog/linked-event-dialog.component';
 import {LINKED_EVENT_DATA, REPORT_DATA_UI} from '../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../services/eventService/event.service';
-import {ApplicationService} from "../../../services/applicationService/application.service";
+import {ApplicationService} from '../../../services/applicationService/application.service';
 
 @Component({
   selector: 'app-linked-events-table',
@@ -15,6 +15,7 @@ import {ApplicationService} from "../../../services/applicationService/applicati
 export class LinkedEventsTableComponent implements OnInit, AfterViewInit {
 
   @Input() element: REPORT_DATA_UI;
+  @Input() isAllColumns: boolean;
   @Output() updateLinkedEvents = new EventEmitter<string[]>();
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 

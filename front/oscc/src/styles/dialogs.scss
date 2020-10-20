@@ -60,6 +60,10 @@
   background-color: $darkGray;
   color: $white;
 }
+.DialogHeaderX {
+  float: right;
+  margin: -5px 0 0 0;
+}
 
 .DialogContent{
   display: grid;
@@ -113,6 +117,14 @@
 .DialogButtonX{
   background-color: transparent;
   border: none;
+}
+
+.mat-column-Description{
+  max-width: 10em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 5px;
 }
 
 // ============= Footer =================================================

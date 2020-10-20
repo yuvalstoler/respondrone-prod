@@ -36,17 +36,5 @@ th.mat-sort-header-sorted {
 .disabled{
   color: $lightGray;
 }
-.Description {
-  max-width:5em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-right: 5px;
-}
-.mat-column-Description{
-  max-width: 10em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-right: 5px;
-}
+
+

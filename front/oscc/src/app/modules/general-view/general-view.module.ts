@@ -42,8 +42,8 @@ import { ReportPanelComponent } from './left-narrow-panel/report-panel/report-pa
 import {MatSortModule} from '@angular/material/sort';
 import { LinkedEventsTableComponent } from './linked-events-table/linked-events-table.component';
 import { CommentsPanelComponent } from './comments-panel/comments-panel.component';
-import {CustomDatePipe} from "../../pipes/custom.datepipe";
-import {MatTooltipModule} from "@angular/material/tooltip";
+import {CustomDatePipe} from '../../pipes/custom.datepipe';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -100,6 +100,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     LeftNarrowPanelComponent,
     EventPanelComponent,
     LinkedReportsTableComponent,
+    LinkedEventsTableComponent,
     ReportMediaComponent,
     ViewMediaComponent,
     ReportsSituationTableComponent,

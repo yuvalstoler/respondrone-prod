@@ -38,6 +38,7 @@ import {ToastrModule} from 'ngx-toastr';
 import {SocketIoModule, SocketIoConfig} from 'ngx-socket-io';
 import {SOCKET_CONFIG} from '../environments/environment';
 import { EventDialogComponent } from './dialogs/event-dialog/event-dialog.component';
+import { ReportDialogComponent } from './dialogs/report-dialog/report-dialog.component';
 
 const config: SocketIoConfig = SOCKET_CONFIG;
 
@@ -61,7 +62,8 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     LinkedEventDialogComponent,
     LinkedEventContainerComponent,
     LinkedEventTableComponent,
-    EventDialogComponent
+    EventDialogComponent,
+    ReportDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -100,7 +102,8 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     ConfirmDialogComponent,
     LinkedReportDialogComponent,
     LinkedEventDialogComponent,
-    EventDialogComponent
+    EventDialogComponent,
+    ReportDialogComponent
   ]
 })
 export class AppModule {
