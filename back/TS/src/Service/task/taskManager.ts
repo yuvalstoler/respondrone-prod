@@ -1,7 +1,7 @@
 import {Converting} from '../../../../../classes/applicationClasses/utility/converting';
 
 
-import {DBS_API, ES_API, TASK_API} from '../../../../../classes/dataClasses/api/api_enums';
+import {DBS_API} from '../../../../../classes/dataClasses/api/api_enums';
 
 import {RequestManager} from '../../AppService/restConnections/requestManager';
 
@@ -41,7 +41,7 @@ export class TaskManager {
 
     private getTasksFromDBS = (): Promise<ASYNC_RESPONSE<TASK_DATA[]>> => {
         return new Promise((resolve, reject) => {
-            RequestManager.requestToDBS(TASK_API.readAllTask, {})
+            RequestManager.requestToDBS(DBS_API.readAllTask, {})
                 .then((data: ASYNC_RESPONSE<TASK_DATA[]>) => {
                     if ( data.success ) {
                         this.tasks = Converting.Arr_TASK_DATA_to_Arr_Task(data.data);
@@ -97,7 +97,7 @@ export class TaskManager {
             taskData.idView = taskData.idView || DataUtility.generateIDForView();
             const newTask: Task = new Task(taskData);
 
-            RequestManager.requestToDBS(TASK_API.createTask, newTask.toJsonForSave())
+            RequestManager.requestToDBS(DBS_API.createTask, newTask.toJsonForSave())
                 .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
                     res.data = data.data;
                     res.success = data.success;
@@ -160,7 +160,7 @@ export class TaskManager {
     private deleteTask = (taskIdData: ID_OBJ): Promise<ASYNC_RESPONSE<ID_OBJ>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
-            RequestManager.requestToDBS(TASK_API.deleteTask, taskIdData)
+            RequestManager.requestToDBS(DBS_API.deleteTask, taskIdData)
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.data = data.data;
                     res.success = data.success;
@@ -186,7 +186,7 @@ export class TaskManager {
     private deleteAllTask = (): Promise<ASYNC_RESPONSE<TASK_DATA>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
-            RequestManager.requestToDBS(TASK_API.deleteAllTask, {})
+            RequestManager.requestToDBS(DBS_API.deleteAllTask, {})
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.data = data.data;
                     res.success = data.success;

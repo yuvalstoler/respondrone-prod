@@ -17,7 +17,6 @@ import {
 
 
 import {
-    REPORT_API,
     RS_API,
 } from '../../../../../classes/dataClasses/api/api_enums';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';

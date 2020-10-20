@@ -1,5 +1,5 @@
 import {
-    ADDRESS, COMMENT, EVENT_DATA, EVENT_DATA_UI, EVENT_TYPE,
+    ADDRESS, COMMENT, EVENT_DATA, EVENT_DATA_UI,
     GEOPOINT3D, ID_TYPE, LINKED_EVENT_DATA, LOCATION_TYPE, POINT3D, POLYGON_GEOPOINT,
     PRIORITY,
 } from '../../typings/all.typings';
@@ -46,7 +46,7 @@ export class Event {
     private setCreatedBy = (data: string) => {
         this.createdBy = data;
     };
-    private setType = (data: EVENT_TYPE) => {
+    private setType = (data: string /*EVENT_TYPE*/) => {
         this.type = data;
     };
     private setTitle = (data: string) => {

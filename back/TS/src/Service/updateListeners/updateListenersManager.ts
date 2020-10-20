@@ -4,7 +4,7 @@ import {
     TASK_DATA
 } from '../../../../../classes/typings/all.typings';
 import { RequestManager } from '../../AppService/restConnections/requestManager';
-import {API_GENERAL, MWS_API} from '../../../../../classes/dataClasses/api/api_enums';
+import {API_GENERAL, WS_API} from '../../../../../classes/dataClasses/api/api_enums';
 import {TaskManager} from '../task/taskManager';
 
 const _ = require('lodash');
@@ -13,7 +13,7 @@ const _ = require('lodash');
 const services = require('./../../../../../../../../config/services.json');
 
 const listeners: string[] = services.TS.listeners;
-const updateRouteListenersURL = API_GENERAL.general + MWS_API.updateAllTasks;
+const updateRouteListenersURL = API_GENERAL.general + WS_API.updateAllTasks;
 
 export class UpdateListenersManager {
 

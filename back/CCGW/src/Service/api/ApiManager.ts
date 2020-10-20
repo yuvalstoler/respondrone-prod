@@ -21,7 +21,6 @@ import {
 import {
     CCGW_API,
     MWS_API,
-    REPORT_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 
 

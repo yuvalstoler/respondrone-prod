@@ -5,7 +5,6 @@ import { Converting } from '../../../../../classes/applicationClasses/utility/co
 import { Report } from '../../../../../classes/dataClasses/report/report';
 
 import {
-    REPORT_API,
     RS_API,
 } from '../../../../../classes/dataClasses/api/api_enums';
 
@@ -33,7 +32,7 @@ export class ReportManager {
 
     private getReportsFromRS = () => {
         //get StaticNfz From AMS
-        RequestManager.requestToRS(REPORT_API.getAllReports, {})
+        RequestManager.requestToRS(RS_API.readAllReport, {})
             .then((data: ASYNC_RESPONSE<REPORT_DATA[]>) => {
                 if ( data.success ) {
                     this.reports = Converting.Arr_REPORT_DATA_to_Arr_Report(data.data);
