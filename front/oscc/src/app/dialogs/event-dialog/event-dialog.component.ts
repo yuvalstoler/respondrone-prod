@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {
   COMMENT,
@@ -22,7 +22,7 @@ import * as _ from 'lodash';
   templateUrl: './event-dialog.component.html',
   styleUrls: ['./event-dialog.component.scss']
 })
-export class EventDialogComponent implements OnInit {
+export class EventDialogComponent {
 
   eventModel: EVENT_DATA_UI;
   types = Object.values(EVENT_TYPE);
@@ -58,7 +58,7 @@ export class EventDialogComponent implements OnInit {
               public customToasterService: CustomToasterService,
               public reportService: ReportService,
               public dialogRef: MatDialogRef<EventDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: EVENT_DATA_UI) {
+              @Inject(MAT_DIALOG_DATA) public data: {title: string}) {
     this.initEventModel();
 
     // add location on panel
@@ -71,14 +71,6 @@ export class EventDialogComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
-
-  onNoClick(): void {
-    this.clearPanel();
-    this.dialogRef.close(false);
-  }
-
   private initEventModel = () => {
     if (this.applicationService.selectedEvents.length === 1) {
       this.eventModel = _.cloneDeep(this.applicationService.selectedEvents[0]);
@@ -87,7 +79,13 @@ export class EventDialogComponent implements OnInit {
     }
   };
 
-  onChangeLocation = (location: string) => {
+
+  onNoClick(): void {
+    this.clearPanel();
+    this.dialogRef.close(false);
+  }
+
+  onChangeLocation = (event, location: string) => {
     if (location === LOCATION_NAMES.noLocation) {
       this.eventModel.locationType = LOCATION_TYPE.none;
       this.eventModel.location = {longitude: undefined, latitude: undefined};
@@ -162,13 +160,6 @@ export class EventDialogComponent implements OnInit {
     this.locationService.removeBillboard();
     this.polygonService.deletePolygonManually();
   };
-
-  // onSendComment = () => {
-  //   if (this.comment !== '' && this.comment !== undefined) {
-  //     this.eventModel.comments.push({source: '', time: Date.now(), text: this.comment});
-  //     this.comment = '';
-  //   }
-  // };
 
   onUpdateLinkedReports = (linkedReportIds: string[]) => {
     if (linkedReportIds && Array.isArray(linkedReportIds)) {

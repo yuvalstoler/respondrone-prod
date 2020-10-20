@@ -9,6 +9,10 @@
   overflow: hidden;
 }
 
+::ng-deep.cdk-overlay-container, .cdk-global-overlay-wrapper {
+  width: 50%;
+}
+
 .DialogContainer {
 
  ::ng-deep.mat-dialog-title {
@@ -59,9 +63,10 @@
 
 .DialogContent{
   display: grid;
-  grid-template-columns: 49% 49%;
-  margin: 0 20px;
+  grid-template-columns: 50% 50%;
+  margin: 0 10px;
   padding: 0;
+  overflow: hidden;
 
   .item1{
     grid-row: 1;
@@ -94,7 +99,7 @@
 }
 .DialogGrid22{
   display: grid;
-  grid-template-columns: 30% 30%;
+  grid-template-columns: 40% 40%;
 }
 .DialogGrid3 {
   display: grid;

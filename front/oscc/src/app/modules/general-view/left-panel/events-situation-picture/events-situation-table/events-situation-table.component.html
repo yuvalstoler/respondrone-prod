@@ -90,6 +90,7 @@
           <!--Linked reports table-->
           <div class="example-element-linked">
             <app-linked-reports-table (updateLinkedReports)="onUpdateLinkedReports($event, element)"
+                                      [isAllColumns]="true"
                                       [element]="element">
             </app-linked-reports-table>
           </div>

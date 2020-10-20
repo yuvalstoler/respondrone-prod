@@ -7,8 +7,7 @@ import {EventsSituationTableComponent} from './events-situation-table/events-sit
 import {EventService} from '../../../../services/eventService/event.service';
 import {ReportService} from '../../../../services/reportService/report.service';
 import {EVENT_DATA_UI} from '../../../../../../../../classes/typings/all.typings';
-import {LinkedEventDialogComponent} from "../../../../dialogs/linked-event-dialog/linked-event-dialog.component";
-import {EventDialogComponent} from "../../../../dialogs/event-dialog/event-dialog.component";
+import {EventDialogComponent} from '../../../../dialogs/event-dialog/event-dialog.component';
 
 @Component({
   selector: 'app-events-situation-picture',
@@ -17,13 +16,14 @@ import {EventDialogComponent} from "../../../../dialogs/event-dialog/event-dialo
 })
 export class EventsSituationPictureComponent implements OnInit {
 
-  @ViewChild(EventsSituationTableComponent ) childComponent: EventsSituationTableComponent ;
-  LEFT_PANEL_ICON =  LEFT_PANEL_ICON;
+  @ViewChild(EventsSituationTableComponent) childComponent: EventsSituationTableComponent;
+  LEFT_PANEL_ICON = LEFT_PANEL_ICON;
 
   constructor(public applicationService: ApplicationService,
               public eventService: EventService,
               public reportService: ReportService,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog) {
+  }
 
   ngOnInit(): void {
   }
@@ -43,14 +43,14 @@ export class EventsSituationPictureComponent implements OnInit {
 
   private openEventPanel = () => {
     const dialogRef = this.dialog.open(EventDialogComponent, {
-     width: '45vw',
+      width: '45vw',
       disableClose: true,
-      data: {}
+      data: {title: 'Create new event'}
     });
 
     dialogRef.afterClosed().subscribe((result: string[]) => {
-      if (result && Array.isArray(result)) {
-
+      if (result) {
+        console.log(result);
       }
     });
   };
@@ -82,7 +82,6 @@ export class EventsSituationPictureComponent implements OnInit {
   getFilter = (event) => {
     this.childComponent.applyFilter(event);
   };
-
 
 
 }

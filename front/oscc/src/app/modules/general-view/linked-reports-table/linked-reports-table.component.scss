@@ -6,8 +6,8 @@
   margin-top: 15px;
 }
 
-
 .LinkedReportsTable{
+
   ::ng-deep.mat-elevation-z8 {
     box-shadow: none !important;
     width: 100% !important;
@@ -38,6 +38,13 @@ th.mat-sort-header-sorted {
 }
 .Description {
   max-width:5em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 5px;
+}
+.mat-column-Description{
+  max-width: 10em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

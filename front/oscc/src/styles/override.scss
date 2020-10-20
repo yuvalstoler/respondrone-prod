@@ -1,5 +1,9 @@
 @import "./colors";
 
+::ng-deep .cdk-global-scrollblock {
+  overflow-y: hidden !important;
+}
+
 // radioButtons ========================================================================================================
 
 :host::ng-deep .mat-radio-outer-circle {
