@@ -18,7 +18,7 @@ export class Task {
     time: number;
     createdBy: string;
     title: string;
-    type: TASK_TYPE;
+    type: string; // TASK_TYPE;
     priority: PRIORITY;
     description: string = '';
     resources: string = '';
@@ -53,7 +53,7 @@ export class Task {
     private setCreatedBy = (data: string) => {
         this.createdBy = data;
     };
-    private setType = (data: TASK_TYPE) => {
+    private setType = (data: string /*TASK_TYPE*/) => {
         this.type = data;
     };
     private setTitle = (data: string) => {

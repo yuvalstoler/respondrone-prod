@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 
 import {
-    TASK_API,
+    TS_API,
 } from '../../../../../classes/dataClasses/api/api_enums';
 
 import { RequestManager } from '../../AppService/restConnections/requestManager';
@@ -32,7 +32,7 @@ export class TaskManager {
     }
 
     private getTasksFromTS = () => {
-        RequestManager.requestToTS(TASK_API.readAllTask, {})
+        RequestManager.requestToTS(TS_API.readAllTask, {})
             .then((data: ASYNC_RESPONSE<TASK_DATA[]>) => {
                 if ( data.success ) {
                     this.tasks = Converting.Arr_TASK_DATA_to_Arr_Task(data.data);
@@ -75,7 +75,7 @@ export class TaskManager {
             res.data = newTaskDataJson;
             res.success = true;
 
-            RequestManager.requestToTS(TASK_API.createTask, newTaskDataJson)
+            RequestManager.requestToTS(TS_API.createTask, newTaskDataJson)
                 .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
                     resolve(data);
                 })
@@ -115,7 +115,7 @@ export class TaskManager {
     private deleteTask = (taskIdData: ID_OBJ): Promise<ASYNC_RESPONSE<ID_OBJ>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
-            RequestManager.requestToTS(TASK_API.deleteTask, taskIdData)
+            RequestManager.requestToTS(TS_API.deleteTask, taskIdData)
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.data = data.data;
                     res.success = data.success;
@@ -135,7 +135,7 @@ export class TaskManager {
     private deleteAllTask = (): Promise<ASYNC_RESPONSE<TASK_DATA>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
-            RequestManager.requestToTS(TASK_API.deleteAllTask, {})
+            RequestManager.requestToTS(TS_API.deleteAllTask, {})
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.data = data.data;
                     res.success = data.success;

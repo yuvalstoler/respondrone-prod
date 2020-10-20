@@ -27,53 +27,49 @@ export enum DBS_API {
     deleteEvent = '/deleteEvent',
     deleteAllEvent = '/deleteAllEvent',
 
-
     createReport = '/createReport',
     readReport = '/readReport',
     readAllReport = '/readAllReport',
     deleteReport = '/deleteReport',
     deleteAllReport = '/deleteAllReport',
-    getAllReports = '/getAllReports',
 
     createTask = '/createTask',
     readTask = '/readTask',
     readAllTask = '/readAllTask',
     deleteTask = '/deleteTask',
     deleteAllTask = '/deleteAllTask',
-    getAllTasks = '/getAllTasks',
-
 
 }
 
-export enum REPORT_API {
-    createReport = '/createReport',
-    readReport = '/readReport',
-    readAllReport = '/readAllReport',
-    deleteReport = '/deleteReport',
-    deleteAllReport = '/deleteAllReport',
-    getAllReports = '/getAllReports',
-
-}
-
-export enum EVENT_API {
-    createEvent = '/createEvent',
-    readEvent = '/readEvent',
-    readAllEvent = '/readAllEvent',
-    deleteEvent = '/deleteEvent',
-    deleteAllEvent = '/deleteAllEvent',
-    getAllEvents = '/getAllEvents',
-
-}
-
-export enum TASK_API {
-    createTask = '/createTask',
-    readTask = '/readTask',
-    readAllTask = '/readAllTask',
-    deleteTask = '/deleteTask',
-    deleteAllTask = '/deleteAllTask',
-    getAllTasks = '/getAllTasks',
-
-}
+// export enum REPORT_API {
+//     createReport = '/createReport',
+//     readReport = '/readReport',
+//     readAllReport = '/readAllReport',
+//     deleteReport = '/deleteReport',
+//     deleteAllReport = '/deleteAllReport',
+//     getAllReports = '/getAllReports',
+//
+// }
+//
+// export enum EVENT_API {
+//     createEvent = '/createEvent',
+//     readEvent = '/readEvent',
+//     readAllEvent = '/readAllEvent',
+//     deleteEvent = '/deleteEvent',
+//     deleteAllEvent = '/deleteAllEvent',
+//     getAllEvents = '/getAllEvents',
+//
+// }
+//
+// export enum TASK_API {
+//     createTask = '/createTask',
+//     readTask = '/readTask',
+//     readAllTask = '/readAllTask',
+//     deleteTask = '/deleteTask',
+//     deleteAllTask = '/deleteAllTask',
+//     getAllTasks = '/getAllTasks',
+//
+// }
 
 export enum LS_API {
     getLogById = '/getLogById',
@@ -81,13 +77,13 @@ export enum LS_API {
 
 export enum TS_API {
     createTask = '/createTask',
-    getAllTasks = '/getAllTasks',
-    getTaskById = '/getTaskById',
-
     readTask = '/readTask',
     readAllTask = '/readAllTask',
     deleteTask = '/deleteTask',
     deleteAllTask = '/deleteAllTask',
+
+    getAllTasks = '/getAllTasks',
+    getTaskById = '/getTaskById',
 
 }
 
@@ -106,15 +102,19 @@ export enum RS_API {
 
 export enum MWS_API {
     updateAllReports = '/updateAllReports',
-    updateAllEvents = '/updateAllEvents',
-    updateAllTasks = '/updateAllTasks',
+    // updateAllEvents = '/updateAllEvents',
+    // updateAllTasks = '/updateAllTasks',
     newReport = '/newReport',
     getVideoSources = '/getVideoSources',
 
 }
 
 export enum ES_API {
-    getAllEvents = '/getAllEvents',
+    createEvent = '/createEvent',
+    readEvent = '/readEvent',
+    readAllEvent = '/readAllEvent',
+    deleteEvent = '/deleteEvent',
+    deleteAllEvent = '/deleteAllEvent',
 }
 
 
@@ -139,9 +139,26 @@ export enum FS_API {
 }
 
 export enum WS_API {
-    newReport = '/newReport',
+    createEvent = '/createEvent',
+    readEvent = '/readEvent',
+    readAllEvent = '/readAllEvent',
+    deleteEvent = '/deleteEvent',
+    deleteAllEvent = '/deleteAllEvent',
+
+    createReport = '/createReport',
+    readReport = '/readReport',
+    readAllReport = '/readAllReport',
+    deleteReport = '/deleteReport',
+    deleteAllReport = '/deleteAllReport',
     uploadFile = '/uploadFile',
     removeFile = '/removeFile',
+
+    createTask = '/createTask',
+    readTask = '/readTask',
+    readAllTask = '/readAllTask',
+    deleteTask = '/deleteTask',
+    deleteAllTask = '/deleteAllTask',
+
     updateAllReports = '/updateAllReports',
     updateAllEvents = '/updateAllEvents',
     updateAllTasks = '/updateAllTasks',

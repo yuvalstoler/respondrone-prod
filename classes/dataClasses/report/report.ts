@@ -8,7 +8,6 @@ import {
     PRIORITY,
     REPORT_DATA,
     REPORT_DATA_UI,
-    REPORT_TYPE,
     SOURCE_TYPE,
     ADDRESS,
     MAP
@@ -51,7 +50,7 @@ export class Report {
         }
     };
 
-    private setType = (data: REPORT_TYPE) => {
+    private setType = (data: string /*REPORT_TYPE*/) => {
         this.type = data;
     };
     private setSource = (data: SOURCE_TYPE) => {

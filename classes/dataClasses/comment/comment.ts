@@ -1,6 +1,5 @@
 import {
     COMMENT_DATA,
-    REPORT_TYPE,
 } from '../../typings/all.typings';
 import { DataUtility } from '../../applicationClasses/utility/dataUtility';
 

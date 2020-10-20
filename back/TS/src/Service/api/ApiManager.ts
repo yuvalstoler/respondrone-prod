@@ -17,7 +17,6 @@ import {
 
 
 import {
-    TASK_API,
     TS_API,
 } from '../../../../../classes/dataClasses/api/api_enums';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
@@ -40,18 +39,6 @@ export class ApiManager implements IRest {
         return true;
     };
 
-    private createTask = (request: Request, response: Response) => {
-        const res: ASYNC_RESPONSE<TASK_DATA[]> = {success: true};
-        const requestBody: TASK_DATA = request.body;
-        TaskManager.createTask(requestBody)
-            .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
-                response.send(data);
-            })
-            .catch((data: ASYNC_RESPONSE<TASK_DATA>) => {
-                response.send(data);
-            });
-        response.send(res);
-    }
 
     private newTask = (request: Request, response: Response) => {
         const requestBody: TASK_DATA = request.body;
@@ -159,13 +146,12 @@ export class ApiManager implements IRest {
     };
 
     routers: {} = {
-        [TS_API.createTask]: this.createTask,
-
         [TS_API.createTask]: this.newTask,
         [TS_API.readTask]: this.readTask,
         [TS_API.readAllTask]: this.readAllTask,
         [TS_API.deleteTask]: this.deleteTask,
         [TS_API.deleteAllTask]: this.deleteAllTask,
+
         [TS_API.getAllTasks]: this.getTasks,
         [TS_API.getTaskById]: this.getTaskById,
 

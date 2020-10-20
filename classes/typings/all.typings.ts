@@ -61,25 +61,25 @@ export type ADDRESS = string;
 export type POLYGON_GEOPOINT = GEOPOINT3D[];
 
 
-export enum REPORT_TYPE {
-    unclassified = 'Unclassified',
-    fireAlarm = 'Fire Alarm',
-    flood = 'Flood',
-    roadAccident = 'road Accident',
-    roadBlock = 'road Block',
-    attackReport = 'Attack Report',
-    explosionReport = 'Explosion Report',
-
-}
-
-export enum EVENT_TYPE { // TODO - change data fields
-    general = 'general',
-    emergency = 'emergency',
-    criminal = 'criminal',
-    terror = 'terror',
-    accident = 'accident',
-    info = 'info',
-}
+// export enum REPORT_TYPE {
+//     unclassified = 'Unclassified',
+//     fireAlarm = 'Fire Alarm',
+//     flood = 'Flood',
+//     roadAccident = 'road Accident',
+//     roadBlock = 'road Block',
+//     attackReport = 'Attack Report',
+//     explosionReport = 'Explosion Report',
+//
+// }
+//
+// export enum EVENT_TYPE { // TODO - change data fields
+//     general = 'general',
+//     emergency = 'emergency',
+//     criminal = 'criminal',
+//     terror = 'terror',
+//     accident = 'accident',
+//     info = 'info',
+// }
 
 export enum SOURCE_TYPE { // TODO - change data fields
     MRF = 'MFR',
@@ -256,7 +256,7 @@ export type TASK_DATA = {
     time: number;
     createdBy: string;
     title: string;
-    type: TASK_TYPE;
+    type: string; // TASK_TYPE;
     priority: PRIORITY;
     description: string;
     location: GEOPOINT3D;
@@ -291,11 +291,11 @@ export enum TASK_STATUS {
 }
 
 
-export enum TASK_TYPE { // TODO - change data fields
-    general = 'general',
-    rescue = 'rescue',
-    fire = 'fire'
-}
+// export enum TASK_TYPE { // TODO - change data fields
+//     general = 'general',
+//     rescue = 'rescue',
+//     fire = 'fire'
+// }
 
 export enum MEDIA_TYPE {
     unknown = 'unknown',

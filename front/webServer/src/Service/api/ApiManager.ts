@@ -20,10 +20,8 @@ import {
 
 
 import {
-    EVENT_API,
     FS_API,
     MWS_API,
-    REPORT_API, TASK_API,
     WS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
@@ -417,26 +415,26 @@ export class ApiManager implements IRest {
 
 
 
-        [REPORT_API.createReport]: this.createReport,
-        [REPORT_API.readReport]: this.readReport,
-        [REPORT_API.readAllReport]: this.readAllReport,
-        [REPORT_API.deleteReport]: this.deleteReport,
-        [REPORT_API.deleteAllReport]: this.deleteAllReport,
+        [WS_API.createReport]: this.createReport,
+        [WS_API.readReport]: this.readReport,
+        [WS_API.readAllReport]: this.readAllReport,
+        [WS_API.deleteReport]: this.deleteReport,
+        [WS_API.deleteAllReport]: this.deleteAllReport,
 
-        [EVENT_API.createEvent]: this.createEvent,
-        [EVENT_API.readEvent]: this.readEvent,
-        [EVENT_API.readAllEvent]: this.readAllEvent,
-        [EVENT_API.deleteEvent]: this.deleteEvent,
-        [EVENT_API.deleteAllEvent]: this.deleteAllEvent,
+        [WS_API.createEvent]: this.createEvent,
+        [WS_API.readEvent]: this.readEvent,
+        [WS_API.readAllEvent]: this.readAllEvent,
+        [WS_API.deleteEvent]: this.deleteEvent,
+        [WS_API.deleteAllEvent]: this.deleteAllEvent,
 
-        [TASK_API.createTask]: this.createTask,
-        [TASK_API.readTask]: this.readTask,
-        [TASK_API.readAllTask]: this.readAllTask,
-        [TASK_API.deleteTask]: this.deleteTask,
-        [TASK_API.deleteAllTask]: this.deleteAllTask,
+        [WS_API.createTask]: this.createTask,
+        [WS_API.readTask]: this.readTask,
+        [WS_API.readAllTask]: this.readAllTask,
+        [WS_API.deleteTask]: this.deleteTask,
+        [WS_API.deleteAllTask]: this.deleteAllTask,
 
         [WS_API.uploadFile]: this.uploadFile,
-        [FS_API.removeFile]: this.removeFile,
+        [WS_API.removeFile]: this.removeFile,
 
         [WS_API.updateAllReports]: this.updateAllReports,
         [WS_API.updateAllEvents]: this.updateAllEvents,

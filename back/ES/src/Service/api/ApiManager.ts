@@ -16,7 +16,7 @@ import {
 
 
 import {
-    EVENT_API,
+    ES_API,
 } from '../../../../../classes/dataClasses/api/api_enums';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 
@@ -130,11 +130,11 @@ export class ApiManager implements IRest {
 
     routers: {} = {
 
-        [EVENT_API.createEvent]: this.newEvent,
-        [EVENT_API.readEvent]: this.readEvent,
-        [EVENT_API.readAllEvent]: this.readAllEvent,
-        [EVENT_API.deleteEvent]: this.deleteEvent,
-        [EVENT_API.deleteAllEvent]: this.deleteAllEvent,
+        [ES_API.createEvent]: this.newEvent,
+        [ES_API.readEvent]: this.readEvent,
+        [ES_API.readAllEvent]: this.readAllEvent,
+        [ES_API.deleteEvent]: this.deleteEvent,
+        [ES_API.deleteAllEvent]: this.deleteAllEvent,
 
     };
 

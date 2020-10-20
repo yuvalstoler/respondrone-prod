@@ -18,9 +18,7 @@ import {
 } from '../../../../../classes/typings/all.typings';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 import {
-    DBS_API,
-    EVENT_API,
-    REPORT_API
+    DBS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 
 

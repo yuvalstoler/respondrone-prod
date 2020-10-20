@@ -1,7 +1,7 @@
 import {Converting} from '../../../../../classes/applicationClasses/utility/converting';
 import {Report} from '../../../../../classes/dataClasses/report/report';
 
-import {REPORT_API} from '../../../../../classes/dataClasses/api/api_enums';
+import {RS_API} from '../../../../../classes/dataClasses/api/api_enums';
 
 import {RequestManager} from '../../AppService/restConnections/requestManager';
 
@@ -42,7 +42,7 @@ export class ReportManager {
 
     private getReportsFromRS = () => {
         //get StaticNfz From AMS
-        RequestManager.requestToRS(REPORT_API.readAllReport, {})
+        RequestManager.requestToRS(RS_API.readAllReport, {})
             .then((data: ASYNC_RESPONSE<REPORT_DATA[]>) => {
                 if ( data.success ) {
                     this.reports = Converting.Arr_REPORT_DATA_to_Arr_Report(data.data);
@@ -95,7 +95,7 @@ export class ReportManager {
             res.data = newReportDataJson;
             res.success = true;
 
-            RequestManager.requestToRS(REPORT_API.createReport, newReportDataJson)
+            RequestManager.requestToRS(RS_API.createReport, newReportDataJson)
                 .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                     resolve(data);
                 })
@@ -135,7 +135,7 @@ export class ReportManager {
     private deleteReport = (reportIdData: ID_OBJ): Promise<ASYNC_RESPONSE<ID_OBJ>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
-            RequestManager.requestToRS(REPORT_API.deleteReport, reportIdData)
+            RequestManager.requestToRS(RS_API.deleteReport, reportIdData)
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.data = data.data;
                     res.success = data.success;
@@ -155,7 +155,7 @@ export class ReportManager {
     private deleteAllReport = (): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
-            RequestManager.requestToRS(REPORT_API.deleteAllReport, {})
+            RequestManager.requestToRS(RS_API.deleteAllReport, {})
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.data = data.data;
                     res.success = data.success;
