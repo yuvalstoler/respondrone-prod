@@ -6,7 +6,8 @@
   <!--Map Cesium-->
   <div >
     <app-map></app-map>
-    <div class="MapContent"
+    <div class="MapContent" [ngClass]="{'MapRegular':applicationService.panelIcon === LEFT_PANEL_ICON.expand,
+    'MapWide': applicationService.panelIcon === LEFT_PANEL_ICON.minimize}"
          id="{{cesiumService?.maps[0]?.containerId}}">
     </div>
     <!--<div class="cesium-two"-->
@@ -23,14 +24,6 @@
                  class="LeftPanel"
                  mode="side">
       <app-left-panel></app-left-panel>
-    </mat-sidenav>
-  </mat-sidenav-container>
-  <!--Left Narrow Panel-->
-  <mat-sidenav-container>
-    <mat-sidenav #sidenav [(opened)]="applicationService.screen.showLeftNarrowPanel"
-                 class="LeftNarrowPanel"
-                 mode="side">
-      <app-left-narrow-panel></app-left-narrow-panel>
     </mat-sidenav>
   </mat-sidenav-container>
 

@@ -24,6 +24,7 @@
          class="RightSideButton pointer">Create New Event
     </div>
   </div>
+  <div class="HeaderRightPanel" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.minimize"></div>
   <!--Table-->
   <div>
     <app-events-situation-table></app-events-situation-table>

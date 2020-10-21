@@ -133,13 +133,13 @@
   </mat-dialog-content>
   <!--Action-->
   <div class="DialogActions" mat-dialog-actions>
-    <button (click)="onCancelClick()" class="DialogActionsDelete"
+    <button (click)="onNoClick()" class="DialogActionsDelete"
             mat-raised-button>Cancel
     </button>
-    <button (click)="onCreateClick()" [mat-dialog-close]="reportModel"
+    <button [mat-dialog-close]="reportModel"
             class="DialogActionsCreate"
             mat-raised-button>
-      Create new report
+      {{data.title}}
     </button>
   </div>
 </div>

@@ -1,10 +1,9 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {HttpClient, HttpEventType, HttpHeaders} from '@angular/common/http';
-import {ConnectionService} from '../../../../services/connectionService/connection.service';
-import {retry} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
-import {ViewMediaComponent} from '../../view-media/view-media.component';
-import {FILE_FS_DATA} from '../../../../../../../../classes/typings/all.typings';
+import {FILE_FS_DATA} from '../../../../../../../classes/typings/all.typings';
+import {ConnectionService} from '../../../services/connectionService/connection.service';
+import {ViewMediaComponent} from '../view-media/view-media.component';
 
 
 export type PROGRESS_INFO = {

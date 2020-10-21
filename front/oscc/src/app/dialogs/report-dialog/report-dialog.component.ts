@@ -129,25 +129,7 @@ export class ReportDialogComponent {
     }
   };
 
-  onCreateClick = () => {
-    this.reportService.createReport(this.reportModel, (report: REPORT_DATA_UI) => {
-      this.eventService.linkEventsToReport(report.eventIds, report.id); // TODO
-    });
-    this.clearPanel();
-  };
-
-  onCancelClick = () => {
-    if (!this.reportModel.id) {
-      this.reportModel.media.forEach((data: FILE_FS_DATA) => {
-        // TODO: remove media
-      });
-    }
-    this.clearPanel();
-
-  };
-
   clearPanel = () => {
-    this.applicationService.screen.showReportPanel = false;
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.situationPictures;
     this.reportModel = _.cloneDeep(this.defaultReport);
     this.applicationService.stateDraw = STATE_DRAW.notDraw;

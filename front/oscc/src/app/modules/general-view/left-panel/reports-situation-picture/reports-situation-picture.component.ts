@@ -7,8 +7,7 @@ import {LEFT_PANEL_ICON} from '../../../../../types';
 import {ReportService} from '../../../../services/reportService/report.service';
 import {EventService} from '../../../../services/eventService/event.service';
 import {REPORT_DATA_UI} from '../../../../../../../../classes/typings/all.typings';
-import {EventDialogComponent} from "../../../../dialogs/event-dialog/event-dialog.component";
-import {ReportDialogComponent} from "../../../../dialogs/report-dialog/report-dialog.component";
+import {ReportDialogComponent} from '../../../../dialogs/report-dialog/report-dialog.component';
 
 @Component({
   selector: 'app-reports-situation-picture',
@@ -30,29 +29,31 @@ export class ReportsSituationPictureComponent implements OnInit {
 
   onCreateNewReport = () => {
     this.applicationService.selectedReports = [];
-    this.openReportPanel();
+    const title = 'Create new report';
+    this.openReportPanel(title);
   };
 
   onDeleteReport = () => {
-  //   todo: add confirmWindow
     this.openConfirmDialog();
   };
 
   onEditReport = () => {
-  //   todo: open editReport leftNarrowPanel
-   this.openReportPanel();
+    const title = 'Edit report';
+   this.openReportPanel(title);
   };
 
-  private openReportPanel = () => {
+  private openReportPanel = (title) => {
     const dialogRef = this.dialog.open(ReportDialogComponent, {
       width: '45vw',
       disableClose: true,
-      data: {title: 'Create new report'}
+      data: {title: title}
     });
 
-    dialogRef.afterClosed().subscribe((result: string[]) => {
+    dialogRef.afterClosed().subscribe((result: REPORT_DATA_UI) => {
       if (result) {
-        console.log(result);
+        this.reportService.createReport(result, (report: REPORT_DATA_UI) => {
+          this.eventService.linkEventsToReport(report.eventIds, report.id);
+        });
       }
     });
   };

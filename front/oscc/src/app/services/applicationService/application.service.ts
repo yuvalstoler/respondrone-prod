@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {DISPLAY_ON_SCREEN, HEADER_BUTTONS, LEFT_PANEL_ICON, STATE_DRAW} from 'src/types';
 import {EVENT_DATA_UI, REPORT_DATA_UI} from '../../../../../../classes/typings/all.typings';
-import {ConnectionService} from "../connectionService/connection.service";
+import {ConnectionService} from '../connectionService/connection.service';
 
 
 @Injectable({
@@ -28,7 +28,7 @@ export class ApplicationService {
       })
       .catch((data) => {
         console.log(data);
-      })
+      });
 
 
     setInterval(() => {
@@ -36,10 +36,7 @@ export class ApplicationService {
     }, 1000);
 
     this.screen = {
-      showLeftPanel: true,
-      showLeftNarrowPanel: false,
-      showEventPanel: false,
-      showReportPanel: false
+      showLeftPanel: true
     };
   }
 }

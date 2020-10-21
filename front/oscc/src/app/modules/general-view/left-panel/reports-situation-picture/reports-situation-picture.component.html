@@ -24,6 +24,7 @@
          class="RightSideButton pointer">Create New Report
     </div>
   </div>
+  <div class="HeaderRightPanel" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.minimize"></div>
   <!--Table-->
   <div>
     <app-reports-situation-table></app-reports-situation-table>

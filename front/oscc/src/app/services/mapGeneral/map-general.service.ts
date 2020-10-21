@@ -179,4 +179,11 @@ export class MapGeneralService {
     return res;
   };
 
+  public flyToObject = (coordinates): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumService.flyToObject(domId, coordinates);
+    return res;
+  };
+
 }

@@ -30,7 +30,8 @@ export class EventsSituationPictureComponent implements OnInit {
 
   onCreateNewEvent = () => {
     this.applicationService.selectedEvents = [];
-    this.openEventPanel();
+    const title = 'Create new event';
+    this.openEventPanel(title);
   };
 
   onDeleteEvent = () => {
@@ -38,19 +39,23 @@ export class EventsSituationPictureComponent implements OnInit {
   };
 
   onEditEvent = () => {
-    this.openEventPanel();
+    const title = 'Edit event';
+    this.openEventPanel(title);
   };
 
-  private openEventPanel = () => {
+  private openEventPanel = (title: string) => {
     const dialogRef = this.dialog.open(EventDialogComponent, {
       width: '45vw',
       disableClose: true,
-      data: {title: 'Create new event'}
+      data: {title: title}
     });
 
-    dialogRef.afterClosed().subscribe((result: string[]) => {
+    dialogRef.afterClosed().subscribe((result: EVENT_DATA_UI) => {
       if (result) {
-        console.log(result);
+        this.eventService.createEvent(result, (event: EVENT_DATA_UI) => {
+          this.reportService.linkReportsToEvent(event.reportIds, event.id);
+        });
+        // console.log(result);
       }
     });
   };

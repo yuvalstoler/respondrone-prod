@@ -5,7 +5,6 @@ import {
   EVENT_DATA_UI,
   GEOPOINT3D, LINKED_REPORT_DATA, LOCATION_NAMES,
   LOCATION_TYPE, POINT3D,
-  EVENT_TYPE,
   PRIORITY
 } from '../../../../../../classes/typings/all.typings';
 import {HEADER_BUTTONS, STATE_DRAW} from '../../../types';
@@ -25,7 +24,7 @@ import * as _ from 'lodash';
 export class EventDialogComponent {
 
   eventModel: EVENT_DATA_UI;
-  types = Object.values(EVENT_TYPE);
+  types = this.applicationService.typesConfig.eventTypes;
   priorities = Object.values(PRIORITY);
   locations = Object.values(LOCATION_NAMES);
   comment = '';
@@ -141,17 +140,7 @@ export class EventDialogComponent {
     }
   };
 
-  onCreateClick = () => {
-    this.eventService.createEvent(this.eventModel, (event: EVENT_DATA_UI) => {
-      this.reportService.linkReportsToEvent(event.reportIds, event.id);
-    });
-    this.clearPanel();
-  };
-
   clearPanel = () => {
-    this.applicationService.screen.showLeftNarrowPanel = false;
-    this.applicationService.screen.showEventPanel = false;
-
     this.applicationService.screen.showLeftPanel = true;
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.situationPictures;
     this.eventModel = _.cloneDeep(this.defaultEvent);

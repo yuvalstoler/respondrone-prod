@@ -9,7 +9,6 @@ table {
 .table-scroll {
   max-height: calc(100vh - #{$headerHeight} - 120px);
   overflow: auto;
-  margin-top: 15px;
 }
 
 .tableCheckbox {

@@ -170,11 +170,13 @@ export class EventService {
   // -----------------------
   public getEventById = (eventId: string): EVENT_DATA_UI => {
     return this.events.data.find(data => data.id === eventId);
-  }
+  };
   // ------------------------
   public selectIcon = (event: EVENT_DATA_UI) => {
+    const coordinates = [event.location.longitude, event.location.latitude];
+    this.mapGeneralService.flyToObject(coordinates);
     this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.selectedIcon, 40);
-  }
+  };
   // ------------------------
   public unselectIcon = (event: EVENT_DATA_UI) => {
     this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.icon, 30);

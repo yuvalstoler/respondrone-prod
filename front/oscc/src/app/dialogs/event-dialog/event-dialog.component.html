@@ -138,10 +138,10 @@
     <button (click)="onNoClick()" class="DialogActionsDelete"
             mat-raised-button>Cancel
     </button>
-    <button (click)="onCreateClick()" [mat-dialog-close]="this.eventModel"
+    <button [mat-dialog-close]="this.eventModel"
             class="DialogActionsCreate"
             mat-raised-button>
-      Create new event
+      {{data.title}}
     </button>
   </div>
 </div>
