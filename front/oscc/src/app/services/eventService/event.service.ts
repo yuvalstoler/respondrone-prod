@@ -5,8 +5,18 @@ import * as _ from 'lodash';
 import {
   ASYNC_RESPONSE,
   EVENT_DATA,
-  EVENT_DATA_UI, EVENT_TYPE,
-  ID_OBJ, LINKED_EVENT_DATA, LOCATION_TYPE, MEDIA_TYPE, PRIORITY, REPORT_DATA, REPORT_DATA_UI, REPORT_TYPE, SOURCE_TYPE,
+  EVENT_DATA_UI,
+  EVENT_TYPE,
+  ID_OBJ,
+  LINKED_EVENT_DATA,
+  LOCATION_TYPE,
+  MEDIA_TYPE, POINT,
+  POINT3D,
+  PRIORITY,
+  REPORT_DATA,
+  REPORT_DATA_UI,
+  REPORT_TYPE,
+  SOURCE_TYPE,
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
@@ -173,16 +183,16 @@ export class EventService {
   };
   // ------------------------
   public selectIcon = (event: EVENT_DATA_UI) => {
-    const coordinates = [event.location.longitude, event.location.latitude];
-    this.mapGeneralService.flyToObject(coordinates);
     this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.selectedIcon, 40);
   };
   // ------------------------
   public unselectIcon = (event: EVENT_DATA_UI) => {
     this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.icon, 30);
-  }
+  };
 
-
+  public flyToObject = (coordinates: POINT | POINT3D) => {
+    this.mapGeneralService.flyToObject(coordinates);
+  };
 
 
 }

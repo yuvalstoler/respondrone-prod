@@ -14,8 +14,10 @@
         </th>
         <td *matCellDef="let element" mat-cell>
           <span *ngIf="element.modeDefine?.tableData[column]">
+            <!--icon-->
             <mat-icon *ngIf="element.modeDefine?.tableData[column]?.type === 'matIcon'"
                       [ngStyle]="{'color': element.modeDefine?.tableData[column]?.color}"
+                      (click)="clickOnIcon($event, element, column)"
                       class="HPRightSideIcon">
                {{element.modeDefine?.tableData[column]?.data}}
              </mat-icon>

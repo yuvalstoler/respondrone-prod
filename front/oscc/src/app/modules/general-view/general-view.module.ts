@@ -41,6 +41,8 @@ import { CommentsPanelComponent } from './comments-panel/comments-panel.componen
 import {CustomDatePipe} from '../../pipes/custom.datepipe';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {ReportMediaComponent} from './report-media/report-media.component';
+import { TasksMissionControlComponent } from './left-panel/tasks-mission-control/tasks-mission-control.component';
+import { MissionsMissionControlComponent } from './left-panel/missions-mission-control/missions-mission-control.component';
 
 
 @NgModule({
@@ -57,7 +59,9 @@ import {ReportMediaComponent} from './report-media/report-media.component';
     ReportsSituationTableComponent,
     LinkedEventsTableComponent,
     CommentsPanelComponent,
-    CustomDatePipe
+    CustomDatePipe,
+    TasksMissionControlComponent,
+    MissionsMissionControlComponent
   ],
   imports: [
     CommonModule,

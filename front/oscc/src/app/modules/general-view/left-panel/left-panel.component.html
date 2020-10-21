@@ -1,5 +1,5 @@
-
-<div>
+<!--Situation Pictures-->
+<div *ngIf="applicationService.screen.showSituationPicture">
   <!--Header-->
   <div>
     <mat-tab-group animationDuration="0ms">
@@ -14,12 +14,36 @@
       <!--Button-->
       <mat-tab disabled>
         <ng-template mat-tab-label>
-          <button mat-icon-button (click)="closeSituationPicture()">
+          <button mat-icon-button (click)="minimizationPanel()">
             <mat-icon>{{applicationService.panelIcon}}</mat-icon>
           </button>
         </ng-template>
       </mat-tab>
     </mat-tab-group>
+  </div>
+</div>
+<!--Mission Control-->
+<div *ngIf="applicationService.screen.showMissionControl">
+  <!--Header-->
+  <div>
+    <mat-tab-group animationDuration="0ms">
+      <!--Tasks-->
+      <mat-tab label="Tasks">
+        <!--<app-events-situation-picture></app-events-situation-picture>-->
 
+      </mat-tab>
+      <!--Missions-->
+      <mat-tab label="Missions">
+        <!--<app-reports-situation-picture></app-reports-situation-picture>-->
+      </mat-tab>
+      <!--Button-->
+      <mat-tab disabled>
+        <ng-template mat-tab-label>
+          <button mat-icon-button (click)="minimizationPanel()">
+            <mat-icon>{{applicationService.panelIcon}}</mat-icon>
+          </button>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </div>

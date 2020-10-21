@@ -17,13 +17,12 @@ export class LeftPanelComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  closeSituationPicture = () => {
+ minimizationPanel = () => {
     if (this.applicationService.panelIcon === LEFT_PANEL_ICON.expand) {
       this.applicationService.panelIcon = LEFT_PANEL_ICON.minimize;
     } else {
       this.applicationService.panelIcon = LEFT_PANEL_ICON.expand;
     }
-
   };
   
 }

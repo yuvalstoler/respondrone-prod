@@ -9,7 +9,7 @@ import {ReportService} from '../../../../../services/reportService/report.servic
 import {
   COMMENT,
   EVENT_DATA_UI,
-  FILE_FS_DATA,
+  FILE_FS_DATA, POINT,
   REPORT_DATA_UI
 } from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
@@ -231,5 +231,15 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
       newReport.comments = comments;
       this.reportService.createReport(newReport);
     }
-  }
+  };
+
+  clickOnIcon = (event, element: EVENT_DATA_UI, column: string) => {
+    event.stopPropagation();
+    if (column === 'map') {
+      const coordinates: POINT = [element.location.longitude, element.location.latitude];
+      this.eventService.flyToObject(coordinates);
+    } else if (column === 'link') {
+
+    }
+  };
 }

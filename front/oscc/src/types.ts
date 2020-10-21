@@ -15,6 +15,8 @@ export enum HEADER_BUTTONS {
 
 export type DISPLAY_ON_SCREEN = {
   showLeftPanel: boolean;
+  showSituationPicture: boolean;
+  showMissionControl: boolean;
 };
 
 export enum LEFT_PANEL_ICON {

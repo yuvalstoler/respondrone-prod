@@ -17,6 +17,7 @@
           <span *ngIf="element.modeDefine?.tableData[column]">
             <mat-icon *ngIf="element.modeDefine?.tableData[column]?.type === 'matIcon'"
                       [ngStyle]="{'color': element.modeDefine?.tableData[column]?.color}"
+                      (click)="clickOnIcon($event, element, column)"
                       class="HPRightSideIcon">
                {{element.modeDefine?.tableData[column]?.data}}
              </mat-icon>

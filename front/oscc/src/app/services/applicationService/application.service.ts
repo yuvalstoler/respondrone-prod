@@ -36,7 +36,9 @@ export class ApplicationService {
     }, 1000);
 
     this.screen = {
-      showLeftPanel: true
+      showLeftPanel: true,
+      showSituationPicture: true,
+      showMissionControl: false
     };
   }
 }
