@@ -187,3 +187,9 @@ export enum MG_API {
     updateFileStatus = '/updateFileStatus',
 
 }
+
+
+
+export enum SOCKET_ROOM { // TODO change
+    FRs_Tel_room ='FRS_Tel_room'
+}

@@ -55,6 +55,15 @@
       "col": "col"
     }
   },
+  "FRS": {
+    "port": "6700",
+    "host": "localhost",
+    "protocol": "http",
+
+    "listeners": [
+      "webServer"
+    ]
+  },
 
   "MG": {
     "port": "9700",

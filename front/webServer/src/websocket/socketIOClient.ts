@@ -1,28 +1,28 @@
 import * as io from 'socket.io-client';
 import {Logger} from '../logger/Logger';
-import { MAP } from "../../../../classes/typings/all.typings";
+import {MAP, SOCKET_IO_CLIENT_TYPES} from "../../../../classes/typings/all.typings";
 
 const servicesConf = require('./../../../../../../../config/services.json');
 
-const gimbalServiceURL = servicesConf.gimbalService.protocol + '://' + servicesConf.gimbalService.host + ':' + servicesConf.gimbalService.port;
-const PWS_ServiceURL = servicesConf.PWS.protocol + '://' + servicesConf.PWS.host + ':' + servicesConf.PWS.port;
+const FRSServiceURL = servicesConf.FRS.protocol + '://' + servicesConf.FRS.host + ':' + servicesConf.FRS.port;
 
 export class SocketIOClient {
-    private static instance: SocketIOClient;
+    private static instance: SocketIOClient = new SocketIOClient();
 
     sockets: { [type: string]: any } = {};
 
     externalSortConfig: { [type: string]: { [room: string]: Function } } = {};
 
     constructor() {
+        this.sockets[SOCKET_IO_CLIENT_TYPES.FRS] = io(FRSServiceURL, {autoConnect: true});
     }
 
-    public static getInstance() {
-        if ( !SocketIOClient.instance ) {
-            SocketIOClient.instance = new SocketIOClient();
-        }
-        return SocketIOClient.instance;
-    }
+    // public static getInstance() {
+    //     if ( !SocketIOClient.instance ) {
+    //         SocketIOClient.instance = new SocketIOClient();
+    //     }
+    //     return SocketIOClient.instance;
+    // }
 
     public addToSortConfig = (type, callbacksConfig: MAP<Function>) => {
         this.externalSortConfig[type] = {...this.externalSortConfig[type], ...callbacksConfig};
@@ -53,6 +53,9 @@ export class SocketIOClient {
     public emit = (type, room: string, data) => {
         this.sockets[type].emit(room, data);
     };
+
+    public static addToSortConfig = SocketIOClient.instance.addToSortConfig;
+    public static emit = SocketIOClient.instance.emit;
 
 
 }

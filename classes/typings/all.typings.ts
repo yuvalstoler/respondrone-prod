@@ -45,6 +45,7 @@ export type GEOMETRY = { coordinates: POINT | POINT3D, type?: string };
 export type YXZ = { y: number, x: number, z: number };
 export type YXZW = YXZ & { w: number };
 export type POINT = [number, number];
+// @ts-ignore
 export type POINT3D = [number, number, number?];
 export type VECTOR = [POINT3D, POINT3D];
 export type RECTANGLE = [POINT3D, POINT3D, POINT3D, POINT3D];
@@ -219,35 +220,44 @@ export type COMMENT_DATA = { // TODO - change data fields
 
 };
 
+export type TIMESTAMP = {
+    timestamp: number
+}
 
-export type GROUND_RESOURCE_DATA = {
+export type FR_DATA_TELEMETRY = {
+    timestamp: TIMESTAMP,
+    FRs: FR_DATA[]
+}
+
+
+export type FR_DATA = {
     id: ID_TYPE;
-    time: number;
-    type: GROUND_RESOURCE_TYPE;
-    connectionStatus: CONNECTION_STATUS;
-    name: string
+    callSign: string;
+    type: FR_TYPE;
     location: GEOPOINT3D;
+    lastUpdated: TIMESTAMP;
+    online: boolean;
+    status: FR_STATUS;
+}
+export type FR_DATA_UI = FR_DATA & {
+    modeDefine: FR_DATA_MD,
+}
+export type FR_DATA_MD = {
+    styles: {
+        icon: string,
+    }
 }
 
-export type GROUND_RESOURCE_DATA_UI = {
-    id: ID_TYPE;
-    time: number;
-    type: GROUND_RESOURCE_TYPE;
-    connectionStatus: CONNECTION_STATUS;
-    name: string
-    location: GEOPOINT3D;
+
+export enum FR_TYPE {
+    police = 'Police',
+    fireFighter = 'FireFighter',
+    paramedic = 'Med'
 }
 
-
-export enum GROUND_RESOURCE_TYPE {
-    police = 'Police squad',
-    fireFighter = 'Fire fighter',
-    paramedic = 'Paramedic'
-}
-
-export enum CONNECTION_STATUS {
-    offline = 'Offline',
-    active = 'Active',
+export enum FR_STATUS {
+    busy = 'Busy',
+    available = 'Available',
 }
 
 
@@ -270,7 +280,7 @@ export type TASK_DATA = {
 }
 
 export type TASK_DATA_UI = TASK_DATA & {
-    groundResources: GROUND_RESOURCE_DATA_UI[]
+    groundResources: FR_DATA_UI[]
 }
 
 export enum GEOGRAPHIC_INSTRUCTION_TYPE {
@@ -352,3 +362,9 @@ export enum TASK_TYPE {
     forestFire = 'forestFire',
 };
 
+
+export enum SOCKET_IO_CLIENT_TYPES {
+    MG = 'MG',
+    CCG = 'CCG',
+    FRS = 'FRS'
+}

@@ -1,11 +1,12 @@
 import {
     EVENT_DATA,
     REPORT_DATA,
-    TASK_DATA
+    TASK_DATA, FR_DATA
 } from '../../typings/all.typings';
 import { Report } from '../../dataClasses/report/report';
 import {Event} from "../../dataClasses/event/event";
 import { Task } from "../../dataClasses/task/task";
+import {FR} from "../../dataClasses/fr/FR";
 
 
 
@@ -44,6 +45,16 @@ export class Converting {
         return res;
     }
 
+    public static Arr_FR_DATA_to_Arr_FR = (dataArr: FR_DATA[]): FR[] => {
+        const res: FR[] = [];
+        //    todo data vaidation
+        if ( Array.isArray(dataArr) ) {
+            dataArr.forEach((data: FR_DATA) => {
+                res.push(new FR(data));
+            });
+        }
+        return res;
+    }
 
     public static base64_to_Buffer = (base64: string): Buffer => {
         return new Buffer(base64, "base64");
