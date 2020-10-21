@@ -61,7 +61,7 @@ export type ADDRESS = string;
 export type POLYGON_GEOPOINT = GEOPOINT3D[];
 
 
-// export enum REPORT_TYPE {
+export enum REPORT_TYPE {
 //     unclassified = 'Unclassified',
 //     fireAlarm = 'Fire Alarm',
 //     flood = 'Flood',
@@ -70,16 +70,16 @@ export type POLYGON_GEOPOINT = GEOPOINT3D[];
 //     attackReport = 'Attack Report',
 //     explosionReport = 'Explosion Report',
 //
-// }
+}
 //
-// export enum EVENT_TYPE { // TODO - change data fields
+export enum EVENT_TYPE { // TODO - change data fields
 //     general = 'general',
 //     emergency = 'emergency',
 //     criminal = 'criminal',
 //     terror = 'terror',
 //     accident = 'accident',
 //     info = 'info',
-// }
+}
 
 export enum SOURCE_TYPE { // TODO - change data fields
     MRF = 'MFR',

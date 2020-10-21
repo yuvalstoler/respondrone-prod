@@ -3,18 +3,18 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {
   COMMENT,
   EVENT_DATA_UI,
-  EVENT_TYPE,
   GEOPOINT3D, LINKED_REPORT_DATA, LOCATION_NAMES,
   LOCATION_TYPE, POINT3D,
+  EVENT_TYPE,
   PRIORITY
 } from '../../../../../../classes/typings/all.typings';
 import {HEADER_BUTTONS, STATE_DRAW} from '../../../types';
-import {ApplicationService} from "../../services/applicationService/application.service";
-import {EventService} from "../../services/eventService/event.service";
-import {LocationService} from "../../services/locationService/location.service";
-import {PolygonService} from "../../services/polygonService/polygon.service";
-import {CustomToasterService} from "../../services/toasterService/custom-toaster.service";
-import {ReportService} from "../../services/reportService/report.service";
+import {ApplicationService} from '../../services/applicationService/application.service';
+import {EventService} from '../../services/eventService/event.service';
+import {LocationService} from '../../services/locationService/location.service';
+import {PolygonService} from '../../services/polygonService/polygon.service';
+import {CustomToasterService} from '../../services/toasterService/custom-toaster.service';
+import {ReportService} from '../../services/reportService/report.service';
 import * as _ from 'lodash';
 
 @Component({
