@@ -39,6 +39,7 @@ import {SocketIoModule, SocketIoConfig} from 'ngx-socket-io';
 import {SOCKET_CONFIG} from '../environments/environment';
 import { EventDialogComponent } from './dialogs/event-dialog/event-dialog.component';
 import { ReportDialogComponent } from './dialogs/report-dialog/report-dialog.component';
+import { TaskDialogComponent } from './dialogs/task-dialog/task-dialog.component';
 
 const config: SocketIoConfig = SOCKET_CONFIG;
 
@@ -63,7 +64,8 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     LinkedEventContainerComponent,
     LinkedEventTableComponent,
     EventDialogComponent,
-    ReportDialogComponent
+    ReportDialogComponent,
+    TaskDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -103,7 +105,8 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     LinkedReportDialogComponent,
     LinkedEventDialogComponent,
     EventDialogComponent,
-    ReportDialogComponent
+    ReportDialogComponent,
+    TaskDialogComponent
   ]
 })
 export class AppModule {

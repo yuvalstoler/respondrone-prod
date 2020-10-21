@@ -273,7 +273,7 @@ export type TASK_DATA = {
     address: ADDRESS;
     resources: string;
     status: TASK_STATUS;
-    geographicInstructions;
+    geographicInstructions: GEOGRAPHIC_INSTRUCTION[];
     assigneeIds: ID_TYPE[];
     comments: COMMENT[]
     idView: string;

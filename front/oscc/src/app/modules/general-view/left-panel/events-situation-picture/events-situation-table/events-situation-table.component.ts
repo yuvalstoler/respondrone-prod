@@ -66,13 +66,6 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
   }
 
   private selectRow = (row: EVENT_DATA_UI): void => {
-    // if (this.applicationService.selectedEvent === undefined) {
-    //   this.applicationService.selectedEvent = element;
-    // } else {
-    //   this.applicationService.selectedEvent = undefined;
-    // }
-    // this.expandedElement = this.expandedElement === element ? null : element;
-
     if (this.selectedElement) {
       this.eventService.unselectIcon(this.selectedElement);
     }
@@ -80,8 +73,6 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
     this.eventService.selectIcon(row);
 
     this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
-
-
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -139,26 +130,10 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
   };
 
   onChangeAllSelected = (event) => {
-    // if (event.checked) {
-    //   this.dataSource.data.forEach((row: EVENT_DATA_UI) => {
-    //     this.expandedElement[row.id] = row;
-    //   });
-    // } else {
-    //   this.dataSource.data.forEach((row: EVENT_DATA_UI) => {
-    //     delete this.expandedElement[row.id];
-    //   });
-    // }
     return event ? this.masterToggle() : null;
   };
 
   onChangeCheckbox = ($event, row: EVENT_DATA_UI) => {
-    // if (event.checked) {
-    //   this.expandedElement[row.id] = row;
-    //   this.applicationService.selectedEvent = row;
-    // } else {
-    //   delete this.expandedElement[row.id];
-    //   this.applicationService.selectedEvent = undefined;
-    // }
     if ($event.checked) {
       const selectedIndex = this.applicationService.selectedEvents.findIndex(data => data.id === row.id);
       const event = this.eventService.getEventById(row.id);

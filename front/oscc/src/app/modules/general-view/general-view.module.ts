@@ -43,6 +43,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {ReportMediaComponent} from './report-media/report-media.component';
 import { TasksMissionControlComponent } from './left-panel/tasks-mission-control/tasks-mission-control.component';
 import { MissionsMissionControlComponent } from './left-panel/missions-mission-control/missions-mission-control.component';
+import { TasksMissionTableComponent } from './left-panel/tasks-mission-control/tasks-mission-table/tasks-mission-table.component';
 
 
 
@@ -63,6 +64,7 @@ import { MissionsMissionControlComponent } from './left-panel/missions-mission-c
     CustomDatePipe,
     TasksMissionControlComponent,
     MissionsMissionControlComponent,
+    TasksMissionTableComponent,
   ],
   imports: [
     CommonModule,

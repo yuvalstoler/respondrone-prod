@@ -1,1 +1,33 @@
-<p>tasks-mission-control works!</p>
+<div>
+  <!--Header-->
+  <div class="HeaderLeftPanel">
+    <div class="LeftSideButton">
+      <mat-icon>search</mat-icon>
+      <input #input (keyup)="getFilter($event)" matInput>
+    </div>
+  </div>
+
+  <div class="HeaderRightPanel" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand">
+    <div (click)="onArchiveTask()"
+         *ngIf="applicationService.selectedEvents.length > 0"
+         class="RightSideButton pointer">Archive
+    </div>
+    <div (click)="onEditTask()"
+         *ngIf="applicationService.selectedEvents.length === 1"
+         class="RightSideButton pointer">Edit
+    </div>
+    <div (click)="onDeleteTask()"
+         *ngIf="applicationService.selectedEvents.length > 0"
+         class="RightSideButton pointer">Delete
+    </div>
+    <div (click)="onCreateNewTask()"
+         class="RightSideButton pointer">Create New Task
+    </div>
+  </div>
+  <div class="HeaderRightPanel" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.minimize"></div>
+  <!--Table-->
+  <div>
+    <app-tasks-mission-table></app-tasks-mission-table>
+  </div>
+</div>
+
