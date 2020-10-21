@@ -45,6 +45,7 @@ import { TasksMissionControlComponent } from './left-panel/tasks-mission-control
 import { MissionsMissionControlComponent } from './left-panel/missions-mission-control/missions-mission-control.component';
 
 
+
 @NgModule({
   declarations: [
     HeaderPanelComponent,
@@ -61,7 +62,7 @@ import { MissionsMissionControlComponent } from './left-panel/missions-mission-c
     CommentsPanelComponent,
     CustomDatePipe,
     TasksMissionControlComponent,
-    MissionsMissionControlComponent
+    MissionsMissionControlComponent,
   ],
   imports: [
     CommonModule,
@@ -101,7 +102,9 @@ import { MissionsMissionControlComponent } from './left-panel/missions-mission-c
     ViewMediaComponent,
     ReportsSituationTableComponent,
     CustomDatePipe,
-    CommentsPanelComponent
+    CommentsPanelComponent,
+    TasksMissionControlComponent,
+    MissionsMissionControlComponent
   ],
   providers: [
     PolygonsEditorService,
