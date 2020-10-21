@@ -91,7 +91,7 @@
 
   
   "logServer": {
-    "port": "6800",
+    "port": "6900",
     "host": "localhost",
     "protocol": "http"
 
