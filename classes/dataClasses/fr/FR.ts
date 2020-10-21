@@ -1,21 +1,23 @@
 import {
-    CONNECTION_STATUS,
+    FR_STATUS,
     EVENT_DATA,
-    GEOPOINT3D, GROUND_RESOURCE_DATA, GROUND_RESOURCE_DATA_UI, GROUND_RESOURCE_TYPE,
-    ID_TYPE,
+    GEOPOINT3D, FR_DATA, FR_DATA_UI, FR_TYPE,
+    ID_TYPE, TIMESTAMP,
 } from '../../typings/all.typings';
 import {DataUtility} from '../../applicationClasses/utility/dataUtility';
 
-export class GroundResource {
+export class FR {
 
     id: ID_TYPE;
-    time: number;
-    type: GROUND_RESOURCE_TYPE;
-    connectionStatus: CONNECTION_STATUS;
-    name: string
+    callSign: string;
+    type: FR_TYPE;
     location: GEOPOINT3D;
+    lastUpdated: TIMESTAMP;
+    online: boolean;
+    status: FR_STATUS;
 
-    constructor(data: GROUND_RESOURCE_DATA) {
+
+    constructor(data: FR_DATA) {
         if ( data ) {
             this.setValues(data, this.saveConfig);
         }
@@ -33,20 +35,21 @@ export class GroundResource {
         }
     };
 
-    private setTime = (data: number) => {
-        this.time = data;
+    private setLastUpdated = (data: TIMESTAMP) => {
+        this.lastUpdated = data;
     };
-
-    private setType = (data: GROUND_RESOURCE_TYPE) => {
+    private setOnline = (data: boolean) => {
+        this.online = data;
+    };
+    private setType = (data: FR_TYPE) => {
         this.type = data;
     };
-    private setConnectionStatus = (data: CONNECTION_STATUS) => {
-        this.connectionStatus = data;
+    private setStatus = (data: FR_STATUS) => {
+        this.status = data;
     };
-    private setName = (data: string) => {
-        this.name = data;
+    private setCallsign = (data: string) => {
+        this.callSign = data;
     };
-
     private setLocation = (data: GEOPOINT3D) => {
         const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
         if ( res ) {
@@ -55,7 +58,7 @@ export class GroundResource {
     };
 
 
-    public setValues = (data: Partial<GROUND_RESOURCE_DATA>, saveConfig: Object = this.saveConfig) => {
+    public setValues = (data: Partial<FR_DATA>, saveConfig: Object = this.saveConfig) => {
         for ( const key in saveConfig ) {
             if ( saveConfig.hasOwnProperty(key) ) {
                 if ( data.hasOwnProperty(key) ) {
@@ -73,36 +76,40 @@ export class GroundResource {
     };
 
 
-    public toJsonForSave = (): GROUND_RESOURCE_DATA => {
+    public toJsonForRepository = (): FR_DATA => {
         return {
             id: this.id,
-            time: this.time,
+            callSign: this.callSign,
             type: this.type,
-            connectionStatus: this.connectionStatus,
-            name: this.name,
             location: this.location,
+            lastUpdated: this.lastUpdated,
+            online: this.online,
+            status: this.status,
         };
     };
 
 
-    public toJsonForUI = (): GROUND_RESOURCE_DATA_UI => {
+    public toJsonForUI = (): FR_DATA_UI => {
         return {
             id: this.id,
-            time: this.time,
+            callSign: this.callSign,
             type: this.type,
-            connectionStatus: this.connectionStatus,
-            name: this.name,
             location: this.location,
+            lastUpdated: this.lastUpdated,
+            online: this.online,
+            status: this.status,
+            modeDefine: undefined,
         };
     };
 
     saveConfig = {
         id: this.setId,
-        time: this.setTime,
+        callSign: this.setCallsign,
         type: this.setType,
-        connectionStatus: this.setConnectionStatus,
-        name: this.setName,
         location: this.setLocation,
+        lastUpdated: this.setLastUpdated,
+        online: this.setOnline,
+        status: this.setStatus,
     };
 
 

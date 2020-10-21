@@ -4,7 +4,7 @@ import {MAP, SOCKET_IO_CLIENT_TYPES} from "../../../../classes/typings/all.typin
 
 const servicesConf = require('./../../../../../../../config/services.json');
 
-const MGServiceURL = servicesConf.MG.protocol + '://' + servicesConf.MG.host + ':' + servicesConf.MG.port;
+const CCGServiceURL = servicesConf.CCG.protocol + '://' + servicesConf.CCG.host + ':' + servicesConf.CCG.port;
 
 export class SocketIOClient {
     private static instance: SocketIOClient = new SocketIOClient();
@@ -14,7 +14,7 @@ export class SocketIOClient {
     externalSortConfig: { [type: string]: { [room: string]: Function } } = {};
 
     constructor() {
-        this.sockets[SOCKET_IO_CLIENT_TYPES.MG] = io(MGServiceURL, {autoConnect: true});
+        this.sockets[SOCKET_IO_CLIENT_TYPES.CCG] = io(CCGServiceURL, {autoConnect: true});
     }
 
     // public static getInstance() {

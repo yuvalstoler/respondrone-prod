@@ -7,25 +7,26 @@ import * as cors from 'cors';
 
 import * as bodyParser from 'body-parser';
 
-import { SocketIO } from './websocket/socket.io';
+import {SocketIO} from './websocket/socket.io';
+
 
 
 const services = require('./../../../../../../config/services.json');
 
 
-import { Logger } from './logger/Logger';
-import { ApiManager } from './Service/api/ApiManager';
+import {Logger} from './logger/Logger';
+import {ApiManager} from './Service/api/ApiManager';
 import {
     API_GENERAL,
-
 } from '../../../classes/dataClasses/api/api_enums';
 import { REST_ROUTER_CONFIG } from '../../../classes/typings/all.typings';
 import {FrManager} from "./Service/fr/frManager";
 
 
+
 export class Server {
 
-    private port = services.CCG.port;
+    private port = services.FRS.port;
     public app: any;
     private server: any;
     private alertService: any;
@@ -49,12 +50,15 @@ export class Server {
         this.middleware();
         this.listen();
 
-       //  const socketIO_Server: SocketIO = new SocketIO(this.server);
+        // const socketIO_Server: SocketIO = new SocketIO(this.server);
+
+
 
 
         // start websocket 'algorithmManager.sendMissionStatus' - function that call on connect to WS
         const functionsToCallOnConnect = []; // [AlgorithmManager.sendMissionStatus];
         SocketIO.initSocketServer(this.server, functionsToCallOnConnect);
+        this.routes();
 
 
         this.test();
