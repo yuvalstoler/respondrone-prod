@@ -159,7 +159,7 @@ export class TaskManager {
         const res: TASK_DATA_UI[] = [];
         this.tasks.forEach((task: Task) => {
             const taskDataUI: TASK_DATA_UI = task.toJsonForUI();
-            // taskDataUI.groundResources = GroundResourceManager.getGroundResources(task.assigneeIds);
+            // taskDataUI.assignees = GroundResourceManager.getGroundResources(task.assigneeIds);
             // taskDataUI.modeDefine = TaskMdLogic.validate(taskDataUI);
 
             res.push(taskDataUI);

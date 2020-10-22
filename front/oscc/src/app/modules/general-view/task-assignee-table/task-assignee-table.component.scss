@@ -1,0 +1,40 @@
+@import "../../../../styles/dialogs";
+
+.tableScroll {
+  max-height: 130px;
+  overflow: auto;
+  margin-top: 15px;
+}
+
+.AssigneesTable{
+
+  ::ng-deep.mat-elevation-z8 {
+    box-shadow: none !important;
+    width: 100% !important;
+  }
+  ::ng-deep tr.mat-header-row {
+    height: 30px !important;
+    background-color: $lightGray;
+  }
+}
+.AssigneesHeader{
+  margin-top: 15px;
+}
+
+.DialogAssignee{
+  float: right;
+  border-bottom: 1px solid $black;
+  font-size: 14px;
+  right: 50px;
+  color: $black;
+}
+
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+.disabled{
+  color: $lightGray;
+}
+
+

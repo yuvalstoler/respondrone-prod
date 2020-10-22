@@ -25,3 +25,7 @@
   overflow: hidden;
   //-webkit-overflow-scrolling: touch;
 }
+
+::ng-deep.mat-cell, .mat-footer-cell {
+  font-size: 12px;
+}

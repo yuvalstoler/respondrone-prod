@@ -44,6 +44,9 @@ import {ReportMediaComponent} from './report-media/report-media.component';
 import { TasksMissionControlComponent } from './left-panel/tasks-mission-control/tasks-mission-control.component';
 import { MissionsMissionControlComponent } from './left-panel/missions-mission-control/missions-mission-control.component';
 import { TasksMissionTableComponent } from './left-panel/tasks-mission-control/tasks-mission-table/tasks-mission-table.component';
+import { TaskAssigneeTableComponent } from './task-assignee-table/task-assignee-table.component';
+import { GeoInstructionsComponent } from './geo-instructions/geo-instructions.component';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 
@@ -65,6 +68,8 @@ import { TasksMissionTableComponent } from './left-panel/tasks-mission-control/t
     TasksMissionControlComponent,
     MissionsMissionControlComponent,
     TasksMissionTableComponent,
+    TaskAssigneeTableComponent,
+    GeoInstructionsComponent,
   ],
   imports: [
     CommonModule,
@@ -86,10 +91,11 @@ import { TasksMissionTableComponent } from './left-panel/tasks-mission-control/t
     MatSortModule,
     MatProgressSpinnerModule,
     MatExpansionModule,
+    MatTooltipModule,
+    MatMenuModule,
 
     AngularCesiumModule.forRoot(),
     AngularCesiumWidgetsModule,
-    MatTooltipModule,
   ],
   exports: [
     HeaderPanelComponent,
@@ -106,7 +112,9 @@ import { TasksMissionTableComponent } from './left-panel/tasks-mission-control/t
     CustomDatePipe,
     CommentsPanelComponent,
     TasksMissionControlComponent,
-    MissionsMissionControlComponent
+    MissionsMissionControlComponent,
+    TaskAssigneeTableComponent,
+    GeoInstructionsComponent
   ],
   providers: [
     PolygonsEditorService,

@@ -1,6 +1,6 @@
 import {
     ADDRESS,
-    COMMENT,
+    COMMENT, FR_STATUS, FR_TYPE,
     GEOGRAPHIC_INSTRUCTION,
     GEOPOINT3D,
     ID_TYPE,
@@ -8,7 +8,7 @@ import {
     TASK_DATA,
     TASK_DATA_UI,
     TASK_STATUS,
-    TASK_TYPE,
+    TASK_TYPE, TIMESTAMP,
 } from '../../typings/all.typings';
 import {DataUtility} from '../../applicationClasses/utility/dataUtility';
 
@@ -165,7 +165,48 @@ export class Task {
             comments: this.comments,
             idView: this.idView,
 
-            groundResources: [],
+            assignees: [
+                {
+                    id: '111',
+                    callSign: 'string',
+                    type: FR_TYPE.paramedic,
+                    location: { latitude: 32, longitude: 34 },
+                    lastUpdated: {timestamp: 3333333},
+                    online: true,
+                    status: FR_STATUS.available,
+                    modeDefine: undefined
+                },
+                {
+                    id: '222',
+                    callSign: 'string',
+                    type: FR_TYPE.paramedic,
+                    location: { latitude: 32, longitude: 34 },
+                    lastUpdated: {timestamp: 3333333},
+                    online: true,
+                    status: FR_STATUS.available,
+                    modeDefine: undefined
+                },
+                {
+                    id: '333',
+                    callSign: 'string',
+                    type: FR_TYPE.paramedic,
+                    location: { latitude: 32, longitude: 34 },
+                    lastUpdated: {timestamp: 3333333},
+                    online: true,
+                    status: FR_STATUS.available,
+                    modeDefine: undefined
+                },
+                {
+                    id: '444',
+                    callSign: 'string',
+                    type: FR_TYPE.paramedic,
+                    location: { latitude: 32, longitude: 34 },
+                    lastUpdated: {timestamp: 3333333},
+                    online: true,
+                    status: FR_STATUS.available,
+                    modeDefine: undefined
+                }
+            ],
             address: this.address,
             location: this.location
         };

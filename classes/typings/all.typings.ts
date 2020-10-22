@@ -280,12 +280,15 @@ export type TASK_DATA = {
 }
 
 export type TASK_DATA_UI = TASK_DATA & {
-    groundResources: FR_DATA_UI[]
+    assignees: FR_DATA_UI[]
 }
 
 export enum GEOGRAPHIC_INSTRUCTION_TYPE {
-    arrow = 'arrow',
-    addressPoint = 'addressPoint',
+    arrow = 'Arrow',
+    address = 'Address',
+    point = 'Point',
+    polygon = 'Polygon',
+    polyline = 'Polyline'
 }
 
 export type GEOGRAPHIC_INSTRUCTION = {

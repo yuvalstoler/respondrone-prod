@@ -40,6 +40,7 @@ import {SOCKET_CONFIG} from '../environments/environment';
 import { EventDialogComponent } from './dialogs/event-dialog/event-dialog.component';
 import { ReportDialogComponent } from './dialogs/report-dialog/report-dialog.component';
 import { TaskDialogComponent } from './dialogs/task-dialog/task-dialog.component';
+import {MatMenuModule} from '@angular/material/menu';
 
 const config: SocketIoConfig = SOCKET_CONFIG;
 
@@ -94,7 +95,8 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     MatProgressSpinnerModule,
     MatDialogModule,
     MatIconModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatMenuModule
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },

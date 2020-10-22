@@ -83,13 +83,12 @@
       </div>
       <!--Task Assignees-->
       <div class="DialogContentItem">
-        <div class="DialogTitle">Task Assignees</div>
+        <app-task-assignee-table [element]="taskModel" (updateAssignees)="onUpdateAssignees($event)"></app-task-assignee-table>
       </div>
       <!--Geographic Instructions-->
       <div class="DialogContentItem">
         <div class="DialogTitle">Geographic Instructions</div>
       </div>
-
 
       <!--&lt;!&ndash;Linked Reports&ndash;&gt;-->
       <!--<div class="DialogContentItem">-->

@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {
-  COMMENT,
+  COMMENT, LINKED_EVENT_DATA,
   LOCATION_NAMES,
   LOCATION_TYPE,
   PRIORITY,
@@ -36,7 +36,7 @@ export class TaskDialogComponent {
     comments: [],
     idView: '',
     geographicInstructions: [],
-    groundResources: [],
+    assignees: [],
     id: '',
     resources: '',
     status: TASK_STATUS.pending,
@@ -74,6 +74,18 @@ export class TaskDialogComponent {
 
   onChangeComments = (comments: COMMENT[]) => {
     this.taskModel.comments = comments;
+  };
+
+  onUpdateAssignees = (assigneeIds: string[]) => {
+    if (assigneeIds && Array.isArray(assigneeIds)) {
+      this.taskModel.assigneeIds = assigneeIds;
+      // const linkedEvents = [];
+      // this.taskModel.assigneeIds.forEach((eventId: string) => {
+      //   const linkedEvent: LINKED_EVENT_DATA = this.eventService.getLinkedEvent(eventId);
+      //   linkedEvents.push(linkedEvent);
+      // });
+      // this.taskModel.assignees = linkedEvents;
+    }
   };
 
 }

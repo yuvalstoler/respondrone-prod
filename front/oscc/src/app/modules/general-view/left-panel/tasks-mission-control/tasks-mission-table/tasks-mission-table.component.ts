@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {POINT, TASK_DATA_UI} from '../../../../../../../../../classes/typings/all.typings';
+import {COMMENT, EVENT_DATA_UI, POINT, TASK_DATA_UI} from '../../../../../../../../../classes/typings/all.typings';
 import {LEFT_PANEL_ICON, MAP} from '../../../../../../types';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatSort} from '@angular/material/sort';
@@ -135,6 +135,18 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit {
     return $event ? this.selection.toggle(row) : null;
   };
 
+  private expendPanelDescription = (index: boolean) => {
+    this.panelOpenState = index;
+  };
+
+  onChangeComments = (comments: COMMENT[], element: EVENT_DATA_UI) => {
+    const event = this.tasksService.getTaskById(element.id);
+    if (event) {
+      const newEvent = {...event};
+      newEvent.comments = comments;
+      this.tasksService.createTask(newEvent);
+    }
+  };
 
   clickOnIcon = ($event, element: TASK_DATA_UI, column: string) => {
     $event.stopPropagation();
@@ -145,6 +157,26 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit {
 
     }
 
+  };
+
+  onUpdateAssignees = (result: string[], element: TASK_DATA_UI) => {
+    // if (result && Array.isArray(result)) {
+    //   const event = this.eventService.getEventById(element.id);
+    //   if (event) {
+    //     const addedReports = _.differenceWith(result, event.reportIds, (o1, o2) => {
+    //       return o1 === o2;
+    //     });
+    //     this.reportService.linkReportsToEvent(addedReports, event.id); // TODO
+    //
+    //     const removedReports = _.differenceWith(event.reportIds, result, (o1, o2) => {
+    //       return o1 === o2;
+    //     });
+    //     this.reportService.unlinkReportsFromEvent(removedReports, event.id); // TODO
+    //
+    //     event.reportIds = result;
+    //     this.eventService.createEvent(event);
+    //   }
+    // }
   };
 
 

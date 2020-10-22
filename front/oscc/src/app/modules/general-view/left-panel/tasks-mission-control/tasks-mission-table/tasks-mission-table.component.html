@@ -67,7 +67,7 @@
         <div
           [@detailExpand]="applicationService.panelIcon === LEFT_PANEL_ICON.expand && expandedElement[element.id] && element.id === expandedElement[element.id].id ? 'expanded' : 'collapsed'"
           [style.height]="applicationService.panelIcon === LEFT_PANEL_ICON.expand && expandedElement[element.id] && element.id === expandedElement[element.id].id ? 'unset' : '0 !important'"
-          class="example-element-detail">
+          class="example-element-detail-tasks">
           <!--Description & Comments-->
           <div class="example-element-description">
             <mat-accordion>
@@ -89,13 +89,33 @@
             </div>
           </div>
 
-          <!--Linked reports table-->
-          <div class="example-element-linked">
-            <app-linked-reports-table (updateLinkedReports)="onUpdateLinkedReports($event, element)"
-                                      [isAllColumns]="true"
-                                      [element]="element">
-            </app-linked-reports-table>
+          <!--Geo instructions-->
+          <div class="example-element-geo-instructions">
+            <app-geo-instructions></app-geo-instructions>
           </div>
+
+          <!--Task assignees & Resources-->
+          <div class="example-element-assignees">
+            <!--Task Assignees-->
+            <div class="assignees">
+              <app-task-assignee-table [element]="element" (updateAssignees)="onUpdateAssignees($event, element)"></app-task-assignee-table>
+            </div>
+
+            <!--Task Resources-->
+            <div class="example-element-resources">
+              <div class="expendTitle">
+                Task Resources
+              </div>
+              <div class="description-content scroll">{{element.resources}} testResources</div>
+            </div>
+
+            <!--Created by-->
+            <div class="example-element-createdBy">
+              <span class="expendTitle">Created By: <span class="expendContent">{{element.createdBy}}testCreatedBy</span></span>
+              <span class="expendTitle right">Time: <span class="expendContent">{{element.time  | customDate: applicationService.now }}</span></span>
+            </div>
+        </div>
+
         </div>
       </td>
     </ng-container>
