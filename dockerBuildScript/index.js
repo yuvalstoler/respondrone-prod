@@ -13,7 +13,7 @@ const ports = {};
 const args = process.argv.slice(2);
 let ip=undefined;
 args.forEach((arg)=>{
-    const ip_ = arg.split('ip');
+    const ip_ = arg.split('ip=');
     if(ip_.length>1 ){
         ip = ip_[1];
     }
@@ -85,9 +85,12 @@ for (let key in projconfs) {
         }
         if( ip !==undefined && typeof projconfs[key] === 'object'){
             for (let propOfKey in projconfs[key]) {
-                if(propOfKey === 'host'){
-                    projconfs[key][propOfKey] = ip;
-                }
+                if(typeof projconfs[key][propOfKey] === 'object')
+                    for (let propOfKeyIn in projconfs[key][propOfKey]) {
+                        if (propOfKeyIn === 'host') {
+                            projconfs[key][propOfKey][propOfKeyIn] = ip;
+                        }
+                    }
             }
         }
     }
