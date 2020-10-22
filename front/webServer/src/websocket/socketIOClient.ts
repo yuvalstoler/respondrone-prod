@@ -1,6 +1,6 @@
 import * as io from 'socket.io-client';
 import {Logger} from '../logger/Logger';
-import {MAP, SOCKET_IO_CLIENT_TYPES} from "../../../../classes/typings/all.typings";
+import {MAP, SOCKET_IO_CLIENT_TYPES} from '../../../../classes/typings/all.typings';
 
 const servicesConf = require('./../../../../../../../config/services.json');
 
@@ -11,9 +11,10 @@ export class SocketIOClient {
 
     sockets: { [type: string]: any } = {};
 
-    externalSortConfig: { [type: string]: { [room: string]: Function } } = {};
+    //first key - type (SOCKET_IO_CLIENT_TYPES); second key - webSocket room
+    externalSortConfig: MAP<MAP<Function>> = {};
 
-    constructor() {
+    private constructor() {
         this.sockets[SOCKET_IO_CLIENT_TYPES.FRS] = io(FRSServiceURL, {autoConnect: true});
     }
 
@@ -24,7 +25,7 @@ export class SocketIOClient {
     //     return SocketIOClient.instance;
     // }
 
-    public addToSortConfig = (type, callbacksConfig: MAP<Function>) => {
+    private addToSortConfig = (type, callbacksConfig: MAP<Function>) => {
         this.externalSortConfig[type] = {...this.externalSortConfig[type], ...callbacksConfig};
         if ( this.sockets[type] ) {
             this.ListenExternalSortConfig(type);
@@ -50,7 +51,7 @@ export class SocketIOClient {
         });
     }
 
-    public emit = (type, room: string, data) => {
+    private emit = (type, room: string, data) => {
         this.sockets[type].emit(room, data);
     };
 

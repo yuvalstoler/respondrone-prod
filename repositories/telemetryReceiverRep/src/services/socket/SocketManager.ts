@@ -43,27 +43,34 @@ export class SocketManager {
 
         this.webSocketServer.on('connection', (ws: WebSocket) => {
             console.log(Date.now(), ' Socket connected',);
+            this.errors.push(Date.now() + 'Socket connected');
 
             ws.on('message', (message) => {
                 try {
                     message = JSON.parse(message);
                     this.message = message;
                 } catch (e) {
+                    console.log('parse error', e);
+                    this.errors.push('parse error');
                 }
             });
             ws.on('error', (err) => {
                 console.log('socket error', err);
+                this.errors.push('socket error');
             });
             ws.on('close', (err) => {
                 console.log('socket disconnected', err);
+                this.errors.push('socket disconnected');
             })
         });
 
         this.webSocketServer.on('error',  (err) => {
             console.log("WS error", err)
+            this.errors.push('WS error');
         });
         this.webSocketServer.on('close', (err) => {
             console.log("WS closed", err);
+            this.errors.push('WS closed');
             setTimeout(() => {
                 this.startWebsocketServer(server);
             }, 1000);
