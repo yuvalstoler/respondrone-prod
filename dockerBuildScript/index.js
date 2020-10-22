@@ -85,12 +85,20 @@ for (let key in projconfs) {
         }
         if( ip !==undefined && typeof projconfs[key] === 'object'){
             for (let propOfKey in projconfs[key]) {
-                if(typeof projconfs[key][propOfKey] === 'object')
+                if(typeof projconfs[key][propOfKey] === 'object') {
                     for (let propOfKeyIn in projconfs[key][propOfKey]) {
                         if (propOfKeyIn === 'host') {
                             projconfs[key][propOfKey][propOfKeyIn] = ip;
                         }
+                        if(typeof projconfs[key][propOfKey][propOfKeyIn] === 'object') {
+                            for (let propOfKeyIn2 in projconfs[key][propOfKey][propOfKeyIn]) {
+                                if (propOfKeyIn2 === 'host') {
+                                    projconfs[key][propOfKey][propOfKeyIn][propOfKeyIn2] = ip;
+                                }
+                            }
+                        }
                     }
+                }
             }
         }
     }
