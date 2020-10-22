@@ -8,16 +8,16 @@ const path = require('path');
 const request = require('request');
 const WebSocket = require('ws');
 
-const url_drones = "ws://localhost:4701";
-const url_frs = "ws://localhost:4702";
-const url_gimbals = "ws://localhost:4703";
+const url_drones = "ws://141.226.94.241:4701";
+const url_frs = "ws://141.226.94.241:4702";
+const url_gimbals = "ws://141.226.94.241:4703";
 
 
 class Server
 {
-    ws_drones;
+    /*ws_drones;
     ws_frs;
-    ws_gimbals;
+    ws_gimbals;*/
 
     constructor() {
         this.port = 4800;
