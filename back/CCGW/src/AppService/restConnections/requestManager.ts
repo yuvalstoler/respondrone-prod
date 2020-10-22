@@ -16,12 +16,16 @@ const timeout_AV = projConf.timeOutREST;
 
 
 const url_RS = services.RS.protocol + '://' + services.RS.host + ':' + services.RS.port;
+const url_TS = services.TS.protocol + '://' + services.TS.host + ':' + services.TS.port;
 const url_MG = services.MG.protocol + '://' + services.MG.host + ':' + services.MG.port;
 
 export class RequestManager {
 
     public static requestToRS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_RS, API_GENERAL.general + path, bodyObj, timeout_AV);
+    }
+    public static requestToTS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_TS, API_GENERAL.general + path, bodyObj, timeout_AV);
     }
 
     public static requestToMG = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {

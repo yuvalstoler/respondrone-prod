@@ -6,7 +6,14 @@ import {MatSort} from '@angular/material/sort';
 import {LEFT_PANEL_ICON, MAP} from '../../../../../../types';
 import {ApplicationService} from '../../../../../services/applicationService/application.service';
 import {ReportService} from '../../../../../services/reportService/report.service';
-import {REPORT_DATA_UI} from '../../../../../../../../../classes/typings/all.typings';
+import {
+  COMMENT,
+  EVENT_DATA_UI,
+  FILE_FS_DATA, POINT,
+  REPORT_DATA_UI
+} from '../../../../../../../../../classes/typings/all.typings';
+import {EventService} from '../../../../../services/eventService/event.service';
+import * as _ from 'lodash';
 
 
 
@@ -32,12 +39,16 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
   expandedElement: MAP<REPORT_DATA_UI> = {};
   selection = new SelectionModel<REPORT_DATA_UI>(true, []);
+  selectedElement: REPORT_DATA_UI;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
+
+  panelOpenState = false;
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
 
   constructor(public applicationService: ApplicationService,
-              public reportService: ReportService) {
+              public reportService: ReportService,
+              public eventService: EventService) {
 
     this.reportService.reports$.subscribe((isNewData: boolean) => {
       if (isNewData) {
@@ -50,16 +61,31 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+
+    this.applicationService.selectedReports.forEach(report => {
+      const row = this.dataSource.data.find(obj => obj.id === report.id);
+      if (row) {
+        this.selection.select(row);
+      }
+    });
   }
 
-  private selectRow = (element): void => {
-    if (this.applicationService.selectedReport === undefined) {
-      this.applicationService.selectedReport = element;
-    } else {
-      this.applicationService.selectedReport = undefined;
-    }
+  private selectRow = (row: REPORT_DATA_UI): void => {
+    // if (this.applicationService.selectedReport === undefined) {
+    //   this.applicationService.selectedReport = element;
+    // } else {
+    //   this.applicationService.selectedReport = undefined;
+    // }
 
     // this.expandedElement = this.expandedElement === element ? null : element;
+
+    if (this.selectedElement) {
+      this.reportService.unselectIcon(this.selectedElement);
+    }
+    this.selectedElement = row;
+    this.reportService.selectIcon(row);
+
+    this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -75,6 +101,14 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   };
 
+  getSelectedReports = (): REPORT_DATA_UI[] => {
+    try {
+      return this.selection.selected;
+    } catch (e) {
+      return [];
+    }
+  };
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected = () => {
     const numSelected = this.selection.selected.length;
@@ -84,12 +118,20 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle = () => {
-    this.isAllSelected() ?
-      this.selection.clear() :
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      this.applicationService.selectedReports = [];
+    } else {
       this.dataSource.data.forEach(row => {
-          this.selection.select(row);
+        this.selection.select(row);
+
+        const selectedIndex = this.applicationService.selectedReports.findIndex(data => data.id === row.id);
+        const report = this.reportService.getReportById(row.id);
+        if (selectedIndex === -1 && report) {
+          this.applicationService.selectedReports.push(report);
         }
-      );
+      });
+    }
   };
 
   /** The label for the checkbox on the passed row */
@@ -101,27 +143,103 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
   };
 
   onChangeAllSelected = (event) => {
-    if (event.checked) {
-      this.dataSource.data.forEach((row: REPORT_DATA_UI) => {
-        this.expandedElement[row.id] = row;
-      });
-    } else {
-      this.dataSource.data.forEach((row: REPORT_DATA_UI) => {
-        delete this.expandedElement[row.id];
-      });
-    }
+    // if (event.checked) {
+    //   this.dataSource.data.forEach((row: REPORT_DATA_UI) => {
+    //     this.expandedElement[row.id] = row;
+    //   });
+    // } else {
+    //   this.dataSource.data.forEach((row: REPORT_DATA_UI) => {
+    //     delete this.expandedElement[row.id];
+    //   });
+    // }
     return event ? this.masterToggle() : null;
   };
 
-  onChangeCheckbox = (event, row: REPORT_DATA_UI) => {
-    if (event.checked) {
-      this.expandedElement[row.id] = row;
-      this.applicationService.selectedReport = row;
-    } else {
-      delete this.expandedElement[row.id];
-      this.applicationService.selectedReport = undefined;
-    }
-    return event ? this.selection.toggle(row) : null;
-  }
+  onChangeCheckbox = ($event, row: REPORT_DATA_UI) => {
+    // if (event.checked) {
+    //   this.expandedElement[row.id] = row;
+    //   this.applicationService.selectedReport = row;
+    // } else {
+    //   delete this.expandedElement[row.id];
+    //   this.applicationService.selectedReport = undefined;
+    // }
 
+    if ($event.checked) {
+      const selectedIndex = this.applicationService.selectedReports.findIndex(data => data.id === row.id);
+      const event = this.reportService.getReportById(row.id);
+      if (selectedIndex === -1 && event) {
+        this.applicationService.selectedReports.push(event);
+      }
+    } else {
+      const selectedIndex = this.applicationService.selectedReports.findIndex(data => data.id === row.id);
+      if (selectedIndex !== -1) {
+        this.applicationService.selectedReports.splice(selectedIndex, 1);
+      }
+    }
+    return $event ? this.selection.toggle(row) : null;
+  };
+
+  onUpdateLinkedEvents = (result: string[], element: REPORT_DATA_UI) => {
+      if (result && Array.isArray(result)) {
+        const report = this.reportService.getReportById(element.id);
+        if (report) {
+
+          const addedEvents = _.differenceWith(result, report.eventIds, (o1, o2) => {
+            return o1 === o2;
+          });
+          this.eventService.linkEventsToReport(addedEvents, report.id); // TODO
+
+          const removedEvents = _.differenceWith(report.eventIds, result, (o1, o2) => {
+            return o1 === o2;
+          });
+          this.eventService.unlinkEventsFromReport(removedEvents, report.id); // TODO
+
+          report.eventIds = result;
+          this.reportService.createReport(report);
+        }
+      }
+  };
+
+  onAddMedia = (newMedia: FILE_FS_DATA, element: REPORT_DATA_UI) => {
+    const report = this.reportService.getReportById(element.id);
+    if (report) {
+      report.media.unshift(newMedia);
+      this.reportService.createReport(report);
+    }
+  };
+
+  onDeleteMedia = (newMedia: FILE_FS_DATA, element: REPORT_DATA_UI) => {
+    const report = this.reportService.getReportById(element.id);
+    if (report) {
+      const index = report.media.findIndex((data: FILE_FS_DATA) => data.id === newMedia.id);
+      if (index !== -1) {
+        report.media.splice(index, 1);
+      }
+      this.reportService.createReport(report);
+    }
+
+  };
+
+  private expendPanelDescription = (index: boolean) => {
+    this.panelOpenState = index;
+  };
+
+  onChangeComments = (comments: COMMENT[], element: EVENT_DATA_UI) => {
+    const report = this.reportService.getReportById(element.id);
+    if (report) {
+      const newReport = {...report};
+      newReport.comments = comments;
+      this.reportService.createReport(newReport);
+    }
+  };
+
+  clickOnIcon = (event, element: EVENT_DATA_UI, column: string) => {
+    event.stopPropagation();
+    if (column === 'map') {
+      const coordinates: POINT = [element.location.longitude, element.location.latitude];
+      this.eventService.flyToObject(coordinates);
+    } else if (column === 'link') {
+
+    }
+  };
 }

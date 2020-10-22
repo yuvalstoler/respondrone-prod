@@ -1,31 +1,36 @@
 import {
-    ADDRESS_GEOPOINT,
+    COMMENT,
     GEOPOINT3D,
-    ID_TYPE, LINKED_REPORT_DATA,
+    ID_TYPE,
+    LINKED_REPORT_DATA,
     LOCATION_TYPE,
-    MEDIA_DATA,
+    FILE_FS_DATA,
     PRIORITY,
     REPORT_DATA,
     REPORT_DATA_UI,
-    REPORT_TYPE,
-    SOURCE_TYPE
+    SOURCE_TYPE,
+    ADDRESS,
+    MAP
 } from '../../typings/all.typings';
-import {DataUtility} from '../../applicationClasses/utility/dataUtility';
+import { DataUtility } from '../../applicationClasses/utility/dataUtility';
 
 export class Report {
 
     id: ID_TYPE;
-    type: REPORT_TYPE;
+    type: string; // REPORT_TYPE;
     source: SOURCE_TYPE;
     time: number;
-    createdBy: string
+    createdBy: string;
     priority: PRIORITY;
     description: string = '';
     locationType: LOCATION_TYPE = LOCATION_TYPE.none;
-    location: GEOPOINT3D | ADDRESS_GEOPOINT;
-    media: MEDIA_DATA[] = [];
+    location: GEOPOINT3D;
+    address: ADDRESS;
+    media: FILE_FS_DATA[] = [];
+    mediaFileIds: MAP<boolean> = {};
     eventIds: string[] = [];
-    commentIds: string[] = [];
+    comments: COMMENT[] = [];
+    idView: string = '';
 
     constructor(data: REPORT_DATA) {
         if ( data ) {
@@ -45,7 +50,7 @@ export class Report {
         }
     };
 
-    private setType = (data: REPORT_TYPE) => {
+    private setType = (data: string /*REPORT_TYPE*/) => {
         this.type = data;
     };
     private setSource = (data: SOURCE_TYPE) => {
@@ -66,10 +71,17 @@ export class Report {
             this.description = data;
         }
     };
-    private setLocation = (data: GEOPOINT3D | ADDRESS_GEOPOINT) => {
-        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS_GEOPOINT
+    private setLocation = (data: GEOPOINT3D) => {
+        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
         if ( res ) {
             this.location = data;
+        }
+    };
+
+    private setAddress = (data: ADDRESS) => {
+        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
+        if ( res ) {
+            this.address = data;
         }
     };
 
@@ -80,10 +92,16 @@ export class Report {
         }
     };
 
-    private setMedia = (data: MEDIA_DATA[]) => {
+    private setMedia = (data: FILE_FS_DATA[] = []) => {
         const res: boolean = Array.isArray(data);// || todo validate array of strings
         if ( res ) {
             this.media = data;
+        }
+    };
+    private setMediaFileIds = (data: MAP<boolean> = {}) => {
+        const res: boolean = data && typeof data === 'object';// || todo validate array of strings
+        if ( res ) {
+            this.mediaFileIds = data;
         }
     };
     private setEvents = (data: string[]) => {
@@ -92,9 +110,13 @@ export class Report {
             this.eventIds = data;
         }
     };
-    private setComments = (data: string[]) => {
-        this.commentIds = data;
+    private setComments = (data: COMMENT[]) => {
+        this.comments = data;
     };
+    private setIdView = (data: string) => {
+        this.idView = data;
+    };
+
     public setValues = (data: Partial<REPORT_DATA>, saveConfig: Object = this.saveConfig) => {
         for ( const key in saveConfig ) {
             if ( saveConfig.hasOwnProperty(key) ) {
@@ -124,9 +146,12 @@ export class Report {
             description: this.description,
             locationType: this.locationType,
             location: this.location,
+            address: this.address,
             media: this.media,
+            mediaFileIds: this.mediaFileIds,
             eventIds: this.eventIds,
-            commentIds: this.commentIds,
+            comments: this.comments,
+            idView: this.idView,
         };
     };
 
@@ -141,16 +166,13 @@ export class Report {
             description: this.description,
             locationType: this.locationType,
             location: this.location,
+            address: this.address,
             media: this.media,
+            mediaFileIds: this.mediaFileIds,
             eventIds: this.eventIds,
-            commentIds: this.commentIds,
-
+            comments: this.comments,
             events: [],
-            comments: [
-                {source: 'FF33', time: 12546324562, text: 'We arrived to the building, the situation is under control'},
-                {source: 'OS23', time: 12546324577, text: 'We arrived to the building, the situation is under control'},
-                {source: 'DD53', time: 12546324582, text: 'We arrived to the building, the situation is under control'}
-            ],
+            idView: this.idView,
             modeDefine: undefined
         };
     };
@@ -162,6 +184,8 @@ export class Report {
             createdBy: this.createdBy,
             type: this.type,
             description: this.description,
+            idView: this.idView,
+            modeDefine: undefined
         };
     };
 
@@ -176,9 +200,12 @@ export class Report {
         description: this.setDescription,
         locationType: this.setLocationType,
         location: this.setLocation,
+        address: this.setAddress,
         media: this.setMedia,
+        mediaFileIds: this.setMediaFileIds,
         eventIds: this.setEvents,
-        commentIds: this.setComments,
+        comments: this.setComments,
+        idView: this.setIdView,
     };
 
 

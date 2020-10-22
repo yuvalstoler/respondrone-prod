@@ -11,8 +11,7 @@
       "host": "localhost",
       "protocol": "http"
     },
-    "telemetryType": "FRs_Tel",
-    "sendTelemetryInterval": 5000
+    "telemetryType": "FRs_Tel"
   },
   "LogsMongo": {
     "db": "repositoryLogs",

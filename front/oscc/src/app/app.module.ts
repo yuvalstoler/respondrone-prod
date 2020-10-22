@@ -20,6 +20,8 @@ import {MatListModule} from '@angular/material/list';
 import {MatSelectModule} from '@angular/material/select';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatButtonModule} from '@angular/material/button';
+import {MatExpansionModule} from '@angular/material/expansion';
+
 import {HttpClientModule} from '@angular/common/http';
 import {MatSortModule} from '@angular/material/sort';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -35,6 +37,10 @@ import { LinkedEventTableComponent } from './dialogs/linked-event-dialog/linked-
 import {ToastrModule} from 'ngx-toastr';
 import {SocketIoModule, SocketIoConfig} from 'ngx-socket-io';
 import {SOCKET_CONFIG} from '../environments/environment';
+import { EventDialogComponent } from './dialogs/event-dialog/event-dialog.component';
+import { ReportDialogComponent } from './dialogs/report-dialog/report-dialog.component';
+import { TaskDialogComponent } from './dialogs/task-dialog/task-dialog.component';
+import {MatMenuModule} from '@angular/material/menu';
 
 const config: SocketIoConfig = SOCKET_CONFIG;
 
@@ -57,7 +63,10 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     LinkedReportTableComponent,
     LinkedEventDialogComponent,
     LinkedEventContainerComponent,
-    LinkedEventTableComponent
+    LinkedEventTableComponent,
+    EventDialogComponent,
+    ReportDialogComponent,
+    TaskDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +94,9 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     MatSortModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    MatIconModule
+    MatIconModule,
+    MatExpansionModule,
+    MatMenuModule
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
@@ -95,6 +106,9 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     ConfirmDialogComponent,
     LinkedReportDialogComponent,
     LinkedEventDialogComponent,
+    EventDialogComponent,
+    ReportDialogComponent,
+    TaskDialogComponent
   ]
 })
 export class AppModule {

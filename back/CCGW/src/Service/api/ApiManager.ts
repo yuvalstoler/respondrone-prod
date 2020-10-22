@@ -15,12 +15,12 @@ import {
     FILE_GW_DATA,
     ID_OBJ,
     REPORT_DATA,
+    TASK_DATA,
     UPDATE_FILE_STATUS,
 } from '../../../../../classes/typings/all.typings';
 import {
     CCGW_API,
     MWS_API,
-    REPORT_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 
 
@@ -102,15 +102,40 @@ export class ApiManager implements IRest {
     };
     //--------------------------------
 
+
+    private getTasks = (request: Request, response: Response) => {
+        ExternalApiManager.getTasks()
+            .then((data: ASYNC_RESPONSE<TASK_DATA[]>) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(data);
+            });
+    };
+
+    private getTaskById = (request: Request, response: Response) => {
+        const requestBody: ID_OBJ = request.body;
+        ExternalApiManager.getTaskById(requestBody)
+            .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                response.send(data);
+            });
+    };
+
+    //--------------------------------
+
     routers: {} = {
         [CCGW_API.createReportFromMGW]: this.createReportFromMGW,
-        [REPORT_API.createReport]: this.createReportFromMGW,
         [MWS_API.getVideoSources]: this.getVideoSources,
 
 
         [CCGW_API.getFileById]: this.getFileById,
         [CCGW_API.updateFileStatus]: this.updateFileStatus,
 
+        [CCGW_API.getTasks]: this.getTasks,
+        [CCGW_API.getTaskById]: this.getTaskById,
 
 
     };

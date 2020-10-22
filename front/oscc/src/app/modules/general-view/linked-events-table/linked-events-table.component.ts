@@ -1,10 +1,11 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatDialog} from '@angular/material/dialog';
 import {MatTableDataSource} from '@angular/material/table';
 import {LinkedEventDialogComponent} from '../../../dialogs/linked-event-dialog/linked-event-dialog.component';
 import {LINKED_EVENT_DATA, REPORT_DATA_UI} from '../../../../../../../classes/typings/all.typings';
-import {ReportService} from '../../../services/reportService/report.service';
+import {EventService} from '../../../services/eventService/event.service';
+import {ApplicationService} from '../../../services/applicationService/application.service';
 
 @Component({
   selector: 'app-linked-events-table',
@@ -14,13 +15,16 @@ import {ReportService} from '../../../services/reportService/report.service';
 export class LinkedEventsTableComponent implements OnInit, AfterViewInit {
 
   @Input() element: REPORT_DATA_UI;
+  @Input() isAllColumns: boolean;
+  @Output() updateLinkedEvents = new EventEmitter<string[]>();
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   displayedColumns: string[] = ['ID', 'Type', 'Description', 'Time', 'actionsColumn'];
   dataSource = new MatTableDataSource<LINKED_EVENT_DATA>();
 
-  constructor( public dialog: MatDialog,
-               public reportService: ReportService) {
+  constructor(public dialog: MatDialog,
+              public eventService: EventService,
+              public applicationService: ApplicationService) {
   }
 
   ngOnInit(): void {
@@ -41,43 +45,36 @@ export class LinkedEventsTableComponent implements OnInit, AfterViewInit {
   }
 
   removeAt = (row: LINKED_EVENT_DATA) => {
-    // const data = this.dataSource.data;
-    // data.splice( index, 1);
-    // this.dataSource.data = data;
-    const report = this.reportService.reports.data.find(data => data.id === this.element.id);
-    if (report && row.id) {
-      const index = report.eventIds.indexOf(row.id);
-      if (index !== -1) {
-        report.eventIds.splice(index, 1);
-        this.reportService.createReport(report);
-      }
+    const eventIds = [...this.element.eventIds];
+    const index = eventIds.indexOf(row.id);
+    if (index !== -1) {
+      eventIds.splice(index, 1);
     }
-
-
+    this.updateLinkedEvents.emit(eventIds);
   };
 
   onNewEvent = () => {
 
   };
 
-  onAddEvent = () => {
-    this.openAddLinkedEventDialog();
+  onAddEvent = (event) => {
+    event.stopPropagation();
+    if (this.eventService.events.data.length > 0) {
+      this.openAddLinkedEventDialog();
+    }
   };
 
   openAddLinkedEventDialog = (): void => {
     const dialogRef = this.dialog.open(LinkedEventDialogComponent, {
-      minWidth: '500px',
+      minWidth: '700px',
       disableClose: true,
-      data: ''
+      data: this.element.eventIds
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result: string[]) => {
       if (result && Array.isArray(result)) {
-        const report = this.reportService.reports.data.find(data => data.id === this.element.id);
-        if (report) {
-          report.eventIds = result;
-          this.reportService.createReport(report);
-        }
+        const allLinked = [...this.element.eventIds, ...result];
+        this.updateLinkedEvents.emit(allLinked);
       }
     });
   };

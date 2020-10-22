@@ -14,21 +14,20 @@ import {
     ASYNC_RESPONSE, EVENT_DATA,
     ID_OBJ,
     POINT,
-    REPORT_DATA,
+    REPORT_DATA, TASK_DATA,
 } from '../../../../../classes/typings/all.typings';
 
 
 
 import {
-    EVENT_API,
     FS_API,
     MWS_API,
-    REPORT_API,
     WS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 import {FileManager} from '../file/fileManager';
 import {EventManager} from '../event/eventManager';
+import {TaskManager} from '../task/taskManager';
 
 
 export class ApiManager implements IRest {
@@ -267,6 +266,114 @@ export class ApiManager implements IRest {
                 response.send(res);
             });
     };
+    // ========================================================================
+
+    private createTask = (request: Request, response: Response) => {
+        const requestBody: TASK_DATA = request.body;
+        TaskManager.createTask(requestBody)
+            .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                response.send(data);
+            });
+    };
+
+    private readTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<TASK_DATA> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            TaskManager.readTask(requestBody)
+                .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    res.description = data.description;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private readAllTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<TASK_DATA[]> = {success: false};
+        TaskManager.readAllTask({})
+            .then((data: ASYNC_RESPONSE<TASK_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
+    private deleteTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            TaskManager.deleteTask(requestBody)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    res.description = data.description;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private deleteAllTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+
+        TaskManager.deleteAllTask()
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
+    private updateAllTasks = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody: TASK_DATA[] = request.body;
+        TaskManager.updateAllTasks(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
 
     // ========================================================================
 
@@ -308,23 +415,30 @@ export class ApiManager implements IRest {
 
 
 
-        [REPORT_API.createReport]: this.createReport,
-        [REPORT_API.readReport]: this.readReport,
-        [REPORT_API.readAllReport]: this.readAllReport,
-        [REPORT_API.deleteReport]: this.deleteReport,
-        [REPORT_API.deleteAllReport]: this.deleteAllReport,
+        [WS_API.createReport]: this.createReport,
+        [WS_API.readReport]: this.readReport,
+        [WS_API.readAllReport]: this.readAllReport,
+        [WS_API.deleteReport]: this.deleteReport,
+        [WS_API.deleteAllReport]: this.deleteAllReport,
 
-        [EVENT_API.createEvent]: this.createEvent,
-        [EVENT_API.readEvent]: this.readEvent,
-        [EVENT_API.readAllEvent]: this.readAllEvent,
-        [EVENT_API.deleteEvent]: this.deleteEvent,
-        [EVENT_API.deleteAllEvent]: this.deleteAllEvent,
+        [WS_API.createEvent]: this.createEvent,
+        [WS_API.readEvent]: this.readEvent,
+        [WS_API.readAllEvent]: this.readAllEvent,
+        [WS_API.deleteEvent]: this.deleteEvent,
+        [WS_API.deleteAllEvent]: this.deleteAllEvent,
+
+        [WS_API.createTask]: this.createTask,
+        [WS_API.readTask]: this.readTask,
+        [WS_API.readAllTask]: this.readAllTask,
+        [WS_API.deleteTask]: this.deleteTask,
+        [WS_API.deleteAllTask]: this.deleteAllTask,
 
         [WS_API.uploadFile]: this.uploadFile,
-        [FS_API.removeFile]: this.removeFile,
+        [WS_API.removeFile]: this.removeFile,
 
         [WS_API.updateAllReports]: this.updateAllReports,
         [WS_API.updateAllEvents]: this.updateAllEvents,
+        [WS_API.updateAllTasks]: this.updateAllTasks,
 
     };
 

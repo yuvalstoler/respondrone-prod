@@ -1,4 +1,5 @@
 const request = require('request');
+const _ = require('lodash');
 
 
 import {
@@ -7,7 +8,10 @@ import {
 } from '../../../../../classes/dataClasses/api/api_enums';
 
 
-import { ASYNC_RESPONSE } from '../../../../../classes/typings/all.typings';
+import {
+    ASYNC_RESPONSE,
+    MAP
+} from '../../../../../classes/typings/all.typings';
 // for webServer
 const services = require('./../../../../../../../../config/services.json');
 const projConf = require('./../../../../../../../../config/projConf.json');
@@ -20,6 +24,7 @@ const url_DBS = services.DBS.protocol + '://' + services.DBS.host + ':' + servic
 
 export class RequestManager {
 
+    static externalServiceURLs: MAP<string> = {};
 
     public static requestToCCG = (path: string, bodyObj: object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_CCG, API_GENERAL.general + path, bodyObj, timeout_AV);
@@ -33,7 +38,26 @@ export class RequestManager {
         return RequestManager.uploadFile(url_CCG, API_GENERAL.general + CCG_API.uploadFileToMG, formData);
     }
 
-    public static sendRestRequest(url: string, path: string, bodyObj: Object, timeout: number): Promise<ASYNC_RESPONSE> {
+
+    public static requestToExternalService = (serviceName: string, path: string, bodyObj: Object = {}): Promise<ASYNC_RESPONSE> => {
+
+        if ( !RequestManager.externalServiceURLs.hasOwnProperty(serviceName) ) {
+            const protocol = _.get(services, [serviceName, 'protocol']);
+            const host = _.get(services, [serviceName, 'host']);
+            const port = _.get(services, [serviceName, 'port']);
+
+            const url = protocol + '://' + host + ':' + port;
+            if ( protocol && host && port && RequestManager.validURL(url) ) {
+                RequestManager.externalServiceURLs[serviceName] = url;
+            }
+        }
+
+        return RequestManager.sendRestRequest(RequestManager.externalServiceURLs[serviceName], path, bodyObj);
+    };
+
+
+
+    public static sendRestRequest(url: string, path: string, bodyObj: Object, timeout: number = timeout_AV): Promise<ASYNC_RESPONSE> {
         return new Promise((resolve, reject) => {
             (async () => {
                 const IP_ = url.split('://');

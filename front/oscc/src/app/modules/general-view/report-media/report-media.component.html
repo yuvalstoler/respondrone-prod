@@ -1,0 +1,42 @@
+<input #inputForChooseFile
+       type="file"
+       class="form-control inputForm"
+       accept="{{formats}}"
+       (change)="selectFile($event)"
+/>
+<div class="LinkedHeader">
+  <span class="DialogTitle">Media</span>
+  <span (click)="inputForChooseFile.click()"
+        class="DialogLink pointer">Add Media</span>
+</div>
+
+<div class="imagesContainer">
+  <div *ngIf="currentPage > 0" (click)="prev()" class="pointer">
+    <mat-icon class="MediaIcon revert">double_arrow</mat-icon>
+  </div>
+  <div *ngFor="let info of progressInfos; let index = index">
+    <div class="image" *ngIf="isShowProgress(index)">
+      <div class="remove pointer" (click)="cancelUpload(info)">
+        <span class="material-icons">close</span>
+      </div>
+      <div class="imageIcon progressContainer">
+          <mat-progress-spinner class="centerXY"
+              [diameter]="50"
+              [mode]="'determinate'"
+              [value]="info.percent">
+          </mat-progress-spinner>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let image of media; let index = index">
+    <div class="image" *ngIf="isShowImage(index)">
+      <div class="remove pointer" (click)="deleteFile(image)">
+        <span class="material-icons">close</span>
+      </div>
+      <img [src]="image.fullThumbnail" class="imageIcon" (click)="onImage(image)">
+    </div>
+  </div>
+  <div *ngIf="isAllowNext()" (click)="next()" class="pointer">
+    <mat-icon class="MediaIcon">double_arrow</mat-icon>
+  </div>
+</div>

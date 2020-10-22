@@ -11,7 +11,27 @@
           <!--<mat-icon *ngIf="column === 'map'" class="HPRightSideIcon">location_on</mat-icon>-->
           <!--<mat-icon *ngIf="column === 'attachment'" class="HPRightSideIcon">attach_file</mat-icon>-->
         </th>
-        <td *matCellDef="let element" mat-cell>{{element[column]}}</td>
+        <td *matCellDef="let element" mat-cell>
+          <span *ngIf="element.modeDefine?.tableData[column]">
+            <mat-icon class="HPRightSideIcon"
+                      *ngIf="element.modeDefine?.tableData[column]?.type === 'matIcon'"
+                      [ngStyle]="{'color': element.modeDefine?.tableData[column]?.color}">
+               {{element.modeDefine?.tableData[column]?.data}}
+             </mat-icon>
+            <img class="tableImage"
+                 *ngIf="element.modeDefine?.tableData[column]?.type === 'image'"
+                 [src]="element.modeDefine?.tableData[column]?.data">
+            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'">
+               {{element.modeDefine?.tableData[column]?.data}}
+            </span>
+            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'date'">
+               {{element.modeDefine?.tableData[column]?.data | customDate: applicationService.now}}
+            </span>
+          </span>
+          <span *ngIf="!element.modeDefine?.tableData[column]">
+            {{element[column]}}
+          </span>
+        </td>
       </span>
       <!--Checkbox-->
       <span *ngIf="column === 'select'">

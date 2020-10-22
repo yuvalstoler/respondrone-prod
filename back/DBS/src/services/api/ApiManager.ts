@@ -8,15 +8,17 @@ import {
 } from 'express';
 
 import {
-    ASYNC_RESPONSE, EVENT_DATA,
+    ASYNC_RESPONSE,
+    EVENT_DATA,
+    FILE_DB_DATA,
     ID_OBJ,
     ID_TYPE,
     REPORT_DATA,
+    TASK_DATA,
 } from '../../../../../classes/typings/all.typings';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 import {
-    EVENT_API,
-    REPORT_API
+    DBS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 
 
@@ -279,19 +281,191 @@ export class ApiManager implements IRest {
 
 
 
+    // ----------------------
+
+    private saveFileData = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const data: FILE_DB_DATA = request.body;
+        DbManager.createFileData(data)
+            .then((data: ASYNC_RESPONSE<FILE_DB_DATA>) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<FILE_DB_DATA>) => {
+                response.send(data);
+
+            })
+    }
+
+    private readFileData = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const data: FILE_DB_DATA = request.body;
+        DbManager.readFileData(data)
+            .then((data: ASYNC_RESPONSE<FILE_DB_DATA>) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<FILE_DB_DATA>) => {
+                response.send(data);
+
+            })
+    }
+
+    private updateFileData = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const data: Partial<FILE_DB_DATA> = request.body;
+
+        DbManager.updateFileData(data)
+            .then((data: ASYNC_RESPONSE<FILE_DB_DATA>) => {
+                response.send(data);
+
+            })
+            .catch((data: ASYNC_RESPONSE<FILE_DB_DATA>) => {
+                response.send(data);
+            })
+    }
+
+    private getAllFileData = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        // const data: Partial<FILE_DB_DATA> = request.body;
+
+        DbManager.getAllFileData()
+            .then((data: ASYNC_RESPONSE<FILE_DB_DATA[]>) => {
+                response.send(data);
+
+            })
+            .catch((data: ASYNC_RESPONSE<FILE_DB_DATA>) => {
+                response.send(data);
+            })
+    }
+
+    // ----------------------
+    // region task ----------------------
+    private createTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<TASK_DATA> = {success: false};
+        const requestBody: TASK_DATA = request.body;
+        if ( requestBody ) {
+            DbManager.createTask(requestBody)
+                .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing requestBody';
+            response.send(res);
+        }
+    };
+
+    private readTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<TASK_DATA> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.readTask(requestBody)
+                .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private readAllTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<TASK_DATA[]> = {success: false};
+        DbManager.readAllTask({})
+            .then((data: ASYNC_RESPONSE<TASK_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE<TASK_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
+    private deleteTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.deleteTask(requestBody)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private deleteAllTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody = request.body;
+        DbManager.deleteAllTask({})
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+    };
+    // endregion ----------------------
+
+
     routers: {} = {
 
-        [REPORT_API.createReport]: this.setReport,
-        [REPORT_API.readReport]: this.readReport,
-        [REPORT_API.readAllReport]: this.readAllReport,
-        [REPORT_API.deleteReport]: this.deleteReport,
-        [REPORT_API.deleteAllReport]: this.deleteAllReport,
+        [DBS_API.createReport]: this.setReport,
+        [DBS_API.readReport]: this.readReport,
+        [DBS_API.readAllReport]: this.readAllReport,
+        [DBS_API.deleteReport]: this.deleteReport,
+        [DBS_API.deleteAllReport]: this.deleteAllReport,
 
-        [EVENT_API.createEvent]: this.setEvent,
-        [EVENT_API.readEvent]: this.readEvent,
-        [EVENT_API.readAllEvent]: this.readAllEvent,
-        [EVENT_API.deleteEvent]: this.deleteEvent,
-        [EVENT_API.deleteAllEvent]: this.deleteAllEvent,
+        [DBS_API.createEvent]: this.setEvent,
+        [DBS_API.readEvent]: this.readEvent,
+        [DBS_API.readAllEvent]: this.readAllEvent,
+        [DBS_API.deleteEvent]: this.deleteEvent,
+        [DBS_API.deleteAllEvent]: this.deleteAllEvent,
+
+        [DBS_API.saveFileData]: this.saveFileData,
+        [DBS_API.readFileData]: this.readFileData,
+        [DBS_API.updateFileData]: this.updateFileData,
+        [DBS_API.getAllFileData]: this.getAllFileData,
+
+
+        [DBS_API.createTask]: this.createTask,
+        [DBS_API.readTask]: this.readTask,
+        [DBS_API.readAllTask]: this.readAllTask,
+        [DBS_API.deleteTask]: this.deleteTask,
+        [DBS_API.deleteAllTask]: this.deleteAllTask,
+
+
 
     };
 

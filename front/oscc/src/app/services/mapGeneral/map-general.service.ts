@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {CesiumService} from '../cesium/cesium.service';
-import {MAP} from '../../../../../../classes/typings/all.typings';
+import {GEOPOINT3D, MAP, POINT, POINT3D} from '../../../../../../classes/typings/all.typings';
 import {CesiumDrawerService} from '../cesium/mapDrawCesium/cesium-drawer.service';
 
 @Injectable({
@@ -18,13 +18,14 @@ export class MapGeneralService {
   public doubleClickListener: MAP<any> = {};
 
   constructor(private cesiumService: CesiumService,
-              private cesiumDrawerService: CesiumDrawerService) { }
+              private cesiumDrawerService: CesiumDrawerService) {
+  }
 
   public createCesiumMap = (mapId: string[]): void => {
     // if (this.mapSelected === MAP_TYPE.Cesium || this.mapSelected === MAP_TYPE.AllMaps) {
-      this.cesiumService.createMap(mapId[0]);
-      // this.cesiumDomId = mapId[0];
-      // this.setListenerCallbacks(mapId[0]);
+    this.cesiumService.createMap(mapId[0]);
+    // this.cesiumDomId = mapId[0];
+    this.setListenerCallbacks(mapId[0]);
     // }
   };
 
@@ -90,5 +91,99 @@ export class MapGeneralService {
     this.cesiumDrawerService.setMouseUpCallback(mapDomId, listenerName, callback);
   };
 
+
+  // Location Point ===========================================================================================================
+  // from Service ======
+  public createLocationPointFromServer = (locationPoint: GEOPOINT3D, locationId: string): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.createLocationPointFromServer(domId, locationPoint, locationId);
+    return res;
+  };
+
+  public createOrUpdateLocationTemp = (locationPoint: GEOPOINT3D, locationId: string) => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.createOrUpdateLocationTemp(domId, locationPoint, locationId);
+    return res;
+  };
+
+  public deleteLocationPointTemp = (locationId: string) => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.deleteLocationPointFromMap(domId, locationId);
+    return res;
+  };
+
+  public createBillboard = (locationPoint: GEOPOINT3D, billboardId: string): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.createBillboardObject(domId, locationPoint, billboardId);
+    return res;
+  };
+
+  public removeBillboard = (billboardId: string): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.removeBillboardFromMap(domId, billboardId);
+    return res;
+  };
+
+  public drawPolygonFromServer = (arrayPoints: POINT3D[], id: string, title: string) => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.drawPolygonFromServer(domId, arrayPoints, id, title);
+    return res;
+  };
+
+  public drawPolygonManually = (arrayPoints: POINT3D[], id: string, isCross: boolean) => {
+    const domId = undefined;
+    let res = false;
+    const color = isCross ? '#ff3c54' : '#59b1f1';
+    res = this.cesiumDrawerService.drawPolygonManually(domId, arrayPoints, id, color);
+    return res;
+  };
+
+  public removePolygonManually = (polygonId: string) => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.removePolygonManually(domId, polygonId);
+    return res;
+  };
+
+  public deletePolygonManually = (polygonId: string) => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.deletePolygonManually(domId, polygonId);
+    return res;
+  };
+
+  public createIcon = (locationPoint: GEOPOINT3D, billboardId: string, iconUrl: string): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.createIconObject(domId, locationPoint, billboardId, iconUrl);
+    return res;
+  };
+
+  public deleteIcon = (billboardId: string): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.deleteIconFromMap(domId, billboardId);
+    return res;
+  };
+
+  public editIcon = (billboardId: string, iconUrl: string, size: number): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.editIcon(domId, billboardId, iconUrl, size);
+    return res;
+  };
+
+  public flyToObject = (coordinates): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumService.flyToObject(domId, coordinates);
+    return res;
+  };
 
 }

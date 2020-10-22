@@ -11,8 +11,7 @@
       "host": "localhost",
       "protocol": "http"
     },
-    "telemetryType": "Gimbals_Tel",
-    "sendTelemetryInterval": 5000
+    "telemetryType": "Gimbals_Tel"
   },
   "LogsMongo": {
     "db": "repositoryLogs",

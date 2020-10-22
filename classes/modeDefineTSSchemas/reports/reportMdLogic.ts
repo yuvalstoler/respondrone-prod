@@ -1,4 +1,10 @@
-import {LOCATION_TYPE, PRIORITY, REPORT_DATA_MD, REPORT_DATA_UI, TABLE_DATA_MD} from '../../typings/all.typings';
+import {
+    LOCATION_TYPE,
+    PRIORITY,
+    REPORT_DATA_MD,
+    REPORT_DATA_UI,
+    TABLE_DATA_MD
+} from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
 import {MDClass} from "../mdClass";
@@ -10,7 +16,10 @@ export class ReportMdLogic implements IModeDefine {
 
     public static validate(data: REPORT_DATA_UI): REPORT_DATA_MD {
         const obj: REPORT_DATA_MD = {
-            styles: {},
+            styles: {
+                icon: this.getPriorityIcon(data).data,
+                selectedIcon: this.getPriorityIcon(data).data
+            },
             tableData: ReportMdLogic.tableData(data)
         };
         return obj;
@@ -18,16 +27,13 @@ export class ReportMdLogic implements IModeDefine {
 
 
     private static getPriorityIcon = (data: REPORT_DATA_UI): TABLE_DATA_MD => {
-        let res: TABLE_DATA_MD = {type: 'matIcon', data: '', color: ''};
+        let res: TABLE_DATA_MD = {type: 'image', data: '', color: ''};
         if (data.priority === PRIORITY.high) {
-            res.data = 'warning';
-            res.color = MDClass.colors.red;
+            res.data = '../../../../../assets/priorityHigh.png';
         } else if (data.priority === PRIORITY.middle) {
-            res.data = 'remove_circle';
-            res.color = MDClass.colors.orange;
+            res.data = '../../../../../assets/priorityMiddle.png';
         } else if (data.priority === PRIORITY.low) {
-            res.data = 'error';
-            res.color = MDClass.colors.darkBlue;
+            res.data = '../../../../../assets/priorityLow.png';
         }
         return res;
     };
@@ -35,6 +41,14 @@ export class ReportMdLogic implements IModeDefine {
 
     private static tableData = (data: REPORT_DATA_UI) => {
         let res = {
+            id: {
+                type: 'text',
+                data: data.idView
+            } as TABLE_DATA_MD,
+            time: {
+                type: 'date',
+                data: data.time
+            } as TABLE_DATA_MD,
             message: {
                 type: 'text',
                 data: data.comments.length > 0 ? '' + data.comments.length : ''

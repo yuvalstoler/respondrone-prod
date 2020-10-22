@@ -9,6 +9,82 @@
         "title": "repGraphicOverlay",
         "type": "object",
         "description": "A graphic shape that can be geo located",
+        "x-examples": {
+          "example-person-detected": {
+            "id": 1,
+            "name": "Person",
+            "shape": {
+              "lat": 49.657604,
+              "lon": 4.357463,
+              "alt": 0
+            },
+            "color": "Yellow",
+            "Type": "Person",
+            "creationTime": {
+              "timestamp": 1599640724
+            },
+            "lastUpdateTime": {
+              "timestamp": 1599640724
+            },
+            "lastAction": "insert",
+            "version": 1
+          },
+          "example-vehicle-detected": {
+            "id": 2,
+            "name": "Vehicle",
+            "shape": {
+              "lat": 49.657604,
+              "lon": 4.457463,
+              "alt": 0
+            },
+            "color": "Green",
+            "Type": "Vehicle",
+            "creationTime": {
+              "timestamp": 1599640724
+            },
+            "lastUpdateTime": {
+              "timestamp": 1599640724
+            },
+            "lastAction": "update",
+            "version": 3
+          },
+          "example-fire-detected": {
+            "id": 3,
+            "name": "Fire",
+            "shape": [
+              {
+                "lat": 49.657604,
+                "lon": 4.357463,
+                "alt": 0
+              },
+              {
+                "lat": 49.657462,
+                "lon": 4.3587,
+                "alt": 0
+              },
+              {
+                "lat": 49.658477,
+                "lon": 4.359089,
+                "alt": 0
+              },
+              {
+                "lat": 49.659178,
+                "lon": 4.357393,
+                "alt": 0
+              }
+            ],
+            "color": "Red",
+            "Type": "Fireline",
+            "creationTime": {
+              "timestamp": 1599640724
+            },
+            "lastUpdateTime": {
+              "timestamp": 1599640724
+            },
+            "lastAction": "update",
+            "version": 3
+          }
+        },
         "properties": {
           "id": {
             "type": "string",
@@ -19,59 +95,54 @@
             "description": "Overlay name"
           },
           "shape": {
-            "anyOf": [
+            "oneOf": [
               {
-                "items": {
-                  "title": "GeoPoint",
-                  "type": "object",
-                  "description": "",
-                  "properties": {
-                    "lat": {
-                      "type": "number",
-                      "minimum": -90,
-                      "maximum": 90,
-                      "description": "Decimal degrees"
-                    },
-                    "lon": {
-                      "type": "number",
-                      "minimum": -180,
-                      "maximum": 180,
-                      "description": "Decimal degrees"
-                    },
-                    "alt": {
-                      "type": "number"
-                    }
+                "title": "GeoPoint",
+                "type": "object",
+                "description": "",
+                "properties": {
+                  "lat": {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90,
+                    "description": "Decimal degrees"
                   },
-                  "required": [
-                    "lat",
-                    "lon"
-                  ]
-                }
+                  "lon": {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180,
+                    "description": "Decimal degrees"
+                  },
+                  "alt": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "lat",
+                  "lon"
+                ]
               },
               {
-                "items": {
-                  "title": "Polygon",
-                  "type": "object",
-                  "x-examples": {
-                    "example-1": {}
-                  },
-                  "properties": {
-                    "coordinates": {
-                      "type": "array",
-                      "minItems": 3,
-                      "items": {
-                        "$ref": "#/properties/graphicOverlays/items/properties/shape/oneOf/0/items"
-                      }
+                "title": "Polygon",
+                "type": "object",
+                "x-examples": {
+                  "example-1": {}
+                },
+                "properties": {
+                  "coordinates": {
+                    "type": "array",
+                    "minItems": 3,
+                    "items": {
+                      "$ref": "#/properties/graphicOverlays/items/properties/shape/oneOf/0"
                     }
-                  },
-                  "required": [
-                    "coordinates"
-                  ]
-                }
+                  }
+                },
+                "required": [
+                  "coordinates"
+                ]
               }
             ],
-            "description": "The shape of the overlay",
-            "type": "array"
+            "description": "The shape of the overlay"
           },
           "color": {
             "type": "string",
@@ -90,8 +161,8 @@
             "type": "string",
             "enum": [
               "FireLine",
-              "People",
-              "Vehicles",
+              "Person",
+              "Vehicle",
               "General"
             ]
           },
@@ -107,6 +178,9 @@
             "required": [
               "timestamp"
             ]
+          },
+          "lastUpdateTime": {
+            "$ref": "#/properties/graphicOverlays/items/properties/creationTime"
           },
           "lastAction": {
             "type": "string",

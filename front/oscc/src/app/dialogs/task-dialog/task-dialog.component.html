@@ -1,0 +1,114 @@
+<div class="DialogContainer">
+  <!--Header-->
+  <div class="DialogHeader" mat-dialog-title>
+    <span class="DialogHeaderTitle">{{data.title}}</span>
+    <span class="DialogHeaderX">
+      <button  mat-icon-button (click)="onNoClick()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </span>
+  </div>
+  <!--Content-->
+  <mat-dialog-content class="DialogContent">
+
+    <div class="item1">
+      <!--Title-->
+      <div class="DialogContentItem">
+        <div class="DialogTitle">Task Title</div>
+        <mat-form-field appearance="outline" class="SPMatFormField">
+          <label>
+            <input [(ngModel)]="taskModel.title" class="Label" matInput
+                   placeholder="For example: Fire in the city"
+                   type="text">
+          </label>
+        </mat-form-field>
+      </div>
+      <!--Type & Priority-->
+      <div class="DialogGrid2">
+        <!--Type-->
+        <div class="DialogContentItem ">
+          <div class="DialogTitle">Type</div>
+          <mat-form-field appearance="outline" class="SPMatFormField">
+            <mat-select [(ngModel)]="taskModel.type">
+              <mat-option *ngFor="let type of types" [value]="type">
+                {{type}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!--Priority-->
+        <div class="DialogContentItem ">
+          <div class="DialogTitle">Priority</div>
+          <mat-form-field appearance="outline" class="SPMatFormField">
+            <mat-select [(ngModel)]="taskModel.priority">
+              <mat-option *ngFor="let priority of priorities" [value]="priority">
+                {{priority}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <!--Description-->
+      <div class="DialogContentItem">
+        <div class="DialogTitle">Description</div>
+        <mat-form-field appearance="outline" class="SPMatFormField">
+          <label>
+            <textarea [(ngModel)]="taskModel.description" [ngStyle]="{'resize': 'none'}"
+                      class="Label"
+                      matInput placeholder="Add your description..."
+                      rows="3"></textarea>
+          </label>
+        </mat-form-field>
+      </div>
+
+      <!--Comments-->
+      <div class="DialogContentItem">
+        <app-comments-panel (changeComments)="onChangeComments($event)"
+                            [comments]="taskModel.comments"
+                            [isOpenDescription]="true"></app-comments-panel>
+      </div>
+    </div>
+    <div class="item2">
+      <!--Resources-->
+      <div class="DialogContentItem">
+        <div class="DialogTitle">Resources</div>
+        <mat-form-field appearance="outline" class="SPMatFormField">
+          <label>
+            <textarea [(ngModel)]="taskModel.resources" [ngStyle]="{'resize': 'none'}"
+                      class="Label"
+                      matInput placeholder="Add resources..."
+                      rows="3"></textarea>
+          </label>
+        </mat-form-field>
+      </div>
+      <!--Task Assignees-->
+      <div class="DialogContentItem">
+        <app-task-assignee-table [element]="taskModel" (updateAssignees)="onUpdateAssignees($event)"></app-task-assignee-table>
+      </div>
+      <!--Geographic Instructions-->
+      <div class="DialogContentItem">
+        <div class="DialogTitle">Geographic Instructions</div>
+      </div>
+
+      <!--&lt;!&ndash;Linked Reports&ndash;&gt;-->
+      <!--<div class="DialogContentItem">-->
+        <!--<app-linked-events-table [element]="reportModel"-->
+                                 <!--[isAllColumns]="false"-->
+                                 <!--(updateLinkedEvents)="onUpdateLinkedEvents($event)">-->
+        <!--</app-linked-events-table>-->
+      <!--</div>-->
+
+    </div>
+  </mat-dialog-content>
+  <!--Action-->
+  <div class="DialogActions" mat-dialog-actions>
+    <button (click)="onNoClick()" class="DialogActionsDelete"
+            mat-raised-button>Cancel
+    </button>
+    <button [mat-dialog-close]="taskModel"
+            class="DialogActionsCreate"
+            mat-raised-button>
+      {{data.title}}
+    </button>
+  </div>
+</div>

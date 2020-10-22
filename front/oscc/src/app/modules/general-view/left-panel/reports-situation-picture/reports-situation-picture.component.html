@@ -7,23 +7,24 @@
     </div>
   </div>
 
-  <div class="HeaderRightPanel">
+  <div class="HeaderRightPanel" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand">
     <div (click)="onArchiveReport()"
-         *ngIf="applicationService.selectedReport !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         *ngIf="applicationService.selectedReports.length > 0"
          class="RightSideButton pointer">Archive
     </div>
     <div (click)="onEditReport()"
-         *ngIf="applicationService.selectedReport !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         *ngIf="applicationService.selectedReports.length === 1"
          class="RightSideButton pointer">Edit
     </div>
     <div (click)="onDeleteReport()"
-         *ngIf="applicationService.selectedReport !== undefined && applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+         *ngIf="applicationService.selectedReports.length > 0"
          class="RightSideButton pointer">Delete
     </div>
-    <div (click)="onCreateNewReport()" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand"
+    <div (click)="onCreateNewReport()"
          class="RightSideButton pointer">Create New Report
     </div>
   </div>
+  <div class="HeaderRightPanel" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.minimize"></div>
   <!--Table-->
   <div>
     <app-reports-situation-table></app-reports-situation-table>

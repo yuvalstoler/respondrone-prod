@@ -5,9 +5,10 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {LEFT_PANEL_ICON, MAP} from '../../../../../../types';
 import {ApplicationService} from '../../../../../services/applicationService/application.service';
-import {EVENT_DATA_UI} from '../../../../../../../../../classes/typings/all.typings';
+import {COMMENT, EVENT_DATA_UI, POINT} from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
-
+import {ReportService} from '../../../../../services/reportService/report.service';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -32,12 +33,16 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
 
   expandedElement: MAP<EVENT_DATA_UI> = {};
   selection = new SelectionModel<EVENT_DATA_UI>(true, []);
+  selectedElement: EVENT_DATA_UI;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
+
+  panelOpenState = false;
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
 
   constructor(public applicationService: ApplicationService,
-              public eventService: EventService) {
+              public eventService: EventService,
+              public reportService: ReportService) {
 
     this.eventService.events$.subscribe((isNewData: boolean) => {
       if (isNewData) {
@@ -51,15 +56,23 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+
+    this.applicationService.selectedEvents.forEach(event => {
+      const row = this.dataSource.data.find(obj => obj.id === event.id);
+      if (row) {
+        this.selection.select(row);
+      }
+    });
   }
 
-  private selectRow = (element): void => {
-    if (this.applicationService.selectedEvent === undefined) {
-      this.applicationService.selectedEvent = element;
-    } else {
-      this.applicationService.selectedEvent = undefined;
+  private selectRow = (row: EVENT_DATA_UI): void => {
+    if (this.selectedElement) {
+      this.eventService.unselectIcon(this.selectedElement);
     }
-    // this.expandedElement = this.expandedElement === element ? null : element;
+    this.selectedElement = row;
+    this.eventService.selectIcon(row);
+
+    this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -75,6 +88,13 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   };
 
+  getSelectedEvents = (): EVENT_DATA_UI[] => {
+    try {
+      return this.selection.selected;
+    } catch (e) {
+      return [];
+    }
+  };
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected = () => {
@@ -85,12 +105,20 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle = () => {
-    this.isAllSelected() ?
-      this.selection.clear() :
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      this.applicationService.selectedEvents = [];
+    } else {
       this.dataSource.data.forEach(row => {
-          this.selection.select(row);
+        this.selection.select(row);
+
+        const selectedIndex = this.applicationService.selectedEvents.findIndex(data => data.id === row.id);
+        const event = this.eventService.getEventById(row.id);
+        if (selectedIndex === -1 && event) {
+          this.applicationService.selectedEvents.push(event);
         }
-      );
+      });
+    }
   };
 
   /** The label for the checkbox on the passed row */
@@ -102,29 +130,67 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
   };
 
   onChangeAllSelected = (event) => {
-    if (event.checked) {
-      this.dataSource.data.forEach((row: EVENT_DATA_UI) => {
-        this.expandedElement[row.id] = row;
-      });
-    } else {
-      this.dataSource.data.forEach((row: EVENT_DATA_UI) => {
-        delete this.expandedElement[row.id];
-      });
-    }
     return event ? this.masterToggle() : null;
   };
 
-  onChangeCheckbox = (event, row: EVENT_DATA_UI) => {
-    if (event.checked) {
-      this.expandedElement[row.id] = row;
-      this.applicationService.selectedEvent = row;
+  onChangeCheckbox = ($event, row: EVENT_DATA_UI) => {
+    if ($event.checked) {
+      const selectedIndex = this.applicationService.selectedEvents.findIndex(data => data.id === row.id);
+      const event = this.eventService.getEventById(row.id);
+      if (selectedIndex === -1 && event) {
+        this.applicationService.selectedEvents.push(event);
+      }
     } else {
-      delete this.expandedElement[row.id];
-      this.applicationService.selectedEvent = undefined;
+      const selectedIndex = this.applicationService.selectedEvents.findIndex(data => data.id === row.id);
+      if (selectedIndex !== -1) {
+        this.applicationService.selectedEvents.splice(selectedIndex, 1);
+      }
     }
-    return event ? this.selection.toggle(row) : null;
-  }
+    return $event ? this.selection.toggle(row) : null;
+  };
 
+  onUpdateLinkedReports = (result: string[], element: EVENT_DATA_UI) => {
+    if (result && Array.isArray(result)) {
+      const event = this.eventService.getEventById(element.id);
+      if (event) {
+        const addedReports = _.differenceWith(result, event.reportIds, (o1, o2) => {
+          return o1 === o2;
+        });
+        this.reportService.linkReportsToEvent(addedReports, event.id); // TODO
 
+        const removedReports = _.differenceWith(event.reportIds, result, (o1, o2) => {
+          return o1 === o2;
+        });
+        this.reportService.unlinkReportsFromEvent(removedReports, event.id); // TODO
+
+        event.reportIds = result;
+        this.eventService.createEvent(event);
+      }
+    }
+  };
+
+  private expendPanelDescription = (index: boolean) => {
+    this.panelOpenState = index;
+  };
+
+  onChangeComments = (comments: COMMENT[], element: EVENT_DATA_UI) => {
+    const event = this.eventService.getEventById(element.id);
+    if (event) {
+      const newEvent = {...event};
+      newEvent.comments = comments;
+      this.eventService.createEvent(newEvent);
+    }
+  };
+
+  clickOnIcon = (event, element: EVENT_DATA_UI, column: string) => {
+    event.stopPropagation();
+    if (column === 'map') {
+      const coordinates: POINT = [element.location.longitude, element.location.latitude];
+      this.eventService.flyToObject(coordinates);
+    } else if (column === 'link') {
+
+    }
+
+  };
 }
 

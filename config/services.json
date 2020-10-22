@@ -2,7 +2,11 @@
   "FS": {
     "port": "6100",
     "host": "localhost",
-    "protocol": "http"
+    "protocol": "http",
+    "listeners": [
+      "RS"
+    ]
+
   },
   "VSS": {
     "port": "6101",
@@ -29,7 +33,11 @@
   "TS": {
     "port": "6400",
     "host": "localhost",
-    "protocol": "http"
+    "protocol": "http",
+
+    "listeners": [
+      "webServer"
+    ]
   },
   "MS": {
     "port": "6500",
@@ -47,9 +55,18 @@
       "col": "col"
     }
   },
+  "FRS": {
+    "port": "6700",
+    "host": "localhost",
+    "protocol": "http",
+
+    "listeners": [
+      "webServer"
+    ]
+  },
 
   "MG": {
-    "port": "6700",
+    "port": "9700",
     "host": "localhost",
     "protocol": "http"
   },
@@ -71,14 +88,10 @@
     "password": "simplex"
 
   },
-  "MWS": {
-    "port": "5001",
-    "host": "localhost",
-    "protocol": "http"
-  },
+
   
   "logServer": {
-    "port": "6800",
+    "port": "6900",
     "host": "localhost",
     "protocol": "http"
 

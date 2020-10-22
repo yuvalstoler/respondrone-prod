@@ -18,19 +18,27 @@ export class HeaderPanelComponent implements OnInit {
 
   onSituationPicture = () => {
     if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.situationPictures) {
-      this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
-      this.applicationService.screen.showLeftPanel = false;
+      // this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
     } else {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.situationPictures;
-      this.applicationService.screen.showLeftPanel = true;
+      // open panel
+      this.applicationService.screen.showSituationPicture = true;
+      //close others
+      this.applicationService.screen.showMissionControl = false;
+
     }
   };
 
   onMissionControl = () => {
     if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.missionControl) {
-      this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
+      // this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
     } else {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;
+      // open panel
+      this.applicationService.screen.showMissionControl = true;
+      //close others
+      this.applicationService.screen.showSituationPicture = false;
+
     }
   };
 

@@ -1,25 +1,30 @@
-import { Converting } from '../../../../../classes/applicationClasses/utility/converting';
+import {Converting} from '../../../../../classes/applicationClasses/utility/converting';
+import {Report} from '../../../../../classes/dataClasses/report/report';
 
-const _ = require('lodash');
+import {RS_API} from '../../../../../classes/dataClasses/api/api_enums';
 
-import { Report } from '../../../../../classes/dataClasses/report/report';
-
-import {
-    REPORT_API,
-} from '../../../../../classes/dataClasses/api/api_enums';
-
-import { RequestManager } from '../../AppService/restConnections/requestManager';
+import {RequestManager} from '../../AppService/restConnections/requestManager';
 
 import {
     ASYNC_RESPONSE,
-    ID_OBJ, ID_TYPE, LINKED_REPORT_DATA,
-    REPORT_DATA, REPORT_DATA_UI
-
+    FILE_FS_DATA,
+    ID_OBJ,
+    ID_TYPE,
+    LINKED_REPORT_DATA,
+    MEDIA_TYPE,
+    REPORT_DATA,
+    REPORT_DATA_UI
 } from '../../../../../classes/typings/all.typings';
 import {SocketIO} from '../../websocket/socket.io';
 import {EventManager} from '../event/eventManager';
 import {ReportMdLogic} from '../../../../../classes/modeDefineTSSchemas/reports/reportMdLogic';
 import {DataUtility} from '../../../../../classes/applicationClasses/utility/dataUtility';
+
+const _ = require('lodash');
+
+const services = require('./../../../../../../../../config/services.json');
+const url_FS = services.FS.protocol + '://' + services.FS.host + ':' + services.FS.port;
+const url_VideoStreamService = services.VSS.protocol + '://' + services.VSS.host + ':' + services.VSS.port;
 
 
 export class ReportManager {
@@ -37,7 +42,7 @@ export class ReportManager {
 
     private getReportsFromRS = () => {
         //get StaticNfz From AMS
-        RequestManager.requestToRS(REPORT_API.readAllReport, {})
+        RequestManager.requestToRS(RS_API.readAllReport, {})
             .then((data: ASYNC_RESPONSE<REPORT_DATA[]>) => {
                 if ( data.success ) {
                     this.reports = Converting.Arr_REPORT_DATA_to_Arr_Report(data.data);
@@ -76,6 +81,7 @@ export class ReportManager {
             this.reports = Converting.Arr_REPORT_DATA_to_Arr_Report(reportData);
             res.success = true;
             this.sendDataToUI();
+            EventManager.sendDataToUI();
             resolve(res);
 
         });
@@ -84,15 +90,12 @@ export class ReportManager {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
 
-            reportData.id = reportData.id || DataUtility.generateID();
-            reportData.time = Date.now();
             const newReport: Report = new Report(reportData);
-
             const newReportDataJson: REPORT_DATA = newReport.toJsonForSave();
             res.data = newReportDataJson;
             res.success = true;
-            //    todo send to RS
-            RequestManager.requestToRS(REPORT_API.createReport, newReportDataJson)
+
+            RequestManager.requestToRS(RS_API.createReport, newReportDataJson)
                 .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                     resolve(data);
                 })
@@ -132,7 +135,7 @@ export class ReportManager {
     private deleteReport = (reportIdData: ID_OBJ): Promise<ASYNC_RESPONSE<ID_OBJ>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
-            RequestManager.requestToRS(REPORT_API.deleteReport, reportIdData)
+            RequestManager.requestToRS(RS_API.deleteReport, reportIdData)
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.data = data.data;
                     res.success = data.success;
@@ -152,7 +155,7 @@ export class ReportManager {
     private deleteAllReport = (): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
-            RequestManager.requestToRS(REPORT_API.deleteAllReport, {})
+            RequestManager.requestToRS(RS_API.deleteAllReport, {})
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.data = data.data;
                     res.success = data.success;
@@ -178,12 +181,26 @@ export class ReportManager {
         this.reports.forEach((report: Report) => {
             const reportDataUI: REPORT_DATA_UI = report.toJsonForUI();
             reportDataUI.events = EventManager.getLinkedEvents(report.eventIds);
+            reportDataUI.media = this.updateMedia(report.media);
             reportDataUI.modeDefine = ReportMdLogic.validate(reportDataUI);
 
             res.push(reportDataUI);
         });
         return res;
     };
+
+    private updateMedia = (media: FILE_FS_DATA[]): FILE_FS_DATA[] => {
+        media.forEach((data: FILE_FS_DATA) => {
+            if (data.type === MEDIA_TYPE.image) {
+                data.fullUrl = url_FS + data.url;
+            }
+            else if (data.type === MEDIA_TYPE.video) {
+                data.fullUrl = url_VideoStreamService + data.url;
+            }
+            data.fullThumbnail = url_FS + data.thumbnail;
+        });
+        return media;
+    }
 
     private sendDataToUI = (): void => {
         const jsonForSend: REPORT_DATA_UI[] = this.getDataForUI();
@@ -202,6 +219,7 @@ export class ReportManager {
     public static deleteAllReport = ReportManager.instance.deleteAllReport;
 
     public static getLinkedReports = ReportManager.instance.getLinkedReports;
+    public static sendDataToUI = ReportManager.instance.sendDataToUI;
 
 
     // endregion API uncions

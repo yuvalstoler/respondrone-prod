@@ -3,6 +3,13 @@
 @import 'styles/colors';
 @import 'styles/variable';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import '~@angular/material/theming';
+
+@font-face {
+  font-family: 'Heebo';
+  src: url("styles/Heebo/static/Heebo-Regular.ttf");
+  font-style: normal;
+}
 
 html, body, .map-container {
   width: 100%;
@@ -11,6 +18,7 @@ html, body, .map-container {
   padding: 0;
   overflow: hidden;
   position: relative;
+  font-family: 'Heebo', serif;
 }
 
 
@@ -26,4 +34,12 @@ html, body, .map-container {
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+body {
+  margin: 0; font-family: 'Heebo', serif;
+}
+
+$custom-typography: mat-typography-config(
+  $font-family: 'Heebo'
+);
+@include angular-material-typography($custom-typography);

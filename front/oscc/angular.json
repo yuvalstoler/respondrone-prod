@@ -34,12 +34,18 @@
                 "glob": "**/*",
                 "input": "./node_modules/cesium/Build/Cesium",
                 "output": "./assets/cesium"
+              },
+              {
+                "glob": "typesConfig.json",
+                "input": "./../../",
+                "output": "/"
               }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss",
-              "./node_modules/cesium/Build/Cesium/Widgets/widgets.css"
+              "./node_modules/cesium/Build/Cesium/Widgets/widgets.css",
+              "./node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
               "./node_modules/cesium/Build/Cesium/Cesium.js"

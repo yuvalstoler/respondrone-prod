@@ -16,7 +16,6 @@ const projConf = require('./../../../../../../../../config/projConf.json');
 
 
 const url_DBS = services.DBS.protocol + '://' + services.DBS.host + ':' + services.DBS.port;
-const url_MWS = services.MWS.protocol + '://' + services.MWS.host + ':' + services.MWS.port;
 const url_WS = services.webServer.protocol + '://' + services.webServer.host + ':' + services.webServer.port;
 const url_FS = services.FS.protocol + '://' + services.FS.host + ':' + services.FS.port;
 
@@ -27,9 +26,7 @@ export class RequestManager {
     public static requestToDBS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_DBS, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
-    public static requestToMWS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
-        return RequestManager.sendRestRequest(url_MWS, API_GENERAL.general + path, bodyObj, timeout_AV);
-    };
+
     public static requestToWS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_WS, API_GENERAL.general + path, bodyObj, timeout_AV);
     };

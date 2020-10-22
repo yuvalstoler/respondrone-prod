@@ -1,0 +1,73 @@
+@import '../../../../styles/colors';
+@import '../../../../styles/dialogs';
+
+.container {
+  position: absolute;
+  top: 200px;
+  left: 50px;
+  width: 300px;
+  height: 500px;
+  border: 1px solid black;
+}
+
+.imagesContainer {
+  display: inline-flex;
+
+  .image {
+    position: relative;
+    margin: 2px;
+  }
+
+  .imageIcon {
+    width: 100px;
+    height: 80px;
+    border: solid $gray 1px;
+    border-radius: 5px;
+  }
+
+  .progressContainer {
+
+  }
+}
+
+
+.remove {
+  position: absolute;
+  color: $white;
+  right: 3px;
+
+  span {
+    text-shadow: 1px 1px 2px #000000;
+    font-size: 18px;
+  }
+}
+
+#inputForChooseFile {
+  display: none;
+}
+
+.inputForm {
+  display: none;
+}
+
+.addMediaBtn {
+  text-decoration: underline;
+  text-align: right;
+  margin-top: -20px;
+}
+
+.MediaIcon{
+  color: $darkGrey;
+}
+.revert{
+  transform: rotate(180deg);
+}
+
+
+.DialogLink{
+  float: right;
+  border-bottom: 1px solid $black;
+  margin-right: 27px;
+  font-size: 14px;
+  color: $black;
+}

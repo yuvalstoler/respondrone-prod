@@ -3,7 +3,7 @@ const _ = require('lodash');
 import * as core from 'express-serve-static-core';
 
 
-import { GeoPoint } from '../../../../../classes/dataClasses/geo/geoPoint';
+import { TaskManager } from '../task/taskManager';
 
 import {
     Request,
@@ -11,25 +11,23 @@ import {
 } from 'express';
 import {
     ASYNC_RESPONSE,
-    POINT,
+    ID_OBJ,
+    TASK_DATA,
 } from '../../../../../classes/typings/all.typings';
 
 
-
 import {
-    TS_API
+    TS_API,
 } from '../../../../../classes/dataClasses/api/api_enums';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 
 
 export class ApiManager implements IRest {
 
-
     private static instance: ApiManager = new ApiManager();
 
 
     private constructor() {
-        // this.getDynamicNfzFromWebServer();
     }
 
     public listen = (router: core.Router): boolean => {
@@ -42,35 +40,120 @@ export class ApiManager implements IRest {
     };
 
 
-    private newReport = (request: Request, response: Response) => {
-        const res: ASYNC_RESPONSE<boolean> = {success: true};
-        const requestBody = request.body;
-
-        // NfzManager.createDynamicNFZFromRoute(requestBody)
-        //     .then((data: ASYNC_RESPONSE) => {
-        response.send(res);
-        // })
-        // .catch((data: ASYNC_RESPONSE) => {
-        //     response.send(data);
-        // });
+    private newTask = (request: Request, response: Response) => {
+        const requestBody: TASK_DATA = request.body;
+        TaskManager.createTask(requestBody)
+            .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                response.send(data);
+            });
     };
 
-    private getVideoSources = (request: Request, response: Response) => {
-        const res: ASYNC_RESPONSE<boolean> = {success: true};
-        const requestBody = request.body;
-
-        // NfzManager.createDynamicNFZFromRoute(requestBody)
-        //     .then((data: ASYNC_RESPONSE) => {
-        response.send(res);
-        // })
-        // .catch((data: ASYNC_RESPONSE) => {
-        //     response.send(data);
-        // });
+    private readTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<TASK_DATA> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            TaskManager.readTask(requestBody)
+                .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    res.description = data.description;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
     };
 
+    private readAllTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<TASK_DATA[]> = {success: false};
+        TaskManager.readAllTask({})
+            .then((data: ASYNC_RESPONSE<TASK_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
+    private deleteTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            TaskManager.deleteTask(requestBody)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    res.description = data.description;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private getTasks = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<TASK_DATA[]> = {success: true};
+        res.data = TaskManager.getTasks();
+        response.send(res);
+
+    };
+
+    private deleteAllTask = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+
+        TaskManager.deleteAllTask()
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
+
+    private getTaskById = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<TASK_DATA[]> = {success: true};
+        const requestBody: ID_OBJ = request.body;
+        res.data = TaskManager.getTasks(requestBody);
+        response.send(res);
+    };
 
     routers: {} = {
+        [TS_API.createTask]: this.newTask,
+        [TS_API.readTask]: this.readTask,
+        [TS_API.readAllTask]: this.readAllTask,
+        [TS_API.deleteTask]: this.deleteTask,
+        [TS_API.deleteAllTask]: this.deleteAllTask,
 
+        [TS_API.getAllTasks]: this.getTasks,
+        [TS_API.getTaskById]: this.getTaskById,
 
     };
 
@@ -78,5 +161,6 @@ export class ApiManager implements IRest {
     public static listen = ApiManager.instance.listen;
 
     // endregion API uncions
+
 
 }

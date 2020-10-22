@@ -20,6 +20,7 @@ import {
 
 } from '../../../classes/dataClasses/api/api_enums';
 import { REST_ROUTER_CONFIG } from '../../../classes/typings/all.typings';
+import {FrManager} from "./Service/fr/frManager";
 
 
 export class Server {
@@ -48,13 +49,12 @@ export class Server {
         this.middleware();
         this.listen();
 
-        const socketIO_Server: SocketIO = new SocketIO(this.server);
+       //  const socketIO_Server: SocketIO = new SocketIO(this.server);
 
 
         // start websocket 'algorithmManager.sendMissionStatus' - function that call on connect to WS
         const functionsToCallOnConnect = []; // [AlgorithmManager.sendMissionStatus];
-        socketIO_Server.startConnectToWS(functionsToCallOnConnect);
-        this.routes(socketIO_Server);
+        SocketIO.initSocketServer(this.server, functionsToCallOnConnect);
 
 
         this.test();
@@ -69,6 +69,7 @@ export class Server {
         });
 
 
+        FrManager.startGetSocket();
         // AlgorithmManager.listen(restManager.routers['/missionAction']);
         // AltitudeSlotManager.listen(restManager.routers['/altitudeSlot']);
         // AirVehicleManagerWS.listen(restManager.routers['/droneServiceWS']);
@@ -114,7 +115,7 @@ export class Server {
     }
 
     // Configure API endpoints.
-    private routes(socketIO: SocketIO): void {
+    private routes(): void {
         this.app.use('/', express.static(path.join(__dirname, 'public')));
 
     }

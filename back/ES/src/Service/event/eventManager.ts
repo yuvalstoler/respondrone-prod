@@ -1,13 +1,14 @@
 import {Converting} from '../../../../../classes/applicationClasses/utility/converting';
 
 
-import {DBS_API, ES_API, EVENT_API} from '../../../../../classes/dataClasses/api/api_enums';
+import {DBS_API} from '../../../../../classes/dataClasses/api/api_enums';
 
 import {RequestManager} from '../../AppService/restConnections/requestManager';
 
 import {ASYNC_RESPONSE, EVENT_DATA, ID_OBJ} from '../../../../../classes/typings/all.typings';
 import {UpdateListenersManager} from '../updateListeners/updateListenersManager';
 import {Event} from '../../../../../classes/dataClasses/event/event';
+import {DataUtility} from '../../../../../classes/applicationClasses/utility/dataUtility';
 
 
 export class EventManager {
@@ -40,7 +41,7 @@ export class EventManager {
 
     private getEventsFromDBS = (): Promise<ASYNC_RESPONSE<EVENT_DATA[]>> => {
         return new Promise((resolve, reject) => {
-            RequestManager.requestToDBS(EVENT_API.readAllEvent, {})
+            RequestManager.requestToDBS(DBS_API.readAllEvent, {})
                 .then((data: ASYNC_RESPONSE<EVENT_DATA[]>) => {
                     if ( data.success ) {
                         this.events = Converting.Arr_EVENT_DATA_to_Arr_Event(data.data);
@@ -48,13 +49,13 @@ export class EventManager {
                     }
                     else {
                         //todo logger
-                        console.log('error getEventsFromRS', JSON.stringify(data));
+                        console.log('error getEventsFromDB', JSON.stringify(data));
                         reject(data);
                     }
                 })
                 .catch((data: ASYNC_RESPONSE<EVENT_DATA[]>) => {
                     //todo logger
-                    console.log('error getEventsFromRS', JSON.stringify(data));
+                    console.log('error getEventsFromDB', JSON.stringify(data));
                     reject(data);
                 });
         });
@@ -89,14 +90,14 @@ export class EventManager {
 
     private createEvent = (eventData: EVENT_DATA): Promise<ASYNC_RESPONSE<EVENT_DATA>> => {
         return new Promise((resolve, reject) => {
-
-
-
             const res: ASYNC_RESPONSE = {success: false};
+
+            eventData.id = eventData.id || DataUtility.generateID();
+            eventData.time = eventData.time || Date.now();
+            eventData.idView = eventData.idView || DataUtility.generateIDForView();
             const newEvent: Event = new Event(eventData);
 
-
-            RequestManager.requestToDBS(EVENT_API.createEvent, newEvent.toJsonForSave())
+            RequestManager.requestToDBS(DBS_API.createEvent, newEvent.toJsonForSave())
                 .then((data: ASYNC_RESPONSE<EVENT_DATA>) => {
                     res.data = data.data;
                     res.success = data.success;
@@ -117,10 +118,6 @@ export class EventManager {
                     console.log(data);
                     reject(data);
                 });
-
-
-
-
         });
     }
 
@@ -163,7 +160,7 @@ export class EventManager {
     private deleteEvent = (eventIdData: ID_OBJ): Promise<ASYNC_RESPONSE<ID_OBJ>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
-            RequestManager.requestToDBS(EVENT_API.deleteEvent, eventIdData)
+            RequestManager.requestToDBS(DBS_API.deleteEvent, eventIdData)
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.data = data.data;
                     res.success = data.success;
@@ -189,7 +186,7 @@ export class EventManager {
     private deleteAllEvent = (): Promise<ASYNC_RESPONSE<EVENT_DATA>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
-            RequestManager.requestToDBS(EVENT_API.deleteAllEvent, {})
+            RequestManager.requestToDBS(DBS_API.deleteAllEvent, {})
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.data = data.data;
                     res.success = data.success;

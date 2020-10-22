@@ -1,3 +1,6 @@
+import {Cartesian2} from 'angular-cesium';
+import {POINT} from '../../../classes/typings/all.typings';
+
 export type MAP<T> = { [key: string]: T };
 
 export enum HEADER_BUTTONS {
@@ -12,9 +15,8 @@ export enum HEADER_BUTTONS {
 
 export type DISPLAY_ON_SCREEN = {
   showLeftPanel: boolean;
-  showLeftNarrowPanel: boolean;
-  showEventPanel: boolean;
-  showReportPanel: boolean;
+  showSituationPicture: boolean;
+  showMissionControl: boolean;
 };
 
 export enum LEFT_PANEL_ICON {
@@ -22,4 +24,25 @@ export enum LEFT_PANEL_ICON {
   expand = 'close'
 }
 
+export enum STATE_DRAW {
+  notDraw = 'notDraw',
+  drawLocationPoint = 'drawLocationPoint',
+  editLocationPoint = 'editLocationPoint',
+  drawPolygon = 'drawPolygon'
+}
+
+export type EVENT_LISTENER_DATA = {
+  type: string,
+  pointPX: Cartesian2,
+  pointLatLng: POINT,
+  distance?: number
+};
+
+export enum TYPE_OBJECTS_CE {
+  locationPointCE = 'locationPointCE',
+  billboardCE = 'billboardCE',
+  iconCE = 'iconCE',
+  polygonCE = 'polygonCE',
+  labelPolygonCE = 'labelPolygonCE'
+}
 

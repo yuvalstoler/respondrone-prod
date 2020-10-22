@@ -5,6 +5,9 @@ import {ConfirmDialogComponent} from '../../../../dialogs/confirm-dialog/confirm
 import {ReportsSituationTableComponent} from './reports-situation-table/reports-situation-table.component';
 import {LEFT_PANEL_ICON} from '../../../../../types';
 import {ReportService} from '../../../../services/reportService/report.service';
+import {EventService} from '../../../../services/eventService/event.service';
+import {REPORT_DATA_UI} from '../../../../../../../../classes/typings/all.typings';
+import {ReportDialogComponent} from '../../../../dialogs/report-dialog/report-dialog.component';
 
 @Component({
   selector: 'app-reports-situation-picture',
@@ -18,38 +21,48 @@ export class ReportsSituationPictureComponent implements OnInit {
 
   constructor(public applicationService: ApplicationService,
               public reportService: ReportService,
+              public eventService: EventService,
               public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
 
   onCreateNewReport = () => {
-    this.applicationService.selectedReport = undefined;
-    this.openReportPanel();
+    this.applicationService.selectedReports = [];
+    const title = 'Create new report';
+    this.openReportPanel(title);
   };
 
   onDeleteReport = () => {
-  //   todo: add confirmWindow
-    this.openConfirmDialog(this.applicationService.selectedReport);
+    this.openConfirmDialog();
   };
 
   onEditReport = () => {
-  //   todo: open editReport leftNarrowPanel
-   this.openReportPanel();
+    const title = 'Edit report';
+   this.openReportPanel(title);
   };
 
-  private openReportPanel = () => {
-    this.applicationService.screen.showLeftPanel = false;
-    this.applicationService.screen.showLeftNarrowPanel = true;
-    this.applicationService.screen.showEventPanel = false;
-    this.applicationService.screen.showReportPanel = true;
+  private openReportPanel = (title) => {
+    const dialogRef = this.dialog.open(ReportDialogComponent, {
+      width: '45vw',
+      disableClose: true,
+      data: {title: title}
+    });
+
+    dialogRef.afterClosed().subscribe((result: REPORT_DATA_UI) => {
+      if (result) {
+        this.reportService.createReport(result, (report: REPORT_DATA_UI) => {
+          this.eventService.linkEventsToReport(report.eventIds, report.id);
+        });
+      }
+    });
   };
 
   onArchiveReport = () => {
   //  todo: move it to the archive folder
   };
 
-  openConfirmDialog = (data): void => {
+  openConfirmDialog = (): void => {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: '250px',
       disableClose: true,
@@ -58,9 +71,13 @@ export class ReportsSituationPictureComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        if (this.applicationService.selectedReport) {
-          this.reportService.deleteReport({id: this.applicationService.selectedReport.id});
-        }
+        const selectedReports: REPORT_DATA_UI[] = this.childComponent.getSelectedReports();
+        selectedReports.forEach((reportData: REPORT_DATA_UI, index: number) => {
+          setTimeout(() => {
+            this.eventService.unlinkEventsFromReport(reportData.eventIds, reportData.id);
+            this.reportService.deleteReport({id: reportData.id});
+          }, index * 500);
+        });
       }
     });
   };

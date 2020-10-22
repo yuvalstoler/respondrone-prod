@@ -1,0 +1,68 @@
+<div class="LinkedReportsTable">
+  <div class="LinkedHeader">
+    <span class="DialogTitle">Geographic instructions</span>
+    <!--<span (click)="onAddInstruction()"-->
+          <!--class="DialogLink pointer">Add</span>-->
+    <button mat-button class="DialogLink pointer" [matMenuTriggerFor]="menu">Menu</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="setSelectedInstruction(item)" *ngFor="let item of geoInstructions">
+        {{ item }}
+      </button>
+    </mat-menu>
+  </div>
+
+  <!--<div *ngIf="element?.reports?.length <= 0" class="DialogNotElement">-->
+    <!--Add geo instruction by clicking on the “Add” button.-->
+  <!--</div>-->
+ <div>
+   <mat-accordion>
+     <!--Arrow-->
+     <mat-expansion-panel *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.arrow" [expanded]="panelOpenState">
+       <mat-expansion-panel-header>
+         <div class="expendTitle">
+           Arrow
+         </div>
+       </mat-expansion-panel-header>
+       <div class="description-content ">arrow expend</div>
+     </mat-expansion-panel>
+
+     <!--Address-->
+     <mat-expansion-panel *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.address" [expanded]="panelOpenState" >
+       <mat-expansion-panel-header>
+         <div class="expendTitle">
+           Address
+         </div>
+       </mat-expansion-panel-header>
+       <div class="description-content ">Address expend</div>
+     </mat-expansion-panel>
+     <!--Point-->
+     <mat-expansion-panel *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.point" [expanded]="panelOpenState" >
+       <mat-expansion-panel-header>
+         <div class="expendTitle">
+           Point
+         </div>
+       </mat-expansion-panel-header>
+       <div class="description-content ">point expend</div>
+     </mat-expansion-panel>
+     <!--Polygon-->
+     <mat-expansion-panel *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.polygon" [expanded]="panelOpenState" >
+       <mat-expansion-panel-header>
+         <div class="expendTitle">
+           Polygon
+         </div>
+       </mat-expansion-panel-header>
+       <div class="description-content ">Polygon expend</div>
+     </mat-expansion-panel>
+     <!--Polyline-->
+     <mat-expansion-panel *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.polyline" [expanded]="panelOpenState" >
+       <mat-expansion-panel-header>
+         <div class="expendTitle">
+           Polyline
+         </div>
+       </mat-expansion-panel-header>
+       <div class="description-content ">Polyline expend</div>
+     </mat-expansion-panel>
+   </mat-accordion>
+ </div>
+</div>
+

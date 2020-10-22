@@ -10,13 +10,13 @@ import {
 } from 'express';
 import {
     ASYNC_RESPONSE,
+    FILE_FS_DATA,
     ID_OBJ,
     REPORT_DATA,
 } from '../../../../../classes/typings/all.typings';
 
 
 import {
-    REPORT_API,
     RS_API,
 } from '../../../../../classes/dataClasses/api/api_enums';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
@@ -138,16 +138,34 @@ export class ApiManager implements IRest {
 
     };
 
+    private updateListenersFS = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const mediaData: FILE_FS_DATA = request.body;
+        ReportManager.updateMedia(mediaData)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
 
     routers: {} = {
 
-        [REPORT_API.createReport]: this.newReport,
         [RS_API.createReportFromMGW]: this.createReportFromMGW,
 
-        [REPORT_API.readReport]: this.readReport,
-        [REPORT_API.readAllReport]: this.readAllReport,
-        [REPORT_API.deleteReport]: this.deleteReport,
-        [REPORT_API.deleteAllReport]: this.deleteAllReport,
+        [RS_API.createReport]: this.newReport,
+        [RS_API.readReport]: this.readReport,
+        [RS_API.readAllReport]: this.readAllReport,
+        [RS_API.deleteReport]: this.deleteReport,
+        [RS_API.deleteAllReport]: this.deleteAllReport,
+        [RS_API.updateListenersFS]: this.updateListenersFS,
 
     };
 

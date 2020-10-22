@@ -5,7 +5,7 @@ const _ = require('lodash');
 import { Event } from '../../../../../classes/dataClasses/event/event';
 
 import {
-    EVENT_API,
+    ES_API,
 } from '../../../../../classes/dataClasses/api/api_enums';
 
 import { RequestManager } from '../../AppService/restConnections/requestManager';
@@ -34,7 +34,7 @@ export class EventManager {
     }
 
     private getEventsFromES = () => {
-        RequestManager.requestToES(EVENT_API.readAllEvent, {})
+        RequestManager.requestToES(ES_API.readAllEvent, {})
             .then((data: ASYNC_RESPONSE<EVENT_DATA[]>) => {
                 if ( data.success ) {
                     this.events = Converting.Arr_EVENT_DATA_to_Arr_Event(data.data);
@@ -73,6 +73,7 @@ export class EventManager {
             this.events = Converting.Arr_EVENT_DATA_to_Arr_Event(eventData);
             res.success = true;
             this.sendDataToUI();
+            ReportManager.sendDataToUI();
             resolve(res);
 
         });
@@ -81,15 +82,12 @@ export class EventManager {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
 
-            eventData.id = eventData.id || DataUtility.generateID();
-            eventData.time = Date.now();
             const newEvent: Event = new Event(eventData);
-
             const newEventDataJson: EVENT_DATA = newEvent.toJsonForSave();
             res.data = newEventDataJson;
             res.success = true;
-            //    todo send to RS
-            RequestManager.requestToES(EVENT_API.createEvent, newEventDataJson)
+
+            RequestManager.requestToES(ES_API.createEvent, newEventDataJson)
                 .then((data: ASYNC_RESPONSE<EVENT_DATA>) => {
                     resolve(data);
                 })
@@ -129,7 +127,7 @@ export class EventManager {
     private deleteEvent = (eventIdData: ID_OBJ): Promise<ASYNC_RESPONSE<ID_OBJ>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
-            RequestManager.requestToES(EVENT_API.deleteEvent, eventIdData)
+            RequestManager.requestToES(ES_API.deleteEvent, eventIdData)
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.data = data.data;
                     res.success = data.success;
@@ -149,7 +147,7 @@ export class EventManager {
     private deleteAllEvent = (): Promise<ASYNC_RESPONSE<EVENT_DATA>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
-            RequestManager.requestToES(EVENT_API.deleteAllEvent, {})
+            RequestManager.requestToES(ES_API.deleteAllEvent, {})
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.data = data.data;
                     res.success = data.success;
@@ -198,6 +196,7 @@ export class EventManager {
     public static deleteAllEvent = EventManager.instance.deleteAllEvent;
 
     public static getLinkedEvents = EventManager.instance.getLinkedEvents;
+    public static sendDataToUI = EventManager.instance.sendDataToUI;
 
 
     // endregion API uncions

@@ -1,0 +1,147 @@
+<div class="DialogContainer">
+  <!--Header-->
+  <div class="DialogHeader" mat-dialog-title>
+    <span class="DialogHeaderTitle">{{data.title}}</span>
+    <span class="DialogHeaderX">
+      <button  mat-icon-button (click)="onNoClick()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </span>
+  </div>
+  <!--Content-->
+  <mat-dialog-content class="DialogContent">
+    <div class="item1">
+      <!--Title-->
+      <div class="DialogContentItem">
+        <div class="DialogTitle">Event Title</div>
+        <mat-form-field appearance="outline" class="SPMatFormField">
+          <label>
+            <input [(ngModel)]="eventModel.title" class="Label" matInput
+                   placeholder="For example: Fire in the city"
+                   type="text">
+          </label>
+        </mat-form-field>
+      </div>
+      <!--Type & Priority-->
+      <div class="DialogGrid2">
+        <!--Type-->
+        <div class="DialogContentItem ">
+          <div class="DialogTitle">Type</div>
+          <mat-form-field appearance="outline" class="SPMatFormField">
+            <mat-select [(ngModel)]="eventModel.type">
+              <mat-option *ngFor="let type of types" [value]="type">
+                {{type}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!--Priority-->
+        <div class="DialogContentItem ">
+          <div class="DialogTitle">Priority</div>
+          <mat-form-field appearance="outline" class="SPMatFormField">
+            <mat-select [(ngModel)]="eventModel.priority">
+              <mat-option *ngFor="let priority of priorities" [value]="priority">
+                {{priority}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <!--Description-->
+      <div class="DialogContentItem">
+        <div class="DialogTitle">Description</div>
+        <mat-form-field appearance="outline" class="SPMatFormField">
+          <label>
+            <textarea [(ngModel)]="eventModel.description" [ngStyle]="{'resize': 'none'}"
+                      class="Label"
+                      matInput placeholder="Add your description..."
+                      rows="3"></textarea>
+          </label>
+        </mat-form-field>
+      </div>
+      <!--Comments-->
+      <div class="DialogContentItem">
+        <app-comments-panel (changeComments)="onChangeComments($event)"
+                            [comments]="eventModel.comments"
+                            [isOpenDescription]="true"></app-comments-panel>
+      </div>
+
+    </div>
+    <div class="item2">
+      <!--Location-->
+      <div class="DialogContentItem">
+        <div class="DialogTitle">Location</div>
+        <mat-radio-group
+          aria-labelledby="example-radio-group-label"
+          class="example-radio-group">
+          <mat-radio-button (click)="onChangeLocation($event, location)" *ngFor="let location of locations; let i = index"
+                            [checked]="i === 0"
+                            [value]="location" class="example-radio-button">
+            {{location}}
+            <!--Address-->
+            <div *ngIf="location === LOCATION_NAMES.address && eventModel.locationType === LOCATION_TYPE.address">
+              <mat-form-field appearance="outline" class="LocationAddress">
+                <label>
+                  <input [(ngModel)]="eventModel.address" class="Label" matInput
+                         placeholder="E.g. Richard St."
+                         type="text">
+                </label>
+              </mat-form-field>
+            </div>
+            <!--Location-->
+            <div *ngIf="location === LOCATION_NAMES.locationPoint && eventModel.locationType === LOCATION_TYPE.locationPoint">
+              <small>Choose location point from the map or write
+              Lat/Long</small>
+              <div class="DialogGrid22">
+                <!--Lat-->
+                <mat-form-field appearance="outline" class="">
+                  <label>
+                    <input (click)="$event.stopPropagation()"
+                           (change)="locationChanged($event, 'latitude')" (keyup)="locationChanged($event, 'latitude')"
+                           [(ngModel)]="eventModel.location.latitude"
+                           class="Label"
+                           matInput
+                           min="0"
+                           placeholder="Lat"
+                           type="number">
+                  </label>
+                </mat-form-field>
+                <!--Long-->
+                <mat-form-field appearance="outline" class="">
+                  <label>
+                    <input (click)="$event.stopPropagation()"
+                           (change)="locationChanged($event, 'longitude')"
+                           (keyup)="locationChanged($event, 'longitude')" [(ngModel)]="eventModel.location.longitude"
+                           class="Label"
+                           matInput
+                           min="0"
+                           placeholder="Long"
+                           type="number">
+                  </label>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <!--Linked Reports-->
+      <div class="DialogContentItem">
+        <app-linked-reports-table (updateLinkedReports)="onUpdateLinkedReports($event)"
+                                  [isAllColumns]="false"
+                                  [element]="eventModel">
+        </app-linked-reports-table>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <!--Action-->
+  <div class="DialogActions" mat-dialog-actions>
+    <button (click)="onNoClick()" class="DialogActionsDelete"
+            mat-raised-button>Cancel
+    </button>
+    <button [mat-dialog-close]="this.eventModel"
+            class="DialogActionsCreate"
+            mat-raised-button>
+      {{data.title}}
+    </button>
+  </div>
+</div>

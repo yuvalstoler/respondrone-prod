@@ -5,13 +5,13 @@
   </button>
 </div>
 <div mat-dialog-content *ngIf="data?.type === MEDIA_TYPE.image">
-  <img [src]="this.data?.url" class="media">
+  <img [src]="this.data?.fullUrl" class="media">
 </div>
 <div mat-dialog-content *ngIf="data?.type === MEDIA_TYPE.video">
   <!--<video controls [src]="data?.url" class="media"></video>-->
   <div id="video-container">
     <video #videoPlayer class="media" autoplay="false" controls="controls">
-      <source [src]='data?.url' />
+      <source [src]='data?.fullUrl' />
     </video>
   </div>
 

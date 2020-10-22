@@ -2,10 +2,23 @@
 @import '../styles/variable';
 @import '../styles/override';
 @import '../styles/scrollbar';
+@import '../styles/comments';
+
+::ng-deep.mat-dialog-container{
+  padding: 0;
+  overflow: hidden;
+}
+
+::ng-deep.cdk-overlay-container, .cdk-global-overlay-wrapper {
+  width: 50%;
+}
 
 .DialogContainer {
-  margin: 0 10px 0px 10px;
-  height: calc(100vh - #{$headerHeight});
+
+ ::ng-deep.mat-dialog-title {
+    margin: 0 0 5px;
+   padding: 10px;
+  }
 
   ::ng-deep .mat-form-field {
     display: block !important;
@@ -22,19 +35,53 @@
   ::ng-deep.mat-form-field-wrapper {
     padding-bottom: 0em !important;
   }
+  //footer
+  ::ng-deep.mat-dialog-actions {
+    padding: 5px 20px;
+    margin-bottom: 0px;
+    justify-content: flex-end;
+  }
+  //location
+  ::ng-deep.mat-radio-button {
+    display: block;
+  }
+  ::ng-deep.mat-radio-label {
+    align-items: start !important;
+  }
+
+  .example-radio-button {
+    margin: 5px;
+  }
 }
 
 .DialogHeader {
   font-size: 19px;
-  text-align: center;
-  padding: 10px;
-  border-bottom: 1px solid $lightGray;
-  margin-bottom: 10px;
+  text-align: left;
+  background-color: $darkGray;
+  color: $white;
+}
+.DialogHeaderX {
+  float: right;
+  margin: -5px 0 0 0;
 }
 
 .DialogContent{
-  max-height: calc(100vh - #{$headerHeight} - #{$leftPanelNarrowFooterHeight} - #{$leftPanelNarrowHeaderHeight});
-  overflow-x: hidden;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  margin: 0 10px;
+  padding: 0;
+  overflow: hidden;
+
+  .item1{
+    grid-row: 1;
+    grid-column: 1;
+    padding: 5px;
+  }
+  .item2{
+    grid-row: 1;
+    grid-column: 2;
+    padding: 5px;
+  }
 }
 
 .DialogTitle {
@@ -44,11 +91,20 @@
   margin: 10px 0px 0px 0px;
 }
 
-.DialogGrid2 {
-  display: grid;
-  grid-template-columns: 20% auto;
+.DialogNotElement{
+  font-size: 16px;
+  color: $black;
+  margin: 10px;
 }
 
+.DialogGrid2 {
+  display: grid;
+  grid-template-columns: 45% 45%;
+}
+.DialogGrid22{
+  display: grid;
+  grid-template-columns: 40% 40%;
+}
 .DialogGrid3 {
   display: grid;
   grid-template-columns: 3em auto 3em;
@@ -58,35 +114,41 @@
   margin: auto;
 }
 
-.DialogLink{
-  float: right;
-  border-bottom: 1px solid black;
-  margin-left: 15px;
-  font-size: 14px;
-}
-
 .DialogButtonX{
   background-color: transparent;
   border: none;
 }
 
-// ============= Footer =================================================
-.FooterButtons {
-  position: absolute;
-  bottom: 5px;
-  z-index: 3;
-  width: calc(#{$leftPanelNarrowWidth} - 30px);
-  height: $leftPanelNarrowFooterHeight;
+.mat-column-Description{
+  max-width: 10em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 5px;
 }
 
-.FooterButtonDelete {
+// ============= Footer =================================================
+
+.DialogActions {
+
+}
+
+.DialogActionsDelete {
   //width: 90px;
   float: left;
 }
 
-.FooterButtonCreate {
+.DialogActionsCreate {
   //width: 90px;
   float: right;
   background-color: $darkGray;
   color: $white;
+}
+
+::ng-deep.mat-expansion-panel:not([class*=mat-elevation-z]) {
+  box-shadow: none;
+}
+
+.mat-expansion-panel-header.mat-expanded {
+  height: 30px;
 }

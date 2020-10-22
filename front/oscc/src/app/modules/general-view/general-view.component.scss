@@ -1,5 +1,6 @@
 @import "../../../styles/colors";
 @import "../../../styles/variable";
+@import "../../../styles/override";
 
 .HeaderPanel{
   background: $black;
@@ -12,11 +13,19 @@
 .MapContent{
   position: absolute;
   top: $headerHeight;
-  left: 0px;
+  right: 0px;
   height: calc(100vh - #{$headerHeight});
-  width: 100vw;
+  width: calc(100vw - #{$leftPanelWidth});
   z-index: 1;
 }
+.MapRegular{
+  width: calc(100vw - #{$leftPanelWidth});
+}
+
+.MapWide{
+  width: calc(100vw - #{$leftPanelNarrowWidth});
+}
+
 .LeftPanel{
   width: $leftPanelWidth;
   height: calc(100vh - #{$headerHeight}) !important; //  calc(100vh - var(--headerHeight));

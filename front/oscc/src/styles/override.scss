@@ -1,5 +1,9 @@
 @import "./colors";
 
+::ng-deep .cdk-global-scrollblock {
+  overflow-y: hidden !important;
+}
+
 // radioButtons ========================================================================================================
 
 :host::ng-deep .mat-radio-outer-circle {
@@ -15,4 +19,13 @@
 
 :host::ng-deep .mat-radio-ripple .mat-ripple-element {
   background-color: $black !important;
+}
+
+:host::ng-deep .mat-drawer-inner-container {
+  overflow: hidden;
+  //-webkit-overflow-scrolling: touch;
+}
+
+::ng-deep.mat-cell, .mat-footer-cell {
+  font-size: 12px;
 }

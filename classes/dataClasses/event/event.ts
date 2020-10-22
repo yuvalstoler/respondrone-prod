@@ -1,23 +1,26 @@
 import {
-    ADDRESS_GEOPOINT, EVENT_DATA, EVENT_DATA_UI, EVENT_TYPE,
-    GEOPOINT3D, LINKED_EVENT_DATA, LOCATION_TYPE, POLYGON_GEOPOINT,
+    ADDRESS, COMMENT, EVENT_DATA, EVENT_DATA_UI,
+    GEOPOINT3D, ID_TYPE, LINKED_EVENT_DATA, LOCATION_TYPE, POINT3D, POLYGON_GEOPOINT,
     PRIORITY,
 } from '../../typings/all.typings';
 import { DataUtility } from '../../applicationClasses/utility/dataUtility';
 
 export class Event {
 
-    id: string = '';
+    id: ID_TYPE;
     time: number;
-    createdBy: string
+    createdBy: string;
     title: string;
-    type: EVENT_TYPE;
+    type: string; // EVENT_TYPE;
     priority: PRIORITY;
     description: string = '';
     locationType: LOCATION_TYPE = LOCATION_TYPE.none;
-    location: GEOPOINT3D | ADDRESS_GEOPOINT | POLYGON_GEOPOINT;
+    location: GEOPOINT3D;
+    address: ADDRESS;
+    polygon: POINT3D[];
     reportIds: string[] = [];
-    commentIds: string[] = [];
+    comments: COMMENT[] = [];
+    idView: string = '';
 
     constructor(data: EVENT_DATA) {
         if ( data ) {
@@ -43,7 +46,7 @@ export class Event {
     private setCreatedBy = (data: string) => {
         this.createdBy = data;
     };
-    private setType = (data: EVENT_TYPE) => {
+    private setType = (data: string /*EVENT_TYPE*/) => {
         this.type = data;
     };
     private setTitle = (data: string) => {
@@ -66,10 +69,24 @@ export class Event {
             this.locationType = data;
         }
     };
-    private setLocation = (data: GEOPOINT3D | ADDRESS_GEOPOINT | POLYGON_GEOPOINT) => {
-        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS_GEOPOINT
+    private setLocation = (data: GEOPOINT3D) => {
+        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
         if ( res ) {
             this.location = data;
+        }
+    };
+
+    private setAddress = (data: ADDRESS) => {
+        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
+        if ( res ) {
+            this.address = data;
+        }
+    };
+
+    private setPolygon = (data: POINT3D[]) => {
+        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
+        if ( res ) {
+            this.polygon = data;
         }
     };
 
@@ -79,9 +96,13 @@ export class Event {
             this.reportIds = data;
         }
     };
-    private setComments = (data: string[]) => {
-        this.commentIds = data;
+    private setComments = (data: COMMENT[]) => {
+        this.comments = data;
     };
+    private setIdView = (data: string) => {
+        this.idView = data;
+    };
+
     public setValues = (data: Partial<EVENT_DATA>, saveConfig: Object = this.saveConfig) => {
         for ( const key in saveConfig ) {
             if ( saveConfig.hasOwnProperty(key) ) {
@@ -111,8 +132,11 @@ export class Event {
             description: this.description,
             locationType: this.locationType,
             location: this.location,
+            address: this.address,
+            polygon: this.polygon,
             reportIds: this.reportIds,
-            commentIds: this.commentIds,
+            comments: this.comments,
+            idView: this.idView,
         };
     };
 
@@ -123,6 +147,8 @@ export class Event {
             createdBy: this.createdBy,
             type: this.type,
             description: this.description,
+            idView: this.idView,
+            modeDefine: undefined
         };
     };
 
@@ -137,15 +163,12 @@ export class Event {
             description: this.description,
             locationType: this.locationType,
             location: this.location,
+            address: this.address,
+            polygon: this.polygon,
             reportIds: this.reportIds,
-            commentIds: this.commentIds,
-
+            comments: this.comments,
             reports: [],
-            comments: [
-                {source: 'FF33', time: 12546324562, text: 'We arrived to the building, the situation is under control'},
-                {source: 'OS23', time: 12546324577, text: 'We arrived to the building, the situation is under control'},
-                {source: 'DD53', time: 12546324582, text: 'We arrived to the building, the situation is under control'}
-            ],
+            idView: this.idView,
             modeDefine: undefined
         };
     };
@@ -160,8 +183,11 @@ export class Event {
         description: this.setDescription,
         locationType: this.setLocationType,
         location: this.setLocation,
+        address: this.setAddress,
+        polygon: this.setPolygon,
         reportIds: this.setReports,
-        commentIds: this.setComments,
+        comments: this.setComments,
+        idView: this.setIdView,
     };
 
 

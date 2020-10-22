@@ -5,12 +5,22 @@ import * as _ from 'lodash';
 import {
   ASYNC_RESPONSE,
   EVENT_DATA,
-  EVENT_DATA_UI, EVENT_TYPE,
-  ID_OBJ, MEDIA_TYPE, PRIORITY, REPORT_TYPE, SOURCE_TYPE,
+  EVENT_DATA_UI,
+  EVENT_TYPE,
+  ID_OBJ,
+  LINKED_EVENT_DATA,
+  LOCATION_TYPE,
+  MEDIA_TYPE, POINT,
+  POINT3D,
+  PRIORITY,
+  REPORT_DATA,
+  REPORT_DATA_UI,
+  REPORT_TYPE,
+  SOURCE_TYPE,
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
-import {Event} from '../../../../../../classes/dataClasses/event/event';
+import {MapGeneralService} from '../mapGeneral/map-general.service';
 
 
 @Injectable({
@@ -23,7 +33,8 @@ export class EventService {
 
   constructor(private connectionService: ConnectionService,
               private socketService: SocketService,
-              private toasterService: CustomToasterService) {
+              private toasterService: CustomToasterService,
+              private mapGeneralService: MapGeneralService) {
     this.socketService.connected$.subscribe(this.init);
     this.socketService.connectToRoom('webServer_eventsData').subscribe(this.updateEvents);
 
@@ -63,34 +74,57 @@ export class EventService {
       return o1['id'] === o2['id'];
     });
     if (notExist.length > 0) {
-      notExist.forEach((data: Event) => {
+      notExist.forEach((data: EVENT_DATA_UI) => {
         const index = this.events.data.findIndex(d => d.id === data.id);
         this.events.data.splice(index, 1);
+        //TODO: delete data from MAP
+        this.mapGeneralService.deleteIcon(data.id);
+        this.mapGeneralService.deletePolygonManually(data.id);
       });
     }
   };
   // ----------------------
   private updateData = (reportData: EVENT_DATA_UI[]): void => {
-    reportData.forEach((newReport: EVENT_DATA_UI) => {
-      const existingReport: EVENT_DATA_UI = this.events.data.find(d => d.id === newReport.id);
-      if (existingReport) {
-        // existingReport.setValues(newReport);
-        for (const fieldName in existingReport) {
-          if (existingReport.hasOwnProperty(fieldName)) {
-            existingReport[fieldName] = newReport[fieldName];
+    reportData.forEach((newEvent: EVENT_DATA_UI) => {
+      const existingEvent: EVENT_DATA_UI = this.getEventById(newEvent.id);
+      if (existingEvent) {
+        // existingEvent.setValues(newEvent);
+        for (const fieldName in existingEvent) {
+          if (existingEvent.hasOwnProperty(fieldName)) {
+            existingEvent[fieldName] = newEvent[fieldName];
           }
         }
       } else {
-        this.events.data.push(newReport);
+        this.events.data.push(newEvent);
       }
+      this.drawEvent(newEvent);
     });
-  }
+  };
   // ----------------------
-  public createEvent = (eventData: EVENT_DATA) => {
+  private drawEvent = (event: EVENT_DATA_UI) => {
+    if (event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.latitude && event.location.longitude) {
+      this.mapGeneralService.createIcon(event.location, event.id, event.modeDefine.styles.icon);
+    } else if (event.locationType === LOCATION_TYPE.polygon && event.polygon && event.polygon.length > 0) {
+      this.mapGeneralService.drawPolygonFromServer(event.polygon, event.id, event.title);
+    }
+    else {
+      this.mapGeneralService.deleteIcon(event.id);
+      this.mapGeneralService.deletePolygonManually(event.id);
+    }
+  };
+  // ----------------------
+  public createEvent = (eventData: EVENT_DATA, cb?: Function) => {
     this.connectionService.post('/api/createEvent', eventData)
       .then((data: ASYNC_RESPONSE) => {
         if (!data.success) {
           this.toasterService.error({message: 'error creating event', title: ''});
+        }
+        else {
+          if (cb) {
+            try {
+              cb(data.data);
+            } catch (e) {}
+          }
         }
       })
       .catch(e => {
@@ -109,4 +143,56 @@ export class EventService {
         this.toasterService.error({message: 'error creating event', title: ''});
       });
   };
+  // -----------------------
+  public getLinkedEvent = (eventId): LINKED_EVENT_DATA => {
+    const event = this.getEventById(eventId);
+    return {
+      id: event.id,
+      time: event.time,
+      createdBy: event.createdBy,
+      type: event.type,
+      description: event.description,
+      idView: event.idView,
+      modeDefine: event.modeDefine,
+    };
+  };
+  // -----------------------
+  public linkEventsToReport = (eventIds: string[], reportId: string) => {
+    eventIds.forEach((eventId: string) => {
+      const event = this.getEventById(eventId);
+      event.reportIds.push(reportId);
+      this.createEvent(event);
+    });
+  };
+  // -----------------------
+  public unlinkEventsFromReport = (eventIds: string[], reportId: string) => {
+    eventIds.forEach((eventId: string) => {
+      const event = this.getEventById(eventId);
+      if (event) {
+        const index = event.reportIds.indexOf(reportId);
+        if (index !== -1) {
+          event.reportIds.splice(index, 1);
+          this.createEvent(event);
+        }
+      }
+    });
+  };
+  // -----------------------
+  public getEventById = (eventId: string): EVENT_DATA_UI => {
+    return this.events.data.find(data => data.id === eventId);
+  };
+  // ------------------------
+  public selectIcon = (event: EVENT_DATA_UI) => {
+    this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.selectedIcon, 40);
+  };
+  // ------------------------
+  public unselectIcon = (event: EVENT_DATA_UI) => {
+    this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.icon, 30);
+  };
+
+  public flyToObject = (coordinates: POINT | POINT3D) => {
+    this.mapGeneralService.flyToObject(coordinates);
+  };
+
+
 }

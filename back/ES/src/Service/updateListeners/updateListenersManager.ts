@@ -2,7 +2,7 @@ import {
     ASYNC_RESPONSE, EVENT_DATA,
 } from '../../../../../classes/typings/all.typings';
 import { RequestManager } from '../../AppService/restConnections/requestManager';
-import {API_GENERAL, MWS_API} from '../../../../../classes/dataClasses/api/api_enums';
+import {API_GENERAL, WS_API} from '../../../../../classes/dataClasses/api/api_enums';
 import {EventManager} from '../event/eventManager';
 
 const _ = require('lodash');
@@ -11,7 +11,7 @@ const _ = require('lodash');
 const services = require('./../../../../../../../../config/services.json');
 
 const listeners: string[] = services.RS.listeners;
-const updateRouteListenersURL = API_GENERAL.general + MWS_API.updateAllEvents;
+const updateRouteListenersURL = API_GENERAL.general + WS_API.updateAllEvents;
 
 export class UpdateListenersManager {
 

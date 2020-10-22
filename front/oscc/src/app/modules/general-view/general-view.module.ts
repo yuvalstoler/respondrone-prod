@@ -25,20 +25,29 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatExpansionModule} from '@angular/material/expansion';
+
 
 import { EventsSituationPictureComponent } from './left-panel/events-situation-picture/events-situation-picture.component';
 import { ReportsSituationPictureComponent } from './left-panel/reports-situation-picture/reports-situation-picture.component';
 import { EventsSituationTableComponent } from './left-panel/events-situation-picture/events-situation-table/events-situation-table.component';
-import { LeftNarrowPanelComponent } from './left-narrow-panel/left-narrow-panel.component';
-import { EventPanelComponent } from './left-narrow-panel/event-panel/event-panel.component';
 import { LinkedReportsTableComponent } from './linked-reports-table/linked-reports-table.component';
-import { ReportMediaComponent } from './left-narrow-panel/report-media/report-media.component';
 import { ViewMediaComponent } from './view-media/view-media.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ReportsSituationTableComponent } from './left-panel/reports-situation-picture/reports-situation-table/reports-situation-table.component';
-import { ReportPanelComponent } from './left-narrow-panel/report-panel/report-panel.component';
 import {MatSortModule} from '@angular/material/sort';
 import { LinkedEventsTableComponent } from './linked-events-table/linked-events-table.component';
+import { CommentsPanelComponent } from './comments-panel/comments-panel.component';
+import {CustomDatePipe} from '../../pipes/custom.datepipe';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {ReportMediaComponent} from './report-media/report-media.component';
+import { TasksMissionControlComponent } from './left-panel/tasks-mission-control/tasks-mission-control.component';
+import { MissionsMissionControlComponent } from './left-panel/missions-mission-control/missions-mission-control.component';
+import { TasksMissionTableComponent } from './left-panel/tasks-mission-control/tasks-mission-table/tasks-mission-table.component';
+import { TaskAssigneeTableComponent } from './task-assignee-table/task-assignee-table.component';
+import { GeoInstructionsComponent } from './geo-instructions/geo-instructions.component';
+import {MatMenuModule} from '@angular/material/menu';
+
 
 
 @NgModule({
@@ -49,14 +58,18 @@ import { LinkedEventsTableComponent } from './linked-events-table/linked-events-
     EventsSituationPictureComponent,
     ReportsSituationPictureComponent,
     EventsSituationTableComponent,
-    LeftNarrowPanelComponent,
-    EventPanelComponent,
     LinkedReportsTableComponent,
     ReportMediaComponent,
     ViewMediaComponent,
     ReportsSituationTableComponent,
-    ReportPanelComponent,
-    LinkedEventsTableComponent
+    LinkedEventsTableComponent,
+    CommentsPanelComponent,
+    CustomDatePipe,
+    TasksMissionControlComponent,
+    MissionsMissionControlComponent,
+    TasksMissionTableComponent,
+    TaskAssigneeTableComponent,
+    GeoInstructionsComponent,
   ],
   imports: [
     CommonModule,
@@ -77,6 +90,9 @@ import { LinkedEventsTableComponent } from './linked-events-table/linked-events-
     MatDialogModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatTooltipModule,
+    MatMenuModule,
 
     AngularCesiumModule.forRoot(),
     AngularCesiumWidgetsModule,
@@ -88,13 +104,17 @@ import { LinkedEventsTableComponent } from './linked-events-table/linked-events-
     EventsSituationPictureComponent,
     ReportsSituationPictureComponent,
     EventsSituationTableComponent,
-    LeftNarrowPanelComponent,
-    EventPanelComponent,
     LinkedReportsTableComponent,
+    LinkedEventsTableComponent,
     ReportMediaComponent,
     ViewMediaComponent,
     ReportsSituationTableComponent,
-    ReportPanelComponent
+    CustomDatePipe,
+    CommentsPanelComponent,
+    TasksMissionControlComponent,
+    MissionsMissionControlComponent,
+    TaskAssigneeTableComponent,
+    GeoInstructionsComponent
   ],
   providers: [
     PolygonsEditorService,

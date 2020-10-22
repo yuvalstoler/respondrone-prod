@@ -1,0 +1,58 @@
+<div class="AssigneesTable">
+  <div class="AssigneesHeader">
+    <span class="DialogTitle">Task assignee</span>
+    <span (click)="onAddAssignee()"
+          [ngStyle]="{'color': (tasksService.tasks.data.length <= 0) ? 'lightgray': '',
+                      'border-bottom': (tasksService.tasks.data.length <= 0) ? 'none' : ''}"
+          class="DialogAssignee pointer">Add assignee</span>
+  </div>
+  <div *ngIf="tasksService?.tasks?.data?.length <= 0" class="DialogNotElement">
+    No Assignees
+  </div>
+  <div *ngIf="element?.assignees?.length <= 0" class="DialogNotElement">
+    Add assignees by clicking on the “Add assignee” button.
+  </div>
+  <div class="tableScroll scroll">
+    <table *ngIf="tasksService?.tasks?.data?.length > 0 && element?.assignees?.length > 0"
+           [dataSource]="element.assignees" class="mat-elevation-z8" mat-table matSort>
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="ID">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>ID</th>
+        <td *matCellDef="let row" mat-cell>{{row.id}}</td>
+      </ng-container>
+
+      <!-- Type Column -->
+      <ng-container matColumnDef="Type">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
+        <td *matCellDef="let row" mat-cell>{{row.type}}</td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="Status">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Status</th>
+        <td *matCellDef="let row" mat-cell>{{row.status}}</td>
+      </ng-container>
+
+      <!--Delete Row-->
+      <ng-container matColumnDef="actionsColumn">
+        <th *matHeaderCellDef mat-header-cell>
+
+        </th>
+        <td *matCellDef="let row; let i = index;" mat-cell>
+          <button (click)="removeAt(row)" class='DialogButtonX'>
+            <!--<mat-icon>clear</mat-icon>-->
+            X
+          </button>
+        </td>
+      </ng-container>
+
+
+      <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+      <tr (click)="selectRow(row)" *matRowDef="let row; columns: displayedColumns; "
+          class="example-element-row"
+          mat-row>
+      </tr>
+    </table>
+  </div>
+</div>

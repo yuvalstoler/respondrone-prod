@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {MAP} from 'src/types';
 import {ViewerConfiguration} from 'angular-cesium';
+import {CARTESIAN3, POINT, POINT3D} from "../../../../../../classes/typings/all.typings";
 
 
 @Injectable({
@@ -21,10 +22,22 @@ export class CesiumService {
     }*/
   ];
   cesiumViewer: MAP<any> = {};
-  // keys - [domId][type][id of entity data (for example: AirVehicleId)]; value - Leaflet object
+  // keys - [domId][type][id of entity data (for example: AirVehicleId)]; value - Cesium object
   cesiumMapObjects: MAP<MAP<MAP<any>>> = {};
   //scene
   scene: MAP<any> = {};
+
+  colors = {
+    polygonNFZ: 'rgba(255, 52, 47, 1)',
+    dynamicNFZ: 'rgba(23, 173, 17, 1)',
+    polygon: 'rgba(26, 115, 255, 1)',
+    polygonFromServer: 'rgba(255, 208, 11, 1)',
+    selected: 'rgba(250, 17, 255, 1)',
+    notSelected: 'rgba(255, 253, 34, 1)',
+    polylineStop: '#ffffff',
+    polylineStart: 'rgba(89, 177, 241, 1)',
+    borderColor: '#000000'
+  };
 
   constructor(private viewerConf: ViewerConfiguration) {
     // viewerConf.viewerOptions = [{
@@ -72,7 +85,7 @@ export class CesiumService {
         }),
 
         sceneModePicker: true,
-        sceneMode: Cesium.SceneMode.SCENE3D,
+        sceneMode: Cesium.SceneMode.SCENE2D,
         navigationHelpButton: false,
         timeline: false,
         selectionIndicator: false,
@@ -84,7 +97,8 @@ export class CesiumService {
         fullscreenButton: false,
         skyAtmosphere: false,
         homeButton: false,
-        skyBox: false
+        skyBox: false,
+        // requestRenderMode: true
       }
     );
 
@@ -104,7 +118,6 @@ export class CesiumService {
     });
   };
 
-
   public getMapByDomId = (domId): MAP<any> => {
     const res: MAP<any> = {};
     if (domId === undefined) {
@@ -123,5 +136,39 @@ export class CesiumService {
     return res;
   };
 
+  public removeItemCEFromMap = (mapDomId: string, cesiumObject) => {
+    this.cesiumViewer[mapDomId].entities.remove(cesiumObject);
+  };
+
+  public flyToObject = (domId: string, coordinates: POINT | POINT3D): boolean => {
+    let res = false;
+      const mapsCE: MAP<any> = this.getMapByDomId(domId);
+      for (const mapDomId in mapsCE) {
+        if (mapsCE.hasOwnProperty(mapDomId)) {
+          this.flyTo(mapDomId, coordinates);
+          res = true;
+        }
+      }
+    return res;
+  };
+
+  public flyTo = (mapDomId: string, coordinates: POINT | POINT3D) => {
+    this.cesiumViewer[mapDomId].camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(coordinates[0], coordinates[1], 200),
+      duration: 2,
+    });
+  };
+
+  public arrayPointsToCartesian3 = (positions: POINT[] | POINT3D[]): CARTESIAN3[] => {
+    const _positions: CARTESIAN3[] = [];
+    for (let i = 0; i < positions.length; i++) {
+      _positions.push(this.pointDegreesToCartesian3(positions[i]));
+    }
+    return _positions;
+  };
+
+  private pointDegreesToCartesian3 = (position: POINT | POINT3D): CARTESIAN3 => {
+    return Cesium.Cartesian3.fromDegrees(position[0], position[1], position[2] || 0);
+  };
 
 }

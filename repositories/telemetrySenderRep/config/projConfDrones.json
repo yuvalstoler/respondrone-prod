@@ -11,8 +11,7 @@
       "host": "localhost",
       "protocol": "http"
     },
-    "telemetryType": "Drones_Tel",
-    "sendTelemetryInterval": 5000
+    "telemetryType": "Drones_Tel"
   },
   "LogsMongo": {
     "db": "repositoryLogs",
