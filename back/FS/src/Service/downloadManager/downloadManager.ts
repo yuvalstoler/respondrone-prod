@@ -139,7 +139,10 @@ export class DownloadManager {
                                                 type: data.data.type,
                                             };
 
-                                            this.fileDbDataMap[fileId].fileStatus = FILE_STATUS.downloaded;
+                                            this.fileDbDataMap[fileId] = {
+                                                ...this.fileDbDataMap[fileId],
+                                                ...fieldsForUpdate
+                                            };
                                             const fileDbData: FILE_DB_DATA = this.prepare_FILE_DB(fileId, fieldsForUpdate);
                                             RequestManager.requestToDBS(DBS_API.saveFileData, fileDbData)
                                                 .then((dataDBS: ASYNC_RESPONSE<FILE_DB_DATA>) => {
