@@ -1,4 +1,11 @@
-import {LOCATION_TYPE, PRIORITY, EVENT_DATA_MD, EVENT_DATA_UI, TABLE_DATA_MD} from '../../typings/all.typings';
+import {
+    LOCATION_TYPE,
+    PRIORITY,
+    EVENT_DATA_MD,
+    EVENT_DATA_UI,
+    TABLE_DATA_MD,
+    REPORT_DATA_UI
+} from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
 import {MDClass} from "../mdClass";
@@ -12,13 +19,25 @@ export class EventMdLogic implements IModeDefine {
         const obj: EVENT_DATA_MD = {
             styles: {
                 icon: this.getPriorityIcon(data).data,
-                selectedIcon: this.getPriorityIcon(data).data,
+                mapIcon: this.getMapIcon(data).data,
+                selectedIcon: this.getMapIcon(data).data,
             },
             tableData: EventMdLogic.tableData(data)
         };
         return obj;
     }
 
+    private static getMapIcon = (data: EVENT_DATA_UI): TABLE_DATA_MD => {
+        let res: TABLE_DATA_MD = {type: 'image', data: '', color: ''};
+        if (data.priority === PRIORITY.high) {
+            res.data = '../../../../../assets/mapPriorityHigh.png';
+        } else if (data.priority === PRIORITY.middle) {
+            res.data = '../../../../../assets/mapPriorityMiddle.png';
+        } else if (data.priority === PRIORITY.low) {
+            res.data = '../../../../../assets/mapPriorityLow.png';
+        }
+        return res;
+    };
 
     private static getPriorityIcon = (data: EVENT_DATA_UI): TABLE_DATA_MD => {
         let res: TABLE_DATA_MD = {type: 'image', data: '', color: ''};

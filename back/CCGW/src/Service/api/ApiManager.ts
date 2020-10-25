@@ -124,6 +124,17 @@ export class ApiManager implements IRest {
             });
     };
 
+    private createTask = (request: Request, response: Response) => {
+        const requestBody: TASK_DATA = request.body;
+        InternalApiManager.createTask(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(data);
+            });
+    };
+
     //--------------------------------
 
     routers: {} = {
@@ -136,6 +147,7 @@ export class ApiManager implements IRest {
 
         [CCGW_API.getTasks]: this.getTasks,
         [CCGW_API.getTaskById]: this.getTaskById,
+        [CCGW_API.createTask]: this.createTask,
 
 
     };

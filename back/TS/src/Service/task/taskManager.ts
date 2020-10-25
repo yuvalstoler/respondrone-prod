@@ -1,11 +1,11 @@
 import {Converting} from '../../../../../classes/applicationClasses/utility/converting';
 
 
-import {DBS_API} from '../../../../../classes/dataClasses/api/api_enums';
+import {CCGW_API, DBS_API} from '../../../../../classes/dataClasses/api/api_enums';
 
 import {RequestManager} from '../../AppService/restConnections/requestManager';
 
-import {ASYNC_RESPONSE, TASK_DATA, ID_OBJ} from '../../../../../classes/typings/all.typings';
+import {ASYNC_RESPONSE, TASK_DATA, ID_OBJ, MAP, ID_TYPE} from '../../../../../classes/typings/all.typings';
 import {UpdateListenersManager} from '../updateListeners/updateListenersManager';
 import {Task} from '../../../../../classes/dataClasses/task/task';
 import {DataUtility} from '../../../../../classes/applicationClasses/utility/dataUtility';
@@ -19,8 +19,12 @@ export class TaskManager {
 
     tasks: Task[] = [];
 
+    tasksSendToMobile: MAP<TASK_DATA> = {};
+    tasksSendToDB: MAP<TASK_DATA> = {};
+
     private constructor() {
         this.initAllTasks();
+        this.startInterval();
     }
 
     private initAllTasks = () => {
@@ -28,6 +32,7 @@ export class TaskManager {
             .then((data: ASYNC_RESPONSE<TASK_DATA[]>) => {
                 //    todo send to listeners
                 UpdateListenersManager.updateTaskListeners();
+                this.sendTasksToMobile();
             })
             .catch((data: ASYNC_RESPONSE<TASK_DATA[]>) => {
                 setTimeout(() => {
@@ -103,13 +108,14 @@ export class TaskManager {
                     res.success = data.success;
                     res.description = data.description;
                     if ( data.success ) {
-                        const task: Task = this.tasks.find(element => element.id === data.data.id);
+                        const task: Task = TaskManager.getTask({id: data.data.id});
                         if (task) {
                             task.setValues(data.data);
                         } else {
                             this.tasks.push(new Task(data.data));
                         }
 
+                        this.sendTaskToMobile(task);
                         UpdateListenersManager.updateTaskListeners();
                     }
                     resolve(res);
@@ -121,15 +127,111 @@ export class TaskManager {
         });
     }
 
-    private updateTask = (taskData: TASK_DATA): Promise<ASYNC_RESPONSE<TASK_DATA>> => {
+    private sendTasksToMobile = () => {
+        this.tasks.forEach((task: Task) => {
+            if (!task.isSendToMobile) {
+                this.sendTaskToMobile(task)
+            }
+        })
+    }
+
+    private sendTaskToMobile = (task: Task) => {
+        const taskData = task.toJsonForSave();
+        RequestManager.requestToCCG(CCGW_API.createTask, taskData)
+            .then((data: ASYNC_RESPONSE) => {
+                if (data.success) {
+                    taskData.isSendToMobile = true;
+
+                    RequestManager.requestToDBS(DBS_API.createTask, taskData)
+                        .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                            if (!data.success) {
+                                this.tasksSendToDB[task.id] = taskData;
+                            }
+                        })
+                        .catch((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                            console.log(data);
+                            this.tasksSendToDB[task.id] = taskData;
+                        });
+                }
+                else {
+                    this.tasksSendToMobile[task.id] = taskData;
+                }
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                this.tasksSendToMobile[task.id] = taskData;
+            })
+    }
+
+    private startInterval = () => {
+        setInterval(() => {
+            for (const taskId in this.tasksSendToMobile) {
+                const taskData: TASK_DATA = this.tasksSendToMobile[taskId];
+                RequestManager.requestToCCG(CCGW_API.createTask, taskData)
+                    .then((data: ASYNC_RESPONSE) => {
+                        if (data.success) {
+                            delete this.tasksSendToMobile[taskData.id];
+                            this.tasksSendToDB[taskData.id] = taskData;
+                        }
+                    })
+                    .catch((data: ASYNC_RESPONSE) => {})
+            }
+
+
+            for (const taskId in this.tasksSendToDB) {
+                const taskData: TASK_DATA = this.tasksSendToDB[taskId];
+                RequestManager.requestToDBS(DBS_API.createTask, taskData)
+                    .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                        if (data.success) {
+                            delete this.tasksSendToDB[taskData.id];
+                        }
+                    })
+                    .catch((data: ASYNC_RESPONSE<TASK_DATA>) => {});
+            }
+
+        }, 5000)
+    }
+
+    // private updateTask = (taskData: TASK_DATA): Promise<ASYNC_RESPONSE<TASK_DATA>> => {
+    //     return new Promise((resolve, reject) => {
+    //         const res: ASYNC_RESPONSE = {success: false};
+    //
+    //         const task: Task = this.getTask({id: taskData.id});
+    //         //todo save - send to DBS
+    //         res.success = true;
+    //         //    todo send to RS
+    //         resolve(res);
+    //     });
+    // }
+
+    private updateTaskFromMGW = (taskId: ID_TYPE, dataToUpdate: Partial<TASK_DATA>) => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
+            const task = TaskManager.getTask({id: taskId});
+            if (task) {
+                const taskData = task.toJsonForSave();
+                taskData.status = dataToUpdate.status;
+                RequestManager.requestToDBS(DBS_API.createTask, taskData)
+                    .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                        res.data = data.data;
+                        res.success = data.success;
+                        res.description = data.description;
+                        if ( data.success ) {
+                            resolve(res);
+                        }
+                        else {
+                            reject(res)
+                        }
 
-            const task: Task = this.getTask({id: taskData.id});
-            //todo save - send to DBS
-            res.success = true;
-            //    todo send to RS
-            resolve(res);
+                    })
+                    .catch((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                        console.log(data);
+                        reject(data);
+                    });
+            }
+            else {
+                res.description =  'task doesnt exist: '+ taskId
+                reject(res);
+            }
         });
     }
 
@@ -209,10 +311,10 @@ export class TaskManager {
 
     // region API uncions
     public static getTasks = TaskManager.instance.getTasksDATA;
-    public static getTask = TaskManager.instance.getTasksDATA;
+    public static getTask = TaskManager.instance.getTask;
 
     public static createTask = TaskManager.instance.createTask;
-    public static updateTask = TaskManager.instance.updateTask;
+    public static updateTaskFromMGW = TaskManager.instance.updateTaskFromMGW;
 
     public static readTask = TaskManager.instance.readTask;
     public static readAllTask = TaskManager.instance.readAllTask;

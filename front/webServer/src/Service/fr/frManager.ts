@@ -8,7 +8,7 @@ import { RequestManager } from '../../AppService/restConnections/requestManager'
 import {
     ASYNC_RESPONSE,
     ID_OBJ,
-    FR_DATA, FR_DATA_UI, SOCKET_IO_CLIENT_TYPES, FR_DATA_TELEMETRY
+    FR_DATA, FR_DATA_UI, SOCKET_IO_CLIENT_TYPES, FR_DATA_TELEMETRY, ID_TYPE
 } from '../../../../../classes/typings/all.typings';
 import {SocketIO} from '../../websocket/socket.io';
 import {ReportManager} from '../report/reportManager';
@@ -40,6 +40,16 @@ export class FrManager {
         this.sendDataToUI()
     };
 
+    private getFRsByIds = (ids: ID_TYPE[]): FR_DATA_UI[] => {
+        const res: FR_DATA_UI[] = [];
+        this.frs.forEach((fr: FR) => {
+            if (ids.indexOf(fr.id) !== -1) {
+                const data = fr.toJsonForUI();
+                res.push(data);
+            }
+        });
+        return res;
+    }
 
 
     private frsSocketConfig: {} = {
@@ -59,12 +69,13 @@ export class FrManager {
 
     private sendDataToUI = (): void => {
         const jsonForSend: FR_DATA_UI[] = this.getDataForUI();
-        SocketIO.emit('webServer_usersData', jsonForSend);
+        SocketIO.emit('webServer_frsData', jsonForSend);
     };
 
     // region API uncions
 
     public static startGetSocket = FrManager.instance.startGetSocket;
+    public static getFRsByIds = FrManager.instance.getFRsByIds;
 
 
 

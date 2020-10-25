@@ -136,7 +136,7 @@
     <button (click)="onNoClick()" class="DialogActionsDelete"
             mat-raised-button>Cancel
     </button>
-    <button [mat-dialog-close]="reportModel"
+    <button (click)="onCreateClick()"
             class="DialogActionsCreate"
             mat-raised-button>
       {{data.title}}

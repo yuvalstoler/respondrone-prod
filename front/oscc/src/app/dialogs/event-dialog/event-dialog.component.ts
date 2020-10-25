@@ -84,6 +84,11 @@ export class EventDialogComponent {
     this.dialogRef.close(false);
   }
 
+  onCreateClick(): void {
+    this.dialogRef.close(this.eventModel);
+    this.clearPanel();
+  }
+
   onChangeLocation = (event, location: string) => {
     if (location === LOCATION_NAMES.noLocation) {
       this.eventModel.locationType = LOCATION_TYPE.none;

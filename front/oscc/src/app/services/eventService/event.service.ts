@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
@@ -6,17 +6,11 @@ import {
   ASYNC_RESPONSE,
   EVENT_DATA,
   EVENT_DATA_UI,
-  EVENT_TYPE,
   ID_OBJ,
   LINKED_EVENT_DATA,
   LOCATION_TYPE,
-  MEDIA_TYPE, POINT,
+  POINT,
   POINT3D,
-  PRIORITY,
-  REPORT_DATA,
-  REPORT_DATA_UI,
-  REPORT_TYPE,
-  SOURCE_TYPE,
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
@@ -103,8 +97,10 @@ export class EventService {
   // ----------------------
   private drawEvent = (event: EVENT_DATA_UI) => {
     if (event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.latitude && event.location.longitude) {
-      this.mapGeneralService.createIcon(event.location, event.id, event.modeDefine.styles.icon);
+      this.mapGeneralService.deleteIcon(event.id);
+      this.mapGeneralService.createIcon(event.location, event.id, event.modeDefine.styles.mapIcon);
     } else if (event.locationType === LOCATION_TYPE.polygon && event.polygon && event.polygon.length > 0) {
+      this.mapGeneralService.deletePolygonManually(event.id);
       this.mapGeneralService.drawPolygonFromServer(event.polygon, event.id, event.title);
     }
     else {
@@ -183,11 +179,22 @@ export class EventService {
   };
   // ------------------------
   public selectIcon = (event: EVENT_DATA_UI) => {
-    this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.selectedIcon, 40);
+    if (event.locationType === LOCATION_TYPE.locationPoint) {
+      this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.selectedIcon, 40);
+    }
+    else if (event.locationType === LOCATION_TYPE.polygon) {
+      // TODO
+    }
   };
   // ------------------------
   public unselectIcon = (event: EVENT_DATA_UI) => {
-    this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.icon, 30);
+    if (event.locationType === LOCATION_TYPE.locationPoint) {
+      this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.mapIcon, 30);
+    }
+    else if (event.locationType === LOCATION_TYPE.polygon) {
+      // TODO
+    }
+
   };
 
   public flyToObject = (coordinates: POINT | POINT3D) => {

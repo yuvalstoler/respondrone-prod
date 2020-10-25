@@ -117,7 +117,8 @@ export class ReportService {
   // ----------------------
   private drawReport = (report: REPORT_DATA_UI) => {
     if (report.locationType === LOCATION_TYPE.locationPoint && report.location.latitude && report.location.longitude) {
-      this.mapGeneralService.createIcon(report.location, report.id, report.modeDefine.styles.icon);
+      this.mapGeneralService.deleteIcon(report.id);
+      this.mapGeneralService.createIcon(report.location, report.id, report.modeDefine.styles.mapIcon);
     }
     else {
       this.mapGeneralService.deleteIcon(report.id);
@@ -200,7 +201,7 @@ export class ReportService {
   }
   // ------------------------
   public unselectIcon = (report: REPORT_DATA_UI) => {
-    this.mapGeneralService.editIcon(report.id, report.modeDefine.styles.icon, 30);
+    this.mapGeneralService.editIcon(report.id, report.modeDefine.styles.mapIcon, 30);
   }
 
   // public drawLocation = (event: EVENT_LISTENER_DATA): void => {

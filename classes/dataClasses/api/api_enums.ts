@@ -85,6 +85,7 @@ export enum TS_API {
     getAllTasks = '/getAllTasks',
     getTaskById = '/getTaskById',
 
+    updateTaskFromMGW = '/updateTaskFromMGW'
 }
 
 export enum RS_API {
@@ -171,6 +172,8 @@ export enum CCGW_API {
 
     getTasks = '/getTasks',
     getTaskById = '/getTaskById',
+    updateTaskFromMGW = '/updateTaskFromMGW',
+    createTask = '/createTask',
 
 }
 
@@ -185,6 +188,8 @@ export enum MG_API {
     getAllReports = '/getAllReports',
     getFileById = '/getFileById',
     updateFileStatus = '/updateFileStatus',
+
+    createTask_in_OSCC = '/createTask_in_OSCC',
 
 }
 

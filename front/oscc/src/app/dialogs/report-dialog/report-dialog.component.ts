@@ -72,6 +72,11 @@ export class ReportDialogComponent {
     this.dialogRef.close(false);
   }
 
+  onCreateClick(): void {
+    this.dialogRef.close(this.reportModel);
+    this.clearPanel();
+  }
+
   private initReportModel = () => {
     if (this.applicationService.selectedReports.length === 1) {
       this.reportModel = _.cloneDeep(this.applicationService.selectedReports[0]);

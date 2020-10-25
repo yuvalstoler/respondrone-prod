@@ -27,8 +27,8 @@ export class Task {
     assigneeIds: string[] = [];
     comments: COMMENT[] = [];
     idView: string = '';
-    location: GEOPOINT3D;
-    address: ADDRESS;
+    isSendToMobile: boolean = false;
+
     constructor(data: TASK_DATA) {
         if ( data ) {
             this.setValues(data, this.saveConfig);
@@ -69,18 +69,10 @@ export class Task {
             this.description = data;
         }
     };
-    private setLocation = (data: GEOPOINT3D) => {
-            const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS_GEOPOINT
-            if ( res ) {
-                this.location = data;
-            }
-        };
-    private setAddress = (data: ADDRESS) => {
-            const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS_GEOPOINT
-            if ( res ) {
-                this.address = data;
-            }
-        };
+    private setIsSendToMobile = (data: boolean) => {
+        this.isSendToMobile = data;
+    };
+
     private setResources = (data: any) => {
         const res: boolean = typeof data === 'string' || data instanceof String;
         if ( res ) {
@@ -143,8 +135,7 @@ export class Task {
             assigneeIds: this.assigneeIds,
             comments: this.comments,
             idView: this.idView,
-            address: this.address,
-            location: this.location
+            isSendToMobile: this.isSendToMobile
         };
     };
 
@@ -164,6 +155,8 @@ export class Task {
             assigneeIds: this.assigneeIds,
             comments: this.comments,
             idView: this.idView,
+            modeDefine: undefined,
+            isSendToMobile: this.isSendToMobile,
 
             assignees: [
                 {
@@ -206,9 +199,7 @@ export class Task {
                     status: FR_STATUS.available,
                     modeDefine: undefined
                 }
-            ],
-            address: this.address,
-            location: this.location
+            ]
         };
     };
 
@@ -226,8 +217,7 @@ export class Task {
         assigneeIds: this.setAssigneeIds,
         comments: this.setComments,
         idView: this.setIdView,
-        address: this.setAddress,
-        location: this.setLocation
+        isSendToMobile: this.isSendToMobile,
     };
 
 }

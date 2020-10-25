@@ -180,7 +180,7 @@ export class CesiumDrawerService {
 
   // ==================ICON========================================================================================
 
-  public createIconObject = (domId: string, locationPoint: GEOPOINT3D, billboardId: string, iconUrl: string): boolean => {
+  public createIconObject = (domId: string, locationPoint: GEOPOINT3D, billboardId: string, iconUrl: string, size: number, label: {text: string, color: string}): boolean => {
     let res = false;
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
     for (const mapDomId in mapsCE) {
@@ -191,7 +191,7 @@ export class CesiumDrawerService {
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId] =
             this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId] || {};
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId] =
-            this.createIconEntity(mapDomId, mapsCE[mapDomId], locationPoint, iconUrl);
+            this.createIconEntity(mapDomId, mapsCE[mapDomId], locationPoint, iconUrl, size, label);
 
           if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId]) {
             res = true;
@@ -202,15 +202,33 @@ export class CesiumDrawerService {
     return res;
   };
 
-  private createIconEntity = (mapDomId: string, mapCE: any, locationPoint: GEOPOINT3D, iconUrl: string) => {
-    const billboard = this.cesiumService.cesiumViewer[mapDomId].entities.add({
+  private createIconEntity = (mapDomId: string, mapCE: any, locationPoint: GEOPOINT3D, iconUrl: string, size: number, label: {text: string, color: string}) => {
+    const entity = {
       position: Cesium.Cartesian3.fromDegrees(locationPoint.longitude, locationPoint.latitude),
       billboard: {
         image: iconUrl,
-        width: 30,
-        height: 30
+        width: size,
+        height: size
+      },
+      label: undefined,
+    }
+    if (label) {
+      entity.label = {
+        text: label.text,
+        font: '10pt monospace',
+        showBackground: true,
+        eyeOffset: new Cesium.Cartesian3(0, 0, 0), // to prevent labels mixing
+        pixelOffset: new Cesium.Cartesian2(0, size / 2),
+        style: Cesium.LabelStyle.FILL,
+        fillColor: Cesium.Color.BLACK,
+        backgroundColor: Cesium.Color.fromCssColorString(label.color || 'rgba(255, 255 ,255 ,1)'),
+        // textShadow: '2px 2px 4px ' + Cesium.Color.BLACK.withAlpha(0.9),
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        verticalOrigin: Cesium.VerticalOrigin.TOP,
+        heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
       }
-    });
+    }
+    const billboard = this.cesiumService.cesiumViewer[mapDomId].entities.add(entity);
     this.cesiumService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
     return billboard;
   };

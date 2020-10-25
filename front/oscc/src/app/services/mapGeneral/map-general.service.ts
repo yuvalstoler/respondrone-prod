@@ -158,10 +158,10 @@ export class MapGeneralService {
     return res;
   };
 
-  public createIcon = (locationPoint: GEOPOINT3D, billboardId: string, iconUrl: string): boolean => {
+  public createIcon = (locationPoint: GEOPOINT3D, billboardId: string, iconUrl: string, size: number = 30, label: {text: string, color: string} = undefined): boolean => {
     const domId = undefined;
     let res = false;
-    res = this.cesiumDrawerService.createIconObject(domId, locationPoint, billboardId, iconUrl);
+    res = this.cesiumDrawerService.createIconObject(domId, locationPoint, billboardId, iconUrl, size, label);
     return res;
   };
 
