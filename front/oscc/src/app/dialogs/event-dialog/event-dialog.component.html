@@ -75,7 +75,7 @@
           aria-labelledby="example-radio-group-label"
           class="example-radio-group">
           <mat-radio-button (click)="onChangeLocation($event, location)" *ngFor="let location of locations; let i = index"
-                            [checked]="i === 0"
+                            [checked]="locationTypeByName[location] === eventModel.locationType"
                             [value]="location" class="example-radio-button">
             {{location}}
             <!--Address-->

@@ -97,8 +97,10 @@ export class ReportService {
   // ----------------------
   private updateData = (reportData: REPORT_DATA_UI[]): void => {
     reportData.forEach((newReport: REPORT_DATA_UI) => {
+      let prevLocationType = newReport.locationType;
       const existingReport: REPORT_DATA_UI = this.reports.data.find(d => d.id === newReport.id);
       if (existingReport) {
+        prevLocationType = existingReport.locationType;
         // existingReport.setValues(newReport);
         for (const fieldName in existingReport) {
           if (existingReport.hasOwnProperty(fieldName)) {
@@ -111,18 +113,18 @@ export class ReportService {
           this.toasterService.info({message: 'Report added from FR', title: ''});
         }
       }
-      this.drawReport(newReport);
+      this.drawReport(newReport, prevLocationType);
     });
   };
   // ----------------------
-  private drawReport = (report: REPORT_DATA_UI) => {
-    if (report.locationType === LOCATION_TYPE.locationPoint && report.location.latitude && report.location.longitude) {
-      this.mapGeneralService.deleteIcon(report.id);
-      this.mapGeneralService.createIcon(report.location, report.id, report.modeDefine.styles.mapIcon);
-    }
-    else {
+  private drawReport = (report: REPORT_DATA_UI, prevLocationType: LOCATION_TYPE) => {
+    if (report.locationType !== prevLocationType || report.locationType === LOCATION_TYPE.none) {
       this.mapGeneralService.deleteIcon(report.id);
       this.mapGeneralService.deletePolygonManually(report.id);
+    }
+
+    if (report.locationType === LOCATION_TYPE.locationPoint && report.location.latitude && report.location.longitude) {
+      this.mapGeneralService.createIcon(report.location, report.id, report.modeDefine.styles.mapIcon);
     }
   };
 

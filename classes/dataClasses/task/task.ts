@@ -217,7 +217,7 @@ export class Task {
         assigneeIds: this.setAssigneeIds,
         comments: this.setComments,
         idView: this.setIdView,
-        isSendToMobile: this.isSendToMobile,
+        isSendToMobile: this.setIsSendToMobile,
     };
 
 }

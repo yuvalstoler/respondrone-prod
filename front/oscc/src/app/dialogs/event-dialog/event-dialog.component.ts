@@ -50,6 +50,13 @@ export class EventDialogComponent {
   LOCATION_NAMES = LOCATION_NAMES;
   LOCATION_TYPE = LOCATION_TYPE;
 
+  locationTypeByName = {
+    [LOCATION_NAMES.noLocation]: LOCATION_TYPE.none,
+    [LOCATION_NAMES.address]: LOCATION_TYPE.address,
+    [LOCATION_NAMES.locationPoint]: LOCATION_TYPE.locationPoint,
+    [LOCATION_NAMES.polygon]: LOCATION_TYPE.polygon,
+  }
+
   constructor(public applicationService: ApplicationService,
               public eventService: EventService,
               public locationService: LocationService,
@@ -62,7 +69,9 @@ export class EventDialogComponent {
 
     // add location on panel
     this.locationService.locationPoint$.subscribe(latlon => {
-      this.eventModel.location = {longitude: latlon.longitude, latitude: latlon.latitude};
+      if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
+        this.eventModel.location = {longitude: latlon.longitude, latitude: latlon.latitude};
+      }
     });
 
     this.polygonService.polygon$.subscribe((positions: POINT3D[]) => {
@@ -114,10 +123,10 @@ export class EventDialogComponent {
       this.eventModel.locationType = LOCATION_TYPE.locationPoint;
       this.polygonService.deletePolygonManually();
 
-      if (this.eventModel.location.latitude === undefined && this.eventModel.location.longitude === undefined) {
+      // if (this.eventModel.location.latitude === undefined && this.eventModel.location.longitude === undefined) {
         this.eventModel.locationType = LOCATION_TYPE.locationPoint;
         this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
-      }
+      // }
 
     } else if (location === LOCATION_NAMES.polygon) {
       // toaster

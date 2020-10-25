@@ -80,8 +80,10 @@ export class EventService {
   // ----------------------
   private updateData = (reportData: EVENT_DATA_UI[]): void => {
     reportData.forEach((newEvent: EVENT_DATA_UI) => {
+      let prevLocationType = newEvent.locationType;
       const existingEvent: EVENT_DATA_UI = this.getEventById(newEvent.id);
       if (existingEvent) {
+        prevLocationType = existingEvent.locationType;
         // existingEvent.setValues(newEvent);
         for (const fieldName in existingEvent) {
           if (existingEvent.hasOwnProperty(fieldName)) {
@@ -91,22 +93,22 @@ export class EventService {
       } else {
         this.events.data.push(newEvent);
       }
-      this.drawEvent(newEvent);
+      this.drawEvent(newEvent, prevLocationType);
     });
   };
   // ----------------------
-  private drawEvent = (event: EVENT_DATA_UI) => {
-    if (event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.latitude && event.location.longitude) {
+  private drawEvent = (event: EVENT_DATA_UI, prevLocationType: LOCATION_TYPE) => {
+    if (event.locationType !== prevLocationType || event.locationType === LOCATION_TYPE.none) {
       this.mapGeneralService.deleteIcon(event.id);
+      this.mapGeneralService.deletePolygonManually(event.id);
+    }
+
+    if (event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.latitude && event.location.longitude) {
       this.mapGeneralService.createIcon(event.location, event.id, event.modeDefine.styles.mapIcon);
     } else if (event.locationType === LOCATION_TYPE.polygon && event.polygon && event.polygon.length > 0) {
-      this.mapGeneralService.deletePolygonManually(event.id);
       this.mapGeneralService.drawPolygonFromServer(event.polygon, event.id, event.title);
     }
-    else {
-      this.mapGeneralService.deleteIcon(event.id);
-      this.mapGeneralService.deletePolygonManually(event.id);
-    }
+
   };
   // ----------------------
   public createEvent = (eventData: EVENT_DATA, cb?: Function) => {
