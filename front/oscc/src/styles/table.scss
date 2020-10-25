@@ -123,7 +123,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 }
 .expendContent{
-  font-size: 14px;
+  font-size: $fontSizeText;
   color: $black;
   font-weight: 200;
 }
@@ -140,7 +140,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   width: 30px;
 }
 .expendTitle {
-  font-size: 16px;
+  font-size: $fontSizeTitle;
   color: $black;
   font-weight: 600;
   //margin: 10px 0px 0px 0px;
@@ -152,7 +152,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   padding: 0 10px 0 0;
 }
 .mat-header-cell {
-  font-size: 14px;
+  font-size: $fontSizeText;
   font-weight: 900;
 }
 

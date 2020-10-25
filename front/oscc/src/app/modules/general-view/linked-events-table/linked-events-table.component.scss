@@ -40,13 +40,13 @@ th.mat-sort-header-sorted {
 .DialogLink{
   float: right;
   border-bottom: 1px solid $black;
-  font-size: 14px;
+  font-size: $fontSizeText;
   position: absolute;
   right: 30px;
   color: $black;
 }
 .expendTitle {
-  font-size: 16px;
+  font-size: $fontSizeTitle;
   color: $black;
   font-weight: 600;
   //margin: 10px 0px 0px 0px;

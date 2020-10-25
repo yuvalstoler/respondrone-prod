@@ -293,7 +293,9 @@ export enum GEOGRAPHIC_INSTRUCTION_TYPE {
 
 export type GEOGRAPHIC_INSTRUCTION = {
     type: GEOGRAPHIC_INSTRUCTION_TYPE,
-    location: GEOPOINT3D
+    location: GEOPOINT3D,
+    description: string,
+    styles: {icon: string}
 }
 
 export enum TASK_STATUS {

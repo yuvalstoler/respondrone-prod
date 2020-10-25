@@ -1,7 +1,9 @@
 @import "../../../../styles/colors";
+@import "../../../../styles/variable";
 
 :host ::ng-deep .mat-tab-label {
-  font-size: 20px;
+  font-size: $fontSizeTitle;
+  font-weight: bold;
 }
 
 /* Styles for the active tab label */

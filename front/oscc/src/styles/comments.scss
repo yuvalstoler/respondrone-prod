@@ -1,7 +1,7 @@
-
+@import "./variable";
 
 .CommentTitle {
-  font-size: 16px;
+  font-size: $fontSizeTitle;
   color: $black;
   font-weight: 600;
   //margin: 10px 0px 0px 0px;

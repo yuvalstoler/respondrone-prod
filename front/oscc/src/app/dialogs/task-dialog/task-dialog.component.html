@@ -77,7 +77,7 @@
             <textarea [(ngModel)]="taskModel.resources" [ngStyle]="{'resize': 'none'}"
                       class="Label"
                       matInput placeholder="Add resources..."
-                      rows="3"></textarea>
+                      rows="2"></textarea>
           </label>
         </mat-form-field>
       </div>
@@ -87,7 +87,7 @@
       </div>
       <!--Geographic Instructions-->
       <div class="DialogContentItem">
-        <div class="DialogTitle">Geographic Instructions</div>
+        <app-geo-instructions [element]="taskModel"></app-geo-instructions>
       </div>
 
       <!--&lt;!&ndash;Linked Reports&ndash;&gt;-->

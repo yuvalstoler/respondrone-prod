@@ -1,0 +1,16 @@
+@import "../../../../styles/dialogs";
+
+
+.TaskHeader{
+  margin-top: 15px;
+}
+.DialogTask{
+  float: right;
+  border-bottom: 1px solid $black;
+  font-size: $fontSizeText;
+  color: $black;
+}
+.mat-expansion-panel-header {
+  padding: 0 10px;
+  height: 30px;
+}

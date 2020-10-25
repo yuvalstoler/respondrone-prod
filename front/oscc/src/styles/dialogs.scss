@@ -55,7 +55,7 @@
 }
 
 .DialogHeader {
-  font-size: 19px;
+  font-size: $fontSizeTitleHeader;
   text-align: left;
   background-color: $darkGray;
   color: $white;
@@ -85,14 +85,14 @@
 }
 
 .DialogTitle {
-  font-size: 16px;
+  font-size: $fontSizeTitle;
   color: $black;
   font-weight: 600;
   margin: 10px 0px 0px 0px;
 }
 
 .DialogNotElement{
-  font-size: 16px;
+  font-size: $fontSizeTitle;
   color: $black;
   margin: 10px;
 }
@@ -117,7 +117,10 @@
 .DialogButtonX{
   background-color: transparent;
   border: none;
+
 }
+
+
 
 .mat-column-Description{
   max-width: 10em;
@@ -131,6 +134,18 @@
 
 .DialogActions {
 
+}
+
+.DialogCenter{
+  text-align: center;
+}
+
+.DialogActionsSave{
+  background-color: $darkGray;
+  color: $white;
+  padding: 2px 10px;
+  border-radius: 3px;
+  display: inline-block;
 }
 
 .DialogActionsDelete {
