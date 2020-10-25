@@ -28,7 +28,9 @@ export enum STATE_DRAW {
   notDraw = 'notDraw',
   drawLocationPoint = 'drawLocationPoint',
   editLocationPoint = 'editLocationPoint',
-  drawPolygon = 'drawPolygon'
+  drawPolygon = 'drawPolygon',
+  drawArrow = 'drawArrow',
+  drawPolyline = 'drawPolyline'
 }
 
 export type EVENT_LISTENER_DATA = {

@@ -7,6 +7,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {TaskDialogComponent} from '../../../../dialogs/task-dialog/task-dialog.component';
 import {TASK_DATA_UI} from '../../../../../../../../classes/typings/all.typings';
 import {TasksService} from '../../../../services/tasksService/tasks.service';
+import {LocationService} from '../../../../services/locationService/location.service';
+import {PolygonService} from '../../../../services/polygonService/polygon.service';
 
 @Component({
   selector: 'app-tasks-mission-control',
@@ -20,6 +22,8 @@ export class TasksMissionControlComponent implements OnInit {
 
   constructor(public applicationService: ApplicationService,
               public tasksService: TasksService,
+              public locationService: LocationService,
+              public polygonService: PolygonService,
               public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -52,6 +56,10 @@ export class TasksMissionControlComponent implements OnInit {
         this.tasksService.createTask(result, (task: TASK_DATA_UI) => {
           // this.reportService.linkReportsToEvent(task.reportIds, task.id);
         });
+        this.locationService.deleteLocationPointTemp();
+        this.polygonService.deletePolygonManually();
+        //   todo: delete polyline manually
+        //  todo: delete arrow manually
         console.log(result);
       }
     });

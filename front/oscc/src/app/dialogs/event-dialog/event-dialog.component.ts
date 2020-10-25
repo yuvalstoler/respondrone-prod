@@ -146,7 +146,6 @@ export class EventDialogComponent {
     this.eventModel = _.cloneDeep(this.defaultEvent);
     this.applicationService.stateDraw = STATE_DRAW.notDraw;
     this.locationService.deleteLocationPointTemp();
-    this.locationService.removeBillboard();
     this.polygonService.deletePolygonManually();
   };
 

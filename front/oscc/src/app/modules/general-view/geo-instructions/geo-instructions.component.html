@@ -22,8 +22,8 @@
             <div class="expendTitle">
               <mat-icon mat-list-icon>{{geoInstruction?.styles?.icon}}</mat-icon>
               <span mat-line>{{geoInstruction?.type}}</span>
-              <button (click)="removeGeoInstruction($event, i)" class='DialogButtonX '>X</button>
             </div>
+            <button (click)="removeGeoInstruction($event, i)" class='DialogButtonGeoX '>X</button>
           </mat-expansion-panel-header>
           <div class="description-content">
             <div class="description-content scroll">
@@ -73,6 +73,16 @@
            Address
          </div>
        </mat-expansion-panel-header>
+       <!--Address-->
+       <div>
+         <mat-form-field appearance="outline" class="LocationAddress">
+           <label>
+             <input [(ngModel)]="geoInstructionModel.address" class="Label" matInput
+                    placeholder="E.g. Richard St."
+                    type="text">
+           </label>
+         </mat-form-field>
+       </div>
        <!--Description-->
        <div class="DialogContentItem">
          <div class="DialogTitle">Description</div>
@@ -100,6 +110,39 @@
            Point
          </div>
        </mat-expansion-panel-header>
+       <!--Location-->
+       <div>
+         <small>Choose location point from the map or write
+           Lat/Long</small>
+         <div class="DialogGrid22">
+           <!--Lat-->
+           <mat-form-field appearance="outline" class="">
+             <label>
+               <input (click)="$event.stopPropagation()"
+                      (change)="locationChanged($event, 'latitude')" (keyup)="locationChanged($event, 'latitude')"
+                      [(ngModel)]="geoInstructionModel.location.latitude"
+                      class="Label"
+                      matInput
+                      min="0"
+                      placeholder="Lat"
+                      type="number">
+             </label>
+           </mat-form-field>
+           <!--Long-->
+           <mat-form-field appearance="outline" class="">
+             <label>
+               <input (click)="$event.stopPropagation()"
+                      (change)="locationChanged($event, 'longitude')"
+                      (keyup)="locationChanged($event, 'longitude')" [(ngModel)]="geoInstructionModel.location.longitude"
+                      class="Label"
+                      matInput
+                      min="0"
+                      placeholder="Long"
+                      type="number">
+             </label>
+           </mat-form-field>
+         </div>
+       </div>
        <!--Description-->
        <div class="DialogContentItem">
          <div class="DialogTitle">Description</div>

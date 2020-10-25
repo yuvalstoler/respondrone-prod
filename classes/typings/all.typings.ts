@@ -295,6 +295,9 @@ export type GEOGRAPHIC_INSTRUCTION = {
     type: GEOGRAPHIC_INSTRUCTION_TYPE,
     location: GEOPOINT3D,
     description: string,
+    address: ADDRESS,
+    polygon: POINT3D[],
+
     styles: {icon: string}
 }
 
