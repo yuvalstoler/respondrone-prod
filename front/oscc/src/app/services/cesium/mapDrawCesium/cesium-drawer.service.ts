@@ -180,7 +180,7 @@ export class CesiumDrawerService {
 
   // ==================ICON========================================================================================
 
-  public createIconObject = (domId: string, locationPoint: GEOPOINT3D, billboardId: string, iconUrl: string): boolean => {
+  public createIconObject = (domId: string, locationPoint: GEOPOINT3D, billboardId: string, iconUrl: string, size: number, label: {text: string, color: string}): boolean => {
     let res = false;
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
     for (const mapDomId in mapsCE) {
@@ -191,7 +191,7 @@ export class CesiumDrawerService {
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId] =
             this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId] || {};
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId] =
-            this.createIconEntity(mapDomId, mapsCE[mapDomId], locationPoint, iconUrl);
+            this.createIconEntity(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId], locationPoint, iconUrl, size, label);
 
           if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId]) {
             res = true;
@@ -202,17 +202,45 @@ export class CesiumDrawerService {
     return res;
   };
 
-  private createIconEntity = (mapDomId: string, mapCE: any, locationPoint: GEOPOINT3D, iconUrl: string) => {
-    const billboard = this.cesiumService.cesiumViewer[mapDomId].entities.add({
+  private createIconEntity = (mapDomId: string, entityCE: any, locationPoint: GEOPOINT3D, iconUrl: string, size: number, label: {text: string, color: string}) => {
+    const entityData = {
       position: Cesium.Cartesian3.fromDegrees(locationPoint.longitude, locationPoint.latitude),
       billboard: {
         image: iconUrl,
-        width: 30,
-        height: 30
+        width: size,
+        height: size
+      },
+      label: undefined,
+    }
+    if (label) {
+      entityData.label = {
+        text: label.text,
+        font: '10pt monospace',
+        showBackground: true,
+        eyeOffset: new Cesium.Cartesian3(0, 0, 0), // to prevent labels mixing
+        pixelOffset: new Cesium.Cartesian2(0, size / 2),
+        style: Cesium.LabelStyle.FILL,
+        fillColor: Cesium.Color.BLACK,
+        backgroundColor: Cesium.Color.fromCssColorString(label.color || 'rgba(255, 255 ,255 ,1)'),
+        // textShadow: '2px 2px 4px ' + Cesium.Color.BLACK.withAlpha(0.9),
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        verticalOrigin: Cesium.VerticalOrigin.TOP,
+        heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
       }
-    });
-    this.cesiumService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
-    return billboard;
+    }
+
+    if (Object.keys(entityCE).length === 0) {
+      const billboard = this.cesiumService.cesiumViewer[mapDomId].entities.add(entityData);
+      this.cesiumService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
+      return billboard;
+    }
+    else {
+      for (let key in entityData) {
+        entityCE[key] = entityData[key]
+      }
+      return entityCE;
+    }
+
   };
 
   public deleteIconFromMap = (domId: string, billboardId: string): boolean => {
@@ -320,7 +348,7 @@ export class CesiumDrawerService {
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon] =
             this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon] || {};
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon] =
-            this.createPolygonFromServerEntity(mapDomId, mapsCE[mapDomId], positions);
+            this.createPolygonFromServerEntity(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon], positions);
           //label
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.labelPolygonCE] =
             this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.labelPolygonCE] || {};
@@ -335,9 +363,9 @@ export class CesiumDrawerService {
     return res;
   };
 
-  private createPolygonFromServerEntity = (mapDomId: string, mapCE: any, positions: POINT3D[]): {} => {
+  private createPolygonFromServerEntity = (mapDomId: string, entityCE: any, positions: POINT3D[]): {} => {
     const positionCE = this.arrayPointsToCartesian3(positions);
-    const polygon = this.cesiumService.cesiumViewer[mapDomId].entities.add({
+    const entityData = {
       name: 'polygon',
       polygon: {
         hierarchy: positionCE,
@@ -346,9 +374,18 @@ export class CesiumDrawerService {
         outline: true,
         outlineColor: Cesium.Color.YELLOW
       }
-    });
-    this.cesiumService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
-    return polygon;
+    }
+    if (Object.keys(entityCE).length === 0) {
+      const polygon = this.cesiumService.cesiumViewer[mapDomId].entities.add(entityData);
+      this.cesiumService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
+      return polygon;
+    } else {
+      for (let key in entityData) {
+        entityCE[key] = entityData[key]
+      }
+      return entityCE;
+    }
+
   };
 
   private createLabel = (mapDomId: string, mapCE: any, positions: POINT3D[], title: string): Array<{}> => {

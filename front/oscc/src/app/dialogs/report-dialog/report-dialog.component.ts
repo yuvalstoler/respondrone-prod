@@ -52,6 +52,13 @@ export class ReportDialogComponent {
   LOCATION_TYPE = LOCATION_TYPE;
   LOCATION_NAMES = LOCATION_NAMES;
 
+  locationTypeByName = {
+    [LOCATION_NAMES.noLocation]: LOCATION_TYPE.none,
+    [LOCATION_NAMES.address]: LOCATION_TYPE.address,
+    [LOCATION_NAMES.locationPoint]: LOCATION_TYPE.locationPoint,
+    [LOCATION_NAMES.polygon]: LOCATION_TYPE.polygon,
+  }
+
   constructor(public applicationService: ApplicationService,
               public locationService: LocationService,
               public reportService: ReportService,
@@ -63,13 +70,20 @@ export class ReportDialogComponent {
 
     // add location on panel
     this.locationService.locationPoint$.subscribe(latlon => {
-      this.reportModel.location = {longitude: latlon.longitude, latitude: latlon.latitude};
+      if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
+        this.reportModel.location = {longitude: latlon.longitude, latitude: latlon.latitude};
+      }
     });
   }
 
   onNoClick(): void {
     this.clearPanel();
     this.dialogRef.close(false);
+  }
+
+  onCreateClick(): void {
+    this.dialogRef.close(this.reportModel);
+    this.clearPanel();
   }
 
   private initReportModel = () => {
@@ -96,10 +110,10 @@ export class ReportDialogComponent {
     } else if (location === LOCATION_NAMES.locationPoint) {
       this.customToasterService.info({message: 'Click on map to set the report\'s location', title: 'location'});
       this.reportModel.address = '';
-      if (this.reportModel.location.latitude === undefined && this.reportModel.location.longitude === undefined) {
+      // if (this.reportModel.location.latitude === undefined && this.reportModel.location.longitude === undefined) {
         this.reportModel.locationType = LOCATION_TYPE.locationPoint;
         this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
-      }
+      // }
     }
   };
 

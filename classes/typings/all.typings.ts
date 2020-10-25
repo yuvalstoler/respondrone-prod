@@ -147,6 +147,7 @@ export type LINKED_REPORT_DATA = {
 export type REPORT_DATA_MD = {
     styles: {
         icon: string,
+        mapIcon: string,
         selectedIcon: string,
     },
     tableData: {
@@ -199,6 +200,7 @@ export type LINKED_EVENT_DATA = {
 export type EVENT_DATA_MD = {
     styles: {
         icon: string,
+        mapIcon: string,
         selectedIcon: string,
     },
     tableData: {
@@ -245,6 +247,7 @@ export type FR_DATA_UI = FR_DATA & {
 export type FR_DATA_MD = {
     styles: {
         icon: string,
+        color: string
     }
 }
 
@@ -269,18 +272,25 @@ export type TASK_DATA = {
     type: string; // TASK_TYPE;
     priority: PRIORITY;
     description: string;
-    location: GEOPOINT3D;
-    address: ADDRESS;
     resources: string;
     status: TASK_STATUS;
     geographicInstructions: GEOGRAPHIC_INSTRUCTION[];
     assigneeIds: ID_TYPE[];
     comments: COMMENT[]
     idView: string;
+    isSendToMobile: boolean;
 }
 
 export type TASK_DATA_UI = TASK_DATA & {
-    assignees: FR_DATA_UI[]
+    assignees: FR_DATA_UI[],
+    modeDefine: TASK_DATA_MD,
+}
+export type TASK_DATA_MD = {
+    styles: {
+    },
+    tableData: {
+        assignees: TABLE_DATA_MD,
+    }
 }
 
 export enum GEOGRAPHIC_INSTRUCTION_TYPE {
@@ -302,10 +312,10 @@ export type GEOGRAPHIC_INSTRUCTION = {
 }
 
 export enum TASK_STATUS {
-    pending = 'pending',
-    inProgress = 'inProgress',
-    rejected = 'rejected',
-    polygon = 'polygon'
+    pending = 'Pending',
+    inProgress = 'In Progress',
+    rejected = 'Rejected',
+    completed = 'Completed'
 }
 
 

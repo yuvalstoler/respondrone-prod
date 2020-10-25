@@ -10,7 +10,14 @@ const exclude_file_projconf = 'projConf.json';
 const projconfs = {};
 const names = {};
 const ports = {};
-
+const args = process.argv.slice(2);
+let ip=undefined;
+args.forEach((arg)=>{
+    const ip_ = arg.split('ip=');
+    if(ip_.length>1 ){
+        ip = ip_[1];
+    }
+});
 
 const pathTemplate = './template/';
 const templatesFiles = {};
@@ -20,6 +27,7 @@ templatesFiles.DockerFile = 'Dockerfile.json';
 templatesFiles.MongoConnector = 'mongoConnector.json';
 templatesFiles.PackageJson = 'package.json';
 templatesFiles.dockerComposePlus = 'dockerComposePlus.yml';
+
 const templates = {};
 const excludeFolders4copy = ['config', 'template'];
 const targetPath = '../../RD/';
@@ -75,11 +83,30 @@ for (let key in projconfs) {
         ) {
             projconfs[key].Mongo[mongoKey] = templates.ProjConfFile.Mongo[mongoKey];
         }
+        if( ip !==undefined && typeof projconfs[key] === 'object'){
+            for (let propOfKey in projconfs[key]) {
+                if(typeof projconfs[key][propOfKey] === 'object') {
+                    for (let propOfKeyIn in projconfs[key][propOfKey]) {
+                        if (propOfKeyIn === 'host') {
+                            projconfs[key][propOfKey][propOfKeyIn] = ip;
+                        }
+                        if(typeof projconfs[key][propOfKey][propOfKeyIn] === 'object') {
+                            for (let propOfKeyIn2 in projconfs[key][propOfKey][propOfKeyIn]) {
+                                if (propOfKeyIn2 === 'host') {
+                                    projconfs[key][propOfKey][propOfKeyIn][propOfKeyIn2] = ip;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     if (projconfs[key].hasOwnProperty('Mongo')) {
         delete projconfs[key].Mongo.url;
     }
 }
+
 
 for (let prop in names) {
     const pathBase = rootOfRepositories;

@@ -17,6 +17,8 @@ import {
 import {SocketIO} from '../../websocket/socket.io';
 import {ReportManager} from '../report/reportManager';
 import {Task} from '../../../../../classes/dataClasses/task/task';
+import {FrManager} from "../fr/frManager";
+import {TaskMdLogic} from "../../../../../classes/modeDefineTSSchemas/tasks/taskMdLogic";
 
 
 export class TaskManager {
@@ -159,8 +161,8 @@ export class TaskManager {
         const res: TASK_DATA_UI[] = [];
         this.tasks.forEach((task: Task) => {
             const taskDataUI: TASK_DATA_UI = task.toJsonForUI();
-            // taskDataUI.assignees = GroundResourceManager.getGroundResources(task.assigneeIds);
-            // taskDataUI.modeDefine = TaskMdLogic.validate(taskDataUI);
+            taskDataUI.assignees = FrManager.getFRsByIds(task.assigneeIds);
+            taskDataUI.modeDefine = TaskMdLogic.validate(taskDataUI);
 
             res.push(taskDataUI);
         });

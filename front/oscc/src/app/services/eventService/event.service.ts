@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
@@ -6,17 +6,11 @@ import {
   ASYNC_RESPONSE,
   EVENT_DATA,
   EVENT_DATA_UI,
-  EVENT_TYPE,
   ID_OBJ,
   LINKED_EVENT_DATA,
   LOCATION_TYPE,
-  MEDIA_TYPE, POINT,
+  POINT,
   POINT3D,
-  PRIORITY,
-  REPORT_DATA,
-  REPORT_DATA_UI,
-  REPORT_TYPE,
-  SOURCE_TYPE,
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
@@ -86,8 +80,10 @@ export class EventService {
   // ----------------------
   private updateData = (reportData: EVENT_DATA_UI[]): void => {
     reportData.forEach((newEvent: EVENT_DATA_UI) => {
+      let prevLocationType = newEvent.locationType;
       const existingEvent: EVENT_DATA_UI = this.getEventById(newEvent.id);
       if (existingEvent) {
+        prevLocationType = existingEvent.locationType;
         // existingEvent.setValues(newEvent);
         for (const fieldName in existingEvent) {
           if (existingEvent.hasOwnProperty(fieldName)) {
@@ -97,20 +93,22 @@ export class EventService {
       } else {
         this.events.data.push(newEvent);
       }
-      this.drawEvent(newEvent);
+      this.drawEvent(newEvent, prevLocationType);
     });
   };
   // ----------------------
-  private drawEvent = (event: EVENT_DATA_UI) => {
-    if (event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.latitude && event.location.longitude) {
-      this.mapGeneralService.createIcon(event.location, event.id, event.modeDefine.styles.icon);
-    } else if (event.locationType === LOCATION_TYPE.polygon && event.polygon && event.polygon.length > 0) {
-      this.mapGeneralService.drawPolygonFromServer(event.polygon, event.id, event.title);
-    }
-    else {
+  private drawEvent = (event: EVENT_DATA_UI, prevLocationType: LOCATION_TYPE) => {
+    if (event.locationType !== prevLocationType || event.locationType === LOCATION_TYPE.none) {
       this.mapGeneralService.deleteIcon(event.id);
       this.mapGeneralService.deletePolygonManually(event.id);
     }
+
+    if (event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.latitude && event.location.longitude) {
+      this.mapGeneralService.createIcon(event.location, event.id, event.modeDefine.styles.mapIcon);
+    } else if (event.locationType === LOCATION_TYPE.polygon && event.polygon && event.polygon.length > 0) {
+      this.mapGeneralService.drawPolygonFromServer(event.polygon, event.id, event.title);
+    }
+
   };
   // ----------------------
   public createEvent = (eventData: EVENT_DATA, cb?: Function) => {
@@ -183,11 +181,22 @@ export class EventService {
   };
   // ------------------------
   public selectIcon = (event: EVENT_DATA_UI) => {
-    this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.selectedIcon, 40);
+    if (event.locationType === LOCATION_TYPE.locationPoint) {
+      this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.selectedIcon, 40);
+    }
+    else if (event.locationType === LOCATION_TYPE.polygon) {
+      // TODO
+    }
   };
   // ------------------------
   public unselectIcon = (event: EVENT_DATA_UI) => {
-    this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.icon, 30);
+    if (event.locationType === LOCATION_TYPE.locationPoint) {
+      this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.mapIcon, 30);
+    }
+    else if (event.locationType === LOCATION_TYPE.polygon) {
+      // TODO
+    }
+
   };
 
   public flyToObject = (coordinates: POINT | POINT3D) => {

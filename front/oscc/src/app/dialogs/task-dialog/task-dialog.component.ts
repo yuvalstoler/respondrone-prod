@@ -34,8 +34,6 @@ export class TaskDialogComponent {
     type: this.types[0],
     priority: this.priorities[0],
     description: '',
-    location: {longitude: undefined, latitude: undefined},
-    address: '',
     comments: [],
     idView: '',
     geographicInstructions: [],
@@ -43,7 +41,9 @@ export class TaskDialogComponent {
     id: '',
     resources: '',
     status: TASK_STATUS.pending,
-    title: ''
+    title: '',
+    modeDefine: undefined,
+    isSendToMobile: false,
   };
 
   LOCATION_TYPE = LOCATION_TYPE;

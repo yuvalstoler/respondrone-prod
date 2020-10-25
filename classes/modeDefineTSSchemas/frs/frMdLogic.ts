@@ -17,14 +17,15 @@ export class FrMdLogic implements IModeDefine {
     public static validate(data: FR_DATA_UI): FR_DATA_MD {
         const obj: FR_DATA_MD = {
             styles: {
-                icon: this.getUserIcon(data),
+                icon: this.getIcon(data),
+                color: this.getColor(data),
             },
         };
         return obj;
     }
 
 
-    private static getUserIcon = (data: FR_DATA_UI): string => {
+    private static getIcon = (data: FR_DATA_UI): string => {
         let res: string;
         if (data.type === FR_TYPE.fireFighter) {
             res = '../../../../../assets/fireman.png';
@@ -32,6 +33,18 @@ export class FrMdLogic implements IModeDefine {
             res = '../../../../../assets/medicin.png';
         } else if (data.type === FR_TYPE.police) {
             res = '../../../../../assets/police.png';
+        }
+        return res;
+    };
+
+    private static getColor = (data: FR_DATA_UI): string => {
+        let res: string;
+        if (data.type === FR_TYPE.fireFighter) {
+            res = MDClass.colors.orange;
+        } else if (data.type === FR_TYPE.paramedic) {
+            res = MDClass.colors.green;
+        } else if (data.type === FR_TYPE.police) {
+            res = MDClass.colors.lightBlue;
         }
         return res;
     };

@@ -12,7 +12,7 @@ import {
 import {
     ASYNC_RESPONSE,
     ID_OBJ,
-    TASK_DATA,
+    TASK_DATA, TASK_STATUS,
 } from '../../../../../classes/typings/all.typings';
 
 
@@ -145,6 +145,29 @@ export class ApiManager implements IRest {
         response.send(res);
     };
 
+    private updateTaskFromMGW = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody: TASK_DATA = request.body;
+        if ( requestBody && requestBody.id && requestBody.status in TASK_STATUS) {
+            TaskManager.updateTaskFromMGW( requestBody.id, {status: requestBody.status})
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    res.description = data.description;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id/status';
+            response.send(res);
+        }
+    };
+
     routers: {} = {
         [TS_API.createTask]: this.newTask,
         [TS_API.readTask]: this.readTask,
@@ -155,6 +178,7 @@ export class ApiManager implements IRest {
         [TS_API.getAllTasks]: this.getTasks,
         [TS_API.getTaskById]: this.getTaskById,
 
+        [TS_API.updateTaskFromMGW]: this.updateTaskFromMGW,
     };
 
     // region API uncions

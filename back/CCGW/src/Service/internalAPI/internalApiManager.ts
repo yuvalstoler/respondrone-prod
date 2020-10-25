@@ -8,7 +8,7 @@ import {
     FILE_DB_DATA,
     FILE_GW_DATA,
     ID_OBJ,
-    REPORT_DATA,
+    REPORT_DATA, TASK_DATA,
     UPDATE_FILE_STATUS,
 
 } from '../../../../../classes/typings/all.typings';
@@ -32,6 +32,10 @@ export class InternalApiManager {
         return RequestManager.requestToMG(MG_API.updateFileStatus, fileStatus);
     }
 
+    private createTask = (task: TASK_DATA): Promise<ASYNC_RESPONSE<FILE_DB_DATA>> => {
+        return RequestManager.requestToMG(MG_API.createTask_in_OSCC, task);
+    }
+
     private constructor() {
 
     }
@@ -42,6 +46,7 @@ export class InternalApiManager {
 
     public static fileById = InternalApiManager.instance.fileById;
     public static updateFileStatus = InternalApiManager.instance.updateFileStatus;
+    public static createTask = InternalApiManager.instance.createTask;
 
     // endregion API uncions
 
