@@ -36,7 +36,7 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
   selectedElement: EVENT_DATA_UI;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
-  panelOpenState = false;
+  panelOpenState: MAP<boolean> = {};
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
 
@@ -167,10 +167,6 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
         this.eventService.createEvent(event);
       }
     }
-  };
-
-  private expendPanelDescription = (index: boolean) => {
-    this.panelOpenState = index;
   };
 
   onChangeComments = (comments: COMMENT[], element: EVENT_DATA_UI) => {

@@ -45,6 +45,8 @@ export enum TYPE_OBJECTS_CE {
   billboardCE = 'billboardCE',
   iconCE = 'iconCE',
   polygonCE = 'polygonCE',
-  labelPolygonCE = 'labelPolygonCE'
+  labelPolygonCE = 'labelPolygonCE',
+  polylineCE = 'polylineCE',
+  arrowPolylineCE = 'arrowPolylineCE'
 }
 

@@ -3,17 +3,17 @@
   <app-header-panel class="HeaderPanel"></app-header-panel>
 
 
-  <!--Map Cesium-->
-  <div >
-    <app-map></app-map>
-    <div class="MapContent" [ngClass]="{'MapRegular':applicationService.panelIcon === LEFT_PANEL_ICON.expand,
-    'MapWide': applicationService.panelIcon === LEFT_PANEL_ICON.minimize}"
-         id="{{cesiumService?.maps[0]?.containerId}}">
-    </div>
-    <!--<div class="cesium-two"-->
-    <!--id="{{mapAvService?.maps[1]?.containerId}}">-->
+  <!--&lt;!&ndash;Map Cesium&ndash;&gt;-->
+  <!--<div >-->
+    <!--<app-map></app-map>-->
+    <!--<div class="MapContent" [ngClass]="{'MapRegular':applicationService.panelIcon === LEFT_PANEL_ICON.expand,-->
+    <!--'MapWide': applicationService.panelIcon === LEFT_PANEL_ICON.minimize}"-->
+         <!--id="{{cesiumService?.maps[0]?.containerId}}">-->
     <!--</div>-->
-  </div>
+    <!--&lt;!&ndash;<div class="cesium-two"&ndash;&gt;-->
+    <!--&lt;!&ndash;id="{{mapAvService?.maps[1]?.containerId}}">&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <!--</div>-->
 
 
   <!--Left Panel-->

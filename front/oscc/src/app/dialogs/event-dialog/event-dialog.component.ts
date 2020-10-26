@@ -55,7 +55,7 @@ export class EventDialogComponent {
     [LOCATION_NAMES.address]: LOCATION_TYPE.address,
     [LOCATION_NAMES.locationPoint]: LOCATION_TYPE.locationPoint,
     [LOCATION_NAMES.polygon]: LOCATION_TYPE.polygon,
-  }
+  };
 
   constructor(public applicationService: ApplicationService,
               public eventService: EventService,
@@ -104,16 +104,16 @@ export class EventDialogComponent {
       this.eventModel.location = {longitude: undefined, latitude: undefined};
       this.eventModel.address = '';
       this.eventModel.polygon = [];
-      this.locationService.deleteLocationPointTemp();
-      this.polygonService.deletePolygonManually();
+      this.locationService.deleteLocationPointTemp('0');
+      this.polygonService.deletePolygonManually('0');
 
     } else if (location === LOCATION_NAMES.address) {
       this.eventModel.location = {longitude: undefined, latitude: undefined};
       this.eventModel.polygon = [];
       this.eventModel.locationType = LOCATION_TYPE.address;
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
-      this.locationService.deleteLocationPointTemp();
-      this.polygonService.deletePolygonManually();
+      this.locationService.deleteLocationPointTemp('0');
+      this.polygonService.deletePolygonManually('0');
 
     } else if (location === LOCATION_NAMES.locationPoint) {
       // toaster
@@ -121,7 +121,7 @@ export class EventDialogComponent {
       this.eventModel.address = '';
       this.eventModel.polygon = [];
       this.eventModel.locationType = LOCATION_TYPE.locationPoint;
-      this.polygonService.deletePolygonManually();
+      this.polygonService.deletePolygonManually('0');
 
       // if (this.eventModel.location.latitude === undefined && this.eventModel.location.longitude === undefined) {
         this.eventModel.locationType = LOCATION_TYPE.locationPoint;
@@ -132,7 +132,7 @@ export class EventDialogComponent {
       // toaster
       this.customToasterService.info(
         {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
-      this.locationService.deleteLocationPointTemp();
+      this.locationService.deleteLocationPointTemp('0');
       this.eventModel.location = {longitude: undefined, latitude: undefined};
       this.eventModel.address = '';
       this.eventModel.locationType = LOCATION_TYPE.polygon;
@@ -159,8 +159,8 @@ export class EventDialogComponent {
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.situationPictures;
     this.eventModel = _.cloneDeep(this.defaultEvent);
     this.applicationService.stateDraw = STATE_DRAW.notDraw;
-    this.locationService.deleteLocationPointTemp();
-    this.polygonService.deletePolygonManually();
+    this.locationService.deleteLocationPointTemp('0');
+    this.polygonService.deletePolygonManually('0');
   };
 
   onUpdateLinkedReports = (linkedReportIds: string[]) => {

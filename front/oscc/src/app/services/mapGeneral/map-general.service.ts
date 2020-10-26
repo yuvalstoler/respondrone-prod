@@ -115,6 +115,7 @@ export class MapGeneralService {
     return res;
   };
 
+  // Billboard =====================================================================================================
   public createBillboard = (locationPoint: GEOPOINT3D, billboardId: string): boolean => {
     const domId = undefined;
     let res = false;
@@ -129,6 +130,7 @@ export class MapGeneralService {
     return res;
   };
 
+  //Polygon ====================================================================================================
   public drawPolygonFromServer = (arrayPoints: POINT3D[], id: string, title: string) => {
     const domId = undefined;
     let res = false;
@@ -158,6 +160,42 @@ export class MapGeneralService {
     return res;
   };
 
+  // Polyline =====================================================================================================
+  // from Service =====
+  public createPolyline = (points: POINT[], id: string) => {
+    const domId = undefined;
+    let res = false;
+    this.deletePolylineFromMap(id);
+      res = this.cesiumDrawerService.createPolylineFromServer(domId, points, id);
+    return res;
+  };
+
+  public deletePolylineFromMap = (polylineId: string) => {
+    const domId = undefined;
+    let res = false;
+      res = this.cesiumDrawerService.deletePolylineFromMap(domId, polylineId);
+    return res;
+  };
+
+  // Arrow Polyline =====================================================================================================
+  // from Service =====
+  public createArrowPolyline = (points: POINT[], polylineId: string) => {
+    const domId = undefined;
+    let res = false;
+    this.deleteArrowPolylineFromMap(polylineId);
+    res = this.cesiumDrawerService.createArrowPolylineFromServer(domId, points, polylineId);
+    return res;
+  };
+
+  public deleteArrowPolylineFromMap = (polylineId: string) => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.deleteArrowPolylineFromMap(domId, polylineId);
+    return res;
+  };
+
+
+  // Icons ========================================================================================================
   public createIcon = (locationPoint: GEOPOINT3D, billboardId: string, iconUrl: string, size: number = 30, label: {text: string, color: string} = undefined): boolean => {
     const domId = undefined;
     let res = false;
@@ -179,6 +217,7 @@ export class MapGeneralService {
     return res;
   };
 
+  // =================================================================================================
   public flyToObject = (coordinates): boolean => {
     const domId = undefined;
     let res = false;

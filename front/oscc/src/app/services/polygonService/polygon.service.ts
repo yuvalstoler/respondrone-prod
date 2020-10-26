@@ -55,7 +55,8 @@ export class PolygonService {
     if (this.applicationService.stateDraw === STATE_DRAW.drawPolygon) {
       const points: POINT3D[] = this.drawerPolygonClass.mouseEvents(event);
       this.isCross = this.drawerPolygonClass.checkCrossPolygon(points);
-      this.drawPolygon(points, 'temp', this.isCross);
+      const idTemp = this.applicationService.geoCounter.toString();
+      this.drawPolygon(points, idTemp, this.isCross);
       if (event.type === 'doubleClick'/* && points.length >= 4*/) {
         this.polygon$.next(points);
         // this.applicationService.stateDraw = STATE_DRAW.notDraw;
@@ -81,8 +82,8 @@ export class PolygonService {
     }
   };
 
-  public deletePolygonManually = () => {
-    this.mapGeneralService.deletePolygonManually('temp');
+  public deletePolygonManually = (polygonId) => {
+    this.mapGeneralService.deletePolygonManually(polygonId);
     this.polygon$.next([]);
   };
 

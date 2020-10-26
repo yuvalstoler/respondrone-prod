@@ -36,15 +36,16 @@ export class LocationService {
     if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
       const locationPoint: GEOPOINT3D = {longitude: event.pointLatLng[0], latitude: event.pointLatLng[1]};
       // open marker on mouseOver
+      const idTemp = this.applicationService.geoCounter.toString();
       if (event.type === 'mouseOver') {
-        this.mapGeneralService.deleteLocationPointTemp('temp');
-        this.drawLocationFromServer(locationPoint, 'temp');
+        this.mapGeneralService.deleteLocationPointTemp(idTemp);
+        this.drawLocationFromServer(locationPoint, idTemp);
         this.locationPointTemp = undefined;
       }
       // draw marker on mouseDown
       if (event.type === 'mouseDown') {
-        this.mapGeneralService.deleteLocationPointTemp('temp');
-        this.drawLocationFromServer(locationPoint, 'temp');
+        this.mapGeneralService.deleteLocationPointTemp(idTemp);
+        this.drawLocationFromServer(locationPoint, idTemp);
         this.locationPointTemp = event.pointLatLng;
       }
       // edit LocationPoint after draw =>
@@ -67,8 +68,9 @@ export class LocationService {
       if (event.type === 'mouseOver') {
         if (this.isMarker) {
           // edit marker location
-          this.deleteLocationPointTemp();
-          this.drawLocationFromServer(locationPoint, 'temp');
+          const idTemp = this.applicationService.geoCounter.toString();
+          this.deleteLocationPointTemp(idTemp);
+          this.drawLocationFromServer(locationPoint, idTemp);
           this.downClick = true;
         }
       }
@@ -100,11 +102,11 @@ export class LocationService {
 
   public createOrUpdateLocationTemp = (locationPoint: GEOPOINT3D) => {
     this.locationPointTemp = [locationPoint.longitude, locationPoint.latitude];
-    this.mapGeneralService.createOrUpdateLocationTemp(locationPoint, 'temp');
+    const idTemp = this.applicationService.geoCounter.toString();
+    this.mapGeneralService.createOrUpdateLocationTemp(locationPoint, idTemp);
   };
 
-  public deleteLocationPointTemp = () => {
-    const locationId: string = 'temp';
+  public deleteLocationPointTemp = (locationId) => {
     this.mapGeneralService.deleteLocationPointTemp(locationId);
     this.locationPoint$.next({longitude: undefined, latitude: undefined});
   };

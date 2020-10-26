@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {COMMENT} from '../../../../../../../classes/typings/all.typings';
-import {ApplicationService} from "../../../services/applicationService/application.service";
+import {ApplicationService} from '../../../services/applicationService/application.service';
 
 @Component({
   selector: 'app-comments-panel',

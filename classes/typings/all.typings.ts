@@ -302,6 +302,7 @@ export enum GEOGRAPHIC_INSTRUCTION_TYPE {
 }
 
 export type GEOGRAPHIC_INSTRUCTION = {
+    idTemp: string,
     type: GEOGRAPHIC_INSTRUCTION_TYPE,
     location: GEOPOINT3D,
     description: string,

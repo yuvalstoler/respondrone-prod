@@ -7,7 +7,7 @@ table {
 }
 
 .table-scroll {
-  max-height: calc(100vh - #{$headerHeight} - 120px);
+  max-height: calc(100vh - #{$headerHeight} - 100px);
   overflow: auto;
 }
 
@@ -63,11 +63,17 @@ tr.example-element-row:not(.example-expanded-row):active {
   border-bottom-width: 0;
 }
 
-.example-element-detail {
+.example-element-detail-event {
   overflow: hidden;
   display: grid;
   grid-template-columns: 35% auto;
   max-height: 20em;
+}
+.example-element-detail-report {
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 35% auto;
+  max-height: 22em;
 }
 //descriptions
 .example-element-detail-tasks {
@@ -86,12 +92,13 @@ tr.example-element-row:not(.example-expanded-row):active {
   }
 
  ::ng-deep .mat-expansion-panel-body {
-    padding: 0 0px 16px 5px;
+   padding: 0 0px 0px 5px;
   }
 }
 .description-content{
   overflow: auto;
   max-height: 4.5em;
+  font-size: $fontSizeText;
 }
 // comments
 .example-element-comments {

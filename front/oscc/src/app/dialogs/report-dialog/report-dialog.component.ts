@@ -57,7 +57,7 @@ export class ReportDialogComponent {
     [LOCATION_NAMES.address]: LOCATION_TYPE.address,
     [LOCATION_NAMES.locationPoint]: LOCATION_TYPE.locationPoint,
     [LOCATION_NAMES.polygon]: LOCATION_TYPE.polygon,
-  }
+  };
 
   constructor(public applicationService: ApplicationService,
               public locationService: LocationService,
@@ -99,13 +99,13 @@ export class ReportDialogComponent {
       this.reportModel.locationType = LOCATION_TYPE.none;
       this.reportModel.location = {longitude: undefined, latitude: undefined};
       this.reportModel.address = '';
-      this.locationService.deleteLocationPointTemp();
+      this.locationService.deleteLocationPointTemp('0');
 
     } else if (location === LOCATION_NAMES.address) {
       this.reportModel.location = {longitude: undefined, latitude: undefined};
       this.reportModel.locationType = LOCATION_TYPE.address;
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
-      this.locationService.deleteLocationPointTemp();
+      this.locationService.deleteLocationPointTemp('0');
 
     } else if (location === LOCATION_NAMES.locationPoint) {
       this.customToasterService.info({message: 'Click on map to set the report\'s location', title: 'location'});
@@ -147,7 +147,7 @@ export class ReportDialogComponent {
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.situationPictures;
     this.reportModel = _.cloneDeep(this.defaultReport);
     this.applicationService.stateDraw = STATE_DRAW.notDraw;
-    this.locationService.deleteLocationPointTemp();
+    this.locationService.deleteLocationPointTemp('0');
   };
 
 

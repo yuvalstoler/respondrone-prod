@@ -82,6 +82,14 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   };
 
+  getSelectedTasks = (): TASK_DATA_UI[] => {
+    try {
+      return this.selection.selected;
+    } catch (e) {
+      return [];
+    }
+  };
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected = () => {
     const numSelected = this.selection.selected.length;

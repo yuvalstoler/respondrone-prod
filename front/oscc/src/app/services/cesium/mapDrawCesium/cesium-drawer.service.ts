@@ -211,7 +211,7 @@ export class CesiumDrawerService {
         height: size
       },
       label: undefined,
-    }
+    };
     if (label) {
       entityData.label = {
         text: label.text,
@@ -226,7 +226,7 @@ export class CesiumDrawerService {
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         verticalOrigin: Cesium.VerticalOrigin.TOP,
         heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
-      }
+      };
     }
 
     if (Object.keys(entityCE).length === 0) {
@@ -235,8 +235,10 @@ export class CesiumDrawerService {
       return billboard;
     }
     else {
-      for (let key in entityData) {
-        entityCE[key] = entityData[key]
+      for (const key in entityData) {
+        if (entityData.hasOwnProperty(key)) {
+          entityCE[key] = entityData[key];
+        }
       }
       return entityCE;
     }
@@ -295,14 +297,14 @@ export class CesiumDrawerService {
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
     for (const mapDomId in mapsCE) {
       if (mapsCE.hasOwnProperty(mapDomId)) {
-        if (this.tempPolygon === undefined) {
+        if (this.tempPolygon === undefined || this.tempPolygon !== idPolygon) {
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE] =
             this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE] || {};
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon] =
             this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon] || {};
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon] =
             this.createPolygonManuallyEntity(mapDomId, mapsCE[mapDomId], positions, color);
-          this.tempPolygon = this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon];
+          this.tempPolygon = idPolygon;
           res = true;
         } else {
           this.updatePolygonManually(mapDomId, positions, idPolygon, color);
@@ -374,14 +376,16 @@ export class CesiumDrawerService {
         outline: true,
         outlineColor: Cesium.Color.YELLOW
       }
-    }
+    };
     if (Object.keys(entityCE).length === 0) {
       const polygon = this.cesiumService.cesiumViewer[mapDomId].entities.add(entityData);
       this.cesiumService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
       return polygon;
     } else {
-      for (let key in entityData) {
-        entityCE[key] = entityData[key]
+      for (const key in entityData) {
+        if (entityData.hasOwnProperty(key)) {
+          entityCE[key] = entityData[key];
+        }
       }
       return entityCE;
     }
@@ -484,7 +488,142 @@ export class CesiumDrawerService {
     return res;
   };
 
+  // ==================POLYLINE==========================================================================================
+  public createPolylineFromServer = (domId: string, points: POINT[], id: string) => {
+    let res = false;
+    const position = [];
+    points.forEach(point => {
+      position.push([point[0], point[1]]);
+    });
+    const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        // Create Polyline
+        this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE] =
+          this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE] || {};
+        this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][id] =
+          this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][id] || {};
+        this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][id] =
+          this.createPolyline(mapDomId, mapsCE[mapDomId], position);
 
+        if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][id]) {
+          res = true;
+        }
+      }
+    }
+    return res;
+  };
+
+  private createPolyline = (mapDomId: string, mapCE: any, taskPolyline: Array<any>) => {
+    const positions = this.arrayPointsToCartesian3(taskPolyline);
+    return this.cesiumService.cesiumViewer[mapDomId].entities.add({
+      name: 'Polyline',
+      polyline: {
+        positions: positions,
+        width: 4,
+        material: this.rgbaToCesiumColor(this.cesiumService.colors.notSelected)
+      }
+    });
+  };
+
+  public deletePolylineFromMap = (domId: string, idPolyline: string): boolean => {
+    let res = false;
+    const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        if (this.cesiumService.cesiumMapObjects.hasOwnProperty(mapDomId) && this.cesiumService.cesiumMapObjects[mapDomId] !== undefined) {
+          // polyline
+          if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.polylineCE)) {
+            if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE].hasOwnProperty(idPolyline) &&
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][idPolyline] !== {}) {
+              this.cesiumService.removeItemCEFromMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][idPolyline]);
+              delete this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][idPolyline];
+              res = true;
+            }
+          }
+          // //  label
+          // if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.labelPolygonCE)) {
+          //   if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.labelPolygonCE].hasOwnProperty(idPolyline) &&
+          //     this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.labelPolygonCE][idPolyline] !== {}) {
+          //     this.cesiumService.removeItemCEFromMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.labelPolygonCE][idPolyline]);
+          //     delete this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.labelPolygonCE][idPolyline];
+          //     res = true;
+          //   }
+          // }
+        }
+      }
+    }
+    return res;
+  };
+
+  // ==================ARROW POLYLINE==========================================================================================
+  public createArrowPolylineFromServer = (domId: string, points: POINT[], id: string) => {
+    let res = false;
+    const position = [];
+    points.forEach(point => {
+      position.push([point[0], point[1]]);
+    });
+    const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        // Create Polyline
+        this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE] =
+          this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE] || {};
+        this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE][id] =
+          this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE][id] || {};
+        this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE][id] =
+          this.createArrowPolyline(mapDomId, mapsCE[mapDomId], position);
+
+        if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE][id]) {
+          res = true;
+        }
+      }
+    }
+    return res;
+  };
+
+  private createArrowPolyline = (mapDomId: string, mapCE: any, taskPolyline: Array<any>) => {
+    const positions = this.arrayPointsToCartesian3(taskPolyline);
+    return this.cesiumService.cesiumViewer[mapDomId].entities.add({
+      name: 'Polyline',
+      polyline: {
+        positions: positions,
+        width: 8,
+        followSurface : false,
+        material: new Cesium.PolylineArrowMaterialProperty(Cesium.Color.LIGHTBLUE)
+      }
+    });
+  };
+
+  public deleteArrowPolylineFromMap = (domId: string, idPolyline: string): boolean => {
+    let res = false;
+    const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        if (this.cesiumService.cesiumMapObjects.hasOwnProperty(mapDomId) && this.cesiumService.cesiumMapObjects[mapDomId] !== undefined) {
+          // polyline
+          if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.arrowPolylineCE)) {
+            if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE].hasOwnProperty(idPolyline) &&
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE][idPolyline] !== {}) {
+              this.cesiumService.removeItemCEFromMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE][idPolyline]);
+              delete this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE][idPolyline];
+              res = true;
+            }
+          }
+          // //  label
+          // if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.labelPolygonCE)) {
+          //   if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.labelPolygonCE].hasOwnProperty(idPolyline) &&
+          //     this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.labelPolygonCE][idPolyline] !== {}) {
+          //     this.cesiumService.removeItemCEFromMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.labelPolygonCE][idPolyline]);
+          //     delete this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.labelPolygonCE][idPolyline];
+          //     res = true;
+          //   }
+          // }
+        }
+      }
+    }
+    return res;
+  };
   // ====================== Callback   =================================================================================
 
   public cesiumServiceSetCallbackProperty = (property): any => {

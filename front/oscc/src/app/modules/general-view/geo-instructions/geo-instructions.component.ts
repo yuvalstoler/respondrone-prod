@@ -12,6 +12,8 @@ import {ApplicationService} from '../../../services/applicationService/applicati
 import {CustomToasterService} from '../../../services/toasterService/custom-toaster.service';
 import {LocationService} from '../../../services/locationService/location.service';
 import {PolygonService} from '../../../services/polygonService/polygon.service';
+import {ArrowService} from '../../../services/arrowService/arrow.service';
+import {PolylineService} from '../../../services/polylineService/polyline.service';
 
 @Component({
   selector: 'app-geo-instructions',
@@ -29,6 +31,7 @@ export class GeoInstructionsComponent implements OnInit {
   geographicInstructionsModel: GEOGRAPHIC_INSTRUCTION [] = [];
   icon: string;
   defaultModel: GEOGRAPHIC_INSTRUCTION = {
+    idTemp: undefined,
     type: undefined,
     description: '',
     location: {longitude: undefined, latitude: undefined},
@@ -36,12 +39,15 @@ export class GeoInstructionsComponent implements OnInit {
     address: '',
     polygon: []
   };
+  isSave: boolean = false;
 
 
   constructor(public applicationService: ApplicationService,
               public customToasterService: CustomToasterService,
               public locationService: LocationService,
-              public polygonService: PolygonService) {
+              public polygonService: PolygonService,
+              public arrowService: ArrowService,
+              public polylineService: PolylineService) {
     this.geoInstructionModel =  _.cloneDeep(this.defaultModel);
     // add location on panel
     this.locationService.locationPoint$.subscribe(latlon => {
@@ -66,6 +72,7 @@ export class GeoInstructionsComponent implements OnInit {
 
   setSelectedInstruction = (item: GEOGRAPHIC_INSTRUCTION_TYPE) => {
     this.selectedGeoInstruction = item;
+    this.isSave = true;
     switch (item) {
       case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
         this.applicationService.stateDraw = STATE_DRAW.drawArrow;
@@ -92,9 +99,12 @@ export class GeoInstructionsComponent implements OnInit {
   };
 
   saveInstruction = (type: GEOGRAPHIC_INSTRUCTION_TYPE) => {
+    this.isSave = false;
     this.geoInstructionModel.type = type;
     this.geoInstructionModel.styles.icon = this.setIcon(type);
+    this.geoInstructionModel.idTemp = this.applicationService.geoCounter.toString();
     this.geographicInstructionsModel.push(this.geoInstructionModel);
+    this.applicationService.geoCounter = this.geographicInstructionsModel.length;
 
     this.selectedGeoInstruction = undefined;
     this.geoInstructionModel = _.cloneDeep(this.defaultModel);
@@ -126,49 +136,25 @@ export class GeoInstructionsComponent implements OnInit {
 
   removeGeoInstruction = (event, index: number) => {
     event.stopPropagation();
-    // todo: delete cesium from map
+    const geoInstruction = this.geographicInstructionsModel[index];
+      switch (geoInstruction.type) {
+        case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
+          this.arrowService.deleteArrowPolylineManually(geoInstruction.idTemp);
+          break;
+        case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+          break;
+        case GEOGRAPHIC_INSTRUCTION_TYPE.point:
+         this.locationService.deleteLocationPointTemp(geoInstruction.idTemp);
+          break;
+        case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
+         this.polygonService.deletePolygonManually(geoInstruction.idTemp);
+          break;
+        case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
+         this.polylineService.deletePolylineManually(geoInstruction.idTemp);
+          break;
+      }
     this.geographicInstructionsModel.splice(index, 1);
   };
-
-  // onChangeLocation = (event, location: string) => {
-  //   if (location === LOCATION_NAMES.noLocation) {
-  //     this.eventModel.location = {longitude: undefined, latitude: undefined};
-  //     this.eventModel.address = '';
-  //     this.eventModel.polygon = [];
-  //     this.locationService.deleteLocationPointTemp();
-  //     this.polygonService.deletePolygonManually();
-  //
-  //   }
-  //   else if (location === LOCATION_NAMES.address) {
-  //     this.eventModel.location = {longitude: undefined, latitude: undefined};
-  //     this.eventModel.polygon = [];
-  //     this.locationService.deleteLocationPointTemp();
-  //     this.polygonService.deletePolygonManually();
-  //
-  //   }
-  //   else if (location === LOCATION_NAMES.locationPoint) {
-  //     // toaster
-  //     this.customToasterService.info({message: 'Click on map to set the event\'s location', title: 'location'});
-  //     this.eventModel.address = '';
-  //     this.eventModel.polygon = [];
-  //     this.eventModel.locationType = LOCATION_TYPE.locationPoint;
-  //     this.polygonService.deletePolygonManually();
-  //
-  //     if (this.eventModel.location.latitude === undefined && this.eventModel.location.longitude === undefined) {
-  //       this.eventModel.locationType = LOCATION_TYPE.locationPoint;
-  //       this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
-  //     }
-  //
-  //   }
-  //   else if (location === LOCATION_NAMES.polygon) {
-  //     // toaster
-  //     this.customToasterService.info(
-  //       {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
-  //     this.locationService.deleteLocationPointTemp();
-  //     this.eventModel.location = {longitude: undefined, latitude: undefined};
-  //     this.eventModel.address = '';
-  //   }
-  // };
 
   locationChanged = (event) => {
     if (event.target.value !== '') {

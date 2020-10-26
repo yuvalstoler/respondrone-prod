@@ -9,15 +9,15 @@
 
   <div class="HeaderRightPanel" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand">
     <div (click)="onArchiveTask()"
-         *ngIf="applicationService.selectedEvents.length > 0"
+         *ngIf="applicationService.selectedTasks.length > 0"
          class="RightSideButton pointer">Archive
     </div>
     <div (click)="onEditTask()"
-         *ngIf="applicationService.selectedEvents.length === 1"
+         *ngIf="applicationService.selectedTasks.length === 1"
          class="RightSideButton pointer">Edit
     </div>
     <div (click)="onDeleteTask()"
-         *ngIf="applicationService.selectedEvents.length > 0"
+         *ngIf="applicationService.selectedTasks.length > 0"
          class="RightSideButton pointer">Delete
     </div>
     <div (click)="onCreateNewTask()"

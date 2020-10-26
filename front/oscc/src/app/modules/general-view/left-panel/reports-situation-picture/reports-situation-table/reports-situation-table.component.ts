@@ -42,7 +42,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
   selectedElement: REPORT_DATA_UI;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
-  panelOpenState = false;
+  panelOpenState: MAP<boolean> = {};
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
 
@@ -218,10 +218,6 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
       this.reportService.createReport(report);
     }
 
-  };
-
-  private expendPanelDescription = (index: boolean) => {
-    this.panelOpenState = index;
   };
 
   onChangeComments = (comments: COMMENT[], element: EVENT_DATA_UI) => {

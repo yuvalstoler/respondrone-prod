@@ -5,10 +5,16 @@ import {TasksMissionTableComponent} from './tasks-mission-table/tasks-mission-ta
 import {ConfirmDialogComponent} from '../../../../dialogs/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {TaskDialogComponent} from '../../../../dialogs/task-dialog/task-dialog.component';
-import {TASK_DATA_UI} from '../../../../../../../../classes/typings/all.typings';
+import {
+  GEOGRAPHIC_INSTRUCTION,
+  GEOGRAPHIC_INSTRUCTION_TYPE,
+  TASK_DATA_UI
+} from '../../../../../../../../classes/typings/all.typings';
 import {TasksService} from '../../../../services/tasksService/tasks.service';
 import {LocationService} from '../../../../services/locationService/location.service';
 import {PolygonService} from '../../../../services/polygonService/polygon.service';
+import {PolylineService} from '../../../../services/polylineService/polyline.service';
+import {ArrowService} from '../../../../services/arrowService/arrow.service';
 
 @Component({
   selector: 'app-tasks-mission-control',
@@ -24,6 +30,8 @@ export class TasksMissionControlComponent implements OnInit {
               public tasksService: TasksService,
               public locationService: LocationService,
               public polygonService: PolygonService,
+              public polylineService: PolylineService,
+              public arrowService: ArrowService,
               public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -56,11 +64,25 @@ export class TasksMissionControlComponent implements OnInit {
         this.tasksService.createTask(result, (task: TASK_DATA_UI) => {
           // this.reportService.linkReportsToEvent(task.reportIds, task.id);
         });
-        this.locationService.deleteLocationPointTemp();
-        this.polygonService.deletePolygonManually();
-        //   todo: delete polyline manually
-        //  todo: delete arrow manually
-        console.log(result);
+        this.applicationService.geoCounter = 0;
+        this.removeGeoInstructionsFromMap(result.geographicInstructions);
+      }
+    });
+  };
+
+  removeGeoInstructionsFromMap = (geoInstructions: GEOGRAPHIC_INSTRUCTION[]) => {
+    geoInstructions.forEach(geoInstruction => {
+      if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.arrow) {
+        this.arrowService.deleteArrowPolylineManually(geoInstruction.idTemp);
+      }
+      if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.polyline) {
+        this.polylineService.deletePolylineManually(geoInstruction.idTemp);
+      }
+      if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.polygon) {
+        this.polygonService.deletePolygonManually(geoInstruction.idTemp);
+      }
+      if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.point) {
+        this.locationService.deleteLocationPointTemp(geoInstruction.idTemp);
       }
     });
   };
@@ -78,13 +100,13 @@ export class TasksMissionControlComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // const selectedEvents: EVENT_DATA_UI[] = this.childComponent.getSelectedEvents();
-        // selectedEvents.forEach((eventData: EVENT_DATA_UI, index: number) => {
-        //   setTimeout(() => {
-        //     this.reportService.unlinkReportsFromEvent(eventData.reportIds, eventData.id);
-        //     this.eventService.deleteEvent({id: eventData.id});
-        //   }, index * 500);
-        // });
+        const selectedTasks: TASK_DATA_UI[] = this.childComponent.getSelectedTasks();
+        selectedTasks.forEach((taskData: TASK_DATA_UI, index: number) => {
+          setTimeout(() => {
+            // this.reportService.unlinkReportsFromEvent(eventData.reportIds, eventData.id);
+            this.tasksService.deleteTask({id: taskData.id});
+          }, index * 500);
+        });
       }
     });
   };

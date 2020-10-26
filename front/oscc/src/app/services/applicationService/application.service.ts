@@ -18,6 +18,7 @@ export class ApplicationService {
   stateDraw: STATE_DRAW = STATE_DRAW.notDraw;
   now = Date.now();
   typesConfig = {reportTypes: [], eventTypes: [], taskTypes: []};
+  geoCounter: number = 0;
 
   constructor(private connectionService: ConnectionService) {
 

@@ -108,11 +108,12 @@ export class TaskManager {
                     res.success = data.success;
                     res.description = data.description;
                     if ( data.success ) {
-                        const task: Task = TaskManager.getTask({id: data.data.id});
+                        let task: Task = TaskManager.getTask({id: data.data.id});
                         if (task) {
                             task.setValues(data.data);
                         } else {
-                            this.tasks.push(new Task(data.data));
+                            task = new Task(data.data)
+                            this.tasks.push(task);
                         }
 
                         this.sendTaskToMobile(task);
