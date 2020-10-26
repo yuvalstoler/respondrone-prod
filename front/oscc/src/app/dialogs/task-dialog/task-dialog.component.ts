@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {
-  COMMENT,
+  COMMENT, FR_DATA_UI,
   GEOGRAPHIC_INSTRUCTION,
   GEOGRAPHIC_INSTRUCTION_TYPE,
   LOCATION_NAMES,
@@ -15,6 +15,7 @@ import * as _ from 'lodash';
 import {HEADER_BUTTONS, STATE_DRAW} from '../../../types';
 import {LocationService} from '../../services/locationService/location.service';
 import {PolygonService} from '../../services/polygonService/polygon.service';
+import {FRService} from "../../services/frService/fr.service";
 import {PolylineService} from '../../services/polylineService/polyline.service';
 import {ArrowService} from "../../services/arrowService/arrow.service";
 
@@ -59,6 +60,7 @@ export class TaskDialogComponent {
               public polylineService: PolylineService,
               public arrowService: ArrowService,
               public dialogRef: MatDialogRef<TaskDialogComponent>,
+              public frService: FRService,
               @Inject(MAT_DIALOG_DATA) public data: { title: string }) {
     this.initTaskModel();
   }
@@ -92,12 +94,12 @@ export class TaskDialogComponent {
   onUpdateAssignees = (assigneeIds: string[]) => {
     if (assigneeIds && Array.isArray(assigneeIds)) {
       this.taskModel.assigneeIds = assigneeIds;
-      // const linkedEvents = [];
-      // this.taskModel.assigneeIds.forEach((eventId: string) => {
-      //   const linkedEvent: LINKED_EVENT_DATA = this.eventService.getLinkedEvent(eventId);
-      //   linkedEvents.push(linkedEvent);
-      // });
-      // this.taskModel.assignees = linkedEvents;
+      const assignees = [];
+      this.taskModel.assigneeIds.forEach((id: string) => {
+        const assignee: FR_DATA_UI = this.frService.getFRById(id);
+        assignees.push(assignee);
+      });
+      this.taskModel.assignees = assignees;
     }
   };
 

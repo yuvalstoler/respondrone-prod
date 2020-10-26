@@ -158,48 +158,7 @@ export class Task {
             modeDefine: undefined,
             isSendToMobile: this.isSendToMobile,
 
-            assignees: [
-                {
-                    id: '111',
-                    callSign: 'string',
-                    type: FR_TYPE.paramedic,
-                    location: { latitude: 32, longitude: 34 },
-                    lastUpdated: {timestamp: 3333333},
-                    online: true,
-                    status: FR_STATUS.available,
-                    modeDefine: undefined
-                },
-                {
-                    id: '222',
-                    callSign: 'string',
-                    type: FR_TYPE.paramedic,
-                    location: { latitude: 32, longitude: 34 },
-                    lastUpdated: {timestamp: 3333333},
-                    online: true,
-                    status: FR_STATUS.available,
-                    modeDefine: undefined
-                },
-                {
-                    id: '333',
-                    callSign: 'string',
-                    type: FR_TYPE.paramedic,
-                    location: { latitude: 32, longitude: 34 },
-                    lastUpdated: {timestamp: 3333333},
-                    online: true,
-                    status: FR_STATUS.available,
-                    modeDefine: undefined
-                },
-                {
-                    id: '444',
-                    callSign: 'string',
-                    type: FR_TYPE.paramedic,
-                    location: { latitude: 32, longitude: 34 },
-                    lastUpdated: {timestamp: 3333333},
-                    online: true,
-                    status: FR_STATUS.available,
-                    modeDefine: undefined
-                }
-            ]
+            assignees: []
         };
     };
 

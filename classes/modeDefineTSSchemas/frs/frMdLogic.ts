@@ -3,7 +3,7 @@ import {
     PRIORITY,
     FR_DATA_MD,
     FR_DATA_UI,
-    TABLE_DATA_MD, FR_TYPE
+    TABLE_DATA_MD, FR_TYPE, EVENT_DATA_UI
 } from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
@@ -20,6 +20,7 @@ export class FrMdLogic implements IModeDefine {
                 icon: this.getIcon(data),
                 color: this.getColor(data),
             },
+            tableData: FrMdLogic.tableData(data)
         };
         return obj;
     }
@@ -46,6 +47,20 @@ export class FrMdLogic implements IModeDefine {
         } else if (data.type === FR_TYPE.police) {
             res = MDClass.colors.lightBlue;
         }
+        return res;
+    };
+
+    private static tableData = (data: FR_DATA_UI) => {
+        let res = {
+            id: {
+                type: 'text',
+                data: data.callSign
+            } as TABLE_DATA_MD,
+            status: {
+                type: 'text',
+                data: data.online ? 'Online' : 'Offline'
+            } as TABLE_DATA_MD
+        };
         return res;
     };
 
