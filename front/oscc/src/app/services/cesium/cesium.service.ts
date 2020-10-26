@@ -98,7 +98,8 @@ export class CesiumService {
         skyAtmosphere: false,
         homeButton: false,
         skyBox: false,
-        // requestRenderMode: true
+        requestRenderMode: true,
+        maximumRenderTime: Infinity,
       }
     );
 
@@ -116,6 +117,10 @@ export class CesiumService {
       destination: Cesium.Cartesian3.fromDegrees(34.895, 32.423, 5000.0),
       duration: 2,
     });
+
+    setInterval(() => {
+      cesiumViewer.scene.requestRender();
+    }, 100);
   };
 
   public getMapByDomId = (domId): MAP<any> => {

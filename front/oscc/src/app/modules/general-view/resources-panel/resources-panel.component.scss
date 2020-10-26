@@ -1,0 +1,26 @@
+.item {
+  display: grid;
+  grid-template-columns: 3em auto 3em;
+
+  padding: 2px;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+
+  .middle {
+    .title {
+      grid-row: 1;
+      grid-column: 1;
+      margin: auto;
+    }
+
+    .info {
+      display: grid;
+      grid-template-columns: auto auto auto;
+    }
+  }
+}
+
+.icon {
+  height: 3em;
+  width: 3em;
+}

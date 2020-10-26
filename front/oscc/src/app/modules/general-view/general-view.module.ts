@@ -39,6 +39,7 @@ import {MatSortModule} from '@angular/material/sort';
 import { LinkedEventsTableComponent } from './linked-events-table/linked-events-table.component';
 import { CommentsPanelComponent } from './comments-panel/comments-panel.component';
 import {CustomDatePipe} from '../../pipes/custom.datepipe';
+import {LastSeenDatePipe} from '../../pipes/lastSeen.datepipe';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {ReportMediaComponent} from './report-media/report-media.component';
 import { TasksMissionControlComponent } from './left-panel/tasks-mission-control/tasks-mission-control.component';
@@ -47,6 +48,7 @@ import { TasksMissionTableComponent } from './left-panel/tasks-mission-control/t
 import { TaskAssigneeTableComponent } from './task-assignee-table/task-assignee-table.component';
 import { GeoInstructionsComponent } from './geo-instructions/geo-instructions.component';
 import {MatMenuModule} from '@angular/material/menu';
+import { ResourcesPanelComponent } from './resources-panel/resources-panel.component';
 
 
 
@@ -65,11 +67,13 @@ import {MatMenuModule} from '@angular/material/menu';
     LinkedEventsTableComponent,
     CommentsPanelComponent,
     CustomDatePipe,
+    LastSeenDatePipe,
     TasksMissionControlComponent,
     MissionsMissionControlComponent,
     TasksMissionTableComponent,
     TaskAssigneeTableComponent,
     GeoInstructionsComponent,
+    ResourcesPanelComponent,
   ],
   imports: [
     CommonModule,
@@ -97,25 +101,27 @@ import {MatMenuModule} from '@angular/material/menu';
     AngularCesiumModule.forRoot(),
     AngularCesiumWidgetsModule,
   ],
-  exports: [
-    HeaderPanelComponent,
-    MapComponent,
-    LeftPanelComponent,
-    EventsSituationPictureComponent,
-    ReportsSituationPictureComponent,
-    EventsSituationTableComponent,
-    LinkedReportsTableComponent,
-    LinkedEventsTableComponent,
-    ReportMediaComponent,
-    ViewMediaComponent,
-    ReportsSituationTableComponent,
-    CustomDatePipe,
-    CommentsPanelComponent,
-    TasksMissionControlComponent,
-    MissionsMissionControlComponent,
-    TaskAssigneeTableComponent,
-    GeoInstructionsComponent
-  ],
+    exports: [
+        HeaderPanelComponent,
+        MapComponent,
+        LeftPanelComponent,
+        EventsSituationPictureComponent,
+        ReportsSituationPictureComponent,
+        EventsSituationTableComponent,
+        LinkedReportsTableComponent,
+        LinkedEventsTableComponent,
+        ReportMediaComponent,
+        ViewMediaComponent,
+        ReportsSituationTableComponent,
+        CustomDatePipe,
+        LastSeenDatePipe,
+        CommentsPanelComponent,
+        TasksMissionControlComponent,
+        MissionsMissionControlComponent,
+        TaskAssigneeTableComponent,
+        GeoInstructionsComponent,
+        ResourcesPanelComponent
+    ],
   providers: [
     PolygonsEditorService,
     ViewerConfiguration

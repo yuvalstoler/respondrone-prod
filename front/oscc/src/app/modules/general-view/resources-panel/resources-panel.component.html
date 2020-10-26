@@ -1,0 +1,18 @@
+<div *ngFor="let fr of frService.frs.data">
+  <div class="item">
+    <div>
+      <img class='icon' [src]="fr.modeDefine?.styles?.icon">
+    </div>
+    <div class="middle">
+      <div class="title">{{fr.callSign}}</div>
+      <div class="info">
+        <div>{{fr.type}}</div>
+        <div>{{fr.lastUpdated.timestamp | lastSeenDate: applicationService.now }}</div>
+        <div>{{fr.online ? 'Online' : 'Offline'}}</div>
+      </div>
+    </div>
+    <div>
+      <mat-icon>more_vert</mat-icon>
+    </div>
+  </div>
+</div>
