@@ -51,3 +51,14 @@
   //position: relative;
   overflow: hidden;
 }
+
+.resourcesPanel {
+  width: calc(20vw);
+  height: calc(40vh) !important;
+  top: 70px;
+  color: $darkGray;
+  z-index: 2;
+  background: $lightGray;
+  position: absolute;
+  right: 0;
+}

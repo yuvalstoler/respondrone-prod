@@ -17,6 +17,7 @@ export class FrManager {
     // reports: Report[] = [];
 
     private constructor() {
+        const date = Date.now();
         const test: FR_DATA_TELEMETRY = {
             "timestamp": {
                 "timestamp": 0
@@ -32,7 +33,7 @@ export class FrManager {
                         "altitude": 0
                     },
                     "lastUpdated": {
-                        "timestamp": 0
+                        "timestamp": date
                     },
                     "online": true,
                     "status": FR_STATUS.busy
@@ -47,7 +48,7 @@ export class FrManager {
                         "altitude": 0
                     },
                     "lastUpdated": {
-                        "timestamp": 0
+                        "timestamp": date
                     },
                     "online": false,
                     "status": FR_STATUS.busy
