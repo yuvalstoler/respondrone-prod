@@ -27,8 +27,15 @@ export class ApiManager implements IRest {
 
     routers = {
         '/data': (request, response) => {
-            const data = SocketManager.getData()
-            response.json(data);
+            const data = SocketManager.getData();
+            data.connectionMessages.length = Math.min(data.connectionMessages.length, 50);
+            let str = 'Current data:\n' + JSON.stringify(data.str);
+
+            str += '\n\n\nConnection messages:';
+            data.connectionMessages.forEach((item) => {
+                str += '\n' + item;
+            });
+            response.end(str);
         }
     };
 

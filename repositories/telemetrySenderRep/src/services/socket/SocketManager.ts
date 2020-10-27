@@ -45,27 +45,27 @@ export class SocketManager {
 
         this.webSocketServer.on('connection', (ws: WebSocket) => {
             console.log(Date.now(), 'server | Socket connected',);
-            this.errors.push(Date.now() + 'server | Socket connected');
+            this.connectionMessages.unshift(new Date().toISOString() + ' server | socket client connected');
 
             ws.on('message', (message) => {
             });
             ws.on('error', (err) => {
                 console.log('server | socket error', err);
-                this.errors.push(Date.now() + 'server | socket error');
+                this.connectionMessages.unshift(new Date().toISOString() + ' server | socket error');
             });
             ws.on('close', (err) => {
                 console.log('server | socket disconnected', err);
-                this.errors.push(Date.now() + 'server | socket disconnected');
+                this.connectionMessages.unshift(new Date().toISOString() + ' server | socket disconnected');
             })
         });
 
         this.webSocketServer.on('error',  (err) => {
             console.log("server | WS error", err);
-            this.errors.push(Date.now() + 'server | WS error');
+            this.connectionMessages.unshift(new Date().toISOString() + ' server | WS error');
         });
         this.webSocketServer.on('close', (err) => {
             console.log("server | WS closed", err);
-            this.errors.push(Date.now() + 'server | WS closed');
+            this.connectionMessages.unshift(new Date().toISOString() + ' server | WS closed');
             setTimeout(() => {
                 this.startWebsocketServer(server);
             }, 1000);
@@ -78,7 +78,7 @@ export class SocketManager {
 
         this.webSocketClient.on('open', () => {
             console.log('client | connected');
-            this.errors.push(Date.now() + 'client | connected' + telemetryServerSocketUrl);
+            this.connectionMessages.unshift(new Date().toISOString() + ' client | connected to ' + telemetryServerSocketUrl);
         });
 
         this.webSocketClient.on('message', (message) => {
@@ -88,12 +88,12 @@ export class SocketManager {
 
         this.webSocketClient.on('error',  (err) => {
             console.log('client | error', err);
-            this.errors.push('client | error' + telemetryServerSocketUrl);
+            this.connectionMessages.unshift(new Date().toISOString() + ' client | error ' + telemetryServerSocketUrl);
         });
 
         this.webSocketClient.on('close',  (err) => {
             console.log('client | disconnected', err);
-            this.errors.push('client | disconnected' + telemetryServerSocketUrl);
+            this.connectionMessages.unshift(new Date().toISOString() + ' client | disconnected ' + telemetryServerSocketUrl);
             setTimeout(() => {
                 this.startWebsocketClient();
             }, 1000);
@@ -122,11 +122,11 @@ export class SocketManager {
         DbManager.saveLog(obj); // TODO: external service?
     };
     // ---------------------------
-    errors = [];
+    connectionMessages = [];
     getData = () => {
         return {
             str: this.telemetryStr,
-            errors: this.errors
+            connectionMessages: this.connectionMessages,
         }
     }
 
