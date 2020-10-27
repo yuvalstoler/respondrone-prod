@@ -41,6 +41,9 @@ import { EventDialogComponent } from './dialogs/event-dialog/event-dialog.compon
 import { ReportDialogComponent } from './dialogs/report-dialog/report-dialog.component';
 import { TaskDialogComponent } from './dialogs/task-dialog/task-dialog.component';
 import {MatMenuModule} from '@angular/material/menu';
+import {TaskAssigneesDialogComponent} from "./dialogs/task-assignees-dialog/task-assignees-dialog.component";
+import {TaskAssigneesTableComponent} from "./dialogs/task-assignees-dialog/task-assignees-table/task-assignees-table.component";
+import {TaskAssigneesContainerComponent} from "./dialogs/task-assignees-dialog/task-assignees-container/task-assignees-container.component";
 
 const config: SocketIoConfig = SOCKET_CONFIG;
 
@@ -66,7 +69,10 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     LinkedEventTableComponent,
     EventDialogComponent,
     ReportDialogComponent,
-    TaskDialogComponent
+    TaskDialogComponent,
+    TaskAssigneesDialogComponent,
+    TaskAssigneesTableComponent,
+    TaskAssigneesContainerComponent,
   ],
   imports: [
     BrowserModule,
@@ -108,7 +114,8 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     LinkedEventDialogComponent,
     EventDialogComponent,
     ReportDialogComponent,
-    TaskDialogComponent
+    TaskDialogComponent,
+    TaskAssigneesDialogComponent
   ]
 })
 export class AppModule {

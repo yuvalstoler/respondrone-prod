@@ -20,7 +20,7 @@ import {MapGeneralService} from '../mapGeneral/map-general.service';
 export class FRService {
 
   frs: {data: FR_DATA_UI[]} = {data: []};
-  // events$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  frs$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private connectionService: ConnectionService,
               private socketService: SocketService,
@@ -35,7 +35,7 @@ export class FRService {
     if (Array.isArray(data)) {
       this.removeIfNotExist(data);
       this.updateData(data);
-      // this.events$.next(true);
+      this.frs$.next(true);
     }
   };
   // ----------------------

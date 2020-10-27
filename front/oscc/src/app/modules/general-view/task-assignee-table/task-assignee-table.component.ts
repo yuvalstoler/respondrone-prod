@@ -10,6 +10,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {ApplicationService} from '../../../services/applicationService/application.service';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import {TaskAssigneesDialogComponent} from "../../../dialogs/task-assignees-dialog/task-assignees-dialog.component";
+import {FRService} from "../../../services/frService/fr.service";
 
 @Component({
   selector: 'app-task-assignee-table',
@@ -27,7 +29,7 @@ export class TaskAssigneeTableComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
               public applicationService: ApplicationService,
-              public tasksService: TasksService) { }
+              public frService: FRService) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.element.assignees);
@@ -51,25 +53,25 @@ export class TaskAssigneeTableComponent implements OnInit {
   };
 
   onAddAssignee = () => {
-    if (this.tasksService.tasks.data.length > 0) {
+    if (this.frService.frs.data.length > 0) {
       this.openAddAssigneeDialog();
     }
 
   };
 
   openAddAssigneeDialog = (): void => {
-    // const dialogRef = this.dialog.open(LinkedReportDialogComponent, {
-    //   width: '700px',
-    //   disableClose: true,
-    //   data: this.element.reportIds
-    // });
-    //
-    // dialogRef.afterClosed().subscribe((result: string[]) => {
-    //   if (result && Array.isArray(result)) {
-    //     const allLinked = [...this.element.reportIds, ...result];
-    //     this.updateLinkedReports.emit(allLinked);
-    //   }
-    // });
+    const dialogRef = this.dialog.open(TaskAssigneesDialogComponent, {
+      width: '700px',
+      disableClose: true,
+      data: this.element.assigneeIds
+    });
+
+    dialogRef.afterClosed().subscribe((result: string[]) => {
+      if (result && Array.isArray(result)) {
+        const allLinked = [...this.element.assigneeIds, ...result];
+        this.updateAssignees.emit(allLinked);
+      }
+    });
   };
 
 

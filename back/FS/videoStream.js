@@ -38,7 +38,7 @@ class Server
     }
 
     routes() {
-        this.app.use('/', (request, response) => {
+        this.app.use('/api/file', (request, response) => {
             // We will only accept 'GET' method. Otherwise will return 405 'Method Not Allowed'.
             if (request.method !== 'GET') {
                 this.sendResponse(response, 405, {'Allow': 'GET'}, null);

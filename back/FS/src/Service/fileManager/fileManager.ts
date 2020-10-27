@@ -127,7 +127,7 @@ export class FileManager {
                             res.data = {
                                 id: id,
                                 type: MEDIA_TYPE.video,
-                                url: `/${id}`,
+                                url: `/api/file/${id}`,
                                 thumbnail: `/api/file/${thumbnailName}`,
 
                                 fullUrl: `${url_VideoStreamService}/${id}`,

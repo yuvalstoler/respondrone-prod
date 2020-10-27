@@ -2,24 +2,24 @@
   <div class="AssigneesHeader">
     <span class="DialogTitle">Task assignee</span>
     <span (click)="onAddAssignee()"
-          [ngStyle]="{'color': (tasksService.tasks.data.length <= 0) ? 'lightgray': '',
-                      'border-bottom': (tasksService.tasks.data.length <= 0) ? 'none' : ''}"
+          [ngStyle]="{'color': (frService.frs.data.length <= 0) ? 'lightgray': '',
+                      'border-bottom': (frService.frs.data.length <= 0) ? 'none' : ''}"
           class="DialogAssignee pointer">Add assignee</span>
   </div>
-  <div *ngIf="tasksService?.tasks?.data?.length <= 0" class="DialogNotElement">
+  <div *ngIf="frService?.frs?.data?.length <= 0" class="DialogNotElement">
     No Assignees
   </div>
   <div *ngIf="element?.assignees?.length <= 0" class="DialogNotElement">
     Add assignees by clicking on the “Add assignee” button.
   </div>
   <div class="tableScroll scroll">
-    <table *ngIf="tasksService?.tasks?.data?.length > 0 && element?.assignees?.length > 0"
+    <table *ngIf="frService?.frs?.data?.length > 0 && element?.assignees?.length > 0"
            [dataSource]="element.assignees" class="mat-elevation-z8" mat-table matSort>
 
       <!-- ID Column -->
       <ng-container matColumnDef="ID">
         <th *matHeaderCellDef mat-header-cell mat-sort-header>ID</th>
-        <td *matCellDef="let row" mat-cell>{{row.id}}</td>
+        <td *matCellDef="let row" mat-cell>{{row.modeDefine?.tableData?.id?.data}}</td>
       </ng-container>
 
       <!-- Type Column -->
@@ -31,7 +31,7 @@
       <!-- Status Column -->
       <ng-container matColumnDef="Status">
         <th *matHeaderCellDef mat-header-cell mat-sort-header>Status</th>
-        <td *matCellDef="let row" mat-cell>{{row.status}}</td>
+        <td *matCellDef="let row" mat-cell>{{row.modeDefine?.tableData?.status?.data}}</td>
       </ng-container>
 
       <!--Delete Row-->

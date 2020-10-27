@@ -1,0 +1,68 @@
+<div>
+  <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort multiTemplateDataRows>
+    <ng-container *ngFor="let column of displayedColumns;
+    let i = index" matColumnDef="{{column}}">
+      <!--Rows-->
+      <span *ngIf="column !== 'select'">
+        <th *matHeaderCellDef [disabled]="isSortingDisabled(column)" mat-header-cell mat-sort-header>
+          <span class="capitalize">{{column}}</span>
+          <!--<mat-icon *ngIf="column === 'message'" class="HPRightSideIcon">comment</mat-icon>-->
+          <!--<mat-icon *ngIf="column === 'link'" class="HPRightSideIcon">link</mat-icon>-->
+          <!--<mat-icon *ngIf="column === 'map'" class="HPRightSideIcon">location_on</mat-icon>-->
+          <!--<mat-icon *ngIf="column === 'attachment'" class="HPRightSideIcon">attach_file</mat-icon>-->
+        </th>
+        <td *matCellDef="let element" mat-cell>
+          <span *ngIf="element.modeDefine?.tableData[column]">
+            <mat-icon class="HPRightSideIcon"
+                      *ngIf="element.modeDefine?.tableData[column]?.type === 'matIcon'"
+                      [ngStyle]="{'color': element.modeDefine?.tableData[column]?.color}">
+               {{element.modeDefine?.tableData[column]?.data}}
+             </mat-icon>
+            <img class="tableImage"
+                 *ngIf="element.modeDefine?.tableData[column]?.type === 'image'"
+                 [src]="element.modeDefine?.tableData[column]?.data">
+            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'">
+               {{element.modeDefine?.tableData[column]?.data}}
+            </span>
+            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'date'">
+               {{element.modeDefine?.tableData[column]?.data | customDate: applicationService.now}}
+            </span>
+          </span>
+          <span *ngIf="!element.modeDefine?.tableData[column]">
+            {{element[column]}}
+          </span>
+        </td>
+      </span>
+      <!--Checkbox-->
+      <span *ngIf="column === 'select'">
+      <th *matHeaderCellDef mat-header-cell>
+        <mat-checkbox (change)="onChangeAllSelected($event)"
+                      [aria-label]="checkboxLabel()"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </th>
+        <td *matCellDef="let row" mat-cell>
+        <mat-checkbox (change)="onChangeCheckbox($event, row)"
+                      (click)="$event.stopPropagation()"
+                      [aria-label]="checkboxLabel(row)"
+                      [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+      </td>
+      </span>
+    </ng-container>
+
+
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr (click)="selectRow(row)" *matRowDef="let row; columns: displayedColumns;"
+        class="example-element-row"
+        mat-row>
+      <!--[class.selected]="applicationService.selectedReport === row"-->
+      <!--&lt;&ndash;&gt; [ngStyle]="{'background-color': (selectedData === row)? '#7f7f7f' : '' }"-->
+    </tr>
+    <!--<tr *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row" mat-row></tr>-->
+  </table>
+
+  <!--[class.example-expanded-row]="expandedElement[row.id] === row"-->
+
+</div>

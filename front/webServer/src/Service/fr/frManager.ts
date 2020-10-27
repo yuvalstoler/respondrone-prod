@@ -60,7 +60,7 @@ export class FrManager {
         const res: FR_DATA_UI[] = [];
         this.frs.forEach((user: FR) => {
             const userDataUI: FR_DATA_UI = user.toJsonForUI();
-            userDataUI.modeDefine = FrMdLogic.validate(userDataUI);
+            userDataUI.modeDefine = user.modeDefine = FrMdLogic.validate(userDataUI);
 
             res.push(userDataUI);
         });

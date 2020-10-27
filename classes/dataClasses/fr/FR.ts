@@ -2,7 +2,7 @@ import {
     FR_STATUS,
     EVENT_DATA,
     GEOPOINT3D, FR_DATA, FR_DATA_UI, FR_TYPE,
-    ID_TYPE, TIMESTAMP,
+    ID_TYPE, TIMESTAMP, FR_DATA_MD,
 } from '../../typings/all.typings';
 import {DataUtility} from '../../applicationClasses/utility/dataUtility';
 
@@ -15,6 +15,7 @@ export class FR {
     lastUpdated: TIMESTAMP;
     online: boolean;
     status: FR_STATUS;
+    modeDefine: FR_DATA_MD;
 
 
     constructor(data: FR_DATA) {
@@ -98,7 +99,7 @@ export class FR {
             lastUpdated: this.lastUpdated,
             online: this.online,
             status: this.status,
-            modeDefine: undefined,
+            modeDefine: this.modeDefine,
         };
     };
 

@@ -248,6 +248,10 @@ export type FR_DATA_MD = {
     styles: {
         icon: string,
         color: string
+    },
+    tableData: {
+        id: TABLE_DATA_MD,
+        status: TABLE_DATA_MD,
     }
 }
 
