@@ -6,10 +6,12 @@
         <span class="material-icons">close</span>
       </button>
     </div>
-    <div *ngIf="applicationService?.selectedViewMedia?.type === MEDIA_TYPE.image" mat-dialog-content>
+    <!--Image-->
+    <div *ngIf="applicationService?.selectedViewMedia?.type === MEDIA_TYPE.image" >
       <img [src]="applicationService?.selectedViewMedia?.fullUrl" class="media">
     </div>
-    <div *ngIf="applicationService?.selectedViewMedia?.type === MEDIA_TYPE.video" mat-dialog-content>
+    <!--Video-->
+    <div *ngIf="applicationService?.selectedViewMedia?.type === MEDIA_TYPE.video" >
       <!--<video controls [src]="applicationService?.selectedViewMedia?.url" class="media"></video>-->
       <div id="video-container">
         <video #videoPlayer autoplay="false" class="media" controls="controls">
