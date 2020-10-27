@@ -1,6 +1,6 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {Component, OnInit} from '@angular/core';
 import {FILE_FS_DATA, MEDIA_TYPE} from '../../../../../../../classes/typings/all.typings';
+import {ApplicationService} from '../../../services/applicationService/application.service';
 
 @Component({
   selector: 'app-view-media',
@@ -13,13 +13,14 @@ import {FILE_FS_DATA, MEDIA_TYPE} from '../../../../../../../classes/typings/all
 export class ViewMediaComponent implements OnInit {
 
   MEDIA_TYPE = MEDIA_TYPE;
+  data: FILE_FS_DATA;
 
-  constructor(
-    public dialogRef: MatDialogRef<ViewMediaComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: FILE_FS_DATA) {}
+  constructor( public applicationService: ApplicationService ) {
+    // this.data = this.applicationService.selectedViewMedia;
+  }
 
   onClose(): void {
-    this.dialogRef.close();
+   this.applicationService.screen.showViewMedia = false;
   }
 
   ngOnInit(): void {

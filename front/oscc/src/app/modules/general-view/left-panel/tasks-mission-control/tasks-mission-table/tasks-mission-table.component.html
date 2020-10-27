@@ -71,7 +71,10 @@
           <!--Description & Comments-->
           <div class="example-element-description">
             <mat-accordion>
-              <mat-expansion-panel [expanded]="panelOpenState" (opened)="expendPanelDescription(true)">
+              <mat-expansion-panel
+                [expanded]="panelOpenState[element.id]"
+                (opened)="panelOpenState[element.id] = true;"
+                (closed)="panelOpenState[element.id] = false;">
                 <mat-expansion-panel-header>
                   <div class="expendTitle">
                     Description
@@ -84,14 +87,14 @@
             <div class="example-element-comments">
               <app-comments-panel [comments]="element.comments"
                                   (changeComments)="onChangeComments($event, element)"
-                                  [isOpenDescription]="panelOpenState">
+                                  [isOpenDescription]="panelOpenState[element.id]">
               </app-comments-panel>
             </div>
           </div>
 
           <!--Geo instructions-->
-          <div class="example-element-geo-instructions">
-            <!--<app-geo-instructions [element]="element"></app-geo-instructions>-->
+          <div class="example-element-geo-instructions scroll">
+            <app-geo-instructions-list [geographicInstructionsModel]="element.geographicInstructions"></app-geo-instructions-list>
           </div>
 
           <!--Task assignees & Resources-->

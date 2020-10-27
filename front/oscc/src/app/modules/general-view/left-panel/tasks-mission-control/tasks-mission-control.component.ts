@@ -32,7 +32,9 @@ export class TasksMissionControlComponent implements OnInit {
               public polygonService: PolygonService,
               public polylineService: PolylineService,
               public arrowService: ArrowService,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog) {
+
+  }
 
   ngOnInit(): void {
   }

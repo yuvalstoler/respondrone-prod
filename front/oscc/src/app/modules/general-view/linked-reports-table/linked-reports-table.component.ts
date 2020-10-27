@@ -58,7 +58,7 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
 
   openAddLinkedReportDialog = (): void => {
     const dialogRef = this.dialog.open(LinkedReportDialogComponent, {
-      width: '700px',
+      maxWidth: '45vw',
       disableClose: true,
       data: this.element.reportIds
     });

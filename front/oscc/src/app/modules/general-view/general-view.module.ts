@@ -49,6 +49,7 @@ import { TaskAssigneeTableComponent } from './task-assignee-table/task-assignee-
 import { GeoInstructionsComponent } from './geo-instructions/geo-instructions.component';
 import {MatMenuModule} from '@angular/material/menu';
 import { ResourcesPanelComponent } from './resources-panel/resources-panel.component';
+import { GeoInstructionsListComponent } from './geo-instructions/geo-instructions-list/geo-instructions-list.component';
 
 
 
@@ -74,6 +75,7 @@ import { ResourcesPanelComponent } from './resources-panel/resources-panel.compo
     TaskAssigneeTableComponent,
     GeoInstructionsComponent,
     ResourcesPanelComponent,
+    GeoInstructionsListComponent,
   ],
   imports: [
     CommonModule,

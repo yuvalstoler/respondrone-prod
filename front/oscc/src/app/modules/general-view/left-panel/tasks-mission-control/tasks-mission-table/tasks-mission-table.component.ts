@@ -32,7 +32,7 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit {
   selectedElement: TASK_DATA_UI;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
-  panelOpenState = false;
+  panelOpenState: MAP<boolean> = {};
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
 
@@ -141,10 +141,6 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit {
       }
     }
     return $event ? this.selection.toggle(row) : null;
-  };
-
-  private expendPanelDescription = (index: boolean) => {
-    this.panelOpenState = index;
   };
 
   onChangeComments = (comments: COMMENT[], element: EVENT_DATA_UI) => {

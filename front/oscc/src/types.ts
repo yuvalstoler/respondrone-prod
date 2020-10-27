@@ -17,6 +17,7 @@ export type DISPLAY_ON_SCREEN = {
   showLeftPanel: boolean;
   showSituationPicture: boolean;
   showMissionControl: boolean;
+  showViewMedia: boolean;
 };
 
 export enum LEFT_PANEL_ICON {

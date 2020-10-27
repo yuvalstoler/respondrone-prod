@@ -9,13 +9,15 @@
   overflow: hidden;
 }
 
+// dialog on all screen
 ::ng-deep.cdk-overlay-container, .cdk-global-overlay-wrapper {
-  width: 50%;
+  width: 50% !important;
 }
+
 
 .DialogContainer {
 
- ::ng-deep.mat-dialog-title {
+  ::ng-deep.mat-dialog-title {
     margin: 0 0 5px;
    padding: 10px;
   }

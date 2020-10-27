@@ -1,19 +1,21 @@
 <!--<h1 mat-dialog-title></h1>-->
-<div class="close">
-  <button mat-button (click)="onClose()">
-    <span class="material-icons">close</span>
-  </button>
-</div>
-<div mat-dialog-content *ngIf="data?.type === MEDIA_TYPE.image">
-  <img [src]="this.data?.fullUrl" class="media">
-</div>
-<div mat-dialog-content *ngIf="data?.type === MEDIA_TYPE.video">
-  <!--<video controls [src]="data?.url" class="media"></video>-->
-  <div id="video-container">
-    <video #videoPlayer class="media" autoplay="false" controls="controls">
-      <source [src]='data?.fullUrl' />
-    </video>
+<div *ngIf="applicationService.screen.showViewMedia" class="overlay-container">
+  <div class="ViewMediaContainer">
+    <div class="close">
+      <button (click)="onClose()" mat-button>
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+    <div *ngIf="applicationService?.selectedViewMedia?.type === MEDIA_TYPE.image" mat-dialog-content>
+      <img [src]="applicationService?.selectedViewMedia?.fullUrl" class="media">
+    </div>
+    <div *ngIf="applicationService?.selectedViewMedia?.type === MEDIA_TYPE.video" mat-dialog-content>
+      <!--<video controls [src]="applicationService?.selectedViewMedia?.url" class="media"></video>-->
+      <div id="video-container">
+        <video #videoPlayer autoplay="false" class="media" controls="controls">
+          <source [src]='applicationService?.selectedViewMedia?.fullUrl'/>
+        </video>
+      </div>
+    </div>
   </div>
-
 </div>
-

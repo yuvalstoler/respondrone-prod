@@ -1,4 +1,4 @@
-<div>
+<div class="table-container scroll">
   <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort multiTemplateDataRows>
     <ng-container *ngFor="let column of displayedColumns;
     let i = index" matColumnDef="{{column}}">
@@ -6,10 +6,6 @@
       <span *ngIf="column !== 'select'">
         <th *matHeaderCellDef [disabled]="isSortingDisabled(column)" mat-header-cell mat-sort-header>
           <span class="capitalize">{{column}}</span>
-          <!--<mat-icon *ngIf="column === 'message'" class="HPRightSideIcon">comment</mat-icon>-->
-          <!--<mat-icon *ngIf="column === 'link'" class="HPRightSideIcon">link</mat-icon>-->
-          <!--<mat-icon *ngIf="column === 'map'" class="HPRightSideIcon">location_on</mat-icon>-->
-          <!--<mat-icon *ngIf="column === 'attachment'" class="HPRightSideIcon">attach_file</mat-icon>-->
         </th>
         <td *matCellDef="let element" mat-cell>
           <span *ngIf="element.modeDefine?.tableData[column]">
@@ -53,16 +49,10 @@
     </ng-container>
 
 
-    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
     <tr (click)="selectRow(row)" *matRowDef="let row; columns: displayedColumns;"
         class="example-element-row"
         mat-row>
-      <!--[class.selected]="applicationService.selectedReport === row"-->
-      <!--&lt;&ndash;&gt; [ngStyle]="{'background-color': (selectedData === row)? '#7f7f7f' : '' }"-->
     </tr>
-    <!--<tr *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row" mat-row></tr>-->
   </table>
-
-  <!--[class.example-expanded-row]="expandedElement[row.id] === row"-->
-
 </div>

@@ -16,7 +16,7 @@ import {HEADER_BUTTONS, STATE_DRAW} from '../../../types';
 import {LocationService} from '../../services/locationService/location.service';
 import {PolygonService} from '../../services/polygonService/polygon.service';
 import {PolylineService} from '../../services/polylineService/polyline.service';
-import {ArrowService} from "../../services/arrowService/arrow.service";
+import {ArrowService} from '../../services/arrowService/arrow.service';
 
 @Component({
   selector: 'app-task-dialog',

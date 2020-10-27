@@ -37,7 +37,9 @@ export class GeoInstructionsComponent implements OnInit {
     location: {longitude: undefined, latitude: undefined},
     styles: {icon: ''},
     address: '',
-    polygon: []
+    polygon: [],
+    arrow: [],
+    polyline: []
   };
   isSave: boolean = false;
 
@@ -48,7 +50,11 @@ export class GeoInstructionsComponent implements OnInit {
               public polygonService: PolygonService,
               public arrowService: ArrowService,
               public polylineService: PolylineService) {
+
     this.geoInstructionModel =  _.cloneDeep(this.defaultModel);
+    // this.element.geographicInstructions = this.geographicInstructionsModel;
+
+
     // add location on panel
     this.locationService.locationPoint$.subscribe(latlon => {
       this.geoInstructionModel.location = {longitude: latlon.longitude, latitude: latlon.latitude};
@@ -60,6 +66,7 @@ export class GeoInstructionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.geographicInstructionsModel =  _.cloneDeep(this.element.geographicInstructions);
   }
 
   onAddInstruction = () => {
@@ -134,27 +141,27 @@ export class GeoInstructionsComponent implements OnInit {
     return res;
   };
 
-  removeGeoInstruction = (event, index: number) => {
-    event.stopPropagation();
-    const geoInstruction = this.geographicInstructionsModel[index];
-      switch (geoInstruction.type) {
-        case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
-          this.arrowService.deleteArrowPolylineManually(geoInstruction.idTemp);
-          break;
-        case GEOGRAPHIC_INSTRUCTION_TYPE.address:
-          break;
-        case GEOGRAPHIC_INSTRUCTION_TYPE.point:
-         this.locationService.deleteLocationPointTemp(geoInstruction.idTemp);
-          break;
-        case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
-         this.polygonService.deletePolygonManually(geoInstruction.idTemp);
-          break;
-        case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
-         this.polylineService.deletePolylineManually(geoInstruction.idTemp);
-          break;
-      }
-    this.geographicInstructionsModel.splice(index, 1);
-  };
+  // removeGeoInstruction = (event, index: number) => {
+  //   event.stopPropagation();
+  //   const geoInstruction = this.geographicInstructionsModel[index];
+  //     switch (geoInstruction.type) {
+  //       case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
+  //         this.arrowService.deleteArrowPolylineManually(geoInstruction.idTemp);
+  //         break;
+  //       case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+  //         break;
+  //       case GEOGRAPHIC_INSTRUCTION_TYPE.point:
+  //        this.locationService.deleteLocationPointTemp(geoInstruction.idTemp);
+  //         break;
+  //       case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
+  //        this.polygonService.deletePolygonManually(geoInstruction.idTemp);
+  //         break;
+  //       case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
+  //        this.polylineService.deletePolylineManually(geoInstruction.idTemp);
+  //         break;
+  //     }
+  //   this.geographicInstructionsModel.splice(index, 1);
+  // };
 
   locationChanged = (event) => {
     if (event.target.value !== '') {

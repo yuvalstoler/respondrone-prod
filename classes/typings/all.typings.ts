@@ -307,8 +307,9 @@ export type GEOGRAPHIC_INSTRUCTION = {
     location: GEOPOINT3D,
     description: string,
     address: ADDRESS,
+    arrow: POINT3D[],
     polygon: POINT3D[],
-
+    polyline: POINT3D[],
     styles: {icon: string}
 }
 

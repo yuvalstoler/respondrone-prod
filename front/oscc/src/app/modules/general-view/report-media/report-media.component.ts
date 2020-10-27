@@ -1,9 +1,8 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {HttpClient, HttpEventType, HttpHeaders} from '@angular/common/http';
-import {MatDialog} from '@angular/material/dialog';
 import {FILE_FS_DATA} from '../../../../../../../classes/typings/all.typings';
 import {ConnectionService} from '../../../services/connectionService/connection.service';
-import {ViewMediaComponent} from '../view-media/view-media.component';
+import {ApplicationService} from '../../../services/applicationService/application.service';
 
 
 export type PROGRESS_INFO = {
@@ -31,7 +30,8 @@ export class ReportMediaComponent implements OnInit, OnDestroy {
   currentPage = 0;
 
   constructor(private http: HttpClient,
-              public dialog: MatDialog,
+              public applicationService: ApplicationService,
+              // public dialog: MatDialog,
               private connectionService: ConnectionService) { }
 
   ngOnInit(): void {
@@ -110,10 +110,12 @@ export class ReportMediaComponent implements OnInit, OnDestroy {
   };
   // -------------------
   onImage = (data: FILE_FS_DATA) => {
-    const dialogRef = this.dialog.open(ViewMediaComponent, {
-      width: '50%',
-      data: data
-    });
+    this.applicationService.screen.showViewMedia = true;
+    this.applicationService.selectedViewMedia = data;
+    // const dialogRef = this.dialog.open(ViewMediaComponent, {
+    //   width: '50%',
+    //   data: data
+    // });
 
     // dialogRef.afterClosed().subscribe(result => {
     // });
