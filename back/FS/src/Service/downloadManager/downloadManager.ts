@@ -1,7 +1,19 @@
 import {
-    Request,
-    Response
-} from 'express';
+    ASYNC_RESPONSE,
+    FILE_DB_DATA,
+    FILE_DB_FS_DATA,
+    FILE_FS_DATA,
+    FILE_GW_DATA,
+    FILE_STATUS,
+    ID_OBJ,
+    ID_TYPE,
+    IDs_OBJ,
+    MAP,
+    MEDIA_TYPE
+} from '../../../../../classes/typings/all.typings';
+import {RequestManager} from '../../AppService/restConnections/requestManager';
+import {API_GENERAL, CCGW_API, DBS_API} from '../../../../../classes/dataClasses/api/api_enums';
+import {Converting} from '../../../../../classes/applicationClasses/utility/converting';
 
 const path = require('path');
 const _ = require('lodash');
@@ -11,27 +23,6 @@ const ffmpeg = require('fluent-ffmpeg');
 
 const services = require('./../../../../../../../../config/services.json');
 const url_FS = services.FS.protocol + '://' + services.FS.host + ':' + services.FS.port;
-
-import {
-    ASYNC_RESPONSE,
-    FILE_GW_DATA,
-    ID_OBJ,
-    ID_TYPE,
-    IDs_OBJ,
-    FILE_FS_DATA,
-    MEDIA_TYPE,
-    FILE_DB_DATA,
-    FILE_STATUS,
-    MAP,
-    FILE_DB_FS_DATA
-} from '../../../../../classes/typings/all.typings';
-import { RequestManager } from '../../AppService/restConnections/requestManager';
-import {
-    API_GENERAL,
-    CCGW_API,
-    DBS_API
-} from '../../../../../classes/dataClasses/api/api_enums';
-import { Converting } from '../../../../../classes/applicationClasses/utility/converting';
 
 
 const uploadsPath = path.join(__dirname, '../../../../../../uploads');
@@ -104,14 +95,25 @@ export class DownloadManager {
             const buffer = Converting.base64_to_Buffer(dileGwData.byteArray);
             fs.writeFile(uploadsPath + '/' + dileGwData.fsName, buffer, (err) => {
                 if ( !err ) {
-                    const fileFsData: FILE_FS_DATA = {
-                        id: dileGwData.id,
-                        type: dileGwData.type,
-                        thumbnail: `${url_FS}/${API_GENERAL.general}/file/${dileGwData.fsName}`,
-                        url: `${url_FS}/${API_GENERAL.general}/file/${dileGwData.fsName}`
-                    };
-                    res.data = fileFsData;
-                    resolve(res);
+                    // const fileFsData: FILE_FS_DATA = {
+                    //     id: dileGwData.id,
+                    //     type: dileGwData.type,
+                    //     thumbnail: `${url_FS}/${API_GENERAL.general}/file/${dileGwData.fsName}`,
+                    //     url: `${url_FS}/${API_GENERAL.general}/file/${dileGwData.fsName}`
+                    // };
+                    // res.data = fileFsData;
+
+                    if (dileGwData.type === MEDIA_TYPE.video) {
+                        const thumbnailName = `${dileGwData.fsName}.png`;
+                        this.saveThumbnail(dileGwData.fsName, thumbnailName)
+                            .finally(() => {
+                                resolve(res);
+                            });
+                    }
+                    else {
+                        resolve(res);
+                    }
+
                 }
                 else {
                     reject(res);
@@ -120,6 +122,28 @@ export class DownloadManager {
         });
     }
 
+    // ---------------------
+    private saveThumbnail = (videoName: string, thumbnailName: string): Promise<any> => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                ffmpeg(`${uploadsPath}/${videoName}`)
+                    .screenshots({
+                        count: 1,
+                        folder: uploadsPath,
+                        filename: thumbnailName
+                    })
+                    .on('end', () => {
+                        console.log('screenshot end', videoName);
+                        resolve({});
+                    })
+                    .on('error', (err1) => {
+                        console.log('screenshot fail', videoName, err1);
+                        resolve({});
+                    });
+            }, 1000);
+        });
+    }
+    // ---------------------
     private downloadFileIntervalProcess = () => {
         if ( !this.downloadFileInterval ) {
             this.downloadFileInterval = setInterval(() => {
@@ -130,7 +154,7 @@ export class DownloadManager {
                             this.requestToDownloadFile({id: fileId})
                                 .then((data: ASYNC_RESPONSE<FILE_GW_DATA>) => {
                                     this.saveFileFromMGW(data.data)
-                                        .then((saveFileData: ASYNC_RESPONSE<FILE_FS_DATA>) => {
+                                        .then((saveFileData: ASYNC_RESPONSE) => {
                                             const fieldsForUpdate: Partial<FILE_DB_DATA> = {
                                                 fileName: data.data.fileName,
                                                 fileStatus: FILE_STATUS.downloaded,
@@ -149,7 +173,7 @@ export class DownloadManager {
 
                                                 })
                                                 .catch((dataDBS: ASYNC_RESPONSE<FILE_DB_DATA>) => {
-
+                                                    console.log('error saving', JSON.stringify(fileDbData))
                                                 });
                                         })
                                         .catch((saveFileData: ASYNC_RESPONSE<FILE_FS_DATA>) => {
@@ -208,7 +232,7 @@ export class DownloadManager {
             const fileFsData: FILE_FS_DATA = {
                 id: fileDbData.id,
                 type: fileDbData.type,
-                thumbnail: `/${API_GENERAL.general}/file/${fileDbData.fsName}`,
+                thumbnail: fileDbData.type === MEDIA_TYPE.video ? `/${API_GENERAL.general}/file/${fileDbData.fsName}.png` : `/${API_GENERAL.general}/file/${fileDbData.fsName}`,
                 url: `/${API_GENERAL.general}/file/${fileDbData.fsName}`
             };
             res.data = {
