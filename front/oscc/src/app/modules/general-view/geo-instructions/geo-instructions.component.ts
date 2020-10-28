@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {
   GEOGRAPHIC_INSTRUCTION,
   GEOGRAPHIC_INSTRUCTION_TYPE,
@@ -14,6 +14,7 @@ import {LocationService} from '../../../services/locationService/location.servic
 import {PolygonService} from '../../../services/polygonService/polygon.service';
 import {ArrowService} from '../../../services/arrowService/arrow.service';
 import {PolylineService} from '../../../services/polylineService/polyline.service';
+import {MatMenuTrigger} from '@angular/material/menu';
 
 @Component({
   selector: 'app-geo-instructions',
@@ -22,6 +23,7 @@ import {PolylineService} from '../../../services/polylineService/polyline.servic
 })
 export class GeoInstructionsComponent implements OnInit {
 
+  @ViewChild(MatMenuTrigger) triggerBtn: MatMenuTrigger;
   @Input() element: TASK_DATA_UI;
   panelOpenState = true;
   geoInstructions = Object.values(GEOGRAPHIC_INSTRUCTION_TYPE);
@@ -52,16 +54,25 @@ export class GeoInstructionsComponent implements OnInit {
               public polylineService: PolylineService) {
 
     this.geoInstructionModel =  _.cloneDeep(this.defaultModel);
-    // this.element.geographicInstructions = this.geographicInstructionsModel;
 
-
-    // add location on panel
+    // add location to model
     this.locationService.locationPoint$.subscribe(latlon => {
       this.geoInstructionModel.location = {longitude: latlon.longitude, latitude: latlon.latitude};
     });
 
+    // add polygon to model
     this.polygonService.polygon$.subscribe((positions: POINT3D[]) => {
       this.geoInstructionModel.polygon = positions;
+    });
+
+    // add arrow to model
+    this.arrowService.arrow$.subscribe((positions: POINT3D[]) => {
+      this.geoInstructionModel.arrow = positions;
+    });
+
+    // add polyline to model
+    this.polylineService.polyline$.subscribe((positions: POINT3D[]) => {
+      this.geoInstructionModel.polyline = positions;
     });
   }
 
@@ -71,10 +82,6 @@ export class GeoInstructionsComponent implements OnInit {
 
   onAddInstruction = () => {
 
-  };
-
-  public expendPanelGeoInstruction = (index: boolean) => {
-    this.panelOpenState = index;
   };
 
   setSelectedInstruction = (item: GEOGRAPHIC_INSTRUCTION_TYPE) => {
@@ -141,28 +148,6 @@ export class GeoInstructionsComponent implements OnInit {
     return res;
   };
 
-  // removeGeoInstruction = (event, index: number) => {
-  //   event.stopPropagation();
-  //   const geoInstruction = this.geographicInstructionsModel[index];
-  //     switch (geoInstruction.type) {
-  //       case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
-  //         this.arrowService.deleteArrowPolylineManually(geoInstruction.idTemp);
-  //         break;
-  //       case GEOGRAPHIC_INSTRUCTION_TYPE.address:
-  //         break;
-  //       case GEOGRAPHIC_INSTRUCTION_TYPE.point:
-  //        this.locationService.deleteLocationPointTemp(geoInstruction.idTemp);
-  //         break;
-  //       case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
-  //        this.polygonService.deletePolygonManually(geoInstruction.idTemp);
-  //         break;
-  //       case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
-  //        this.polylineService.deletePolylineManually(geoInstruction.idTemp);
-  //         break;
-  //     }
-  //   this.geographicInstructionsModel.splice(index, 1);
-  // };
-
   locationChanged = (event) => {
     if (event.target.value !== '') {
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
@@ -174,6 +159,14 @@ export class GeoInstructionsComponent implements OnInit {
         this.locationService.createOrUpdateLocationTemp(locationPoint);
         this.applicationService.stateDraw = STATE_DRAW.editLocationPoint;
       }
+    }
+  };
+
+  onClick = () => {
+    if (this.isSave) {
+      this.triggerBtn.closeMenu();
+    } else {
+      this.triggerBtn.openMenu();
     }
   };
 

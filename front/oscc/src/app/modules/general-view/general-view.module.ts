@@ -50,6 +50,7 @@ import { GeoInstructionsComponent } from './geo-instructions/geo-instructions.co
 import {MatMenuModule} from '@angular/material/menu';
 import { ResourcesPanelComponent } from './resources-panel/resources-panel.component';
 import { GeoInstructionsListComponent } from './geo-instructions/geo-instructions-list/geo-instructions-list.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 
 
@@ -99,6 +100,7 @@ import { GeoInstructionsListComponent } from './geo-instructions/geo-instruction
     MatExpansionModule,
     MatTooltipModule,
     MatMenuModule,
+    DragDropModule,
 
     AngularCesiumModule.forRoot(),
     AngularCesiumWidgetsModule,

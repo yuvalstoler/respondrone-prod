@@ -3,7 +3,8 @@ import {DrawPolylineClass} from '../classes/drawPolylineClass';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
 import {ApplicationService} from '../applicationService/application.service';
 import {EVENT_LISTENER_DATA, STATE_DRAW} from '../../../types';
-import {POINT} from '../../../../../../classes/typings/all.typings';
+import {POINT, POINT3D} from '../../../../../../classes/typings/all.typings';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import {POINT} from '../../../../../../classes/typings/all.typings';
 export class ArrowService {
 
   drawPolylineClass: DrawPolylineClass;
+  arrow$: BehaviorSubject<POINT3D[]> = new BehaviorSubject([]);
 
   constructor(public mapGeneralService: MapGeneralService,
               public applicationService: ApplicationService) {
@@ -34,6 +36,7 @@ export class ArrowService {
       const idTemp = this.applicationService.geoCounter.toString();
       this.mapGeneralService.createArrowPolyline(points, idTemp);
       if (event.type === 'doubleClick') {
+        this.arrow$.next(points);
         this.applicationService.stateDraw = STATE_DRAW.notDraw;
       }
     }
@@ -41,6 +44,7 @@ export class ArrowService {
 
   public deleteArrowPolylineManually = (id) => {
     this.mapGeneralService.deleteArrowPolylineFromMap(id);
+    this.arrow$.next([]);
   };
 
 

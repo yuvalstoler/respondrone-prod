@@ -1,6 +1,7 @@
-@import "./colors";
+@import "colors";
 @import "scrollbar";
 @import "variable";
+@import "override";
 
 .table-container{
   max-height: 40vh;
@@ -71,13 +72,13 @@ tr.example-element-row:not(.example-expanded-row):active {
 .example-element-detail-event {
   overflow: hidden;
   display: grid;
-  grid-template-columns: 35% auto;
+  grid-template-columns: 45% auto;
   max-height: 20em;
 }
 .example-element-detail-report {
   overflow: hidden;
   display: grid;
-  grid-template-columns: 35% auto;
+  grid-template-columns: 45% auto;
   max-height: 22em;
 }
 //descriptions

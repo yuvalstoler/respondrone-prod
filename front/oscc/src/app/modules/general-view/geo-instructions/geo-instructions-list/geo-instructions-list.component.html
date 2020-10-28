@@ -1,22 +1,29 @@
-<mat-list-item *ngFor="let geoInstruction of geographicInstructionsModel; let i = index">
-  <mat-accordion>
-    <mat-expansion-panel [expanded]="false">
-      <mat-expansion-panel-header>
-        <div class="expendTitle">
-          <mat-icon mat-list-icon>{{geoInstruction?.styles?.icon}}</mat-icon>
-          <span mat-line>{{geoInstruction?.type}}</span>
-        </div>
-        <button (click)="removeGeoInstruction($event, i)" class='DialogButtonGeoX '>X</button>
-      </mat-expansion-panel-header>
-      <div class="description-content">
-        <div class="description-content scroll">
-          <span> Description: </span>
-          {{geoInstruction?.description}}</div>
+<mat-accordion
+  cdkDropList
+  #geoInstructionListList="cdkDropList"
+  [cdkDropListData]="geographicInstructionsModel"
+  (cdkDropListDropped)="drop($event)"
+>
+  <mat-expansion-panel *ngFor="let geoInstruction of geographicInstructionsModel; let i = index"
+                       [expanded]="false"
+                       [togglePosition]="'before'"
+                       cdkDrag>
+    <mat-expansion-panel-header [ngStyle]="{'cursor': 'grabbing'}">
+      <div class="expendTitle">
+        <mat-icon mat-list-icon>{{geoInstruction?.styles?.icon}}</mat-icon>
+        <span mat-line>{{geoInstruction?.type}}</span>
       </div>
-    </mat-expansion-panel>
+      <!--<mat-icon mat-list-icon class='DialogButtonGeoDrop '>drag_indicator</mat-icon>-->
+      <button (click)="removeGeoInstruction($event, i)" class='DialogButtonGeoX '>X</button>
+    </mat-expansion-panel-header>
+    <div class="description-content">
+      <div class="description-content scroll">
+        <span> Description: </span>
+        {{geoInstruction?.description}}</div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
 
-  </mat-accordion>
-</mat-list-item>
 <!--<div *ngIf="element?.reports?.length <= 0" class="DialogNotElement">-->
 <!--Add geo instruction by clicking on the “Add” button.-->
 <!--</div>-->

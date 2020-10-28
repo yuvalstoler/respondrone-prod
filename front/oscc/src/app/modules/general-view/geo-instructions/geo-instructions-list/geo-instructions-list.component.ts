@@ -4,6 +4,8 @@ import {LocationService} from '../../../../services/locationService/location.ser
 import {PolygonService} from '../../../../services/polygonService/polygon.service';
 import {ArrowService} from '../../../../services/arrowService/arrow.service';
 import {PolylineService} from '../../../../services/polylineService/polyline.service';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+
 
 @Component({
   selector: 'app-geo-instructions-list',
@@ -43,5 +45,18 @@ export class GeoInstructionsListComponent implements OnInit {
     }
     this.geographicInstructionsModel.splice(index, 1);
   };
+
+  drop(event: CdkDragDrop<GEOGRAPHIC_INSTRUCTION[]>) {
+    if (event.previousContainer === event.container) {
+      // moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      moveItemInArray(this.geographicInstructionsModel, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+    }
+
+  }
 
 }

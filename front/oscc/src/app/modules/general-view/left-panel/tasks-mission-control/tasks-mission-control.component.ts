@@ -68,6 +68,7 @@ export class TasksMissionControlComponent implements OnInit {
         });
         this.applicationService.geoCounter = 0;
         this.removeGeoInstructionsFromMap(result.geographicInstructions);
+        console.log(result);
       }
     });
   };

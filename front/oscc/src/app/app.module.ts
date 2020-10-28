@@ -41,9 +41,10 @@ import { EventDialogComponent } from './dialogs/event-dialog/event-dialog.compon
 import { ReportDialogComponent } from './dialogs/report-dialog/report-dialog.component';
 import { TaskDialogComponent } from './dialogs/task-dialog/task-dialog.component';
 import {MatMenuModule} from '@angular/material/menu';
-import {TaskAssigneesDialogComponent} from "./dialogs/task-assignees-dialog/task-assignees-dialog.component";
-import {TaskAssigneesTableComponent} from "./dialogs/task-assignees-dialog/task-assignees-table/task-assignees-table.component";
-import {TaskAssigneesContainerComponent} from "./dialogs/task-assignees-dialog/task-assignees-container/task-assignees-container.component";
+import {TaskAssigneesDialogComponent} from './dialogs/task-assignees-dialog/task-assignees-dialog.component';
+import {TaskAssigneesTableComponent} from './dialogs/task-assignees-dialog/task-assignees-table/task-assignees-table.component';
+import {TaskAssigneesContainerComponent} from './dialogs/task-assignees-dialog/task-assignees-container/task-assignees-container.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 const config: SocketIoConfig = SOCKET_CONFIG;
 
@@ -102,7 +103,8 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     MatDialogModule,
     MatIconModule,
     MatExpansionModule,
-    MatMenuModule
+    MatMenuModule,
+    DragDropModule
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },

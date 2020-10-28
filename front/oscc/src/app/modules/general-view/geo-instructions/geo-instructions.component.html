@@ -2,210 +2,121 @@
   <!--Title geoInstruction-->
   <div class="TaskHeader">
     <span class="DialogTitle">Geographic instructions</span>
-    <span [matMenuTriggerFor]="menu" class="DialogTask pointer">Add</span>
-      <mat-menu #menu="matMenu">
-        <button (click)="setSelectedInstruction(item)" *ngFor="let item of geoInstructions" mat-menu-item>
-          {{ item }}
-        </button>
-      </mat-menu>
+    <div class="DialogTask pointer"
+         [matMenuTriggerFor]="menu"
+         #triggerBtn="matMenuTrigger"
+         (click)="onClick()"
+         [ngStyle]="{'color': (isSave) ? 'lightgray': '', 'borderBottom': (isSave) ? 'none' : ''}"
+    >Add</div>
+    <mat-menu #menu="matMenu">
+      <button (click)="setSelectedInstruction(item)" *ngFor="let item of geoInstructions" mat-menu-item>
+        {{ item }}
+      </button>
+    </mat-menu>
   </div>
 
   <!--List All geoInstructions-->
   <div class="">
-   <app-geo-instructions-list [geographicInstructionsModel]="geographicInstructionsModel">
+    <app-geo-instructions-list [geographicInstructionsModel]="geographicInstructionsModel">
 
-   </app-geo-instructions-list>
+    </app-geo-instructions-list>
   </div>
 
   <!--add New GeoInstruction-->
   <div class="">
-    <mat-accordion>
-      <!--Arrow-->
-      <mat-expansion-panel *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.arrow"
-                           [expanded]="panelOpenState">
-        <mat-expansion-panel-header>
-          <div class="expendTitle">
-            Arrow
-          </div>
-        </mat-expansion-panel-header>
-        <!--Description-->
-        <div class="DialogContentItem">
-          <div class="DialogTitle">Description</div>
-          <mat-form-field appearance="outline" class="SPMatFormField">
-            <label>
-            <textarea [(ngModel)]="geoInstructionModel.description" [ngStyle]="{'resize': 'none'}"
-                      class="Label"
-                      matInput placeholder="Add your description..."
-                      rows="2"></textarea>
-            </label>
-          </mat-form-field>
-        </div>
-        <!--Save Button-->
-        <div class="DialogCenter">
-          <div (click)="saveInstruction(selectedGeoInstruction)"
-               class="DialogActionsSave">
-            Save
-          </div>
-        </div>
-      </mat-expansion-panel>
+    <!--Arrow-->
+    <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.arrow" class="DialogTitle">
+      Arrow
+    </div>
+    <!--Address-->
+    <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.address">
+      <div class="DialogTitle">
+        Address
+      </div>
       <!--Address-->
-      <mat-expansion-panel *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.address"
-                           [expanded]="panelOpenState">
-        <mat-expansion-panel-header>
-          <div class="expendTitle">
-            Address
-          </div>
-        </mat-expansion-panel-header>
-        <!--Address-->
-        <div>
-          <mat-form-field appearance="outline" class="LocationAddress">
+      <div>
+        <mat-form-field appearance="outline" class="LocationAddress">
+          <label>
+            <input [(ngModel)]="geoInstructionModel.address" class="Label" matInput
+                   placeholder="E.g. Richard St."
+                   type="text">
+          </label>
+        </mat-form-field>
+      </div>
+    </div>
+    <!--Point-->
+    <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.point">
+      <div class="DialogTitle">
+        Point
+      </div>
+      <!--Location-->
+      <div>
+        <small>Choose location point from the map or write
+          Lat/Long
+        </small>
+        <div class="DialogGrid22">
+          <!--Lat-->
+          <mat-form-field appearance="outline" class="">
             <label>
-              <input [(ngModel)]="geoInstructionModel.address" class="Label" matInput
-                     placeholder="E.g. Richard St."
-                     type="text">
+              <input (change)="locationChanged($event, 'latitude')"
+                     (click)="$event.stopPropagation()" (keyup)="locationChanged($event, 'latitude')"
+                     [(ngModel)]="geoInstructionModel.location.latitude"
+                     class="Label"
+                     matInput
+                     min="0"
+                     placeholder="Lat"
+                     type="number">
+            </label>
+          </mat-form-field>
+          <!--Long-->
+          <mat-form-field appearance="outline" class="">
+            <label>
+              <input (change)="locationChanged($event, 'longitude')"
+                     (click)="$event.stopPropagation()"
+                     (keyup)="locationChanged($event, 'longitude')"
+                     [(ngModel)]="geoInstructionModel.location.longitude"
+                     class="Label"
+                     matInput
+                     min="0"
+                     placeholder="Long"
+                     type="number">
             </label>
           </mat-form-field>
         </div>
-        <!--Description-->
-        <div class="DialogContentItem">
-          <div class="DialogTitle">Description</div>
-          <mat-form-field appearance="outline" class="SPMatFormField">
-            <label>
-            <textarea [(ngModel)]="geoInstructionModel.description" [ngStyle]="{'resize': 'none'}"
-                      class="Label"
-                      matInput placeholder="Add your description..."
-                      rows="2"></textarea>
-            </label>
-          </mat-form-field>
-        </div>
-        <!--Save Button-->
-        <div class="DialogCenter">
-          <div (click)="saveInstruction(selectedGeoInstruction)"
-               class="DialogActionsSave">
-            Save
-          </div>
-        </div>
-      </mat-expansion-panel>
-      <!--Point-->
-      <mat-expansion-panel *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.point"
-                           [expanded]="panelOpenState">
-        <mat-expansion-panel-header>
-          <div class="expendTitle">
-            Point
-          </div>
-        </mat-expansion-panel-header>
-        <!--Location-->
-        <div>
-          <small>Choose location point from the map or write
-            Lat/Long
-          </small>
-          <div class="DialogGrid22">
-            <!--Lat-->
-            <mat-form-field appearance="outline" class="">
-              <label>
-                <input (change)="locationChanged($event, 'latitude')"
-                       (click)="$event.stopPropagation()" (keyup)="locationChanged($event, 'latitude')"
-                       [(ngModel)]="geoInstructionModel.location.latitude"
-                       class="Label"
-                       matInput
-                       min="0"
-                       placeholder="Lat"
-                       type="number">
-              </label>
-            </mat-form-field>
-            <!--Long-->
-            <mat-form-field appearance="outline" class="">
-              <label>
-                <input (change)="locationChanged($event, 'longitude')"
-                       (click)="$event.stopPropagation()"
-                       (keyup)="locationChanged($event, 'longitude')"
-                       [(ngModel)]="geoInstructionModel.location.longitude"
-                       class="Label"
-                       matInput
-                       min="0"
-                       placeholder="Long"
-                       type="number">
-              </label>
-            </mat-form-field>
-          </div>
-        </div>
-        <!--Description-->
-        <div class="DialogContentItem">
-          <div class="DialogTitle">Description</div>
-          <mat-form-field appearance="outline" class="SPMatFormField">
-            <label>
-            <textarea [(ngModel)]="geoInstructionModel.description" [ngStyle]="{'resize': 'none'}"
-                      class="Label"
-                      matInput placeholder="Add your description..."
-                      rows="2"></textarea>
-            </label>
-          </mat-form-field>
-        </div>
-        <!--Save Button-->
-        <div class="DialogCenter">
-          <div (click)="saveInstruction(selectedGeoInstruction)"
-               class="DialogActionsSave">
-            Save
-          </div>
-        </div>
-      </mat-expansion-panel>
-      <!--Polygon-->
-      <mat-expansion-panel *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.polygon"
-                           [expanded]="panelOpenState">
-        <mat-expansion-panel-header>
-          <div class="expendTitle">
-            Polygon
-          </div>
-        </mat-expansion-panel-header>
-        <!--Description-->
-        <div class="DialogContentItem">
-          <div class="DialogTitle">Description</div>
-          <mat-form-field appearance="outline" class="SPMatFormField">
-            <label>
-            <textarea [(ngModel)]="geoInstructionModel.description" [ngStyle]="{'resize': 'none'}"
-                      class="Label"
-                      matInput placeholder="Add your description..."
-                      rows="2"></textarea>
-            </label>
-          </mat-form-field>
-        </div>
-        <!--Save Button-->
-        <div class="DialogCenter">
-          <div (click)="saveInstruction(selectedGeoInstruction)"
-               class="DialogActionsSave">
-            Save
-          </div>
-        </div>
-      </mat-expansion-panel>
-      <!--Polyline-->
-      <mat-expansion-panel *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.polyline"
-                           [expanded]="panelOpenState">
-        <mat-expansion-panel-header>
-          <div class="expendTitle">
-            Polyline
-          </div>
-        </mat-expansion-panel-header>
-        <!--Description-->
-        <div class="DialogContentItem">
-          <div class="DialogTitle">Description</div>
-          <mat-form-field appearance="outline" class="SPMatFormField">
-            <label>
-            <textarea [(ngModel)]="geoInstructionModel.description" [ngStyle]="{'resize': 'none'}"
-                      class="Label"
-                      matInput placeholder="Add your description..."
-                      rows="2"></textarea>
-            </label>
-          </mat-form-field>
-        </div>
-        <!--Save Button-->
-        <div class="DialogCenter">
-          <div (click)="saveInstruction(selectedGeoInstruction)"
-               class="DialogActionsSave">
-            Save
-          </div>
-        </div>
-      </mat-expansion-panel>
-    </mat-accordion>
+      </div>
+    </div>
+    <!--Polygon-->
+    <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.polygon" class="DialogTitle">
+      Polygon
+    </div>
+    <!--Polyline-->
+    <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.polyline" class="DialogTitle">
+      Polyline
+    </div>
+    <!--Description-->
+    <div *ngIf="selectedGeoInstruction !== undefined" class="DialogContentItem">
+      <div [ngClass]="{required: geoInstructionModel.description === ''}" class="DialogTitle">Description</div>
+      <mat-form-field appearance="outline" class="SPMatFormField">
+        <label>
+            <textarea [(ngModel)]="geoInstructionModel.description"
+                      [ngStyle]="{'resize': 'none'}" class="Label"
+                      matInput
+                      placeholder="Add your description..." required
+                      rows="2">
+
+            </textarea>
+        </label>
+      </mat-form-field>
+      <mat-error *ngIf="geoInstructionModel.description === ''">Description field is mandatory</mat-error>
+    </div>
+    <!--Save Button-->
+    <div *ngIf="selectedGeoInstruction !== undefined" class="DialogCenter">
+      <button (click)="saveInstruction(selectedGeoInstruction)"
+              [disabled]="geoInstructionModel.description === ''"
+              [ngClass]="{'disabled': geoInstructionModel.description === ''}" class="DialogActionsSave">
+        Save
+      </button>
+    </div>
   </div>
 </div>
 
