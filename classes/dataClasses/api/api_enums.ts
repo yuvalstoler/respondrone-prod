@@ -85,7 +85,7 @@ export enum TS_API {
     getAllTasks = '/getAllTasks',
     getTaskById = '/getTaskById',
 
-    updateTaskFromMGW = '/updateTaskFromMGW'
+    userTaskAction = '/userTaskAction'
 }
 
 export enum RS_API {
@@ -130,8 +130,8 @@ export enum FS_API {
     uploadFile = '/uploadFile',
     removeFile = '/removeFile',
     getFile = '/file/:id',
-    getFileForSave = '/getFileForSave',
-    getFileFromTest = '/getFileFromTest',
+    // getFileForSave = '/getFileForSave',
+    // getFileFromTest = '/getFileFromTest',
     requestToDownloadFiles = '/requestToDownloadFiles',
     getFileData = '/getFileData',
     updateListenersFS = '/updateListenersFS',
@@ -172,7 +172,7 @@ export enum CCGW_API {
 
     getTasks = '/getTasks',
     getTaskById = '/getTaskById',
-    updateTaskFromMGW = '/updateTaskFromMGW',
+    userTaskAction = '/userTaskAction',
     createTask = '/createTask',
 
 }

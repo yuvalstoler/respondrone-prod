@@ -2,7 +2,7 @@ import {
     TASK_DATA_UI,
     LOCATION_TYPE,
     PRIORITY,
-    TABLE_DATA_MD, TASK_DATA_MD
+    TABLE_DATA_MD, TASK_DATA_MD, TASK_STATUS
 } from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
@@ -15,7 +15,9 @@ export class TaskMdLogic implements IModeDefine {
 
     public static validate(data: TASK_DATA_UI): TASK_DATA_MD {
         const obj: TASK_DATA_MD = {
-            styles: {},
+            styles: {
+                dotColor: TaskMdLogic.getDotColor(data),
+            },
             tableData: TaskMdLogic.tableData(data)
         };
         return obj;
@@ -34,6 +36,19 @@ export class TaskMdLogic implements IModeDefine {
         return res;
     };
 
+    private static getDotColor = (data: TASK_DATA_UI): string => {
+        let res;
+        if (data.status === TASK_STATUS.pending) {
+            res = MDClass.colors.lightBlue;
+        } else if (data.status === TASK_STATUS.inProgress) {
+            res = MDClass.colors.yellow;
+        } else if (data.status === TASK_STATUS.rejected) {
+            res = MDClass.colors.red;
+        } else if (data.status === TASK_STATUS.completed) {
+            res = MDClass.colors.red;
+        }
+        return res;
+    };
 
     private static tableData = (data: TASK_DATA_UI) => {
         let res = {

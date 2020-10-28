@@ -6,7 +6,7 @@ import {
     ASYNC_RESPONSE,
     ID_OBJ,
     REPORT_DATA,
-    TASK_DATA,
+    TASK_DATA, USER_TASK_ACTION,
 
 } from '../../../../../classes/typings/all.typings';
 import {
@@ -67,12 +67,26 @@ export class ExternalApiManager {
         });
     }
 
+    private userTaskAction = (data: USER_TASK_ACTION) => {
+        return new Promise((resolve, reject) => {
+            //     send REST to OSCC
+            RequestManager.requestToTS(TS_API.userTaskAction, data)
+                .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                    resolve(data);
+                })
+                .catch((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                    reject(data);
+                });
+        });
+    }
+
 
     // region API uncions
 
     public static createReportFromMGW = ExternalApiManager.instance.createReportFromMGW;
     public static getTasks = ExternalApiManager.instance.getTasks;
     public static getTaskById = ExternalApiManager.instance.getTaskById;
+    public static userTaskAction = ExternalApiManager.instance.userTaskAction;
 
 
     // endregion API uncions

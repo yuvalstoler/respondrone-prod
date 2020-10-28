@@ -34,7 +34,16 @@
                {{element.modeDefine?.tableData[column]?.data | customDate: applicationService.now}}
             </span>
           </span>
-          <span *ngIf="!element.modeDefine?.tableData[column]">
+
+<!--          <span *ngIf="!element.modeDefine?.tableData[column]">-->
+<!--            {{element[column]}}-->
+<!--          </span>-->
+
+          <span *ngIf="!element.modeDefine?.tableData[column] && column !== 'status'">
+            {{element[column]}}
+          </span>
+          <span *ngIf="column === 'status'">
+            <span class="material-icons" [ngStyle]="{'color': element.modeDefine?.styles?.dotColor, 'font-size': '12px'}">stop_circle</span>
             {{element[column]}}
           </span>
         </td>

@@ -17,8 +17,9 @@ export class FrMdLogic implements IModeDefine {
     public static validate(data: FR_DATA_UI): FR_DATA_MD {
         const obj: FR_DATA_MD = {
             styles: {
-                icon: this.getIcon(data),
-                color: this.getColor(data),
+                icon: FrMdLogic.getIcon(data),
+                color: FrMdLogic.getColor(data),
+                dotColor: FrMdLogic.getDotColor(data),
             },
             tableData: FrMdLogic.tableData(data)
         };
@@ -46,6 +47,16 @@ export class FrMdLogic implements IModeDefine {
             res = MDClass.colors.green;
         } else if (data.type === FR_TYPE.police) {
             res = MDClass.colors.lightBlue;
+        }
+        return res;
+    };
+
+    private static getDotColor = (data: FR_DATA_UI): string => {
+        let res: string;
+        if (data.online === true) {
+            res = MDClass.colors.green;
+        } else if (data.online === false) {
+            res = MDClass.colors.grey;
         }
         return res;
     };

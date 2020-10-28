@@ -99,8 +99,8 @@ export class ApiManager implements IRest {
         [FS_API.uploadFile]: this.uploadFile,
         [FS_API.removeFile]: this.removeFile,
         [FS_API.getFile]: this.getFile,
-        [FS_API.getFileForSave]: this.getFileForSave,
-        [FS_API.getFileFromTest]: this.getFileFromTest,
+        // [FS_API.getFileForSave]: this.getFileForSave,
+        // [FS_API.getFileFromTest]: this.getFileFromTest,
 
         [FS_API.requestToDownloadFiles]: this.requestToDownloadFiles,
         [FS_API.getFileData]: this.getFileData,

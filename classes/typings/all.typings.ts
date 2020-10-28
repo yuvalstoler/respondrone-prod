@@ -247,7 +247,8 @@ export type FR_DATA_UI = FR_DATA & {
 export type FR_DATA_MD = {
     styles: {
         icon: string,
-        color: string
+        color: string,
+        dotColor: string,
     },
     tableData: {
         id: TABLE_DATA_MD,
@@ -267,6 +268,16 @@ export enum FR_STATUS {
     available = 'Available',
 }
 
+export enum TASK_ACTION {
+    accept = 'accept',
+    reject = 'reject',
+    complete = 'complete'
+}
+export type USER_TASK_ACTION = {
+    userId: ID_TYPE,
+    taskId: ID_TYPE,
+    action: TASK_ACTION
+}
 
 export type TASK_DATA = {
     id: ID_TYPE;
@@ -283,6 +294,7 @@ export type TASK_DATA = {
     comments: COMMENT[]
     idView: string;
     isSendToMobile: boolean;
+    taskActionByUser: MAP<TASK_ACTION> // key - userId
 }
 
 export type TASK_DATA_UI = TASK_DATA & {
@@ -291,8 +303,10 @@ export type TASK_DATA_UI = TASK_DATA & {
 }
 export type TASK_DATA_MD = {
     styles: {
+        dotColor: string,
     },
     tableData: {
+        priority: TABLE_DATA_MD,
         assignees: TABLE_DATA_MD,
     }
 }
@@ -321,7 +335,8 @@ export enum TASK_STATUS {
     pending = 'Pending',
     inProgress = 'In Progress',
     rejected = 'Rejected',
-    completed = 'Completed'
+    completed = 'Completed',
+    cancelled = 'Cancelled'
 }
 
 
