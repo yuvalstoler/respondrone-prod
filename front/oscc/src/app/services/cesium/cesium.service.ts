@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {MAP} from 'src/types';
 import {ViewerConfiguration} from 'angular-cesium';
-import {CARTESIAN3, POINT, POINT3D} from "../../../../../../classes/typings/all.typings";
+import {CARTESIAN3, POINT, POINT3D} from '../../../../../../classes/typings/all.typings';
 
 
 @Injectable({

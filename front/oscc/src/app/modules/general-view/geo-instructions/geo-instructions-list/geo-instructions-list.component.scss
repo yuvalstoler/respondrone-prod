@@ -1,2 +1,6 @@
 @import "../../../../../styles/dialogs";
 @import "../../../../../styles/table";
+
+::ng-deep.mat-expansion-panel-header.mat-expansion-toggle-indicator-before .mat-expansion-indicator {
+  margin: 0 5px 0 5px;
+}
