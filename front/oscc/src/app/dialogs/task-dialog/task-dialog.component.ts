@@ -48,7 +48,8 @@ export class TaskDialogComponent {
     status: TASK_STATUS.pending,
     title: '',
     modeDefine: undefined,
-    isSendToMobile: false
+    isSendToMobile: false,
+    taskActionByUser: {}
   };
 
   LOCATION_TYPE = LOCATION_TYPE;

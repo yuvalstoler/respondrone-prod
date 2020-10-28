@@ -230,7 +230,7 @@ export class DownloadManager {
             res.success = true;
             const fileDbData: FILE_DB_DATA = this.fileDbDataMap[fileId.id];
             const fileFsData: FILE_FS_DATA = {
-                id: fileDbData.id,
+                id: fileDbData.fsName, // TODO
                 type: fileDbData.type,
                 thumbnail: fileDbData.type === MEDIA_TYPE.video ? `/${API_GENERAL.general}/file/${fileDbData.fsName}.png` : `/${API_GENERAL.general}/file/${fileDbData.fsName}`,
                 url: `/${API_GENERAL.general}/file/${fileDbData.fsName}`

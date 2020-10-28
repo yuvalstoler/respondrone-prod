@@ -17,47 +17,6 @@ export class FrManager {
     // reports: Report[] = [];
 
     private constructor() {
-        const date = Date.now();
-        const test: FR_DATA_TELEMETRY = {
-            "timestamp": {
-                "timestamp": 0
-            },
-            "FRs": [
-                {
-                    "id": "aaa",
-                    "callSign": "PO-001",
-                    "type": FR_TYPE.police,
-                    "location": {
-                        "latitude": 32.379365,
-                        "longitude": 34.945756,
-                        "altitude": 0
-                    },
-                    "lastUpdated": {
-                        "timestamp": date
-                    },
-                    "online": true,
-                    "status": FR_STATUS.busy
-                },
-                {
-                    "id": "bbb",
-                    "callSign": "PARA-001",
-                    "type": FR_TYPE.paramedic,
-                    "location": {
-                        "latitude": 32.369365,
-                        "longitude": 34.955756,
-                        "altitude": 0
-                    },
-                    "lastUpdated": {
-                        "timestamp": date
-                    },
-                    "online": false,
-                    "status": FR_STATUS.busy
-                }
-            ]
-        }
-        setInterval(() => {
-            SocketIO.emit(SOCKET_ROOM.FRs_Tel_room, test);
-        }, 5000);
     }
 
     private startGetSocket = () => {

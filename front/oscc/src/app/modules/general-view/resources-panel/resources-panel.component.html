@@ -8,7 +8,10 @@
       <div class="info">
         <div>{{fr.type}}</div>
         <div>{{fr.lastUpdated.timestamp | lastSeenDate: applicationService.now }}</div>
-        <div>{{fr.online ? 'Online' : 'Offline'}}</div>
+        <div>
+          <span class="material-icons" [ngStyle]="{'color': fr.modeDefine?.styles?.dotColor, 'font-size': '12px'}">stop_circle</span>
+          {{fr.online ? 'Online' : 'Offline'}}
+        </div>
       </div>
     </div>
     <div>

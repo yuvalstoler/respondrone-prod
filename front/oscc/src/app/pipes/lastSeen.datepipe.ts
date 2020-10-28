@@ -11,18 +11,18 @@ export class LastSeenDatePipe extends
     const diffDay = Math.floor(diffSeconds / (60 * 60 * 24));
 
     if (diffDay < 1) {
-      if (diffSeconds < 1) {
+      if (diffSeconds < 10) {
         return 'now'
       }
-      else if (diffSeconds < 60) {
-        return Math.floor(diffSeconds) + ' sec ago'
-      }
-      else if (diffSeconds < 60 * 60) {
-        return Math.floor(diffSeconds / 60) + ' min ago'
-      }
-      else if (diffSeconds <= 60 * 60 * 24) {
-        return Math.floor(diffSeconds / (60 * 60)) + ' hr ago'
-      }
+      // else if (diffSeconds < 60) {
+      //   return Math.floor(diffSeconds) + ' sec ago'
+      // }
+      // else if (diffSeconds < 60 * 60) {
+      //   return Math.floor(diffSeconds / 60) + ' min ago'
+      // }
+      // else if (diffSeconds <= 60 * 60 * 24) {
+      //   return Math.floor(diffSeconds / (60 * 60)) + ' hr ago'
+      // }
       else {
         return super.transform(value, 'HH:mm');
       }

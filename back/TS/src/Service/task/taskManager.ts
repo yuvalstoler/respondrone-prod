@@ -5,7 +5,15 @@ import {CCGW_API, DBS_API} from '../../../../../classes/dataClasses/api/api_enum
 
 import {RequestManager} from '../../AppService/restConnections/requestManager';
 
-import {ASYNC_RESPONSE, TASK_DATA, ID_OBJ, MAP, ID_TYPE} from '../../../../../classes/typings/all.typings';
+import {
+    ASYNC_RESPONSE,
+    ID_OBJ,
+    MAP,
+    TASK_ACTION,
+    TASK_DATA,
+    TASK_STATUS,
+    USER_TASK_ACTION
+} from '../../../../../classes/typings/all.typings';
 import {UpdateListenersManager} from '../updateListeners/updateListenersManager';
 import {Task} from '../../../../../classes/dataClasses/task/task';
 import {DataUtility} from '../../../../../classes/applicationClasses/utility/dataUtility';
@@ -204,19 +212,50 @@ export class TaskManager {
     //     });
     // }
 
-    private updateTaskFromMGW = (taskId: ID_TYPE, dataToUpdate: Partial<TASK_DATA>) => {
+    private getTaskStatus = (taskData: TASK_DATA, lastAction: TASK_ACTION): TASK_STATUS => {
+        let res: TASK_STATUS;
+        if (taskData.status === TASK_STATUS.pending || taskData.status === TASK_STATUS.inProgress) {
+            if (lastAction === TASK_ACTION.accept) {
+                res = TASK_STATUS.inProgress;
+            }
+            if (lastAction === TASK_ACTION.complete) {
+                res = TASK_STATUS.completed;
+            }
+            else if (lastAction === TASK_ACTION.reject) {
+                let isAllRejected = true;
+                taskData.assigneeIds.forEach((assigneeId) => {
+                    if (taskData.taskActionByUser[assigneeId] !== TASK_ACTION.reject) {
+                        isAllRejected = false;
+                    }
+                })
+                if (isAllRejected) {
+                    res = TASK_STATUS.rejected;
+                }
+            }
+        }
+        else {
+            res = taskData.status;
+        }
+        return res;
+    }
+
+    private userTaskAction = (data: USER_TASK_ACTION) => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
-            const task = TaskManager.getTask({id: taskId});
+            const task = TaskManager.getTask({id: data.taskId});
             if (task) {
                 const taskData = task.toJsonForSave();
-                taskData.status = dataToUpdate.status;
+                taskData.taskActionByUser[data.userId] = data.action
+                taskData.status = this.getTaskStatus(taskData, data.action);
                 RequestManager.requestToDBS(DBS_API.createTask, taskData)
                     .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
                         res.data = data.data;
                         res.success = data.success;
                         res.description = data.description;
                         if ( data.success ) {
+                            task.setValues(data.data);
+                            this.sendTaskToMobile(task);
+                            UpdateListenersManager.updateTaskListeners();
                             resolve(res);
                         }
                         else {
@@ -230,7 +269,7 @@ export class TaskManager {
                     });
             }
             else {
-                res.description =  'task doesnt exist: '+ taskId
+                res.data =  'task doesnt exist: '+ data.taskId
                 reject(res);
             }
         });
@@ -315,7 +354,7 @@ export class TaskManager {
     public static getTask = TaskManager.instance.getTask;
 
     public static createTask = TaskManager.instance.createTask;
-    public static updateTaskFromMGW = TaskManager.instance.updateTaskFromMGW;
+    public static userTaskAction = TaskManager.instance.userTaskAction;
 
     public static readTask = TaskManager.instance.readTask;
     public static readAllTask = TaskManager.instance.readAllTask;

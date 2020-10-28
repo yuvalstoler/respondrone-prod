@@ -3,8 +3,8 @@ import {
     COMMENT, FR_STATUS, FR_TYPE,
     GEOGRAPHIC_INSTRUCTION,
     GEOPOINT3D,
-    ID_TYPE,
-    PRIORITY,
+    ID_TYPE, MAP,
+    PRIORITY, TASK_ACTION,
     TASK_DATA,
     TASK_DATA_UI,
     TASK_STATUS,
@@ -26,8 +26,10 @@ export class Task {
     geographicInstructions: GEOGRAPHIC_INSTRUCTION[] = [];
     assigneeIds: string[] = [];
     comments: COMMENT[] = [];
+
     idView: string = '';
     isSendToMobile: boolean = false;
+    taskActionByUser: MAP<TASK_ACTION> = {}
 
     constructor(data: TASK_DATA) {
         if ( data ) {
@@ -135,7 +137,8 @@ export class Task {
             assigneeIds: this.assigneeIds,
             comments: this.comments,
             idView: this.idView,
-            isSendToMobile: this.isSendToMobile
+            isSendToMobile: this.isSendToMobile,
+            taskActionByUser: this.taskActionByUser
         };
     };
 
@@ -157,7 +160,7 @@ export class Task {
             idView: this.idView,
             modeDefine: undefined,
             isSendToMobile: this.isSendToMobile,
-
+            taskActionByUser: this.taskActionByUser,
             assignees: []
         };
     };

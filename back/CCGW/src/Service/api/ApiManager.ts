@@ -16,7 +16,7 @@ import {
     ID_OBJ,
     REPORT_DATA,
     TASK_DATA,
-    UPDATE_FILE_STATUS,
+    UPDATE_FILE_STATUS, USER_TASK_ACTION,
 } from '../../../../../classes/typings/all.typings';
 import {
     CCGW_API,
@@ -40,9 +40,15 @@ export class ApiManager implements IRest {
     }
 
     public listen = (router: core.Router): boolean => {
-        for ( const path in this.routers ) {
-            if ( this.routers.hasOwnProperty(path) ) {
-                router.use(path, this.routers[path]);
+        for ( const path in this.routersExternal ) {
+            if ( this.routersExternal.hasOwnProperty(path) ) {
+                router.use(path, this.routersExternal[path]);
+            }
+        }
+
+        for ( const path in this.routersInternal ) {
+            if ( this.routersInternal.hasOwnProperty(path) ) {
+                router.use(path, this.routersInternal[path]);
             }
         }
         return true;
@@ -135,21 +141,32 @@ export class ApiManager implements IRest {
             });
     };
 
+    private userTaskAction = (request: Request, response: Response) => {
+        const requestBody: USER_TASK_ACTION = request.body;
+        ExternalApiManager.userTaskAction(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(data);
+            });
+    };
+
     //--------------------------------
 
-    routers: {} = {
+    routersExternal: {} = {
         [CCGW_API.createReportFromMGW]: this.createReportFromMGW,
         [MWS_API.getVideoSources]: this.getVideoSources,
 
-
-        [CCGW_API.getFileById]: this.getFileById,
-        [CCGW_API.updateFileStatus]: this.updateFileStatus,
-
         [CCGW_API.getTasks]: this.getTasks,
         [CCGW_API.getTaskById]: this.getTaskById,
+        [CCGW_API.userTaskAction]: this.userTaskAction,
+    };
+
+    routersInternal: {} = {
+        [CCGW_API.getFileById]: this.getFileById,
+        [CCGW_API.updateFileStatus]: this.updateFileStatus,
         [CCGW_API.createTask]: this.createTask,
-
-
     };
 
     // region API uncions

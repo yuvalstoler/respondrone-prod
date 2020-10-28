@@ -7,6 +7,7 @@ import {MatSort} from '@angular/material/sort';
 import {ApplicationService} from '../../../../../services/applicationService/application.service';
 import {TasksService} from '../../../../../services/tasksService/tasks.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-tasks-mission-table',
@@ -164,23 +165,13 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit {
   };
 
   onUpdateAssignees = (result: string[], element: TASK_DATA_UI) => {
-    // if (result && Array.isArray(result)) {
-    //   const event = this.eventService.getEventById(element.id);
-    //   if (event) {
-    //     const addedReports = _.differenceWith(result, event.reportIds, (o1, o2) => {
-    //       return o1 === o2;
-    //     });
-    //     this.reportService.linkReportsToEvent(addedReports, event.id); // TODO
-    //
-    //     const removedReports = _.differenceWith(event.reportIds, result, (o1, o2) => {
-    //       return o1 === o2;
-    //     });
-    //     this.reportService.unlinkReportsFromEvent(removedReports, event.id); // TODO
-    //
-    //     event.reportIds = result;
-    //     this.eventService.createEvent(event);
-    //   }
-    // }
+    if (result && Array.isArray(result)) {
+      const task = this.tasksService.getTaskById(element.id);
+      if (task) {
+        task.assigneeIds = result;
+        this.tasksService.createTask(task);
+      }
+    }
   };
 
 

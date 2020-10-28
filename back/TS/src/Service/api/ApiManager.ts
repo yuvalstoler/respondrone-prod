@@ -11,8 +11,8 @@ import {
 } from 'express';
 import {
     ASYNC_RESPONSE,
-    ID_OBJ,
-    TASK_DATA, TASK_STATUS,
+    ID_OBJ, TASK_ACTION,
+    TASK_DATA, TASK_STATUS, USER_TASK_ACTION,
 } from '../../../../../classes/typings/all.typings';
 
 
@@ -145,11 +145,11 @@ export class ApiManager implements IRest {
         response.send(res);
     };
 
-    private updateTaskFromMGW = (request: Request, response: Response) => {
+    private userTaskAction = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
-        const requestBody: TASK_DATA = request.body;
-        if ( requestBody && requestBody.id && requestBody.status in TASK_STATUS) {
-            TaskManager.updateTaskFromMGW( requestBody.id, {status: requestBody.status})
+        const requestBody: USER_TASK_ACTION = request.body || {};
+        if (requestBody.userId && requestBody.taskId && requestBody.action in TASK_ACTION) {
+            TaskManager.userTaskAction(requestBody)
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.success = data.success;
                     res.data = data.data;
@@ -163,7 +163,7 @@ export class ApiManager implements IRest {
                 });
         }
         else {
-            res.description = 'missing field id/status';
+            res.description = 'missing field userId/taskId/action';
             response.send(res);
         }
     };
@@ -178,7 +178,7 @@ export class ApiManager implements IRest {
         [TS_API.getAllTasks]: this.getTasks,
         [TS_API.getTaskById]: this.getTaskById,
 
-        [TS_API.updateTaskFromMGW]: this.updateTaskFromMGW,
+        [TS_API.userTaskAction]: this.userTaskAction,
     };
 
     // region API uncions
