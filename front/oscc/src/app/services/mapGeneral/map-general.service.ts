@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {CesiumService} from '../cesium/cesium.service';
 import {GEOPOINT3D, MAP, POINT, POINT3D} from '../../../../../../classes/typings/all.typings';
 import {CesiumDrawerService} from '../cesium/mapDrawCesium/cesium-drawer.service';
-import {OPTIONS_ENTITY} from "../../../types";
+import {OPTIONS_ENTITY} from '../../../types';
 
 @Injectable({
   providedIn: 'root'
@@ -163,7 +163,7 @@ export class MapGeneralService {
 
   // Polyline =====================================================================================================
   // from Service =====
-  public createPolyline = (points: POINT[] | POINT3D[], id: string, description: string) => {
+  public createPolyline = (points: POINT[] | POINT3D[], id: string, description?: string) => {
     const domId = undefined;
     let res = false;
     this.deletePolylineFromMap(id);
@@ -180,7 +180,7 @@ export class MapGeneralService {
 
   // Arrow Polyline =====================================================================================================
   // from Service =====
-  public createArrowPolyline = (points: POINT[] | POINT3D[], polylineId: string, description: string) => {
+  public createArrowPolyline = (points: POINT[] | POINT3D[], polylineId: string, description?: string) => {
     const domId = undefined;
     let res = false;
     this.deleteArrowPolylineFromMap(polylineId);

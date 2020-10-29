@@ -498,7 +498,7 @@ export class CesiumDrawerService {
   };
 
   // ==================POLYLINE==========================================================================================
-  public createPolylineFromServer = (domId: string, points: POINT[] | POINT3D[], id: string, description: string) => {
+  public createPolylineFromServer = (domId: string, points: POINT[] | POINT3D[], id: string, description?: string) => {
     let res = false;
     const position = [];
     points.forEach(point => {
@@ -523,7 +523,7 @@ export class CesiumDrawerService {
     return res;
   };
 
-  private createPolyline = (mapDomId: string, mapCE: any, taskPolyline: POINT[] | POINT3D[], description: string) => {
+  private createPolyline = (mapDomId: string, mapCE: any, taskPolyline: POINT[] | POINT3D[], description?: string) => {
     const positions = this.arrayPointsToCartesian3(taskPolyline);
     return this.cesiumService.cesiumViewer[mapDomId].entities.add({
       name: 'Polyline',
@@ -569,7 +569,7 @@ export class CesiumDrawerService {
   };
 
   // ==================ARROW POLYLINE==========================================================================================
-  public createArrowPolylineFromServer = (domId: string, points: POINT[] | POINT3D[], id: string, description: string) => {
+  public createArrowPolylineFromServer = (domId: string, points: POINT[] | POINT3D[], id: string, description?: string) => {
     let res = false;
     const position: POINT[] | POINT3D[] = [];
     points.forEach(point => {
@@ -594,7 +594,7 @@ export class CesiumDrawerService {
     return res;
   };
 
-  private createArrowPolyline = (mapDomId: string, mapCE: any, taskPolyline: Array<any>, description: string) => {
+  private createArrowPolyline = (mapDomId: string, mapCE: any, taskPolyline: Array<any>, description?: string) => {
     const positions = this.arrayPointsToCartesian3(taskPolyline);
     return this.cesiumService.cesiumViewer[mapDomId].entities.add({
       name: 'Polyline',

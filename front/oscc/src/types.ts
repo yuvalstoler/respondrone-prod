@@ -55,4 +55,4 @@ export enum TYPE_OBJECTS_CE {
 export type OPTIONS_ENTITY = {
   description: string,
   id?: string
-}
+};
