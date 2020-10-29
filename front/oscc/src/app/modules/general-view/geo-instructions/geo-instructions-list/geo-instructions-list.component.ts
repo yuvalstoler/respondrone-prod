@@ -1,10 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {GEOGRAPHIC_INSTRUCTION, GEOGRAPHIC_INSTRUCTION_TYPE} from '../../../../../../../../classes/typings/all.typings';
+import {
+  GEOGRAPHIC_INSTRUCTION,
+  GEOGRAPHIC_INSTRUCTION_TYPE,
+  POINT, POINT3D
+} from '../../../../../../../../classes/typings/all.typings';
 import {LocationService} from '../../../../services/locationService/location.service';
 import {PolygonService} from '../../../../services/polygonService/polygon.service';
 import {ArrowService} from '../../../../services/arrowService/arrow.service';
 import {PolylineService} from '../../../../services/polylineService/polyline.service';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {MapGeneralService} from '../../../../services/mapGeneral/map-general.service';
 
 
 @Component({
@@ -19,7 +24,8 @@ export class GeoInstructionsListComponent implements OnInit {
   constructor(public locationService: LocationService,
               public polygonService: PolygonService,
               public arrowService: ArrowService,
-              public polylineService: PolylineService) { }
+              public polylineService: PolylineService,
+              public mapGeneralService: MapGeneralService) { }
 
   ngOnInit(): void {
   }
@@ -46,17 +52,39 @@ export class GeoInstructionsListComponent implements OnInit {
     this.geographicInstructionsModel.splice(index, 1);
   };
 
-  drop(event: CdkDragDrop<GEOGRAPHIC_INSTRUCTION[]>) {
+  flyToInstruction = (geoInstruction: GEOGRAPHIC_INSTRUCTION) => {
+    let coordinate: POINT | POINT3D;
+    switch (geoInstruction.type) {
+      case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
+        coordinate = geoInstruction.arrow[0];
+        break;
+      case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+        // coordinate = geoInstruction.address;
+        break;
+      case GEOGRAPHIC_INSTRUCTION_TYPE.point:
+        coordinate = [geoInstruction.location.longitude, geoInstruction.location.latitude];
+        break;
+      case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
+        coordinate = geoInstruction.polygon[0];
+        break;
+      case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
+        coordinate = geoInstruction.polyline[0];
+        break;
+    }
+    this.mapGeneralService.flyToObject(coordinate);
+  };
+
+  drop = (event: CdkDragDrop<GEOGRAPHIC_INSTRUCTION[]>) => {
     if (event.previousContainer === event.container) {
       // moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       moveItemInArray(this.geographicInstructionsModel, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data,
-        event.container.data,
+        // event.container.data,
+        this.geographicInstructionsModel,
         event.previousIndex,
         event.currentIndex);
     }
-
-  }
+  };
 
 }

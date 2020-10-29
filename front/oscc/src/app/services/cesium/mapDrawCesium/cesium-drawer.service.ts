@@ -211,6 +211,10 @@ export class CesiumDrawerService {
         height: size
       },
       label: undefined,
+      options: {
+        description: '',
+
+      }
     };
     if (label) {
       entityData.label = {
@@ -703,15 +707,39 @@ export class CesiumDrawerService {
     let clickPosition: POINT;
     clickPosition = this.pixelsToLatlong(mapDomId, clickPositionMap.endPosition);
     if (clickPosition) {
-      // const pickedObjects = this.cesiumService.cesiumViewer[mapDomId].scene.drillPick(clickPositionMap.position);
+      const pickedObjects = this.cesiumService.cesiumViewer[mapDomId].scene.drillPick(clickPositionMap.endPosition);
       // const obj: any = false;
+      //TODO:
+      const object: { arr: Array<any>, cesiumEntity: any } = {arr: [], cesiumEntity: undefined};
+      const IDs = {};
+      pickedObjects.forEach((pickedObject) => {
+        if (Cesium.defined(pickedObject) && pickedObject.id /*&& pickedObject.id._id !== 'cesium drawing distance'*/) {
+          // need to check if _id exists so that the item isn't saved twice when border is picked
+          // const item = _.get(pickedObject, 'id.options.objParams') || {};
+          // let id;
+
+        //   if(item.obj) {
+        //     id = (item.type in SelectableItemTypes) ? item.obj._id : item.type + (item.obj.AssetId || item.obj.GspLineId || item.obj.GspObjectId || item.obj.AreaId);
+        //   }
+        //
+        //   if ((item.type in SelectableItemTypes || item.type in ShapeTypes) && !IDs.hasOwnProperty(id)) {
+        //     IDs[id] = true;
+        //     object.arr.push(pickedObject.id);
+        //   } else {
+        //     object.cesiumEntity = pickedObject.id;
+        //   }
+        //
+        }
+      });
+
       for (const listenerName in leftClickListeners) {
         if (leftClickListeners.hasOwnProperty(listenerName)) {
           try {
             leftClickListeners[listenerName]({
               type: type,
               pointPX: clickPositionMap.endPosition,
-              pointLatLng: clickPosition
+              pointLatLng: clickPosition,
+              object: object
             });
           } catch (e) {
           }

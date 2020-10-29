@@ -218,7 +218,7 @@ export class MapGeneralService {
   };
 
   // =================================================================================================
-  public flyToObject = (coordinates): boolean => {
+  public flyToObject = (coordinates: POINT | POINT3D): boolean => {
     const domId = undefined;
     let res = false;
     res = this.cesiumService.flyToObject(domId, coordinates);
