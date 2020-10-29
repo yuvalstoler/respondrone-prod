@@ -87,7 +87,7 @@
                 "minimum": 0,
                 "maximum": 100
               },
-              "colorPalettInfraredCamera": {
+              "colorPaletteInfraredCamera": {
                 "type": "string",
                 "enum": [
                   "WhiteHot",
@@ -98,7 +98,7 @@
                   "Lava",
                   "Arctic",
                   "GlowBow",
-                  "GrradedFire",
+                  "GradedFire",
                   "Hottest"
                 ]
               }
