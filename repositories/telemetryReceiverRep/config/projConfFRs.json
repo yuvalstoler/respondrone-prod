@@ -10,7 +10,7 @@
       "entity": "../../../schemas/Repository Tel/FRs_Tel.v1.json"
     },
     "telemetryType": "FRs_Tel",
-    "sendTelemetryInterval": 5000
+    "sendTelemetryInterval": 1000
   },
   "LogsMongo": {
     "db": "repositoryLogs",

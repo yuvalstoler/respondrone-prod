@@ -10,7 +10,7 @@
       "entity": "../../../schemas/Repository Tel/Drones_Tel.v1.json"
     },
     "telemetryType": "Drones_Tel",
-    "sendTelemetryInterval": 5000
+    "sendTelemetryInterval": 1000
   },
   "LogsMongo": {
     "db": "repositoryLogs",
