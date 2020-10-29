@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DISPLAY_ON_SCREEN, HEADER_BUTTONS, LEFT_PANEL_ICON} from 'src/types';
 import {ApplicationService} from 'src/app/services/applicationService/application.service';
 import {CesiumService} from '../../services/cesium/cesium.service';
+import {ListenerMapService} from "../../services/cesium/listenerMap/listener-map.service";
 
 @Component({
   selector: 'app-general-view',
@@ -14,7 +15,8 @@ export class GeneralViewComponent implements OnInit {
   LEFT_PANEL_ICON =  LEFT_PANEL_ICON;
 
   constructor(public applicationService: ApplicationService,
-              public cesiumService: CesiumService) { }
+              public cesiumService: CesiumService,
+              public listenerMapService: ListenerMapService) { }
 
   ngOnInit(): void {
   }

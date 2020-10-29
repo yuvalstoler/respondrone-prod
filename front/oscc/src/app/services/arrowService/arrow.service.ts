@@ -12,7 +12,7 @@ import {BehaviorSubject} from 'rxjs';
 export class ArrowService {
 
   drawPolylineClass: DrawPolylineClass;
-  arrow$: BehaviorSubject<POINT3D[]> = new BehaviorSubject([]);
+  arrow$: BehaviorSubject<POINT[]> = new BehaviorSubject([]);
 
   constructor(public mapGeneralService: MapGeneralService,
               public applicationService: ApplicationService) {
@@ -24,10 +24,6 @@ export class ArrowService {
     this.mapGeneralService.setMouseDownCallback(undefined, 'arrowDraw', this.drawManually);
     this.mapGeneralService.setMouseOverCallback(undefined, 'arrowDraw', this.drawManually);
     this.mapGeneralService.setDoubleClickCallback(undefined, 'arrowDraw', this.drawManually);
-    // this.mapGeneralService.setMouseDownCallback(undefined, 'routePolylineEdit', this.editManually);
-    // this.mapGeneralService.setMouseOverCallback(undefined, 'routePolylineEdit', this.editManually);
-    // this.mapGeneralService.setDoubleClickCallback(undefined, 'routePolylineEdit', this.editManually);
-    // this.mapGeneralService.setMouseUpCallback(undefined, 'routePolylineSelect', this.selectEditRoute);
   };
 
   public drawManually = (event: EVENT_LISTENER_DATA) => {

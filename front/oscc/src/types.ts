@@ -38,7 +38,8 @@ export type EVENT_LISTENER_DATA = {
   type: string,
   pointPX: Cartesian2,
   pointLatLng: POINT,
-  distance?: number
+  distance?: number,
+  object?: OPTIONS_ENTITY
 };
 
 export enum TYPE_OBJECTS_CE {
@@ -51,3 +52,7 @@ export enum TYPE_OBJECTS_CE {
   arrowPolylineCE = 'arrowPolylineCE'
 }
 
+export type OPTIONS_ENTITY = {
+  description: string,
+  id?: string
+}

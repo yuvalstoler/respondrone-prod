@@ -4,7 +4,8 @@ import {CesiumService} from '../cesium.service';
 import {Cartesian2} from 'angular-cesium';
 import {EventListener} from '../event-listener';
 import {GeoCalculate} from '../../classes/geoCalculate';
-import {TYPE_OBJECTS_CE} from '../../../../types';
+import {OPTIONS_ENTITY, TYPE_OBJECTS_CE} from '../../../../types';
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class CesiumDrawerService {
 
   // ==================LOCATION=========================================================================================
 
-  public createLocationPointFromServer = (domId: string, locationPoint: GEOPOINT3D, locationId: string) => {
+  public createLocationPointFromServer = (domId: string, locationPoint: GEOPOINT3D, locationId: string, description?: string) => {
     let res = false;
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
     for (const mapDomId in mapsCE) {
@@ -33,7 +34,7 @@ export class CesiumDrawerService {
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE][locationId] =
             this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE][locationId] || {};
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE][locationId] =
-            this.createMarkerLocationEntity(mapDomId, mapsCE[mapDomId], locationPoint);
+            this.createMarkerLocationEntity(mapDomId, mapsCE[mapDomId], locationPoint, description);
 
           if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.locationPointCE][locationId]) {
             res = true;
@@ -44,7 +45,7 @@ export class CesiumDrawerService {
     return res;
   };
 
-  private createMarkerLocationEntity = (mapDomId: string, mapCE: any, locationPoint: GEOPOINT3D): {} => {
+  private createMarkerLocationEntity = (mapDomId: string, mapCE: any, locationPoint: GEOPOINT3D, description: string): {} => {
     const position = this.arrayPointsToCartesian3([[locationPoint.longitude, locationPoint.latitude, 5]]);
     this.locationTemp = {data: position[0]};
     const marker = this.cesiumService.cesiumViewer[mapDomId].entities.add({
@@ -52,9 +53,12 @@ export class CesiumDrawerService {
       billboard: {
         image: '../../../assets/markerGreen.png',
         width: 25, // default: undefined
-        height: 43, // default: undefined
+        height: 43, // default: undefined,
         // horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         // verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+      },
+      options: {
+        description: description,
       }
     });
     this.cesiumService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
@@ -113,7 +117,7 @@ export class CesiumDrawerService {
 
   // ==================BILLBOARD========================================================================================
 
-  public createBillboardObject = (domId: string, locationPoint: GEOPOINT3D, billboardId: string): boolean => {
+  public createBillboardObject = (domId: string, locationPoint: GEOPOINT3D, billboardId: string, options: OPTIONS_ENTITY): boolean => {
     let res = false;
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
     for (const mapDomId in mapsCE) {
@@ -124,7 +128,7 @@ export class CesiumDrawerService {
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.billboardCE][billboardId] =
             this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.billboardCE][billboardId] || {};
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.billboardCE][billboardId] =
-            this.createBillboardEntity(mapDomId, mapsCE[mapDomId], locationPoint);
+            this.createBillboardEntity(mapDomId, mapsCE[mapDomId], locationPoint, options);
 
           if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.billboardCE][billboardId]) {
             res = true;
@@ -135,9 +139,8 @@ export class CesiumDrawerService {
     return res;
   };
 
-  private createBillboardEntity = (mapDomId: string, mapCE: any, locationPoint: GEOPOINT3D) => {
-    const text = 'Click on map to set the report\'s location';
-    // const position = this.arrayPointsToCartesian3([[locationPoint.longitude, locationPoint.latitude, 5]]);
+  private createBillboardEntity = (mapDomId: string, mapCE: any, locationPoint: GEOPOINT3D, options: OPTIONS_ENTITY) => {
+    const text = options.description;
     const billboard = this.cesiumService.cesiumViewer[mapDomId].entities.add({
       name: 'billboard',
       position: Cesium.Cartesian3.fromDegrees(locationPoint.longitude, locationPoint.latitude),
@@ -212,8 +215,7 @@ export class CesiumDrawerService {
       },
       label: undefined,
       options: {
-        description: '',
-
+        description: label.text,
       }
     };
     if (label) {
@@ -341,7 +343,7 @@ export class CesiumDrawerService {
   };
 
   // ======== Server =======================
-  public drawPolygonFromServer = (domId: string, positions: POINT3D[], idPolygon: string, title: string): boolean => {
+  public drawPolygonFromServer = (domId: string, positions: POINT3D[], idPolygon: string, title?: string): boolean => {
     this.deletePolygonManually(domId, idPolygon);
     let res = false;
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
@@ -354,7 +356,7 @@ export class CesiumDrawerService {
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon] =
             this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon] || {};
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon] =
-            this.createPolygonFromServerEntity(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon], positions);
+            this.createPolygonFromServerEntity(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon], positions, title);
           //label
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.labelPolygonCE] =
             this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.labelPolygonCE] || {};
@@ -369,7 +371,7 @@ export class CesiumDrawerService {
     return res;
   };
 
-  private createPolygonFromServerEntity = (mapDomId: string, entityCE: any, positions: POINT3D[]): {} => {
+  private createPolygonFromServerEntity = (mapDomId: string, entityCE: any, positions: POINT3D[], description: string): {} => {
     const positionCE = this.arrayPointsToCartesian3(positions);
     const entityData = {
       name: 'polygon',
@@ -378,7 +380,10 @@ export class CesiumDrawerService {
         height: 0,
         material: Cesium.Color.YELLOW.withAlpha(0.5),
         outline: true,
-        outlineColor: Cesium.Color.YELLOW
+        outlineColor: Cesium.Color.YELLOW,
+      },
+      options: {
+        description: description,
       }
     };
     if (Object.keys(entityCE).length === 0) {
@@ -396,7 +401,7 @@ export class CesiumDrawerService {
 
   };
 
-  private createLabel = (mapDomId: string, mapCE: any, positions: POINT3D[], title: string): Array<{}> => {
+  private createLabel = (mapDomId: string, mapCE: any, positions: POINT3D[], title?: string): Array<{}> => {
     const posHeight: POINT = /*[[positions[0][0], positions[0][1], 5]];*/ this.getPolygonCentroid(positions);
     const position = this.arrayPointsToCartesian3(positions);
 
@@ -493,7 +498,7 @@ export class CesiumDrawerService {
   };
 
   // ==================POLYLINE==========================================================================================
-  public createPolylineFromServer = (domId: string, points: POINT[], id: string) => {
+  public createPolylineFromServer = (domId: string, points: POINT[] | POINT3D[], id: string, description: string) => {
     let res = false;
     const position = [];
     points.forEach(point => {
@@ -508,7 +513,7 @@ export class CesiumDrawerService {
         this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][id] =
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][id] || {};
         this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][id] =
-          this.createPolyline(mapDomId, mapsCE[mapDomId], position);
+          this.createPolyline(mapDomId, mapsCE[mapDomId], position, description);
 
         if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][id]) {
           res = true;
@@ -518,14 +523,17 @@ export class CesiumDrawerService {
     return res;
   };
 
-  private createPolyline = (mapDomId: string, mapCE: any, taskPolyline: Array<any>) => {
+  private createPolyline = (mapDomId: string, mapCE: any, taskPolyline: POINT[] | POINT3D[], description: string) => {
     const positions = this.arrayPointsToCartesian3(taskPolyline);
     return this.cesiumService.cesiumViewer[mapDomId].entities.add({
       name: 'Polyline',
       polyline: {
         positions: positions,
         width: 4,
-        material: this.rgbaToCesiumColor(this.cesiumService.colors.notSelected)
+        material: this.rgbaToCesiumColor(this.cesiumService.colors.notSelected),
+      },
+      options: {
+        description: description,
       }
     });
   };
@@ -561,9 +569,9 @@ export class CesiumDrawerService {
   };
 
   // ==================ARROW POLYLINE==========================================================================================
-  public createArrowPolylineFromServer = (domId: string, points: POINT[], id: string) => {
+  public createArrowPolylineFromServer = (domId: string, points: POINT[] | POINT3D[], id: string, description: string) => {
     let res = false;
-    const position = [];
+    const position: POINT[] | POINT3D[] = [];
     points.forEach(point => {
       position.push([point[0], point[1]]);
     });
@@ -576,7 +584,7 @@ export class CesiumDrawerService {
         this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE][id] =
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE][id] || {};
         this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE][id] =
-          this.createArrowPolyline(mapDomId, mapsCE[mapDomId], position);
+          this.createArrowPolyline(mapDomId, mapsCE[mapDomId], position, description);
 
         if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE][id]) {
           res = true;
@@ -586,7 +594,7 @@ export class CesiumDrawerService {
     return res;
   };
 
-  private createArrowPolyline = (mapDomId: string, mapCE: any, taskPolyline: Array<any>) => {
+  private createArrowPolyline = (mapDomId: string, mapCE: any, taskPolyline: Array<any>, description: string) => {
     const positions = this.arrayPointsToCartesian3(taskPolyline);
     return this.cesiumService.cesiumViewer[mapDomId].entities.add({
       name: 'Polyline',
@@ -594,7 +602,10 @@ export class CesiumDrawerService {
         positions: positions,
         width: 8,
         followSurface : false,
-        material: new Cesium.PolylineArrowMaterialProperty(Cesium.Color.LIGHTBLUE)
+        material: new Cesium.PolylineArrowMaterialProperty(Cesium.Color.LIGHTBLUE),
+      },
+      options: {
+        description: description,
       }
     });
   };
@@ -710,14 +721,14 @@ export class CesiumDrawerService {
       const pickedObjects = this.cesiumService.cesiumViewer[mapDomId].scene.drillPick(clickPositionMap.endPosition);
       // const obj: any = false;
       //TODO:
-      const object: { arr: Array<any>, cesiumEntity: any } = {arr: [], cesiumEntity: undefined};
-      const IDs = {};
+      // const object: { arr: Array<any>, cesiumEntity: any } = {arr: [], cesiumEntity: undefined};
+      let item = {};
+      // const IDs = {};
       pickedObjects.forEach((pickedObject) => {
         if (Cesium.defined(pickedObject) && pickedObject.id /*&& pickedObject.id._id !== 'cesium drawing distance'*/) {
           // need to check if _id exists so that the item isn't saved twice when border is picked
-          // const item = _.get(pickedObject, 'id.options.objParams') || {};
+          item = _.get(pickedObject, 'id.options') || {};
           // let id;
-
         //   if(item.obj) {
         //     id = (item.type in SelectableItemTypes) ? item.obj._id : item.type + (item.obj.AssetId || item.obj.GspLineId || item.obj.GspObjectId || item.obj.AreaId);
         //   }
@@ -739,7 +750,7 @@ export class CesiumDrawerService {
               type: type,
               pointPX: clickPositionMap.endPosition,
               pointLatLng: clickPosition,
-              object: object
+              object: item
             });
           } catch (e) {
           }

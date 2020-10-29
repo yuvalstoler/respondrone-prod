@@ -87,13 +87,13 @@ export class LocationService {
     }
   };
 
-  private drawBillboard = (locationPoint: GEOPOINT3D) => {
-    this.mapGeneralService.createBillboard(locationPoint, 'temp');
-  };
-
-  public removeBillboard = () => {
-    this.mapGeneralService.removeBillboard('temp');
-  };
+  // private drawBillboard = (locationPoint: GEOPOINT3D) => {
+  //   this.mapGeneralService.createBillboard(locationPoint, 'temp');
+  // };
+  //
+  // public removeBillboard = () => {
+  //   this.mapGeneralService.removeBillboard('temp');
+  // };
 
   public drawLocationFromServer = (locationPoint: GEOPOINT3D, locationId: string) => {
     this.mapGeneralService.createLocationPointFromServer(locationPoint, locationId);

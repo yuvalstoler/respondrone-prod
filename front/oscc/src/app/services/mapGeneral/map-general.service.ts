@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {CesiumService} from '../cesium/cesium.service';
 import {GEOPOINT3D, MAP, POINT, POINT3D} from '../../../../../../classes/typings/all.typings';
 import {CesiumDrawerService} from '../cesium/mapDrawCesium/cesium-drawer.service';
+import {OPTIONS_ENTITY} from "../../../types";
 
 @Injectable({
   providedIn: 'root'
@@ -94,10 +95,10 @@ export class MapGeneralService {
 
   // Location Point ===========================================================================================================
   // from Service ======
-  public createLocationPointFromServer = (locationPoint: GEOPOINT3D, locationId: string): boolean => {
+  public createLocationPointFromServer = (locationPoint: GEOPOINT3D, locationId: string, description?: string): boolean => {
     const domId = undefined;
     let res = false;
-    res = this.cesiumDrawerService.createLocationPointFromServer(domId, locationPoint, locationId);
+    res = this.cesiumDrawerService.createLocationPointFromServer(domId, locationPoint, locationId, description);
     return res;
   };
 
@@ -116,10 +117,10 @@ export class MapGeneralService {
   };
 
   // Billboard =====================================================================================================
-  public createBillboard = (locationPoint: GEOPOINT3D, billboardId: string): boolean => {
+  public createBillboard = (locationPoint: GEOPOINT3D, billboardId: string, options: OPTIONS_ENTITY): boolean => {
     const domId = undefined;
     let res = false;
-    res = this.cesiumDrawerService.createBillboardObject(domId, locationPoint, billboardId);
+    res = this.cesiumDrawerService.createBillboardObject(domId, locationPoint, billboardId, options);
     return res;
   };
 
@@ -131,7 +132,7 @@ export class MapGeneralService {
   };
 
   //Polygon ====================================================================================================
-  public drawPolygonFromServer = (arrayPoints: POINT3D[], id: string, title: string) => {
+  public drawPolygonFromServer = (arrayPoints: POINT3D[], id: string, title?: string) => {
     const domId = undefined;
     let res = false;
     res = this.cesiumDrawerService.drawPolygonFromServer(domId, arrayPoints, id, title);
@@ -162,11 +163,11 @@ export class MapGeneralService {
 
   // Polyline =====================================================================================================
   // from Service =====
-  public createPolyline = (points: POINT[], id: string) => {
+  public createPolyline = (points: POINT[] | POINT3D[], id: string, description: string) => {
     const domId = undefined;
     let res = false;
     this.deletePolylineFromMap(id);
-      res = this.cesiumDrawerService.createPolylineFromServer(domId, points, id);
+      res = this.cesiumDrawerService.createPolylineFromServer(domId, points, id, description);
     return res;
   };
 
@@ -179,11 +180,11 @@ export class MapGeneralService {
 
   // Arrow Polyline =====================================================================================================
   // from Service =====
-  public createArrowPolyline = (points: POINT[], polylineId: string) => {
+  public createArrowPolyline = (points: POINT[] | POINT3D[], polylineId: string, description: string) => {
     const domId = undefined;
     let res = false;
     this.deleteArrowPolylineFromMap(polylineId);
-    res = this.cesiumDrawerService.createArrowPolylineFromServer(domId, points, polylineId);
+    res = this.cesiumDrawerService.createArrowPolylineFromServer(domId, points, polylineId, description);
     return res;
   };
 

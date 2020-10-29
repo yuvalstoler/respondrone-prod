@@ -3,7 +3,7 @@ import {DrawPolygonClass} from '../classes/drawPolygonClass';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
 import {EVENT_LISTENER_DATA, STATE_DRAW} from '../../../types';
 import {ApplicationService} from '../applicationService/application.service';
-import {GEOPOINT3D, POINT3D} from '../../../../../../classes/typings/all.typings';
+import {POINT3D} from '../../../../../../classes/typings/all.typings';
 import {BehaviorSubject} from 'rxjs';
 
 @Injectable({

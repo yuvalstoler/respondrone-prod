@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  ASYNC_RESPONSE, ID_OBJ,
+  ASYNC_RESPONSE, GEOGRAPHIC_INSTRUCTION, GEOGRAPHIC_INSTRUCTION_TYPE, ID_OBJ,
   POINT,
   POINT3D, TASK_DATA,
   TASK_DATA_UI
@@ -100,6 +100,31 @@ export class TasksService {
     //   this.mapGeneralService.deleteIcon(event.id);
     //   this.mapGeneralService.deletePolygonManually(event.id);
     // }
+    if (Array.isArray(task.geographicInstructions) && task.geographicInstructions.length > 0) {
+    // : GEOGRAPHIC_INSTRUCTION[]
+      task.geographicInstructions.forEach((geoInstruction) => {
+        switch (geoInstruction.type) {
+          case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
+            this.mapGeneralService.deleteArrowPolylineFromMap(geoInstruction.idTemp);
+            this.mapGeneralService.createArrowPolyline(geoInstruction.arrow, geoInstruction.idTemp, geoInstruction.description);
+            break;
+          case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+            break;
+          case GEOGRAPHIC_INSTRUCTION_TYPE.point:
+            this.mapGeneralService.deleteLocationPointTemp(geoInstruction.idTemp);
+            this.mapGeneralService.createLocationPointFromServer(geoInstruction.location, geoInstruction.idTemp, geoInstruction.description);
+            break;
+          case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
+            this.mapGeneralService.deletePolygonManually(geoInstruction.idTemp);
+            this.mapGeneralService.drawPolygonFromServer(geoInstruction.polygon, geoInstruction.idTemp, geoInstruction.description);
+            break;
+          case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
+            this.mapGeneralService.deletePolylineFromMap(geoInstruction.idTemp);
+            this.mapGeneralService.createPolyline(geoInstruction.polyline, geoInstruction.idTemp, geoInstruction.description);
+            break;
+        }
+      });
+    }
   };
   // ----------------------
   public createTask = (taskData: TASK_DATA, cb?: Function) => {

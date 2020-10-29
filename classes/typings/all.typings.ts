@@ -46,7 +46,7 @@ export type YXZ = { y: number, x: number, z: number };
 export type YXZW = YXZ & { w: number };
 export type POINT = [number, number];
 // @ts-ignore
-export type POINT3D = [number, number, number?];
+export type POINT3D = [number, number, number? ];
 export type VECTOR = [POINT3D, POINT3D];
 export type RECTANGLE = [POINT3D, POINT3D, POINT3D, POINT3D];
 
@@ -325,7 +325,7 @@ export type GEOGRAPHIC_INSTRUCTION = {
     location: GEOPOINT3D,
     description: string,
     address: ADDRESS,
-    arrow: POINT3D[],
+    arrow: POINT[] | POINT3D[],
     polygon: POINT3D[],
     polyline: POINT3D[],
     styles: {icon: string}

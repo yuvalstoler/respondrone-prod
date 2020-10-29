@@ -120,7 +120,7 @@ export class ReportDialogComponent {
   locationChanged = (event) => {
     if (event.target.value !== '') {
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
-      this.locationService.removeBillboard();
+      // this.locationService.removeBillboard();
       if (this.reportModel.location.latitude !== undefined && this.reportModel.location.longitude !== undefined) {
         const locationPoint: GEOPOINT3D = {
           longitude: this.reportModel.location.longitude,

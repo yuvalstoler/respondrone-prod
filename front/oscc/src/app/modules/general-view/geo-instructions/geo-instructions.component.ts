@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {
   GEOGRAPHIC_INSTRUCTION,
   GEOGRAPHIC_INSTRUCTION_TYPE,
-  GEOPOINT3D,
+  GEOPOINT3D, POINT,
   POINT3D,
   TASK_DATA_UI
 } from '../../../../../../../classes/typings/all.typings';
@@ -66,7 +66,7 @@ export class GeoInstructionsComponent implements OnInit {
     });
 
     // add arrow to model
-    this.arrowService.arrow$.subscribe((positions: POINT3D[]) => {
+    this.arrowService.arrow$.subscribe((positions: POINT[] | POINT3D[]) => {
       this.geoInstructionModel.arrow = positions;
     });
 
