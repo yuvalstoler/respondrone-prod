@@ -25,8 +25,10 @@
   <!--add New GeoInstruction-->
   <div class="">
     <!--Arrow-->
-    <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.arrow" class="DialogTitle">
-      Arrow
+    <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.arrow">
+      <div class="DialogTitle">
+        Arrow
+      </div>
     </div>
     <!--Address-->
     <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.address">
@@ -86,12 +88,16 @@
       </div>
     </div>
     <!--Polygon-->
-    <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.polygon" class="DialogTitle">
-      Polygon
+    <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.polygon">
+      <div  class="DialogTitle">
+        Polygon
+      </div>
     </div>
     <!--Polyline-->
-    <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.polyline" class="DialogTitle">
-      Polyline
+    <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.polyline">
+      <div class="DialogTitle">
+        Polyline
+      </div>
     </div>
     <!--Description-->
     <div *ngIf="selectedGeoInstruction !== undefined" class="DialogContentItem">

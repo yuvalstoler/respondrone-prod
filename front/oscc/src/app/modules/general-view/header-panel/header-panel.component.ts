@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {HEADER_BUTTONS} from 'src/types';
+import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {HEADER_BUTTONS, VIEW_LIST} from 'src/types';
 import {ApplicationService} from 'src/app/services/applicationService/application.service';
 
 @Component({
@@ -9,7 +9,12 @@ import {ApplicationService} from 'src/app/services/applicationService/applicatio
 })
 export class HeaderPanelComponent implements OnInit {
 
+  @ViewChildren('checkboxes') checkboxes: QueryList<ElementRef>;
+
   Header_Buttons = HEADER_BUTTONS;
+
+  viewItems: string[] = Object.values(VIEW_LIST);
+  viewItemModel: string[] = [];
 
   constructor(public applicationService: ApplicationService) { }
 
@@ -73,5 +78,39 @@ export class HeaderPanelComponent implements OnInit {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.view;
     }
   };
+
+  onChangeCheckbox = (event, item: string) => {
+    if (event.checked) {
+      const selectedIndex = this.viewItemModel.findIndex(data => data === item);
+      if (selectedIndex === -1 && event) {
+        this.viewItemModel.push(item);
+      }
+    } else {
+      const selectedIndex = this.viewItemModel.findIndex(data => data === item);
+      if (selectedIndex !== -1) {
+        this.viewItemModel.splice(selectedIndex, 1);
+      }
+    }
+
+  };
+
+  onCancel = () => {
+    this.checkboxes['_results'].forEach((element) => {
+      element.checked = false;
+    });
+    this.viewItemModel = [];
+  };
+
+  onApply = (event) => {
+    if (this.viewItemModel.length > 0) {
+      console.log(this.viewItemModel);
+    } else {
+      // event.stopPropagation();
+      // event.preventDefault();
+    }
+
+  };
+
+
 
 }

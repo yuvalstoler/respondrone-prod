@@ -215,7 +215,7 @@ export class CesiumDrawerService {
       },
       label: undefined,
       options: {
-        description: label.text,
+        description: (label) ? label.text : '',
       }
     };
     if (label) {
@@ -600,7 +600,7 @@ export class CesiumDrawerService {
       name: 'Polyline',
       polyline: {
         positions: positions,
-        width: 8,
+        width: 15,
         followSurface : false,
         material: new Cesium.PolylineArrowMaterialProperty(Cesium.Color.LIGHTBLUE),
       },

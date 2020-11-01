@@ -34,6 +34,7 @@ export class ArrowService {
       if (event.type === 'doubleClick') {
         this.arrow$.next(points);
         this.applicationService.stateDraw = STATE_DRAW.notDraw;
+        this.mapGeneralService.changeCursor(false);
       }
     }
   };

@@ -15,6 +15,7 @@ import {PolygonService} from '../../services/polygonService/polygon.service';
 import {CustomToasterService} from '../../services/toasterService/custom-toaster.service';
 import {ReportService} from '../../services/reportService/report.service';
 import * as _ from 'lodash';
+import {MapGeneralService} from "../../services/mapGeneral/map-general.service";
 
 @Component({
   selector: 'app-event-dialog',
@@ -63,6 +64,7 @@ export class EventDialogComponent {
               public polygonService: PolygonService,
               public customToasterService: CustomToasterService,
               public reportService: ReportService,
+              public mapGeneralService: MapGeneralService,
               public dialogRef: MatDialogRef<EventDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {title: string}) {
     this.initEventModel();
@@ -112,6 +114,7 @@ export class EventDialogComponent {
       this.eventModel.polygon = [];
       this.eventModel.locationType = LOCATION_TYPE.address;
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
+      this.mapGeneralService.changeCursor(false);
       this.locationService.deleteLocationPointTemp('0');
       this.polygonService.deletePolygonManually('0');
 
@@ -126,6 +129,7 @@ export class EventDialogComponent {
       // if (this.eventModel.location.latitude === undefined && this.eventModel.location.longitude === undefined) {
         this.eventModel.locationType = LOCATION_TYPE.locationPoint;
         this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
+      this.mapGeneralService.changeCursor(true);
       // }
 
     } else if (location === LOCATION_NAMES.polygon) {
@@ -137,12 +141,14 @@ export class EventDialogComponent {
       this.eventModel.address = '';
       this.eventModel.locationType = LOCATION_TYPE.polygon;
       this.applicationService.stateDraw = STATE_DRAW.drawPolygon;
+      this.mapGeneralService.changeCursor(true);
     }
   };
 
   locationChanged = (event) => {
     if (event.target.value !== '') {
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
+      this.mapGeneralService.changeCursor(false);
       if (this.eventModel.location.latitude !== undefined && this.eventModel.location.longitude !== undefined) {
         const locationPoint: GEOPOINT3D = {
           longitude: this.eventModel.location.longitude,
@@ -150,6 +156,7 @@ export class EventDialogComponent {
         };
         this.locationService.createOrUpdateLocationTemp(locationPoint);
         this.applicationService.stateDraw = STATE_DRAW.editLocationPoint;
+        this.mapGeneralService.changeCursor(true);
       }
     }
   };
@@ -159,6 +166,7 @@ export class EventDialogComponent {
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.situationPictures;
     this.eventModel = _.cloneDeep(this.defaultEvent);
     this.applicationService.stateDraw = STATE_DRAW.notDraw;
+    this.mapGeneralService.changeCursor(false);
     this.locationService.deleteLocationPointTemp('0');
     this.polygonService.deletePolygonManually('0');
   };

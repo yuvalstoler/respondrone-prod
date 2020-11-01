@@ -51,6 +51,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import { ResourcesPanelComponent } from './resources-panel/resources-panel.component';
 import { GeoInstructionsListComponent } from './geo-instructions/geo-instructions-list/geo-instructions-list.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { LinkedToWindowComponent } from './left-panel/linked-to-window/linked-to-window.component';
 
 
 
@@ -77,6 +78,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     GeoInstructionsComponent,
     ResourcesPanelComponent,
     GeoInstructionsListComponent,
+    LinkedToWindowComponent,
   ],
   imports: [
     CommonModule,
@@ -124,7 +126,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
         MissionsMissionControlComponent,
         TaskAssigneeTableComponent,
         GeoInstructionsComponent,
-        ResourcesPanelComponent
+        ResourcesPanelComponent,
+      LinkedToWindowComponent
     ],
   providers: [
     PolygonsEditorService,

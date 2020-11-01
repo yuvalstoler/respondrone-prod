@@ -15,6 +15,7 @@ import {PolygonService} from '../../../services/polygonService/polygon.service';
 import {ArrowService} from '../../../services/arrowService/arrow.service';
 import {PolylineService} from '../../../services/polylineService/polyline.service';
 import {MatMenuTrigger} from '@angular/material/menu';
+import {MapGeneralService} from "../../../services/mapGeneral/map-general.service";
 
 @Component({
   selector: 'app-geo-instructions',
@@ -25,7 +26,7 @@ export class GeoInstructionsComponent implements OnInit {
 
   @ViewChild(MatMenuTrigger) triggerBtn: MatMenuTrigger;
   @Input() element: TASK_DATA_UI;
-  panelOpenState = true;
+
   geoInstructions = Object.values(GEOGRAPHIC_INSTRUCTION_TYPE);
   selectedGeoInstruction: GEOGRAPHIC_INSTRUCTION_TYPE;
   GEOGRAPHIC_INSTRUCTION_TYPE = GEOGRAPHIC_INSTRUCTION_TYPE;
@@ -51,6 +52,7 @@ export class GeoInstructionsComponent implements OnInit {
               public locationService: LocationService,
               public polygonService: PolygonService,
               public arrowService: ArrowService,
+              public mapGeneralService: MapGeneralService,
               public polylineService: PolylineService) {
 
     this.geoInstructionModel =  _.cloneDeep(this.defaultModel);
@@ -90,6 +92,7 @@ export class GeoInstructionsComponent implements OnInit {
     switch (item) {
       case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
         this.applicationService.stateDraw = STATE_DRAW.drawArrow;
+        this.mapGeneralService.changeCursor(true);
         this.customToasterService.info(
           {message: 'Click minimum 2 points to set a arrow. Click double click to finish', title: 'arrow'});
         break;
@@ -97,15 +100,18 @@ export class GeoInstructionsComponent implements OnInit {
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.point:
         this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
+        this.mapGeneralService.changeCursor(true);
         this.customToasterService.info({message: 'Click on map to set the event\'s location', title: 'location'});
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
         this.applicationService.stateDraw = STATE_DRAW.drawPolygon;
+        this.mapGeneralService.changeCursor(true);
         this.customToasterService.info(
           {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
         this.applicationService.stateDraw = STATE_DRAW.drawPolyline;
+        this.mapGeneralService.changeCursor(true);
         this.customToasterService.info(
           {message: 'Click minimum 2 points to set a polyline. Click double click to finish', title: 'polyline'});
         break;
@@ -124,6 +130,7 @@ export class GeoInstructionsComponent implements OnInit {
     this.geoInstructionModel = _.cloneDeep(this.defaultModel);
     this.element.geographicInstructions = this.geographicInstructionsModel;
     this.applicationService.stateDraw = STATE_DRAW.notDraw;
+    this.mapGeneralService.changeCursor(false);
   };
 
   setIcon = (type: GEOGRAPHIC_INSTRUCTION_TYPE): string => {
@@ -151,6 +158,7 @@ export class GeoInstructionsComponent implements OnInit {
   locationChanged = (event) => {
     if (event.target.value !== '') {
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
+      this.mapGeneralService.changeCursor(false);
       if (this.geoInstructionModel.location.latitude !== undefined && this.geoInstructionModel.location.longitude !== undefined) {
         const locationPoint: GEOPOINT3D = {
           longitude: this.geoInstructionModel.location.longitude,
@@ -158,6 +166,7 @@ export class GeoInstructionsComponent implements OnInit {
         };
         this.locationService.createOrUpdateLocationTemp(locationPoint);
         this.applicationService.stateDraw = STATE_DRAW.editLocationPoint;
+        this.mapGeneralService.changeCursor(true);
       }
     }
   };

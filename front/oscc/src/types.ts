@@ -56,3 +56,14 @@ export type OPTIONS_ENTITY = {
   description: string,
   id?: string
 };
+
+export enum VIEW_LIST {
+  frLocation = 'FR Location',
+  reportsLocation = 'Reports Location',
+  events = 'Events',
+  UAVLocationsAndRouts = 'UAV locations and routs',
+  missionsPlane = 'Missions plans',
+  nfz = 'NFZ',
+  airResourcesPanel = 'Air Resources Panel',
+  groundResourcesPanel = 'Ground Resources Panel'
+}

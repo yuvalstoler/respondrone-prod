@@ -15,9 +15,10 @@ import * as _ from 'lodash';
 import {HEADER_BUTTONS, STATE_DRAW} from '../../../types';
 import {LocationService} from '../../services/locationService/location.service';
 import {PolygonService} from '../../services/polygonService/polygon.service';
-import {FRService} from "../../services/frService/fr.service";
+import {FRService} from '../../services/frService/fr.service';
 import {PolylineService} from '../../services/polylineService/polyline.service';
 import {ArrowService} from '../../services/arrowService/arrow.service';
+import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
 
 @Component({
   selector: 'app-task-dialog',
@@ -61,6 +62,7 @@ export class TaskDialogComponent {
               public polylineService: PolylineService,
               public arrowService: ArrowService,
               public dialogRef: MatDialogRef<TaskDialogComponent>,
+              public mapGeneralService: MapGeneralService,
               public frService: FRService,
               @Inject(MAT_DIALOG_DATA) public data: { title: string }) {
     this.initTaskModel();
@@ -85,6 +87,7 @@ export class TaskDialogComponent {
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;
     this.applicationService.geoCounter = 0;
     this.applicationService.stateDraw = STATE_DRAW.notDraw;
+    this.mapGeneralService.changeCursor(false);
     this.taskModel = _.cloneDeep(this.defaultTask);
   };
 

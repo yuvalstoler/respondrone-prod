@@ -4,6 +4,7 @@
 .HeaderContainer {
   color: $white;
 }
+
 .HeaderLogo{
   width: 180px;
 }
@@ -82,4 +83,15 @@
   }
 }
 
+.HeaderButtons{
+  text-align: center;
+}
+.HeaderButtonApply{
+  background-color: $gray;
+}
+
+.mat-menu-item {
+  line-height: 25px;
+  height: 25px;
+}
 

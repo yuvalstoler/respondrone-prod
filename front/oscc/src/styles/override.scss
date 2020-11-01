@@ -39,3 +39,6 @@
   padding-right: 10px !important;
 }
 
+::ng-deep.cdk-text-field-autofill-monitored:not(:-webkit-autofill) {
+  text-align: left;
+}

@@ -1,0 +1,10 @@
+<div class="ContextMenu">
+  <div class="ContextSingleMenu"
+       *ngIf="contextMenuService?.isOpenSingleMenu"
+       [style.top]="contextMenuService?.singleTooltip?.top"
+       [style.left]="contextMenuService?.singleTooltip?.left">
+    <div>Header</div>
+    <div>List</div>
+    <div>Unlink</div>
+  </div>
+</div>

@@ -17,6 +17,8 @@ export class ApplicationService {
   selectedViewMedia: FILE_FS_DATA;
   panelIcon: LEFT_PANEL_ICON = LEFT_PANEL_ICON.expand;
   stateDraw: STATE_DRAW = STATE_DRAW.notDraw;
+
+
   now = Date.now();
   typesConfig = {reportTypes: [], eventTypes: [], taskTypes: []};
   geoCounter: number = 0;

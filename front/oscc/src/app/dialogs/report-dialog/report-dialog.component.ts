@@ -16,6 +16,7 @@ import {CustomToasterService} from '../../services/toasterService/custom-toaster
 import {EventService} from '../../services/eventService/event.service';
 import {HEADER_BUTTONS, STATE_DRAW} from '../../../types';
 import * as _ from 'lodash';
+import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
 
 @Component({
   selector: 'app-report-dialog',
@@ -64,6 +65,7 @@ export class ReportDialogComponent {
               public reportService: ReportService,
               public customToasterService: CustomToasterService,
               public eventService: EventService,
+              public mapGeneralService: MapGeneralService,
               public dialogRef: MatDialogRef<ReportDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {title: string}) {
     this.initReportModel();
@@ -105,6 +107,7 @@ export class ReportDialogComponent {
       this.reportModel.location = {longitude: undefined, latitude: undefined};
       this.reportModel.locationType = LOCATION_TYPE.address;
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
+      this.mapGeneralService.changeCursor(false);
       this.locationService.deleteLocationPointTemp('0');
 
     } else if (location === LOCATION_NAMES.locationPoint) {
@@ -113,6 +116,7 @@ export class ReportDialogComponent {
       // if (this.reportModel.location.latitude === undefined && this.reportModel.location.longitude === undefined) {
         this.reportModel.locationType = LOCATION_TYPE.locationPoint;
         this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
+      this.mapGeneralService.changeCursor(true);
       // }
     }
   };
@@ -120,6 +124,7 @@ export class ReportDialogComponent {
   locationChanged = (event) => {
     if (event.target.value !== '') {
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
+      this.mapGeneralService.changeCursor(false);
       // this.locationService.removeBillboard();
       if (this.reportModel.location.latitude !== undefined && this.reportModel.location.longitude !== undefined) {
         const locationPoint: GEOPOINT3D = {
@@ -128,6 +133,7 @@ export class ReportDialogComponent {
         };
         this.locationService.createOrUpdateLocationTemp(locationPoint);
         this.applicationService.stateDraw = STATE_DRAW.editLocationPoint;
+        this.mapGeneralService.changeCursor(true);
       }
     }
   };
@@ -147,6 +153,7 @@ export class ReportDialogComponent {
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.situationPictures;
     this.reportModel = _.cloneDeep(this.defaultReport);
     this.applicationService.stateDraw = STATE_DRAW.notDraw;
+    this.mapGeneralService.changeCursor(false);
     this.locationService.deleteLocationPointTemp('0');
   };
 

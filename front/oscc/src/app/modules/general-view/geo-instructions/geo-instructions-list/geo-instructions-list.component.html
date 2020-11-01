@@ -12,7 +12,7 @@
     <mat-expansion-panel-header [ngStyle]="{'cursor': 'grabbing'}">
       <div class="expendTitle">
         <mat-icon mat-list-icon>{{geoInstruction?.styles?.icon}}</mat-icon>
-        <span mat-line>{{geoInstruction?.type}}</span>
+        <!--<span mat-line>{{geoInstruction?.type}}</span>-->
       </div>
       <button (click)="removeGeoInstruction($event, i)" class='DialogButtonGeoX '>X</button>
     </mat-expansion-panel-header>
@@ -24,6 +24,6 @@
   </mat-expansion-panel>
 </mat-accordion>
 
-<!--<div *ngIf="element?.reports?.length <= 0" class="DialogNotElement">-->
-<!--Add geo instruction by clicking on the “Add” button.-->
-<!--</div>-->
+<div *ngIf="geographicInstructionsModel.length <= 0" class="DialogNotElement">
+Not geo instructions
+</div>

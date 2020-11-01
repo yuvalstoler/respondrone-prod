@@ -38,6 +38,7 @@ export class PolylineService {
       if (event.type === 'doubleClick') {
         this.polyline$.next(points);
         this.applicationService.stateDraw = STATE_DRAW.notDraw;
+        this.mapGeneralService.changeCursor(false);
       }
     }
   };

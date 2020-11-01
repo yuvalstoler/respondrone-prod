@@ -53,6 +53,7 @@ export class LocationService {
         this.isMarker = false;
         this.downClick = false;
         this.applicationService.stateDraw = STATE_DRAW.editLocationPoint;
+        this.mapGeneralService.changeCursor(true);
       }
     }
   };
@@ -80,6 +81,7 @@ export class LocationService {
         this.isMarker = false;
         this.downClick = false;
         this.applicationService.stateDraw = STATE_DRAW.notDraw;
+        this.mapGeneralService.changeCursor(false);
         // setTimeout(() => {
         //   this.applicationService.stateDraw = STATE_DRAW.editLocationPoint;
         // }, 500);

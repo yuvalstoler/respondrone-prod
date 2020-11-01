@@ -9,6 +9,7 @@ import {COMMENT, EVENT_DATA_UI, POINT} from '../../../../../../../../../classes/
 import {EventService} from '../../../../../services/eventService/event.service';
 import {ReportService} from '../../../../../services/reportService/report.service';
 import * as _ from 'lodash';
+import {ContextMenuService} from '../../../../../services/contextMenuService/context-menu.service';
 
 
 @Component({
@@ -42,7 +43,8 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
 
   constructor(public applicationService: ApplicationService,
               public eventService: EventService,
-              public reportService: ReportService) {
+              public reportService: ReportService,
+              public contextMenuService: ContextMenuService) {
 
     this.eventService.events$.subscribe((isNewData: boolean) => {
       if (isNewData) {
@@ -184,7 +186,13 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
       const coordinates: POINT = [element.location.longitude, element.location.latitude];
       this.eventService.flyToObject(coordinates);
     } else if (column === 'link') {
-
+    //  todo: open window linked
+    //   if (!this.contextMenuService.isOpenSingleMenu) {
+        const top = event.clientY - 10;
+        const left = event.clientX + 20;
+        const clickPosition = {x: left, y: top};
+        this.contextMenuService.openSingleMenu(clickPosition);
+      // }
     }
 
   };

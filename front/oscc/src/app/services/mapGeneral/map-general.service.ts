@@ -226,4 +226,9 @@ export class MapGeneralService {
     return res;
   };
 
+  public changeCursor = (state: boolean) => {
+    const domId = undefined;
+    this.cesiumService.changeCursor(domId, state);
+  };
+
 }

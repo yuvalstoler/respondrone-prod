@@ -2,72 +2,91 @@
   <!--Left Side-->
   <div class="HeaderLeftSide">
     <!--logo-->
-    <div class="LeftSideButton" matTooltip="TEST"><img class="HeaderLogo" src="../../../../assets/ResponDrone-Logo-white.png"></div>
+    <div class="LeftSideButton"><img class="HeaderLogo" src="../../../../assets/ResponDrone-Logo-white.png"></div>
     <!--Situation Picture-->
-    <div class="LeftSideButton" (click)="onSituationPicture()">
-      <span class="LeftSideLabel"
-            [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.situationPictures,
-             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}">
+    <div (click)="onSituationPicture()" class="LeftSideButton">
+      <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.situationPictures,
+             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}"
+            class="LeftSideLabel">
         Situation Picture</span>
     </div>
     <!--Mission Control-->
-    <div class="LeftSideButton" (click)="onMissionControl()">
-      <span class="LeftSideLabel"
-            [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.missionControl,
-             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}">
+    <div (click)="onMissionControl()" class="LeftSideButton">
+      <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.missionControl,
+             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}"
+            class="LeftSideLabel">
         Mission Control</span>
     </div>
     <!--Live Video-->
-    <div class="LeftSideButton" (click)="onLiveVideo()">
-      <span class="LeftSideLabel"
-            [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.liveVideo,
-             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}">
+    <div (click)="onLiveVideo()" class="LeftSideButton">
+      <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.liveVideo,
+             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}"
+            class="LeftSideLabel">
         Live Video</span>
     </div>
     <!--Media-->
-    <div class="LeftSideButton" (click)="onMedia()" >
-      <span class="LeftSideLabel"
-            [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.media,
-             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}">
+    <div (click)="onMedia()" class="LeftSideButton">
+      <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.media,
+             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}"
+            class="LeftSideLabel">
         Media</span>
     </div>
     <!--Toolbox-->
-    <div class="LeftSideButton" (click)="onToolbox()">
-      <span class="LeftSideLabel"
-            [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.toolbox,
-             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}">
+    <div (click)="onToolbox()" class="LeftSideButton">
+      <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.toolbox,
+             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}"
+            class="LeftSideLabel">
         Toolbox</span>
       <mat-icon class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
     </div>
     <!--View-->
-    <div class="LeftSideButton" (click)="onView()">
-      <span class="LeftSideLabel"
-            [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.view,
-             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}">
-        View</span>
-      <mat-icon class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
+    <div (click)="onView()" class="LeftSideButton">
+      <button [matMenuTriggerFor]="menu" mat-button>
+        <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.view,
+        LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}"
+              class="LeftSideLabel">View</span>
+        <mat-icon class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" role="menuitemcheckbox">
+        <div *ngFor="let viewItem of viewItems; let i = index">
+          <mat-checkbox class="mat-menu-item"
+                        #checkboxes
+                        (change)="onChangeCheckbox($event, viewItem)"
+                        (click)="$event.stopPropagation();"
+                       >{{viewItem}}</mat-checkbox>
+        </div>
+        <div class="HeaderButtons">
+          <button mat-flat-button (click)="onCancel()">Cancel</button>
+          <button class="HeaderButtonApply" mat-flat-button
+                  (click)="onApply($event)"
+                  [disabled]="viewItemModel.length === 0">
+            Apply</button>
+        </div>
+      </mat-menu>
     </div>
+
+
   </div>
 
   <!--Right Side-->
   <div class="HeaderRightSide">
     <!--SubSystemStatus-->
-      <div class="RightSideButton">
-        <mat-icon class="HPRightSideIcon">
-          wifi
-        </mat-icon>
-      </div>
-      <div class="RightSideButton">
-        <mat-icon class="HPRightSideIcon">
-          miscellaneous_services
-        </mat-icon>
-      </div>
-      <div class="RightSideButton ">
-        <mat-icon class="HPRightSideIcon">
-          cloud
-        </mat-icon>
-      </div>
-<div class="RightLine"></div>
+    <div class="RightSideButton">
+      <mat-icon class="HPRightSideIcon">
+        wifi
+      </mat-icon>
+    </div>
+    <div class="RightSideButton">
+      <mat-icon class="HPRightSideIcon">
+        miscellaneous_services
+      </mat-icon>
+    </div>
+    <div class="RightSideButton ">
+      <mat-icon class="HPRightSideIcon">
+        cloud
+      </mat-icon>
+    </div>
+    <div class="RightLine"></div>
     <!--Entity Search-->
     <div class="RightSideButton">
       <mat-icon class="HPRightSideIcon">
@@ -84,6 +103,6 @@
     <div class="RightSideDiv">
       <div class="">18/10/2020</div>
       <div class="">15:33</div>
-       </div>
+    </div>
   </div>
 </div>

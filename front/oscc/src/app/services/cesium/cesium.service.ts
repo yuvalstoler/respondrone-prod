@@ -79,7 +79,7 @@ export class CesiumService {
       {
         //  baseLayerPicker: false,
         //  resolutionScale: 0.5,
-        terrainProvider : Cesium.createWorldTerrain({
+        terrainProvider: Cesium.createWorldTerrain({
           requestWaterMask: false,
           requestVertexNormals: true
         }),
@@ -147,13 +147,13 @@ export class CesiumService {
 
   public flyToObject = (domId: string, coordinates: POINT | POINT3D): boolean => {
     let res = false;
-      const mapsCE: MAP<any> = this.getMapByDomId(domId);
-      for (const mapDomId in mapsCE) {
-        if (mapsCE.hasOwnProperty(mapDomId)) {
-          this.flyTo(mapDomId, coordinates);
-          res = true;
-        }
+    const mapsCE: MAP<any> = this.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        this.flyTo(mapDomId, coordinates);
+        res = true;
       }
+    }
     return res;
   };
 
@@ -174,6 +174,19 @@ export class CesiumService {
 
   private pointDegreesToCartesian3 = (position: POINT | POINT3D): CARTESIAN3 => {
     return Cesium.Cartesian3.fromDegrees(position[0], position[1], position[2] || 0);
+  };
+
+  public changeCursor = (domId: string, state: boolean) => {
+    const mapsCE: MAP<any> = this.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        if (state) {
+          this.cesiumViewer[mapDomId]._container.style.cursor = 'crosshair';
+        } else {
+          this.cesiumViewer[mapDomId]._container.style.cursor = 'default';
+        }
+      }
+    }
   };
 
 }
