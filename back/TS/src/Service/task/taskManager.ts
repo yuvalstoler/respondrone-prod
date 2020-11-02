@@ -9,6 +9,7 @@ import {
     ASYNC_RESPONSE,
     ID_OBJ,
     MAP,
+    OSCC_TASK_ACTION,
     TASK_ACTION,
     TASK_DATA,
     TASK_STATUS,
@@ -218,8 +219,11 @@ export class TaskManager {
             if (lastAction === TASK_ACTION.accept) {
                 res = TASK_STATUS.inProgress;
             }
-            if (lastAction === TASK_ACTION.complete) {
+            else if (lastAction === TASK_ACTION.complete) {
                 res = TASK_STATUS.completed;
+            }
+            else if (lastAction === TASK_ACTION.cancel) {
+                res = TASK_STATUS.cancelled;
             }
             else if (lastAction === TASK_ACTION.reject) {
                 let isAllRejected = true;
@@ -275,6 +279,40 @@ export class TaskManager {
         });
     }
 
+    private osccTaskAction = (data: OSCC_TASK_ACTION) => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
+            const task = TaskManager.getTask({id: data.taskId});
+            if (task) {
+                const taskData = task.toJsonForSave();
+                taskData.status = this.getTaskStatus(taskData, data.action);
+                RequestManager.requestToDBS(DBS_API.createTask, taskData)
+                    .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                        res.data = data.data;
+                        res.success = data.success;
+                        res.description = data.description;
+                        if ( data.success ) {
+                            task.setValues(data.data);
+                            this.sendTaskToMobile(task);
+                            UpdateListenersManager.updateTaskListeners();
+                            resolve(res);
+                        }
+                        else {
+                            reject(res)
+                        }
+
+                    })
+                    .catch((data: ASYNC_RESPONSE<TASK_DATA>) => {
+                        console.log(data);
+                        reject(data);
+                    });
+            }
+            else {
+                res.data =  'task doesnt exist: '+ data.taskId
+                reject(res);
+            }
+        });
+    }
 
     private readTask = (taskIdData: ID_OBJ): Promise<ASYNC_RESPONSE<TASK_DATA>> => {
         return new Promise((resolve, reject) => {
@@ -355,6 +393,7 @@ export class TaskManager {
 
     public static createTask = TaskManager.instance.createTask;
     public static userTaskAction = TaskManager.instance.userTaskAction;
+    public static osccTaskAction = TaskManager.instance.osccTaskAction;
 
     public static readTask = TaskManager.instance.readTask;
     public static readAllTask = TaskManager.instance.readAllTask;

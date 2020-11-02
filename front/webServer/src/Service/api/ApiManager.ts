@@ -12,7 +12,7 @@ import {
 } from 'express';
 import {
     ASYNC_RESPONSE, EVENT_DATA,
-    ID_OBJ,
+    ID_OBJ, OSCC_TASK_ACTION,
     POINT,
     REPORT_DATA, TASK_DATA,
 } from '../../../../../classes/typings/all.typings';
@@ -358,6 +358,24 @@ export class ApiManager implements IRest {
 
     };
 
+    private osccTaskAction = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+
+        const requestBody: OSCC_TASK_ACTION = request.body;
+        TaskManager.osccTaskAction(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
     private updateAllTasks = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE = {success: false};
         const requestBody: TASK_DATA[] = request.body;
@@ -432,6 +450,7 @@ export class ApiManager implements IRest {
         [WS_API.readAllTask]: this.readAllTask,
         [WS_API.deleteTask]: this.deleteTask,
         [WS_API.deleteAllTask]: this.deleteAllTask,
+        [WS_API.osccTaskAction]: this.osccTaskAction,
 
         [WS_API.uploadFile]: this.uploadFile,
         [WS_API.removeFile]: this.removeFile,

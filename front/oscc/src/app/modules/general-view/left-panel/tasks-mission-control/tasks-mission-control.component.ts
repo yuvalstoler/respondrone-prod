@@ -8,7 +8,7 @@ import {TaskDialogComponent} from '../../../../dialogs/task-dialog/task-dialog.c
 import {
   GEOGRAPHIC_INSTRUCTION,
   GEOGRAPHIC_INSTRUCTION_TYPE,
-  TASK_DATA_UI
+  TASK_DATA_UI, TASK_ACTION, OSCC_TASK_ACTION
 } from '../../../../../../../../classes/typings/all.typings';
 import {TasksService} from '../../../../services/tasksService/tasks.service';
 import {LocationService} from '../../../../services/locationService/location.service';
@@ -25,6 +25,7 @@ export class TasksMissionControlComponent implements OnInit {
 
   @ViewChild(TasksMissionTableComponent) childComponent: TasksMissionTableComponent;
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
+  TASK_ACTION = TASK_ACTION;
 
   constructor(public applicationService: ApplicationService,
               public tasksService: TasksService,
@@ -92,6 +93,14 @@ export class TasksMissionControlComponent implements OnInit {
 
   onArchiveTask = () => {
     //  todo: move it to the archive folder
+  };
+
+  onTaskAction = (action: TASK_ACTION) => {
+    const data: OSCC_TASK_ACTION = {
+      taskId: this.applicationService.selectedTasks[0].id,
+      action: action
+    }
+    this.tasksService.sendTaskAction(data);
   };
 
   openConfirmDialog = (): void => {

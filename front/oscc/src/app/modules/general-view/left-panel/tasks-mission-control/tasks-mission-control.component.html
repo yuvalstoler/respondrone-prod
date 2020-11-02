@@ -8,10 +8,20 @@
   </div>
 
   <div class="HeaderRightPanel" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand">
-    <div (click)="onArchiveTask()"
-         *ngIf="applicationService.selectedTasks.length > 0"
-         class="RightSideButton pointer">Archive
-    </div>
+<!--    <div (click)="onArchiveTask()"-->
+<!--         *ngIf="applicationService.selectedTasks.length > 0"-->
+<!--         class="RightSideButton pointer">Archive-->
+<!--    </div>-->
+
+    <mat-form-field appearance="outline" *ngIf="applicationService.selectedTasks.length === 1">
+      <mat-label>Update status</mat-label>
+      <mat-select>
+        <mat-option value="Canceled" (click)="onTaskAction(TASK_ACTION.cancel)">Canceled</mat-option>
+        <mat-option value="Completed" (click)="onTaskAction(TASK_ACTION.complete)">Completed</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
     <div (click)="onEditTask()"
          *ngIf="applicationService.selectedTasks.length === 1"
          class="RightSideButton pointer">Edit

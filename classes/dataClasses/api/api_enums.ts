@@ -85,7 +85,8 @@ export enum TS_API {
     getAllTasks = '/getAllTasks',
     getTaskById = '/getTaskById',
 
-    userTaskAction = '/userTaskAction'
+    userTaskAction = '/userTaskAction',
+    osccTaskAction = '/osccTaskAction',
 }
 
 export enum RS_API {
@@ -159,6 +160,7 @@ export enum WS_API {
     readAllTask = '/readAllTask',
     deleteTask = '/deleteTask',
     deleteAllTask = '/deleteAllTask',
+    osccTaskAction = '/osccTaskAction',
 
     updateAllReports = '/updateAllReports',
     updateAllEvents = '/updateAllEvents',

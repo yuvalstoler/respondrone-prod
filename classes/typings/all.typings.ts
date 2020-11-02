@@ -271,10 +271,16 @@ export enum FR_STATUS {
 export enum TASK_ACTION {
     accept = 'accept',
     reject = 'reject',
-    complete = 'complete'
+    complete = 'complete',
+    cancel = 'cancel'
 }
 export type USER_TASK_ACTION = {
     userId: ID_TYPE,
+    taskId: ID_TYPE,
+    action: TASK_ACTION
+}
+
+export type OSCC_TASK_ACTION = {
     taskId: ID_TYPE,
     action: TASK_ACTION
 }

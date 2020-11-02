@@ -344,7 +344,7 @@ export class CesiumDrawerService {
 
   // ======== Server =======================
   public drawPolygonFromServer = (domId: string, positions: POINT3D[], idPolygon: string, title?: string, description?: string): boolean => {
-    this.deletePolygonManually(domId, idPolygon);
+    // this.deletePolygonManually(domId, idPolygon);
     let res = false;
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
     for (const mapDomId in mapsCE) {

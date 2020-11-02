@@ -11,7 +11,7 @@ import { RequestManager } from '../../AppService/restConnections/requestManager'
 
 import {
     ASYNC_RESPONSE,
-    ID_OBJ,
+    ID_OBJ, OSCC_TASK_ACTION,
     TASK_DATA, TASK_DATA_UI
 } from '../../../../../classes/typings/all.typings';
 import {SocketIO} from '../../websocket/socket.io';
@@ -157,6 +157,29 @@ export class TaskManager {
         });
     }
 
+    private osccTaskAction = (taskActionObj: OSCC_TASK_ACTION): Promise<ASYNC_RESPONSE> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
+            RequestManager.requestToTS(TS_API.osccTaskAction, taskActionObj)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.data = data.data;
+                    res.success = data.success;
+                    res.description = data.description;
+
+                    if ( data.success ) {
+                        resolve(res);
+                    }
+                    else {
+                        reject(res);
+                    }
+                })
+                .catch((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    console.log(data);
+                    reject(data);
+                });
+        });
+    }
+
     private getDataForUI = (): TASK_DATA_UI[] => {
         const res: TASK_DATA_UI[] = [];
         this.tasks.forEach((task: Task) => {
@@ -184,6 +207,7 @@ export class TaskManager {
     public static readAllTask = TaskManager.instance.readAllTask;
     public static deleteTask = TaskManager.instance.deleteTask;
     public static deleteAllTask = TaskManager.instance.deleteAllTask;
+    public static osccTaskAction = TaskManager.instance.osccTaskAction;
 
 
 

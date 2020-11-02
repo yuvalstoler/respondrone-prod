@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  ASYNC_RESPONSE, GEOGRAPHIC_INSTRUCTION, GEOGRAPHIC_INSTRUCTION_TYPE, ID_OBJ,
+  ASYNC_RESPONSE, GEOGRAPHIC_INSTRUCTION, GEOGRAPHIC_INSTRUCTION_TYPE, ID_OBJ, OSCC_TASK_ACTION,
   POINT,
   POINT3D, TASK_DATA,
   TASK_DATA_UI
@@ -155,6 +155,18 @@ export class TasksService {
       })
       .catch(e => {
         this.toasterService.error({message: 'error creating task', title: ''});
+      });
+  };
+  // ----------------------
+  public sendTaskAction = (data: OSCC_TASK_ACTION) => {
+    this.connectionService.post('/api/osccTaskAction', data)
+      .then((data: ASYNC_RESPONSE) => {
+        if (!data.success) {
+          this.toasterService.error({message: 'error changing task status', title: ''});
+        }
+      })
+      .catch(e => {
+        this.toasterService.error({message: 'error changing task status', title: ''});
       });
   };
   // -----------------------

@@ -168,6 +168,29 @@ export class ApiManager implements IRest {
         }
     };
 
+    private osccTaskAction = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody: USER_TASK_ACTION = request.body || {};
+        if (requestBody.taskId && requestBody.action in TASK_ACTION) {
+            TaskManager.osccTaskAction(requestBody)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    res.description = data.description;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field userId/taskId/action';
+            response.send(res);
+        }
+    };
+
     routers: {} = {
         [TS_API.createTask]: this.newTask,
         [TS_API.readTask]: this.readTask,
@@ -179,6 +202,7 @@ export class ApiManager implements IRest {
         [TS_API.getTaskById]: this.getTaskById,
 
         [TS_API.userTaskAction]: this.userTaskAction,
+        [TS_API.osccTaskAction]: this.osccTaskAction,
     };
 
     // region API uncions
