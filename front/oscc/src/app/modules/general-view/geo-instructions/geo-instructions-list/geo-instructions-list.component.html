@@ -1,29 +1,29 @@
 <mat-accordion
-  cdkDropList
   #geoInstructionListList="cdkDropList"
-  [cdkDropListData]="geographicInstructionsModel"
   (cdkDropListDropped)="drop($event)"
+  [cdkDropListData]="geographicInstructionsModel"
+  cdkDropList
 >
-  <mat-expansion-panel *ngFor="let geoInstruction of geographicInstructionsModel; let i = index"
+  <mat-expansion-panel (click)="flyToInstruction(geoInstruction)"
+                       *ngFor="let geoInstruction of geographicInstructionsModel; let i = index"
                        [expanded]="false"
                        [togglePosition]="'before'"
-                       (click)="flyToInstruction(geoInstruction)"
                        cdkDrag>
     <mat-expansion-panel-header [ngStyle]="{'cursor': 'grabbing'}">
       <div class="expendTitle">
         <mat-icon mat-list-icon>{{geoInstruction?.styles?.icon}}</mat-icon>
-        <!--<span mat-line>{{geoInstruction?.type}}</span>-->
+        <span mat-line class="expendTitleText">{{geoInstruction?.description}}</span>
       </div>
       <button (click)="removeGeoInstruction($event, i)" class='DialogButtonGeoX '>X</button>
     </mat-expansion-panel-header>
     <div class="description-content">
       <div class="description-content scroll">
-        <span> Description: </span>
-        {{geoInstruction?.description}}</div>
+        {{geoInstruction?.description}}
+      </div>
     </div>
   </mat-expansion-panel>
 </mat-accordion>
 
 <div *ngIf="geographicInstructionsModel.length <= 0" class="DialogNotElement">
-Not geo instructions
+  Not geo instructions
 </div>

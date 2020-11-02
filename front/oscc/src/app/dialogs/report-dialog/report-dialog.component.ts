@@ -84,7 +84,7 @@ export class ReportDialogComponent {
     if (!this.reportModel.id) {
       this.reportModel.media.forEach((mediaData) => {
         this.mediaService.deleteFile(mediaData);
-      })
+      });
     }
     this.clearPanel();
     this.dialogRef.close(false);
@@ -179,6 +179,20 @@ export class ReportDialogComponent {
 
   onChangeComments = (comments: COMMENT[]) => {
     this.reportModel.comments = comments;
+  };
+
+  getLocationDisabled = (): boolean => {
+    let res = false;
+    if (this.reportModel.locationType === LOCATION_TYPE.locationPoint &&
+      (this.reportModel.location.latitude === undefined ||
+        this.reportModel.location.longitude === undefined)) {
+      res = true;
+    }
+    if (this.reportModel.locationType === LOCATION_TYPE.address &&
+      (this.reportModel.address === undefined || this.reportModel.address === '')) {
+      res = true;
+    }
+    return res;
   };
 
 }

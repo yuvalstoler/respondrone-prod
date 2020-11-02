@@ -94,23 +94,6 @@ export class HeaderPanelComponent implements OnInit {
   //   TODO: this.viewItemModel show or hide
   };
 
-  onCancel = () => {
-    this.checkboxes['_results'].forEach((element) => {
-      element.checked = false;
-    });
-    this.viewItemModel = [];
-  };
-
-  onApply = (event) => {
-    if (this.viewItemModel.length > 0) {
-      console.log(this.viewItemModel);
-    } else {
-      // event.stopPropagation();
-      // event.preventDefault();
-    }
-
-  };
-
 
 
 }

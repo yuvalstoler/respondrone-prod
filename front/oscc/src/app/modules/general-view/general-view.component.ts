@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {DISPLAY_ON_SCREEN, HEADER_BUTTONS, LEFT_PANEL_ICON} from 'src/types';
 import {ApplicationService} from 'src/app/services/applicationService/application.service';
 import {CesiumService} from '../../services/cesium/cesium.service';
-import {ListenerMapService} from "../../services/cesium/listenerMap/listener-map.service";
+import {ListenerMapService} from '../../services/cesium/listenerMap/listener-map.service';
+import {TasksService} from '../../services/tasksService/tasks.service';
 
 @Component({
   selector: 'app-general-view',
@@ -16,6 +17,7 @@ export class GeneralViewComponent implements OnInit {
 
   constructor(public applicationService: ApplicationService,
               public cesiumService: CesiumService,
+              public tasksService: TasksService,
               public listenerMapService: ListenerMapService) { }
 
   ngOnInit(): void {

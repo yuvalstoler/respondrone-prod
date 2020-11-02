@@ -183,7 +183,7 @@ export class CesiumService {
     const center = turf.centroid(poly).geometry.coordinates;
     // positions = this.arrayPointsToCartesian3(item.Points);
     return [center[0], center[1], 0];
-  }
+  };
 
   public changeCursor = (domId: string, state: boolean) => {
     const mapsCE: MAP<any> = this.getMapByDomId(domId);

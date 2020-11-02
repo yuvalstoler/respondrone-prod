@@ -19,9 +19,14 @@
           <label>
             <input [(ngModel)]="taskModel.title" class="Label" matInput
                    placeholder="For example: Fire in the city"
+                   #title
+                   required
                    type="text">
           </label>
         </mat-form-field>
+        <mat-error *ngIf="taskModel.title === '' || taskModel.title === undefined">
+          Task title field is required
+        </mat-error>
       </div>
       <!--Type & Priority-->
       <div class="DialogGrid2">
@@ -107,6 +112,7 @@
     </button>
     <button [mat-dialog-close]="taskModel"
             class="DialogActionsCreate"
+            [disabled]="(taskModel.title === '' || taskModel.title === undefined)"
             mat-raised-button>
       {{data.title}}
     </button>

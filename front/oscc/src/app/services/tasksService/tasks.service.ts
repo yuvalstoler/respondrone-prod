@@ -116,7 +116,7 @@ export class TasksService {
             break;
           case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
             this.mapGeneralService.deletePolygonManually(geoInstruction.idTemp);
-            this.mapGeneralService.drawPolygonFromServer(geoInstruction.polygon, geoInstruction.idTemp, geoInstruction.description);
+            this.mapGeneralService.drawPolygonFromServer(geoInstruction.polygon, geoInstruction.idTemp, undefined, geoInstruction.description);
             break;
           case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
             this.mapGeneralService.deletePolylineFromMap(geoInstruction.idTemp);

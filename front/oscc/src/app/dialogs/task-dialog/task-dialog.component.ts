@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {
   COMMENT, FR_DATA_UI,
   GEOGRAPHIC_INSTRUCTION,
@@ -25,7 +25,9 @@ import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
   templateUrl: './task-dialog.component.html',
   styleUrls: ['./task-dialog.component.scss']
 })
-export class TaskDialogComponent {
+export class TaskDialogComponent implements OnInit {
+
+  @ViewChild('title', {static: true}) firstItem: ElementRef;
 
   taskModel: TASK_DATA_UI;
   types = this.applicationService.typesConfig.taskTypes;
@@ -66,6 +68,10 @@ export class TaskDialogComponent {
               public frService: FRService,
               @Inject(MAT_DIALOG_DATA) public data: { title: string }) {
     this.initTaskModel();
+  }
+
+  ngOnInit() {
+    this.firstItem.nativeElement.focus();
   }
 
   onNoClick(): void {

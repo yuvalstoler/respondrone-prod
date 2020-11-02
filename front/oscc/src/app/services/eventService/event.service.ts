@@ -106,7 +106,7 @@ export class EventService {
     if (event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.latitude && event.location.longitude) {
       this.mapGeneralService.createIcon(event.location, event.id, event.modeDefine.styles.mapIcon);
     } else if (event.locationType === LOCATION_TYPE.polygon && event.polygon && event.polygon.length > 0) {
-      this.mapGeneralService.drawPolygonFromServer(event.polygon, event.id, event.title);
+      this.mapGeneralService.drawPolygonFromServer(event.polygon, event.id, event.title, event.description);
     }
 
   };

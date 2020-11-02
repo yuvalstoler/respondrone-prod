@@ -17,10 +17,14 @@
         <mat-form-field appearance="outline" class="SPMatFormField">
           <label>
             <input [(ngModel)]="eventModel.title" class="Label" matInput
+                   #title
                    placeholder="For example: Fire in the city"
-                   type="text">
+                   type="text" required>
           </label>
         </mat-form-field>
+        <mat-error *ngIf="eventModel.title === '' || eventModel.title === undefined">
+          Event title field is required
+        </mat-error>
       </div>
       <!--Type & Priority-->
       <div class="DialogGrid2">
@@ -84,20 +88,21 @@
                 <label>
                   <input [(ngModel)]="eventModel.address" class="Label" matInput
                          placeholder="E.g. Richard St."
+                         required
                          type="text">
                 </label>
               </mat-form-field>
             </div>
             <!--Location-->
             <div *ngIf="location === LOCATION_NAMES.locationPoint && eventModel.locationType === LOCATION_TYPE.locationPoint">
-              <small>Choose location point from the map or write
-              Lat/Long</small>
+              <small>Choose location point from the map or write Lat/Long</small>
               <div class="DialogGrid22">
                 <!--Lat-->
                 <mat-form-field appearance="outline" class="">
                   <label>
                     <input (click)="$event.stopPropagation()"
-                           (change)="locationChanged($event, 'latitude')" (keyup)="locationChanged($event, 'latitude')"
+                           (change)="locationChanged($event, 'latitude')"
+                           (keyup)="locationChanged($event, 'latitude')"
                            [(ngModel)]="eventModel.location.latitude"
                            class="Label"
                            matInput
@@ -122,6 +127,7 @@
               </div>
             </div>
           </mat-radio-button>
+          <mat-error *ngIf="getLocationDisabled()">Location field is required</mat-error>
         </mat-radio-group>
       </div>
       <!--Linked Reports-->
@@ -139,6 +145,7 @@
             mat-raised-button>Cancel
     </button>
     <button (click)="onCreateClick()"
+            [disabled]="getDisabled()"
             class="DialogActionsCreate"
             mat-raised-button>
       {{data.title}}

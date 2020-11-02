@@ -150,7 +150,6 @@ tr.example-element-row:not(.example-expanded-row):active {
 .capitalize {
   text-transform: capitalize;
 }
-
 .tableImage {
   height:30px;
   width: 30px;
@@ -160,6 +159,15 @@ tr.example-element-row:not(.example-expanded-row):active {
   color: $black;
   font-weight: 600;
   //margin: 10px 0px 0px 0px;
+}
+.expendTitleText{
+  max-width: 14em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  float: right;
+  margin: 3px;
 }
 .mat-expansion-panel:not([class*=mat-elevation-z]) {
  box-shadow: none;

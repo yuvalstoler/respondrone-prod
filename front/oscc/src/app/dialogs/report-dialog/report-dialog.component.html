@@ -111,6 +111,7 @@
               </div>
             </div>
           </mat-radio-button>
+          <mat-error *ngIf="getLocationDisabled()">Location field is required</mat-error>
         </mat-radio-group>
       </div>
       <!--Report media-->
@@ -138,6 +139,7 @@
     </button>
     <button (click)="onCreateClick()"
             class="DialogActionsCreate"
+            [disabled]="getLocationDisabled()"
             mat-raised-button>
       {{data.title}}
     </button>

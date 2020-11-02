@@ -131,11 +131,12 @@ export class MapGeneralService {
     return res;
   };
 
+
   //Polygon ====================================================================================================
-  public drawPolygonFromServer = (arrayPoints: POINT3D[], id: string, title?: string) => {
+  public drawPolygonFromServer = (arrayPoints: POINT3D[], id: string, title: string, description: string) => {
     const domId = undefined;
     let res = false;
-    res = this.cesiumDrawerService.drawPolygonFromServer(domId, arrayPoints, id, title);
+    res = this.cesiumDrawerService.drawPolygonFromServer(domId, arrayPoints, id, title, description);
     return res;
   };
 
@@ -230,7 +231,7 @@ export class MapGeneralService {
     const domId = undefined;
     let res = false;
 
-    const center = this.cesiumService.getPolygonCenter(coordinates)
+    const center = this.cesiumService.getPolygonCenter(coordinates);
     res = this.cesiumService.flyToObject(domId, center);
     return res;
   };

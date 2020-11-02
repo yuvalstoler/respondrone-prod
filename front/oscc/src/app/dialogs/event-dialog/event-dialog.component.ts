@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {
   COMMENT,
@@ -15,14 +15,16 @@ import {PolygonService} from '../../services/polygonService/polygon.service';
 import {CustomToasterService} from '../../services/toasterService/custom-toaster.service';
 import {ReportService} from '../../services/reportService/report.service';
 import * as _ from 'lodash';
-import {MapGeneralService} from "../../services/mapGeneral/map-general.service";
+import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
 
 @Component({
   selector: 'app-event-dialog',
   templateUrl: './event-dialog.component.html',
   styleUrls: ['./event-dialog.component.scss']
 })
-export class EventDialogComponent {
+export class EventDialogComponent implements OnInit {
+
+  @ViewChild('title', {static: true}) firstItem: ElementRef;
 
   eventModel: EVENT_DATA_UI;
   types = this.applicationService.typesConfig.eventTypes;
@@ -83,6 +85,10 @@ export class EventDialogComponent {
     });
   }
 
+  ngOnInit() {
+    this.firstItem.nativeElement.focus();
+  }
+
   private initEventModel = () => {
     if (this.applicationService.selectedEvents.length === 1) {
       this.eventModel = _.cloneDeep(this.applicationService.selectedEvents[0]);
@@ -90,7 +96,6 @@ export class EventDialogComponent {
       this.eventModel = _.cloneDeep(this.defaultEvent);
     }
   };
-
 
   onNoClick(): void {
     this.clearPanel();
@@ -187,6 +192,35 @@ export class EventDialogComponent {
 
   onChangeComments = (comments: COMMENT[]) => {
    this.eventModel.comments = comments;
+  };
+
+  getDisabled = (): boolean => {
+    let res = false;
+    if (this.eventModel.title === '' || this.eventModel.title === undefined) {
+      res = true;
+    }
+    if (this.getLocationDisabled()) {
+      res = true;
+    }
+    return res;
+  };
+
+  getLocationDisabled = (): boolean => {
+    let res = false;
+    if (this.eventModel.locationType === LOCATION_TYPE.locationPoint &&
+      (this.eventModel.location.latitude === undefined ||
+        this.eventModel.location.longitude === undefined)) {
+      res = true;
+    }
+    if (this.eventModel.locationType === LOCATION_TYPE.address &&
+      (this.eventModel.address === undefined || this.eventModel.address === '')) {
+      res = true;
+    }
+    if (this.eventModel.locationType === LOCATION_TYPE.polygon &&
+      (this.eventModel.polygon === undefined || this.eventModel.polygon.length === 0)) {
+      res = true;
+    }
+    return res;
   };
 
 }
