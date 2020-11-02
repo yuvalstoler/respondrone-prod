@@ -197,10 +197,10 @@ export class MapGeneralService {
 
 
   // Icons ========================================================================================================
-  public createIcon = (locationPoint: GEOPOINT3D, billboardId: string, iconUrl: string, size: number = 30, label: {text: string, color: string} = undefined): boolean => {
+  public createIcon = (locationPoint: GEOPOINT3D, billboardId: string, iconUrl: string, size: number = 30, label: {text: string, color: string} = undefined, description: string = undefined): boolean => {
     const domId = undefined;
     let res = false;
-    res = this.cesiumDrawerService.createIconObject(domId, locationPoint, billboardId, iconUrl, size, label);
+    res = this.cesiumDrawerService.createIconObject(domId, locationPoint, billboardId, iconUrl, size, label, description);
     return res;
   };
 
@@ -223,6 +223,15 @@ export class MapGeneralService {
     const domId = undefined;
     let res = false;
     res = this.cesiumService.flyToObject(domId, coordinates);
+    return res;
+  };
+
+  public flyToPolygon = (coordinates: POINT3D[]): boolean => {
+    const domId = undefined;
+    let res = false;
+
+    const center = this.cesiumService.getPolygonCenter(coordinates)
+    res = this.cesiumService.flyToObject(domId, center);
     return res;
   };
 

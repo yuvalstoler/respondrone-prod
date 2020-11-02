@@ -9,7 +9,7 @@
           <span *ngIf="column !== 'message' && column !== 'assignees' && column !== 'map'"
                 class="capitalize">{{column}}</span>
           <mat-icon *ngIf="column === 'message'" class="HPRightSideIcon" matTooltip="Comments" matTooltipPosition="above">comment</mat-icon>
-          <mat-icon *ngIf="column === 'assignees'" class="HPRightSideIcon" matTooltip="Task’s Assignee" matTooltipPosition="above">self_improvement</mat-icon>
+          <mat-icon *ngIf="column === 'assignees'" class="HPRightSideIcon" matTooltip="Task’s Assignee" matTooltipPosition="above">people</mat-icon>
           <mat-icon *ngIf="column === 'map'" class="HPRightSideIcon" matTooltip="Task’s geo-location" matTooltipPosition="above">location_on</mat-icon>
         </th>
         <td *matCellDef="let element" mat-cell>

@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {MAP} from 'src/types';
 import {ViewerConfiguration} from 'angular-cesium';
 import {CARTESIAN3, POINT, POINT3D} from '../../../../../../classes/typings/all.typings';
+import * as turf from '@turf/turf';
 
 
 @Injectable({
@@ -112,6 +113,7 @@ export class CesiumService {
 
 
     this.cesiumMapObjects[mapId] = this.cesiumMapObjects[mapId] || {};
+    cesiumViewer.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 
     cesiumViewer.camera.flyTo({
       destination: Cesium.Cartesian3.fromDegrees(34.895, 32.423, 5000.0),
@@ -159,7 +161,7 @@ export class CesiumService {
 
   public flyTo = (mapDomId: string, coordinates: POINT | POINT3D) => {
     this.cesiumViewer[mapDomId].camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(coordinates[0], coordinates[1], 200),
+      destination: Cesium.Cartesian3.fromDegrees(coordinates[0], coordinates[1], 500),
       duration: 2,
     });
   };
@@ -175,6 +177,13 @@ export class CesiumService {
   private pointDegreesToCartesian3 = (position: POINT | POINT3D): CARTESIAN3 => {
     return Cesium.Cartesian3.fromDegrees(position[0], position[1], position[2] || 0);
   };
+
+  public getPolygonCenter = (positions: POINT[] | POINT3D[]): POINT3D => {
+    const poly = turf.polygon([positions]);
+    const center = turf.centroid(poly).geometry.coordinates;
+    // positions = this.arrayPointsToCartesian3(item.Points);
+    return [center[0], center[1], 0];
+  }
 
   public changeCursor = (domId: string, state: boolean) => {
     const mapsCE: MAP<any> = this.getMapByDomId(domId);

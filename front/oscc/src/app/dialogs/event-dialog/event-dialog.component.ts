@@ -77,7 +77,9 @@ export class EventDialogComponent {
     });
 
     this.polygonService.polygon$.subscribe((positions: POINT3D[]) => {
-      this.eventModel.polygon = positions;
+      if (this.applicationService.stateDraw === STATE_DRAW.drawPolygon) {
+        this.eventModel.polygon = positions;
+      }
     });
   }
 

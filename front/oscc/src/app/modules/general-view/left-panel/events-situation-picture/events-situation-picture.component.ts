@@ -80,6 +80,8 @@ export class EventsSituationPictureComponent implements OnInit {
             this.eventService.deleteEvent({id: eventData.id});
           }, index * 500);
         });
+
+        this.applicationService.selectedEvents.length = 0;
       }
     });
   };

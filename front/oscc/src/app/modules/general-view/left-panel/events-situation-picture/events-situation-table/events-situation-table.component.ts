@@ -5,7 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {LEFT_PANEL_ICON, MAP} from '../../../../../../types';
 import {ApplicationService} from '../../../../../services/applicationService/application.service';
-import {COMMENT, EVENT_DATA_UI, POINT} from '../../../../../../../../../classes/typings/all.typings';
+import {COMMENT, EVENT_DATA_UI, LOCATION_TYPE, POINT} from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
 import {ReportService} from '../../../../../services/reportService/report.service';
 import * as _ from 'lodash';
@@ -183,8 +183,13 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
   clickOnIcon = (event, element: EVENT_DATA_UI, column: string) => {
     event.stopPropagation();
     if (column === 'map') {
-      const coordinates: POINT = [element.location.longitude, element.location.latitude];
-      this.eventService.flyToObject(coordinates);
+      if (element.locationType === LOCATION_TYPE.locationPoint) {
+        const coordinates: POINT = [element.location.longitude, element.location.latitude];
+        this.eventService.flyToObject(coordinates);
+      }
+      else if (element.locationType === LOCATION_TYPE.polygon && element.polygon.length > 0) {
+        this.eventService.flyToPolygon(element.polygon);
+      }
     } else if (column === 'link') {
         const top = event.clientY - 10;
         const left = event.clientX + 20;
