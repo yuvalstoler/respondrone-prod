@@ -186,13 +186,10 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
       const coordinates: POINT = [element.location.longitude, element.location.latitude];
       this.eventService.flyToObject(coordinates);
     } else if (column === 'link') {
-    //  todo: open window linked
-    //   if (!this.contextMenuService.isOpenSingleMenu) {
         const top = event.clientY - 10;
         const left = event.clientX + 20;
         const clickPosition = {x: left, y: top};
-        this.contextMenuService.openSingleMenu(clickPosition);
-      // }
+        this.contextMenuService.openSingleMenu(clickPosition, element.reports, 'report');
     }
 
   };

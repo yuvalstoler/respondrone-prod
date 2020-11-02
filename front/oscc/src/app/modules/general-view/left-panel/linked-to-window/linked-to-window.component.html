@@ -1,10 +1,27 @@
-<div class="ContextMenu">
-  <div class="ContextSingleMenu"
-       *ngIf="contextMenuService?.isOpenSingleMenu"
-       [style.top]="contextMenuService?.singleTooltip?.top"
-       [style.left]="contextMenuService?.singleTooltip?.left">
-    <div>Header</div>
-    <div>List</div>
-    <div>Unlink</div>
+<div *ngIf="contextMenuService?.isOpenSingleMenu"
+     [style.left]="contextMenuService?.singleTooltip?.left"
+     [style.top]="contextMenuService?.singleTooltip?.top"
+     class="ContextSingleMenu">
+  <!--Header-->
+  <div class="ContextHeader" >
+    <span class="ContextHeaderTitle">This {{contextMenuService?.type}} is linked to</span>
+    <span class="ContextHeaderX" (click)="onNoClick()"> X
+  </span>
+  </div>
+  <!--Content-->
+  <mat-dialog-content >
+    <mat-selection-list dense class="ContextContent scroll"
+                        [(ngModel)]="selectedLinks">
+      <mat-list-option *ngFor="let link of contextMenuService?.selectedLinkTo" [value]="link" checkboxPosition="before">
+       {{link.idView}} - {{link.type}}
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-dialog-content>
+  <!--Action-->
+  <div class="ContextActions" mat-dialog-actions>
+    <div (click)="onUnlinkClick()"
+            class="ContextActionsCreate">Unlink
+    </div>
   </div>
 </div>
+

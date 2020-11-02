@@ -91,7 +91,7 @@ export class HeaderPanelComponent implements OnInit {
         this.viewItemModel.splice(selectedIndex, 1);
       }
     }
-
+  //   TODO: this.viewItemModel show or hide
   };
 
   onCancel = () => {

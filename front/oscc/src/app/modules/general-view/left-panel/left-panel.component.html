@@ -2,7 +2,7 @@
 <div *ngIf="applicationService.screen.showSituationPicture">
   <!--Header-->
   <div>
-    <mat-tab-group animationDuration="0ms">
+    <mat-tab-group animationDuration="0ms" (selectedTabChange)="closeMenu($event)">
       <!--Events-->
       <mat-tab label="Events">
         <app-events-situation-picture></app-events-situation-picture>

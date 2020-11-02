@@ -14,6 +14,7 @@ import {
 } from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
 import * as _ from 'lodash';
+import {ContextMenuService} from '../../../../../services/contextMenuService/context-menu.service';
 
 
 
@@ -48,7 +49,8 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
   constructor(public applicationService: ApplicationService,
               public reportService: ReportService,
-              public eventService: EventService) {
+              public eventService: EventService,
+              public contextMenuService: ContextMenuService) {
 
     this.reportService.reports$.subscribe((isNewData: boolean) => {
       if (isNewData) {
@@ -229,13 +231,16 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
     }
   };
 
-  clickOnIcon = (event, element: EVENT_DATA_UI, column: string) => {
+  clickOnIcon = (event, element: REPORT_DATA_UI, column: string) => {
     event.stopPropagation();
     if (column === 'map') {
       const coordinates: POINT = [element.location.longitude, element.location.latitude];
       this.eventService.flyToObject(coordinates);
     } else if (column === 'link') {
-
+      const top = event.clientY - 10;
+      const left = event.clientX + 20;
+      const clickPosition = {x: left, y: top};
+      this.contextMenuService.openSingleMenu(clickPosition, element.events, 'event');
     }
   };
 }
