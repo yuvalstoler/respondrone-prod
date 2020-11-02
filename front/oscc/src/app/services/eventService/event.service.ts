@@ -203,5 +203,9 @@ export class EventService {
     this.mapGeneralService.flyToObject(coordinates);
   };
 
+  public flyToPolygon = (coordinates: POINT3D[]) => {
+    this.mapGeneralService.flyToPolygon(coordinates);
+  };
+
 
 }

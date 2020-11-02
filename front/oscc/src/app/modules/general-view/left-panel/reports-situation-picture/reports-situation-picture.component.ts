@@ -8,6 +8,7 @@ import {ReportService} from '../../../../services/reportService/report.service';
 import {EventService} from '../../../../services/eventService/event.service';
 import {REPORT_DATA_UI} from '../../../../../../../../classes/typings/all.typings';
 import {ReportDialogComponent} from '../../../../dialogs/report-dialog/report-dialog.component';
+import {MediaService} from "../../../../services/mediaService/media.service";
 
 @Component({
   selector: 'app-reports-situation-picture',
@@ -22,7 +23,8 @@ export class ReportsSituationPictureComponent implements OnInit {
   constructor(public applicationService: ApplicationService,
               public reportService: ReportService,
               public eventService: EventService,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog,
+              public mediaService: MediaService) { }
 
   ngOnInit(): void {
   }
@@ -75,9 +77,15 @@ export class ReportsSituationPictureComponent implements OnInit {
         selectedReports.forEach((reportData: REPORT_DATA_UI, index: number) => {
           setTimeout(() => {
             this.eventService.unlinkEventsFromReport(reportData.eventIds, reportData.id);
+            reportData.media.forEach((mediaData) => {
+              this.mediaService.deleteFile(mediaData);
+            })
             this.reportService.deleteReport({id: reportData.id});
           }, index * 500);
         });
+
+
+        this.applicationService.selectedReports.length = 0;
       }
     });
   };

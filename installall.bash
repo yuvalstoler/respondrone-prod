@@ -18,6 +18,12 @@ npm i;
 cd $home/back/CCGW;
 npm i;
 
+cd $home/back/TS;
+npm i;
+
+cd $home/back/FRS;
+npm i;
+
 cd $home/front/webServer;
 npm i;
 

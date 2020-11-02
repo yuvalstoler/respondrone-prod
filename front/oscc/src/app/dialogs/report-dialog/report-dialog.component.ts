@@ -16,6 +16,7 @@ import {CustomToasterService} from '../../services/toasterService/custom-toaster
 import {EventService} from '../../services/eventService/event.service';
 import {HEADER_BUTTONS, STATE_DRAW} from '../../../types';
 import * as _ from 'lodash';
+import {MediaService} from "../../services/mediaService/media.service";
 
 @Component({
   selector: 'app-report-dialog',
@@ -64,6 +65,7 @@ export class ReportDialogComponent {
               public reportService: ReportService,
               public customToasterService: CustomToasterService,
               public eventService: EventService,
+              public mediaService: MediaService,
               public dialogRef: MatDialogRef<ReportDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {title: string}) {
     this.initReportModel();
@@ -77,6 +79,11 @@ export class ReportDialogComponent {
   }
 
   onNoClick(): void {
+    if (!this.reportModel.id) {
+      this.reportModel.media.forEach((mediaData) => {
+        this.mediaService.deleteFile(mediaData);
+      })
+    }
     this.clearPanel();
     this.dialogRef.close(false);
   }

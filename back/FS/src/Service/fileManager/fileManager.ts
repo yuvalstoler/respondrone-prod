@@ -130,11 +130,15 @@ export class FileManager {
                                 url: `/api/file/${id}`,
                                 thumbnail: `/api/file/${thumbnailName}`,
 
-                                fullUrl: `${url_VideoStreamService}/${id}`,
+                                fullUrl: `${url_VideoStreamService}/api/file/${id}`,
                                 fullThumbnail: `${url_FS}/api/file/${thumbnailName}`,
                             };
                             response.status(200).send(res);
                         });
+                }
+                else {
+                    res.description = 'incorrect mimetype ' + request.files[0].mimetype;
+                    response.status(200).send(res);
                 }
             }
         });

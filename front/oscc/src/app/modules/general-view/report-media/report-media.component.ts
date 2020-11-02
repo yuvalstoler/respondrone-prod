@@ -3,6 +3,7 @@ import {HttpClient, HttpEventType, HttpHeaders} from '@angular/common/http';
 import {FILE_FS_DATA} from '../../../../../../../classes/typings/all.typings';
 import {ConnectionService} from '../../../services/connectionService/connection.service';
 import {ApplicationService} from '../../../services/applicationService/application.service';
+import {MediaService} from "../../../services/mediaService/media.service";
 
 
 export type PROGRESS_INFO = {
@@ -32,7 +33,8 @@ export class ReportMediaComponent implements OnInit, OnDestroy {
   constructor(private http: HttpClient,
               public applicationService: ApplicationService,
               // public dialog: MatDialog,
-              private connectionService: ConnectionService) { }
+              private connectionService: ConnectionService,
+              private mediaService: MediaService) { }
 
   ngOnInit(): void {
 
@@ -89,17 +91,17 @@ export class ReportMediaComponent implements OnInit, OnDestroy {
   };
   // ------------------
   deleteFile = (data: FILE_FS_DATA) => {
-    this.connectionService.postObservable('/api/removeFile', data)
-      .subscribe((res: any) => {
+    this.mediaService.deleteFile(data)
+      .then((res: any) => {
          if (res.success) {
            this.onDeleteMedia.emit(data);
          } else {
            console.log('error deleting file', res.data);
          }
-        },
-        (err) => {
-          console.log('error deleting file', err);
-        });
+      })
+      .catch((err) => {
+        console.log('error deleting file', err);
+      });
   };
   // -----------------
   removeProgressInfo = (id: number) => {
