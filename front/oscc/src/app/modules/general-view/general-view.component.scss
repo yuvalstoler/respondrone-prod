@@ -52,14 +52,16 @@
   overflow: hidden;
 }
 
-.resourcesPanel {
+.RightPanel {
+  position: absolute;
+  right: 0;
+  top: $headerHeight;
   width: calc(20vw);
   height: calc(40vh) !important;
-  top: 70px;
   color: $darkGray;
   z-index: 2;
   background: $lightGray;
-  position: absolute;
-  right: 0;
+  overflow: hidden !important;
+
 }
 

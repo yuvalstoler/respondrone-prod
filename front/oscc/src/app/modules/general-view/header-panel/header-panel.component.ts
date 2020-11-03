@@ -84,14 +84,22 @@ export class HeaderPanelComponent implements OnInit {
       const selectedIndex = this.viewItemModel.findIndex(data => data === item);
       if (selectedIndex === -1 && event) {
         this.viewItemModel.push(item);
+        if (item === VIEW_LIST.groundResourcesPanel) {
+          this.applicationService.screen.showRightPanel = false;
+        }
       }
+
     } else {
       const selectedIndex = this.viewItemModel.findIndex(data => data === item);
       if (selectedIndex !== -1) {
         this.viewItemModel.splice(selectedIndex, 1);
+        if (item === VIEW_LIST.groundResourcesPanel) {
+          this.applicationService.screen.showRightPanel = true;
+        }
       }
     }
   //   TODO: this.viewItemModel show or hide
+
   };
 
 

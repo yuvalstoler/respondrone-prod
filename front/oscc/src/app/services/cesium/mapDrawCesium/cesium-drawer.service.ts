@@ -1,5 +1,12 @@
 import {Injectable} from '@angular/core';
-import {CARTESIAN3, GEOPOINT3D, MAP, POINT, POINT3D} from '../../../../../../../classes/typings/all.typings';
+import {
+  CARTESIAN3,
+  EVENT_DATA_UI, FR_DATA_UI, GEOGRAPHIC_INSTRUCTION,
+  GEOPOINT3D,
+  MAP,
+  POINT,
+  POINT3D, REPORT_DATA_UI
+} from '../../../../../../../classes/typings/all.typings';
 import {CesiumService} from '../cesium.service';
 import {Cartesian2} from 'angular-cesium';
 import {EventListener} from '../event-listener';
@@ -183,21 +190,56 @@ export class CesiumDrawerService {
 
   // ==================ICON========================================================================================
 
-  public createIconObject = (domId: string, locationPoint: GEOPOINT3D, billboardId: string, iconUrl: string, size: number, label: {text: string, color: string}, description): boolean => {
+  public createIconObject = (domId: string, object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI): boolean => {
     let res = false;
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
     for (const mapDomId in mapsCE) {
       if (mapsCE.hasOwnProperty(mapDomId)) {
-        if (locationPoint) {
+        if (object.location) {
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE] =
             this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE] || {};
-          this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId] =
-            this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId] || {};
-          this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId] =
-            this.createIconEntity(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId], locationPoint, iconUrl, size, label, description);
+          this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][object.id] =
+            this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][object.id] || {};
+          this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][object.id] =
+            this.createIconEntity(mapDomId, object);
 
-          if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId]) {
-            res = true;
+
+          if (object.hasOwnProperty('callSign')) {
+            this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE] =
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE] || {};
+            this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][object.id] =
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][object.id] || {};
+            this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][object.id] =
+              this.createIconLabelEntity(mapDomId, object);
+          }
+
+          res = true;
+        }
+      }
+    }
+    return res;
+  };
+
+  public updateIconFromMap = (domId: string, billboardId: string, object): boolean => {
+    let res = false;
+    const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        if (this.cesiumService.cesiumMapObjects.hasOwnProperty(mapDomId) && this.cesiumService.cesiumMapObjects[mapDomId] !== undefined) {
+          // delete locationPoint
+          if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.iconCE)) {
+            if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE].hasOwnProperty(billboardId) &&
+              (Object.keys(this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId]).length > 0)) {
+              this.updateIconOnMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId], object);
+              res = true;
+            }
+          }
+          if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.iconLabelCE)) {
+            if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE].hasOwnProperty(billboardId) &&
+              (Object.keys(this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][billboardId]).length > 0)) {
+              this.updateIconLabelOnMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][billboardId], object);
+              res = true;
+            }
           }
         }
       }
@@ -205,11 +247,13 @@ export class CesiumDrawerService {
     return res;
   };
 
-  private createIconEntity = (mapDomId: string, entityCE: any, locationPoint: GEOPOINT3D, iconUrl: string, size: number, label: {text: string, color: string}, description) => {
-    const entityData = {
-      position: Cesium.Cartesian3.fromDegrees(locationPoint.longitude, locationPoint.latitude),
+  private updateIconOnMap = (mapDomId: string, entityCE, object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI) => {
+    const size = object.modeDefine.styles.iconSize || 30;
+    const description = (object.hasOwnProperty('description')) ? object['description'] : '';
+    const options = {
+      position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude),
       billboard: {
-        image: iconUrl,
+        image: object.modeDefine.styles.mapIcon,
         width: size,
         height: size
       },
@@ -218,8 +262,15 @@ export class CesiumDrawerService {
         description: description,
       }
     };
-    if (label) {
-      entityData.label = {
+    this.cesiumService.updateItemCEOnMap(mapDomId, entityCE, options);
+  };
+
+  private updateIconLabelOnMap = (mapDomId: string, entityCE, object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI) => {
+    const size = object.modeDefine.styles.iconSize || 30;
+    const label = {text: object['callSign'], color: object.modeDefine.styles['color']};
+    const options = {
+      position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude),
+      label: {
         text: label.text,
         font: '10pt monospace',
         showBackground: true,
@@ -232,23 +283,56 @@ export class CesiumDrawerService {
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         verticalOrigin: Cesium.VerticalOrigin.TOP,
         heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
-      };
-    }
-
-    if (Object.keys(entityCE).length === 0) {
-      const billboard = this.cesiumService.cesiumViewer[mapDomId].entities.add(entityData);
-      this.cesiumService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
-      return billboard;
-    }
-    else {
-      for (const key in entityData) {
-        if (entityData.hasOwnProperty(key)) {
-          entityCE[key] = entityData[key];
-        }
       }
-      return entityCE;
-    }
+    };
+    this.cesiumService.updateItemCEOnMap(mapDomId, entityCE, options);
+  };
 
+  private createIconEntity = (mapDomId: string, object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI) => {
+    const size = object.modeDefine.styles.iconSize || 30;
+    const description = (object.hasOwnProperty('description')) ? object['description'] : '';
+
+    const iconData = this.cesiumService.cesiumViewer[mapDomId].entities.add({
+      position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude),
+      billboard: {
+        image: object.modeDefine.styles.mapIcon,
+        width: size,
+        height: size
+      },
+      label: undefined,
+      options: {
+        description: description,
+      }
+    });
+
+    this.cesiumService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
+    return iconData;
+  };
+
+  private createIconLabelEntity = (mapDomId: string, object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI) => {
+    const size = object.modeDefine.styles.iconSize || 30;
+    const label = {text: object['callSign'], color: object.modeDefine.styles['color']};
+
+    const iconLabel = this.cesiumService.cesiumViewer[mapDomId].entities.add({
+      position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude),
+      label: {
+        text: label.text,
+        font: '10pt monospace',
+        showBackground: true,
+        eyeOffset: new Cesium.Cartesian3(0, 0, 0), // to prevent labels mixing
+        pixelOffset: new Cesium.Cartesian2(0, size / 2),
+        style: Cesium.LabelStyle.FILL,
+        fillColor: Cesium.Color.BLACK,
+        backgroundColor: Cesium.Color.fromCssColorString(label.color || 'rgba(255, 255 ,255 ,1)'),
+        // textShadow: '2px 2px 4px ' + Cesium.Color.BLACK.withAlpha(0.9),
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        verticalOrigin: Cesium.VerticalOrigin.TOP,
+        heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
+      }
+    });
+
+    this.cesiumService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
+    return iconLabel;
   };
 
   public deleteIconFromMap = (domId: string, billboardId: string): boolean => {
@@ -263,6 +347,14 @@ export class CesiumDrawerService {
               this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId] !== {}) {
               this.cesiumService.removeItemCEFromMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId]);
               delete this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId];
+              res = true;
+            }
+          }
+          if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.iconLabelCE)) {
+            if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE].hasOwnProperty(billboardId) &&
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][billboardId] !== {}) {
+              this.cesiumService.removeItemCEFromMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][billboardId]);
+              delete this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][billboardId];
               res = true;
             }
           }
@@ -364,7 +456,7 @@ export class CesiumDrawerService {
           //   this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.labelPolygonCE][idPolygon] || {};
           // this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.labelPolygonCE][idPolygon] =
           //   this.createLabel(mapDomId, mapsCE[mapDomId], positions, title);
-          // res = true;
+          res = true;
         }
       }
     }

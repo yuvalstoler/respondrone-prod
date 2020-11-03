@@ -116,16 +116,16 @@ export class TaskDialogComponent implements OnInit {
   removeGeoInstructionsFromMap = (geoInstructions: GEOGRAPHIC_INSTRUCTION[]) => {
     geoInstructions.forEach(geoInstruction => {
       if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.arrow) {
-        this.arrowService.deleteArrowPolylineManually(geoInstruction.idTemp);
+        this.arrowService.deleteArrowPolylineManually(geoInstruction.id);
       }
       if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.polyline) {
-        this.polylineService.deletePolylineManually(geoInstruction.idTemp);
+        this.polylineService.deletePolylineManually(geoInstruction.id);
       }
       if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.polygon) {
-        this.polygonService.deletePolygonManually(geoInstruction.idTemp);
+        this.polygonService.deletePolygonManually(geoInstruction.id);
       }
       if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.point) {
-        this.locationService.deleteLocationPointTemp(geoInstruction.idTemp);
+        this.locationService.deleteLocationPointTemp(geoInstruction.id);
       }
     });
   };

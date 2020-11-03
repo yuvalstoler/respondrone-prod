@@ -1,9 +1,4 @@
-import {
-    TASK_DATA_UI,
-    LOCATION_TYPE,
-    PRIORITY,
-    TABLE_DATA_MD, TASK_DATA_MD, TASK_STATUS
-} from '../../typings/all.typings';
+import {PRIORITY, TABLE_DATA_MD, TASK_DATA_MD, TASK_DATA_UI, TASK_STATUS} from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
 import {MDClass} from "../mdClass";
@@ -17,6 +12,9 @@ export class TaskMdLogic implements IModeDefine {
         const obj: TASK_DATA_MD = {
             styles: {
                 dotColor: TaskMdLogic.getDotColor(data),
+                // geoInstructions: {
+                //     icon: TaskMdLogic.getIcon(data)
+                // }
             },
             tableData: TaskMdLogic.tableData(data)
         };
@@ -47,6 +45,12 @@ export class TaskMdLogic implements IModeDefine {
         } else if (data.status === TASK_STATUS.completed) {
             res = MDClass.colors.red;
         }
+        return res;
+    };
+
+    private static getIcon = (data: TASK_DATA_UI): string => {
+        let res;
+        res = '../../../../../assets/markerBlue.png';
         return res;
     };
 

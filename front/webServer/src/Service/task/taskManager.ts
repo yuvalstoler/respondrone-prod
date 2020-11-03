@@ -10,7 +10,7 @@ import {
 import { RequestManager } from '../../AppService/restConnections/requestManager';
 
 import {
-    ASYNC_RESPONSE,
+    ASYNC_RESPONSE, GEOGRAPHIC_INSTRUCTION,
     ID_OBJ, OSCC_TASK_ACTION,
     TASK_DATA, TASK_DATA_UI
 } from '../../../../../classes/typings/all.typings';
@@ -19,6 +19,7 @@ import {ReportManager} from '../report/reportManager';
 import {Task} from '../../../../../classes/dataClasses/task/task';
 import {FrManager} from "../fr/frManager";
 import {TaskMdLogic} from "../../../../../classes/modeDefineTSSchemas/tasks/taskMdLogic";
+import {GeoInstructionsMdLogic} from "../../../../../classes/modeDefineTSSchemas/tasks/geoInstructionsMdLogic";
 
 
 export class TaskManager {
@@ -155,7 +156,7 @@ export class TaskManager {
                     reject(data);
                 });
         });
-    }
+    };
 
     private osccTaskAction = (taskActionObj: OSCC_TASK_ACTION): Promise<ASYNC_RESPONSE> => {
         return new Promise((resolve, reject) => {
@@ -178,7 +179,7 @@ export class TaskManager {
                     reject(data);
                 });
         });
-    }
+    };
 
     private getDataForUI = (): TASK_DATA_UI[] => {
         const res: TASK_DATA_UI[] = [];
@@ -186,6 +187,9 @@ export class TaskManager {
             const taskDataUI: TASK_DATA_UI = task.toJsonForUI();
             taskDataUI.assignees = FrManager.getFRsByIds(task.assigneeIds);
             taskDataUI.modeDefine = TaskMdLogic.validate(taskDataUI);
+            taskDataUI.geographicInstructions.forEach((geoInstruction: GEOGRAPHIC_INSTRUCTION) => {
+                geoInstruction.modeDefine = GeoInstructionsMdLogic.validate(geoInstruction);
+            });
 
             res.push(taskDataUI);
         });

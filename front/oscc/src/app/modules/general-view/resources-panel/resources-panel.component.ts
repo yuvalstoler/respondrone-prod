@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FRService} from "../../../services/frService/fr.service";
-import {ApplicationService} from "../../../services/applicationService/application.service";
+import {FRService} from '../../../services/frService/fr.service';
+import {ApplicationService} from '../../../services/applicationService/application.service';
 
 @Component({
   selector: 'app-resources-panel',

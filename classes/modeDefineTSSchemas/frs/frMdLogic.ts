@@ -17,9 +17,10 @@ export class FrMdLogic implements IModeDefine {
     public static validate(data: FR_DATA_UI): FR_DATA_MD {
         const obj: FR_DATA_MD = {
             styles: {
-                icon: FrMdLogic.getIcon(data),
+                mapIcon: FrMdLogic.getIcon(data),
                 color: FrMdLogic.getColor(data),
                 dotColor: FrMdLogic.getDotColor(data),
+                iconSize: this.getIconSize(data)
             },
             tableData: FrMdLogic.tableData(data)
         };
@@ -75,6 +76,8 @@ export class FrMdLogic implements IModeDefine {
         return res;
     };
 
-
+    private static getIconSize = (data: FR_DATA_UI): number => {
+        return 45;
+    };
 
 }

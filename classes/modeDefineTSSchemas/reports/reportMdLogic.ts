@@ -1,10 +1,4 @@
-import {
-    LOCATION_TYPE,
-    PRIORITY,
-    REPORT_DATA_MD,
-    REPORT_DATA_UI,
-    TABLE_DATA_MD
-} from '../../typings/all.typings';
+import {LOCATION_TYPE, PRIORITY, REPORT_DATA_MD, REPORT_DATA_UI, TABLE_DATA_MD} from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
 import {MDClass} from "../mdClass";
@@ -19,7 +13,8 @@ export class ReportMdLogic implements IModeDefine {
             styles: {
                 icon: this.getPriorityIcon(data).data,
                 mapIcon: this.getMapIcon(data).data,
-                selectedIcon: this.getMapIcon(data).data
+                selectedIcon: this.getMapIcon(data).data,
+                iconSize: this.getIconSize(data)
             },
             tableData: ReportMdLogic.tableData(data)
         };
@@ -84,6 +79,10 @@ export class ReportMdLogic implements IModeDefine {
             } as TABLE_DATA_MD
         };
         return res;
+    };
+
+    private static getIconSize = (data: REPORT_DATA_UI): number => {
+        return 30;
     };
 
 }

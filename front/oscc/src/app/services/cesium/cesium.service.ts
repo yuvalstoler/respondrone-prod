@@ -147,6 +147,15 @@ export class CesiumService {
     this.cesiumViewer[mapDomId].entities.remove(cesiumObject);
   };
 
+  public updateItemCEOnMap = (mapDomId: string, entityCE, options) => {
+    for (const key in options) {
+      if (options.hasOwnProperty(key)) {
+        entityCE[key] = options[key];
+      }
+    }
+    return entityCE;
+  };
+
   public flyToObject = (domId: string, coordinates: POINT | POINT3D): boolean => {
     let res = false;
     const mapsCE: MAP<any> = this.getMapByDomId(domId);

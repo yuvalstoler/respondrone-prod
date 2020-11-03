@@ -15,6 +15,7 @@ export enum HEADER_BUTTONS {
 
 export type DISPLAY_ON_SCREEN = {
   showLeftPanel: boolean;
+  showRightPanel: boolean;
   showSituationPicture: boolean;
   showMissionControl: boolean;
   showViewMedia: boolean;
@@ -46,6 +47,7 @@ export enum TYPE_OBJECTS_CE {
   locationPointCE = 'locationPointCE',
   billboardCE = 'billboardCE',
   iconCE = 'iconCE',
+  iconLabelCE = 'iconLabelCE',
   polygonCE = 'polygonCE',
   labelPolygonCE = 'labelPolygonCE',
   polylineCE = 'polylineCE',

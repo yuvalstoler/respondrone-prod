@@ -44,34 +44,40 @@ export class FRService {
       return o1['id'] === o2['id'];
     });
     if (notExist.length > 0) {
-      notExist.forEach((data: FR_DATA_UI) => {
-        const index = this.frs.data.findIndex(d => d.id === data.id);
+      notExist.forEach((fr: FR_DATA_UI) => {
+        const index = this.frs.data.findIndex(d => d.id === fr.id);
         this.frs.data.splice(index, 1);
         //TODO: delete data from MAP
-        this.mapGeneralService.deleteIcon(data.id);
+        this.mapGeneralService.deleteIcon(fr.id);
       });
     }
   };
   // ----------------------
   private updateData = (reportData: FR_DATA_UI[]): void => {
-    reportData.forEach((newEvent: FR_DATA_UI) => {
-      const existingEvent: FR_DATA_UI = this.getFRById(newEvent.id);
+    reportData.forEach((newFR: FR_DATA_UI) => {
+      const existingEvent: FR_DATA_UI = this.getFRById(newFR.id);
       if (existingEvent) {
         // existingEvent.setValues(newEvent);
         for (const fieldName in existingEvent) {
           if (existingEvent.hasOwnProperty(fieldName)) {
-            existingEvent[fieldName] = newEvent[fieldName];
+            existingEvent[fieldName] = newFR[fieldName];
           }
         }
+        this.updateFR(newFR);
       } else {
-        this.frs.data.push(newEvent);
+        this.frs.data.push(newFR);
+        this.drawFR(newFR);
       }
-      this.drawFR(newEvent);
+
     });
   };
   // ----------------------
   private drawFR = (fr: FR_DATA_UI) => {
-    this.mapGeneralService.createIcon(fr.location, fr.id, fr.modeDefine.styles.icon, 40, {text: fr.callSign, color: fr.modeDefine.styles.color});
+    this.mapGeneralService.createIcon(fr);
+  };
+  // ----------------------
+  private updateFR = (fr: FR_DATA_UI) => {
+    this.mapGeneralService.updateIcon(fr);
   };
   // -----------------------
   public getFRById = (id: string): FR_DATA_UI => {

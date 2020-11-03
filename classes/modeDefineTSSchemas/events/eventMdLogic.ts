@@ -21,6 +21,7 @@ export class EventMdLogic implements IModeDefine {
                 icon: this.getPriorityIcon(data).data,
                 mapIcon: this.getMapIcon(data).data,
                 selectedIcon: this.getMapIcon(data).data,
+                iconSize: this.getIconSize(data)
             },
             tableData: EventMdLogic.tableData(data)
         };
@@ -79,6 +80,10 @@ export class EventMdLogic implements IModeDefine {
             } as TABLE_DATA_MD
         };
         return res;
+    };
+
+    private static getIconSize = (data: EVENT_DATA_UI): number => {
+        return 30;
     };
 
 }

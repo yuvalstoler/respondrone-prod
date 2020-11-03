@@ -105,22 +105,23 @@ export class TasksService {
       task.geographicInstructions.forEach((geoInstruction) => {
         switch (geoInstruction.type) {
           case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
-            this.mapGeneralService.deleteArrowPolylineFromMap(geoInstruction.idTemp);
-            this.mapGeneralService.createArrowPolyline(geoInstruction.arrow, geoInstruction.idTemp, geoInstruction.description);
+            this.mapGeneralService.deleteArrowPolylineFromMap(geoInstruction.id);
+            this.mapGeneralService.createArrowPolyline(geoInstruction.arrow, geoInstruction.id, geoInstruction.description);
             break;
           case GEOGRAPHIC_INSTRUCTION_TYPE.address:
             break;
           case GEOGRAPHIC_INSTRUCTION_TYPE.point:
-            this.mapGeneralService.deleteLocationPointTemp(geoInstruction.idTemp);
-            this.mapGeneralService.createLocationPointFromServer(geoInstruction.location, geoInstruction.idTemp, geoInstruction.description);
+            this.mapGeneralService.deleteIcon(geoInstruction.id);
+            this.mapGeneralService.createIcon(geoInstruction);
+            //   TODO this.mapGeneralService.updateIcon(geoInstruction);
             break;
           case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
-            this.mapGeneralService.deletePolygonManually(geoInstruction.idTemp);
-            this.mapGeneralService.drawPolygonFromServer(geoInstruction.polygon, geoInstruction.idTemp, undefined, geoInstruction.description);
+            this.mapGeneralService.deletePolygonManually(geoInstruction.id);
+            this.mapGeneralService.drawPolygonFromServer(geoInstruction.polygon, geoInstruction.id, undefined, geoInstruction.description);
             break;
           case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
-            this.mapGeneralService.deletePolylineFromMap(geoInstruction.idTemp);
-            this.mapGeneralService.createPolyline(geoInstruction.polyline, geoInstruction.idTemp, geoInstruction.description);
+            this.mapGeneralService.deletePolylineFromMap(geoInstruction.id);
+            this.mapGeneralService.createPolyline(geoInstruction.polyline, geoInstruction.id, geoInstruction.description);
             break;
         }
       });
@@ -160,8 +161,8 @@ export class TasksService {
   // ----------------------
   public sendTaskAction = (data: OSCC_TASK_ACTION) => {
     this.connectionService.post('/api/osccTaskAction', data)
-      .then((data: ASYNC_RESPONSE) => {
-        if (!data.success) {
+      .then((res: ASYNC_RESPONSE) => {
+        if (!res.success) {
           this.toasterService.error({message: 'error changing task status', title: ''});
         }
       })

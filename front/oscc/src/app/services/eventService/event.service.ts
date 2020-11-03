@@ -71,11 +71,38 @@ export class EventService {
       notExist.forEach((data: EVENT_DATA_UI) => {
         const index = this.events.data.findIndex(d => d.id === data.id);
         this.events.data.splice(index, 1);
-        //TODO: delete data from MAP
-        this.mapGeneralService.deleteIcon(data.id);
-        this.mapGeneralService.deletePolygonManually(data.id);
+        // this.deleteIcon(data.id);
+        // this.deletePolygon(data.id);
+        this.deleteObjectFromMap(data);
       });
     }
+  };
+
+  public deleteObjectFromMap = (tempObjectCE) => {
+    switch (tempObjectCE.type) {
+      case LOCATION_TYPE.none: {
+        break;
+      }
+      case LOCATION_TYPE.address: {
+        break;
+      }
+      case LOCATION_TYPE.polygon: {
+        this.deletePolygon(tempObjectCE.id);
+        break;
+      }
+      case LOCATION_TYPE.locationPoint: {
+        this.deleteIcon(tempObjectCE.id);
+        break;
+      }
+    }
+  };
+
+
+  public deleteIcon = (id) => {
+    this.mapGeneralService.deleteIcon(id);
+  };
+  public deletePolygon = (id) => {
+    this.mapGeneralService.deletePolygonManually(id);
   };
   // ----------------------
   private updateData = (reportData: EVENT_DATA_UI[]): void => {
@@ -90,21 +117,32 @@ export class EventService {
             existingEvent[fieldName] = newEvent[fieldName];
           }
         }
+        this.updateEventOnMap(newEvent, prevLocationType);
       } else {
         this.events.data.push(newEvent);
+        this.createEventOnMap(newEvent);
       }
-      this.drawEvent(newEvent, prevLocationType);
+
     });
   };
   // ----------------------
-  private drawEvent = (event: EVENT_DATA_UI, prevLocationType: LOCATION_TYPE) => {
+  private createEventOnMap = (event: EVENT_DATA_UI) => {
+    if (event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.latitude && event.location.longitude) {
+      this.mapGeneralService.createIcon(event);
+    } else if (event.locationType === LOCATION_TYPE.polygon && event.polygon && event.polygon.length > 0) {
+      this.mapGeneralService.drawPolygonFromServer(event.polygon, event.id, event.title, event.description);
+    }
+
+  };
+
+  private updateEventOnMap = (event: EVENT_DATA_UI, prevLocationType: LOCATION_TYPE) => {
     if (event.locationType !== prevLocationType || event.locationType === LOCATION_TYPE.none) {
       this.mapGeneralService.deleteIcon(event.id);
       this.mapGeneralService.deletePolygonManually(event.id);
     }
 
     if (event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.latitude && event.location.longitude) {
-      this.mapGeneralService.createIcon(event.location, event.id, event.modeDefine.styles.mapIcon);
+      this.mapGeneralService.updateIcon(event);
     } else if (event.locationType === LOCATION_TYPE.polygon && event.polygon && event.polygon.length > 0) {
       this.mapGeneralService.drawPolygonFromServer(event.polygon, event.id, event.title, event.description);
     }

@@ -3,8 +3,11 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {
   COMMENT,
   EVENT_DATA_UI,
-  GEOPOINT3D, LINKED_REPORT_DATA, LOCATION_NAMES,
-  LOCATION_TYPE, POINT3D,
+  GEOPOINT3D,
+  LINKED_REPORT_DATA,
+  LOCATION_NAMES,
+  LOCATION_TYPE,
+  POINT3D,
   PRIORITY
 } from '../../../../../../classes/typings/all.typings';
 import {HEADER_BUTTONS, STATE_DRAW} from '../../../types';
@@ -27,6 +30,7 @@ export class EventDialogComponent implements OnInit {
   @ViewChild('title', {static: true}) firstItem: ElementRef;
 
   eventModel: EVENT_DATA_UI;
+  tempObjectCE: any;
   types = this.applicationService.typesConfig.eventTypes;
   priorities = Object.values(PRIORITY);
   locations = Object.values(LOCATION_NAMES);
@@ -92,22 +96,38 @@ export class EventDialogComponent implements OnInit {
   private initEventModel = () => {
     if (this.applicationService.selectedEvents.length === 1) {
       this.eventModel = _.cloneDeep(this.applicationService.selectedEvents[0]);
+      this.setTempObjectCE(this.applicationService.selectedEvents[0]);
     } else {
       this.eventModel = _.cloneDeep(this.defaultEvent);
     }
   };
 
-  onNoClick(): void {
-    this.clearPanel();
-    this.dialogRef.close(false);
-  }
+  setTempObjectCE = (event: EVENT_DATA_UI) => {
+    switch (event.locationType) {
+      case LOCATION_TYPE.none: {
+        this.tempObjectCE = {type: LOCATION_TYPE.none, objectCE: undefined, id: event.id};
+        break;
+      }
+      case LOCATION_TYPE.address: {
+        this.tempObjectCE = {type: LOCATION_TYPE.address, objectCE: event.address, id: event.id};
+       break;
+      }
+      case LOCATION_TYPE.polygon: {
+        this.tempObjectCE = {type: LOCATION_TYPE.polygon, objectCE: event.polygon, id: event.id};
+        break;
+      }
+      case LOCATION_TYPE.locationPoint: {
+        this.tempObjectCE = {type: LOCATION_TYPE.locationPoint, objectCE: event.location, id: event.id};
+        break;
+      }
+    }
+  };
 
-  onCreateClick(): void {
-    this.dialogRef.close(this.eventModel);
-    this.clearPanel();
-  }
-
+  // geo instructions
   onChangeLocation = (event, location: string) => {
+    if (this.tempObjectCE !== undefined) {
+      this.eventService.deleteObjectFromMap(this.tempObjectCE);
+    }
     if (location === LOCATION_NAMES.noLocation) {
       this.eventModel.locationType = LOCATION_TYPE.none;
       this.eventModel.location = {longitude: undefined, latitude: undefined};
@@ -116,7 +136,8 @@ export class EventDialogComponent implements OnInit {
       this.locationService.deleteLocationPointTemp('0');
       this.polygonService.deletePolygonManually('0');
 
-    } else if (location === LOCATION_NAMES.address) {
+    }
+    else if (location === LOCATION_NAMES.address) {
       this.eventModel.location = {longitude: undefined, latitude: undefined};
       this.eventModel.polygon = [];
       this.eventModel.locationType = LOCATION_TYPE.address;
@@ -125,7 +146,8 @@ export class EventDialogComponent implements OnInit {
       this.locationService.deleteLocationPointTemp('0');
       this.polygonService.deletePolygonManually('0');
 
-    } else if (location === LOCATION_NAMES.locationPoint) {
+    }
+    else if (location === LOCATION_NAMES.locationPoint) {
       // toaster
       this.customToasterService.info({message: 'Click on map to set the event\'s location', title: 'location'});
       this.eventModel.address = '';
@@ -139,7 +161,8 @@ export class EventDialogComponent implements OnInit {
       this.mapGeneralService.changeCursor(true);
       // }
 
-    } else if (location === LOCATION_NAMES.polygon) {
+    }
+    else if (location === LOCATION_NAMES.polygon) {
       // toaster
       this.customToasterService.info(
         {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
@@ -167,6 +190,17 @@ export class EventDialogComponent implements OnInit {
       }
     }
   };
+
+  // =========================================================================
+  onNoClick(): void {
+    this.clearPanel();
+    this.dialogRef.close(false);
+  }
+
+  onCreateClick(): void {
+    this.dialogRef.close(this.eventModel);
+    this.clearPanel();
+  }
 
   clearPanel = () => {
     this.applicationService.screen.showLeftPanel = true;

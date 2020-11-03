@@ -3,7 +3,7 @@ import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
-  ASYNC_RESPONSE,
+  ASYNC_RESPONSE, EVENT_DATA_UI,
   ID_OBJ,
   LINKED_REPORT_DATA,
   LOCATION_TYPE,
@@ -107,27 +107,31 @@ export class ReportService {
             existingReport[fieldName] = newReport[fieldName];
           }
         }
+        this.updateReportOnMap(newReport, prevLocationType);
       } else {
         this.reports.data.push(newReport);
+        this.createReportOnMap(newReport);
         if (newReport.source === SOURCE_TYPE.MRF && (Date.now() - newReport.time) < 1000 * 60 * 5) {
           this.toasterService.info({message: 'Report added from FR', title: ''});
         }
       }
-      this.drawReport(newReport, prevLocationType);
     });
   };
   // ----------------------
-  private drawReport = (report: REPORT_DATA_UI, prevLocationType: LOCATION_TYPE) => {
-    if (report.locationType !== prevLocationType || report.locationType === LOCATION_TYPE.none) {
-      this.mapGeneralService.deleteIcon(report.id);
-      this.mapGeneralService.deletePolygonManually(report.id);
-    }
-
+  private createReportOnMap = (report: REPORT_DATA_UI) => {
     if (report.locationType === LOCATION_TYPE.locationPoint && report.location.latitude && report.location.longitude) {
-      this.mapGeneralService.createIcon(report.location, report.id, report.modeDefine.styles.mapIcon);
+      this.mapGeneralService.createIcon(report);
     }
   };
-
+  // ----------------------
+  private updateReportOnMap = (report: REPORT_DATA_UI, prevLocationType: LOCATION_TYPE) => {
+    if (report.locationType !== prevLocationType || report.locationType === LOCATION_TYPE.none) {
+      this.mapGeneralService.deleteIcon(report.id);
+    }
+    if (report.locationType === LOCATION_TYPE.locationPoint && report.location.latitude && report.location.longitude) {
+      this.mapGeneralService.updateIcon(report);
+    }
+  };
   // ----------------------
   public createReport = (reportData: REPORT_DATA, cb?: Function) => {
     this.connectionService.post('/api/createReport', reportData)

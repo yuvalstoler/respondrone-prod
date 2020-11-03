@@ -15,7 +15,7 @@ import {PolygonService} from '../../../services/polygonService/polygon.service';
 import {ArrowService} from '../../../services/arrowService/arrow.service';
 import {PolylineService} from '../../../services/polylineService/polyline.service';
 import {MatMenuTrigger} from '@angular/material/menu';
-import {MapGeneralService} from "../../../services/mapGeneral/map-general.service";
+import {MapGeneralService} from '../../../services/mapGeneral/map-general.service';
 
 @Component({
   selector: 'app-geo-instructions',
@@ -34,11 +34,11 @@ export class GeoInstructionsComponent implements OnInit {
   geographicInstructionsModel: GEOGRAPHIC_INSTRUCTION [] = [];
   icon: string;
   defaultModel: GEOGRAPHIC_INSTRUCTION = {
-    idTemp: undefined,
+    id: undefined,
     type: undefined,
     description: '',
     location: {longitude: undefined, latitude: undefined},
-    styles: {icon: ''},
+    modeDefine: {styles: {mapIcon: '', iconSize: undefined}},
     address: '',
     polygon: [],
     arrow: [],
@@ -121,8 +121,8 @@ export class GeoInstructionsComponent implements OnInit {
   saveInstruction = (type: GEOGRAPHIC_INSTRUCTION_TYPE) => {
     this.isSave = false;
     this.geoInstructionModel.type = type;
-    this.geoInstructionModel.styles.icon = this.setIcon(type);
-    this.geoInstructionModel.idTemp = this.applicationService.geoCounter.toString();
+    this.geoInstructionModel.modeDefine.styles.mapIcon = this.setIcon(type);
+    this.geoInstructionModel.id = this.applicationService.geoCounter.toString();
     this.geographicInstructionsModel.push(this.geoInstructionModel);
     this.applicationService.geoCounter = this.geographicInstructionsModel.length;
 

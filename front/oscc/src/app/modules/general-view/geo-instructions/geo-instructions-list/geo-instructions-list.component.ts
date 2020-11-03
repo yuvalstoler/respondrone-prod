@@ -35,18 +35,18 @@ export class GeoInstructionsListComponent implements OnInit {
     const geoInstruction = this.geographicInstructionsModel[index];
     switch (geoInstruction.type) {
       case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
-        this.arrowService.deleteArrowPolylineManually(geoInstruction.idTemp);
+        this.arrowService.deleteArrowPolylineManually(geoInstruction.id);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.address:
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.point:
-        this.locationService.deleteLocationPointTemp(geoInstruction.idTemp);
+        this.locationService.deleteLocationPointTemp(geoInstruction.id);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
-        this.polygonService.deletePolygonManually(geoInstruction.idTemp);
+        this.polygonService.deletePolygonManually(geoInstruction.id);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
-        this.polylineService.deletePolylineManually(geoInstruction.idTemp);
+        this.polylineService.deletePolylineManually(geoInstruction.id);
         break;
     }
     this.geographicInstructionsModel.splice(index, 1);

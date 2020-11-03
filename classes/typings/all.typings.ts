@@ -149,6 +149,7 @@ export type REPORT_DATA_MD = {
         icon: string,
         mapIcon: string,
         selectedIcon: string,
+        iconSize: number
     },
     tableData: {
         id: TABLE_DATA_MD,
@@ -202,6 +203,7 @@ export type EVENT_DATA_MD = {
         icon: string,
         mapIcon: string,
         selectedIcon: string,
+        iconSize: number
     },
     tableData: {
         id: TABLE_DATA_MD,
@@ -246,9 +248,10 @@ export type FR_DATA_UI = FR_DATA & {
 }
 export type FR_DATA_MD = {
     styles: {
-        icon: string,
+        mapIcon: string,
         color: string,
         dotColor: string,
+        iconSize: number
     },
     tableData: {
         id: TABLE_DATA_MD,
@@ -309,11 +312,18 @@ export type TASK_DATA_UI = TASK_DATA & {
 }
 export type TASK_DATA_MD = {
     styles: {
-        dotColor: string,
+        dotColor: string
     },
     tableData: {
         priority: TABLE_DATA_MD,
         assignees: TABLE_DATA_MD,
+    }
+}
+
+export type GEOGRAPHIC_INSTRUCTION_MD = {
+    styles: {
+        mapIcon: string,
+        iconSize: number
     }
 }
 
@@ -326,7 +336,7 @@ export enum GEOGRAPHIC_INSTRUCTION_TYPE {
 }
 
 export type GEOGRAPHIC_INSTRUCTION = {
-    idTemp: string,
+    id: string,
     type: GEOGRAPHIC_INSTRUCTION_TYPE,
     location: GEOPOINT3D,
     description: string,
@@ -334,7 +344,7 @@ export type GEOGRAPHIC_INSTRUCTION = {
     arrow: POINT[] | POINT3D[],
     polygon: POINT3D[],
     polyline: POINT3D[],
-    styles: {icon: string}
+    modeDefine: GEOGRAPHIC_INSTRUCTION_MD
 }
 
 export enum TASK_STATUS {

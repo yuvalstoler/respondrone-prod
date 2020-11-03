@@ -42,6 +42,7 @@ export class ApplicationService {
 
     this.screen = {
       showLeftPanel: true,
+      showRightPanel: true,
       showSituationPicture: true,
       showMissionControl: false,
       showViewMedia: false

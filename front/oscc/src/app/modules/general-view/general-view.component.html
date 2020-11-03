@@ -4,10 +4,10 @@
 
 
   <!--Map Cesium-->
-  <div >
+  <div>
     <app-map></app-map>
-    <div class="MapContent" [ngClass]="{'MapRegular':applicationService.panelIcon === LEFT_PANEL_ICON.expand,
-    'MapWide': applicationService.panelIcon === LEFT_PANEL_ICON.minimize}"
+    <div [ngClass]="{'MapRegular':applicationService.panelIcon === LEFT_PANEL_ICON.expand,
+    'MapWide': applicationService.panelIcon === LEFT_PANEL_ICON.minimize}" class="MapContent"
          id="{{cesiumService?.maps[0]?.containerId}}">
     </div>
     <!--<div class="cesium-two"-->
@@ -15,13 +15,21 @@
     <!--</div>-->
   </div>
 
-  <app-resources-panel class="resourcesPanel">
-  </app-resources-panel>
+
+  <!--Right Panel-->
+  <mat-sidenav-container>
+    <mat-sidenav #RightPanel [(opened)]="applicationService.screen.showRightPanel"
+                 class="RightPanel"
+                 [position]="'end'"
+                 mode="side">
+      <app-resources-panel></app-resources-panel>
+    </mat-sidenav>
+  </mat-sidenav-container>
 
   <!--Left Panel-->
   <!--[disableClose]="true"-->
   <mat-sidenav-container>
-    <mat-sidenav #sidenav [(opened)]="applicationService.screen.showLeftPanel"
+    <mat-sidenav #LeftPanel [(opened)]="applicationService.screen.showLeftPanel"
                  [ngClass]="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)? 'LeftPanel' : 'LeftNarrowPanel'"
                  class="LeftPanel"
                  mode="side">
