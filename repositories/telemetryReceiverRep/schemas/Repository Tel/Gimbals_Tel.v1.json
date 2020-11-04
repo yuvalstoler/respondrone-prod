@@ -1,6 +1,7 @@
 {
   "title": "Gimbals_Tel",
   "type": "object",
+  "description": "Gimbals telemetry",
   "properties": {
     "timestamp": {
       "title": "timestamp",
@@ -157,5 +158,8 @@
       }
     }
   },
-  "description": "Gimbals telemetry"
+  "required": [
+    "timestamp",
+    "gimbals"
+  ]
 }
