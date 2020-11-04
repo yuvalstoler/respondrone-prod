@@ -31,7 +31,7 @@ export class ApiManager implements IRest {
             data.errors.length = Math.min(data.errors.length, 20);
             data.connectionMessages.length = Math.min(data.connectionMessages.length, 20);
             let str = 'Message received:\n' + JSON.stringify(data.message)
-                + '\n\n\nCurrent data:\n' + JSON.stringify(data.str);
+                + '\n\n\nCurrent data:\n' + data.str;
 
             str += '\n\n\nErrors:'
             data.errors.forEach((item) => {

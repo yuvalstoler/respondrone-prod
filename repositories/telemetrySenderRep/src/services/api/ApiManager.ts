@@ -29,7 +29,7 @@ export class ApiManager implements IRest {
         '/data': (request, response) => {
             const data = SocketManager.getData();
             data.connectionMessages.length = Math.min(data.connectionMessages.length, 50);
-            let str = 'Current data:\n' + JSON.stringify(data.str);
+            let str = 'Current data:\n' + data.str;
 
             str += '\n\n\nConnection messages:';
             data.connectionMessages.forEach((item) => {
