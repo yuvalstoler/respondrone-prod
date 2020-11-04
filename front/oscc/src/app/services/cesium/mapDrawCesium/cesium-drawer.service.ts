@@ -364,6 +364,33 @@ export class CesiumDrawerService {
     return res;
   };
 
+  public removeIconFromMap = (domId: string, billboardId: string): boolean => {
+    let res = false;
+    const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        if (this.cesiumService.cesiumMapObjects.hasOwnProperty(mapDomId) && this.cesiumService.cesiumMapObjects[mapDomId] !== undefined) {
+          // delete locationPoint
+          if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.iconCE)) {
+            if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE].hasOwnProperty(billboardId) &&
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId] !== {}) {
+              this.cesiumService.removeItemCEFromMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId]);
+              res = true;
+            }
+          }
+          if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.iconLabelCE)) {
+            if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE].hasOwnProperty(billboardId) &&
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][billboardId] !== {}) {
+              this.cesiumService.removeItemCEFromMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][billboardId]);
+              res = true;
+            }
+          }
+        }
+      }
+    }
+    return res;
+  };
+
   public editIcon = (domId: string, billboardId: string, iconUrl: string, size: number): boolean => {
     let res = false;
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);

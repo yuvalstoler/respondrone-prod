@@ -16,6 +16,8 @@ export enum HEADER_BUTTONS {
 export type DISPLAY_ON_SCREEN = {
   showLeftPanel: boolean;
   showRightPanel: boolean;
+  showGrandResources: boolean,
+  showAirResources: boolean,
   showSituationPicture: boolean;
   showMissionControl: boolean;
   showViewMedia: boolean;

@@ -28,7 +28,7 @@ export class LeftPanelComponent implements OnInit {
   };
 
   closeMenu = () => {
-    this.contextMenuService.closeSingleMenu();
+    this.contextMenuService.closeLinkToMenu();
 
   };
   

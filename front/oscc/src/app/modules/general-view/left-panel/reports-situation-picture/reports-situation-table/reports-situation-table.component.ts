@@ -240,7 +240,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
       const top = event.clientY - 10;
       const left = event.clientX + 20;
       const clickPosition = {x: left, y: top};
-      this.contextMenuService.openSingleMenu(clickPosition, element.events, 'event');
+      this.contextMenuService.openLinkToMenu(clickPosition, element.events, 'event');
     }
   };
 }

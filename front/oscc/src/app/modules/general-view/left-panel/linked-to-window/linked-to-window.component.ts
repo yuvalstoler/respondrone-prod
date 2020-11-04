@@ -17,7 +17,7 @@ export class LinkedToWindowComponent implements OnInit {
   }
 
   onNoClick = () => {
-    this.contextMenuService.closeSingleMenu();
+    this.contextMenuService.closeLinkToMenu();
   };
 
   onUnlinkClick = () => {

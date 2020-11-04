@@ -30,7 +30,6 @@ export class EventDialogComponent implements OnInit {
   @ViewChild('title', {static: true}) firstItem: ElementRef;
 
   eventModel: EVENT_DATA_UI;
-  tempObjectCE: any;
   types = this.applicationService.typesConfig.eventTypes;
   priorities = Object.values(PRIORITY);
   locations = Object.values(LOCATION_NAMES);
@@ -72,7 +71,7 @@ export class EventDialogComponent implements OnInit {
               public reportService: ReportService,
               public mapGeneralService: MapGeneralService,
               public dialogRef: MatDialogRef<EventDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: {title: string}) {
+              @Inject(MAT_DIALOG_DATA) public data: { title: string }) {
     this.initEventModel();
 
     // add location on panel
@@ -105,19 +104,19 @@ export class EventDialogComponent implements OnInit {
   setTempObjectCE = (event: EVENT_DATA_UI) => {
     switch (event.locationType) {
       case LOCATION_TYPE.none: {
-        this.tempObjectCE = {type: LOCATION_TYPE.none, objectCE: undefined, id: event.id};
+        this.eventService.tempEventObjectCE = {type: LOCATION_TYPE.none, objectCE: undefined, id: event.id, event};
         break;
       }
       case LOCATION_TYPE.address: {
-        this.tempObjectCE = {type: LOCATION_TYPE.address, objectCE: event.address, id: event.id};
-       break;
+        this.eventService.tempEventObjectCE = {type: LOCATION_TYPE.address, objectCE: event.address, id: event.id, event};
+        break;
       }
       case LOCATION_TYPE.polygon: {
-        this.tempObjectCE = {type: LOCATION_TYPE.polygon, objectCE: event.polygon, id: event.id};
+        this.eventService.tempEventObjectCE = {type: LOCATION_TYPE.polygon, objectCE: event.polygon, id: event.id, event};
         break;
       }
       case LOCATION_TYPE.locationPoint: {
-        this.tempObjectCE = {type: LOCATION_TYPE.locationPoint, objectCE: event.location, id: event.id};
+        this.eventService.tempEventObjectCE = {type: LOCATION_TYPE.locationPoint, objectCE: event.location, id: event.id, event};
         break;
       }
     }
@@ -125,8 +124,8 @@ export class EventDialogComponent implements OnInit {
 
   // geo instructions
   onChangeLocation = (event, location: string) => {
-    if (this.tempObjectCE !== undefined) {
-      this.eventService.deleteObjectFromMap(this.tempObjectCE);
+    if (this.eventService.tempEventObjectCE !== undefined) {
+      this.eventService.removeObjectFromMap(this.eventService.tempEventObjectCE);
     }
     if (location === LOCATION_NAMES.noLocation) {
       this.eventModel.locationType = LOCATION_TYPE.none;
@@ -136,8 +135,7 @@ export class EventDialogComponent implements OnInit {
       this.locationService.deleteLocationPointTemp('0');
       this.polygonService.deletePolygonManually('0');
 
-    }
-    else if (location === LOCATION_NAMES.address) {
+    } else if (location === LOCATION_NAMES.address) {
       this.eventModel.location = {longitude: undefined, latitude: undefined};
       this.eventModel.polygon = [];
       this.eventModel.locationType = LOCATION_TYPE.address;
@@ -146,8 +144,8 @@ export class EventDialogComponent implements OnInit {
       this.locationService.deleteLocationPointTemp('0');
       this.polygonService.deletePolygonManually('0');
 
-    }
-    else if (location === LOCATION_NAMES.locationPoint) {
+    } else if (location === LOCATION_NAMES.locationPoint) {
+      this.eventModel.location = {longitude: undefined, latitude: undefined};
       // toaster
       this.customToasterService.info({message: 'Click on map to set the event\'s location', title: 'location'});
       this.eventModel.address = '';
@@ -156,13 +154,12 @@ export class EventDialogComponent implements OnInit {
       this.polygonService.deletePolygonManually('0');
 
       // if (this.eventModel.location.latitude === undefined && this.eventModel.location.longitude === undefined) {
-        this.eventModel.locationType = LOCATION_TYPE.locationPoint;
-        this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
+      this.eventModel.locationType = LOCATION_TYPE.locationPoint;
+      this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
       this.mapGeneralService.changeCursor(true);
       // }
 
-    }
-    else if (location === LOCATION_NAMES.polygon) {
+    } else if (location === LOCATION_NAMES.polygon) {
       // toaster
       this.customToasterService.info(
         {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
@@ -193,6 +190,7 @@ export class EventDialogComponent implements OnInit {
 
   // =========================================================================
   onNoClick(): void {
+    this.eventService.createEventOnMap(this.eventService.tempEventObjectCE.event);
     this.clearPanel();
     this.dialogRef.close(false);
   }
@@ -225,7 +223,7 @@ export class EventDialogComponent implements OnInit {
   };
 
   onChangeComments = (comments: COMMENT[]) => {
-   this.eventModel.comments = comments;
+    this.eventModel.comments = comments;
   };
 
   getDisabled = (): boolean => {

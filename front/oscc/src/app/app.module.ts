@@ -45,6 +45,7 @@ import {TaskAssigneesDialogComponent} from './dialogs/task-assignees-dialog/task
 import {TaskAssigneesTableComponent} from './dialogs/task-assignees-dialog/task-assignees-table/task-assignees-table.component';
 import {TaskAssigneesContainerComponent} from './dialogs/task-assignees-dialog/task-assignees-container/task-assignees-container.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 const config: SocketIoConfig = SOCKET_CONFIG;
 
@@ -104,7 +105,8 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     MatIconModule,
     MatExpansionModule,
     MatMenuModule,
-    DragDropModule
+    DragDropModule,
+    MatToolbarModule
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },

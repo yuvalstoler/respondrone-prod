@@ -17,14 +17,15 @@
 
 
   <!--Right Panel-->
-  <mat-sidenav-container>
-    <mat-sidenav #RightPanel [(opened)]="applicationService.screen.showRightPanel"
-                 class="RightPanel"
-                 [position]="'end'"
-                 mode="side">
-      <app-resources-panel></app-resources-panel>
-    </mat-sidenav>
-  </mat-sidenav-container>
+  <app-right-panel class="RightPanel"></app-right-panel>
+  <!--<mat-sidenav-container>-->
+    <!--<mat-sidenav #RightPanel [(opened)]="applicationService.screen.showRightPanel"-->
+                 <!--class="RightPanel"-->
+                 <!--[position]="'end'"-->
+                 <!--mode="side">-->
+      <!--<app-right-panel></app-right-panel>-->
+    <!--</mat-sidenav>-->
+  <!--</mat-sidenav-container>-->
 
   <!--Left Panel-->
   <!--[disableClose]="true"-->

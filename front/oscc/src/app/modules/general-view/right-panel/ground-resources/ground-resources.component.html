@@ -1,0 +1,23 @@
+<!--<div *ngFor="let fr of frService.frs.data">-->
+  <div class="gridResources" *ngFor="let fr of frService.frs.data">
+    <!--icon resource-->
+    <div class="item1">
+      <img [src]="fr.modeDefine?.styles?.mapIcon" class='icon'>
+    </div>
+    <!--title-->
+    <div class="item2">{{fr.callSign}}</div>
+    <!--icon 3 dotes-->
+    <div class="item3">
+      <mat-icon>more_vert</mat-icon>
+    </div>
+    <!--type-->
+    <div class="item4">{{fr.type}}</div>
+    <!--last update-->
+    <div class="item5">{{fr.lastUpdated.timestamp | lastSeenDate: applicationService.now }}</div>
+    <!--status-->
+    <div class="item6">
+      <span [ngStyle]="{'color': fr.modeDefine?.styles?.dotColor, 'font-size': '12px'}" class="material-icons">stop_circle</span>
+      {{fr.online ? 'Online' : 'Offline'}}
+    </div>
+  </div>
+<!--</div>-->

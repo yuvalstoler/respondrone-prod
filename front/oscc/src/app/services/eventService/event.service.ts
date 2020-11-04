@@ -24,6 +24,7 @@ export class EventService {
 
   events: {data: EVENT_DATA_UI[]} = {data: []};
   events$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  tempEventObjectCE: {type: LOCATION_TYPE, objectCE: any, id: string, event: EVENT_DATA_UI};
 
   constructor(private connectionService: ConnectionService,
               private socketService: SocketService,
@@ -55,24 +56,22 @@ export class EventService {
     }
   };
   // ----------------------
-  private updateEvents = (reportData: EVENT_DATA_UI[]): void => {
-    if (Array.isArray(reportData)) {
-      this.removeIfNotExist(reportData);
-      this.updateData(reportData);
+  private updateEvents = (eventData: EVENT_DATA_UI[]): void => {
+    if (Array.isArray(eventData)) {
+      this.removeIfNotExist(eventData);
+      this.updateData(eventData);
       this.events$.next(true);
     }
   };
   // ----------------------
-  private removeIfNotExist = (reportData: EVENT_DATA_UI[]): void => {
-    const notExist = _.differenceWith(this.events.data, reportData, (o1, o2) => {
+  private removeIfNotExist = (eventData: EVENT_DATA_UI[]): void => {
+    const notExist = _.differenceWith(this.events.data, eventData, (o1, o2) => {
       return o1['id'] === o2['id'];
     });
     if (notExist.length > 0) {
       notExist.forEach((data: EVENT_DATA_UI) => {
         const index = this.events.data.findIndex(d => d.id === data.id);
         this.events.data.splice(index, 1);
-        // this.deleteIcon(data.id);
-        // this.deletePolygon(data.id);
         this.deleteObjectFromMap(data);
       });
     }
@@ -80,33 +79,38 @@ export class EventService {
 
   public deleteObjectFromMap = (tempObjectCE) => {
     switch (tempObjectCE.type) {
-      case LOCATION_TYPE.none: {
-        break;
-      }
       case LOCATION_TYPE.address: {
         break;
       }
       case LOCATION_TYPE.polygon: {
-        this.deletePolygon(tempObjectCE.id);
+        this.mapGeneralService.deletePolygonManually(tempObjectCE.id);
         break;
       }
       case LOCATION_TYPE.locationPoint: {
-        this.deleteIcon(tempObjectCE.id);
+        this.mapGeneralService.deleteIcon(tempObjectCE.id);
         break;
       }
     }
   };
 
-
-  public deleteIcon = (id) => {
-    this.mapGeneralService.deleteIcon(id);
-  };
-  public deletePolygon = (id) => {
-    this.mapGeneralService.deletePolygonManually(id);
+  public removeObjectFromMap = (tempObjectCE) => {
+    switch (tempObjectCE.type) {
+      case LOCATION_TYPE.address: {
+        break;
+      }
+      case LOCATION_TYPE.polygon: {
+        this.mapGeneralService.deletePolygonManually(tempObjectCE.id);
+        break;
+      }
+      case LOCATION_TYPE.locationPoint: {
+        this.mapGeneralService.removeIcon(tempObjectCE.id);
+        break;
+      }
+    }
   };
   // ----------------------
-  private updateData = (reportData: EVENT_DATA_UI[]): void => {
-    reportData.forEach((newEvent: EVENT_DATA_UI) => {
+  private updateData = (eventData: EVENT_DATA_UI[]): void => {
+    eventData.forEach((newEvent: EVENT_DATA_UI) => {
       let prevLocationType = newEvent.locationType;
       const existingEvent: EVENT_DATA_UI = this.getEventById(newEvent.id);
       if (existingEvent) {
@@ -126,7 +130,7 @@ export class EventService {
     });
   };
   // ----------------------
-  private createEventOnMap = (event: EVENT_DATA_UI) => {
+  public createEventOnMap = (event: EVENT_DATA_UI) => {
     if (event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.latitude && event.location.longitude) {
       this.mapGeneralService.createIcon(event);
     } else if (event.locationType === LOCATION_TYPE.polygon && event.polygon && event.polygon.length > 0) {
@@ -150,6 +154,19 @@ export class EventService {
   };
   // ----------------------
   public createEvent = (eventData: EVENT_DATA, cb?: Function) => {
+    // delete temp from events
+
+    if (this.tempEventObjectCE !== undefined) {
+      const index = this.events.data.findIndex(event => event.id === this.tempEventObjectCE.id);
+      this.events.data.splice(index, 1);
+
+      // this.events.data[index].type = LOCATION_TYPE.none;
+      // this.events.data[index].polygon = [];
+      // this.events.data[index].location = {longitude: undefined, latitude: undefined};
+      // this.events.data[index].address = '';
+
+      this.events$.next(true);
+    }
     this.connectionService.post('/api/createEvent', eventData)
       .then((data: ASYNC_RESPONSE) => {
         if (!data.success) {

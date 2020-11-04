@@ -226,6 +226,13 @@ export class MapGeneralService {
     return res;
   };
 
+  public removeIcon = (billboardId: string): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.removeIconFromMap(domId, billboardId);
+    return res;
+  };
+
   public editIcon = (billboardId: string, iconUrl: string, size: number): boolean => {
     const domId = undefined;
     let res = false;

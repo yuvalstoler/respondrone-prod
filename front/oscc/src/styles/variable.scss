@@ -2,9 +2,11 @@
 $headerHeight: 70px;
 $leftPanelWidth: calc(100vw - 50%);
 
+$rightPanelResourceHeight: 50px;
+
 $leftPanelNarrowWidth: 400px;
-$leftPanelNarrowHeaderHeight: 50px;
-$leftPanelNarrowFooterHeight: 50px;
+//$leftPanelNarrowHeaderHeight: 50px;
+//$leftPanelNarrowFooterHeight: 50px;
 
 $headerSituationPicture: 30px;
 
@@ -13,5 +15,6 @@ $fontSizeTitleHeader: 15px;
 $fontSizeTitle: 14px;
 $fontSizeText: 12px;
 
+// icons
 $iconWidth: 30px;
 $iconFontSize: 30px;

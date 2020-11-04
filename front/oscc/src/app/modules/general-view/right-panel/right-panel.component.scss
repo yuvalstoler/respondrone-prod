@@ -1,0 +1,22 @@
+@import "../../../../styles/colors";
+@import "../../../../styles/variable";
+
+.RightPanelHeader {
+  display: inline-block;
+  font-size: $fontSizeTitle;
+  color: $black;
+  font-weight: 600;
+}
+.RightPanelContainer{
+  padding: 5px;
+  border: 1px solid $gray;
+}
+.RightPanelIcon{
+  float: right;
+}
+.example-spacer {
+  flex: 1 1 auto;
+}
+::ng-deep.mat-toolbar-row, .mat-toolbar-single-row {
+  height: $rightPanelResourceHeight;
+}
