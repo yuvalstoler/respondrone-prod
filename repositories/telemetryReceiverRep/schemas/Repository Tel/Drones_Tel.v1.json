@@ -109,7 +109,7 @@
             ],
             "description": "Communication status"
           },
-          "OperationalStatus": {
+          "operationalStatus": {
             "type": "string",
             "enum": [
               "Ready",
@@ -122,12 +122,12 @@
             ],
             "description": "The operational status of the drone"
           },
-          "capability ": {
+          "capability": {
             "type": "array",
             "items": {
               "type": "string",
               "enum": [
-                "Survailance",
+                "Surveillance",
                 "Patrol",
                 "Scan",
                 "Delivery",
@@ -143,16 +143,21 @@
         "required": [
           "id",
           "type",
-          "location",
           "gpsQuality",
           "energyLevel",
           "heading",
           "altitudeAsl",
+          "velocity",
           "lastUpdateTimeFromDrone",
-          "OperationalStatus",
-          "capability "
+          "commStatus",
+          "operationalStatus",
+          "capability"
         ]
       }
     }
-  }
+  },
+  "required": [
+    "timestamp",
+    "drones"
+  ]
 }

@@ -110,8 +110,8 @@ export class DbManager {
             .lean()
             .exec()
             .then((result) => {
-                if (result) {
-                    this.updateCollectionVersion(result.collectionVersion);
+                if (result && result[0]) {
+                    this.updateCollectionVersion(result[0].collectionVersion);
                 }
                 else {
                     this.updateCollectionVersion(0);
