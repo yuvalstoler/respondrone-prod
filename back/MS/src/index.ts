@@ -16,8 +16,11 @@ const services = require('./../../../../../../config/services.json');
 
 import {Logger} from './logger/Logger';
 import {ApiManager} from './Service/api/ApiManager';
-import {API_GENERAL, MWS_API} from '../../../classes/dataClasses/api/api_enums';
-import { REST_ROUTER_CONFIG } from "../../../classes/typings/all.typings";
+import {
+    API_GENERAL,
+} from '../../../classes/dataClasses/api/api_enums';
+import { REST_ROUTER_CONFIG } from '../../../classes/typings/all.typings';
+import {AirVehicleManager} from "./Service/airVehicle/airVehicleManager";
 
 
 
@@ -47,18 +50,18 @@ export class Server {
         this.middleware();
         this.listen();
 
-        const socketIO_Server: SocketIO = new SocketIO(this.server);
+        // const socketIO_Server: SocketIO = new SocketIO(this.server);
 
 
 
 
         // start websocket 'algorithmManager.sendMissionStatus' - function that call on connect to WS
         const functionsToCallOnConnect = []; // [AlgorithmManager.sendMissionStatus];
-        socketIO_Server.startConnectToWS(functionsToCallOnConnect);
-        this.routes(socketIO_Server);
+        SocketIO.initSocketServer(this.server, functionsToCallOnConnect);
+        this.routes();
 
 
-         this.test();
+        this.test();
 
 
         // ====================New Routes Instances=====================
@@ -70,6 +73,7 @@ export class Server {
         });
 
 
+        AirVehicleManager.startGetSocket();
         // AlgorithmManager.listen(restManager.routers['/missionAction']);
         // AltitudeSlotManager.listen(restManager.routers['/altitudeSlot']);
         // AirVehicleManagerWS.listen(restManager.routers['/droneServiceWS']);
@@ -115,7 +119,7 @@ export class Server {
     }
 
     // Configure API endpoints.
-    private routes(socketIO: SocketIO): void {
+    private routes(): void {
         this.app.use('/', express.static(path.join(__dirname, 'public')));
 
     }

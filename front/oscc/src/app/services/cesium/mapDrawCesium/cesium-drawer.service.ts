@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {
+  AV_DATA_UI,
   CARTESIAN3,
   EVENT_DATA_UI, FR_DATA_UI, GEOGRAPHIC_INSTRUCTION,
   GEOPOINT3D,
@@ -190,7 +191,7 @@ export class CesiumDrawerService {
 
   // ==================ICON========================================================================================
 
-  public createIconObject = (domId: string, object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI): boolean => {
+  public createIconObject = (domId: string, object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI | AV_DATA_UI): boolean => {
     let res = false;
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
     for (const mapDomId in mapsCE) {
@@ -288,7 +289,7 @@ export class CesiumDrawerService {
     this.cesiumService.updateItemCEOnMap(mapDomId, entityCE, options);
   };
 
-  private createIconEntity = (mapDomId: string, object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI) => {
+  private createIconEntity = (mapDomId: string, object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI | AV_DATA_UI) => {
     const size = object.modeDefine.styles.iconSize || 30;
     const description = (object.hasOwnProperty('description')) ? object['description'] : '';
 
@@ -309,7 +310,7 @@ export class CesiumDrawerService {
     return iconData;
   };
 
-  private createIconLabelEntity = (mapDomId: string, object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI) => {
+  private createIconLabelEntity = (mapDomId: string, object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI | AV_DATA_UI) => {
     const size = object.modeDefine.styles.iconSize || 30;
     const label = {text: object['callSign'], color: object.modeDefine.styles['color']};
 

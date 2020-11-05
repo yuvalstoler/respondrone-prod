@@ -3,6 +3,9 @@ import { MAP } from "../../../../classes/typings/all.typings";
 
 
 export class SocketIO {
+
+    private static instance: SocketIO = new SocketIO();
+
     webSocket: any;
 
 
@@ -22,17 +25,20 @@ export class SocketIO {
         SystemTelemetry: 'SystemTelemetry'*/
     };
 
-    constructor(server) {
-        this.webSocket = socketIo.listen(server);
+    constructor() {
+
     }
 
-    public startConnectToWS = (sendsOnConnect: Function[]) => {
+    private initSocketServer = (server, sendsOnConnect: Function[]) => {
+        this.webSocket = socketIo.listen(server);
         this.connectToWebsocket(sendsOnConnect);
-    };
+    }
+
 
     private connectToWebsocket = (sendsOnConnect: Function[]) => {
         this.webSocket.on('connect', (socket: any) => {
             // this.onConnect(socket, sendsOnConnect);
+            console.log('server | socket connected');
             this.socket = socket;
             if ( sendsOnConnect ) {
                 sendsOnConnect.forEach((sendOnConnect) => {
@@ -105,5 +111,9 @@ export class SocketIO {
         this.isSendedRestart = true;
         this.emit('proxy_ui_restartUI', {command: 'restart'});
     }
+
+    public static initSocketServer = SocketIO.instance.initSocketServer;
+    public static addToSortConfig = SocketIO.instance.addToSortConfig;
+    public static emit = SocketIO.instance.emit;
 
 }

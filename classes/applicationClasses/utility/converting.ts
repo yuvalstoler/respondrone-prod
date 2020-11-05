@@ -1,12 +1,13 @@
 import {
     EVENT_DATA,
     REPORT_DATA,
-    TASK_DATA, FR_DATA
+    TASK_DATA, FR_DATA, AV_DATA, AV_DATA_REP
 } from '../../typings/all.typings';
 import { Report } from '../../dataClasses/report/report';
 import {Event} from "../../dataClasses/event/event";
 import { Task } from "../../dataClasses/task/task";
 import {FR} from "../../dataClasses/fr/FR";
+import {AirVehicle} from "../../dataClasses/airVehicle/airVehicle";
 
 
 
@@ -51,6 +52,17 @@ export class Converting {
         if ( Array.isArray(dataArr) ) {
             dataArr.forEach((data: FR_DATA) => {
                 res.push(new FR(data));
+            });
+        }
+        return res;
+    }
+
+    public static Arr_AV_DATA_to_Arr_AV = (dataArr: AV_DATA_REP[]): AirVehicle[] => {
+        const res: AirVehicle[] = [];
+        //    todo data vaidation
+        if ( Array.isArray(dataArr) ) {
+            dataArr.forEach((data: AV_DATA_REP) => {
+                res.push(new AirVehicle(data));
             });
         }
         return res;

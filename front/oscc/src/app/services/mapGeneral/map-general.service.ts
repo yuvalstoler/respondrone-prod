@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {CesiumService} from '../cesium/cesium.service';
 import {
+  AV_DATA_UI,
   EVENT_DATA_UI, FR_DATA_UI, GEOGRAPHIC_INSTRUCTION,
   GEOPOINT3D,
   MAP,
@@ -205,14 +206,14 @@ export class MapGeneralService {
 
 
   // Icons ========================================================================================================
-  public createIcon = (object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI ): boolean => {
+  public createIcon = (object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI | AV_DATA_UI): boolean => {
     const domId = undefined;
     let res = false;
     res = this.cesiumDrawerService.createIconObject(domId, object /*locationPoint, billboardId, iconUrl, size, label, description*/);
     return res;
   };
 
-  public updateIcon = (object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI): boolean => {
+  public updateIcon = (object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI | AV_DATA_UI): boolean => {
     const domId = undefined;
     let res = false;
     res = this.cesiumDrawerService.updateIconFromMap(domId, object.id, object);

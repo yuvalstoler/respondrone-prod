@@ -14,15 +14,18 @@ export class SocketIOClient {
     externalSortConfig: { [type: string]: { [room: string]: Function } } = {};
 
     constructor() {
-        this.sockets[SOCKET_IO_CLIENT_TYPES.CCG] = io(CCGServiceURL, {autoConnect: true});
+        this.initSocket(SOCKET_IO_CLIENT_TYPES.CCG, CCGServiceURL);
     }
 
-    // public static getInstance() {
-    //     if ( !SocketIOClient.instance ) {
-    //         SocketIOClient.instance = new SocketIOClient();
-    //     }
-    //     return SocketIOClient.instance;
-    // }
+    private initSocket = (type: SOCKET_IO_CLIENT_TYPES, url: string) => {
+        this.sockets[type] = io(url, {autoConnect: true});
+        this.sockets[type].on('connect', (socket) => {
+            console.log("client | connect", type);
+        });
+        this.sockets[type].on('disconnect', (socket) => {
+            console.log("client | disconnect", type);
+        });
+    }
 
     public addToSortConfig = (type, callbacksConfig: MAP<Function>) => {
         this.externalSortConfig[type] = {...this.externalSortConfig[type], ...callbacksConfig};

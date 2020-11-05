@@ -12,9 +12,7 @@ export class TaskMdLogic implements IModeDefine {
         const obj: TASK_DATA_MD = {
             styles: {
                 dotColor: TaskMdLogic.getDotColor(data),
-                // geoInstructions: {
-                //     icon: TaskMdLogic.getIcon(data)
-                // }
+                textColor: TaskMdLogic.getTextColor(data),
             },
             tableData: TaskMdLogic.tableData(data)
         };
@@ -43,7 +41,19 @@ export class TaskMdLogic implements IModeDefine {
         } else if (data.status === TASK_STATUS.rejected) {
             res = MDClass.colors.red;
         } else if (data.status === TASK_STATUS.completed) {
+            res = MDClass.colors.grey;
+        }
+        return res;
+    };
+
+    private static getTextColor = (data: TASK_DATA_UI): string => {
+        let res;
+        if (data.status === TASK_STATUS.rejected) {
             res = MDClass.colors.red;
+        } else if (data.status === TASK_STATUS.completed) {
+            res = MDClass.colors.grey;
+        } else {
+            res = MDClass.colors.black;
         }
         return res;
     };

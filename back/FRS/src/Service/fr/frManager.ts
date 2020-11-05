@@ -10,12 +10,13 @@ import {
     ID_OBJ,
     FR_DATA,
     FR_TYPE,
-    SOCKET_IO_CLIENT_TYPES, FR_DATA_TELEMETRY, FR_STATUS
+    SOCKET_IO_CLIENT_TYPES, FR_DATA_TELEMETRY, FR_STATUS, SOCKET_CLIENT_TYPES, FR_DATA_TELEMETRY_REP
 } from '../../../../../classes/typings/all.typings';
 import {FR} from '../../../../../classes/dataClasses/fr/FR';
 import {DataUtility} from '../../../../../classes/applicationClasses/utility/dataUtility';
 import {SocketIOClient} from "../../websocket/socketIOClient";
 import {SocketIO} from "../../websocket/socket.io";
+import {SocketClient} from "../../websocket/socketClient";
 
 
 export class FrManager {
@@ -25,6 +26,7 @@ export class FrManager {
 
 
     frs: FR[] = [];
+    timestamp: number;
 
     private constructor() {
         const date = Date.now();
@@ -66,7 +68,7 @@ export class FrManager {
             ]
         }
         setInterval(() => {
-            SocketIO.emit(SOCKET_ROOM.FRs_Tel_room, test);
+            this.onGetFRs(test);
         }, 5000);
     }
 
@@ -76,11 +78,24 @@ export class FrManager {
 
     private onGetFRs = (data: FR_DATA_TELEMETRY) => {
         this.frs = Converting.Arr_FR_DATA_to_Arr_FR(data.FRs);
+        if (data.timestamp) {
+            this.timestamp = data.timestamp.timestamp;
+        }
 
-        // TODO send to repository
         SocketIO.emit(SOCKET_ROOM.FRs_Tel_room, data);
+        const dataForRep: FR_DATA_TELEMETRY_REP = this.convertDataForRep();
+        SocketClient.emit(SOCKET_CLIENT_TYPES.FRTelemetryReceiverRep, dataForRep);
     };
 
+    private convertDataForRep = (): FR_DATA_TELEMETRY_REP => {
+        const data: FR_DATA_TELEMETRY_REP = {
+            timestamp: {
+                timestamp: this.timestamp
+            },
+            FRs: this.frs.map((fr: FR) => fr.toJsonForRepository())
+        };
+        return data;
+    }
 
 
     private frsSocketConfig: {} = {

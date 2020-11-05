@@ -49,7 +49,6 @@ import {TasksMissionTableComponent} from './left-panel/tasks-mission-control/tas
 import {TaskAssigneeTableComponent} from './task-assignee-table/task-assignee-table.component';
 import {GeoInstructionsComponent} from './geo-instructions/geo-instructions.component';
 import {MatMenuModule} from '@angular/material/menu';
-import {ResourcesPanelComponent} from './resources-panel/resources-panel.component';
 import {GeoInstructionsListComponent} from './geo-instructions/geo-instructions-list/geo-instructions-list.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {LinkedToWindowComponent} from './left-panel/linked-to-window/linked-to-window.component';
@@ -79,7 +78,6 @@ import {AirResourcesComponent} from './right-panel/air-resources/air-resources.c
     TasksMissionTableComponent,
     TaskAssigneeTableComponent,
     GeoInstructionsComponent,
-    ResourcesPanelComponent,
     GeoInstructionsListComponent,
     LinkedToWindowComponent,
     RightPanelComponent,
@@ -133,7 +131,6 @@ import {AirResourcesComponent} from './right-panel/air-resources/air-resources.c
     MissionsMissionControlComponent,
     TaskAssigneeTableComponent,
     GeoInstructionsComponent,
-    ResourcesPanelComponent,
     LinkedToWindowComponent,
     RightPanelComponent,
     GroundResourcesComponent,

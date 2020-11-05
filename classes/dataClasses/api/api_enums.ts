@@ -198,5 +198,6 @@ export enum MG_API {
 
 
 export enum SOCKET_ROOM { // TODO change
-    FRs_Tel_room ='FRS_Tel_room'
+    FRs_Tel_room ='FRS_Tel_room',
+    AVs_Tel_room ='AVs_Tel_room',
 }
