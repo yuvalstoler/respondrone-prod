@@ -12,7 +12,7 @@ export class LastSeenDatePipe extends
 
     if (diffDay < 1) {
       if (diffSeconds < 10) {
-        return 'now'
+        return 'now';
       }
       // else if (diffSeconds < 60) {
       //   return Math.floor(diffSeconds) + ' sec ago'
@@ -28,7 +28,7 @@ export class LastSeenDatePipe extends
       }
     }
     else if (diffDay === 1) {
-      return 'yesterday'
+      return 'yesterday';
     }
     else {
       return super.transform(value, 'dd/MM/yy');

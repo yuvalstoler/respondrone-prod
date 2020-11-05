@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {AirVehicleService} from "../../../../services/airVehicleService/airVehicle.service";
+import {AirVehicleService} from '../../../../services/airVehicleService/airVehicle.service';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-air-resources',
@@ -7,6 +7,9 @@ import {AirVehicleService} from "../../../../services/airVehicleService/airVehic
   styleUrls: ['./air-resources.component.scss']
 })
 export class AirResourcesComponent implements OnInit {
+
+
+  @Input() optionSelected: string;
 
   constructor(public airVehicleService: AirVehicleService) { }
 

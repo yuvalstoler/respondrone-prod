@@ -22,13 +22,10 @@
   background-color: $black !important;
 }
 
+//mat drawer
 :host::ng-deep .mat-drawer-inner-container {
   overflow: hidden;
   //-webkit-overflow-scrolling: touch;
-}
-
-::ng-deep.mat-cell, .mat-footer-cell {
-  font-size: $fontSizeText;
 }
 
 //table ================================================================================================================
@@ -39,6 +36,12 @@
   padding-right: 10px !important;
 }
 
+// footer table
+::ng-deep.mat-cell, .mat-footer-cell {
+  font-size: $fontSizeText;
+}
+
+//
 ::ng-deep.cdk-text-field-autofill-monitored:not(:-webkit-autofill) {
   text-align: left;
 }

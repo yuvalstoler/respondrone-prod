@@ -76,24 +76,24 @@ export class EventService {
       });
     }
   };
-
-  public deleteObjectFromMap = (tempObjectCE) => {
-    switch (tempObjectCE.type) {
+// ----------------------
+  public deleteObjectFromMap = (data: EVENT_DATA_UI) => {
+    switch (data.type) {
       case LOCATION_TYPE.address: {
         break;
       }
       case LOCATION_TYPE.polygon: {
-        this.mapGeneralService.deletePolygonManually(tempObjectCE.id);
+        this.mapGeneralService.deletePolygonManually(data.id);
         break;
       }
       case LOCATION_TYPE.locationPoint: {
-        this.mapGeneralService.deleteIcon(tempObjectCE.id);
+        this.mapGeneralService.deleteIcon(data.id);
         break;
       }
     }
   };
-
-  public removeObjectFromMap = (tempObjectCE) => {
+  // ----------------------
+  public hideObjectOnMap = (tempObjectCE) => {
     switch (tempObjectCE.type) {
       case LOCATION_TYPE.address: {
         break;
@@ -103,9 +103,17 @@ export class EventService {
         break;
       }
       case LOCATION_TYPE.locationPoint: {
-        this.mapGeneralService.removeIcon(tempObjectCE.id);
+        this.mapGeneralService.hideIcon(tempObjectCE.id);
         break;
       }
+    }
+  };
+  // ----------------------
+  public showEventOnMap = (event: EVENT_DATA_UI) => {
+    if (event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.latitude && event.location.longitude) {
+      this.mapGeneralService.showIcon(event.id);
+    } else if (event.locationType === LOCATION_TYPE.polygon && event.polygon && event.polygon.length > 0) {
+      this.mapGeneralService.drawPolygonFromServer(event.polygon, event.id, event.title, event.description);
     }
   };
   // ----------------------
@@ -138,7 +146,7 @@ export class EventService {
     }
 
   };
-
+  // ----------------------
   private updateEventOnMap = (event: EVENT_DATA_UI, prevLocationType: LOCATION_TYPE) => {
     if (event.locationType !== prevLocationType || event.locationType === LOCATION_TYPE.none) {
       this.mapGeneralService.deleteIcon(event.id);
@@ -154,19 +162,19 @@ export class EventService {
   };
   // ----------------------
   public createEvent = (eventData: EVENT_DATA, cb?: Function) => {
-    // delete temp from events
-
-    if (this.tempEventObjectCE !== undefined) {
-      const index = this.events.data.findIndex(event => event.id === this.tempEventObjectCE.id);
-      this.events.data.splice(index, 1);
-
-      // this.events.data[index].type = LOCATION_TYPE.none;
-      // this.events.data[index].polygon = [];
-      // this.events.data[index].location = {longitude: undefined, latitude: undefined};
-      // this.events.data[index].address = '';
-
-      this.events$.next(true);
-    }
+    // // delete temp from events
+    //
+    // if (this.tempEventObjectCE !== undefined) {
+    //   const index = this.events.data.findIndex(event => event.id === this.tempEventObjectCE.id);
+    //   this.events.data.splice(index, 1);
+    //
+    //   // this.events.data[index].type = LOCATION_TYPE.none;
+    //   // this.events.data[index].polygon = [];
+    //   // this.events.data[index].location = {longitude: undefined, latitude: undefined};
+    //   // this.events.data[index].address = '';
+    //
+    //   this.events$.next(true);
+    // }
     this.connectionService.post('/api/createEvent', eventData)
       .then((data: ASYNC_RESPONSE) => {
         if (!data.success) {

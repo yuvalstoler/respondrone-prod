@@ -20,3 +20,8 @@
 ::ng-deep.mat-toolbar-row, .mat-toolbar-single-row {
   height: $rightPanelResourceHeight;
 }
+
+//cdk
+::ng-deep .cdk-overlay-connected-position-bounding-box {
+  position: fixed;
+}

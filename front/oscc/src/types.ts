@@ -81,3 +81,17 @@ export enum VIEW_LIST {
 
 export type DRAW_OBJECT = EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI | AV_DATA_UI;
 export type DRAW_LABEL = {text: string, color: string};
+
+export enum SORT_GROUND_RESOURCES {
+  lastUpdate = 'Last update',
+  resourceType = 'Resource Type',
+  status = 'Status'
+}
+export enum SORT_AIR_RESOURCES {
+  lastUpdate = 'Last update',
+  UAVType = 'UAV type',
+  status = 'Status',
+  missionType = 'Mission type',
+  UAVEnergy = 'UAV energy',
+  payload = 'Payload'
+}

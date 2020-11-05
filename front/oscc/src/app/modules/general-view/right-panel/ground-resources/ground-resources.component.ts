@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FRService} from '../../../../services/frService/fr.service';
 import {ApplicationService} from '../../../../services/applicationService/application.service';
 
@@ -8,6 +8,8 @@ import {ApplicationService} from '../../../../services/applicationService/applic
   styleUrls: ['./ground-resources.component.scss']
 })
 export class GroundResourcesComponent implements OnInit {
+
+  @Input() optionSelected: string;
 
   constructor(public frService: FRService,
               public applicationService: ApplicationService) { }
