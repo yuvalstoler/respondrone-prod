@@ -1,6 +1,6 @@
 import * as io from 'socket.io-client';
 import {Logger} from '../logger/Logger';
-import {MAP, SOCKET_CLIENT_TYPES, SOCKET_IO_CLIENT_TYPES} from "../../../../classes/typings/all.typings";
+import {MAP, SOCKET_CLIENT_TYPES, SOCKET_IO_CLIENT_TYPES} from '../../../../classes/typings/all.typings';
 import * as WebSocket from 'ws';
 
 const servicesConf = require('./../../../../../../../config/services.json');
@@ -22,17 +22,17 @@ export class SocketClient {
     private initSocket = (type: SOCKET_CLIENT_TYPES, url: string) => {
         this.sockets[type] = new WebSocket(url);
         this.sockets[type].on('open', () => {
-            console.log("client | connect", type);
+            console.log('client | connect', type);
         });
         this.sockets[type].on('error',  (err) => {
-            console.log("client | error", type);
+            console.log('client | error', type);
         });
         this.sockets[type].on('close',  (err) => {
             setTimeout(() => {
                 this.initSocket(type, url);
             }, 5000);
         });
-    }
+    };
 
     public addToSortConfig = (type, callbacksConfig: MAP<Function>) => {
         this.externalSortConfig[type] = {...this.externalSortConfig[type], ...callbacksConfig};
@@ -52,7 +52,7 @@ export class SocketClient {
                 callbackFunction[type](data);
             }
             catch (e) {
-                console.log(type, 'error parsing', message)
+                console.log(type, 'error parsing', message);
             }
 
         });
@@ -60,7 +60,9 @@ export class SocketClient {
 
     public emit = (type, data) => {
         if (this.sockets[type]) {
-            this.sockets[type].send(JSON.stringify(data));
+            try {
+                this.sockets[type].send(JSON.stringify(data));
+            } catch (e) {}
         }
     };
 

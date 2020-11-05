@@ -8,18 +8,17 @@ import {SORT_AIR_RESOURCES, SORT_GROUND_RESOURCES} from '../../types';
 })
 export class SortByPriorityPipe implements PipeTransform {
 
-  transform(array: any, value?: SORT_GROUND_RESOURCES | SORT_AIR_RESOURCES): any {
+  transform(array: any, value?: string): any {
     if (array.length === 0 || !value) {
       return array;
     }
-    // if (value === 'Type') {
-    //   value = 'Subclassification';
-    // } else if (value === 'Decision Time') {
-    //   this.sortByDecisionTime(array);
-    //   value = 'orderTTL';
-    // } else if (value === 'Altitude') {
-    //   value = 'Position.geometry.coordinates[2]';
-    // }
+    if (value === SORT_GROUND_RESOURCES.lastUpdate) {
+      value = 'lastUpdated.timestamp';
+    } else if (value === SORT_GROUND_RESOURCES.resourceType) {
+      value = 'type';
+    } else if (value === SORT_GROUND_RESOURCES.status) {
+      value = 'status';
+    }
     return array.sort((a: any, b: any) => {
       const valA = _.get(a, value);
       const valB = _.get(b, value);

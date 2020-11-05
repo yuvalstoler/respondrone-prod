@@ -14,9 +14,9 @@ import {
 } from '../../../../../classes/typings/all.typings';
 import {FR} from '../../../../../classes/dataClasses/fr/FR';
 import {DataUtility} from '../../../../../classes/applicationClasses/utility/dataUtility';
-import {SocketIOClient} from "../../websocket/socketIOClient";
-import {SocketIO} from "../../websocket/socket.io";
-import {SocketClient} from "../../websocket/socketClient";
+import {SocketIOClient} from '../../websocket/socketIOClient';
+import {SocketIO} from '../../websocket/socket.io';
+import {SocketClient} from '../../websocket/socketClient';
 
 
 export class FrManager {
@@ -31,42 +31,57 @@ export class FrManager {
     private constructor() {
         const date = Date.now();
         const test: FR_DATA_TELEMETRY = {
-            "timestamp": {
-                "timestamp": 0
+            'timestamp': {
+                'timestamp': 0
             },
-            "FRs": [
+            'FRs': [
                 {
-                    "id": "aaa",
-                    "callSign": "PO-001",
-                    "type": FR_TYPE.police,
-                    "location": {
-                        "latitude": 32.379365,
-                        "longitude": 34.945756,
-                        "altitude": 0
+                    'id': 'aaa',
+                    'callSign': 'PO-001',
+                    'type': FR_TYPE.police,
+                    'location': {
+                        'latitude': 32.379365,
+                        'longitude': 34.945756,
+                        'altitude': 0
                     },
-                    "lastUpdated": {
-                        "timestamp": date
+                    'lastUpdated': {
+                        'timestamp': date
                     },
-                    "online": true,
-                    "status": FR_STATUS.busy
+                    'online': true,
+                    'status': FR_STATUS.busy
                 },
                 {
-                    "id": "bbb",
-                    "callSign": "PARA-001",
-                    "type": FR_TYPE.paramedic,
-                    "location": {
-                        "latitude": 32.369365,
-                        "longitude": 34.955756,
-                        "altitude": 0
+                    'id': 'bbb',
+                    'callSign': 'PARA-001',
+                    'type': FR_TYPE.paramedic,
+                    'location': {
+                        'latitude': 32.369365,
+                        'longitude': 34.955756,
+                        'altitude': 0
                     },
-                    "lastUpdated": {
-                        "timestamp": date
+                    'lastUpdated': {
+                        'timestamp': date + 50
                     },
-                    "online": false,
-                    "status": FR_STATUS.busy
+                    'online': false,
+                    'status': FR_STATUS.available
+                },
+                {
+                    'id': 'ccc',
+                    'callSign': 'FR-007',
+                    'type': FR_TYPE.fireFighter,
+                    'location': {
+                        'latitude': 32.367365,
+                        'longitude': 34.945756,
+                        'altitude': 0
+                    },
+                    'lastUpdated': {
+                        'timestamp': date - 4550
+                    },
+                    'online': false,
+                    'status': FR_STATUS.busy
                 }
             ]
-        }
+        };
         setInterval(() => {
             this.onGetFRs(test);
         }, 5000);

@@ -1,56 +1,57 @@
-<div class="gridResources" *ngFor="let airVehicle of airVehicleService.airVehicles.data">
-
-  <!--title-->
-  <div class="item2">{{airVehicle.name}}</div>
-  <!--icon 3 dotes-->
-  <div class="item3">
-    <mat-icon>more_vert</mat-icon>
+<mat-accordion>
+  <div *ngFor="let airVehicle of airVehicleService.airVehicles.data | sortByPriority: optionSelected">
+    <div class="gridAirResources" [ngStyle]="{ 'grid-template-rows': isOpenMenu[airVehicle.id] ? '25px 20px 20px 20px 25px' : '25px 20px 25px'}">
+      <!--title-->
+      <div class="item1 title">{{airVehicle.name}}</div>
+      <!--icon 3 dotes-->
+      <div class="item2">
+        <mat-icon *ngIf="isOpenMenu[airVehicle.id]" (click)="onCloseMenu(airVehicle.id)">keyboard_arrow_up</mat-icon>
+        <mat-icon *ngIf="!isOpenMenu[airVehicle.id]" (click)="onOpenMenu(airVehicle.id)">keyboard_arrow_down</mat-icon>
+        <mat-icon>more_vert</mat-icon>
+      </div>
+      <!--mission-->
+      <div class="item3">
+        <span class="title">Mission: </span> {{airVehicle.missionName}}
+      </div>
+      <!--status-->
+      <div class="item4">
+        <span [ngStyle]="{'color': airVehicle.modeDefine?.styles?.statusColor, 'font-size': '12px'}"
+              class="material-icons">stop_circle</span>
+        {{airVehicle.operationalStatus}}
+      </div>
+      <!--TTL-->
+      <div class="item5">
+        <span class="title">TTL: </span> {{airVehicle.remainingTimeFlight}}
+      </div>
+      <!--Alt-->
+      <div class="item6">
+        <span class="title">Alt: </span> {{airVehicle.altitudeAGL}}
+      </div>
+      <!--Speed-->
+      <div class="item7">
+        <span class="title">Speed: </span> {{airVehicle.velocity}} m/s
+      </div>
+      <!--------------------- Expend Panel ----------------->
+      <!--Alt ASL-->
+      <div class="item8" *ngIf="isOpenMenu[airVehicle.id]">
+        <span class="title">Alt ASL: </span> {{airVehicle.altitudeAsl}}
+      </div>
+      <!--Energy-->
+      <div class="item9" *ngIf="isOpenMenu[airVehicle.id]">
+        <span class="title">Energy: </span> {{airVehicle.energyLevel}}
+      </div>
+      <!--GPS-->
+      <div class="item10" *ngIf="isOpenMenu[airVehicle.id]">
+        {{airVehicle.gpsQuality}}
+      </div>
+      <!--Payload -->
+      <div class="item11 title" *ngIf="isOpenMenu[airVehicle.id]">
+        Payload: EO Sensor
+      </div>
+      <!--Azimuth-->
+      <div class="item12" *ngIf="isOpenMenu[airVehicle.id]">
+        <span class="title">Azimuth: </span> {{airVehicle.heading}}
+      </div>
+    </div>
   </div>
-
-
-  <!--mission-->
-  <div class="item4">
-    <span>Mission: </span> {{airVehicle.missionName}}
-  </div>
-  <!--status-->
-  <div class="item4">
-    <span [ngStyle]="{'color': airVehicle.modeDefine?.styles?.statusColor, 'font-size': '12px'}" class="material-icons">stop_circle</span>
-    {{airVehicle.operationalStatus}}
-  </div>
-
-
-  <!--TTL-->
-  <div class="item4">
-    <span>TTL: </span> {{airVehicle.remainingTimeFlight}}
-  </div>
-  <!--Alt-->
-  <div class="item4">
-    <span>Alt: </span> {{airVehicle.altitudeAGL}}
-  </div>
-  <!--Speed-->
-  <div class="item4">
-    <span>Speed: </span> {{airVehicle.velocity}} m/s
-  </div>
-
-  <!--Alt ASL-->
-  <div class="item4">
-    <span>Alt ASL: </span> {{airVehicle.altitudeAsl}}
-  </div>
-  <!--Energy-->
-  <div class="item4">
-    <span>Energy: </span> {{airVehicle.energyLevel}}
-  </div>
-  <!--GPS-->
-  <div class="item4">
-    {{airVehicle.gpsQuality}}
-  </div>
-
-  <!--Payload -->
-  <div class="item4">
-    Payload: EO Sensor
-  </div>
-  <!--Azimuth-->
-  <div class="item4">
-    <span>Azimuth: </span> {{airVehicle.heading}}
-  </div>
-</div>
+</mat-accordion>
