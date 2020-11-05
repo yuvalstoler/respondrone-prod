@@ -56,7 +56,7 @@ export enum BOOLEAN_NUMBER {
 }
 
 export type GEOPOINT = { latitude: number, longitude: number };
-export type GEOPOINT_UI = { lat: number, lng: number };
+export type GEOPOINT3D_SHORT = { lat: number, lon: number, alt: number };
 export type GEOPOINT3D = GEOPOINT & { altitude?: number };
 export type ADDRESS = string;
 export type POLYGON_GEOPOINT = GEOPOINT3D[];
@@ -228,12 +228,24 @@ export type TIMESTAMP = {
     timestamp: number
 }
 
+
+export type FR_DATA_TELEMETRY_REP = {
+    timestamp: TIMESTAMP,
+    FRs: FR_DATA_REP[],
+}
+export type FR_DATA_REP = {
+    id: ID_TYPE;
+    callSign: string;
+    type: FR_TYPE;
+    location: GEOPOINT3D_SHORT;
+    lastUpdated: TIMESTAMP;
+    online: boolean;
+    status: FR_STATUS;
+}
 export type FR_DATA_TELEMETRY = {
     timestamp: TIMESTAMP,
     FRs: FR_DATA[]
 }
-
-
 export type FR_DATA = {
     id: ID_TYPE;
     callSign: string;
@@ -260,11 +272,104 @@ export type FR_DATA_MD = {
 }
 
 
+
+export type AV_DATA_TELEMETRY_REP = {
+    timestamp: TIMESTAMP,
+    drones: AV_DATA_REP[]
+}
+export type AV_DATA_REP = {
+    id: ID_TYPE;
+    type: AIR_VEHICLE_TYPE;
+    location: GEOPOINT3D_SHORT;
+    gpsQuality: number;
+    energyLevel: number;
+    remainingTimeFlight: number;
+    heading: number;
+    altitudeAGL: number;
+    altitudeAsl: number;
+    velocity: number;
+    lastUpdateTimeFromDrone: TIMESTAMP;
+    commStatus: COMM_STATUS;
+    operationalStatus: OPERATIONAL_STATUS;
+    capability: CAPABILITY[];
+    routeId: string;
+    name: string;
+}
+export type AV_DATA_TELEMETRY = {
+    timestamp: TIMESTAMP,
+    drones: AV_DATA[]
+}
+export type AV_DATA = {
+    id: ID_TYPE;
+    type: AIR_VEHICLE_TYPE;
+    location: GEOPOINT3D;
+    gpsQuality: number;
+    energyLevel: number;
+    remainingTimeFlight: number;
+    heading: number;
+    altitudeAGL: number;
+    altitudeAsl: number;
+    velocity: number;
+    lastUpdateTimeFromDrone: TIMESTAMP;
+    commStatus: COMM_STATUS;
+    operationalStatus: OPERATIONAL_STATUS;
+    capability: CAPABILITY[];
+    routeId: string;
+    linkedMissionId: ID_TYPE;
+    name: string;
+}
+export type AV_DATA_UI = AV_DATA & {
+    modeDefine: AV_DATA_MD,
+    missionName: string;
+}
+export type AV_DATA_MD = {
+    styles: {
+        mapIcon: string,
+        statusColor: string,
+        iconSize: number,
+    }
+}
+
+
+
+
 export enum FR_TYPE {
     police = 'Police',
     fireFighter = 'FireFighter',
     paramedic = 'Med'
 }
+
+export enum AIR_VEHICLE_TYPE {
+    Alpha = 'Alpha',
+    Dji = 'Dji',
+    Pixhawk = 'Pixhawk',
+}
+
+export enum COMM_STATUS {
+    OK = 'OK',
+    NoComm = 'NoComm',
+}
+
+export enum OPERATIONAL_STATUS {
+    Ready = 'Ready',
+    OnMission = 'OnMission',
+    NotActive = 'NotActive',
+    Fail = 'Fail',
+    RH = 'RH',
+    Land = 'Land',
+    Emergency = 'Emergency',
+}
+
+export enum CAPABILITY {
+    Surveillance = 'Surveillance',
+    Patrol = 'Patrol',
+    Scan = 'Scan',
+    Delivery = 'Delivery',
+    CommRely = 'CommRely',
+}
+
+
+
 
 export enum FR_STATUS {
     busy = 'Busy',
@@ -312,7 +417,8 @@ export type TASK_DATA_UI = TASK_DATA & {
 }
 export type TASK_DATA_MD = {
     styles: {
-        dotColor: string
+        dotColor: string,
+        textColor: string,
     },
     tableData: {
         priority: TABLE_DATA_MD,
@@ -421,5 +527,11 @@ export enum TASK_TYPE {
 export enum SOCKET_IO_CLIENT_TYPES {
     MG = 'MG',
     CCG = 'CCG',
-    FRS = 'FRS'
+    FRS = 'FRS',
+    MS = 'MS',
+}
+
+export enum SOCKET_CLIENT_TYPES {
+    DroneTelemetrySenderRep = 'DroneTelemetrySenderRep',
+    FRTelemetryReceiverRep = 'FRTelemetryReceiverRep',
 }

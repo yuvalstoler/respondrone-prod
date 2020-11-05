@@ -12,7 +12,7 @@
           <mat-icon *ngIf="column === 'assignees'" class="HPRightSideIcon" matTooltip="Task’s Assignee" matTooltipPosition="above">people</mat-icon>
           <mat-icon *ngIf="column === 'map'" class="HPRightSideIcon" matTooltip="Task’s geo-location" matTooltipPosition="above">location_on</mat-icon>
         </th>
-        <td *matCellDef="let element" mat-cell>
+        <td *matCellDef="let element" mat-cell  [ngStyle]="{'color': element.modeDefine?.styles?.textColor}">
           <span *ngIf="element.modeDefine?.tableData[column]">
             <!--icon-->
             <mat-icon *ngIf="element.modeDefine?.tableData[column]?.type === 'matIcon'"

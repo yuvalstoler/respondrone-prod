@@ -1,3 +1,4 @@
+import {AirVehicleService} from '../../../../services/airVehicleService/airVehicle.service';
 import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
@@ -7,9 +8,10 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class AirResourcesComponent implements OnInit {
 
+
   @Input() optionSelected: string;
 
-  constructor() { }
+  constructor(public airVehicleService: AirVehicleService) { }
 
   ngOnInit(): void {
   }

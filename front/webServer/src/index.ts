@@ -21,6 +21,7 @@ import {
 } from '../../../classes/dataClasses/api/api_enums';
 import { REST_ROUTER_CONFIG } from '../../../classes/typings/all.typings';
 import {FrManager} from "./Service/fr/frManager";
+import {AirVehicleManager} from "./Service/airVehicle/airVehicleManager";
 
 
 
@@ -68,6 +69,7 @@ export class Server {
         });
 
         FrManager.startGetSocket();
+        AirVehicleManager.startGetSocket();
         // AlgorithmManager.listen(restManager.routers['/missionAction']);
         // AltitudeSlotManager.listen(restManager.routers['/altitudeSlot']);
         // AirVehicleManagerWS.listen(restManager.routers['/droneServiceWS']);

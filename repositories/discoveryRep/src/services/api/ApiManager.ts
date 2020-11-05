@@ -209,7 +209,7 @@ export class ApiManager implements IRest {
 
     // ---------------------------
 
-    routers = {
+    private routers = {
         [routes.update]:           this.update,
         [routes.getAll]:           this.getAll,
 

@@ -4,6 +4,8 @@ import {ApplicationService} from 'src/app/services/applicationService/applicatio
 import {CesiumService} from '../../services/cesium/cesium.service';
 import {ListenerMapService} from '../../services/cesium/listenerMap/listener-map.service';
 import {TasksService} from '../../services/tasksService/tasks.service';
+import {FRService} from "../../services/frService/fr.service";
+import {AirVehicleService} from "../../services/airVehicleService/airVehicle.service";
 
 @Component({
   selector: 'app-general-view',
@@ -18,6 +20,8 @@ export class GeneralViewComponent implements OnInit {
   constructor(public applicationService: ApplicationService,
               public cesiumService: CesiumService,
               public tasksService: TasksService,
+              public frs: FRService,
+              public airVehicleService: AirVehicleService,
               public listenerMapService: ListenerMapService) { }
 
   ngOnInit(): void {

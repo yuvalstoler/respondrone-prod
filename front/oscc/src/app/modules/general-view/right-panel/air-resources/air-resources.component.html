@@ -1,1 +1,44 @@
-<p>air-resources works!</p>
+<div class="gridResources" *ngFor="let airVehicle of airVehicleService.airVehicles.data">
+
+  <!--title-->
+  <div class="item2">{{airVehicle.name}}</div>
+  <!--icon 3 dotes-->
+  <div class="item3">
+    <mat-icon>more_vert</mat-icon>
+  </div>
+
+
+  <!--mission-->
+  <div class="item4">
+    <span>Mission: </span> {{airVehicle.missionName}}
+  </div>
+  <!--status-->
+  <div class="item4">
+    <span [ngStyle]="{'color': airVehicle.modeDefine?.styles?.statusColor, 'font-size': '12px'}" class="material-icons">stop_circle</span>
+    {{airVehicle.operationalStatus}}
+  </div>
+
+
+  <!--TTL-->
+  <div class="item4">
+    <span>TTL: </span> {{airVehicle.remainingTimeFlight}}
+  </div>
+  <!--Alt-->
+  <div class="item4">
+    <span>Alt: </span> {{airVehicle.altitudeAGL}}
+  </div>
+  <!--Speed-->
+  <div class="item4">
+    <span>Speed: </span> {{airVehicle.velocity}} m/s
+  </div>
+
+
+  <!--Payload -->
+  <div class="item4">
+    Payload: EO Sensor
+  </div>
+  <!--Azimuth-->
+  <div class="item4">
+    <span>Azimuth: </span> {{airVehicle.heading}}
+  </div>
+</div>

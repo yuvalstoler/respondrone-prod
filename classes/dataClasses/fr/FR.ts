@@ -2,7 +2,7 @@ import {
     FR_STATUS,
     EVENT_DATA,
     GEOPOINT3D, FR_DATA, FR_DATA_UI, FR_TYPE,
-    ID_TYPE, TIMESTAMP, FR_DATA_MD,
+    ID_TYPE, TIMESTAMP, FR_DATA_MD, FR_DATA_REP,
 } from '../../typings/all.typings';
 import {DataUtility} from '../../applicationClasses/utility/dataUtility';
 
@@ -77,12 +77,12 @@ export class FR {
     };
 
 
-    public toJsonForRepository = (): FR_DATA => {
+    public toJsonForRepository = (): FR_DATA_REP => {
         return {
             id: this.id,
             callSign: this.callSign,
             type: this.type,
-            location: this.location,
+            location: this.location ? {lat: this.location.latitude, lon: this.location.longitude, alt: this.location.altitude} : undefined,
             lastUpdated: this.lastUpdated,
             online: this.online,
             status: this.status,
