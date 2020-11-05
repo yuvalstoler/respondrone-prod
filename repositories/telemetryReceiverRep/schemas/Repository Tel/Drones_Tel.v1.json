@@ -138,6 +138,9 @@
           "routeId": {
             "type": "string",
             "description": "The id of the route being executed \nIf no route then not sending the field"
+          },
+          "name": {
+            "type": "string"
           }
         },
         "required": [
@@ -151,7 +154,8 @@
           "lastUpdateTimeFromDrone",
           "commStatus",
           "operationalStatus",
-          "capability"
+          "capability",
+          "name"
         ]
       }
     }
