@@ -83,6 +83,52 @@
             },
             "lastAction": "update",
             "version": 3
+          },
+          "example-network-coverage": {
+            "id": 4,
+            "name": "NetworkCoverage",
+            "shape": [
+              {
+                "lat": 41.182288,
+                "lon": -8.595428,
+                "alt": 0
+              },
+              {
+                "lat": 41.180955,
+                "lon": -8.592317,
+                "alt": 0
+              },
+              {
+                "lat": 41.178234,
+                "lon": -8.592317,
+                "alt": 0
+              },
+              {
+                "lat": 41.176885,
+                "lon": -8.595428,
+                "alt": 0
+              },
+              {
+                "lat": 41.178234,
+                "lon": -8.598559,
+                "alt": 0
+              },
+              {
+                "lat": 41.180955,
+                "lon": -8.598559,
+                "alt": 0
+              }
+            ],
+            "color": "Blue",
+            "Type": "NetworkCoverage",
+            "creationTime": {
+              "timestamp": 1599640724
+            },
+            "lastUpdateTime": {
+              "timestamp": 1599640724
+            },
+            "lastAction": "insert",
+            "version": 3
           }
         },
         "properties": {
@@ -163,6 +209,7 @@
               "FireLine",
               "Person",
               "Vehicle",
+              "NetworkCoverage",
               "General"
             ]
           },
