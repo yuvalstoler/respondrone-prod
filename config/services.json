@@ -95,5 +95,16 @@
     "host": "localhost",
     "protocol": "http"
 
+  },
+
+  "DroneTelemetrySenderRep": {
+    "port": "4704",
+    "host": "localhost",
+    "protocol": "http"
+  },
+  "FRTelemetryReceiverRep": {
+    "port": "4702",
+    "host": "localhost",
+    "protocol": "http"
   }
 }

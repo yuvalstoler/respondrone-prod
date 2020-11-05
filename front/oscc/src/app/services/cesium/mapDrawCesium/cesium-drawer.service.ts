@@ -12,7 +12,7 @@ import {CesiumService} from '../cesium.service';
 import {Cartesian2} from 'angular-cesium';
 import {EventListener} from '../event-listener';
 import {GeoCalculate} from '../../classes/geoCalculate';
-import {OPTIONS_ENTITY, TYPE_OBJECTS_CE} from '../../../../types';
+import {DRAW_LABEL, DRAW_OBJECT, OPTIONS_ENTITY, TYPE_OBJECTS_CE} from '../../../../types';
 import * as _ from 'lodash';
 
 @Injectable({
@@ -191,7 +191,7 @@ export class CesiumDrawerService {
 
   // ==================ICON========================================================================================
 
-  public createIconObject = (domId: string, object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI | AV_DATA_UI): boolean => {
+  public createIconObject = (domId: string, object: DRAW_OBJECT, label?: DRAW_LABEL): boolean => {
     let res = false;
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
     for (const mapDomId in mapsCE) {
@@ -205,13 +205,13 @@ export class CesiumDrawerService {
             this.createIconEntity(mapDomId, object);
 
 
-          if (object.hasOwnProperty('callSign')) {
+          if (label) {
             this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE] =
               this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE] || {};
             this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][object.id] =
               this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][object.id] || {};
             this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][object.id] =
-              this.createIconLabelEntity(mapDomId, object);
+              this.createIconLabelEntity(mapDomId, object, label);
           }
 
           res = true;
@@ -221,7 +221,7 @@ export class CesiumDrawerService {
     return res;
   };
 
-  public updateIconFromMap = (domId: string, billboardId: string, object): boolean => {
+  public updateIconFromMap = (domId: string, billboardId: string, object: DRAW_OBJECT, label?: DRAW_LABEL): boolean => {
     let res = false;
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
     for (const mapDomId in mapsCE) {
@@ -235,10 +235,10 @@ export class CesiumDrawerService {
               res = true;
             }
           }
-          if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.iconLabelCE)) {
+          if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.iconLabelCE) && label) {
             if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE].hasOwnProperty(billboardId) &&
               (Object.keys(this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][billboardId]).length > 0)) {
-              this.updateIconLabelOnMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][billboardId], object);
+              this.updateIconLabelOnMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][billboardId], object, label);
               res = true;
             }
           }
@@ -248,7 +248,7 @@ export class CesiumDrawerService {
     return res;
   };
 
-  private updateIconOnMap = (mapDomId: string, entityCE, object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI) => {
+  private updateIconOnMap = (mapDomId: string, entityCE, object: DRAW_OBJECT) => {
     const size = object.modeDefine.styles.iconSize || 30;
     const description = (object.hasOwnProperty('description')) ? object['description'] : '';
     const options = {
@@ -266,9 +266,8 @@ export class CesiumDrawerService {
     this.cesiumService.updateItemCEOnMap(mapDomId, entityCE, options);
   };
 
-  private updateIconLabelOnMap = (mapDomId: string, entityCE, object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI) => {
+  private updateIconLabelOnMap = (mapDomId: string, entityCE, object: DRAW_OBJECT, label: DRAW_LABEL) => {
     const size = object.modeDefine.styles.iconSize || 30;
-    const label = {text: object['callSign'], color: object.modeDefine.styles['color']};
     const options = {
       position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude),
       label: {
@@ -289,7 +288,7 @@ export class CesiumDrawerService {
     this.cesiumService.updateItemCEOnMap(mapDomId, entityCE, options);
   };
 
-  private createIconEntity = (mapDomId: string, object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI | AV_DATA_UI) => {
+  private createIconEntity = (mapDomId: string, object: DRAW_OBJECT) => {
     const size = object.modeDefine.styles.iconSize || 30;
     const description = (object.hasOwnProperty('description')) ? object['description'] : '';
 
@@ -310,9 +309,8 @@ export class CesiumDrawerService {
     return iconData;
   };
 
-  private createIconLabelEntity = (mapDomId: string, object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI | AV_DATA_UI) => {
+  private createIconLabelEntity = (mapDomId: string, object: DRAW_OBJECT, label: DRAW_LABEL) => {
     const size = object.modeDefine.styles.iconSize || 30;
-    const label = {text: object['callSign'], color: object.modeDefine.styles['color']};
 
     const iconLabel = this.cesiumService.cesiumViewer[mapDomId].entities.add({
       position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude),

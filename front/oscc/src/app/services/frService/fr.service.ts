@@ -12,6 +12,7 @@ import {
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
+import {DRAW_LABEL} from "../../../types";
 
 
 @Injectable({
@@ -73,10 +74,12 @@ export class FRService {
   };
   // ----------------------
   private drawFR = (fr: FR_DATA_UI) => {
-    this.mapGeneralService.createIcon(fr);
+    const label: DRAW_LABEL = {text: fr.callSign, color: _.get(fr, 'modeDefine.styles.color')};
+    this.mapGeneralService.createIcon(fr, label);
   };
   // ----------------------
   private updateFR = (fr: FR_DATA_UI) => {
+    const label: DRAW_LABEL = {text: fr.callSign, color: _.get(fr, 'modeDefine.styles.color')};
     this.mapGeneralService.updateIcon(fr);
   };
   // -----------------------

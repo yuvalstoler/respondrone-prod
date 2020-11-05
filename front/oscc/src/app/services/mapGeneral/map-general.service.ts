@@ -10,7 +10,7 @@ import {
   REPORT_DATA_UI
 } from '../../../../../../classes/typings/all.typings';
 import {CesiumDrawerService} from '../cesium/mapDrawCesium/cesium-drawer.service';
-import {OPTIONS_ENTITY} from '../../../types';
+import {DRAW_LABEL, DRAW_OBJECT, OPTIONS_ENTITY} from '../../../types';
 
 @Injectable({
   providedIn: 'root'
@@ -206,17 +206,17 @@ export class MapGeneralService {
 
 
   // Icons ========================================================================================================
-  public createIcon = (object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI | AV_DATA_UI): boolean => {
+  public createIcon = (object: DRAW_OBJECT, label?: DRAW_LABEL): boolean => {
     const domId = undefined;
     let res = false;
-    res = this.cesiumDrawerService.createIconObject(domId, object /*locationPoint, billboardId, iconUrl, size, label, description*/);
+    res = this.cesiumDrawerService.createIconObject(domId, object, label);
     return res;
   };
 
-  public updateIcon = (object: EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI | AV_DATA_UI): boolean => {
+  public updateIcon = (object: DRAW_OBJECT, label?: DRAW_LABEL): boolean => {
     const domId = undefined;
     let res = false;
-    res = this.cesiumDrawerService.updateIconFromMap(domId, object.id, object);
+    res = this.cesiumDrawerService.updateIconFromMap(domId, object.id, object, label);
     return res;
   };
 

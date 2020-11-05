@@ -11,7 +11,7 @@ import {
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-
+import {DRAW_LABEL} from "../../../types";
 
 @Injectable({
   providedIn: 'root'
@@ -72,11 +72,13 @@ export class AirVehicleService {
   };
   // ----------------------
   private drawAirVehicle = (av: AV_DATA_UI) => {
-    this.mapGeneralService.createIcon(av);
+    const label: DRAW_LABEL = {text: av.name, color: _.get(av, 'modeDefine.styles.statusColor')};
+    this.mapGeneralService.createIcon(av, label);
   };
   // ----------------------
   private updateAirVehicle = (av: AV_DATA_UI) => {
-    this.mapGeneralService.updateIcon(av);
+    const label: DRAW_LABEL = {text: av.name, color: _.get(av, 'modeDefine.styles.statusColor')};
+    this.mapGeneralService.updateIcon(av, label);
   };
   // -----------------------
   public getAirVehicleById = (id: string): AV_DATA_UI => {
