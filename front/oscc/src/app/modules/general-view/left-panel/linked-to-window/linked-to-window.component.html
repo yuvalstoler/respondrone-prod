@@ -1,4 +1,4 @@
-<div *ngIf="contextMenuService?.isOpenLinkToMenu"
+<div *ngIf="contextMenuService?.isOpenLinkToMenu && contextMenuService?.selectedLinkTo?.length > 0"
      [style.left]="contextMenuService?.singleTooltip?.left"
      [style.top]="contextMenuService?.singleTooltip?.top"
      class="ContextSingleMenu">
@@ -18,7 +18,7 @@
     </mat-selection-list>
   </mat-dialog-content>
   <!--Action-->
-  <div class="ContextActions" mat-dialog-actions>
+  <div class="ContextActions">
     <div (click)="onUnlinkClick()"
             class="ContextActionsCreate">Unlink
     </div>

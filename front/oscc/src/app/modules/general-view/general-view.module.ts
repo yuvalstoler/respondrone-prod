@@ -56,6 +56,7 @@ import {LinkedToWindowComponent} from './left-panel/linked-to-window/linked-to-w
 import {RightPanelComponent} from './right-panel/right-panel.component';
 import {GroundResourcesComponent} from './right-panel/ground-resources/ground-resources.component';
 import {AirResourcesComponent} from './right-panel/air-resources/air-resources.component';
+import {SortByPriorityPipe} from '../../pipes/sort-by-priority.pipe';
 
 
 @NgModule({
@@ -85,6 +86,7 @@ import {AirResourcesComponent} from './right-panel/air-resources/air-resources.c
     RightPanelComponent,
     GroundResourcesComponent,
     AirResourcesComponent,
+    SortByPriorityPipe
   ],
   imports: [
     CommonModule,
@@ -138,6 +140,7 @@ import {AirResourcesComponent} from './right-panel/air-resources/air-resources.c
     RightPanelComponent,
     GroundResourcesComponent,
     AirResourcesComponent,
+    SortByPriorityPipe
   ],
   providers: [
     PolygonsEditorService,

@@ -233,6 +233,20 @@ export class MapGeneralService {
     return res;
   };
 
+  public hideIcon = (billboardId: string): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.hideIconOnMap(domId, billboardId);
+    return res;
+  };
+
+  public showIcon = (billboardId: string): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.showIconOnMap(domId, billboardId);
+    return res;
+  };
+
   public editIcon = (billboardId: string, iconUrl: string, size: number): boolean => {
     const domId = undefined;
     let res = false;

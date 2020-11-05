@@ -1,31 +1,24 @@
-<!--Air Resources-->
-<!--<div class="RightPanelContainer">-->
-  <!--<div class="RightPanelHeader">Air Resources</div>-->
-  <!--<mat-icon class="RightPanelIcon" (click)="onOpenPanel()">add</mat-icon>-->
-  <!--<mat-icon class="RightPanelIcon" >unfold_more</mat-icon>-->
-  <!--<app-ground-resources *ngIf="applicationService.screen.showGrandResources"></app-ground-resources>-->
-<!--</div>-->
-
-<!--Ground Resources-->
-<!--<div>-->
-
-<!--</div>-->
 <div>
   <!--Air Resources-->
   <div>
     <mat-toolbar class="RightPanelContainer" *ngIf="applicationService.screen.showAirResources">
       <div class="RightPanelHeader">Air Resources</div>
       <span class="example-spacer"></span>
-      <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <!--sort-->
+      <button mat-icon-button class="example-icon" mat-button [matMenuTriggerFor]="sortAir">
         <mat-icon>unfold_more</mat-icon>
       </button>
+      <!-- plus / minus-->
       <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
       (click)="onShowAirResources()">
         <mat-icon *ngIf="!showAirResources">add</mat-icon>
         <mat-icon *ngIf="showAirResources">remove</mat-icon>
       </button>
     </mat-toolbar>
-    <app-air-resources *ngIf="showAirResources"></app-air-resources>
+    <app-air-resources
+      *ngIf="showAirResources && applicationService.screen.showAirResources"
+      [optionSelected]="optionAirSelected"
+    ></app-air-resources>
   </div>
 
   <!--Ground Resources-->
@@ -33,20 +26,30 @@
     <mat-toolbar class="RightPanelContainer" *ngIf="applicationService.screen.showGrandResources">
       <div class="RightPanelHeader">Ground Resources</div>
       <span class="example-spacer"></span>
-      <button mat-icon-button class="example-icon" (click)="openSortGroundPanel()">
+      <!--sort-->
+      <button mat-icon-button class="example-icon" mat-button [matMenuTriggerFor]="sortGround">
         <mat-icon>unfold_more</mat-icon>
       </button>
+      <!-- plus / minus-->
       <button mat-icon-button class="example-icon"
               (click)="onShowGroundResources()">
         <mat-icon *ngIf="!showGroundResources">add</mat-icon>
         <mat-icon *ngIf="showGroundResources">remove</mat-icon>
       </button>
     </mat-toolbar>
-    <!--<mat-menu #sortGround="matMenu">-->
-      <!--<button mat-menu-item>Item 1</button>-->
-      <!--<button mat-menu-item>Item 2</button>-->
-    <!--</mat-menu>-->
-    <app-ground-resources *ngIf="showGroundResources"></app-ground-resources>
+    <app-ground-resources
+      *ngIf="showGroundResources && applicationService.screen.showGrandResources"
+      [optionSelected]="optionGroundSelected"
+    ></app-ground-resources>
   </div>
 </div>
 
+<!--Sort Air-->
+<mat-menu #sortAir="matMenu">
+  <button mat-menu-item *ngFor="let sortAir of sortAirList" (click)="onSortAirList(sortAir)">{{sortAir}}</button>
+</mat-menu>
+
+<!--Sort Ground-->
+<mat-menu #sortGround="matMenu">
+  <button mat-menu-item *ngFor="let sortGround of sortGroundList" (click)="onSortGroundList(sortGround)">{{sortGround}}</button>
+</mat-menu>

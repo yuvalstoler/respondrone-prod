@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {
-  COMMENT,
+  COMMENT, EVENT_DATA_UI,
   FILE_FS_DATA,
   GEOPOINT3D, LINKED_EVENT_DATA, LOCATION_NAMES,
   LOCATION_TYPE,
@@ -80,30 +80,36 @@ export class ReportDialogComponent {
     });
   }
 
-  onNoClick(): void {
-    if (!this.reportModel.id) {
-      this.reportModel.media.forEach((mediaData) => {
-        this.mediaService.deleteFile(mediaData);
-      });
-    }
-    this.clearPanel();
-    this.dialogRef.close(false);
-  }
-
-  onCreateClick(): void {
-    this.dialogRef.close(this.reportModel);
-    this.clearPanel();
-  }
-
   private initReportModel = () => {
     if (this.applicationService.selectedReports.length === 1) {
       this.reportModel = _.cloneDeep(this.applicationService.selectedReports[0]);
+      this.setTempObjectCE(this.applicationService.selectedReports[0]);
     } else {
       this.reportModel = _.cloneDeep(this.defaultReport);
     }
   };
 
+  setTempObjectCE = (report: REPORT_DATA_UI) => {
+    switch (report.locationType) {
+      case LOCATION_TYPE.none: {
+        this.reportService.tempReportObjectCE = {type: LOCATION_TYPE.none, objectCE: undefined, id: report.id, report};
+        break;
+      }
+      case LOCATION_TYPE.address: {
+        this.reportService.tempReportObjectCE = {type: LOCATION_TYPE.address, objectCE: report.address, id: report.id, report};
+        break;
+      }
+      case LOCATION_TYPE.locationPoint: {
+        this.reportService.tempReportObjectCE = {type: LOCATION_TYPE.locationPoint, objectCE: report.location, id: report.id, report};
+        break;
+      }
+    }
+  };
+
   onChangeLocation = (location: string) => {
+    if (this.reportService.tempReportObjectCE !== undefined) {
+      this.reportService.hideObjectOnMap(this.reportService.tempReportObjectCE);
+    }
     if (location === LOCATION_NAMES.noLocation) {
       this.reportModel.locationType = LOCATION_TYPE.none;
       this.reportModel.location = {longitude: undefined, latitude: undefined};
@@ -118,6 +124,7 @@ export class ReportDialogComponent {
       this.locationService.deleteLocationPointTemp('0');
 
     } else if (location === LOCATION_NAMES.locationPoint) {
+      this.reportModel.location = {longitude: undefined, latitude: undefined};
       this.customToasterService.info({message: 'Click on map to set the report\'s location', title: 'location'});
       this.reportModel.address = '';
       // if (this.reportModel.location.latitude === undefined && this.reportModel.location.longitude === undefined) {
@@ -156,6 +163,24 @@ export class ReportDialogComponent {
     }
   };
 
+  onNoClick(): void {
+    if (this.reportService.tempReportObjectCE && this.reportService.tempReportObjectCE.hasOwnProperty('event')) {
+      this.reportService.showReportOnMap(this.reportService.tempReportObjectCE.report);
+    }
+    if (!this.reportModel.id) {
+      this.reportModel.media.forEach((mediaData) => {
+        this.mediaService.deleteFile(mediaData);
+      });
+    }
+    this.clearPanel();
+    this.dialogRef.close(false);
+  }
+
+  onCreateClick(): void {
+    this.dialogRef.close(this.reportModel);
+    this.clearPanel();
+  }
+
   clearPanel = () => {
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.situationPictures;
     this.reportModel = _.cloneDeep(this.defaultReport);
@@ -163,7 +188,6 @@ export class ReportDialogComponent {
     this.mapGeneralService.changeCursor(false);
     this.locationService.deleteLocationPointTemp('0');
   };
-
 
   onUpdateLinkedEvents = (linkedEventIds: string[]) => {
     if (linkedEventIds && Array.isArray(linkedEventIds)) {

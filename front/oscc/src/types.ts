@@ -71,3 +71,17 @@ export enum VIEW_LIST {
   airResourcesPanel = 'Air Resources Panel',
   groundResourcesPanel = 'Ground Resources Panel'
 }
+
+export enum SORT_GROUND_RESOURCES {
+  lastUpdate = 'Last update',
+  resourceType = 'Resource Type',
+  status = 'Status'
+}
+export enum SORT_AIR_RESOURCES {
+  lastUpdate = 'Last update',
+  UAVType = 'UAV type',
+  status = 'Status',
+  missionType = 'Mission type',
+  UAVEnergy = 'UAV energy',
+  payload = 'Payload'
+}

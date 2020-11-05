@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-air-resources',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./air-resources.component.scss']
 })
 export class AirResourcesComponent implements OnInit {
+
+  @Input() optionSelected: string;
 
   constructor() { }
 

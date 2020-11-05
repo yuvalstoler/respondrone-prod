@@ -125,7 +125,7 @@ export class EventDialogComponent implements OnInit {
   // geo instructions
   onChangeLocation = (event, location: string) => {
     if (this.eventService.tempEventObjectCE !== undefined) {
-      this.eventService.removeObjectFromMap(this.eventService.tempEventObjectCE);
+      this.eventService.hideObjectOnMap(this.eventService.tempEventObjectCE);
     }
     if (location === LOCATION_NAMES.noLocation) {
       this.eventModel.locationType = LOCATION_TYPE.none;
@@ -135,7 +135,8 @@ export class EventDialogComponent implements OnInit {
       this.locationService.deleteLocationPointTemp('0');
       this.polygonService.deletePolygonManually('0');
 
-    } else if (location === LOCATION_NAMES.address) {
+    }
+    else if (location === LOCATION_NAMES.address) {
       this.eventModel.location = {longitude: undefined, latitude: undefined};
       this.eventModel.polygon = [];
       this.eventModel.locationType = LOCATION_TYPE.address;
@@ -144,7 +145,8 @@ export class EventDialogComponent implements OnInit {
       this.locationService.deleteLocationPointTemp('0');
       this.polygonService.deletePolygonManually('0');
 
-    } else if (location === LOCATION_NAMES.locationPoint) {
+    }
+    else if (location === LOCATION_NAMES.locationPoint) {
       this.eventModel.location = {longitude: undefined, latitude: undefined};
       // toaster
       this.customToasterService.info({message: 'Click on map to set the event\'s location', title: 'location'});
@@ -159,7 +161,8 @@ export class EventDialogComponent implements OnInit {
       this.mapGeneralService.changeCursor(true);
       // }
 
-    } else if (location === LOCATION_NAMES.polygon) {
+    }
+    else if (location === LOCATION_NAMES.polygon) {
       // toaster
       this.customToasterService.info(
         {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
@@ -190,7 +193,9 @@ export class EventDialogComponent implements OnInit {
 
   // =========================================================================
   onNoClick(): void {
-    this.eventService.createEventOnMap(this.eventService.tempEventObjectCE.event);
+    if (this.eventService.tempEventObjectCE && this.eventService.tempEventObjectCE.hasOwnProperty('event')) {
+      this.eventService.showEventOnMap(this.eventService.tempEventObjectCE.event);
+    }
     this.clearPanel();
     this.dialogRef.close(false);
   }

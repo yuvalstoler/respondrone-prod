@@ -9,7 +9,7 @@
   overflow: hidden;
 }
 
-// dialog on all screen
+// dialog on 50% screen
 ::ng-deep.cdk-overlay-container, .cdk-global-overlay-wrapper {
   width: 50% !important;
 }

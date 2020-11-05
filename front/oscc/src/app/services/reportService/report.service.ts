@@ -24,11 +24,7 @@ export class ReportService {
 
   reports: { data: REPORT_DATA_UI[] } = {data: []};
   reports$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  // locationPoint$: BehaviorSubject<GEOPOINT3D> = new BehaviorSubject({longitude: undefined, latitude: undefined});
-  // locationPointTemp: POINT;
-  // drawMarkerClass: DrawMarkerClass;
-  // downClick: boolean = false;
-  // isMarker: boolean = false;
+  tempReportObjectCE: {type: LOCATION_TYPE, objectCE: any, id: string, report: REPORT_DATA_UI};
 
   constructor(private connectionService: ConnectionService,
               private socketService: SocketService,
@@ -41,13 +37,6 @@ export class ReportService {
     // this.drawMarkerClass = new DrawMarkerClass();
 
   }
-
-  // public setEventCallbacks = () => {
-  //   this.mapGeneralService.setMouseOverCallback(undefined, 'reportLocationDraw', this.drawLocation);
-  //   this.mapGeneralService.setMouseDownCallback(undefined, 'reportLocationDraw', this.drawLocation);
-  //   this.mapGeneralService.setMouseDownCallback(undefined, 'reportLocationEdit', this.editLocation);
-  //   this.mapGeneralService.setMouseOverCallback(undefined, 'reportLocationEdit', this.editLocation);
-  // };
 
   // ----------------------
   private init = (isConnected: boolean = true): void => {
@@ -87,11 +76,20 @@ export class ReportService {
       notExist.forEach((data: REPORT_DATA_UI) => {
         const index = this.reports.data.findIndex(d => d.id === data.id);
         this.reports.data.splice(index, 1);
-        //TODO: delete data from MAP
-        this.mapGeneralService.deleteIcon(data.id);
-        this.mapGeneralService.deletePolygonManually(data.id);
-
+        this.deleteObjectFromMap(data);
       });
+    }
+  };
+  // ----------------------
+  public deleteObjectFromMap = (data: REPORT_DATA_UI) => {
+    switch (data.type) {
+      case LOCATION_TYPE.address: {
+        break;
+      }
+      case LOCATION_TYPE.locationPoint: {
+        this.mapGeneralService.deleteIcon(data.id);
+        break;
+      }
     }
   };
   // ----------------------
@@ -116,6 +114,24 @@ export class ReportService {
         }
       }
     });
+  };
+  // ----------------------
+  public hideObjectOnMap = (tempObjectCE) => {
+    switch (tempObjectCE.type) {
+      case LOCATION_TYPE.address: {
+        break;
+      }
+      case LOCATION_TYPE.locationPoint: {
+        this.mapGeneralService.hideIcon(tempObjectCE.id);
+        break;
+      }
+    }
+  };
+  // ----------------------
+  public showReportOnMap = (report: REPORT_DATA_UI) => {
+    if (report.locationType === LOCATION_TYPE.locationPoint && report.location && report.location.latitude && report.location.longitude) {
+      this.mapGeneralService.showIcon(report.id);
+    }
   };
   // ----------------------
   private createReportOnMap = (report: REPORT_DATA_UI) => {
@@ -204,86 +220,10 @@ export class ReportService {
   // ------------------------
   public selectIcon = (report: REPORT_DATA_UI) => {
     this.mapGeneralService.editIcon(report.id, report.modeDefine.styles.selectedIcon, 40);
-  }
+  };
   // ------------------------
   public unselectIcon = (report: REPORT_DATA_UI) => {
     this.mapGeneralService.editIcon(report.id, report.modeDefine.styles.mapIcon, 30);
-  }
-
-  // public drawLocation = (event: EVENT_LISTENER_DATA): void => {
-  //   if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
-  //     const locationPoint: GEOPOINT3D = {longitude: event.pointLatLng[0], latitude: event.pointLatLng[1]};
-  //     // open billboard on mouseOver
-  //     if (event.type === 'mouseOver') {
-  //       this.removeBillboard();
-  //       this.drawBillboard(locationPoint);
-  //       this.locationPointTemp = undefined;
-  //     }
-  //     // draw marker on mouseDown
-  //     if (event.type === 'mouseDown') {
-  //       this.drawLocationFromServer(locationPoint, 'temp');
-  //       this.removeBillboard();
-  //       this.locationPointTemp = event.pointLatLng;
-  //     }
-  //     // edit LocationPoint after draw =>
-  //     if (this.locationPointTemp !== undefined) {
-  //       this.isMarker = false;
-  //       this.downClick = false;
-  //       this.applicationService.stateDraw = STATE_DRAW.editLocationPoint;
-  //     }
-  //   }
-  // };
-  //
-  // public editLocation = (event: EVENT_LISTENER_DATA): void => {
-  //   if (this.applicationService.stateDraw === STATE_DRAW.editLocationPoint) {
-  //     const locationPoint: GEOPOINT3D = {longitude: event.pointLatLng[0], latitude: event.pointLatLng[1]};
-  //     // click on marker,(mousedown)
-  //     if (event.type === 'mouseDown' && !this.downClick) {
-  //       this.isMarker = this.drawMarkerClass.checkIfMarkerExist(event, this.locationPointTemp, event.distance);
-  //     }
-  //     //  if exist marker, mouseOver on new place
-  //     if (event.type === 'mouseOver') {
-  //       if (this.isMarker) {
-  //         // edit marker location
-  //         this.deleteLocationPointTemp();
-  //         this.drawLocationFromServer(locationPoint, 'temp');
-  //         this.downClick = true;
-  //       }
-  //     }
-  //     // mouseDown on map, close draw
-  //     if (event.type === 'mouseDown' && this.downClick) {
-  //       // close edit
-  //       this.isMarker = false;
-  //       this.downClick = false;
-  //       this.applicationService.stateDraw = STATE_DRAW.notDraw;
-  //       // setTimeout(() => {
-  //       //   this.applicationService.stateDraw = STATE_DRAW.editLocationPoint;
-  //       // }, 500);
-  //     }
-  //   }
-  // };
-  //
-  // private drawBillboard = (locationPoint: GEOPOINT3D) => {
-  //   this.mapGeneralService.createBillboard(locationPoint, 'temp');
-  // };
-  //
-  // public removeBillboard = () => {
-  //   this.mapGeneralService.removeBillboard('temp');
-  // };
-  //
-  // public drawLocationFromServer = (locationPoint: GEOPOINT3D, locationId: string) => {
-  //   this.mapGeneralService.createLocationPointFromServer(locationPoint, locationId);
-  //   this.locationPoint$.next(locationPoint);
-  // };
-  //
-  // public createOrUpdateLocationTemp = (locationPoint: GEOPOINT3D) => {
-  //   this.mapGeneralService.createOrUpdateLocationTemp(locationPoint, 'temp');
-  // };
-  //
-  // public deleteLocationPointTemp = () => {
-  //   const locationId: string = 'temp';
-  //   this.mapGeneralService.deleteLocationPointTemp(locationId);
-  //   this.locationPoint$.next({longitude: undefined, latitude: undefined});
-  // };
+  };
 
 }
