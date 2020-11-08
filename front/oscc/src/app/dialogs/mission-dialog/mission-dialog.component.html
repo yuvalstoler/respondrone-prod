@@ -10,139 +10,177 @@
   </div>
   <!--Content-->
   <div class="DialogContentItem">
-    <!-- Select mission type -->
-    <div>
-      <div class="DialogTitle">Mission type</div>
-      <div *ngIf="!selectedMissionType">
-        <mat-radio-group
-          aria-labelledby="example-radio-group-label"
-          class="example-radio-group">
-          <mat-radio-button (click)="onChooseMission(missionType)" *ngFor="let missionType of missionTypes; let i = index"
-                            [value]="missionType" class="example-radio-button">
-            {{MISSION_TYPE_TEXT[missionType]}}
-          </mat-radio-button>
-        </mat-radio-group>
-      </div>
-      <div *ngIf="selectedMissionType">
-        <mat-radio-group
-          aria-labelledby="example-radio-group-label"
-          class="example-radio-group">
-          <mat-radio-button [value]="selectedMissionType" [checked]="true" class="example-radio-button">
-            {{selectedMissionType}}
-          </mat-radio-button>
-        </mat-radio-group>
-      </div>
-      <hr>
-    </div>
-    <!-- Air resources -->
-    <div>
-      <div class="DialogTitle">Air resources</div>
-      <div class="imageDivContainer" *ngFor="let airVehicle of airVehicleService.airVehicles.data">
-        <div *ngIf="airVehicle.missionOptions[selectedMissionType]">
-          <div class="airVehicleImageContainer" (click)="onChooseAirVehicle(airVehicle)">
-            <img [src]="'../../../../../assets/helicopter.png'">
-          </div>
-          {{airVehicle.name}}
-        </div>
-      </div>
-      <hr>
-    </div>
-    <!-- Location -->
-    <div>
-      <div class="DialogTitle">Location</div>
-      <div *ngIf="selectedMissionType === MISSION_TYPE.observationMission">
-        <small>Choose location point from the map or write Lat/Long</small>
-        <div class="DialogGrid22">
-          <!--Lat-->
-          <mat-form-field appearance="outline" class="">
-            <label>
-              <input (click)="$event.stopPropagation()"
-                     (change)="locationChanged($event, 'latitude')"
-                     (keyup)="locationChanged($event, 'latitude')"
-                     [(ngModel)]="location.alt"
-                     class="Label"
-                     matInput
-                     min="0"
-                     placeholder="Lat"
-                     type="number">
-            </label>
-          </mat-form-field>
-          <!--Long-->
-          <mat-form-field appearance="outline" class="">
-            <label>
-              <input (click)="$event.stopPropagation()"
-                     (change)="locationChanged($event, 'longitude')"
-                     (keyup)="locationChanged($event, 'longitude')"
-                     [(ngModel)]="location.lon"
-                     class="Label"
-                     matInput
-                     min="0"
-                     placeholder="Long"
-                     type="number">
-            </label>
-          </mat-form-field>
-        </div>
-      </div>
-      <hr>
-    </div>
-    <!-- Mission details -->
-    <div>
-      <div class="DialogTitle">Mission details</div>
-      <div *ngIf="selectedMissionType === MISSION_TYPE.observationMission">
-        <small>Set mission azimuth</small>
-        <div class="viewingAngle">
-          <!--Circle-->
-          <div class="VNCircle" [ngStyle]="{'transform': 'rotate(' + viewingAngle + 'deg)'}">
-            <div class="line"></div>
-            <div class="arrow"></div>
-          </div>
-          <!--Slider-->
-          <div class="VNSlider">
-            <div class="slider1">N</div>
-            <div class="slider2"><input type="range" class="sliderViewNow" max="360" min="0" step="1" [(ngModel)]="viewingAngle"></div>
-            <div class="slider3">N</div>
-            <div class="slider4">E</div>
-            <div class="slider5">S</div>
-            <div class="slider6">W</div>
-          </div>
-          {{viewingAngle}}°
-        </div>
-        <small>Define distance of flying from the observation point</small>
+    <mat-accordion multi displayMode="flat">
+      <!-- Select mission type -->
+      <mat-expansion-panel #missionsType hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="DialogTitle">Mission type<span>: {{selectedMissionType}}</span></div>
+          </mat-panel-title>
+          <mat-icon >{{missionsType.expanded? 'remove' : 'add'}}</mat-icon>
+        </mat-expansion-panel-header>
         <div>
-          <mat-form-field appearance="outline" class="">
-            <label>
-              <input (click)="$event.stopPropagation()"
-                     [(ngModel)]="viewingDistance"
-                     class="Label"
-                     matInput
-                     min="0"
-                     placeholder="Lat"
-                     type="number">
-            </label>
-          </mat-form-field>
+          <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            class="example-radio-group">
+            <mat-radio-button (click)="onChooseMission(missionType)" *ngFor="let missionType of missionTypes; let i = index"
+                              [value]="missionType" class="example-radio-button">
+              {{MISSION_TYPE_TEXT[missionType]}}
+            </mat-radio-button>
+          </mat-radio-group>
         </div>
-      </div>
-      <hr>
-    </div>
-    <!--Description-->
-    <div>
-      <div class="DialogTitle">Description</div>
-      <mat-form-field appearance="outline" class="SPMatFormField">
-        <label>
+        <!--<div *ngIf="selectedMissionType">-->
+        <!--<mat-radio-group-->
+        <!--aria-labelledby="example-radio-group-label"-->
+        <!--class="example-radio-group">-->
+        <!--<mat-radio-button [value]="selectedMissionType" [checked]="true" class="example-radio-button">-->
+        <!--{{selectedMissionType}}-->
+        <!--</mat-radio-button>-->
+        <!--</mat-radio-group>-->
+        <!--</div>-->
+      </mat-expansion-panel>
+      <!-- Air resources -->
+      <mat-expansion-panel #airResources hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="DialogTitle">Air resources</div>
+          </mat-panel-title>
+          <mat-icon >{{airResources.expanded? 'remove' : 'add'}}</mat-icon>
+        </mat-expansion-panel-header>
+        <div>
+          <div class="imageDivContainer" *ngFor="let airVehicle of airVehicleService.airVehicles.data">
+            <div *ngIf="airVehicle.missionOptions[selectedMissionType]">
+              <div class="airVehicleImageContainer" (click)="onChooseAirVehicle(airVehicle)">
+                <img [src]="'../../../../../assets/helicopter.png'">
+              </div>
+              {{airVehicle.name}}
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      <!-- Location -->
+      <mat-expansion-panel #location hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="DialogTitle">Location</div>
+          </mat-panel-title>
+          <mat-icon >{{location.expanded? 'remove' : 'add'}}</mat-icon>
+        </mat-expansion-panel-header>
+        <div>
+          <div *ngIf="selectedMissionType === MISSION_TYPE.observationMission">
+            <small>Choose location point from the map or write Lat/Long</small>
+            <div class="DialogGrid22">
+              <!--Lat-->
+              <mat-form-field appearance="outline" class="">
+                <label>
+                  <input (click)="$event.stopPropagation()"
+                         (change)="locationChanged($event, 'latitude')"
+                         (keyup)="locationChanged($event, 'latitude')"
+                         [(ngModel)]="location.alt"
+                         class="Label"
+                         matInput
+                         min="0"
+                         placeholder="Lat"
+                         type="number">
+                </label>
+              </mat-form-field>
+              <!--Long-->
+              <mat-form-field appearance="outline" class="">
+                <label>
+                  <input (click)="$event.stopPropagation()"
+                         (change)="locationChanged($event, 'longitude')"
+                         (keyup)="locationChanged($event, 'longitude')"
+                         [(ngModel)]="location.lon"
+                         class="Label"
+                         matInput
+                         min="0"
+                         placeholder="Long"
+                         type="number">
+                </label>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      <!-- Mission details -->
+      <mat-expansion-panel #missionDetails hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="DialogTitle">Mission details</div>
+          </mat-panel-title>
+          <mat-icon >{{missionDetails.expanded? 'remove' : 'add'}}</mat-icon>
+        </mat-expansion-panel-header>
+        <div>
+          <div *ngIf="selectedMissionType === MISSION_TYPE.observationMission">
+            <small>Set mission azimuth</small>
+            <div class="viewingAngle">
+              <!--Circle-->
+              <div class="VNCircle" [ngStyle]="{'transform': 'rotate(' + viewingAngle + 'deg)'}">
+                <div class="line"></div>
+                <div class="arrow"></div>
+              </div>
+              <!--Slider-->
+              <div class="VNSlider">
+                <div class="slider1">N</div>
+                <div class="slider2"><input type="range" class="sliderViewNow" max="360" min="0" step="1" [(ngModel)]="viewingAngle"></div>
+                <div class="slider3">N</div>
+                <div class="slider4">E</div>
+                <div class="slider5">S</div>
+                <div class="slider6">W</div>
+              </div>
+              {{viewingAngle}}°
+            </div>
+            <small>Define distance of flying from the observation point</small>
+            <div>
+              <mat-form-field appearance="outline" class="">
+                <label>
+                  <input (click)="$event.stopPropagation()"
+                         [(ngModel)]="viewingDistance"
+                         class="Label"
+                         matInput
+                         min="0"
+                         placeholder="Lat"
+                         type="number">
+                </label>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      <!--Description-->
+      <mat-expansion-panel #descriptions hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="DialogTitle">Description</div>
+          </mat-panel-title>
+          <mat-icon >{{descriptions.expanded? 'remove' : 'add'}}</mat-icon>
+        </mat-expansion-panel-header>
+        <div>
+          <mat-form-field appearance="outline" class="SPMatFormField">
+            <label>
             <textarea [(ngModel)]="description" [ngStyle]="{'resize': 'none'}"
                       class="Label"
                       matInput placeholder="Add your description..."
                       rows="3"></textarea>
-        </label>
-      </mat-form-field>
-      <hr>
-    </div>
-    <!--Comments-->
-    <div>
-      <app-comments-panel (changeComments)="onChangeComments($event)"
-                          [comments]="comments"
-                          [isOpenDescription]="true"></app-comments-panel>
-    </div>
+            </label>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+      <!--Comments-->
+      <mat-expansion-panel #comments hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="DialogTitle">Comments</div>
+          </mat-panel-title>
+          <mat-icon >{{comments.expanded? 'remove' : 'add'}}</mat-icon>
+        </mat-expansion-panel-header>
+        <div>
+          <app-comments-panel (changeComments)="onChangeComments($event)"
+                              [comments]="comments"
+                              [isOpenDescription]="true"></app-comments-panel>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
   <!--Action-->
   <div class="DialogActions" mat-dialog-actions>
@@ -156,3 +194,6 @@
     </button>
   </div>
 </div>
+
+
+

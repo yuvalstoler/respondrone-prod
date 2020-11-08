@@ -6,14 +6,13 @@ import {
   GEOPOINT3D_SHORT,
   ID_TYPE, MISSION_STATUS,
   MISSION_TYPE, MISSION_TYPE_TEXT, OBSERVATION_MISSION_REQUEST
-} from "../../../../../../classes/typings/all.typings";
-import {AirVehicleService} from "../../services/airVehicleService/airVehicle.service";
-import {STATE_DRAW} from "../../../types";
-import {MapGeneralService} from "../../services/mapGeneral/map-general.service";
-import {ApplicationService} from "../../services/applicationService/application.service";
-import {LocationService} from "../../services/locationService/location.service";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {MissionService} from "../../services/missionService/mission.service";
+} from '../../../../../../classes/typings/all.typings';
+import {AirVehicleService} from '../../services/airVehicleService/airVehicle.service';
+import {STATE_DRAW} from '../../../types';
+import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
+import {ApplicationService} from '../../services/applicationService/application.service';
+import {LocationService} from '../../services/locationService/location.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-mission-dialog',
@@ -34,7 +33,7 @@ export class MissionDialogComponent implements OnInit {
   comments = [];
 
   location: GEOPOINT3D_SHORT = {lat: undefined, lon: undefined, alt: 0};
-  viewingAngle = 0
+  viewingAngle = 0;
   viewingDistance = 0;
 
 
@@ -87,7 +86,7 @@ export class MissionDialogComponent implements OnInit {
         observationPoint: this.location,
         observationAzimuth: this.viewingAngle,
         altitudeOffset: this.viewingDistance
-      }
+      };
     }
     this.dialogRef.close(false);
   }

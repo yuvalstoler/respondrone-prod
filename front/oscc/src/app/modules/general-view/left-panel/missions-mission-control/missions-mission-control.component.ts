@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {ReportDialogComponent} from "../../../../dialogs/report-dialog/report-dialog.component";
-import {REPORT_DATA_UI} from "../../../../../../../../classes/typings/all.typings";
-import {MatDialog} from "@angular/material/dialog";
-import {MissionDialogComponent} from "../../../../dialogs/mission-dialog/mission-dialog.component";
-import {ApplicationService} from "../../../../services/applicationService/application.service";
-import {LEFT_PANEL_ICON} from "../../../../../types";
+import {REPORT_DATA_UI} from '../../../../../../../../classes/typings/all.typings';
+import {MatDialog} from '@angular/material/dialog';
+import {MissionDialogComponent} from '../../../../dialogs/mission-dialog/mission-dialog.component';
+import {ApplicationService} from '../../../../services/applicationService/application.service';
+import {LEFT_PANEL_ICON} from '../../../../../types';
 
 @Component({
   selector: 'app-missions-mission-control',
