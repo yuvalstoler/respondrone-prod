@@ -321,6 +321,7 @@ export type AV_DATA = {
 export type AV_DATA_UI = AV_DATA & {
     modeDefine: AV_DATA_MD,
     missionName: string;
+    missionOptions: AV_OPTIONS;
 }
 export type AV_DATA_MD = {
     styles: {
@@ -331,6 +332,116 @@ export type AV_DATA_MD = {
 }
 
 
+export enum MISSION_TYPE {
+    commRelayMission = 'commRelayMission',
+    followPathMission = 'followPathMission',
+    observationMission = 'observationMission',
+    scanMission = 'scanMission',
+    servoingMission = 'servoingMission',
+    deliveryMission = 'deliveryMission',
+}
+export type AV_OPTIONS = {
+    [MISSION_TYPE.commRelayMission]?: boolean,
+    [MISSION_TYPE.followPathMission]?: boolean,
+    [MISSION_TYPE.observationMission]?: boolean,
+    [MISSION_TYPE.scanMission]?: boolean,
+    [MISSION_TYPE.servoingMission]?: boolean,
+    [MISSION_TYPE.deliveryMission]?: boolean
+}
+export enum MISSION_TYPE_TEXT {
+    commRelayMission = 'Comm mission',
+    followPathMission = 'Patrol mission',
+    observationMission = 'Observation mission',
+    scanMission = 'Scan mission',
+    servoingMission = 'Follow an entity',
+    deliveryMission = 'Cargo drop mission',
+}
+
+
+export type COMM_RELAY_MISSION_REQUEST = {
+    droneId: ID_TYPE,
+    commRelayType: COMM_RELAY_TYPE,
+    missionData:
+        { point: GEOPOINT3D_SHORT } |
+        { area: {coordinates: GEOPOINT3D_SHORT[]}} |
+        { FRs: string[]},
+    status: MISSION_STATUS
+}
+export type FOLLOW_PATH_REQUEST = {
+    droneId: ID_TYPE,
+    polyline: { coordinates: GEOPOINT3D_SHORT[] },
+    yawOrientation: YAW_ORIENTATION,
+    gimbalAzimuth: number,
+    status: MISSION_STATUS
+}
+export type OBSERVATION_MISSION_REQUEST = {
+    droneId: ID_TYPE,
+    observationPoint: GEOPOINT3D_SHORT,
+    altitudeOffset: number,
+    observationAzimuth: number,
+    status: MISSION_STATUS
+}
+export type SCAN_MISSION_REQUEST = {
+    droneId: ID_TYPE,
+    polygon: { coordinates: GEOPOINT3D_SHORT[] },
+    scanAngle: number,
+    scanSpeed: SCAN_SPEED,
+    overlapPrecent: number,
+    cameraFOV: number,
+    status: MISSION_STATUS
+}
+export type SERVOING_MISSION_REQUEST = {
+    droneId: ID_TYPE,
+    targetId: number
+}
+export type Delivery_MISSION_REQUEST = {
+    droneId: ID_TYPE,
+}
+
+
+export type MISSION_DATA_UI = {
+    id: ID_TYPE;
+}
+
+
+
+export enum COMM_RELAY_TYPE {
+    Fixed = 'Fixed',
+    Area = 'Area',
+    Follow = 'Follow',
+}
+
+export enum YAW_ORIENTATION {
+    Body = 'Body',
+    North = 'North'
+}
+
+
+export enum MISSION_STATUS {
+    Pending = 'Pending',
+    InProgress = 'InProgress',
+    Completed = 'Completed',
+    Cancelled = 'Cancelled'
+}
+
+export enum MISSION_STATUS_UI {
+    Pending = 'Pending',
+    InProgress = 'InProgress',
+    Completed = 'Completed',
+    Cancelled = 'Cancelled',
+
+    New = 'new',
+    WaitingForApproval = 'WaitingForApproval',
+    Approve = 'Approve',
+    Rejected = 'Rejected'
+
+}
+
+export enum SCAN_SPEED {
+    Low = 'Low',
+    Medium = 'Medium',
+    High = 'High'
+}
 
 
 export enum FR_TYPE {

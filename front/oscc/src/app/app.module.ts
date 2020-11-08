@@ -46,6 +46,7 @@ import {TaskAssigneesTableComponent} from './dialogs/task-assignees-dialog/task-
 import {TaskAssigneesContainerComponent} from './dialogs/task-assignees-dialog/task-assignees-container/task-assignees-container.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { MissionDialogComponent } from './dialogs/mission-dialog/mission-dialog.component';
 
 const config: SocketIoConfig = SOCKET_CONFIG;
 
@@ -75,6 +76,7 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     TaskAssigneesDialogComponent,
     TaskAssigneesTableComponent,
     TaskAssigneesContainerComponent,
+    MissionDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -119,7 +121,8 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     EventDialogComponent,
     ReportDialogComponent,
     TaskDialogComponent,
-    TaskAssigneesDialogComponent
+    TaskAssigneesDialogComponent,
+    MissionDialogComponent
   ]
 })
 export class AppModule {

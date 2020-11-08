@@ -80,7 +80,7 @@ export class FRService {
   // ----------------------
   private updateFR = (fr: FR_DATA_UI) => {
     const label: DRAW_LABEL = {text: fr.callSign, color: _.get(fr, 'modeDefine.styles.color')};
-    this.mapGeneralService.updateIcon(fr);
+    this.mapGeneralService.updateIcon(fr, label);
   };
   // -----------------------
   public getFRById = (id: string): FR_DATA_UI => {

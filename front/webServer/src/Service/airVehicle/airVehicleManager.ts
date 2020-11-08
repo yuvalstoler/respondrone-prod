@@ -1,23 +1,21 @@
-import { Converting } from '../../../../../classes/applicationClasses/utility/converting';
-
-const _ = require('lodash');
-
-
-import { RequestManager } from '../../AppService/restConnections/requestManager';
+import {Converting} from '../../../../../classes/applicationClasses/utility/converting';
 
 import {
-    ASYNC_RESPONSE,
-    ID_OBJ,
-    FR_DATA, FR_DATA_UI, SOCKET_IO_CLIENT_TYPES, FR_DATA_TELEMETRY, ID_TYPE, AV_DATA_TELEMETRY_REP, AV_DATA_UI
+    AV_DATA_TELEMETRY_REP,
+    AV_DATA_UI,
+    AV_OPTIONS,
+    CAPABILITY,
+    ID_TYPE, MISSION_TYPE,
+    OPERATIONAL_STATUS,
+    SOCKET_IO_CLIENT_TYPES
 } from '../../../../../classes/typings/all.typings';
 import {SocketIO} from '../../websocket/socket.io';
-import {ReportManager} from '../report/reportManager';
-import {FR} from '../../../../../classes/dataClasses/fr/FR';
-import {FrMdLogic} from "../../../../../classes/modeDefineTSSchemas/frs/frMdLogic";
 import {SOCKET_ROOM} from "../../../../../classes/dataClasses/api/api_enums";
 import {SocketIOClient} from "../../websocket/socketIOClient";
 import {AirVehicle} from "../../../../../classes/dataClasses/airVehicle/airVehicle";
 import {AirVehicleMdLogic} from "../../../../../classes/modeDefineTSSchemas/airVehicles/airVehicleMdLogic";
+
+const _ = require('lodash');
 
 
 export class AirVehicleManager {
@@ -58,11 +56,37 @@ export class AirVehicleManager {
         this.airVehicles.forEach((av: AirVehicle) => {
             const avDataUI: AV_DATA_UI = av.toJsonForUI();
             avDataUI.modeDefine = av.modeDefine = AirVehicleMdLogic.validate(avDataUI);
+            avDataUI.missionOptions = av.missionOptions = this.getMissionOptions(avDataUI);
 
             res.push(avDataUI);
         });
         return res;
     };
+
+    private getMissionOptions = (data: AV_DATA_UI): AV_OPTIONS => {
+        const res: AV_OPTIONS = {};
+        if (data.operationalStatus === OPERATIONAL_STATUS.Ready) {
+            data.capability.forEach((item: CAPABILITY) => {
+                switch (item) {
+                    case CAPABILITY.Surveillance:
+                    case CAPABILITY.Patrol:
+                    case CAPABILITY.Scan:
+                        res[MISSION_TYPE.followPathMission] = true;
+                        res[MISSION_TYPE.observationMission] = true;
+                        res[MISSION_TYPE.scanMission] = true;
+                        res[MISSION_TYPE.servoingMission] = true;
+                        break;
+                    case CAPABILITY.CommRely:
+                        res[MISSION_TYPE.commRelayMission] = true;
+                        break;
+                    case CAPABILITY.Delivery:
+                        res[MISSION_TYPE.deliveryMission] = true;
+                        break;
+                }
+            });
+        }
+        return res;
+    }
 
     private sendDataToUI = (): void => {
         const jsonForSend: AV_DATA_UI[] = this.getDataForUI();

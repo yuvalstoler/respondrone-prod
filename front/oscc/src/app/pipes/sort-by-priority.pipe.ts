@@ -31,20 +31,4 @@ export class SortByPriorityPipe implements PipeTransform {
       }
   });
   }
-
-  private sortByDecisionTime = (arrTargets) => {
-    arrTargets.forEach((target) => {
-      let temp = 10000;
-      target.Engagements.forEach((engage) => {
-        let ttl;
-        if (engage.Tnow < engage.PlannedLaunchTime && engage.Tnow > 0) {
-          ttl = engage.PlannedLaunchTime - engage.Tnow;
-          if (temp > ttl) {
-            temp = ttl;
-          }
-        }
-      });
-      target['orderTTL'] = temp;
-    });
-  }
 }

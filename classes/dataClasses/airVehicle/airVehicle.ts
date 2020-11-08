@@ -13,7 +13,7 @@ import {
     OPERATIONAL_STATUS,
     COMM_STATUS,
     AV_DATA_MD,
-    CAPABILITY, AV_DATA_UI, AV_DATA, AV_DATA_REP, GEOPOINT3D_SHORT,
+    CAPABILITY, AV_DATA_UI, AV_DATA, AV_DATA_REP, GEOPOINT3D_SHORT, AV_OPTIONS,
 } from '../../typings/all.typings';
 import {DataUtility} from '../../applicationClasses/utility/dataUtility';
 
@@ -38,6 +38,7 @@ export class AirVehicle {
 
     linkedMissionId: ID_TYPE;
     modeDefine: AV_DATA_MD;
+    missionOptions: AV_OPTIONS;
 
     constructor(data: AV_DATA_REP) {
         if ( data ) {
@@ -153,6 +154,7 @@ export class AirVehicle {
 
             missionName: undefined,
             modeDefine: undefined,
+            missionOptions: undefined
         };
     };
 

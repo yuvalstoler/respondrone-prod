@@ -33,7 +33,7 @@ export class AirVehicleManager {
             },
             "drones": [
                 {
-                    "id": "string",
+                    "id": "1",
                     "type": AIR_VEHICLE_TYPE.Dji,
                     "location": {
                         "lat": 32.979365,
@@ -50,11 +50,59 @@ export class AirVehicleManager {
                     "lastUpdateTimeFromDrone": {
                         "timestamp": 0
                     },
-                    "capability":[CAPABILITY.Surveillance],
+                    "capability": Object.values(CAPABILITY),
                     "commStatus": COMM_STATUS.OK,
                     "operationalStatus": OPERATIONAL_STATUS.Ready,
                     "routeId": "string",
                     "name": "Alpha 1",
+                },
+                {
+                    "id": "2",
+                    "type": AIR_VEHICLE_TYPE.Dji,
+                    "location": {
+                        "lat": 32.989365,
+                        "lon": 34.8,
+                        "alt": 0
+                    },
+                    "gpsQuality": 0,
+                    "energyLevel": 0,
+                    "remainingTimeFlight": 0,
+                    "heading": 30,
+                    "altitudeAGL": 0,
+                    "altitudeAsl": 0,
+                    "velocity": 0,
+                    "lastUpdateTimeFromDrone": {
+                        "timestamp": 0
+                    },
+                    "capability": Object.values(CAPABILITY),
+                    "commStatus": COMM_STATUS.OK,
+                    "operationalStatus": OPERATIONAL_STATUS.Ready,
+                    "routeId": "string",
+                    "name": "Alpha 2",
+                },
+                {
+                    "id": "3",
+                    "type": AIR_VEHICLE_TYPE.Dji,
+                    "location": {
+                        "lat": 32.999365,
+                        "lon": 34.8,
+                        "alt": 0
+                    },
+                    "gpsQuality": 0,
+                    "energyLevel": 0,
+                    "remainingTimeFlight": 0,
+                    "heading": 270,
+                    "altitudeAGL": 0,
+                    "altitudeAsl": 0,
+                    "velocity": 0,
+                    "lastUpdateTimeFromDrone": {
+                        "timestamp": 0
+                    },
+                    "capability": Object.values(CAPABILITY),
+                    "commStatus": COMM_STATUS.OK,
+                    "operationalStatus": OPERATIONAL_STATUS.Ready,
+                    "routeId": "string",
+                    "name": "Alpha 3",
                 }
             ]
         }
