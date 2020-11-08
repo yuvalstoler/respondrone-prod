@@ -20,6 +20,11 @@ export enum HEADER_BUTTONS {
   view = 'view'
 }
 
+export enum VIDEO_OR_MAP {
+  video = 'video',
+  map = 'map'
+}
+
 export type DISPLAY_ON_SCREEN = {
   showLeftPanel: boolean;
   showRightPanel: boolean;
@@ -28,6 +33,7 @@ export type DISPLAY_ON_SCREEN = {
   showSituationPicture: boolean;
   showMissionControl: boolean;
   showViewMedia: boolean;
+  showVideo: boolean
 };
 
 export enum LEFT_PANEL_ICON {

@@ -18,6 +18,18 @@ export class SortByPriorityPipe implements PipeTransform {
       value = 'type';
     } else if (value === SORT_GROUND_RESOURCES.status) {
       value = 'status';
+    } else if (value === SORT_AIR_RESOURCES.lastUpdate) {
+      value = 'lastUpdateTimeFromDrone';
+    } else if (value === SORT_AIR_RESOURCES.UAVType) {
+      value = 'status';
+    } else if (value === SORT_AIR_RESOURCES.status) {
+      value = 'status';
+    } else if (value === SORT_AIR_RESOURCES.missionType) {
+      value = 'missionName';
+    } else if (value === SORT_AIR_RESOURCES.UAVEnergy) {
+      value = 'status';
+    } else if (value === SORT_AIR_RESOURCES.payload) {
+      value = 'status';
     }
     return array.sort((a: any, b: any) => {
       const valA = _.get(a, value);

@@ -46,16 +46,9 @@ import {TaskAssigneesTableComponent} from './dialogs/task-assignees-dialog/task-
 import {TaskAssigneesContainerComponent} from './dialogs/task-assignees-dialog/task-assignees-container/task-assignees-container.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatSliderModule} from '@angular/material/slider';
 
 const config: SocketIoConfig = SOCKET_CONFIG;
-
-
-// import {
-//   AngularCesiumModule,
-//   AngularCesiumWidgetsModule,
-//   PolygonsEditorService,
-//   ViewerConfiguration
-// } from 'angular-cesium';
 
 @NgModule({
   declarations: [
@@ -106,7 +99,8 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     MatExpansionModule,
     MatMenuModule,
     DragDropModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatSliderModule
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },

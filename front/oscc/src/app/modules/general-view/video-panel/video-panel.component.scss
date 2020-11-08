@@ -1,0 +1,70 @@
+@import '../../../../styles/colors';
+@import '../../../../styles/variable';
+
+.LiveVideoHeader{
+  display: flex;
+  height: $headerVideoHeight;
+  background-color: $darkGrayOpacity;
+}
+.LiveVideoContent{
+
+}
+.container{
+  color: $white;
+  margin: 10px;
+  font-size: $fontSizeText;
+}
+.drone-container{
+
+}
+.camera-container{
+
+}
+.zoom-container{
+
+}
+.speed-container{
+
+}
+.speedImg{
+  width: 30px;
+  height: auto;
+}
+
+.expendVideo{
+  position: absolute;
+  bottom: 10px;
+  z-index: 10;
+  right: 10px;
+  width: 50px;
+  height: auto;
+  font-size: 50px;
+  color: $white;
+}
+.arrows{
+  position: absolute;
+  font-size: 50px;
+  height: 50px;
+  width: 50px;
+  color: $white;
+}
+.left{
+  top: 49%;
+  left: 0;
+}
+.right{
+  top: 49%;
+  right: 0;
+}
+.upLow{
+  top: $headerVideoHeight;
+  left: 49%
+}
+.up{
+  top: 0;
+  left: 49%
+}
+.down{
+  bottom: 0;
+  left: 49%
+}

@@ -1,9 +1,12 @@
 $black: rgba(0,0,0,0.9);
-$blackOpacity: rgba(0,0,0,0.8);
+$blackOpacity: rgba(0,0,0,0.7);
+
 $white: #ffffff;
 $lightGray: #f2f2f2;
 $gray: #d7d7d7;
+$grayOpacity:  rgba($gray,0.7);
 $darkGray: #7f7f7f;
+$darkGrayOpacity:  rgba($darkGray,0.7);
 $darkGrey: #606060;
 $red: #ff0000;
 $yellow: #ffc000;
