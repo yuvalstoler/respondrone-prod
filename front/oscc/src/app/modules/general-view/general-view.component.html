@@ -2,30 +2,36 @@
   <!--HeaderPanel-->
   <app-header-panel class="HeaderPanel"></app-header-panel>
 
+  <!--LiveVideoPanel-->
+  <app-video-panel *ngIf="applicationService?.screen?.showVideo"
+                   [ngClass]="{'MapSmall': !applicationService.screen.showLeftPanel && applicationService?.screen?.showVideo
+                   && applicationService?.selectedWindow === VIDEO_OR_MAP.video,
+                   'LiveVideoPanel': !applicationService.screen.showLeftPanel && applicationService?.screen?.showVideo
+                   && applicationService?.selectedWindow === VIDEO_OR_MAP.map}"
+                   class="LiveVideoPanel">
+
+  </app-video-panel>
 
   <!--Map Cesium-->
   <div>
     <app-map></app-map>
-    <div [ngClass]="{'MapRegular':applicationService.panelIcon === LEFT_PANEL_ICON.expand,
-    'MapWide': applicationService.panelIcon === LEFT_PANEL_ICON.minimize}" class="MapContent"
+    <div [ngClass]="{'MapRegular':applicationService.panelIcon === LEFT_PANEL_ICON.expand && applicationService.screen.showLeftPanel,
+                     'MapWide': applicationService.panelIcon === LEFT_PANEL_ICON.minimize && applicationService.screen.showLeftPanel,
+                     'MapAll': !applicationService.screen.showLeftPanel && applicationService?.screen?.showVideo
+                     && applicationService?.selectedWindow === VIDEO_OR_MAP.video,
+                     'MapSmall': !applicationService.screen.showLeftPanel && applicationService?.screen?.showVideo
+                     && applicationService?.selectedWindow === VIDEO_OR_MAP.map}"
          id="{{cesiumService?.maps[0]?.containerId}}">
+      <mat-icon *ngIf="applicationService?.screen?.showVideo" class="expendVideo" (click)="onExpendVideo()">zoom_out_map</mat-icon>
     </div>
+
     <!--<div class="cesium-two"-->
     <!--id="{{mapAvService?.maps[1]?.containerId}}">-->
     <!--</div>-->
   </div>
 
-
   <!--Right Panel-->
   <app-right-panel class="RightPanel"></app-right-panel>
-  <!--<mat-sidenav-container>-->
-    <!--<mat-sidenav #RightPanel [(opened)]="applicationService.screen.showRightPanel"-->
-                 <!--class="RightPanel"-->
-                 <!--[position]="'end'"-->
-                 <!--mode="side">-->
-      <!--<app-right-panel></app-right-panel>-->
-    <!--</mat-sidenav>-->
-  <!--</mat-sidenav-container>-->
 
   <!--Left Panel-->
   <!--[disableClose]="true"-->
@@ -40,7 +46,6 @@
 
   <!--View Media-->
   <app-view-media></app-view-media>
-
 
   <!--Linked-to-window-->
   <app-linked-to-window></app-linked-to-window>

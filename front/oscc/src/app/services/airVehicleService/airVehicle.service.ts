@@ -11,7 +11,7 @@ import {
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {DRAW_LABEL} from "../../../types";
+import {DRAW_LABEL} from '../../../types';
 
 @Injectable({
   providedIn: 'root'

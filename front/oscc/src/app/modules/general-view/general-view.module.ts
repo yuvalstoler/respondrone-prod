@@ -27,7 +27,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatToolbarModule} from '@angular/material/toolbar';
-
+import {MatSliderModule} from '@angular/material/slider';
 
 import {EventsSituationPictureComponent} from './left-panel/events-situation-picture/events-situation-picture.component';
 import {ReportsSituationPictureComponent} from './left-panel/reports-situation-picture/reports-situation-picture.component';
@@ -56,6 +56,7 @@ import {RightPanelComponent} from './right-panel/right-panel.component';
 import {GroundResourcesComponent} from './right-panel/ground-resources/ground-resources.component';
 import {AirResourcesComponent} from './right-panel/air-resources/air-resources.component';
 import {SortByPriorityPipe} from '../../pipes/sort-by-priority.pipe';
+import { VideoPanelComponent } from './video-panel/video-panel.component';
 
 
 @NgModule({
@@ -84,7 +85,8 @@ import {SortByPriorityPipe} from '../../pipes/sort-by-priority.pipe';
     RightPanelComponent,
     GroundResourcesComponent,
     AirResourcesComponent,
-    SortByPriorityPipe
+    SortByPriorityPipe,
+    VideoPanelComponent
   ],
   imports: [
     CommonModule,
@@ -110,6 +112,7 @@ import {SortByPriorityPipe} from '../../pipes/sort-by-priority.pipe';
     MatMenuModule,
     DragDropModule,
     MatToolbarModule,
+    MatSliderModule,
 
     AngularCesiumModule.forRoot(),
     AngularCesiumWidgetsModule,
@@ -137,7 +140,8 @@ import {SortByPriorityPipe} from '../../pipes/sort-by-priority.pipe';
     RightPanelComponent,
     GroundResourcesComponent,
     AirResourcesComponent,
-    SortByPriorityPipe
+    SortByPriorityPipe,
+    VideoPanelComponent
   ],
   providers: [
     PolygonsEditorService,

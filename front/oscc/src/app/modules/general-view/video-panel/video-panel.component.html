@@ -1,0 +1,57 @@
+<div>
+  <div *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"
+       class="LiveVideoHeader">
+    <!--Drone-->
+    <div class="drone-container container">
+      <div>Drone name: <span>Test 111</span></div>
+      <div>Zoom: <span>Test 111</span></div>
+      <div>Rate: <span>Test 111</span></div>
+      <div>Height: <span>Test 111</span></div>
+    </div>
+    <!--Camera-->
+    <div class="camera-container container">
+      <div>Camera Control: <span>Test 111</span></div>
+      <button mat-raised-button>Release Control</button>
+      <button mat-raised-button>Un-Lock Control</button>
+    </div>
+    <!--Zoom-->
+    <div class="zoom-container container">
+      <span>0</span>
+      <mat-slider
+        thumbLabel
+        [displayWith]="formatLabel"
+        [tickInterval]="tickIntervalZoom"
+        [step]="stepZoom"
+        [min]="minZoom"
+        [max]="maxZoom"
+        [(ngModel)]="zoomModel"
+      >
+      </mat-slider>
+      <span>10x</span>
+    </div>
+    <!--Speed-->
+    <div class="speed-container container">
+      <img src="../../../../assets/turtle.png" class="speedImg" alt="Norway">
+      <mat-slider
+        thumbLabel
+        [tickInterval]="tickIntervalSpeed"
+        [min]="minSpeed"
+        [max]="maxSpeed"
+        [(ngModel)]="speedModel"
+
+      >
+      </mat-slider>
+      <img src="../../../../assets/rabbit.png" class="speedImg" alt="Norway">
+    </div>
+  </div>
+  <div class="LiveVideoContent">
+    <mat-icon class="arrows left"> keyboard_arrow_left </mat-icon>
+    <mat-icon class="arrows right"> keyboard_arrow_right </mat-icon>
+    <mat-icon class="arrows upLow" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"> keyboard_arrow_up </mat-icon>
+    <mat-icon class="arrows up" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"> keyboard_arrow_up </mat-icon>
+    <mat-icon class="arrows down"> keyboard_arrow_down </mat-icon>
+    <mat-icon *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"
+              class="expendVideo"
+              (click)="onExpendVideo()">zoom_out_map</mat-icon>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {DISPLAY_ON_SCREEN, HEADER_BUTTONS, LEFT_PANEL_ICON, STATE_DRAW} from 'src/types';
+import {DISPLAY_ON_SCREEN, HEADER_BUTTONS, LEFT_PANEL_ICON, STATE_DRAW, VIDEO_OR_MAP} from 'src/types';
 import {EVENT_DATA_UI, FILE_FS_DATA, REPORT_DATA_UI, TASK_DATA_UI} from '../../../../../../classes/typings/all.typings';
 import {ConnectionService} from '../connectionService/connection.service';
 
@@ -10,6 +10,7 @@ import {ConnectionService} from '../connectionService/connection.service';
 export class ApplicationService {
 
   selectedHeaderPanelButton: HEADER_BUTTONS = HEADER_BUTTONS.situationPictures;
+  selectedWindow: VIDEO_OR_MAP = VIDEO_OR_MAP.map;
   screen: DISPLAY_ON_SCREEN;
   selectedReports: REPORT_DATA_UI[] = [];
   selectedEvents: EVENT_DATA_UI[] = [];
@@ -47,7 +48,8 @@ export class ApplicationService {
       showGrandResources: true,
       showSituationPicture: true,
       showMissionControl: false,
-      showViewMedia: false
+      showViewMedia: false,
+      showVideo: false
     };
   }
 }

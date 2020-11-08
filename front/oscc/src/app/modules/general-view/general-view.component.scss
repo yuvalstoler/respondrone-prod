@@ -10,6 +10,26 @@
   width: 100vw;
   height: $headerHeight;
 }
+.LiveVideoPanel{
+  background: $lightBlue;
+  position: absolute;
+  top: $headerHeight;
+  left: 0px;
+  width: 100vw;
+  height: calc(100vh - #{$headerHeight});
+  z-index: 2;
+}
+.expendVideo{
+  position: absolute;
+  bottom: 10px;
+  z-index: 10;
+  right: 10px;
+  width: 50px;
+  height: auto;
+  font-size: 50px;
+  color: $white;
+}
+
 .MapContent{
   position: absolute;
   top: $headerHeight;
@@ -18,12 +38,39 @@
   width: calc(100vw - #{$leftPanelWidth});
   z-index: 1;
 }
+.MapAll{
+  width: 100vw;
+  position: absolute;
+  top: $headerHeight;
+  right: 0px;
+  height: calc(100vh - #{$headerHeight});
+  z-index: 1;
+}
 .MapRegular{
   width: calc(100vw - #{$leftPanelWidth});
+  position: absolute;
+  top: $headerHeight;
+  right: 0px;
+  height: calc(100vh - #{$headerHeight});
+  z-index: 1;
 }
-
 .MapWide{
   width: calc(100vw - #{$leftPanelNarrowWidth});
+  position: absolute;
+  top: $headerHeight;
+  right: 0px;
+  height: calc(100vh - #{$headerHeight});
+  z-index: 1;
+}
+.MapSmall{
+  position: absolute;
+  bottom: 20px;
+  left: 10px;
+  height: 30%;
+  width: 30%;
+  z-index: 5;
+  background: $lightBlue;
+  border-radius: 15px;
 }
 
 .LeftPanel{
