@@ -5,5 +5,7 @@ services:
     build:
       context: .
       dockerfile: $name/Dockerfile
+    restart: unless-stopped
+
     ports:
       - $port:$port
