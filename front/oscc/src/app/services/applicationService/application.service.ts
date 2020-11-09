@@ -15,6 +15,8 @@ export class ApplicationService {
   selectedReports: REPORT_DATA_UI[] = [];
   selectedEvents: EVENT_DATA_UI[] = [];
   selectedTasks: TASK_DATA_UI[] = [];
+  // TODO : add type selectedMissions
+  selectedMissions: any = [];
   selectedViewMedia: FILE_FS_DATA;
   panelIcon: LEFT_PANEL_ICON = LEFT_PANEL_ICON.expand;
   stateDraw: STATE_DRAW = STATE_DRAW.notDraw;

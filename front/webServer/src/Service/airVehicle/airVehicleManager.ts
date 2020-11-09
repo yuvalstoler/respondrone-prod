@@ -71,16 +71,16 @@ export class AirVehicleManager {
                     case CAPABILITY.Surveillance:
                     case CAPABILITY.Patrol:
                     case CAPABILITY.Scan:
-                        res[MISSION_TYPE.followPathMission] = true;
-                        res[MISSION_TYPE.observationMission] = true;
-                        res[MISSION_TYPE.scanMission] = true;
-                        res[MISSION_TYPE.servoingMission] = true;
+                        res[MISSION_TYPE.Patrol] = true;
+                        res[MISSION_TYPE.Observation] = true;
+                        res[MISSION_TYPE.Scan] = true;
+                        res[MISSION_TYPE.Servoing] = true;
                         break;
                     case CAPABILITY.CommRely:
-                        res[MISSION_TYPE.commRelayMission] = true;
+                        res[MISSION_TYPE.CommRelay] = true;
                         break;
                     case CAPABILITY.Delivery:
-                        res[MISSION_TYPE.deliveryMission] = true;
+                        res[MISSION_TYPE.Delivery] = true;
                         break;
                 }
             });

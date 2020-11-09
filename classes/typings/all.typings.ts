@@ -331,30 +331,56 @@ export type AV_DATA_MD = {
     }
 }
 
+export type MISSION_MODEL_UI = {
+    missionType: MISSION_TYPE,
+    airResources: ID_TYPE[],
+    location: GEOPOINT3D_SHORT,
+    polygon: POINT3D[],
+    polyline: POINT3D[],
+    frs: FR_DATA_UI[],
+    communicationType: COMMUNICATION_TYPE,
+    missionDetails: {
+        azimuth: number,
+        distance: number,
+        scan: {
+            speed: SCAN_SPEED,
+            overlapPercent: number,
+            cameraFov: number
+        }
+    }
+    description: string,
+    comments: COMMENT[]
+}
+
+export enum COMMUNICATION_TYPE {
+    polygonCoverage = 'Polygon Coverage',
+    frs = 'FRs',
+    fixedPoint = 'Fixed Point'
+}
 
 export enum MISSION_TYPE {
-    commRelayMission = 'commRelayMission',
-    followPathMission = 'followPathMission',
-    observationMission = 'observationMission',
-    scanMission = 'scanMission',
-    servoingMission = 'servoingMission',
-    deliveryMission = 'deliveryMission',
+    CommRelay = 'CommRelay',
+    Patrol = 'Patrol',
+    Observation = 'Observation',
+    Scan = 'Scan',
+    Servoing = 'Servoing',
+    Delivery = 'Delivery',
 }
 export type AV_OPTIONS = {
-    [MISSION_TYPE.commRelayMission]?: boolean,
-    [MISSION_TYPE.followPathMission]?: boolean,
-    [MISSION_TYPE.observationMission]?: boolean,
-    [MISSION_TYPE.scanMission]?: boolean,
-    [MISSION_TYPE.servoingMission]?: boolean,
-    [MISSION_TYPE.deliveryMission]?: boolean
+    [MISSION_TYPE.CommRelay]?: boolean,
+    [MISSION_TYPE.Patrol]?: boolean,
+    [MISSION_TYPE.Observation]?: boolean,
+    [MISSION_TYPE.Scan]?: boolean,
+    [MISSION_TYPE.Servoing]?: boolean,
+    [MISSION_TYPE.Delivery]?: boolean
 }
 export enum MISSION_TYPE_TEXT {
-    commRelayMission = 'Comm mission',
-    followPathMission = 'Patrol mission',
-    observationMission = 'Observation mission',
-    scanMission = 'Scan mission',
-    servoingMission = 'Follow an entity',
-    deliveryMission = 'Cargo drop mission',
+    CommRelay = 'Comm mission',
+    Patrol = 'Patrol mission',
+    Observation = 'Observation mission',
+    Scan = 'Scan mission',
+    Servoing = 'Follow an entity',
+    Delivery = 'Cargo drop mission',
 }
 
 
@@ -409,6 +435,11 @@ export enum COMM_RELAY_TYPE {
     Fixed = 'Fixed',
     Area = 'Area',
     Follow = 'Follow',
+}
+export enum COMM_RELAY_TYPE_TEXT {
+    Fixed = 'Fixed Point',
+    Area = 'Polygon coverage',
+    Follow = 'Priority FRs',
 }
 
 export enum YAW_ORIENTATION {

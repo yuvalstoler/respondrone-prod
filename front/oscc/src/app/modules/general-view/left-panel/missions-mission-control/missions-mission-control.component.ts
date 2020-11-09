@@ -22,7 +22,7 @@ export class MissionsMissionControlComponent implements OnInit {
 
   onCreateNewMission = () => {
     this.openPanel('Create new mission request');
-  }
+  };
 
   private openPanel = (title: string) => {
     const dialogRef = this.dialog.open(MissionDialogComponent, {
@@ -31,10 +31,11 @@ export class MissionsMissionControlComponent implements OnInit {
       data: {title: title}
     });
 
-    dialogRef.afterClosed().subscribe((result: REPORT_DATA_UI) => {
-      if (result) {
-      }
-    });
+    // dialogRef.afterClosed().subscribe((result: any) => {
+    //   if (result) {
+    //
+    //   }
+    // });
   };
 
 }
