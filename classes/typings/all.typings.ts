@@ -338,6 +338,7 @@ export type MISSION_MODEL_UI = {
     polygon: POINT3D[],
     polyline: POINT3D[],
     frs: FR_DATA_UI[],
+    frIds: ID_TYPE[],
     communicationType: COMMUNICATION_TYPE,
     missionDetails: {
         azimuth: number,

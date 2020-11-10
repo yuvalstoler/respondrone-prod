@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {
   COMMENT, EVENT_DATA_UI,
   FILE_FS_DATA,
-  GEOPOINT3D, LINKED_EVENT_DATA, LOCATION_NAMES,
+  GEOPOINT3D, GEOPOINT3D_SHORT, LINKED_EVENT_DATA, LOCATION_NAMES,
   LOCATION_TYPE,
   PRIORITY,
   REPORT_DATA_UI,
@@ -17,7 +17,7 @@ import {EventService} from '../../services/eventService/event.service';
 import {HEADER_BUTTONS, STATE_DRAW} from '../../../types';
 import * as _ from 'lodash';
 import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
-import {MediaService} from "../../services/mediaService/media.service";
+import {MediaService} from '../../services/mediaService/media.service';
 
 @Component({
   selector: 'app-report-dialog',
@@ -75,7 +75,7 @@ export class ReportDialogComponent {
     // add location on panel
     this.locationService.locationPoint$.subscribe(latlon => {
       if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
-        this.reportModel.location = {longitude: latlon.longitude, latitude: latlon.latitude};
+        this.reportModel.location = {longitude: latlon.lon, latitude: latlon.lat};
       }
     });
   }
@@ -141,9 +141,10 @@ export class ReportDialogComponent {
       this.mapGeneralService.changeCursor(false);
       // this.locationService.removeBillboard();
       if (this.reportModel.location.latitude !== undefined && this.reportModel.location.longitude !== undefined) {
-        const locationPoint: GEOPOINT3D = {
-          longitude: this.reportModel.location.longitude,
-          latitude: this.reportModel.location.latitude
+        const locationPoint: GEOPOINT3D_SHORT = {
+          lon: this.reportModel.location.longitude,
+          lat: this.reportModel.location.latitude,
+          alt: 0
         };
         this.locationService.createOrUpdateLocationTemp(locationPoint);
         this.applicationService.stateDraw = STATE_DRAW.editLocationPoint;

@@ -3,7 +3,7 @@ import {CesiumService} from '../cesium/cesium.service';
 import {
   AV_DATA_UI,
   EVENT_DATA_UI, FR_DATA_UI, GEOGRAPHIC_INSTRUCTION,
-  GEOPOINT3D,
+  GEOPOINT3D, GEOPOINT3D_SHORT,
   MAP,
   POINT,
   POINT3D,
@@ -103,14 +103,14 @@ export class MapGeneralService {
 
   // Location Point ===========================================================================================================
   // from Service ======
-  public createLocationPointFromServer = (locationPoint: GEOPOINT3D, locationId: string, description?: string): boolean => {
+  public createLocationPointFromServer = (locationPoint: GEOPOINT3D_SHORT, locationId: string, description?: string): boolean => {
     const domId = undefined;
     let res = false;
     res = this.cesiumDrawerService.createLocationPointFromServer(domId, locationPoint, locationId, description);
     return res;
   };
 
-  public createOrUpdateLocationTemp = (locationPoint: GEOPOINT3D, locationId: string) => {
+  public createOrUpdateLocationTemp = (locationPoint: GEOPOINT3D_SHORT, locationId: string) => {
     const domId = undefined;
     let res = false;
     res = this.cesiumDrawerService.createOrUpdateLocationTemp(domId, locationPoint, locationId);

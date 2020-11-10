@@ -1,17 +1,14 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {
   FR_DATA,
-  LINKED_EVENT_DATA,
-  LINKED_REPORT_DATA,
   TASK_DATA_UI
 } from '../../../../../../../classes/typings/all.typings';
-import {TasksService} from '../../../services/tasksService/tasks.service';
 import {MatDialog} from '@angular/material/dialog';
 import {ApplicationService} from '../../../services/applicationService/application.service';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import {TaskAssigneesDialogComponent} from "../../../dialogs/task-assignees-dialog/task-assignees-dialog.component";
-import {FRService} from "../../../services/frService/fr.service";
+import {TaskAssigneesDialogComponent} from '../../../dialogs/task-assignees-dialog/task-assignees-dialog.component';
+import {FRService} from '../../../services/frService/fr.service';
 
 @Component({
   selector: 'app-task-assignee-table',
@@ -19,7 +16,8 @@ import {FRService} from "../../../services/frService/fr.service";
   styleUrls: ['./task-assignee-table.component.scss']
 })
 export class TaskAssigneeTableComponent implements OnInit {
-
+  //
+  // @Input() isFRs: boolean;
   @Input() element: TASK_DATA_UI;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @Output() updateAssignees = new EventEmitter<string[]>();

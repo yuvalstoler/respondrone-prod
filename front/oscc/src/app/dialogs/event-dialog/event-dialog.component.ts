@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {
   COMMENT,
   EVENT_DATA_UI,
-  GEOPOINT3D,
+  GEOPOINT3D, GEOPOINT3D_SHORT,
   LINKED_REPORT_DATA,
   LOCATION_NAMES,
   LOCATION_TYPE,
@@ -77,7 +77,7 @@ export class EventDialogComponent implements OnInit {
     // add location on panel
     this.locationService.locationPoint$.subscribe(latlon => {
       if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
-        this.eventModel.location = {longitude: latlon.longitude, latitude: latlon.latitude};
+        this.eventModel.location = {longitude: latlon.lon, latitude: latlon.lat};
       }
     });
 
@@ -180,9 +180,10 @@ export class EventDialogComponent implements OnInit {
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
       this.mapGeneralService.changeCursor(false);
       if (this.eventModel.location.latitude !== undefined && this.eventModel.location.longitude !== undefined) {
-        const locationPoint: GEOPOINT3D = {
-          longitude: this.eventModel.location.longitude,
-          latitude: this.eventModel.location.latitude
+        const locationPoint: GEOPOINT3D_SHORT = {
+          lon: this.eventModel.location.longitude,
+          lat: this.eventModel.location.latitude,
+          alt: 0
         };
         this.locationService.createOrUpdateLocationTemp(locationPoint);
         this.applicationService.stateDraw = STATE_DRAW.editLocationPoint;

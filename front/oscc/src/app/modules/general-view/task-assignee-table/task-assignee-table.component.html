@@ -1,11 +1,12 @@
-<div class="AssigneesTable">
-  <div class="AssigneesHeader">
+<div class="AssigneesTable"><!--*ngIf="!isFRs"-->
+  <div class="AssigneesHeader" >
     <span class="DialogTitle">Task assignee</span>
     <span (click)="onAddAssignee()"
           [ngStyle]="{'color': (frService.frs.data.length <= 0) ? 'lightgray': '',
                       'border-bottom': (frService.frs.data.length <= 0) ? 'none' : ''}"
           class="DialogAssignee pointer">Add assignee</span>
   </div>
+  <!--<div *ngIf="isFRs">filter test</div>-->
   <div *ngIf="frService?.frs?.data?.length <= 0" class="DialogNotElement">
     No Assignees
   </div>

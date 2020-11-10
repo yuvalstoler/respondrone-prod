@@ -61,7 +61,8 @@
         </div>
       </mat-expansion-panel>
       <!-- Location -->
-      <mat-expansion-panel #location *ngIf="missionModel?.missionType !== MISSION_TYPE.CommRelay"
+      <mat-expansion-panel #location (opened)="onClickLocation(missionModel?.missionType)"
+                           *ngIf="missionModel?.missionType !== MISSION_TYPE.CommRelay"
                            [disabled]="selectedAirVehicles?.length <= 0"
                            hideToggle>
         <mat-expansion-panel-header>
@@ -70,40 +71,56 @@
           </mat-panel-title>
           <mat-icon>{{location.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
-
-        <div>
-          <div *ngIf="selectedMissionType === MISSION_TYPE.Observation">
-            <small>Choose location point from the map or write Lat/Long</small>
-            <div class="DialogGrid22">
-              <!--Lat-->
-              <mat-form-field appearance="outline" class="">
-                <label>
-                  <input (change)="locationChanged($event, 'latitude')"
-                         (click)="$event.stopPropagation()"
-                         (keyup)="locationChanged($event, 'latitude')"
-                         [(ngModel)]="location.lat"
-                         class="Label"
-                         matInput
-                         min="0"
-                         placeholder="Lat"
-                         type="number">
-                </label>
-              </mat-form-field>
-              <!--Long-->
-              <mat-form-field appearance="outline" class="">
-                <label>
-                  <input (change)="locationChanged($event, 'longitude')"
-                         (click)="$event.stopPropagation()"
-                         (keyup)="locationChanged($event, 'longitude')"
-                         [(ngModel)]="location.lon"
-                         class="Label"
-                         matInput
-                         min="0"
-                         placeholder="Long"
-                         type="number">
-                </label>
-              </mat-form-field>
-            </div>
+        <!--Point-->
+        <div *ngIf="missionModel?.missionType === MISSION_TYPE.Observation">
+          <small>Click on map to set an observation point</small>
+          <div>
+            <small>or</small>
+          </div>
+          <div class="DialogGrid22">
+            <!--Lat-->
+            <mat-form-field appearance="outline" class="">
+              <label>
+                <input (change)="locationChanged($event, 'latitude')"
+                       (click)="$event.stopPropagation()"
+                       (keyup)="locationChanged($event, 'latitude')"
+                       [(ngModel)]="missionModel.location.lat"
+                       class="Label"
+                       matInput
+                       min="0"
+                       placeholder="Lat"
+                       type="number">
+              </label>
+            </mat-form-field>
+            <!--Long-->
+            <mat-form-field appearance="outline" class="">
+              <label>
+                <input (change)="locationChanged($event, 'longitude')"
+                       (click)="$event.stopPropagation()"
+                       (keyup)="locationChanged($event, 'longitude')"
+                       [(ngModel)]="missionModel.location.lon"
+                       class="Label"
+                       matInput
+                       min="0"
+                       placeholder="Long"
+                       type="number">
+              </label>
+            </mat-form-field>
+          </div>
+        </div>
+        <!--Polyline-->
+        <div *ngIf="missionModel?.missionType === MISSION_TYPE.Patrol">
+          <small>Click minimum 3 points on the map to set a path</small>
+        </div>
+        <!--Polygon-->
+        <div *ngIf="missionModel?.missionType === MISSION_TYPE.Scan">
+          <small>Click minimum 3 points on the map to set a polygon</small>
+        </div>
+        <!--FR Table-->
+        <div *ngIf="missionModel?.missionType === MISSION_TYPE.Servoing">
+          <small>Choose FR to follow</small>
+          <div class="">
+            <!--<app-task-assignee-table [element]="missionModel" [isFRs]="true" (updateAssignees)="onUpdateFRs($event)"></app-task-assignee-table>-->
           </div>
         </div>
       </mat-expansion-panel>
@@ -123,7 +140,7 @@
         <div>
           <mat-form-field appearance="outline" class="SPMatFormField">
             <mat-select [(ngModel)]="missionModel.communicationType">
-              <mat-option *ngFor="let type of COMM_RELAY_TYPE_TEXT" [value]="type">
+              <mat-option *ngFor="let type of commRelayTypes" [value]="type">
                 {{type}}
               </mat-option>
             </mat-select>
@@ -140,45 +157,59 @@
           </mat-panel-title>
           <mat-icon>{{commArg.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
-
-        <div>
-          <div *ngIf="selectedMissionType === MISSION_TYPE.Observation">
-            <small>Choose location point from the map or write Lat/Long</small>
-            <div class="DialogGrid22">
-              <!--Lat-->
-              <mat-form-field appearance="outline" class="">
-                <label>
-                  <input (change)="locationChanged($event, 'latitude')"
-                         (click)="$event.stopPropagation()"
-                         (keyup)="locationChanged($event, 'latitude')"
-                         [(ngModel)]="location.lat"
-                         class="Label"
-                         matInput
-                         min="0"
-                         placeholder="Lat"
-                         type="number">
-                </label>
-              </mat-form-field>
-              <!--Long-->
-              <mat-form-field appearance="outline" class="">
-                <label>
-                  <input (change)="locationChanged($event, 'longitude')"
-                         (click)="$event.stopPropagation()"
-                         (keyup)="locationChanged($event, 'longitude')"
-                         [(ngModel)]="location.lon"
-                         class="Label"
-                         matInput
-                         min="0"
-                         placeholder="Long"
-                         type="number">
-                </label>
-              </mat-form-field>
-            </div>
+        <!--Point-->
+        <div *ngIf="missionModel?.communicationType === COMM_RELAY_TYPE_TEXT.Fixed">
+          <small>Click on map to set an observation point</small>
+          <div>
+            <small>or</small>
+          </div>
+          <div class="DialogGrid22">
+            <!--Lat-->
+            <mat-form-field appearance="outline" class="">
+              <label>
+                <input (change)="locationChanged($event, 'latitude')"
+                       (click)="$event.stopPropagation()"
+                       (keyup)="locationChanged($event, 'latitude')"
+                       [(ngModel)]="missionModel.location.lat"
+                       class="Label"
+                       matInput
+                       min="0"
+                       placeholder="Lat"
+                       type="number">
+              </label>
+            </mat-form-field>
+            <!--Long-->
+            <mat-form-field appearance="outline" class="">
+              <label>
+                <input (change)="locationChanged($event, 'longitude')"
+                       (click)="$event.stopPropagation()"
+                       (keyup)="locationChanged($event, 'longitude')"
+                       [(ngModel)]="missionModel.location.lon"
+                       class="Label"
+                       matInput
+                       min="0"
+                       placeholder="Long"
+                       type="number">
+              </label>
+            </mat-form-field>
+          </div>
+        </div>
+        <!--Polygon-->
+        <div *ngIf="missionModel?.communicationType === COMM_RELAY_TYPE_TEXT.Area">
+          <small>Click minimum 3 points on the map to set a polygon</small>
+        </div>
+        <!--FR Table-->
+        <div *ngIf="missionModel?.communicationType === COMM_RELAY_TYPE_TEXT.Follow">
+          <small>Choose FR to follow</small>
+          <div class="">
+            <app-task-assignee-table (updateAssignees)="onUpdateFRs($event)"
+                                     [element]="missionModel"></app-task-assignee-table>
           </div>
         </div>
       </mat-expansion-panel>
       <!-- Mission details -->
-      <mat-expansion-panel #missionDetails [disabled]=""
+      <mat-expansion-panel #missionDetails
+                           [disabled]="getSelectedLocation(missionModel?.missionType)"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
@@ -189,21 +220,36 @@
         <div>
           <small>Set mission azimuth</small>
           <div class="viewingAngle">
-            <!--Circle-->
-            <div [ngStyle]="{'transform': 'rotate(' + missionModel?.missionDetails?.azimuth + 'deg)'}" class="VNCircle">
-              <div class="line"></div>
-              <div class="arrow"></div>
+            <div class="azimuthContainer">
+              <!--Circle-->
+              <div [ngStyle]="{'transform': 'rotate(' + missionModel?.missionDetails?.azimuth + 'deg)'}"
+                   class="VNCircle">
+                <div class="line"></div>
+                <div class="arrow"></div>
+              </div>
+              <!--Lines-->
+              <div class="VAPath">
+                <div class="path1"></div>
+                <div class="path2"></div>
+                <div class="path3"></div>
+                <div class="path4"></div>
+                <div class="path5"></div>
+                <div class="path6"></div>
+              </div>
+
             </div>
             <!--Slider-->
             <div class="VNSlider">
               <div class="slider1">N</div>
-              <div class="slider2"><input [(ngModel)]="missionModel.missionDetails.azimuth" class="sliderViewNow" max="360" min="0" step="1"
+              <div class="slider2"><input [(ngModel)]="missionModel.missionDetails.azimuth" class="sliderViewNow"
+                                          max="360" min="0" step="1"
                                           type="range"></div>
               <div class="slider3">N</div>
               <div class="slider4">E</div>
               <div class="slider5">S</div>
               <div class="slider6">W</div>
             </div>
+
             {{missionModel?.missionDetails?.azimuth}}°
           </div>
           <small>Define distance of flying from the Observation point</small>
@@ -264,6 +310,7 @@
             mat-raised-button>Cancel
     </button>
     <button (click)="onCreateClick()"
+            [disabled]="getSelectedLocation(missionModel?.missionType)"
             class="DialogActionsCreate"
             mat-raised-button>
       {{data.title}}

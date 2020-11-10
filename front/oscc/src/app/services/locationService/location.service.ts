@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {EVENT_LISTENER_DATA, STATE_DRAW} from '../../../types';
-import {GEOPOINT3D, NOTIFICATION_UI, POINT} from '../../../../../../classes/typings/all.typings';
+import {GEOPOINT3D, GEOPOINT3D_SHORT, NOTIFICATION_UI, POINT} from '../../../../../../classes/typings/all.typings';
 import {DrawMarkerClass} from '../classes/drawMarkerClass';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
@@ -11,7 +11,7 @@ import {ApplicationService} from '../applicationService/application.service';
 })
 export class LocationService {
 
-  locationPoint$: BehaviorSubject<GEOPOINT3D> = new BehaviorSubject({longitude: undefined, latitude: undefined});
+  locationPoint$: BehaviorSubject<GEOPOINT3D_SHORT> = new BehaviorSubject({lon: undefined, lat: undefined, alt: 0});
   locationPointTemp: POINT;
   drawMarkerClass: DrawMarkerClass;
   downClick: boolean = false;
@@ -34,7 +34,7 @@ export class LocationService {
 
   public drawLocation = (event: EVENT_LISTENER_DATA): void => {
     if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
-      const locationPoint: GEOPOINT3D = {longitude: event.pointLatLng[0], latitude: event.pointLatLng[1]};
+      const locationPoint: GEOPOINT3D_SHORT = {lon: event.pointLatLng[0], lat: event.pointLatLng[1], alt: 0};
       // open marker on mouseOver
       const idTemp = this.applicationService.geoCounter.toString();
       if (event.type === 'mouseOver') {
@@ -60,7 +60,7 @@ export class LocationService {
 
   public editLocation = (event: EVENT_LISTENER_DATA): void => {
     if (this.applicationService.stateDraw === STATE_DRAW.editLocationPoint) {
-      const locationPoint: GEOPOINT3D = {longitude: event.pointLatLng[0], latitude: event.pointLatLng[1]};
+      const locationPoint: GEOPOINT3D_SHORT = {lon: event.pointLatLng[0], lat: event.pointLatLng[1], alt: 0};
       // click on marker,(mousedown)
       if (event.type === 'mouseDown' && !this.downClick) {
         this.isMarker = this.drawMarkerClass.checkIfMarkerExist(event, this.locationPointTemp, event.distance);
@@ -97,20 +97,20 @@ export class LocationService {
   //   this.mapGeneralService.removeBillboard('temp');
   // };
 
-  public drawLocationFromServer = (locationPoint: GEOPOINT3D, locationId: string) => {
+  public drawLocationFromServer = (locationPoint: GEOPOINT3D_SHORT, locationId: string) => {
     this.mapGeneralService.createLocationPointFromServer(locationPoint, locationId);
     this.locationPoint$.next(locationPoint);
   };
 
-  public createOrUpdateLocationTemp = (locationPoint: GEOPOINT3D) => {
-    this.locationPointTemp = [locationPoint.longitude, locationPoint.latitude];
+  public createOrUpdateLocationTemp = (locationPoint: GEOPOINT3D_SHORT) => {
+    this.locationPointTemp = [locationPoint.lon, locationPoint.lat];
     const idTemp = this.applicationService.geoCounter.toString();
     this.mapGeneralService.createOrUpdateLocationTemp(locationPoint, idTemp);
   };
 
   public deleteLocationPointTemp = (locationId) => {
     this.mapGeneralService.deleteLocationPointTemp(locationId);
-    this.locationPoint$.next({longitude: undefined, latitude: undefined});
+    this.locationPoint$.next({lon: undefined, lat: undefined, alt: 0});
   };
 
 }

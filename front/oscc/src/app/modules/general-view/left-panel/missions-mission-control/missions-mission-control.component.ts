@@ -31,11 +31,11 @@ export class MissionsMissionControlComponent implements OnInit {
       data: {title: title}
     });
 
-    // dialogRef.afterClosed().subscribe((result: any) => {
-    //   if (result) {
-    //
-    //   }
-    // });
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        console.log(result);
+      }
+    });
   };
 
 }

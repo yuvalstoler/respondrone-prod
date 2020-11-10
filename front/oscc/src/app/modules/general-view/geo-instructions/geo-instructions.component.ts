@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {
   GEOGRAPHIC_INSTRUCTION,
   GEOGRAPHIC_INSTRUCTION_TYPE,
-  GEOPOINT3D, POINT,
+  GEOPOINT3D, GEOPOINT3D_SHORT, POINT,
   POINT3D,
   TASK_DATA_UI
 } from '../../../../../../../classes/typings/all.typings';
@@ -59,7 +59,7 @@ export class GeoInstructionsComponent implements OnInit {
 
     // add location to model
     this.locationService.locationPoint$.subscribe(latlon => {
-      this.geoInstructionModel.location = {longitude: latlon.longitude, latitude: latlon.latitude};
+      this.geoInstructionModel.location = {longitude: latlon.lon, latitude: latlon.lat, altitude: 0};
     });
 
     // add polygon to model
@@ -160,9 +160,10 @@ export class GeoInstructionsComponent implements OnInit {
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
       this.mapGeneralService.changeCursor(false);
       if (this.geoInstructionModel.location.latitude !== undefined && this.geoInstructionModel.location.longitude !== undefined) {
-        const locationPoint: GEOPOINT3D = {
-          longitude: this.geoInstructionModel.location.longitude,
-          latitude: this.geoInstructionModel.location.latitude
+        const locationPoint: GEOPOINT3D_SHORT = {
+          lon: this.geoInstructionModel.location.longitude,
+          lat: this.geoInstructionModel.location.latitude,
+          alt: 0
         };
         this.locationService.createOrUpdateLocationTemp(locationPoint);
         this.applicationService.stateDraw = STATE_DRAW.editLocationPoint;

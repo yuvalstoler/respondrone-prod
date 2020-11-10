@@ -3,7 +3,7 @@ import {
   AV_DATA_UI,
   CARTESIAN3,
   EVENT_DATA_UI, FR_DATA_UI, GEOGRAPHIC_INSTRUCTION,
-  GEOPOINT3D,
+  GEOPOINT3D, GEOPOINT3D_SHORT,
   MAP,
   POINT,
   POINT3D, REPORT_DATA_UI
@@ -31,7 +31,7 @@ export class CesiumDrawerService {
 
   // ==================LOCATION=========================================================================================
 
-  public createLocationPointFromServer = (domId: string, locationPoint: GEOPOINT3D, locationId: string, description?: string) => {
+  public createLocationPointFromServer = (domId: string, locationPoint: GEOPOINT3D_SHORT, locationId: string, description?: string) => {
     let res = false;
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
     for (const mapDomId in mapsCE) {
@@ -53,8 +53,8 @@ export class CesiumDrawerService {
     return res;
   };
 
-  private createMarkerLocationEntity = (mapDomId: string, mapCE: any, locationPoint: GEOPOINT3D, description: string): {} => {
-    const position = this.arrayPointsToCartesian3([[locationPoint.longitude, locationPoint.latitude, 5]]);
+  private createMarkerLocationEntity = (mapDomId: string, mapCE: any, locationPoint: GEOPOINT3D_SHORT, description: string): {} => {
+    const position = this.arrayPointsToCartesian3([[locationPoint.lon, locationPoint.lat, 5]]);
     this.locationTemp = {data: position[0]};
     const marker = this.cesiumService.cesiumViewer[mapDomId].entities.add({
       position: this.cesiumServiceSetCallbackProperty(this.locationTemp),
@@ -73,7 +73,7 @@ export class CesiumDrawerService {
     return marker;
   };
 
-  public createOrUpdateLocationTemp = (domId: string, locationPoint: GEOPOINT3D, locationId: string) => {
+  public createOrUpdateLocationTemp = (domId: string, locationPoint: GEOPOINT3D_SHORT, locationId: string) => {
     let res = false;
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
     for (const mapDomId in mapsCE) {
@@ -96,8 +96,8 @@ export class CesiumDrawerService {
     return res;
   };
 
-  private editLocation = (locationPoint: GEOPOINT3D): void => {
-    const position = this.arrayPointsToCartesian3([[locationPoint.longitude, locationPoint.latitude, 5]]);
+  private editLocation = (locationPoint: GEOPOINT3D_SHORT): void => {
+    const position = this.arrayPointsToCartesian3([[locationPoint.lon, locationPoint.lat, 5]]);
     this.locationTemp.data = position[0];
   };
 
