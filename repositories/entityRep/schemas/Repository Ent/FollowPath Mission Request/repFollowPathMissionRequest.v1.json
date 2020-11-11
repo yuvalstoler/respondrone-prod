@@ -82,6 +82,9 @@
             "Cancelled"
           ],
           "description": "The request ststus that will enable all system participients to manage an operational process -\nPending - after the request was sent to the responsible service responded by Succes response\nInProgress - When the responsible service started to take care of the Request\nCancelled - When the Request will not be handled any more\nCompleted - When the Request was finished"
+        },
+        "distance": {
+          "type": "number"
         }
       },
       "required": [

@@ -19,7 +19,10 @@
           "type": "string"
         },
         "targetId": {
-          "type": "string"
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "targetType": {
           "type": "string",
