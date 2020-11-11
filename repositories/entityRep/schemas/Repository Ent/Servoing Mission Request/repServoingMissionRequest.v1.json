@@ -19,7 +19,23 @@
           "type": "string"
         },
         "targetId": {
-          "type": "number"
+          "type": "string"
+        },
+        "targetType": {
+          "type": "string",
+          "enum": [
+            "FR",
+            "VideoTarget"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Pending",
+            "InProgress",
+            "Completed",
+            "Cancelled"
+          ]
         }
       }
     },

@@ -22,6 +22,8 @@
         "Observation",
         "Scan",
         "Patrol",
+        "Servoing",
+        "Delivery",
         "None"
       ],
       "description": "The mission type in case no request or mission linked"

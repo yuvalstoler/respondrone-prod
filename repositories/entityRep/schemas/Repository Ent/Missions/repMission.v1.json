@@ -16,7 +16,9 @@
         "Scan",
         "Patrol",
         "Observation",
-        "CommRelay"
+        "CommRelay",
+        "Servoing",
+        "Delivery"
       ],
       "description": "The Mission type"
     },
