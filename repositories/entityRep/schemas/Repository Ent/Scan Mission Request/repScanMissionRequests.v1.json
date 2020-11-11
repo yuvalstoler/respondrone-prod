@@ -80,7 +80,7 @@
                   "High"
                 ]
               },
-              "overlapPrecent": {
+              "overlapPercent": {
                 "type": "number",
                 "description": "Scan image overlap  in percent (default=15%)"
               },
