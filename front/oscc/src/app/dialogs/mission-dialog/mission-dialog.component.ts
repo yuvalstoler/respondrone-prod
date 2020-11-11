@@ -8,7 +8,7 @@ import {
   MISSION_MODEL_UI,
   MISSION_TYPE,
   MISSION_TYPE_TEXT,
-  POINT3D
+  POINT3D, SCAN_SPEED
 } from '../../../../../../classes/typings/all.typings';
 import {AirVehicleService} from '../../services/airVehicleService/airVehicle.service';
 import {STATE_DRAW} from '../../../types';
@@ -36,6 +36,7 @@ export class MissionDialogComponent implements OnInit {
   missionTypes = Object.values(MISSION_TYPE);
   commRelayTypes = Object.values(COMM_RELAY_TYPE_TEXT);
   COMM_RELAY_TYPE_TEXT = COMM_RELAY_TYPE_TEXT;
+  scanSpeed = Object.values(SCAN_SPEED);
 
   //Model
   missionModel: MISSION_MODEL_UI;
@@ -50,11 +51,11 @@ export class MissionDialogComponent implements OnInit {
     communicationType: undefined,
     missionDetails: {
       azimuth: 0,
-      distance: 0,
+      distance: null,
       scan: {
         speed: undefined,
-        overlapPercent: 0,
-        cameraFov: 0
+        overlapPercent: null,
+        cameraFov: null
       }
     },
     description: '',

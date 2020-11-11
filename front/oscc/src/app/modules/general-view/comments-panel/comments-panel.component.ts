@@ -11,6 +11,7 @@ export class CommentsPanelComponent implements OnInit {
 
   @Input() comments: COMMENT[];
   @Input() isOpenDescription: boolean;
+  @Input() isShowTitle: boolean = true;
   @Output() changeComments = new EventEmitter<COMMENT[]>();
   comment = '';
 

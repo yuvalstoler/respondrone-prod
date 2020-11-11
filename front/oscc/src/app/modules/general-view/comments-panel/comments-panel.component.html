@@ -1,5 +1,5 @@
 <div>
-  <div class="CommentTitle">Comments</div>
+  <div class="CommentTitle" *ngIf="isShowTitle">Comments</div>
   <div class="CommentContainer scroll"
        [ngClass]="{'CommentDescriptionOpen' : isOpenDescription,
                    'CommentDescriptionClose' : !isOpenDescription}">

@@ -34,9 +34,44 @@
   }
 }
 
+.DetailsContainer{
+  small{
+    display: block;
+  }
+}
+.Grid3{
+  display: grid;
+  grid-template-columns: 5em 1.5em;
+  .item1, .item3 {
+    margin: auto;
+    font-size: $fontSizeTitle;
+  }
+  .item2{
+    //display: inline-block;
+  }
+}
+.Grid2 {
+  display: grid;
+  grid-template-columns: 8em auto;
+
+  small {
+    margin: auto 0;
+  }
+  .ScanSelect{
+    width: 15em;
+  }
+  mat-error{
+    grid-column: 1/ span 2;
+  }
+}
+
 .mat-expansion-panel-spacing {
   margin: 0px 0;
 }
+
+
+
+
 
 
 .viewingAngle {

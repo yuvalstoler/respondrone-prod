@@ -147,7 +147,7 @@
           </mat-form-field>
         </div>
       </mat-expansion-panel>
-      <!-- Communication Argument -->
+      <!--Communication Argument -->
       <mat-expansion-panel #commArg *ngIf="missionModel?.missionType === MISSION_TYPE.CommRelay"
                            [disabled]="missionModel?.communicationType === undefined"
                            hideToggle>
@@ -218,6 +218,7 @@
           <mat-icon>{{missionDetails.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
         <div>
+          <!--Azimuth & Slider-->
           <small>Set mission azimuth</small>
           <div class="viewingAngle">
             <div class="azimuthContainer">
@@ -236,7 +237,6 @@
                 <div class="path5"></div>
                 <div class="path6"></div>
               </div>
-
             </div>
             <!--Slider-->
             <div class="VNSlider">
@@ -249,27 +249,89 @@
               <div class="slider5">S</div>
               <div class="slider6">W</div>
             </div>
-
             {{missionModel?.missionDetails?.azimuth}}°
           </div>
+          <!--Details-->
+          <div *ngIf="missionModel?.missionType !== MISSION_TYPE.Scan" class="DetailsContainer">
           <small>Define distance of flying from the Observation point</small>
-          <div>
-            <mat-form-field appearance="outline" class="">
-              <label>
-                <input (click)="$event.stopPropagation()"
-                       [(ngModel)]="missionModel.missionDetails.distance"
-                       class="Label"
-                       matInput
-                       min="0"
-                       placeholder="20m"
-                       type="number">
-              </label>
-            </mat-form-field>
+            <div class="Grid3">
+              <div class="item2">
+                <mat-form-field appearance="outline" class="">
+                  <label>
+                    <input (click)="$event.stopPropagation()"
+                           [(ngModel)]="missionModel.missionDetails.distance"
+                           [required]="missionModel.missionDetails.distance === null"
+                           class="Label"
+                           matInput
+                           min="0"
+                           placeholder="20"
+                           type="number">
+                  </label>
+                </mat-form-field>
+              </div>
+              <div class="item3">m</div>
+            </div>
+            <mat-error *ngIf="missionModel.missionDetails.distance === null">Distance field is mandatory</mat-error>
+          </div>
+          <div *ngIf="missionModel?.missionType === MISSION_TYPE.Scan" class="DetailsContainer">
+            <div class="Grid2">
+              <small>Scan speed</small>
+              <div class="ScanSelect">
+                <mat-form-field appearance="outline" class="SPMatFormField">
+                  <mat-select [(ngModel)]="missionModel.missionDetails.scan.speed" required>
+                    <mat-option *ngFor="let speed of scanSpeed" [value]="speed">
+                      {{speed}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <mat-error *ngIf="missionModel.missionDetails.scan.speed === undefined">Scan speed field is mandatory</mat-error>
+              <small>Overlap percent</small>
+              <div class="Grid3">
+                <div class="item2">
+                  <mat-form-field appearance="outline" class="">
+                    <label>
+                      <input (click)="$event.stopPropagation()"
+                             [(ngModel)]="missionModel.missionDetails.scan.overlapPercent"
+                             class="Label"
+                             required
+                             matInput
+                             min="0"
+                             placeholder="10"
+                             type="number">
+                    </label>
+                  </mat-form-field>
+                </div>
+                <div class="item3">%</div>
+              </div>
+              <mat-error *ngIf="missionModel.missionDetails.scan.overlapPercent === null">Scan overlap percent field is mandatory</mat-error>
+              <small>Camera FOV</small>
+              <div class="Grid3">
+                <div class="item2">
+                  <mat-form-field appearance="outline" class="">
+                    <label>
+                      <input (click)="$event.stopPropagation()"
+                             [(ngModel)]="missionModel.missionDetails.scan.cameraFov"
+                             class="Label"
+                             required
+                             matInput
+                             min="0"
+                             placeholder="20"
+                             type="number">
+                    </label>
+                  </mat-form-field>
+                </div>
+                <div class="item3">%</div>
+              </div>
+              <mat-error *ngIf="missionModel.missionDetails.scan.cameraFov === null">Scan camera FOV field is mandatory</mat-error>
+            </div>
           </div>
         </div>
       </mat-expansion-panel>
       <!--Description-->
-      <mat-expansion-panel #descriptions hideToggle>
+      <mat-expansion-panel #descriptions
+                           [disabled]="getSelectedLocation(missionModel?.missionType)"
+                           hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
             Description
@@ -288,16 +350,18 @@
         </div>
       </mat-expansion-panel>
       <!--Comments-->
-      <mat-expansion-panel #comment hideToggle>
+      <mat-expansion-panel #comment
+                           [disabled]="getSelectedLocation(missionModel?.missionType)"
+                           hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
             Comments
-            <!--<div *ngIf="!comment.expanded">Comments</div>-->
           </mat-panel-title>
           <mat-icon>{{comment.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
         <div>
           <app-comments-panel (changeComments)="onChangeComments($event)"
+                              [isShowTitle]="false"
                               [comments]="missionModel?.comments"
                               [isOpenDescription]="true"></app-comments-panel>
         </div>
