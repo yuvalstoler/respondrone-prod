@@ -101,3 +101,13 @@ export enum SORT_AIR_RESOURCES {
   UAVEnergy = 'UAV energy',
   payload = 'Payload'
 }
+export enum MISSION_FIELDS {
+  missionType = 'missionType',
+  airResources = 'airResources',
+  location = 'location',
+  commType = 'commType',
+  commArg = 'commArg',
+  missionDetails = 'missionDetails',
+  description = 'description',
+  comments = 'comments'
+}

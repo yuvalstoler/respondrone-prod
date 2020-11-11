@@ -12,7 +12,7 @@
   <div class="DialogContentItem">
     <mat-accordion displayMode="default" multi>
       <!-- Select mission type -->
-      <mat-expansion-panel #missionsType expanded="true" hideToggle>
+      <mat-expansion-panel #missionsType [expanded]="step === 0" (opened)="onClickMissionType(0)" hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
             Mission type
@@ -33,12 +33,14 @@
             </mat-radio-button>
           </mat-radio-group>
         </div>
-        <!--<mat-radio-button [value]="selectedMissionType" [checked]="true" class="example-radio-button">-->
-        <!--{{selectedMissionType}}-->
-        <!--</mat-radio-button>-->
+        <mat-action-row>
+          <button mat-raised-button [disabled]="missionModel?.missionType === undefined"
+                  (click)="nextStep(MISSION_FIELDS.missionType)">Next</button>
+        </mat-action-row>
       </mat-expansion-panel>
       <!-- Air resources -->
-      <mat-expansion-panel #airResources [disabled]="missionModel?.missionType === undefined"
+      <mat-expansion-panel #airResources [expanded]="step === 1" (opened)="setStep(1)"
+                           [disabled]="isDisabledFields.airResources"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
@@ -59,11 +61,15 @@
           </div>
           {{airVehicle.name}}
         </div>
+        <mat-action-row>
+          <button mat-raised-button [disabled]="selectedAirVehicles?.length <= 0"
+                  (click)="nextStep(MISSION_FIELDS.airResources)">Next</button>
+        </mat-action-row>
       </mat-expansion-panel>
-      <!-- Location -->
-      <mat-expansion-panel #location (opened)="onClickLocation(missionModel?.missionType)"
+      <!-- Location step2-->
+      <mat-expansion-panel #location [expanded]="step === 2" (opened)="onClickLocation(missionModel?.missionType)"
                            *ngIf="missionModel?.missionType !== MISSION_TYPE.CommRelay"
-                           [disabled]="selectedAirVehicles?.length <= 0"
+                           [disabled]="isDisabledFields.location"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
@@ -123,10 +129,15 @@
             <!--<app-task-assignee-table [element]="missionModel" [isFRs]="true" (updateAssignees)="onUpdateFRs($event)"></app-task-assignee-table>-->
           </div>
         </div>
+        <mat-action-row>
+          <button mat-raised-button [disabled]="checkIfSelectedLocation(missionModel?.missionType)"
+                  (click)="nextStep(MISSION_FIELDS.location)">Next</button>
+        </mat-action-row>
       </mat-expansion-panel>
-      <!--Communication Type-->
-      <mat-expansion-panel #commType *ngIf="missionModel?.missionType === MISSION_TYPE.CommRelay"
-                           [disabled]="selectedAirVehicles?.length <= 0"
+      <!--Communication Type step2-->
+      <mat-expansion-panel #commType [expanded]="step === 2" (opened)="setStep(2)"
+                           *ngIf="missionModel?.missionType === MISSION_TYPE.CommRelay"
+                           [disabled]="isDisabledFields.commType"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
@@ -141,15 +152,21 @@
           <mat-form-field appearance="outline" class="SPMatFormField">
             <mat-select [(ngModel)]="missionModel.communicationType">
               <mat-option *ngFor="let type of commRelayTypes" [value]="type">
-                {{type}}
+                {{COMM_RELAY_TYPE_TEXT[type]}}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
+        <mat-action-row>
+          <button mat-raised-button [disabled]="missionModel?.communicationType === undefined"
+                  (click)="nextStep(MISSION_FIELDS.commType)">Next</button>
+        </mat-action-row>
       </mat-expansion-panel>
       <!--Communication Argument -->
-      <mat-expansion-panel #commArg *ngIf="missionModel?.missionType === MISSION_TYPE.CommRelay"
-                           [disabled]="missionModel?.communicationType === undefined"
+      <mat-expansion-panel #commArg [expanded]="step === 3"
+                           (opened)="onClickCommunicationArg(missionModel?.communicationType)"
+                           *ngIf="missionModel?.missionType === MISSION_TYPE.CommRelay"
+                           [disabled]="isDisabledFields.commArg"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
@@ -158,7 +175,7 @@
           <mat-icon>{{commArg.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
         <!--Point-->
-        <div *ngIf="missionModel?.communicationType === COMM_RELAY_TYPE_TEXT.Fixed">
+        <div *ngIf="missionModel?.communicationType === COMM_RELAY_TYPE.Fixed">
           <small>Click on map to set an observation point</small>
           <div>
             <small>or</small>
@@ -195,21 +212,27 @@
           </div>
         </div>
         <!--Polygon-->
-        <div *ngIf="missionModel?.communicationType === COMM_RELAY_TYPE_TEXT.Area">
+        <div *ngIf="missionModel?.communicationType === COMM_RELAY_TYPE.Area">
           <small>Click minimum 3 points on the map to set a polygon</small>
         </div>
         <!--FR Table-->
-        <div *ngIf="missionModel?.communicationType === COMM_RELAY_TYPE_TEXT.Follow">
+        <div *ngIf="missionModel?.communicationType === COMM_RELAY_TYPE.Follow">
           <small>Choose FR to follow</small>
           <div class="">
             <app-task-assignee-table (updateAssignees)="onUpdateFRs($event)"
                                      [element]="missionModel"></app-task-assignee-table>
           </div>
         </div>
+        <mat-action-row>
+          <button mat-raised-button [disabled]="checkIfSelectedLocation(missionModel?.missionType)"
+                  (click)="nextStep(MISSION_FIELDS.commArg)">Next</button>
+        </mat-action-row>
       </mat-expansion-panel>
       <!-- Mission details -->
       <mat-expansion-panel #missionDetails
-                           [disabled]="getSelectedLocation(missionModel?.missionType)"
+                           [expanded]="(missionModel?.missionType === MISSION_TYPE.CommRelay) ? step === 4 : step === 3"
+                           (opened)="(missionModel?.missionType === MISSION_TYPE.CommRelay)? setStep(4) : setStep(3)"
+                           [disabled]="isDisabledFields.missionDetails"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
@@ -327,10 +350,16 @@
             </div>
           </div>
         </div>
+        <mat-action-row>
+          <button mat-raised-button [disabled]="checkIfSelectedMissionDetails(missionModel.missionType)"
+                  (click)="nextStep(MISSION_FIELDS.missionDetails)">Next</button>
+        </mat-action-row>
       </mat-expansion-panel>
       <!--Description-->
       <mat-expansion-panel #descriptions
-                           [disabled]="getSelectedLocation(missionModel?.missionType)"
+                           [expanded]="(missionModel?.missionType === MISSION_TYPE.CommRelay) ? step === 5 : step === 4"
+                           (opened)="(missionModel?.missionType === MISSION_TYPE.CommRelay)? setStep(5) : setStep(4)"
+                           [disabled]="isDisabledFields.description"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
@@ -348,10 +377,16 @@
             </label>
           </mat-form-field>
         </div>
+        <mat-action-row>
+          <button mat-raised-button
+                  (click)="nextStep(MISSION_FIELDS.description)">Next</button>
+        </mat-action-row>
       </mat-expansion-panel>
       <!--Comments-->
       <mat-expansion-panel #comment
-                           [disabled]="getSelectedLocation(missionModel?.missionType)"
+                           [expanded]="(missionModel?.missionType === MISSION_TYPE.CommRelay) ? step === 6 : step === 5"
+                           (opened)="(missionModel?.missionType === MISSION_TYPE.CommRelay)? setStep(6) : setStep(5)"
+                           [disabled]="isDisabledFields.comments"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
@@ -374,13 +409,14 @@
             mat-raised-button>Cancel
     </button>
     <button (click)="onCreateClick()"
-            [disabled]="getSelectedLocation(missionModel?.missionType)"
+            [disabled]="isDisabledFields.comments"
             class="DialogActionsCreate"
             mat-raised-button>
       {{data.title}}
     </button>
   </div>
 </div>
+
 
 
 

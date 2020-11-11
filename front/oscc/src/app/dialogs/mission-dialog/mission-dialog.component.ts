@@ -1,17 +1,19 @@
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {
-  AV_DATA_UI,
+  AV_DATA_UI, COMM_RELAY_TYPE,
   COMM_RELAY_TYPE_TEXT,
   COMMENT,
-  COMMUNICATION_TYPE, FR_DATA_UI,
+  COMMUNICATION_TYPE,
+  FR_DATA_UI,
   GEOPOINT3D_SHORT,
   MISSION_MODEL_UI,
   MISSION_TYPE,
   MISSION_TYPE_TEXT,
-  POINT3D, SCAN_SPEED
+  POINT3D,
+  SCAN_SPEED
 } from '../../../../../../classes/typings/all.typings';
 import {AirVehicleService} from '../../services/airVehicleService/airVehicle.service';
-import {STATE_DRAW} from '../../../types';
+import {MISSION_FIELDS, STATE_DRAW} from '../../../types';
 import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
 import {ApplicationService} from '../../services/applicationService/application.service';
 import {LocationService} from '../../services/locationService/location.service';
@@ -34,9 +36,22 @@ export class MissionDialogComponent implements OnInit {
   MISSION_TYPE = MISSION_TYPE;
   MISSION_TYPE_TEXT = MISSION_TYPE_TEXT;
   missionTypes = Object.values(MISSION_TYPE);
-  commRelayTypes = Object.values(COMM_RELAY_TYPE_TEXT);
+  commRelayTypes = Object.values(COMM_RELAY_TYPE);
   COMM_RELAY_TYPE_TEXT = COMM_RELAY_TYPE_TEXT;
+  COMM_RELAY_TYPE = COMM_RELAY_TYPE;
   scanSpeed = Object.values(SCAN_SPEED);
+  step = 0;
+  MISSION_FIELDS = MISSION_FIELDS;
+  isDisabledFields;
+  defaultDisabledFields = {
+    airResources: true,
+    location: true,
+    commType: true,
+    commArg: true,
+    missionDetails: true,
+    description: true,
+    comments: true
+  };
 
   //Model
   missionModel: MISSION_MODEL_UI;
@@ -74,7 +89,7 @@ export class MissionDialogComponent implements OnInit {
               public customToasterService: CustomToasterService,
               public dialogRef: MatDialogRef<MissionDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: { title: string }) {
-    this.initTaskModel();
+    this.initMissionModel();
 
     // add location to model
     this.locationService.locationPoint$.subscribe(latlon => {
@@ -95,20 +110,75 @@ export class MissionDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  private initTaskModel = () => {
-    if (this.applicationService.selectedTasks.length === 1) {
-      this.missionModel = _.cloneDeep(this.applicationService.selectedMissions[0]);
-    } else {
+  private initMissionModel = () => {
+    // if (this.applicationService.selectedTasks.length === 1) {
+    //   this.missionModel = _.cloneDeep(this.applicationService.selectedMissions[0]);
+    // } else {
       this.missionModel = _.cloneDeep(this.defaultMission);
-    }
+    // }
     this.selectedAirVehicles = [];
+    this.isDisabledFields = _.cloneDeep(this.defaultDisabledFields);
+  };
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep(missionField: MISSION_FIELDS) {
+    this.step++;
+    switch (missionField) {
+      case MISSION_FIELDS.missionType: {
+        this.isDisabledFields.airResources = false;
+        break;
+      }
+      case MISSION_FIELDS.airResources: {
+        if (this.missionModel.missionType === MISSION_TYPE.CommRelay) {
+          this.isDisabledFields.commType = false;
+        } else {
+          this.isDisabledFields.location = false;
+        }
+        break;
+      }
+      case MISSION_FIELDS.location: {
+          this.isDisabledFields.missionDetails = false;
+        this.applicationService.stateDraw = STATE_DRAW.notDraw;
+        this.mapGeneralService.changeCursor(false);
+        break;
+      }
+      case MISSION_FIELDS.commType: {
+        this.isDisabledFields.commArg = false;
+        break;
+      }
+      case MISSION_FIELDS.commArg: {
+        this.isDisabledFields.missionDetails = false;
+        this.applicationService.stateDraw = STATE_DRAW.notDraw;
+        this.mapGeneralService.changeCursor(false);
+        break;
+      }
+      case MISSION_FIELDS.missionDetails: {
+        this.isDisabledFields.description = false;
+        break;
+      }
+      case MISSION_FIELDS.description: {
+        this.isDisabledFields.comments = false;
+        break;
+      }
+      case MISSION_FIELDS.comments: {
+
+        break;
+      }
+    }
+  }
+
+  onClickMissionType = () => {
+    this.initMissionModel();
+    // this.accordion.closeAll();
+    this.clearMap();
+    this.setStep(0);
   };
 
   onChooseMission = (missionType: MISSION_TYPE) => {
-    this.initTaskModel();
     this.missionModel.missionType = missionType;
-    this.accordion.closeAll();
-    // this.missionsType.expanded = true;
   };
 
   onChangeComments = (comments: COMMENT[]) => {
@@ -143,7 +213,7 @@ export class MissionDialogComponent implements OnInit {
     return res;
   };
 
-  getSelectedLocation = (missionType: MISSION_TYPE): boolean => {
+  checkIfSelectedLocation = (missionType: MISSION_TYPE): boolean => {
     let res = false;
     switch (missionType) {
       case MISSION_TYPE.Observation: {
@@ -188,15 +258,15 @@ export class MissionDialogComponent implements OnInit {
         if (this.missionModel.communicationType === undefined) {
           res = true;
         }
-        if (this.missionModel.communicationType === COMMUNICATION_TYPE.fixedPoint &&
+        if (this.missionModel.communicationType === COMMUNICATION_TYPE.Fixed &&
           this.missionModel.location && this.missionModel.location.hasOwnProperty('lon') &&
           this.missionModel.location.hasOwnProperty('lat') &&
           this.missionModel.location.lon === undefined || this.missionModel.location.lat === undefined) {
           res = true;
-        } else if (this.missionModel.communicationType === COMMUNICATION_TYPE.polygonCoverage &&
+        } else if (this.missionModel.communicationType === COMMUNICATION_TYPE.Area &&
           this.missionModel.polygon.length === 0) {
           res = true;
-        } else if (this.missionModel.communicationType === COMMUNICATION_TYPE.frs) {
+        } else if (this.missionModel.communicationType === COMMUNICATION_TYPE.Follow) {
           //  TODO:
           res = true;
         }
@@ -210,7 +280,24 @@ export class MissionDialogComponent implements OnInit {
     return res;
   };
 
+  checkIfSelectedMissionDetails = (missionType: MISSION_TYPE): boolean => {
+    let res: boolean = false;
+    if (missionType === MISSION_TYPE.Scan) {
+      if (this.missionModel.missionDetails.scan.cameraFov === null ||
+        this.missionModel.missionDetails.scan.overlapPercent === null ||
+        this.missionModel.missionDetails.scan.speed === undefined) {
+        res = true;
+      }
+    } else {
+      if (this.missionModel.missionDetails.distance === null || this.missionModel.missionDetails.azimuth === null) {
+        res = true;
+      }
+    }
+    return res;
+  };
+
   onClickLocation = (missionType: MISSION_TYPE) => {
+    this.setStep(2);
     switch (missionType) {
       case MISSION_TYPE.Observation: {
         //POINT
@@ -268,6 +355,43 @@ export class MissionDialogComponent implements OnInit {
     }
   };
 
+  onClickCommunicationArg = (communicationType: COMMUNICATION_TYPE) => {
+    this.setStep(3);
+    switch (communicationType) {
+      case COMMUNICATION_TYPE.Fixed: {
+        //POINT
+        this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
+        this.locationService.deleteLocationPointTemp('0');
+        this.missionModel.polygon = [];
+        this.polygonService.deletePolygonManually('0');
+        // toaster
+        this.customToasterService.info({message: 'Click on map to set the comm mission location', title: 'location'});
+        //draw
+        this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
+        this.mapGeneralService.changeCursor(true);
+        break;
+      }
+      case COMMUNICATION_TYPE.Area: {
+        //Polygon
+        this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
+        this.locationService.deleteLocationPointTemp('0');
+        this.missionModel.polygon = [];
+        this.polygonService.deletePolygonManually('0');
+        // toaster
+        this.customToasterService.info(
+          {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
+        //draw
+        this.applicationService.stateDraw = STATE_DRAW.drawPolygon;
+        this.mapGeneralService.changeCursor(true);
+        break;
+      }
+      case COMMUNICATION_TYPE.Follow: {
+        //FR Table
+        break;
+      }
+    }
+  };
+
   locationChanged = (event) => {
     if (event.target.value !== '') {
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
@@ -310,11 +434,17 @@ export class MissionDialogComponent implements OnInit {
 
   clearModel = () => {
     this.missionModel = _.cloneDeep(this.defaultMission);
+    this.isDisabledFields = _.cloneDeep(this.defaultDisabledFields);
+    this.clearMap();
+  };
+
+  clearMap = () => {
     this.applicationService.stateDraw = STATE_DRAW.notDraw;
     this.mapGeneralService.changeCursor(false);
     this.locationService.deleteLocationPointTemp('0');
     this.polygonService.deletePolygonManually('0');
     this.polylineService.deletePolylineManually('0');
   };
+
 
 }

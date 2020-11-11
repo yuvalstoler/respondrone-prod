@@ -1,5 +1,10 @@
 @import '../../../../../styles/colors';
 @import '../../../../../styles/variable';
+@import '../../../../../styles/scrollbar';
+
+.AirResourcesContainer{
+  max-height: calc(50vh - #{$headerHeight} );
+}
 
 .gridAirResources {
   display: grid;

@@ -354,11 +354,10 @@ export type MISSION_MODEL_UI = {
 }
 
 export enum COMMUNICATION_TYPE {
-    polygonCoverage = 'Polygon Coverage',
-    frs = 'FRs',
-    fixedPoint = 'Fixed Point'
+    Area = 'Polygon Coverage',
+    Follow = 'FRs',
+    Fixed = 'Fixed Point'
 }
-
 export enum MISSION_TYPE {
     CommRelay = 'CommRelay',
     Patrol = 'Patrol',
