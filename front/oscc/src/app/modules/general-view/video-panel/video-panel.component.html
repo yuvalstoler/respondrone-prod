@@ -45,11 +45,11 @@
     </div>
   </div>
   <div class="LiveVideoContent">
-    <mat-icon class="arrows left"> keyboard_arrow_left </mat-icon>
-    <mat-icon class="arrows right"> keyboard_arrow_right </mat-icon>
-    <mat-icon class="arrows upLow" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"> keyboard_arrow_up </mat-icon>
-    <mat-icon class="arrows up" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"> keyboard_arrow_up </mat-icon>
-    <mat-icon class="arrows down"> keyboard_arrow_down </mat-icon>
+    <mat-icon class="arrows left" (click)="onClickLeft()"> keyboard_arrow_left </mat-icon>
+    <mat-icon class="arrows right" (click)="onClickRight()"> keyboard_arrow_right </mat-icon>
+    <mat-icon class="arrows upLow" (click)="onClickUp()" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"> keyboard_arrow_up </mat-icon>
+    <mat-icon class="arrows up" (click)="onClickUp()" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"> keyboard_arrow_up </mat-icon>
+    <mat-icon class="arrows down" (click)="onClickDown()"> keyboard_arrow_down </mat-icon>
     <mat-icon *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"
               class="expendVideo"
               (click)="onExpendVideo()">zoom_out_map</mat-icon>

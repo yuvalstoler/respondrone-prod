@@ -21,6 +21,33 @@
 <!--         *ngIf="applicationService.selectedReports.length > 0"-->
 <!--         class="RightSideButton pointer">Delete-->
 <!--    </div>-->
+
+    <mat-form-field appearance="outline" *ngIf="applicationService.selectedMissionRequests.length === 1">
+      <mat-label>Update status</mat-label>
+      <mat-select>
+        <mat-option value="Accept" (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.accept)">
+          <span class="material-icons" [ngStyle]="{'color': '#fff746', 'font-size': '12px'}">stop_circle</span>
+          Accept
+        </mat-option>
+        <mat-option value="Approve" (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.approve)">
+          <span class="material-icons" [ngStyle]="{'color': '#0c249c', 'font-size': '12px'}">stop_circle</span>
+          Approve
+        </mat-option>
+        <mat-option value="Reject" (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.reject)">
+          <span class="material-icons" [ngStyle]="{'color': '#ff0000', 'font-size': '12px'}">stop_circle</span>
+          Reject
+        </mat-option>
+        <mat-option value="Canceled" (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Cancel)">
+          <span class="material-icons" [ngStyle]="{'color': '#6f30a0', 'font-size': '12px'}">stop_circle</span>
+          Canceled
+        </mat-option>
+        <mat-option value="Completed" (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.complete)">
+          <span class="material-icons" [ngStyle]="{'color': '#92d150', 'font-size': '12px'}">stop_circle</span>
+          Completed
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <div (click)="onCreateNewMission()"
          class="RightSideButton pointer">Create New Mission
     </div>
@@ -28,6 +55,6 @@
   <div class="HeaderRightPanel" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.minimize"></div>
   <!--Table-->
   <div>
-<!--    <app-reports-situation-table></app-reports-situation-table>-->
+    <app-missions-table></app-missions-table>
   </div>
 </div>

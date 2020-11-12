@@ -3,7 +3,7 @@ import {
   AV_DATA_UI,
   EVENT_DATA_UI,
   FR_DATA_UI,
-  GEOGRAPHIC_INSTRUCTION,
+  GEOGRAPHIC_INSTRUCTION, GEOPOINT3D,
   POINT,
   REPORT_DATA_UI
 } from '../../../classes/typings/all.typings';
@@ -85,7 +85,20 @@ export enum VIEW_LIST {
   groundResourcesPanel = 'Ground Resources Panel'
 }
 
-export type DRAW_OBJECT = EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI | AV_DATA_UI;
+
+export type ICON_DATA = {
+  id: string,
+  description: string,
+  heading?: number,
+  modeDefine: {
+    styles: {
+      mapIcon: string,
+      iconSize: number
+    }
+  },
+  location: GEOPOINT3D
+}
+export type DRAW_OBJECT = ICON_DATA | EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI | AV_DATA_UI;
 export type DRAW_LABEL = {text: string, color: string};
 
 export enum SORT_GROUND_RESOURCES {

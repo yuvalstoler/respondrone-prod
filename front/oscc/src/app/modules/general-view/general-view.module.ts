@@ -57,6 +57,7 @@ import {GroundResourcesComponent} from './right-panel/ground-resources/ground-re
 import {AirResourcesComponent} from './right-panel/air-resources/air-resources.component';
 import {SortByPriorityPipe} from '../../pipes/sort-by-priority.pipe';
 import { VideoPanelComponent } from './video-panel/video-panel.component';
+import {MissionsTableComponent} from "./left-panel/missions-mission-control/missions-situation-table/missions-table.component";
 
 
 @NgModule({
@@ -86,7 +87,8 @@ import { VideoPanelComponent } from './video-panel/video-panel.component';
     GroundResourcesComponent,
     AirResourcesComponent,
     SortByPriorityPipe,
-    VideoPanelComponent
+    VideoPanelComponent,
+    MissionsTableComponent,
   ],
   imports: [
     CommonModule,
@@ -141,7 +143,8 @@ import { VideoPanelComponent } from './video-panel/video-panel.component';
     GroundResourcesComponent,
     AirResourcesComponent,
     SortByPriorityPipe,
-    VideoPanelComponent
+    VideoPanelComponent,
+    MissionsTableComponent,
   ],
   providers: [
     PolygonsEditorService,

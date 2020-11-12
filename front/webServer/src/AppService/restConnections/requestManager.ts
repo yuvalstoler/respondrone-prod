@@ -18,6 +18,8 @@ const url_ES = services.ES.protocol + '://' + services.ES.host + ':' + services.
 const url_RS = services.RS.protocol + '://' + services.RS.host + ':' + services.RS.port;
 const url_FS = services.FS.protocol + '://' + services.FS.host + ':' + services.FS.port;
 const url_TS = services.TS.protocol + '://' + services.TS.host + ':' + services.TS.port;
+const url_MS = services.MS.protocol + '://' + services.MS.host + ':' + services.MS.port;
+const url_GS = services.GS.protocol + '://' + services.GS.host + ':' + services.GS.port;
 
 const timeout_AV = projConf.timeOutREST;
 const timeout_File = 10 * 60 * 1000; // TODO ??
@@ -43,6 +45,14 @@ export class RequestManager {
 
     public static requestToTS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_TS, API_GENERAL.general + path, bodyObj, timeout_AV);
+    };
+
+    public static requestToMS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_MS, API_GENERAL.general + path, bodyObj, timeout_AV);
+    };
+
+    public static requestToGS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_GS, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
 
 

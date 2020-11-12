@@ -6,6 +6,7 @@ export class MDClass {
         green: '#92d150',
         magenta: '#e62ec4',
         lightBlue: '#59b1f1',
+        blue: '#0d26fa',
         purple: '#6f30a0',
         orange: '#f1bf10',
         red: '#c12524',

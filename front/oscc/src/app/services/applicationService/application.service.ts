@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import {DISPLAY_ON_SCREEN, HEADER_BUTTONS, LEFT_PANEL_ICON, STATE_DRAW, VIDEO_OR_MAP} from 'src/types';
-import {EVENT_DATA_UI, FILE_FS_DATA, REPORT_DATA_UI, TASK_DATA_UI} from '../../../../../../classes/typings/all.typings';
+import {
+  EVENT_DATA_UI,
+  FILE_FS_DATA, GEOPOINT3D_SHORT,
+  MISSION_REQUEST_DATA_UI, POINT3D,
+  REPORT_DATA_UI,
+  TASK_DATA_UI
+} from '../../../../../../classes/typings/all.typings';
 import {ConnectionService} from '../connectionService/connection.service';
 
 
@@ -16,7 +22,7 @@ export class ApplicationService {
   selectedEvents: EVENT_DATA_UI[] = [];
   selectedTasks: TASK_DATA_UI[] = [];
   // TODO : add type selectedMissions
-  selectedMissions: any = [];
+  selectedMissionRequests: MISSION_REQUEST_DATA_UI[] = [];
   selectedViewMedia: FILE_FS_DATA;
   panelIcon: LEFT_PANEL_ICON = LEFT_PANEL_ICON.expand;
   stateDraw: STATE_DRAW = STATE_DRAW.notDraw;
@@ -53,5 +59,13 @@ export class ApplicationService {
       showViewMedia: false,
       showVideo: false
     };
+  }
+
+  point3d_to_geoPoint3d_short_arr = (points: POINT3D[]): GEOPOINT3D_SHORT[] => {
+    const geopoints = points.map(point => this.point3d_to_geoPoint3d_short(point));
+    return geopoints;
+  }
+  point3d_to_geoPoint3d_short = (point: POINT3D): GEOPOINT3D_SHORT => {
+    return {lon: point[0], lat: point[1], alt: point[2]}
   }
 }

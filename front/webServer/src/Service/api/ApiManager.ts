@@ -11,10 +11,10 @@ import {
     Response
 } from 'express';
 import {
-    ASYNC_RESPONSE, EVENT_DATA,
+    ASYNC_RESPONSE, EVENT_DATA, MISSION_REQUEST_DATA,
     ID_OBJ, OSCC_TASK_ACTION,
     POINT,
-    REPORT_DATA, TASK_DATA,
+    REPORT_DATA, TASK_DATA, MISSION_DATA, MISSION_ROUTE_DATA, GIMBAL_ACTION, MISSION_REQUEST_ACTION_OBJ,
 } from '../../../../../classes/typings/all.typings';
 
 
@@ -28,6 +28,10 @@ import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 import {FileManager} from '../file/fileManager';
 import {EventManager} from '../event/eventManager';
 import {TaskManager} from '../task/taskManager';
+import {MissionRequestManager} from "../missionRequest/missionRequestManager";
+import {MissionManager} from "../mission/missionManager";
+import {MissionRouteManager} from "../missionRoute/missionRouteManager";
+import {GimbalManager} from "../gimbal/gimbalManager";
 
 
 export class ApiManager implements IRest {
@@ -427,7 +431,161 @@ export class ApiManager implements IRest {
 
     };
 
+    // ========================================================================
+    private createMissionRequest = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody: MISSION_REQUEST_DATA = request.body;
+        MissionRequestManager.createMissionRequest(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    }
 
+    private readAllMissionRequest = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<MISSION_REQUEST_DATA[]> = {success: false};
+        MissionRequestManager.readAllMissionRequest({})
+            .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
+    private readAllMission = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<MISSION_DATA[]> = {success: false};
+        MissionManager.readAllMission({})
+            .then((data: ASYNC_RESPONSE<MISSION_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
+    private readAllMissionRoute = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<MISSION_ROUTE_DATA[]> = {success: false};
+        MissionRouteManager.readAllMissionRoute({})
+            .then((data: ASYNC_RESPONSE<MISSION_ROUTE_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
+    private updateAllMissionRequests = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody: MISSION_REQUEST_DATA[] = request.body;
+        MissionRequestManager.updateAllMissionRequests(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
+    private updateAllMissions = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody: MISSION_DATA[] = request.body;
+        MissionManager.updateAllMissions(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
+
+    private updateAllMissionRoutes = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody: MISSION_ROUTE_DATA[] = request.body;
+        MissionRouteManager.updateAllMissionRoutes(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+    // ========================================================================
+    private missionRequestAction = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+
+        const requestBody: MISSION_REQUEST_ACTION_OBJ = request.body;
+        MissionRequestManager.missionRequestAction(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
+    private gimbalAction = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody: GIMBAL_ACTION = request.body;
+        GimbalManager.gimbalAction(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
+
+    // ========================================================================
     routers: {} = {
         [MWS_API.getVideoSources]: this.getVideoSources,
 
@@ -452,12 +610,23 @@ export class ApiManager implements IRest {
         [WS_API.deleteAllTask]: this.deleteAllTask,
         [WS_API.osccTaskAction]: this.osccTaskAction,
 
+        [WS_API.createMissionRequest]: this.createMissionRequest,
+        [WS_API.readAllMissionRequest]: this.readAllMissionRequest,
+        [WS_API.readAllMission]: this.readAllMission,
+        [WS_API.readAllMissionRoute]: this.readAllMissionRoute,
+
         [WS_API.uploadFile]: this.uploadFile,
         [WS_API.removeFile]: this.removeFile,
 
         [WS_API.updateAllReports]: this.updateAllReports,
         [WS_API.updateAllEvents]: this.updateAllEvents,
         [WS_API.updateAllTasks]: this.updateAllTasks,
+        [WS_API.updateAllMissionRequests]: this.updateAllMissionRequests,
+        [WS_API.updateAllMissions]: this.updateAllMissions,
+        [WS_API.updateAllMissionRoutes]: this.updateAllMissionRoutes,
+
+        [WS_API.missionRequestAction]: this.missionRequestAction,
+        [WS_API.gimbalAction]: this.gimbalAction,
 
     };
 

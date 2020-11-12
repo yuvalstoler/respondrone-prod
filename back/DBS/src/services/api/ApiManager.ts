@@ -8,11 +8,11 @@ import {
 } from 'express';
 
 import {
-    ASYNC_RESPONSE,
+    ASYNC_RESPONSE, COLLECTION_VERSIONS,
     EVENT_DATA,
     FILE_DB_DATA,
     ID_OBJ,
-    ID_TYPE,
+    ID_TYPE, MISSION_REQUEST_DATA,
     REPORT_DATA,
     TASK_DATA,
 } from '../../../../../classes/typings/all.typings';
@@ -438,6 +438,145 @@ export class ApiManager implements IRest {
     };
     // endregion ----------------------
 
+    // region missionRequest ----------------------
+    private createMissionRequest = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<MISSION_REQUEST_DATA> = {success: false};
+        const requestBody: MISSION_REQUEST_DATA = request.body;
+        if ( requestBody ) {
+            DbManager.createMissionRequest(requestBody)
+                .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing requestBody';
+            response.send(res);
+        }
+    };
+
+    private readMissionRequest = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<MISSION_REQUEST_DATA> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.readMissionRequest(requestBody)
+                .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private readAllMissionRequest = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<MISSION_REQUEST_DATA[]> = {success: false};
+        DbManager.readAllMissionRequest({})
+            .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
+    private deleteMissionRequest = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.deleteMissionRequest(requestBody)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private deleteAllMissionRequest = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody = request.body;
+        DbManager.deleteAllMissionRequest({})
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+    };
+    // endregion ----------------------
+
+    private saveRepCollectionVersions = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<COLLECTION_VERSIONS> = {success: false};
+        const requestBody: MISSION_REQUEST_DATA = request.body;
+        if ( requestBody ) {
+            DbManager.saveRepCollectionVersions(requestBody)
+                .then((data: ASYNC_RESPONSE<COLLECTION_VERSIONS>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE<COLLECTION_VERSIONS>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing requestBody';
+            response.send(res);
+        }
+    };
+
+    private getRepCollectionVersions = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<COLLECTION_VERSIONS> = {success: false};
+        const requestBody = request.body;
+        DbManager.getRepCollectionVersions(requestBody)
+            .then((data: ASYNC_RESPONSE<COLLECTION_VERSIONS>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE<COLLECTION_VERSIONS>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+    };
+
+
 
     routers: {} = {
 
@@ -464,6 +603,15 @@ export class ApiManager implements IRest {
         [DBS_API.readAllTask]: this.readAllTask,
         [DBS_API.deleteTask]: this.deleteTask,
         [DBS_API.deleteAllTask]: this.deleteAllTask,
+
+        [DBS_API.createMissionRequest]: this.createMissionRequest,
+        [DBS_API.readMissionRequest]: this.readMissionRequest,
+        [DBS_API.readAllMissionRequest]: this.readAllMissionRequest,
+        [DBS_API.deleteMissionRequest]: this.deleteMissionRequest,
+        [DBS_API.deleteAllMissionRequest]: this.deleteAllMissionRequest,
+
+        [DBS_API.saveRepCollectionVersions]: this.saveRepCollectionVersions,
+        [DBS_API.getRepCollectionVersions]: this.getRepCollectionVersions,
 
 
 

@@ -9,6 +9,8 @@ pm2 delete ES;
 pm2 delete FS;
 pm2 delete TS;
 pm2 delete FRS;
+pm2 delete MS;
+pm2 delete TMM;
 pm2 delete CCGW;
 pm2 delete DBS;
 pm2 delete videoStream;
@@ -51,6 +53,16 @@ cd $home/back/FRS;
 tsc;
 cd dist/back/FRS/src
 pm2 start index.js -n FRS
+
+cd $home/back/MS;
+tsc;
+cd dist/back/MS/src
+pm2 start index.js -n MS
+
+cd $home/back/TMM;
+tsc;
+cd dist/back/TMM/src
+pm2 start index.js -n TMM
 
 cd $home/front/webServer;
 tsc;

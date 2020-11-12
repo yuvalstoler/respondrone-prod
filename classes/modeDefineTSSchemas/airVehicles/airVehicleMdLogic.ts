@@ -3,7 +3,7 @@ import {
     PRIORITY,
     FR_DATA_MD,
     FR_DATA_UI,
-    TABLE_DATA_MD, FR_TYPE, EVENT_DATA_UI, AV_DATA_UI, AV_DATA_MD
+    TABLE_DATA_MD, FR_TYPE, EVENT_DATA_UI, AV_DATA_UI, AV_DATA_MD, OPERATIONAL_STATUS
 } from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
@@ -32,19 +32,21 @@ export class AirVehicleMdLogic implements IModeDefine {
     };
 
     private static getStatusColor = (data: AV_DATA_UI): string => {
-        let res: string = MDClass.colors.orange;
-        // if (data.type === FR_TYPE.fireFighter) {
-        //     res = MDClass.colors.orange;
-        // } else if (data.type === FR_TYPE.paramedic) {
-        //     res = MDClass.colors.green;
-        // } else if (data.type === FR_TYPE.police) {
-        //     res = MDClass.colors.lightBlue;
-        // }
+        let res: string = MDClass.colors.white;
+        if (data.operationalStatus === OPERATIONAL_STATUS.Ready) {
+            res = MDClass.colors.green;
+        } else if (data.operationalStatus === OPERATIONAL_STATUS.RH) {
+            res = MDClass.colors.yellow;
+        } else if (data.operationalStatus === OPERATIONAL_STATUS.OnMission) {
+            res = MDClass.colors.orange;
+        } else if (data.operationalStatus === OPERATIONAL_STATUS.NotActive) {
+            res = MDClass.colors.grey;
+        }
         return res;
     };
 
     private static getIconSize = (data: AV_DATA_UI): number => {
-        return 45;
+        return 60;
     };
 
 }

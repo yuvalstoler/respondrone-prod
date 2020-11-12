@@ -76,7 +76,7 @@ export class AirVehicleManager {
                         res[MISSION_TYPE.Scan] = true;
                         res[MISSION_TYPE.Servoing] = true;
                         break;
-                    case CAPABILITY.CommRely:
+                    case CAPABILITY.CommRelay:
                         res[MISSION_TYPE.CommRelay] = true;
                         break;
                     case CAPABILITY.Delivery:

@@ -70,3 +70,10 @@
 .title {
   font-weight: bold;
 }
+
+.colorDiv {
+  height: 4px;
+  grid-row: 6;
+  grid-column: 1 / span 3;
+  border-radius: 5px;
+}

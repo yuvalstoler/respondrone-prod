@@ -1,6 +1,7 @@
 import {AirVehicleService} from '../../../../services/airVehicleService/airVehicle.service';
 import {Component, Input, OnInit} from '@angular/core';
 import {MAP} from '../../../../../types';
+import {AV_DATA_UI} from "../../../../../../../../classes/typings/all.typings";
 
 @Component({
   selector: 'app-air-resources',
@@ -25,5 +26,9 @@ export class AirResourcesComponent implements OnInit {
   onCloseMenu = (id) => {
     this.isOpenMenu[id] = false;
   };
+
+  flyTo = (airVehicle: AV_DATA_UI) => {
+    this.airVehicleService.flyToObject(airVehicle)
+  }
 
 }

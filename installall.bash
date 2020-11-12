@@ -24,6 +24,12 @@ npm i;
 cd $home/back/FRS;
 npm i;
 
+cd $home/back/MS;
+npm i;
+
+cd $home/back/TMM;
+npm i;
+
 cd $home/front/webServer;
 npm i;
 

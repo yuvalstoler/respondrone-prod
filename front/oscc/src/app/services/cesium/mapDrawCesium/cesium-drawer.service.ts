@@ -256,7 +256,8 @@ export class CesiumDrawerService {
       billboard: {
         image: object.modeDefine.styles.mapIcon,
         width: size,
-        height: size
+        height: size,
+        rotation: Cesium.Math.toRadians(-(object['heading'] || 0))
       },
       label: undefined,
       options: {
@@ -298,7 +299,8 @@ export class CesiumDrawerService {
       billboard: {
         image: object.modeDefine.styles.mapIcon,
         width: size,
-        height: size
+        height: size,
+        rotation: Cesium.Math.toRadians(-(object['heading'] || 0))
       },
       label: undefined,
       options: {

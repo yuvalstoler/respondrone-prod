@@ -6,7 +6,6 @@
     "listeners": [
       "RS"
     ]
-
   },
   "VSS": {
     "port": "6101",
@@ -20,7 +19,6 @@
     "listeners": [
       "webServer"
     ]
-
   },
   "ES": {
     "port": "6300",
@@ -34,7 +32,6 @@
     "port": "6400",
     "host": "localhost",
     "protocol": "http",
-
     "listeners": [
       "webServer"
     ]
@@ -42,7 +39,10 @@
   "MS": {
     "port": "6500",
     "host": "localhost",
-    "protocol": "http"
+    "protocol": "http",
+    "listeners": [
+      "webServer"
+    ]
   },
   "DBS": {
     "port": "6600",
@@ -59,12 +59,18 @@
     "port": "6700",
     "host": "localhost",
     "protocol": "http",
-
     "listeners": [
       "webServer"
     ]
   },
-
+  "GS": {
+    "port": "6750",
+    "host": "localhost",
+    "protocol": "http",
+    "listeners": [
+      "webServer"
+    ]
+  },
   "MG": {
     "port": "9700",
     "host": "localhost",
@@ -86,24 +92,88 @@
     "expireIn": 86400,
     "name": "ResponDrone",
     "password": "simplex"
-
   },
-
-  
   "logServer": {
     "port": "6900",
     "host": "localhost",
     "protocol": "http"
-
   },
 
+
+
+  "FRTelemetryReceiverRep": {
+    "port": "4702",
+    "host": "localhost",
+    "protocol": "http"
+  },
   "DroneTelemetrySenderRep": {
     "port": "4704",
     "host": "localhost",
     "protocol": "http"
   },
-  "FRTelemetryReceiverRep": {
+  "GimbalTelemetrySenderRep": {
     "port": "4702",
+    "host": "localhost",
+    "protocol": "http"
+  },
+
+
+
+  "CommRelayMissionRep": {
+    "port": "4600",
+    "host": "192.168.1.71",
+    "protocol": "http"
+  },
+  "PatrolMissionRep": {
+    "port": "4601",
+    "host": "192.168.1.71",
+    "protocol": "http"
+  },
+  "GraphicOverlaysRep": {
+    "port": "4602",
+    "host": "192.168.1.71",
+    "protocol": "http"
+  },
+  "MissionRouteRep": {
+    "port": "4603",
+    "host": "192.168.1.71",
+    "protocol": "http"
+  },
+  "MissionRep": {
+    "port": "4604",
+    "host": "192.168.1.71",
+    "protocol": "http"
+  },
+  "NFZsRep": {
+    "port": "4605",
+    "host": "192.168.1.71",
+    "protocol": "http"
+  },
+  "ObservationMissionRep": {
+    "port": "4606",
+    "host": "192.168.1.71",
+    "protocol": "http"
+  },
+  "ScanMissionRep": {
+    "port": "4607",
+    "host": "192.168.1.71",
+    "protocol": "http"
+  },
+  "ServoingMissionRep": {
+    "port": "4608",
+    "host": "192.168.1.71",
+    "protocol": "http"
+  },
+  "DeliveryMissionRep": {
+    "port": "4609",
+    "host": "192.168.1.71",
+    "protocol": "http"
+  },
+
+
+
+  "TMM": {
+    "port": "3000",
     "host": "localhost",
     "protocol": "http"
   }

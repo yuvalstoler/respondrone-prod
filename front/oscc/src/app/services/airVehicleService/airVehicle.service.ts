@@ -52,14 +52,19 @@ export class AirVehicleService {
     }
   };
   // ----------------------
-  private updateData = (reportData: AV_DATA_UI[]): void => {
-    reportData.forEach((newAirVehicle: AV_DATA_UI) => {
+  private updateData = (newItem: AV_DATA_UI[]): void => {
+    newItem.forEach((newAirVehicle: AV_DATA_UI) => {
       const existingEvent: AV_DATA_UI = this.getAirVehicleById(newAirVehicle.id);
       if (existingEvent) {
         // existingEvent.setValues(newEvent);
         for (const fieldName in existingEvent) {
           if (existingEvent.hasOwnProperty(fieldName)) {
             existingEvent[fieldName] = newAirVehicle[fieldName];
+          }
+        }
+        for (const fieldName in newItem) {
+          if (newItem.hasOwnProperty(fieldName)) {
+            existingEvent[fieldName] = newItem[fieldName];
           }
         }
         this.updateAirVehicle(newAirVehicle);
@@ -93,8 +98,11 @@ export class AirVehicleService {
     // this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.icon, 30);
   };
 
-  public flyToObject = (coordinates: POINT | POINT3D) => {
-    this.mapGeneralService.flyToObject(coordinates);
+  public flyToObject = (object: AV_DATA_UI) => {
+    if (object.location) {
+      const coordinates: POINT3D = [object.location.longitude, object.location.latitude, object.location.altitude];
+      this.mapGeneralService.flyToObject(coordinates);
+    }
   };
 
 

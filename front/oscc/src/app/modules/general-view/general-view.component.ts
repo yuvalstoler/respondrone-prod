@@ -6,6 +6,9 @@ import {ListenerMapService} from '../../services/cesium/listenerMap/listener-map
 import {TasksService} from '../../services/tasksService/tasks.service';
 import {FRService} from '../../services/frService/fr.service';
 import {AirVehicleService} from '../../services/airVehicleService/airVehicle.service';
+import {MissionRequestService} from "../../services/missionRequestService/missionRequest.service";
+import {MissionService} from "../../services/missionService/mission.service";
+import {MissionRouteService} from "../../services/missionRouteService/missionRoute.service";
 
 @Component({
   selector: 'app-general-view',
@@ -22,6 +25,9 @@ export class GeneralViewComponent implements OnInit {
               public cesiumService: CesiumService,
               public tasksService: TasksService,
               public frs: FRService,
+              public missionRequestService: MissionRequestService,
+              public missionService: MissionService,
+              public missionRouteService: MissionRouteService,
               public airVehicleService: AirVehicleService,
               public listenerMapService: ListenerMapService) { }
 

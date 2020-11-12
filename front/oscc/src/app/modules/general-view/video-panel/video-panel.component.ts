@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ApplicationService} from '../../../services/applicationService/application.service';
 import {VIDEO_OR_MAP} from '../../../../types';
+import {GimbalService} from "../../../services/gimbalService/gimbal.service";
 
 @Component({
   selector: 'app-video-panel',
@@ -24,7 +25,8 @@ export class VideoPanelComponent implements OnInit {
   minSpeed: number = 0;
   maxSpeed: number = 20;
 
-  constructor(public applicationService: ApplicationService) { }
+  constructor(public applicationService: ApplicationService,
+              public gimbalService: GimbalService) { }
 
   ngOnInit(): void {
   }
@@ -45,6 +47,19 @@ export class VideoPanelComponent implements OnInit {
     }
 
   };
+
+  onClickLeft(){
+
+  }
+  onClickRight(){
+
+  }
+  onClickDown(){
+
+  }
+  onClickUp(){
+
+  }
 
 
 }

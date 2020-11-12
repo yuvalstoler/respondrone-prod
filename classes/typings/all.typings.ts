@@ -331,6 +331,25 @@ export type AV_DATA_MD = {
     }
 }
 
+
+export type GIMBAL_DATA_TELEMETRY = {
+    timestamp: TIMESTAMP,
+    gimbals: GIMBAL_DATA[]
+}
+export type GIMBAL_DATA = {
+    id: ID_TYPE;
+    droneId: ID_TYPE;
+    AIMode: number;
+    gimbalParameters: GIMBAL_PARAMS;
+    visibleCameraParameters: VISIBLE_CAMERA_PARAMS;
+    infraredCameraParameters: INFRARED_CAMERA_PARAMS;
+    trackedEntity: number;
+    cameraLookAtPoint: GEOPOINT3D_SHORT;
+    opticalVideoURL: string;
+    infraredVideoURL: string;
+}
+export type GIMBAL_DATA_UI = GIMBAL_DATA;
+
 export type MISSION_MODEL_UI = {
     missionType: MISSION_TYPE,
     airResources: ID_TYPE[],
@@ -379,6 +398,84 @@ export enum MISSION_TYPE_TEXT {
 }
 
 
+
+
+export type REP_ENTITY = {
+    id: ID_TYPE;
+    version: number;
+    lastAction: LAST_ACTION;
+}
+export type COMM_RELAY_MISSION_REQUEST_REP = REP_ENTITY & {
+    commRelayMissionRequest: COMM_RELAY_MISSION_REQUEST;
+}
+export type FOLLOW_PATH_MISSION_REQUEST_REP = REP_ENTITY & {
+    followPathMissionRequest: FOLLOW_PATH_MISSION_REQUEST;
+}
+export type OBSERVATION_MISSION_REQUEST_REP = REP_ENTITY & {
+    observationMissionRequest: OBSERVATION_MISSION_REQUEST;
+}
+export type SCAN_MISSION_REQUEST_REP = REP_ENTITY & {
+    scanMissionRequest: SCAN_MISSION_REQUEST;
+}
+export type SERVOING_MISSION_REQUEST_REP = REP_ENTITY & {
+    servoingMissionRequest: SERVOING_MISSION_REQUEST;
+}
+export type DELIVERY_MISSION_REQUEST_REP = REP_ENTITY & {
+    deliveryMissionRequest: DELIVERY_MISSION_REQUEST;
+}
+
+export type MISSION_REQUEST_DATA = REP_ENTITY & {
+    missionType: MISSION_TYPE,
+    description: string,
+    comments: COMMENT[],
+    createdBy: string,
+    time: number,
+    idView: string,
+    missionStatus: MISSION_STATUS_UI;
+
+    commRelayMissionRequest?: COMM_RELAY_MISSION_REQUEST;
+    followPathMissionRequest?: FOLLOW_PATH_MISSION_REQUEST;
+    observationMissionRequest?: OBSERVATION_MISSION_REQUEST;
+    scanMissionRequest?: SCAN_MISSION_REQUEST;
+    servoingMissionRequest?: SERVOING_MISSION_REQUEST;
+    deliveryMissionRequest?: DELIVERY_MISSION_REQUEST;
+}
+
+export type MISSION_REQUEST_ACTION_OBJ = {
+    missionRequestId: ID_TYPE,
+    action: MISSION_REQUEST_ACTION
+}
+export enum MISSION_REQUEST_ACTION {
+    Accept = 'Accept',
+    Approve = 'Approve',
+    Reject = 'Reject',
+    Cancel = 'Cancel',
+    Complete = 'Complete',
+}
+
+
+export type MISSION_REQUEST_DATA_UI = MISSION_REQUEST_DATA & {
+    modeDefine: MISSION_REQUEST_DATA_MD,
+    textUI?: {title: string, value: string}[]
+}
+
+export type MISSION_REQUEST_DATA_MD = {
+    styles: {
+        mapIcon: string,
+        textColor: string,
+        dotColor: string,
+        iconSize: number,
+    },
+    tableData: {
+        id: TABLE_DATA_MD,
+        missionType: TABLE_DATA_MD,
+        time: TABLE_DATA_MD,
+        message: TABLE_DATA_MD,
+        map: TABLE_DATA_MD
+    }
+}
+
+
 export type COMM_RELAY_MISSION_REQUEST = {
     droneId: ID_TYPE,
     commRelayType: COMM_RELAY_TYPE,
@@ -388,7 +485,7 @@ export type COMM_RELAY_MISSION_REQUEST = {
         { FRs: string[]},
     status: MISSION_STATUS
 }
-export type FOLLOW_PATH_REQUEST = {
+export type FOLLOW_PATH_MISSION_REQUEST = {
     droneId: ID_TYPE,
     polyline: { coordinates: GEOPOINT3D_SHORT[] },
     yawOrientation: YAW_ORIENTATION,
@@ -407,24 +504,104 @@ export type SCAN_MISSION_REQUEST = {
     polygon: { coordinates: GEOPOINT3D_SHORT[] },
     scanAngle: number,
     scanSpeed: SCAN_SPEED,
-    overlapPrecent: number,
+    overlapPercent: number,
     cameraFOV: number,
     status: MISSION_STATUS
 }
 export type SERVOING_MISSION_REQUEST = {
     droneId: ID_TYPE,
-    targetId: number
+    targetId: ID_TYPE,
+    targetType?: 'FR' | 'VideoTarget',
+    status: MISSION_STATUS
 }
-export type Delivery_MISSION_REQUEST = {
+export type DELIVERY_MISSION_REQUEST = {
     droneId: ID_TYPE,
+    status: MISSION_STATUS
 }
 
 
-export type MISSION_DATA_UI = {
-    id: ID_TYPE;
+export type MISSION_ROUTE_DATA_REP = {
+    collectionVersion: number,
+    missionRoutes: MISSION_ROUTE_DATA[]
+}
+export type MISSION_ROUTE_DATA = REP_ENTITY & {
+    requestId: ID_TYPE;
+    missionId: ID_TYPE;
+    missionType: MISSION_TYPE;
+    route: PointOfRoute[];
+    status: ROUTE_STATUS;
+}
+export type MISSION_ROUTE_DATA_UI = MISSION_ROUTE_DATA & {
+    modeDefine: MISSION_ROUTE_DATA_MD
+}
+export type PointOfRoute = {
+    point: GEOPOINT3D_SHORT,
+    velocity: number,
+    heading: number
+}
+export enum ROUTE_STATUS {
+    Active = 'Active',
+    NotActive = 'NotActive',
+}
+export type MISSION_ROUTE_DATA_MD = {
+    styles: {
+        isDotted: boolean,
+        color: string
+    }
 }
 
+export type MISSION_DATA_REP = {
+    collectionVersion: number,
+    missions: MISSION_DATA[]
+}
+export type MISSION_DATA = REP_ENTITY & {
+    requestId: ID_TYPE;
+    missionType: MISSION_TYPE;
+    missionMapOverlay: MISSION_MAP_OVERLAY;
+    status: MISSION_STATUS;
+    description: string;
+}
+export type MISSION_DATA_UI = MISSION_DATA & {
+    modeDefine: MISSION_DATA_MD;
+}
+export type MISSION_DATA_MD = {
+    styles: {
+        mapIcon: string;
+        polygonColor: string;
+        iconSize: number;
+    }
+}
 
+export type COLLECTION_VERSIONS = {
+    [MISSION_TYPE.CommRelay]: number,
+    [MISSION_TYPE.Patrol]: number,
+    [MISSION_TYPE.Observation]: number,
+    [MISSION_TYPE.Scan]: number,
+    [MISSION_TYPE.Servoing]: number,
+    [MISSION_TYPE.Delivery]: number,
+}
+
+export enum REP_ARR_KEY {
+    CommRelay = 'commRelayMissionRequests',
+    Patrol = 'scanMissionRequests',
+    Observation = 'observationMissionRequests',
+    Scan = 'followPathMissionRequests',
+    Servoing = 'servoingMissionRequests',
+    Delivery = 'deliveryMissionRequests',
+    Mission = 'missions',
+    MissionRoute = 'missionRoutes'
+}
+
+export type TMM_RESPONSE = {
+    success: boolean;
+    description: boolean,
+    entityId: ID_TYPE,
+}
+
+export type MISSION_MAP_OVERLAY = {
+    areas: {coordinates: GEOPOINT3D_SHORT[]}[];
+    point: GEOPOINT3D_SHORT;
+}
 
 export enum COMM_RELAY_TYPE {
     Fixed = 'Fixed',
@@ -440,6 +617,12 @@ export enum COMM_RELAY_TYPE_TEXT {
 export enum YAW_ORIENTATION {
     Body = 'Body',
     North = 'North'
+}
+
+export enum LAST_ACTION {
+    Insert = 'Insert',
+    Update = 'Update',
+    Delete = 'Delete',
 }
 
 
@@ -502,11 +685,43 @@ export enum CAPABILITY {
     Patrol = 'Patrol',
     Scan = 'Scan',
     Delivery = 'Delivery',
-    CommRely = 'CommRely',
+    CommRelay = 'CommRelay',
 }
 
 
 
+export type GIMBAL_PARAMS = {
+    pitch: number;
+    yaw: number;
+}
+
+export type VISIBLE_CAMERA_PARAMS = {
+    zoomVisibleCamera: number;
+}
+
+export type INFRARED_CAMERA_PARAMS = {
+    zoomInfraredCamera: number;
+    colorPaletteInfraredCamera: COLOR_PALETTE_INFRARED_CAMERA
+}
+
+export enum COLOR_PALETTE_INFRARED_CAMERA {
+    WhiteHot = 'WhiteHot',
+    BlackHot = 'BlackHot',
+    Rainbow = 'Rainbow',
+    RainHC = 'RainHC',
+    IronBow = 'IronBow',
+    Lava = 'Lava',
+    Arctic = 'Arctic',
+    GlowBow = 'GlowBow',
+    GradedFire = 'GradedFire',
+    Hottest = 'Hottest',
+}
+
+export type GIMBAL_ACTION = {
+    droneId: string,
+    requestorID: string,
+    parameters: GIMBAL_PARAMS | VISIBLE_CAMERA_PARAMS | INFRARED_CAMERA_PARAMS
+}
 
 export enum FR_STATUS {
     busy = 'Busy',
@@ -666,9 +881,11 @@ export enum SOCKET_IO_CLIENT_TYPES {
     CCG = 'CCG',
     FRS = 'FRS',
     MS = 'MS',
+    GS = 'GS',
 }
 
 export enum SOCKET_CLIENT_TYPES {
     DroneTelemetrySenderRep = 'DroneTelemetrySenderRep',
     FRTelemetryReceiverRep = 'FRTelemetryReceiverRep',
+    GimbalTelemetrySenderRep = 'GimbalTelemetrySenderRep',
 }

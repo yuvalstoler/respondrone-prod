@@ -8,6 +8,27 @@ export enum AMS_API {
 }
 
 export enum MS_API {
+    createMissionRequestFromMGW = '/createMissionRequestFromMGW',
+    createMissionRequest = '/createMissionRequest',
+    readAllMissionRequest = '/readAllMissionRequest',
+    readAllMission = '/readAllMission',
+    readAllMissionRoute = '/readAllMissionRoute',
+    missionRequestAction = '/missionRequestAction',
+}
+
+export enum GS_API {
+    gimbalAction = '/gimbalAction'
+}
+
+export enum TMM_API {
+    gimbalAction = 'gimbalAction',
+
+    commRelayMissionRequest = 'commRelayMissionRequest',
+    followPathMissionRequest = 'followPathMissionRequest',
+    observationMissionRequest = 'observationMissionRequest',
+    scanMissionRequest = 'scanMissionRequest',
+    servoingMissionRequest = 'servoingMissionRequest',
+    deliveryMissionRequest = 'servoingMissionRequest',
 }
 
 export enum DBS_API {
@@ -38,6 +59,15 @@ export enum DBS_API {
     readAllTask = '/readAllTask',
     deleteTask = '/deleteTask',
     deleteAllTask = '/deleteAllTask',
+
+    createMissionRequest = '/createMissionRequest',
+    readMissionRequest = '/readMissionRequest',
+    readAllMissionRequest = '/readAllMissionRequest',
+    deleteMissionRequest = '/deleteMissionRequest',
+    deleteAllMissionRequest = '/deleteAllMissionRequest',
+
+    saveRepCollectionVersions = '/saveRepCollectionVersions',
+    getRepCollectionVersions = '/getRepCollectionVersions',
 
 }
 
@@ -162,9 +192,21 @@ export enum WS_API {
     deleteAllTask = '/deleteAllTask',
     osccTaskAction = '/osccTaskAction',
 
+    createMissionRequest = '/createMissionRequest',
+    readAllMissionRequest = '/readAllMissionRequest',
+    readAllMission = '/readAllMission',
+    readAllMissionRoute = '/readAllMissionRoute',
+    missionRequestAction = '/missionRequestAction',
+
     updateAllReports = '/updateAllReports',
     updateAllEvents = '/updateAllEvents',
     updateAllTasks = '/updateAllTasks',
+    updateAllMissionRequests = '/updateAllMissionRequests',
+    updateAllMissions = '/updateAllMissions',
+    updateAllMissionRoutes = '/updateAllMissionRoutes',
+
+    gimbalAction = '/gimbalAction',
+
 }
 
 export enum CCGW_API {
@@ -200,4 +242,36 @@ export enum MG_API {
 export enum SOCKET_ROOM { // TODO change
     FRs_Tel_room ='FRS_Tel_room',
     AVs_Tel_room ='AVs_Tel_room',
+    Gimbals_Tel_room ='Gimbals_Tel_room',
+}
+
+export enum CommRelayMissionRep_API {
+    updateCommRelayMissionRequest = 'updateCommRelayMissionRequest',
+    getLastCommRelayMissionRequests = 'getLastCommRelayMissionRequests'
+}
+export enum PatrolMissionRep_API {
+    updateFollowPathMissionRequest = 'updateFollowPathMissionRequest',
+    getLastFollowPathMissionRequests = 'getLastFollowPathMissionRequests'
+}
+export enum ObservationMissionRep_API {
+    updateObservationMission = 'updateObservationMission',
+    getLastObservationMissionRequests = 'getLastObservationMissionRequests'
+}
+export enum ScanMissionRep_API {
+    updateScanMissionRequest = 'updateScanMissionRequest',
+    getLastScanMissionRequests = 'getLastScanMissionRequests'
+}
+export enum ServoingMissionRep_API {
+    updateServoingMissionRequest = 'updateServoingMissionRequest',
+    getLastServoingMissionRequests = 'getLastServoingMissionRequests'
+}
+export enum DeliveryMissionRep_API {
+    updateDeliveryMissionRequest = 'updateDeliveryMissionRequest',
+    getLastDeliveryMissionRequests = 'getLastDeliveryMissionRequests'
+}
+export enum MissionRep_API {
+    getLastMissions = 'getLastMissions'
+}
+export enum MissionRouteRep_API {
+    getLastMissionRoutes = 'getLastMissionRoutes'
 }
