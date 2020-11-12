@@ -80,11 +80,8 @@ export class LocationService {
         // close edit
         this.isMarker = false;
         this.downClick = false;
-        this.applicationService.stateDraw = STATE_DRAW.notDraw;
-        this.mapGeneralService.changeCursor(false);
-        // setTimeout(() => {
-        //   this.applicationService.stateDraw = STATE_DRAW.editLocationPoint;
-        // }, 500);
+        // this.applicationService.stateDraw = STATE_DRAW.notDraw;
+        // this.mapGeneralService.changeCursor(false);
       }
     }
   };

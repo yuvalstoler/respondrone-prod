@@ -65,18 +65,47 @@
   }
 }
 
+.ExpansionBody{
+  small{
+    display: block;
+  }
+
+}
+.DialogLink{
+  float: right;
+  border-bottom: 1px solid $black;
+  margin-right: 27px;
+  font-size: $fontSizeText;
+  color: $black;
+}
+
+// mat-angular =========================================================================================================
 .mat-expansion-panel-spacing {
   margin: 0px 0;
 }
 
+.mat-action-row {
+  border-bottom: solid 1px rgba(0, 0, 0, 0.14);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 3px 8px 5px 24px;
+  border-top-color: transparent;
+}
 
+.mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+  width: 3%;
+}
+.mat-expansion-panel-header-description {
+  flex-grow: 2;
+  font-size: 14px;
+  color: black;
+}
 
-
-
-
+// slider ============================================================================================================
 .viewingAngle {
   display: grid;
-  grid-template-columns: 8em 18em;
+  grid-template-columns: 8em auto;
   text-align: center;
 }
 
@@ -86,7 +115,7 @@
 
 .VNSlider {
   display: grid;
-  grid-template-columns: 1.5em auto auto auto 1.5em;
+  grid-template-columns: 1.5em 8em 13.1em 8em 1.5em;
   margin: auto;
 }
 

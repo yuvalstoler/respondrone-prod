@@ -12,7 +12,7 @@
   <div class="DialogContentItem">
     <mat-accordion displayMode="default" multi>
       <!-- Select mission type -->
-      <mat-expansion-panel #missionsType [expanded]="step === 0" (opened)="onClickMissionType(0)" hideToggle>
+      <mat-expansion-panel #missionsType (opened)="onClickMissionType(0)" [expanded]="step === 0" hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
             Mission type
@@ -34,13 +34,14 @@
           </mat-radio-group>
         </div>
         <mat-action-row>
-          <button mat-raised-button [disabled]="missionModel?.missionType === undefined"
-                  (click)="nextStep(MISSION_FIELDS.missionType)">Next</button>
+          <button (click)="nextStep(MISSION_FIELDS.missionType)" [disabled]="missionModel?.missionType === undefined"
+                  mat-raised-button>Next
+          </button>
         </mat-action-row>
       </mat-expansion-panel>
       <!-- Air resources -->
-      <mat-expansion-panel #airResources [expanded]="step === 1" (opened)="setStep(1)"
-                           [disabled]="isDisabledFields.airResources"
+      <mat-expansion-panel #airResources (opened)="setStep(1)" [disabled]="isDisabledFields.airResources"
+                           [expanded]="step === 1"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
@@ -62,65 +63,107 @@
           {{airVehicle.name}}
         </div>
         <mat-action-row>
-          <button mat-raised-button [disabled]="selectedAirVehicles?.length <= 0"
-                  (click)="nextStep(MISSION_FIELDS.airResources)">Next</button>
+          <button (click)="nextStep(MISSION_FIELDS.airResources)" [disabled]="selectedAirVehicles?.length <= 0"
+                  mat-raised-button>Next
+          </button>
         </mat-action-row>
       </mat-expansion-panel>
       <!-- Location step2-->
-      <mat-expansion-panel #location [expanded]="step === 2" (opened)="onClickLocation(missionModel?.missionType)"
+      <mat-expansion-panel #location (opened)="onClickLocation(missionModel?.missionType)"
                            *ngIf="missionModel?.missionType !== MISSION_TYPE.CommRelay"
                            [disabled]="isDisabledFields.location"
+                           [expanded]="step === 2"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
             Location
           </mat-panel-title>
+          <!--for all locations-->
+          <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&
+           missionModel?.polygon?.length > 0 || missionModel?.polyline?.length > 0">
+           Location exist on map.
+          </mat-panel-description>
+          <!--for point location-->
+          <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw && missionModel?.location?.lon !== undefined &&
+           missionModel?.location?.lat !== undefined">
+            long: {{missionModel?.location?.lon | number:'2.0-4'}}, Lat: {{missionModel?.location?.lat | number:'2.0-4'}}
+          </mat-panel-description>
           <mat-icon>{{location.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
         <!--Point-->
-        <div *ngIf="missionModel?.missionType === MISSION_TYPE.Observation">
-          <small>Click on map to set an observation point</small>
-          <div>
+        <div *ngIf="missionModel?.missionType === MISSION_TYPE.Observation" class="ExpansionBody">
+          <!--if point not exist-->
+          <div *ngIf="applicationService.stateDraw !== STATE_DRAW.notDraw ||
+         ( missionModel?.location?.lon === undefined && missionModel?.location?.lat === undefined)">
+            <small >Click on map to set an observation point</small>
             <small>or</small>
+            <div class="DialogGrid22">
+              <!--Lat-->
+              <mat-form-field appearance="outline" class="">
+                <label>
+                  <input (change)="locationChanged($event, 'latitude')"
+                         (click)="$event.stopPropagation()"
+                         (keyup)="locationChanged($event, 'latitude')"
+                         [(ngModel)]="missionModel.location.lat"
+                         class="Label"
+                         matInput
+                         min="0"
+                         placeholder="Lat"
+                         type="number">
+                </label>
+              </mat-form-field>
+              <!--Long-->
+              <mat-form-field appearance="outline" class="">
+                <label>
+                  <input (change)="locationChanged($event, 'longitude')"
+                         (click)="$event.stopPropagation()"
+                         (keyup)="locationChanged($event, 'longitude')"
+                         [(ngModel)]="missionModel.location.lon"
+                         class="Label"
+                         matInput
+                         min="0"
+                         placeholder="Long"
+                         type="number">
+                </label>
+              </mat-form-field>
+            </div>
           </div>
-          <div class="DialogGrid22">
-            <!--Lat-->
-            <mat-form-field appearance="outline" class="">
-              <label>
-                <input (change)="locationChanged($event, 'latitude')"
-                       (click)="$event.stopPropagation()"
-                       (keyup)="locationChanged($event, 'latitude')"
-                       [(ngModel)]="missionModel.location.lat"
-                       class="Label"
-                       matInput
-                       min="0"
-                       placeholder="Lat"
-                       type="number">
-              </label>
-            </mat-form-field>
-            <!--Long-->
-            <mat-form-field appearance="outline" class="">
-              <label>
-                <input (change)="locationChanged($event, 'longitude')"
-                       (click)="$event.stopPropagation()"
-                       (keyup)="locationChanged($event, 'longitude')"
-                       [(ngModel)]="missionModel.location.lon"
-                       class="Label"
-                       matInput
-                       min="0"
-                       placeholder="Long"
-                       type="number">
-              </label>
-            </mat-form-field>
+          <!--if point exist-->
+          <div *ngIf="applicationService.stateDraw === STATE_DRAW.notDraw &&
+           (missionModel?.location?.lon !== undefined && missionModel?.location?.lat !== undefined)">
+            <span>Point exist on map</span>
+            <span (click)="onEdit(MISSION_TYPE.Observation)"
+                  class="DialogLink pointer">Change point
+            </span>
+            <small>Click on the "Change point"
+              button will delete the existing point in order to create a new one.</small>
           </div>
         </div>
         <!--Polyline-->
-        <div *ngIf="missionModel?.missionType === MISSION_TYPE.Patrol">
-          <small>Click minimum 3 points on the map to set a path</small>
+        <div *ngIf="missionModel?.missionType === MISSION_TYPE.Patrol" class="ExpansionBody">
+          <div>
+            <small *ngIf="missionModel?.polyline?.length <= 0">Click minimum 3 points on the map to set a path</small>
+
+            <span *ngIf="missionModel?.polyline?.length > 0">Exist on the map</span>
+            <span *ngIf="missionModel?.polyline?.length > 0" (click)="onEdit(MISSION_TYPE.Patrol)"
+                  class="DialogLink pointer">Change polyline
+            </span>
+            <small *ngIf="missionModel?.polyline?.length > 0">Click on the "Change polyline"
+              button will delete the existing polygon in order to create  a new one.</small>
+          </div>
         </div>
         <!--Polygon-->
-        <div *ngIf="missionModel?.missionType === MISSION_TYPE.Scan">
-          <small>Click minimum 3 points on the map to set a polygon</small>
+        <div *ngIf="missionModel?.missionType === MISSION_TYPE.Scan" class="ExpansionBody">
+          <div>
+            <small *ngIf="missionModel?.polygon?.length <= 0">Click minimum 3 points on the map to set a polygon</small>
+
+            <span *ngIf="missionModel?.polygon?.length > 0">Exist on the map</span>
+            <span *ngIf="missionModel?.polygon?.length > 0" (click)="onEdit(MISSION_TYPE.Scan)"
+                  class="DialogLink pointer">Change polygon
+            </span>
+            <small *ngIf="missionModel?.polygon?.length > 0">Click on the "Change polygon"
+              button will delete the existing polygon in order to create a new one.</small>
+          </div>
         </div>
         <!--FR Table-->
         <div *ngIf="missionModel?.missionType === MISSION_TYPE.Servoing">
@@ -130,14 +173,16 @@
           </div>
         </div>
         <mat-action-row>
-          <button mat-raised-button [disabled]="checkIfSelectedLocation(missionModel?.missionType)"
-                  (click)="nextStep(MISSION_FIELDS.location)">Next</button>
+          <button (click)="nextStep(MISSION_FIELDS.location)"
+                  [disabled]="checkIfSelectedLocation(missionModel?.missionType)"
+                  mat-raised-button>Next
+          </button>
         </mat-action-row>
       </mat-expansion-panel>
       <!--Communication Type step2-->
-      <mat-expansion-panel #commType [expanded]="step === 2" (opened)="setStep(2)"
-                           *ngIf="missionModel?.missionType === MISSION_TYPE.CommRelay"
+      <mat-expansion-panel #commType (opened)="setStep(2)" *ngIf="missionModel?.missionType === MISSION_TYPE.CommRelay"
                            [disabled]="isDisabledFields.commType"
+                           [expanded]="step === 2"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
@@ -155,65 +200,98 @@
                 {{COMM_RELAY_TYPE_TEXT[type]}}
               </mat-option>
             </mat-select>
+
           </mat-form-field>
         </div>
         <mat-action-row>
-          <button mat-raised-button [disabled]="missionModel?.communicationType === undefined"
-                  (click)="nextStep(MISSION_FIELDS.commType)">Next</button>
+          <button (click)="nextStep(MISSION_FIELDS.commType)" [disabled]="missionModel?.communicationType === undefined"
+                  mat-raised-button>Next
+          </button>
         </mat-action-row>
       </mat-expansion-panel>
       <!--Communication Argument -->
-      <mat-expansion-panel #commArg [expanded]="step === 3"
-                           (opened)="onClickCommunicationArg(missionModel?.communicationType)"
+      <mat-expansion-panel #commArg (opened)="onClickCommunicationArg(missionModel?.communicationType)"
                            *ngIf="missionModel?.missionType === MISSION_TYPE.CommRelay"
                            [disabled]="isDisabledFields.commArg"
+                           [expanded]="step === 3"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
             Communication Argument
           </mat-panel-title>
+          <!--for all locations-->
+          <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw && missionModel?.polygon?.length > 0">
+            Communication Argument exist on map.
+          </mat-panel-description>
+          <!--for point location-->
+          <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw && missionModel?.location?.lon !== undefined &&
+           missionModel?.location?.lat !== undefined">
+            long: {{missionModel?.location?.lon | number:'2.0-4'}}, Lat: {{missionModel?.location?.lat | number:'2.0-4'}}
+          </mat-panel-description>
+
           <mat-icon>{{commArg.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
         <!--Point-->
-        <div *ngIf="missionModel?.communicationType === COMM_RELAY_TYPE.Fixed">
-          <small>Click on map to set an observation point</small>
-          <div>
+        <div *ngIf="missionModel?.communicationType === COMM_RELAY_TYPE.Fixed" class="ExpansionBody">
+          <!--if point not exist-->
+          <div *ngIf="applicationService.stateDraw !== STATE_DRAW.notDraw ||
+         ( missionModel?.location?.lon === undefined && missionModel?.location?.lat === undefined)">
+            <small >Click on map to set an communication point</small>
             <small>or</small>
+            <div class="DialogGrid22">
+              <!--Lat-->
+              <mat-form-field appearance="outline" class="">
+                <label>
+                  <input (change)="locationChanged($event, 'latitude')"
+                         (click)="$event.stopPropagation()"
+                         (keyup)="locationChanged($event, 'latitude')"
+                         [(ngModel)]="missionModel.location.lat"
+                         class="Label"
+                         matInput
+                         min="0"
+                         placeholder="Lat"
+                         type="number">
+                </label>
+              </mat-form-field>
+              <!--Long-->
+              <mat-form-field appearance="outline" class="">
+                <label>
+                  <input (change)="locationChanged($event, 'longitude')"
+                         (click)="$event.stopPropagation()"
+                         (keyup)="locationChanged($event, 'longitude')"
+                         [(ngModel)]="missionModel.location.lon"
+                         class="Label"
+                         matInput
+                         min="0"
+                         placeholder="Long"
+                         type="number">
+                </label>
+              </mat-form-field>
+            </div>
           </div>
-          <div class="DialogGrid22">
-            <!--Lat-->
-            <mat-form-field appearance="outline" class="">
-              <label>
-                <input (change)="locationChanged($event, 'latitude')"
-                       (click)="$event.stopPropagation()"
-                       (keyup)="locationChanged($event, 'latitude')"
-                       [(ngModel)]="missionModel.location.lat"
-                       class="Label"
-                       matInput
-                       min="0"
-                       placeholder="Lat"
-                       type="number">
-              </label>
-            </mat-form-field>
-            <!--Long-->
-            <mat-form-field appearance="outline" class="">
-              <label>
-                <input (change)="locationChanged($event, 'longitude')"
-                       (click)="$event.stopPropagation()"
-                       (keyup)="locationChanged($event, 'longitude')"
-                       [(ngModel)]="missionModel.location.lon"
-                       class="Label"
-                       matInput
-                       min="0"
-                       placeholder="Long"
-                       type="number">
-              </label>
-            </mat-form-field>
+          <!--if point exist-->
+          <div *ngIf="applicationService.stateDraw === STATE_DRAW.notDraw &&
+           (missionModel?.location?.lon !== undefined && missionModel?.location?.lat !== undefined)">
+            <span>Point exist on map</span>
+            <span (click)="onEdit(MISSION_TYPE.Observation)"
+                  class="DialogLink pointer">Change point
+            </span>
+            <small>Click on the "Change point"
+              button will delete the existing point in order to create a new one.</small>
           </div>
         </div>
         <!--Polygon-->
-        <div *ngIf="missionModel?.communicationType === COMM_RELAY_TYPE.Area">
-          <small>Click minimum 3 points on the map to set a polygon</small>
+        <div *ngIf="missionModel?.communicationType === COMM_RELAY_TYPE.Area" class="ExpansionBody">
+          <div>
+          <small *ngIf="missionModel?.polygon?.length <= 0">Click minimum 3 points on the map to set a polygon</small>
+
+          <span *ngIf="missionModel?.polygon?.length > 0">Exist on the map</span>
+          <span *ngIf="missionModel?.polygon?.length > 0" (click)="onEdit(MISSION_TYPE.CommRelay, COMM_RELAY_TYPE.Area)"
+                class="DialogLink pointer">Change polygon
+            </span>
+          <small *ngIf="missionModel?.polygon?.length > 0">Click on the "Change polygon"
+            button will delete the existing polygon in order to create a new one.</small>
+          </div>
         </div>
         <!--FR Table-->
         <div *ngIf="missionModel?.communicationType === COMM_RELAY_TYPE.Follow">
@@ -224,20 +302,29 @@
           </div>
         </div>
         <mat-action-row>
-          <button mat-raised-button [disabled]="checkIfSelectedLocation(missionModel?.missionType)"
-                  (click)="nextStep(MISSION_FIELDS.commArg)">Next</button>
+          <button (click)="nextStep(MISSION_FIELDS.commArg)"
+                  [disabled]="checkIfSelectedCommArgs(missionModel?.missionType)"
+                  mat-raised-button>Next
+          </button>
         </mat-action-row>
       </mat-expansion-panel>
       <!-- Mission details -->
       <mat-expansion-panel #missionDetails
-                           [expanded]="(missionModel?.missionType === MISSION_TYPE.CommRelay) ? step === 4 : step === 3"
                            (opened)="(missionModel?.missionType === MISSION_TYPE.CommRelay)? setStep(4) : setStep(3)"
                            [disabled]="isDisabledFields.missionDetails"
+                           [expanded]="(missionModel?.missionType === MISSION_TYPE.CommRelay) ? step === 4 : step === 3"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
             Mission details
           </mat-panel-title>
+          <mat-panel-description class="">
+            <span *ngIf="missionModel?.missionDetails?.azimuth">Azimuth: {{missionModel?.missionDetails?.azimuth}}, &nbsp;</span>
+            <span *ngIf="missionModel?.missionDetails?.distance">Distance: {{missionModel?.missionDetails?.distance}}</span>
+            <span *ngIf="missionModel?.missionDetails?.scan?.speed">Speed: {{missionModel?.missionDetails?.scan?.speed}}, &nbsp;</span>
+            <span *ngIf="missionModel?.missionDetails?.scan?.overlapPercent">Overlap: {{missionModel?.missionDetails?.scan?.overlapPercent}}, &nbsp;</span>
+            <span *ngIf="missionModel?.missionDetails?.scan?.cameraFov">Camera FOV: {{missionModel?.missionDetails?.scan?.cameraFov}}</span>
+          </mat-panel-description>
           <mat-icon>{{missionDetails.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
         <div>
@@ -276,7 +363,7 @@
           </div>
           <!--Details-->
           <div *ngIf="missionModel?.missionType !== MISSION_TYPE.Scan" class="DetailsContainer">
-          <small>Define distance of flying from the Observation point</small>
+            <small>Define distance of flying from the Observation point</small>
             <div class="Grid3">
               <div class="item2">
                 <mat-form-field appearance="outline" class="">
@@ -308,7 +395,8 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-              <mat-error *ngIf="missionModel.missionDetails.scan.speed === undefined">Scan speed field is mandatory</mat-error>
+              <mat-error *ngIf="missionModel.missionDetails.scan.speed === undefined">Scan speed field is mandatory
+              </mat-error>
               <small>Overlap percent</small>
               <div class="Grid3">
                 <div class="item2">
@@ -317,17 +405,19 @@
                       <input (click)="$event.stopPropagation()"
                              [(ngModel)]="missionModel.missionDetails.scan.overlapPercent"
                              class="Label"
-                             required
                              matInput
                              min="0"
                              placeholder="10"
+                             required
                              type="number">
                     </label>
                   </mat-form-field>
                 </div>
                 <div class="item3">%</div>
               </div>
-              <mat-error *ngIf="missionModel.missionDetails.scan.overlapPercent === null">Scan overlap percent field is mandatory</mat-error>
+              <mat-error *ngIf="missionModel.missionDetails.scan.overlapPercent === null">Scan overlap percent field is
+                mandatory
+              </mat-error>
               <small>Camera FOV</small>
               <div class="Grid3">
                 <div class="item2">
@@ -336,30 +426,34 @@
                       <input (click)="$event.stopPropagation()"
                              [(ngModel)]="missionModel.missionDetails.scan.cameraFov"
                              class="Label"
-                             required
                              matInput
                              min="0"
                              placeholder="20"
+                             required
                              type="number">
                     </label>
                   </mat-form-field>
                 </div>
                 <div class="item3">%</div>
               </div>
-              <mat-error *ngIf="missionModel.missionDetails.scan.cameraFov === null">Scan camera FOV field is mandatory</mat-error>
+              <mat-error *ngIf="missionModel.missionDetails.scan.cameraFov === null">Scan camera FOV field is
+                mandatory
+              </mat-error>
             </div>
           </div>
         </div>
         <mat-action-row>
-          <button mat-raised-button [disabled]="checkIfSelectedMissionDetails(missionModel.missionType)"
-                  (click)="nextStep(MISSION_FIELDS.missionDetails)">Next</button>
+          <button (click)="nextStep(MISSION_FIELDS.missionDetails)"
+                  [disabled]="checkIfSelectedMissionDetails(missionModel.missionType)"
+                  mat-raised-button>Next
+          </button>
         </mat-action-row>
       </mat-expansion-panel>
       <!--Description-->
       <mat-expansion-panel #descriptions
-                           [expanded]="(missionModel?.missionType === MISSION_TYPE.CommRelay) ? step === 5 : step === 4"
                            (opened)="(missionModel?.missionType === MISSION_TYPE.CommRelay)? setStep(5) : setStep(4)"
                            [disabled]="isDisabledFields.description"
+                           [expanded]="(missionModel?.missionType === MISSION_TYPE.CommRelay) ? step === 5 : step === 4"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
@@ -378,15 +472,16 @@
           </mat-form-field>
         </div>
         <mat-action-row>
-          <button mat-raised-button
-                  (click)="nextStep(MISSION_FIELDS.description)">Next</button>
+          <button (click)="nextStep(MISSION_FIELDS.description)"
+                  mat-raised-button>Next
+          </button>
         </mat-action-row>
       </mat-expansion-panel>
       <!--Comments-->
       <mat-expansion-panel #comment
-                           [expanded]="(missionModel?.missionType === MISSION_TYPE.CommRelay) ? step === 6 : step === 5"
                            (opened)="(missionModel?.missionType === MISSION_TYPE.CommRelay)? setStep(6) : setStep(5)"
                            [disabled]="isDisabledFields.comments"
+                           [expanded]="(missionModel?.missionType === MISSION_TYPE.CommRelay) ? step === 6 : step === 5"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
@@ -396,9 +491,9 @@
         </mat-expansion-panel-header>
         <div>
           <app-comments-panel (changeComments)="onChangeComments($event)"
-                              [isShowTitle]="false"
                               [comments]="missionModel?.comments"
-                              [isOpenDescription]="true"></app-comments-panel>
+                              [isOpenDescription]="true"
+                              [isShowTitle]="false"></app-comments-panel>
         </div>
       </mat-expansion-panel>
     </mat-accordion>

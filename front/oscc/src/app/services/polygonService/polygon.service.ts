@@ -59,7 +59,8 @@ export class PolygonService {
       this.drawPolygon(points, idTemp, this.isCross);
       if (event.type === 'doubleClick'/* && points.length >= 4*/) {
         this.polygon$.next(points);
-        // this.applicationService.stateDraw = STATE_DRAW.notDraw;
+        this.applicationService.stateDraw = STATE_DRAW.notDraw;
+        this.mapGeneralService.changeCursor(false);
         // if (this.isCross) {
         //   // this.openDialog(points, this.isCross);
         // } else {

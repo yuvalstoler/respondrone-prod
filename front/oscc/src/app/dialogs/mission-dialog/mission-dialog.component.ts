@@ -51,6 +51,7 @@ export class MissionDialogComponent implements OnInit {
     description: true,
     comments: true
   };
+  STATE_DRAW = STATE_DRAW;
 
   //Model
   missionModel: MISSION_MODEL_UI;
@@ -142,6 +143,7 @@ export class MissionDialogComponent implements OnInit {
           this.isDisabledFields.missionDetails = false;
         this.applicationService.stateDraw = STATE_DRAW.notDraw;
         this.mapGeneralService.changeCursor(false);
+        // todo:
         break;
       }
       case MISSION_FIELDS.commType: {
@@ -152,6 +154,7 @@ export class MissionDialogComponent implements OnInit {
         this.isDisabledFields.missionDetails = false;
         this.applicationService.stateDraw = STATE_DRAW.notDraw;
         this.mapGeneralService.changeCursor(false);
+        //todo:
         break;
       }
       case MISSION_FIELDS.missionDetails: {
@@ -219,7 +222,7 @@ export class MissionDialogComponent implements OnInit {
         //POINT
         if (this.missionModel.location && this.missionModel.location.hasOwnProperty('lon') &&
           this.missionModel.location.hasOwnProperty('lat') &&
-          this.missionModel.location.lon === undefined || this.missionModel.location.lat === undefined) {
+          (this.missionModel.location.lon === undefined || this.missionModel.location.lat === undefined)) {
           res = true;
         }
         break;
@@ -252,6 +255,17 @@ export class MissionDialogComponent implements OnInit {
         // }
         break;
       }
+      case undefined : {
+        res = true;
+        break;
+      }
+    }
+    return res;
+  };
+
+  checkIfSelectedCommArgs = (missionType: MISSION_TYPE): boolean => {
+    let res = false;
+    switch (missionType) {
       case MISSION_TYPE.CommRelay: {
         //Comm
         if (this.missionModel.communicationType === undefined) {
@@ -260,7 +274,7 @@ export class MissionDialogComponent implements OnInit {
         if (this.missionModel.communicationType === COMM_RELAY_TYPE.Fixed &&
           this.missionModel.location && this.missionModel.location.hasOwnProperty('lon') &&
           this.missionModel.location.hasOwnProperty('lat') &&
-          this.missionModel.location.lon === undefined || this.missionModel.location.lat === undefined) {
+          (this.missionModel.location.lon === undefined || this.missionModel.location.lat === undefined)) {
           res = true;
         } else if (this.missionModel.communicationType === COMM_RELAY_TYPE.Area &&
           this.missionModel.polygon.length === 0) {
@@ -300,6 +314,9 @@ export class MissionDialogComponent implements OnInit {
     switch (missionType) {
       case MISSION_TYPE.Observation: {
         //POINT
+        if (this.missionModel.location && this.missionModel.location.hasOwnProperty('lon') &&
+          this.missionModel.location.hasOwnProperty('lat') &&
+          (this.missionModel.location.lon === undefined || this.missionModel.location.lat === undefined)) {
         this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
         this.locationService.deleteLocationPointTemp('0');
         this.missionModel.polygon = [];
@@ -311,40 +328,45 @@ export class MissionDialogComponent implements OnInit {
         //draw
         this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
         this.mapGeneralService.changeCursor(true);
-
+        }
         break;
       }
       case MISSION_TYPE.Patrol: {
-        //Polyline
-        this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
-        this.locationService.deleteLocationPointTemp('0');
-        this.missionModel.polygon = [];
-        this.polygonService.deletePolygonManually('0');
-        this.missionModel.polyline = [];
-        this.polylineService.deletePolylineManually('0');
-        // toaster
-        this.customToasterService.info(
-          {message: 'Click minimum 2 points to set a polyline. Click double click to finish', title: 'polyline'});
-        //draw
-        this.applicationService.stateDraw = STATE_DRAW.drawPolyline;
-        this.mapGeneralService.changeCursor(true);
-
+        if (this.missionModel.polyline.length <= 0) {
+          //Polyline
+          this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
+          this.locationService.deleteLocationPointTemp('0');
+          this.missionModel.polygon = [];
+          this.polygonService.deletePolygonManually('0');
+          this.missionModel.polyline = [];
+          this.polylineService.deletePolylineManually('0');
+          // toaster
+          this.customToasterService.info(
+            {message: 'Click minimum 2 points to set a polyline. Click double click to finish', title: 'polyline'});
+          //draw
+          this.applicationService.stateDraw = STATE_DRAW.drawPolyline;
+          this.mapGeneralService.changeCursor(true);
+        }
         break;
-      }
+    }
       case MISSION_TYPE.Scan: {
-        //Polygon
-        this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
-        this.locationService.deleteLocationPointTemp('0');
-        this.missionModel.polygon = [];
-        this.polygonService.deletePolygonManually('0');
-        this.missionModel.polyline = [];
-        this.polylineService.deletePolylineManually('0');
-        // toaster
-        this.customToasterService.info(
-          {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
-        //draw
-        this.applicationService.stateDraw = STATE_DRAW.drawPolygon;
-        this.mapGeneralService.changeCursor(true);
+        if (this.missionModel.polygon.length <= 0) {
+          //Polygon
+          this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
+          this.locationService.deleteLocationPointTemp('0');
+          this.missionModel.polygon = [];
+          this.polygonService.deletePolygonManually('0');
+          this.missionModel.polyline = [];
+          this.polylineService.deletePolylineManually('0');
+          // toaster
+          this.customToasterService.info(
+            {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
+          //draw
+          this.applicationService.stateDraw = STATE_DRAW.drawPolygon;
+          this.mapGeneralService.changeCursor(true);
+        } else {
+        //   todo edit
+        }
         break;
       }
       case MISSION_TYPE.Servoing: {
@@ -354,34 +376,135 @@ export class MissionDialogComponent implements OnInit {
     }
   };
 
+  onEdit = (missionType: MISSION_TYPE, communicationType?: COMM_RELAY_TYPE) => {
+    switch (missionType) {
+      case MISSION_TYPE.Observation: {
+        if (this.missionModel.location && this.missionModel.location.hasOwnProperty('lon') &&
+          this.missionModel.location.hasOwnProperty('lat') &&
+          (this.missionModel.location.lon !== undefined || this.missionModel.location.lat !== undefined)) {
+          //POINT
+          this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
+          this.locationService.deleteLocationPointTemp('0');
+          // toaster
+          this.customToasterService.info({message: 'Click on map to set the event\'s location', title: 'location'});
+          //draw
+          this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
+          this.mapGeneralService.changeCursor(true);
+        }
+        break;
+      }
+      case MISSION_TYPE.Patrol: {
+        if (this.missionModel.polyline.length > 0) {
+          //Polyline
+          this.missionModel.polyline = [];
+          this.polylineService.deletePolylineManually('0');
+          // toaster
+          this.customToasterService.info(
+            {message: 'Click minimum 2 points to set a polyline. Click double click to finish', title: 'polyline'});
+          //draw
+          this.applicationService.stateDraw = STATE_DRAW.drawPolyline;
+          this.mapGeneralService.changeCursor(true);
+        }
+        break;
+    }
+      case MISSION_TYPE.Scan: {
+        if (this.missionModel.polygon.length > 0) {
+          //Polygon
+          this.missionModel.polygon = [];
+          this.polygonService.deletePolygonManually('0');
+          // toaster
+          this.customToasterService.info(
+            {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
+          //draw
+          this.applicationService.stateDraw = STATE_DRAW.drawPolygon;
+          this.mapGeneralService.changeCursor(true);
+        }
+        break;
+      }
+      case MISSION_TYPE.Servoing: {
+        //FR Table
+        break;
+      }
+      case MISSION_TYPE.CommRelay: {
+        switch (communicationType) {
+          case COMM_RELAY_TYPE.Fixed: {
+            if (this.missionModel.location && this.missionModel.location.hasOwnProperty('lon') &&
+              this.missionModel.location.hasOwnProperty('lat') &&
+              (this.missionModel.location.lon !== undefined || this.missionModel.location.lat !== undefined)) {
+              //POINT
+              this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
+              this.locationService.deleteLocationPointTemp('0');
+              this.missionModel.polygon = [];
+              this.polygonService.deletePolygonManually('0');
+              // toaster
+              this.customToasterService.info({
+                message: 'Click on map to set the comm mission location',
+                title: 'location'
+              });
+              //draw
+              this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
+              this.mapGeneralService.changeCursor(true);
+            }
+            break;
+          }
+          case COMM_RELAY_TYPE.Area: {
+            if (this.missionModel.polygon.length > 0) {
+              //Polygon
+              this.missionModel.polygon = [];
+              this.polygonService.deletePolygonManually('0');
+              // toaster
+              this.customToasterService.info(
+                {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
+              //draw
+              this.applicationService.stateDraw = STATE_DRAW.drawPolygon;
+              this.mapGeneralService.changeCursor(true);
+            }
+            break;
+          }
+          case COMM_RELAY_TYPE.Follow: {
+            //FR Table
+            break;
+          }
+        }
+        break;
+      }
+    }
+  };
+
   onClickCommunicationArg = (communicationType: COMM_RELAY_TYPE) => {
     this.setStep(3);
     switch (communicationType) {
       case COMM_RELAY_TYPE.Fixed: {
-        //POINT
-        this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
-        this.locationService.deleteLocationPointTemp('0');
-        this.missionModel.polygon = [];
-        this.polygonService.deletePolygonManually('0');
-        // toaster
-        this.customToasterService.info({message: 'Click on map to set the comm mission location', title: 'location'});
-        //draw
-        this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
-        this.mapGeneralService.changeCursor(true);
+        if (this.missionModel.location && this.missionModel.location.hasOwnProperty('lon') &&
+          this.missionModel.location.hasOwnProperty('lat') &&
+          (this.missionModel.location.lon === undefined || this.missionModel.location.lat === undefined)) {
+          //POINT
+          this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
+          this.locationService.deleteLocationPointTemp('0');
+          this.missionModel.polygon = [];
+          this.polygonService.deletePolygonManually('0');
+          // toaster
+          this.customToasterService.info({message: 'Click on map to set the comm mission location', title: 'location'});
+          //draw
+          this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
+          this.mapGeneralService.changeCursor(true);
+        }
         break;
       }
       case COMM_RELAY_TYPE.Area: {
-        //Polygon
-        this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
-        this.locationService.deleteLocationPointTemp('0');
-        this.missionModel.polygon = [];
-        this.polygonService.deletePolygonManually('0');
-        // toaster
-        this.customToasterService.info(
-          {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
-        //draw
-        this.applicationService.stateDraw = STATE_DRAW.drawPolygon;
-        this.mapGeneralService.changeCursor(true);
+        if (this.missionModel.polygon.length <= 0) {
+          //Polygon
+          this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
+          this.locationService.deleteLocationPointTemp('0');
+          this.missionModel.polygon = [];
+          this.polygonService.deletePolygonManually('0');
+          // toaster
+          this.customToasterService.info(
+            {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
+          //draw
+          this.applicationService.stateDraw = STATE_DRAW.drawPolygon;
+          this.mapGeneralService.changeCursor(true);
+        }
         break;
       }
       case COMM_RELAY_TYPE.Follow: {
