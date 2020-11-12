@@ -339,7 +339,7 @@ export type MISSION_MODEL_UI = {
     polyline: POINT3D[],
     frs: FR_DATA_UI[],
     frIds: ID_TYPE[],
-    communicationType: COMMUNICATION_TYPE,
+    communicationType: COMM_RELAY_TYPE,
     missionDetails: {
         azimuth: number,
         distance: number,
@@ -353,11 +353,6 @@ export type MISSION_MODEL_UI = {
     comments: COMMENT[]
 }
 
-export enum COMMUNICATION_TYPE {
-    Area = 'Polygon Coverage',
-    Follow = 'FRs',
-    Fixed = 'Fixed Point'
-}
 export enum MISSION_TYPE {
     CommRelay = 'CommRelay',
     Patrol = 'Patrol',

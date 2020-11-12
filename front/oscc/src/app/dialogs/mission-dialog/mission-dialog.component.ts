@@ -3,7 +3,6 @@ import {
   AV_DATA_UI, COMM_RELAY_TYPE,
   COMM_RELAY_TYPE_TEXT,
   COMMENT,
-  COMMUNICATION_TYPE,
   FR_DATA_UI,
   GEOPOINT3D_SHORT,
   MISSION_MODEL_UI,
@@ -170,7 +169,7 @@ export class MissionDialogComponent implements OnInit {
     }
   }
 
-  onClickMissionType = () => {
+  onClickMissionType = (step: number) => {
     this.initMissionModel();
     // this.accordion.closeAll();
     this.clearMap();
@@ -258,15 +257,15 @@ export class MissionDialogComponent implements OnInit {
         if (this.missionModel.communicationType === undefined) {
           res = true;
         }
-        if (this.missionModel.communicationType === COMMUNICATION_TYPE.Fixed &&
+        if (this.missionModel.communicationType === COMM_RELAY_TYPE.Fixed &&
           this.missionModel.location && this.missionModel.location.hasOwnProperty('lon') &&
           this.missionModel.location.hasOwnProperty('lat') &&
           this.missionModel.location.lon === undefined || this.missionModel.location.lat === undefined) {
           res = true;
-        } else if (this.missionModel.communicationType === COMMUNICATION_TYPE.Area &&
+        } else if (this.missionModel.communicationType === COMM_RELAY_TYPE.Area &&
           this.missionModel.polygon.length === 0) {
           res = true;
-        } else if (this.missionModel.communicationType === COMMUNICATION_TYPE.Follow) {
+        } else if (this.missionModel.communicationType === COMM_RELAY_TYPE.Follow) {
           //  TODO:
           res = true;
         }
@@ -355,10 +354,10 @@ export class MissionDialogComponent implements OnInit {
     }
   };
 
-  onClickCommunicationArg = (communicationType: COMMUNICATION_TYPE) => {
+  onClickCommunicationArg = (communicationType: COMM_RELAY_TYPE) => {
     this.setStep(3);
     switch (communicationType) {
-      case COMMUNICATION_TYPE.Fixed: {
+      case COMM_RELAY_TYPE.Fixed: {
         //POINT
         this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
         this.locationService.deleteLocationPointTemp('0');
@@ -371,7 +370,7 @@ export class MissionDialogComponent implements OnInit {
         this.mapGeneralService.changeCursor(true);
         break;
       }
-      case COMMUNICATION_TYPE.Area: {
+      case COMM_RELAY_TYPE.Area: {
         //Polygon
         this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
         this.locationService.deleteLocationPointTemp('0');
@@ -385,7 +384,7 @@ export class MissionDialogComponent implements OnInit {
         this.mapGeneralService.changeCursor(true);
         break;
       }
-      case COMMUNICATION_TYPE.Follow: {
+      case COMM_RELAY_TYPE.Follow: {
         //FR Table
         break;
       }
