@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/ymarkin/git/respondrone-master/;
+cd /home/ymarkin/git/respondrone/;
 git fetch --all;
 git reset --hard origin/master;
 cd dockerBuildScript/;
