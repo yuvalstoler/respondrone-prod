@@ -1,9 +1,10 @@
 #!/bin/bash
-cd /home/drones/respondrone-master/;
+cd /home/ymarkin/git/respondrone-master/;
 git fetch --all;
 git reset --hard origin/master;
 cd dockerBuildScript/;
 node index.js ip=10.111.185.4;
 cd ../../RD;
 docker-compose down;
+rm -rf data
 docker-compose up -d --build
