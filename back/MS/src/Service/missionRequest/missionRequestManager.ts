@@ -124,12 +124,12 @@ export class MissionRequestManager {
                                     const promiseArr = []
                                     repData[REP_ARR_KEY[missionType]].forEach((missionData: MISSION_REQUEST_DATA) => {
                                         if (missionData.lastAction === LAST_ACTION.Insert) {
-                                            let missionRequest: MissionRequest = this.missionRequests.find(element => element.id === data.data.id);
+                                            let missionRequest: MissionRequest = this.missionRequests.find(element => element.id === missionData.id);
                                             if ( missionRequest ) {
                                                 missionRequest.setValues(data.data);
                                             }
                                             else {
-                                                missionRequest = this.newMissionRequestClass(missionData);
+                                                missionRequest = this.newMissionRequestClass(missionType, missionData);
                                                 this.missionRequests.push(missionRequest)
                                             }
 
@@ -192,7 +192,7 @@ export class MissionRequestManager {
                                         }
                                     })
                                     Promise.all(promiseArr)
-                                        .then(() => {
+                                        .then((data) => {
                                             RepositoryManager.updateCollectionVersion(missionType, repData.collectionVersion);
                                             UpdateListenersManager.updateMissionRequestListeners();
                                         })
@@ -242,7 +242,7 @@ export class MissionRequestManager {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
 
-            const newMissionRequest: MissionRequest = this.newMissionRequestClass(missionRequestData);
+            const newMissionRequest: MissionRequest = this.newMissionRequestClass(missionRequestData.missionType, missionRequestData);
             this.sendToTMM(newMissionRequest)
                 .then((data: ASYNC_RESPONSE<TMM_RESPONSE>) => {
                     const TMMResponse: TMM_RESPONSE = data.data;
@@ -262,7 +262,7 @@ export class MissionRequestManager {
                                     //     missionRequest.setValues(data.data);
                                     // }
                                     // else {
-                                        const missionRequest = this.newMissionRequestClass(data.data);
+                                        const missionRequest = this.newMissionRequestClass(missionRequestData.missionType, data.data);
                                         if (missionRequest) {
                                             this.missionRequests.push(missionRequest);
                                         }
@@ -315,9 +315,9 @@ export class MissionRequestManager {
             }
         }
     }
-    private newMissionRequestClass = (data: MISSION_REQUEST_DATA): MissionRequest => {
+    private newMissionRequestClass = (type: MISSION_TYPE, data: MISSION_REQUEST_DATA): MissionRequest => {
         let newMissionRequest: MissionRequest;
-        switch (data.missionType) {
+        switch (type) {
             case MISSION_TYPE.CommRelay:
                 newMissionRequest = new CommRelayMissionRequest(data);
                 break;

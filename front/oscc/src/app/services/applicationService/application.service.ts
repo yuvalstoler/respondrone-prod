@@ -66,6 +66,6 @@ export class ApplicationService {
     return geopoints;
   }
   point3d_to_geoPoint3d_short = (point: POINT3D): GEOPOINT3D_SHORT => {
-    return {lon: point[0], lat: point[1], alt: point[2]}
+    return {lon: point[0], lat: point[1], alt: point[2] || 0}
   }
 }

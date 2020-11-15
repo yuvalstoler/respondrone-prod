@@ -107,7 +107,7 @@ export class MissionsMissionControlComponent implements OnInit {
       status: MISSION_STATUS.Pending,
       scanSpeed: missionModel.missionDetails.scan.speed,
       scanAngle: missionModel.missionDetails.azimuth,
-      polygon: {coordinates: []},                                          // TODO
+      polygon: {coordinates: this.applicationService.point3d_to_geoPoint3d_short_arr(missionModel.polygon)},
       overlapPercent: missionModel.missionDetails.scan.overlapPercent,
       cameraFOV: missionModel.missionDetails.scan.cameraFov,
     };
@@ -155,8 +155,8 @@ export class MissionsMissionControlComponent implements OnInit {
     const commRelayMissionRequest: COMM_RELAY_MISSION_REQUEST = {
       droneId: missionModel.airResources[0],
       status: MISSION_STATUS.Pending,
-      commRelayType: COMM_RELAY_TYPE.Fixed,                                          // TODO
-      missionData: {point: missionModel.location},                                   // TODO
+      commRelayType: missionModel.communicationType,
+      missionData: {point: missionModel.location},
     };
     const missionRequest: MISSION_REQUEST_DATA = {
       id: undefined,

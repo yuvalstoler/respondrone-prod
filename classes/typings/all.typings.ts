@@ -583,9 +583,9 @@ export type COLLECTION_VERSIONS = {
 
 export enum REP_ARR_KEY {
     CommRelay = 'commRelayMissionRequests',
-    Patrol = 'scanMissionRequests',
+    Patrol = 'followPathMissionRequests',
     Observation = 'observationMissionRequests',
-    Scan = 'followPathMissionRequests',
+    Scan = 'scanMissionRequests',
     Servoing = 'servoingMissionRequests',
     Delivery = 'deliveryMissionRequests',
     Mission = 'missions',
