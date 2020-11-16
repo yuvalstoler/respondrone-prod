@@ -213,11 +213,12 @@ export enum CCGW_API {
     createReportFromMGW = '/createReportFromMGW',
     getFileById = '/getFileById',
     updateFileStatus = '/updateFileStatus',
+    createTask = '/createTask',
+    setAllTasks = '/setAllTasks',
 
     getTasks = '/getTasks',
     getTaskById = '/getTaskById',
     userTaskAction = '/userTaskAction',
-    createTask = '/createTask',
 
 }
 
@@ -233,7 +234,8 @@ export enum MG_API {
     getFileById = '/getFileById',
     updateFileStatus = '/updateFileStatus',
 
-    createTask_in_OSCC = '/createTask_in_OSCC',
+    setTaskById = '/setTaskById',
+    setAllTasks = '/setAllTasks',
 
 }
 

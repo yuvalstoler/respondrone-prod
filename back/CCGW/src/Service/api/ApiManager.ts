@@ -141,6 +141,17 @@ export class ApiManager implements IRest {
             });
     };
 
+    private setAllTasks = (request: Request, response: Response) => {
+        const requestBody: TASK_DATA[] = request.body;
+        InternalApiManager.setAllTasks(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(data);
+            });
+    };
+
     private userTaskAction = (request: Request, response: Response) => {
         const requestBody: USER_TASK_ACTION = request.body;
         ExternalApiManager.userTaskAction(requestBody)
@@ -167,6 +178,7 @@ export class ApiManager implements IRest {
         [CCGW_API.getFileById]: this.getFileById,
         [CCGW_API.updateFileStatus]: this.updateFileStatus,
         [CCGW_API.createTask]: this.createTask,
+        [CCGW_API.setAllTasks]: this.setAllTasks,
     };
 
     // region API uncions

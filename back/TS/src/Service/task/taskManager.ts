@@ -41,7 +41,7 @@ export class TaskManager {
             .then((data: ASYNC_RESPONSE<TASK_DATA[]>) => {
                 //    todo send to listeners
                 UpdateListenersManager.updateTaskListeners();
-                this.sendTasksToMobile();
+                this.sendAllTasksToMobile();
             })
             .catch((data: ASYNC_RESPONSE<TASK_DATA[]>) => {
                 setTimeout(() => {
@@ -137,12 +137,20 @@ export class TaskManager {
         });
     }
 
-    private sendTasksToMobile = () => {
+    private sendAllTasksToMobile = () => {
+        const tasksData: TASK_DATA[] = []
         this.tasks.forEach((task: Task) => {
-            if (!task.isSendToMobile) {
-                this.sendTaskToMobile(task)
-            }
-        })
+            tasksData.push(task.toJsonForSave());
+        });
+        RequestManager.requestToCCG(CCGW_API.setAllTasks, tasksData)
+            .then((data: ASYNC_RESPONSE) => {
+                if (!data.success) {
+                   console.log('setAllTasks failed')
+                }
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                console.log('setAllTasks failed')
+            })
     }
 
     private sendTaskToMobile = (task: Task) => {
@@ -214,7 +222,7 @@ export class TaskManager {
     // }
 
     private getTaskStatus = (taskData: TASK_DATA, lastAction: TASK_ACTION): TASK_STATUS => {
-        let res: TASK_STATUS;
+        let res: TASK_STATUS = taskData.status;
         if (taskData.status === TASK_STATUS.pending || taskData.status === TASK_STATUS.inProgress) {
             if (lastAction === TASK_ACTION.accept) {
                 res = TASK_STATUS.inProgress;
@@ -350,7 +358,7 @@ export class TaskManager {
                             this.tasks.splice(index, 1);
                         }
                         UpdateListenersManager.updateTaskListeners();
-
+                        this.sendAllTasksToMobile()
                         resolve(res);
                     }
                     else {

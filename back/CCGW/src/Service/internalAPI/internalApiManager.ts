@@ -33,7 +33,11 @@ export class InternalApiManager {
     }
 
     private createTask = (task: TASK_DATA): Promise<ASYNC_RESPONSE<FILE_DB_DATA>> => {
-        return RequestManager.requestToMG(MG_API.createTask_in_OSCC, task);
+        return RequestManager.requestToMG(MG_API.setTaskById, task);
+    }
+
+    private setAllTasks = (tasks: TASK_DATA[]): Promise<ASYNC_RESPONSE<FILE_DB_DATA>> => {
+        return RequestManager.requestToMG(MG_API.setAllTasks, tasks);
     }
 
     private constructor() {
@@ -47,6 +51,7 @@ export class InternalApiManager {
     public static fileById = InternalApiManager.instance.fileById;
     public static updateFileStatus = InternalApiManager.instance.updateFileStatus;
     public static createTask = InternalApiManager.instance.createTask;
+    public static setAllTasks = InternalApiManager.instance.setAllTasks;
 
     // endregion API uncions
 

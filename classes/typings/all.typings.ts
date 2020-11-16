@@ -807,7 +807,7 @@ export type GEOGRAPHIC_INSTRUCTION = {
 
 export enum TASK_STATUS {
     pending = 'Pending',
-    inProgress = 'In Progress',
+    inProgress = 'InProgress',
     rejected = 'Rejected',
     completed = 'Completed',
     cancelled = 'Cancelled'
