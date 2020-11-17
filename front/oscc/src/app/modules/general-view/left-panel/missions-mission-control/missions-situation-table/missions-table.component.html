@@ -75,9 +75,9 @@
         <div
           [@detailExpand]="applicationService.panelIcon === LEFT_PANEL_ICON.expand && expandedElement[element.id] && element.id === expandedElement[element.id].id ? 'expanded' : 'collapsed'"
           [style.height]="applicationService.panelIcon === LEFT_PANEL_ICON.expand && expandedElement[element.id] && element.id === expandedElement[element.id].id ? 'unset' : '0 !important'"
-          class="example-element-detail-report">
-          <!--Description & Comments-->
-          <div class="example-element-description">
+          class="example-element-detail-mission">
+          <!--Description-->
+          <div class="example-element-mission-description">
             <mat-accordion>
               <mat-expansion-panel
                 [expanded]="panelOpenState[element.id]"
@@ -91,18 +91,19 @@
                 <div class="description-content scroll">{{element.description}}</div>
               </mat-expansion-panel>
             </mat-accordion>
-            <!--Comments array-->
-            <div class="example-element-comments">
-              <app-comments-panel [comments]="element.comments"
-                                  (changeComments)="onChangeComments($event, element)"
-                                  [isOpenDescription]="panelOpenState[element.id]">
-              </app-comments-panel>
-            </div>
           </div>
-          <div class="example-element-assignees">
-           <div *ngFor="let textUIObj of element.textUI">
-             <span class="bold">{{textUIObj.title}}:</span><span>{{textUIObj.value}}</span>
+          <!--Mission info-->
+          <div class="example-element-mission-info">
+           <div *ngFor="let textUIObj of element.textUI" class="textUI">
+             <span class="bold">{{textUIObj.title}}</span>:<span>{{textUIObj.value}}</span>
            </div>
+          </div>
+          <!--Comments array-->
+          <div class="example-element-mission-comments">
+            <app-comments-panel [comments]="element.comments"
+                                (changeComments)="onChangeComments($event, element)"
+                                [isOpenDescription]="panelOpenState[element.id]">
+            </app-comments-panel>
           </div>
         </div>
       </td>

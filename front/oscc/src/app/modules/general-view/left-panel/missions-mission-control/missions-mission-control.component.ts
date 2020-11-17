@@ -1,7 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {
   COMM_RELAY_MISSION_REQUEST,
-  COMM_RELAY_TYPE, DELIVERY_MISSION_REQUEST,
+  COMM_RELAY_TYPE,
+  DELIVERY_MISSION_REQUEST,
   FOLLOW_PATH_MISSION_REQUEST,
   LAST_ACTION,
   MISSION_MODEL_UI,
@@ -156,8 +157,18 @@ export class MissionsMissionControlComponent implements OnInit {
       droneId: missionModel.airResources[0],
       status: MISSION_STATUS.Pending,
       commRelayType: missionModel.communicationType,
-      missionData: {point: missionModel.location},
+      missionData: undefined,
     };
+
+    if (missionModel.communicationType === COMM_RELAY_TYPE.Fixed) {
+      commRelayMissionRequest.missionData = {point: missionModel.location}
+    }
+    else if (missionModel.communicationType === COMM_RELAY_TYPE.Area) {
+      commRelayMissionRequest.missionData = {area: {coordinates: this.applicationService.point3d_to_geoPoint3d_short_arr(missionModel.polygon)},}
+    }
+    if (missionModel.communicationType === COMM_RELAY_TYPE.Follow) {
+      commRelayMissionRequest.missionData = {FRs: missionModel.frIds}
+    }
     const missionRequest: MISSION_REQUEST_DATA = {
       id: undefined,
       missionType: MISSION_TYPE.CommRelay,

@@ -1,3 +1,37 @@
 @import "../../../../../../styles/colors";
 @import "../../../../../../styles/table";
 @import "../../../../../../styles/comments";
+
+
+
+.example-element-mission-description {
+  grid-column: 1;
+}
+
+.example-element-mission-info {
+  grid-column: 2;
+}
+
+.example-element-mission-comments {
+  grid-column: 3;
+}
+
+.example-element-detail-mission {
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 40% 25% 35%;
+  max-height: 22em;
+}
+
+.textUI:first-child {
+  margin-top: 0.5em;
+}
+.textUI {
+  span:first-child {
+    font-weight: 600;
+    margin: 5px 0px 5px 5px;
+  }
+  span:last-child {
+    margin: 5px;
+  }
+}
