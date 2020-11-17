@@ -60,8 +60,8 @@ export class CesiumDrawerService {
       position: this.cesiumServiceSetCallbackProperty(this.locationTemp),
       billboard: {
         image: '../../../assets/markerGreen.png',
-        width: 25, // default: undefined
-        height: 43, // default: undefined,
+        width: 45, // default: undefined
+        height: 45, // default: undefined,
         // horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         // verticalOrigin: Cesium.VerticalOrigin.BOTTOM
       },
@@ -291,13 +291,12 @@ export class CesiumDrawerService {
   };
 
   private createIconEntity = (mapDomId: string, object: DRAW_OBJECT) => {
-    const size = object.modeDefine.styles.iconSize || 30;
+    const size = object.modeDefine.styles.iconSize || 45;
     const description = (object.hasOwnProperty('description')) ? object['description'] : '';
-
     const iconData = this.cesiumService.cesiumViewer[mapDomId].entities.add({
       position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude),
       billboard: {
-        image: object.modeDefine.styles.mapIcon,
+        image: /* object.modeDefine.styles.mapIcon ||*/ '../../../../assets/markerBlue.png',
         width: size,
         height: size,
         rotation: Cesium.Math.toRadians(-(object['heading'] || 0))

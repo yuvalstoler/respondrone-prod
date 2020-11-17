@@ -20,8 +20,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {MissionDialogComponent} from '../../../../dialogs/mission-dialog/mission-dialog.component';
 import {ApplicationService} from '../../../../services/applicationService/application.service';
 import {LEFT_PANEL_ICON} from '../../../../../types';
-import {MissionsTableComponent} from "./missions-situation-table/missions-table.component";
-import {MissionRequestService} from "../../../../services/missionRequestService/missionRequest.service";
+import {MissionsTableComponent} from './missions-situation-table/missions-table.component';
+import {MissionRequestService} from '../../../../services/missionRequestService/missionRequest.service';
 
 @Component({
   selector: 'app-missions-mission-control',
@@ -126,7 +126,7 @@ export class MissionsMissionControlComponent implements OnInit {
       missionStatus: MISSION_STATUS_UI.Pending
     };
     this.missionRequestService.createMissionRequest(missionRequest);
-  }
+  };
 
   createPatrolMission = (missionModel: MISSION_MODEL_UI) => {
     const patrolMissionRequest: FOLLOW_PATH_MISSION_REQUEST = {
@@ -150,7 +150,7 @@ export class MissionsMissionControlComponent implements OnInit {
       missionStatus: MISSION_STATUS_UI.Pending
     };
     this.missionRequestService.createMissionRequest(missionRequest);
-  }
+  };
 
   createCommRelayMission = (missionModel: MISSION_MODEL_UI) => {
     const commRelayMissionRequest: COMM_RELAY_MISSION_REQUEST = {
@@ -183,7 +183,7 @@ export class MissionsMissionControlComponent implements OnInit {
       missionStatus: MISSION_STATUS_UI.Pending
     };
     this.missionRequestService.createMissionRequest(missionRequest);
-  }
+  };
 
   createServoingMission = (missionModel: MISSION_MODEL_UI) => {
     const servoingMissionRequest: SERVOING_MISSION_REQUEST = {
@@ -205,7 +205,7 @@ export class MissionsMissionControlComponent implements OnInit {
       missionStatus: MISSION_STATUS_UI.Pending
     };
     this.missionRequestService.createMissionRequest(missionRequest);
-  }
+  };
 
   createDeliveryMission = (missionModel: MISSION_MODEL_UI) => {
     const deliveryMissionRequest: DELIVERY_MISSION_REQUEST = {
@@ -226,7 +226,7 @@ export class MissionsMissionControlComponent implements OnInit {
       missionStatus: MISSION_STATUS_UI.Pending
     };
     this.missionRequestService.createMissionRequest(missionRequest);
-  }
+  };
 
 
   onMissionRequestAction = (action: MISSION_REQUEST_ACTION) => {
@@ -234,7 +234,7 @@ export class MissionsMissionControlComponent implements OnInit {
       const data: MISSION_REQUEST_ACTION_OBJ = {
         missionRequestId: this.applicationService.selectedMissionRequests[0].id,
         action: action
-      }
+      };
       this.missionRequestService.sendMissionRequestAction(data);
     }
   };

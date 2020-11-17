@@ -151,7 +151,7 @@ export class MissionDialogComponent implements OnInit {
         break;
       }
       case MISSION_FIELDS.commArg: {
-        this.isDisabledFields.missionDetails = false;
+        this.isDisabledFields.description = false;
         this.applicationService.stateDraw = STATE_DRAW.notDraw;
         this.mapGeneralService.changeCursor(false);
         //todo:
@@ -174,7 +174,6 @@ export class MissionDialogComponent implements OnInit {
 
   onClickMissionType = (step: number) => {
     this.initMissionModel();
-    // this.accordion.closeAll();
     this.clearMap();
     this.setStep(0);
   };

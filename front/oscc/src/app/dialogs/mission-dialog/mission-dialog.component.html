@@ -309,10 +309,10 @@
         </mat-action-row>
       </mat-expansion-panel>
       <!-- Mission details -->
-      <mat-expansion-panel #missionDetails
-                           (opened)="(missionModel?.missionType === MISSION_TYPE.CommRelay)? setStep(4) : setStep(3)"
+      <mat-expansion-panel #missionDetails *ngIf="missionModel?.missionType !== MISSION_TYPE.CommRelay"
+                           (opened)="setStep(3)"
                            [disabled]="isDisabledFields.missionDetails"
-                           [expanded]="(missionModel?.missionType === MISSION_TYPE.CommRelay) ? step === 4 : step === 3"
+                           [expanded]="step === 3"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
@@ -451,9 +451,9 @@
       </mat-expansion-panel>
       <!--Description-->
       <mat-expansion-panel #descriptions
-                           (opened)="(missionModel?.missionType === MISSION_TYPE.CommRelay)? setStep(5) : setStep(4)"
+                           (opened)="setStep(4)"
                            [disabled]="isDisabledFields.description"
-                           [expanded]="(missionModel?.missionType === MISSION_TYPE.CommRelay) ? step === 5 : step === 4"
+                           [expanded]="step === 4"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
@@ -479,9 +479,9 @@
       </mat-expansion-panel>
       <!--Comments-->
       <mat-expansion-panel #comment
-                           (opened)="(missionModel?.missionType === MISSION_TYPE.CommRelay)? setStep(6) : setStep(5)"
+                           (opened)="setStep(5)"
                            [disabled]="isDisabledFields.comments"
-                           [expanded]="(missionModel?.missionType === MISSION_TYPE.CommRelay) ? step === 6 : step === 5"
+                           [expanded]="step === 5"
                            hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">

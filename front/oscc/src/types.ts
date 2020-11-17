@@ -4,7 +4,7 @@ import {
   EVENT_DATA_UI,
   FR_DATA_UI,
   GEOGRAPHIC_INSTRUCTION, GEOPOINT3D,
-  POINT,
+  POINT, POINT3D,
   REPORT_DATA_UI
 } from '../../../classes/typings/all.typings';
 
@@ -97,7 +97,31 @@ export type ICON_DATA = {
     }
   },
   location: GEOPOINT3D
-}
+};
+export type POLYGON_DATA = {
+  id: string,
+  description: string,
+  title: string,
+  modeDefine: {
+    styles: {
+      dotColor: string
+    }
+  },
+  polygon: POINT3D[]
+};
+
+export type POLYLINE_DATA = {
+  id: string,
+  description: string,
+  modeDefine: {
+    styles: {
+      dotColor: string
+    }
+  },
+  polyline: POINT3D[]
+};
+
+
 export type DRAW_OBJECT = ICON_DATA | EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI | AV_DATA_UI;
 export type DRAW_LABEL = {text: string, color: string};
 

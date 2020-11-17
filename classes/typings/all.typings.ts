@@ -479,10 +479,16 @@ export type MISSION_REQUEST_DATA_MD = {
 export type COMM_RELAY_MISSION_REQUEST = {
     droneId: ID_TYPE,
     commRelayType: COMM_RELAY_TYPE,
-    missionData:
-        { point: GEOPOINT3D_SHORT } |
-        { area: {coordinates: GEOPOINT3D_SHORT[]}} |
-        { FRs: string[]},
+    // missionData:
+    //     { point: GEOPOINT3D_SHORT } |
+    //     { area: {coordinates: GEOPOINT3D_SHORT[]}} |
+    //     { FRs: string[]},
+
+    missionData: {
+        point?: GEOPOINT3D_SHORT,
+        area?: { coordinates: GEOPOINT3D_SHORT[] },
+        FRs?: string[]
+    },
     status: MISSION_STATUS
 }
 export type FOLLOW_PATH_MISSION_REQUEST = {
