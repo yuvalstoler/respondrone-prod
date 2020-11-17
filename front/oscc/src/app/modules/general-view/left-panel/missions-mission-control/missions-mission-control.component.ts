@@ -99,7 +99,7 @@ export class MissionsMissionControlComponent implements OnInit {
       missionStatus: MISSION_STATUS_UI.Pending
     };
     this.missionRequestService.createMissionRequest(missionRequest);
-  }
+  };
 
   createScanMission = (missionModel: MISSION_MODEL_UI) => {
     const scanMissionRequest: SCAN_MISSION_REQUEST = {

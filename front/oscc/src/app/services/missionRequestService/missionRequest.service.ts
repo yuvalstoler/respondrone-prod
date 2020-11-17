@@ -4,15 +4,13 @@ import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
   ASYNC_RESPONSE, MISSION_REQUEST_DATA, MISSION_REQUEST_DATA_UI,
-  ID_OBJ, MISSION_ROUTE_DATA, MISSION_TYPE,
-  POINT,
-  POINT3D, MISSION_DATA_UI, GEOPOINT3D_SHORT, OSCC_TASK_ACTION, MISSION_REQUEST_ACTION_OBJ,
+   MISSION_ROUTE_DATA,
+  POINT3D, MISSION_REQUEST_ACTION_OBJ,
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {DRAW_LABEL, ICON_DATA} from "../../../types";
-import {API_GENERAL, WS_API} from "../../../../../../classes/dataClasses/api/api_enums";
+import {API_GENERAL, WS_API} from '../../../../../../classes/dataClasses/api/api_enums';
 
 
 @Injectable({
@@ -113,8 +111,14 @@ export class MissionRequestService {
   };
   // ----------------------
   public createMissionRequest = (missionRequest: MISSION_REQUEST_DATA) => {
-    this.connectionService.post('/' + API_GENERAL.general + WS_API.createMissionRequest, missionRequest);
-  }
+    this.connectionService.post('/' + API_GENERAL.general + WS_API.createMissionRequest, missionRequest)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
   // ----------------------
   private removeAllDataFromMap = () => {
     // TODO edit instead of delete+draw
@@ -123,8 +127,8 @@ export class MissionRequestService {
       this.mapGeneralService.deleteIcon(item.id);
       this.mapGeneralService.deletePolygonManually(item.id);
 
-    })
-  }
+    });
+  };
   // ----------------------
   private drawMission = (item: MISSION_REQUEST_DATA_UI) => {
     // switch(item.missionType) {

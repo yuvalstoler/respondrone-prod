@@ -1,4 +1,4 @@
-import { ReportManager } from "../report/reportManager";
+import { ReportManager } from '../report/reportManager';
 
 const _ = require('lodash');
 import * as core from 'express-serve-static-core';
@@ -13,14 +13,12 @@ import {
 import {
     ASYNC_RESPONSE, EVENT_DATA, MISSION_REQUEST_DATA,
     ID_OBJ, OSCC_TASK_ACTION,
-    POINT,
     REPORT_DATA, TASK_DATA, MISSION_DATA, MISSION_ROUTE_DATA, GIMBAL_ACTION, MISSION_REQUEST_ACTION_OBJ,
 } from '../../../../../classes/typings/all.typings';
 
 
 
 import {
-    FS_API,
     MWS_API,
     WS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
@@ -28,10 +26,10 @@ import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 import {FileManager} from '../file/fileManager';
 import {EventManager} from '../event/eventManager';
 import {TaskManager} from '../task/taskManager';
-import {MissionRequestManager} from "../missionRequest/missionRequestManager";
-import {MissionManager} from "../mission/missionManager";
-import {MissionRouteManager} from "../missionRoute/missionRouteManager";
-import {GimbalManager} from "../gimbal/gimbalManager";
+import {MissionRequestManager} from '../missionRequest/missionRequestManager';
+import {MissionManager} from '../mission/missionManager';
+import {MissionRouteManager} from '../missionRoute/missionRouteManager';
+import {GimbalManager} from '../gimbal/gimbalManager';
 
 
 export class ApiManager implements IRest {

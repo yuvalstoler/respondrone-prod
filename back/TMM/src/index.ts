@@ -65,59 +65,59 @@ export class Server {
 
     // ==================        TEST        ====================
     test = () => {
-        this.app.use('/' + TMM_API.commRelayMissionRequest, (req,res) => {
+        this.app.use('/' + TMM_API.commRelayMissionRequest, (req, res) => {
             const url = url_CommRelayMissionRep + '/insertNewCommRelayMissionRequest';
             const obj = {
                 id: '' + Date.now(),
                 version: 0,
                 commRelayMissionRequest: req.body,
                 lastAction: 'Insert'
-            }
-            this.send(url, obj, res)
+            };
+            this.send(url, obj, res);
         });
 
-        this.app.use('/' + TMM_API.followPathMissionRequest, (req,res) => {
+        this.app.use('/' + TMM_API.followPathMissionRequest, (req, res) => {
             const url = url_PatrolMissionRep + '/insertNewFollowPathMissionRequest';
             const obj = {
                 id: '' + Date.now(),
                 version: 0,
                 followPathMissionRequest: req.body,
                 lastAction: 'Insert'
-            }
-            this.send(url, obj, res)
+            };
+            this.send(url, obj, res);
         });
 
-        this.app.use('/' + TMM_API.observationMissionRequest, (req,res) => {
+        this.app.use('/' + TMM_API.observationMissionRequest, (req, res) => {
             const url = url_ObservationMissionRep + '/insertNewObservationMissionRequest';
             const obj = {
                 id: '' + Date.now(),
                 version: 0,
                 observationMissionRequest: req.body,
                 lastAction: 'Insert'
-            }
-            this.send(url, obj, res)
+            };
+            this.send(url, obj, res);
         });
 
-        this.app.use('/' + TMM_API.scanMissionRequest, (req,res) => {
+        this.app.use('/' + TMM_API.scanMissionRequest, (req, res) => {
             const url = url_ScanMissionRep + '/insertNewScanMissionRequest';
             const obj = {
                 id: '' + Date.now(),
                 version: 0,
                 scanMissionRequest: req.body,
                 lastAction: 'Insert'
-            }
-            this.send(url, obj, res)
+            };
+            this.send(url, obj, res);
         });
 
-        this.app.use('/' + TMM_API.servoingMissionRequest, (req,res) => {
+        this.app.use('/' + TMM_API.servoingMissionRequest, (req, res) => {
             const url = url_ServoingMissionRep + '/insertNewServoingMissionRequest';
             const obj = {
                 id: '' + Date.now(),
                 version: 0,
                 servoingMissionRequest: req.body,
                 lastAction: 'Insert'
-            }
-            this.send(url, obj, res)
+            };
+            this.send(url, obj, res);
         });
     };
 
@@ -129,14 +129,14 @@ export class Server {
                         success: true,
                         entityId: data.id,
                         description: ''
-                    })
+                    });
                 }
                 else {
-                    res.send(data)
+                    res.send(data);
                 }
             })
             .catch((data) => {
-                console.log("err", JSON.stringify(data));
+                console.log('err', JSON.stringify(data));
             });
     }
 
