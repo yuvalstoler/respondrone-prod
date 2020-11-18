@@ -57,7 +57,8 @@ import {GroundResourcesComponent} from './right-panel/ground-resources/ground-re
 import {AirResourcesComponent} from './right-panel/air-resources/air-resources.component';
 import {SortByPriorityPipe} from '../../pipes/sort-by-priority.pipe';
 import { VideoPanelComponent } from './video-panel/video-panel.component';
-import {MissionsTableComponent} from "./left-panel/missions-mission-control/missions-situation-table/missions-table.component";
+import {MissionsTableComponent} from './left-panel/missions-mission-control/missions-situation-table/missions-table.component';
+import {MatRippleModule} from '@angular/material/core';
 
 
 @NgModule({
@@ -115,6 +116,7 @@ import {MissionsTableComponent} from "./left-panel/missions-mission-control/miss
     DragDropModule,
     MatToolbarModule,
     MatSliderModule,
+    MatRippleModule,
 
     AngularCesiumModule.forRoot(),
     AngularCesiumWidgetsModule,

@@ -5,12 +5,42 @@
            class="gridAirResources" (click)="flyTo(airVehicle)">
         <!--title-->
         <div class="item1 title">{{airVehicle.name}}</div>
-        <!--icon 3 dotes-->
+        <!--icons expend & 3 dotes-->
         <div class="item2">
           <mat-icon (click)="onCloseMenu(airVehicle.id)" *ngIf="isOpenMenu[airVehicle.id]">keyboard_arrow_up</mat-icon>
-          <mat-icon (click)="onOpenMenu(airVehicle.id)" *ngIf="!isOpenMenu[airVehicle.id]">keyboard_arrow_down
-          </mat-icon>
-          <mat-icon>more_vert</mat-icon>
+          <mat-icon (click)="onOpenMenu(airVehicle.id)" *ngIf="!isOpenMenu[airVehicle.id]">keyboard_arrow_down</mat-icon>
+          <!-- 3 dotes-->
+          <mat-icon matRipple [matMenuTriggerFor]="missionOptions">more_vert</mat-icon>
+          <!--Menu mission Options-->
+          <mat-menu #missionOptions="matMenu">
+            <button mat-menu-item *ngIf="airVehicle.missionOptions.CommRelay === true"
+                    (click)="onMissionOptions(MISSION_TYPE.CommRelay, airVehicle)">
+              <span>Create comm mission</span>
+            </button>
+            <button mat-menu-item *ngIf="airVehicle.missionOptions.Patrol === true"
+                    (click)="onMissionOptions(MISSION_TYPE.Patrol, airVehicle)">
+              <span>Create patrol mission</span>
+            </button>
+            <button mat-menu-item *ngIf="airVehicle.missionOptions.Observation === true"
+                    (click)="onMissionOptions(MISSION_TYPE.Observation, airVehicle)">
+              <span>Create observation mission</span>
+            </button>
+            <button mat-menu-item *ngIf="airVehicle.missionOptions.Scan === true"
+                    (click)="onMissionOptions(MISSION_TYPE.Scan, airVehicle)">
+              <span>Create scan mission</span>
+            </button>
+            <button mat-menu-item *ngIf="airVehicle.missionOptions.Delivery === true"
+                    (click)="onMissionOptions(MISSION_TYPE.Delivery, airVehicle)">
+              <span>Cargo drop mission</span>
+            </button>
+            <button mat-menu-item *ngIf="airVehicle.missionOptions.Servoing === true"
+                    (click)="onMissionOptions(MISSION_TYPE.Servoing, airVehicle)">
+              <span>Follow an entity mission</span>
+            </button>
+            <button mat-menu-item (click)="onViewLiveVideo(airVehicle)">
+              <span>View live video</span>
+            </button>
+          </mat-menu>
         </div>
         <!--mission-->
         <div class="item3">
@@ -47,16 +77,14 @@
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item10">
           {{airVehicle.gpsQuality}}
         </div>
-        <!--Payload -->
-        <!--      <div class="item11 title" *ngIf="isOpenMenu[airVehicle.id]">-->
-        <!--        Payload: EO Sensor-->
-        <!--      </div>-->
         <!--Azimuth-->
-        <div *ngIf="isOpenMenu[airVehicle.id]" class="item12">
+        <div *ngIf="isOpenMenu[airVehicle.id]" class="item11">
           <span class="title">Azimuth: </span> {{airVehicle.heading}}°
         </div>
+        <!--Status line-->
+        <div class="colorDiv" [ngStyle]="{'background-color': airVehicle.modeDefine?.styles?.statusColor}"></div>
       </div>
-      <div class="colorDiv" [ngStyle]="{'background-color': airVehicle.modeDefine?.styles?.statusColor}"></div>
     </div>
   </div>
 </mat-accordion>
+

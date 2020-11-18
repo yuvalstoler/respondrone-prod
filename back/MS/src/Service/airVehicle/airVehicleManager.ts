@@ -50,7 +50,7 @@ export class AirVehicleManager {
                     'lastUpdateTimeFromDrone': {
                         'timestamp': 0
                     },
-                    'capability': Object.values(CAPABILITY),
+                    'capability': [CAPABILITY.Delivery],
                     'commStatus': COMM_STATUS.OK,
                     'operationalStatus': OPERATIONAL_STATUS.Ready,
                     'routeId': 'string',
@@ -74,7 +74,7 @@ export class AirVehicleManager {
                     'lastUpdateTimeFromDrone': {
                         'timestamp': 0
                     },
-                    'capability': Object.values(CAPABILITY),
+                    'capability': [ CAPABILITY.Surveillance, CAPABILITY.CommRelay],
                     'commStatus': COMM_STATUS.OK,
                     'operationalStatus': OPERATIONAL_STATUS.Ready,
                     'routeId': 'string',
@@ -98,205 +98,12 @@ export class AirVehicleManager {
                     'lastUpdateTimeFromDrone': {
                         'timestamp': 0
                     },
-                    'capability': Object.values(CAPABILITY),
+                    'capability': [CAPABILITY.CommRelay],
                     'commStatus': COMM_STATUS.OK,
                     'operationalStatus': OPERATIONAL_STATUS.Ready,
                     'routeId': 'string',
                     'name': 'Alpha 3',
-                },
-                {
-                    'id': '4',
-                    'type': AIR_VEHICLE_TYPE.Dji,
-                    'location': {
-                        'lat': 32.999365,
-                        'lon': 34.8,
-                        'alt': 0
-                    },
-                    'gpsQuality': 0,
-                    'energyLevel': 0,
-                    'remainingTimeFlight': 0,
-                    'heading': 270,
-                    'altitudeAGL': 0,
-                    'altitudeAsl': 0,
-                    'velocity': 0,
-                    'lastUpdateTimeFromDrone': {
-                        'timestamp': 0
-                    },
-                    'capability': Object.values(CAPABILITY),
-                    'commStatus': COMM_STATUS.OK,
-                    'operationalStatus': OPERATIONAL_STATUS.Ready,
-                    'routeId': 'string',
-                    'name': 'Alpha 3',
-                },
-                {
-                    'id': '5',
-                    'type': AIR_VEHICLE_TYPE.Dji,
-                    'location': {
-                        'lat': 32.999365,
-                        'lon': 34.8,
-                        'alt': 0
-                    },
-                    'gpsQuality': 0,
-                    'energyLevel': 0,
-                    'remainingTimeFlight': 0,
-                    'heading': 270,
-                    'altitudeAGL': 0,
-                    'altitudeAsl': 0,
-                    'velocity': 0,
-                    'lastUpdateTimeFromDrone': {
-                        'timestamp': 0
-                    },
-                    'capability': Object.values(CAPABILITY),
-                    'commStatus': COMM_STATUS.OK,
-                    'operationalStatus': OPERATIONAL_STATUS.Ready,
-                    'routeId': 'string',
-                    'name': 'Alpha 3',
-                },
-                {
-                    'id': '6',
-                    'type': AIR_VEHICLE_TYPE.Dji,
-                    'location': {
-                        'lat': 32.999365,
-                        'lon': 34.8,
-                        'alt': 0
-                    },
-                    'gpsQuality': 0,
-                    'energyLevel': 0,
-                    'remainingTimeFlight': 0,
-                    'heading': 270,
-                    'altitudeAGL': 0,
-                    'altitudeAsl': 0,
-                    'velocity': 0,
-                    'lastUpdateTimeFromDrone': {
-                        'timestamp': 0
-                    },
-                    'capability': Object.values(CAPABILITY),
-                    'commStatus': COMM_STATUS.OK,
-                    'operationalStatus': OPERATIONAL_STATUS.Ready,
-                    'routeId': 'string',
-                    'name': 'Alpha 3',
-                },
-                {
-                    'id': '7',
-                    'type': AIR_VEHICLE_TYPE.Dji,
-                    'location': {
-                        'lat': 32.999365,
-                        'lon': 34.8,
-                        'alt': 0
-                    },
-                    'gpsQuality': 0,
-                    'energyLevel': 0,
-                    'remainingTimeFlight': 0,
-                    'heading': 270,
-                    'altitudeAGL': 0,
-                    'altitudeAsl': 0,
-                    'velocity': 0,
-                    'lastUpdateTimeFromDrone': {
-                        'timestamp': 0
-                    },
-                    'capability': Object.values(CAPABILITY),
-                    'commStatus': COMM_STATUS.OK,
-                    'operationalStatus': OPERATIONAL_STATUS.Ready,
-                    'routeId': 'string',
-                    'name': 'Alpha 3',
-                },
-                {
-                    'id': '8',
-                    'type': AIR_VEHICLE_TYPE.Dji,
-                    'location': {
-                        'lat': 32.999365,
-                        'lon': 34.8,
-                        'alt': 0
-                    },
-                    'gpsQuality': 0,
-                    'energyLevel': 0,
-                    'remainingTimeFlight': 0,
-                    'heading': 270,
-                    'altitudeAGL': 0,
-                    'altitudeAsl': 0,
-                    'velocity': 0,
-                    'lastUpdateTimeFromDrone': {
-                        'timestamp': 0
-                    },
-                    'capability': Object.values(CAPABILITY),
-                    'commStatus': COMM_STATUS.OK,
-                    'operationalStatus': OPERATIONAL_STATUS.Ready,
-                    'routeId': 'string',
-                    'name': 'Alpha 3',
-                },
-                {
-                    'id': '9',
-                    'type': AIR_VEHICLE_TYPE.Dji,
-                    'location': {
-                        'lat': 32.999365,
-                        'lon': 34.8,
-                        'alt': 0
-                    },
-                    'gpsQuality': 0,
-                    'energyLevel': 0,
-                    'remainingTimeFlight': 0,
-                    'heading': 270,
-                    'altitudeAGL': 0,
-                    'altitudeAsl': 0,
-                    'velocity': 0,
-                    'lastUpdateTimeFromDrone': {
-                        'timestamp': 0
-                    },
-                    'capability': Object.values(CAPABILITY),
-                    'commStatus': COMM_STATUS.OK,
-                    'operationalStatus': OPERATIONAL_STATUS.Ready,
-                    'routeId': 'string',
-                    'name': 'Alpha 3',
-                },
-                {
-                    'id': '10',
-                    'type': AIR_VEHICLE_TYPE.Dji,
-                    'location': {
-                        'lat': 32.999365,
-                        'lon': 34.8,
-                        'alt': 0
-                    },
-                    'gpsQuality': 0,
-                    'energyLevel': 0,
-                    'remainingTimeFlight': 0,
-                    'heading': 270,
-                    'altitudeAGL': 0,
-                    'altitudeAsl': 0,
-                    'velocity': 0,
-                    'lastUpdateTimeFromDrone': {
-                        'timestamp': 0
-                    },
-                    'capability': Object.values(CAPABILITY),
-                    'commStatus': COMM_STATUS.OK,
-                    'operationalStatus': OPERATIONAL_STATUS.Ready,
-                    'routeId': 'string',
-                    'name': 'Alpha 3',
-                },
-                {
-                    'id': '11',
-                    'type': AIR_VEHICLE_TYPE.Dji,
-                    'location': {
-                        'lat': 32.999365,
-                        'lon': 34.8,
-                        'alt': 0
-                    },
-                    'gpsQuality': 0,
-                    'energyLevel': 0,
-                    'remainingTimeFlight': 0,
-                    'heading': 270,
-                    'altitudeAGL': 0,
-                    'altitudeAsl': 0,
-                    'velocity': 0,
-                    'lastUpdateTimeFromDrone': {
-                        'timestamp': 0
-                    },
-                    'capability': Object.values(CAPABILITY),
-                    'commStatus': COMM_STATUS.OK,
-                    'operationalStatus': OPERATIONAL_STATUS.Ready,
-                    'routeId': 'string',
-                    'name': 'Alpha 3',
-                },
-
+                }
             ]
         };
         setInterval(() => {

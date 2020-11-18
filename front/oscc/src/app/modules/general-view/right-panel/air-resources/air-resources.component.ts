@@ -1,7 +1,11 @@
 import {AirVehicleService} from '../../../../services/airVehicleService/airVehicle.service';
 import {Component, Input, OnInit} from '@angular/core';
-import {MAP} from '../../../../../types';
-import {AV_DATA_UI} from "../../../../../../../../classes/typings/all.typings";
+import {HEADER_BUTTONS, MAP, VIDEO_OR_MAP} from '../../../../../types';
+import {AV_DATA_UI, MISSION_MODEL_UI, MISSION_TYPE} from '../../../../../../../../classes/typings/all.typings';
+import {ApplicationService} from '../../../../services/applicationService/application.service';
+import {MissionDialogComponent} from '../../../../dialogs/mission-dialog/mission-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {MissionRequestService} from '../../../../services/missionRequestService/missionRequest.service';
 
 @Component({
   selector: 'app-air-resources',
@@ -13,8 +17,13 @@ export class AirResourcesComponent implements OnInit {
 
   @Input() optionSelected: string;
   isOpenMenu: MAP<any> = {};
+  MISSION_TYPE = MISSION_TYPE;
 
-  constructor(public airVehicleService: AirVehicleService) { }
+  constructor(public airVehicleService: AirVehicleService,
+              public applicationService: ApplicationService,
+              public missionRequestService: MissionRequestService,
+              public dialog: MatDialog) {
+  }
 
   ngOnInit(): void {
   }
@@ -28,7 +37,93 @@ export class AirResourcesComponent implements OnInit {
   };
 
   flyTo = (airVehicle: AV_DATA_UI) => {
-    this.airVehicleService.flyToObject(airVehicle)
-  }
+    this.airVehicleService.flyToObject(airVehicle);
+  };
+
+  onMissionOptions = (missionType: MISSION_TYPE, airVehicle: AV_DATA_UI) => {
+    // TODO: close all panels
+    this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;
+    // open panel
+    this.applicationService.screen.showLeftPanel = true;
+    this.applicationService.screen.showMissionControl = true;
+    // todo : choose missionTab on MissionControl
+    //close others
+    this.applicationService.screen.showSituationPicture = false;
+    this.applicationService.screen.showVideo = false;
+
+
+    switch (missionType) {
+      case MISSION_TYPE.CommRelay: {
+        this.openPanel('Create new mission request', MISSION_TYPE.CommRelay, airVehicle);
+        break;
+      }
+      case MISSION_TYPE.Observation: {
+        this.openPanel('Create new mission request', MISSION_TYPE.Observation, airVehicle);
+        break;
+      }
+      case MISSION_TYPE.Patrol: {
+        this.openPanel('Create new mission request', MISSION_TYPE.Patrol, airVehicle);
+        break;
+      }
+      case MISSION_TYPE.Delivery: {
+        this.openPanel('Create new mission request', MISSION_TYPE.Delivery, airVehicle);
+        break;
+      }
+      case MISSION_TYPE.Scan: {
+        this.openPanel('Create new mission request', MISSION_TYPE.Scan, airVehicle);
+        break;
+      }
+      case MISSION_TYPE.Servoing: {
+        this.openPanel('Create new mission request', MISSION_TYPE.Servoing, airVehicle);
+        break;
+      }
+    }
+  };
+
+  private openPanel = (title: string, missionType: MISSION_TYPE, airVehicle: AV_DATA_UI) => {
+    const dialogRef = this.dialog.open(MissionDialogComponent, {
+      width: '45vw',
+      disableClose: true,
+      data: {title: title, missionType: missionType, airVehicle: airVehicle}
+    });
+
+    dialogRef.afterClosed().subscribe((missionModel: MISSION_MODEL_UI) => {
+      if (missionModel) {
+        switch (missionModel.missionType) {
+          case MISSION_TYPE.Observation:
+            this.missionRequestService.createObservationMission(missionModel);
+            break;
+          case MISSION_TYPE.Scan:
+            this.missionRequestService.createScanMission(missionModel);
+            break;
+          case MISSION_TYPE.Patrol:
+            this.missionRequestService.createPatrolMission(missionModel);
+            break;
+          case MISSION_TYPE.CommRelay:
+            this.missionRequestService.createCommRelayMission(missionModel);
+            break;
+          case MISSION_TYPE.Servoing:
+            this.missionRequestService.createServoingMission(missionModel);
+            break;
+          case MISSION_TYPE.Delivery:
+            this.missionRequestService.createDeliveryMission(missionModel);
+            break;
+        }
+      }
+    });
+  };
+
+  onViewLiveVideo = (airVehicle: AV_DATA_UI) => {
+    this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.liveVideo;
+    // open panel
+    // TODO: open video
+    this.applicationService.screen.showVideo = true;
+    this.applicationService.selectedWindow = VIDEO_OR_MAP.map;
+    //close others
+    this.applicationService.screen.showLeftPanel = false;
+    this.applicationService.screen.showMissionControl = false;
+    this.applicationService.screen.showSituationPicture = false;
+    this.dialog.closeAll();
+  };
 
 }

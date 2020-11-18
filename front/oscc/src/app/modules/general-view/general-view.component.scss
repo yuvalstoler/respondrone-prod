@@ -71,6 +71,9 @@
   z-index: 5;
   background: $lightBlue;
   border-radius: 15px;
+  mat-icon{
+    cursor: pointer;
+  }
 }
 
 .LeftPanel{

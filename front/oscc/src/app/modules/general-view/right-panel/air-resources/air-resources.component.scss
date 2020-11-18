@@ -22,6 +22,10 @@
   grid-column: 3;
   grid-row: 1;
   text-align: right;
+
+  mat-icon{
+    cursor: pointer;
+  }
 }
 .item3{
   grid-column: 1 / span 2;
@@ -76,4 +80,9 @@
   grid-row: 6;
   grid-column: 1 / span 3;
   border-radius: 5px;
+}
+
+.mat-menu-item {
+  line-height: 30px;
+  height: 30px;
 }

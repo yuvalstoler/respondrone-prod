@@ -57,7 +57,7 @@ export class MissionDialogComponent implements OnInit {
   missionModel: MISSION_MODEL_UI;
   defaultMission: MISSION_MODEL_UI = {
     missionType: undefined,
-    airResources: [],
+    airResources: [], /*airVehicle.id*/
     location: {lon: undefined, lat: undefined, alt: 0},
     polygon: [],
     polyline: [],
@@ -88,7 +88,7 @@ export class MissionDialogComponent implements OnInit {
               public frService: FRService,
               public customToasterService: CustomToasterService,
               public dialogRef: MatDialogRef<MissionDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: { title: string }) {
+              @Inject(MAT_DIALOG_DATA) public data: { title: string, missionType?: MISSION_TYPE, airVehicle?: AV_DATA_UI }) {
     this.initMissionModel();
 
     // add location to model
@@ -111,13 +111,21 @@ export class MissionDialogComponent implements OnInit {
   }
 
   private initMissionModel = () => {
-    // if (this.applicationService.selectedTasks.length === 1) {
-    //   this.missionModel = _.cloneDeep(this.applicationService.selectedMissions[0]);
-    // } else {
+    if (this.data.hasOwnProperty('missionType') && this.data.hasOwnProperty('airVehicle')) {
+      this.defaultMission.airResources.push(this.data.airVehicle.id);
+      this.defaultMission.missionType = this.data.missionType;
+      this.defaultDisabledFields.airResources = false;
+      this.defaultDisabledFields.commType = false;
+      this.defaultDisabledFields.location = false;
+      this.setStep(2);
       this.missionModel = _.cloneDeep(this.defaultMission);
-    // }
-    this.selectedAirVehicles = [];
-    this.isDisabledFields = _.cloneDeep(this.defaultDisabledFields);
+      this.selectedAirVehicles = [this.data.airVehicle];
+      this.isDisabledFields = _.cloneDeep(this.defaultDisabledFields);
+    } else {
+      this.missionModel = _.cloneDeep(this.defaultMission);
+      this.selectedAirVehicles = [];
+      this.isDisabledFields = _.cloneDeep(this.defaultDisabledFields);
+    }
   };
 
   setStep(index: number) {

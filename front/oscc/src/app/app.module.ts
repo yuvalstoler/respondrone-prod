@@ -21,6 +21,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatButtonModule} from '@angular/material/button';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatRippleModule} from '@angular/material/core';
 
 import {HttpClientModule} from '@angular/common/http';
 import {MatSortModule} from '@angular/material/sort';
@@ -102,7 +103,8 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     MatMenuModule,
     DragDropModule,
     MatToolbarModule,
-    MatSliderModule
+    MatSliderModule,
+    MatRippleModule
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },

@@ -24,7 +24,7 @@
         </mat-expansion-panel-header>
         <div>
           <mat-radio-group
-            aria-labelledby="example-radio-group-label"
+            aria-labelledby="example-radio-group-label" [(ngModel)]="missionModel.missionType"
             class="example-radio-group">
             <mat-radio-button (click)="onChooseMission(missionType)"
                               *ngFor="let missionType of missionTypes; let i = index"

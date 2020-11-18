@@ -56,7 +56,7 @@ export class GeoInstructionsListComponent implements OnInit {
     let coordinate: POINT | POINT3D;
     switch (geoInstruction.type) {
       case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
-        coordinate = geoInstruction.arrow[0];
+        coordinate = geoInstruction.arrow[geoInstruction.arrow.length - 1];
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.address:
         // coordinate = geoInstruction.address;
@@ -86,5 +86,6 @@ export class GeoInstructionsListComponent implements OnInit {
         event.currentIndex);
     }
   };
+
 
 }
