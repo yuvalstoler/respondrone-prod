@@ -45,9 +45,12 @@
   grid-row: 2;
 }
 
-
 .icon {
   height: 2.5em;
   width: auto;
   margin: 5px 0 0 1px;
+}
+.mat-menu-item {
+  line-height: 30px;
+  height: 30px;
 }

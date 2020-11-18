@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ApplicationService} from '../../../services/applicationService/application.service';
 import {VIDEO_OR_MAP} from '../../../../types';
-import {GimbalService} from "../../../services/gimbalService/gimbal.service";
+import {GimbalService} from '../../../services/gimbalService/gimbal.service';
 
 @Component({
   selector: 'app-video-panel',

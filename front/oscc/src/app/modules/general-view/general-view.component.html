@@ -22,7 +22,10 @@
                      'MapSmall': !applicationService.screen.showLeftPanel && applicationService?.screen?.showVideo
                      && applicationService?.selectedWindow === VIDEO_OR_MAP.map}"
          id="{{cesiumService?.maps[0]?.containerId}}">
-      <mat-icon *ngIf="applicationService?.screen?.showVideo" class="expendVideo" (click)="onExpendVideo()">zoom_out_map</mat-icon>
+      <mat-icon *ngIf="applicationService?.screen?.showVideo &&
+                     !applicationService.screen.showLeftPanel && applicationService?.screen?.showVideo &&
+                      applicationService?.selectedWindow === VIDEO_OR_MAP.map"
+                class="expendVideo" (click)="onExpendVideo()">zoom_out_map</mat-icon>
     </div>
 
     <!--<div class="cesium-two"-->

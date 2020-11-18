@@ -59,6 +59,7 @@ import {SortByPriorityPipe} from '../../pipes/sort-by-priority.pipe';
 import { VideoPanelComponent } from './video-panel/video-panel.component';
 import {MissionsTableComponent} from './left-panel/missions-mission-control/missions-situation-table/missions-table.component';
 import {MatRippleModule} from '@angular/material/core';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -117,6 +118,7 @@ import {MatRippleModule} from '@angular/material/core';
     MatToolbarModule,
     MatSliderModule,
     MatRippleModule,
+    MatSlideToggleModule,
 
     AngularCesiumModule.forRoot(),
     AngularCesiumWidgetsModule,

@@ -1,37 +1,89 @@
 @import '../../../../styles/colors';
 @import '../../../../styles/variable';
 
-.LiveVideoHeader{
+.LiveVideoHeader {
   display: flex;
   height: $headerVideoHeight;
   background-color: $darkGrayOpacity;
 }
-.LiveVideoContent{
-cursor: pointer;
+
+.LiveVideoContent {
+  cursor: pointer;
 }
-.container{
+
+.container {
   color: $white;
   margin: 10px;
   font-size: $fontSizeText;
 }
-.drone-container{
 
-}
-.camera-container{
+.drone-container {
+  display: grid;
+  grid-template-columns: auto auto;
 
+  div{
+    padding: 0 10px;
+    margin: auto 0;
+    font-size: $fontSizeVideoText;
+    font-weight: 600;
+  }
+  span{
+    font-size: $fontSizeVideoText;
+    font-weight: 100;
+  }
+  mat-slide-toggle{
+    padding: 0 10px;
+  }
 }
-.zoom-container{
 
+.camera-container {
+  div{
+    padding: 0 10px;
+    margin: auto 0;
+    font-size: $fontSizeVideoText;
+    font-weight: 600;
+  }
+  span{
+    font-size: $fontSizeVideoText;
+    font-weight: 100;
+  }
+  button{
+    margin: 0 10px;
+  }
 }
-.speed-container{
 
+.zoom-container {
+  div{
+    padding: 0 10px;
+    margin: auto 0;
+    font-size: $fontSizeVideoText;
+    font-weight: 600;
+  }
+  span{
+    font-size: $fontSizeVideoText;
+    font-weight: 100;
+  }
 }
-.speedImg{
+
+.speed-container {
+  div{
+    padding: 0 10px;
+    margin: auto 0;
+    font-size: $fontSizeVideoText;
+    font-weight: 600;
+  }
+  span{
+    font-size: $fontSizeVideoText;
+    font-weight: 100;
+  }
+}
+
+.speedImg {
   width: 30px;
   height: auto;
 }
 
-.expendVideo{
+.expendVideo {
   position: absolute;
   bottom: 10px;
   z-index: 10;
@@ -41,30 +93,39 @@ cursor: pointer;
   font-size: 50px;
   color: $white;
 }
-.arrows{
+
+.arrows {
   position: absolute;
   font-size: 50px;
   height: 50px;
   width: 50px;
   color: $white;
 }
-.left{
+
+.left {
   top: 49%;
   left: 0;
 }
-.right{
+
+.right {
   top: 49%;
   right: 0;
 }
-.upLow{
+
+.upLow {
   top: $headerVideoHeight;
   left: 49%
 }
-.up{
+
+.up {
   top: 0;
   left: 49%
 }
-.down{
+
+.down {
   bottom: 0;
   left: 49%
+}
+.mat-raised-button {
+  line-height: 30px;
 }

@@ -75,6 +75,8 @@ export class CesiumService {
   }
 
   public createMap = (mapId: string) => {
+    // Your access token can be found at: https://cesium.com/ion/tokens.
+    // Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwMzA2MGYzNi1mOWU5LTQwMzItYjcxNi1hYTQ0YzlhNzY5MzgiLCJpZCI6MzcyNzEsImlhdCI6MTYwNDgzMjcxMH0.s8iZsRvt0A0-j9rSE5AxJFyktfLnFWvX5JlXgx5fazI';
     const cesiumViewer: any = new Cesium.Viewer(
       this.maps[0].containerId,
       {

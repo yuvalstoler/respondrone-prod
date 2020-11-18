@@ -49,6 +49,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MissionDialogComponent } from './dialogs/mission-dialog/mission-dialog.component';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 const config: SocketIoConfig = SOCKET_CONFIG;
 
@@ -104,7 +105,8 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     DragDropModule,
     MatToolbarModule,
     MatSliderModule,
-    MatRippleModule
+    MatRippleModule,
+    MatSlideToggleModule
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
