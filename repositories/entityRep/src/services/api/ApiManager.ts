@@ -200,7 +200,7 @@ export class ApiManager implements IRest {
         }
     };
     // ----------------------
-    private keepAlive = (request: Request, response: Response) => {
+    private status = (request: Request, response: Response) => {
         response.send({success: true});
     };
 
@@ -227,7 +227,7 @@ export class ApiManager implements IRest {
         [routes.delete]:           this.delete,
         [routes.getLast]:          this.getLast,
 
-        '/keepAlive':               this.keepAlive
+        '/status':                 this.status
     };
 
     // region API uncions

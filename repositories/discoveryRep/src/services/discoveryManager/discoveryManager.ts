@@ -31,14 +31,21 @@ export class DiscoveryManager {
                 });
             })
             .catch((data) => {
+                console.log('fail get data from DB');
+                setTimeout(this.startCheckKeepAlive, 5000);
             });
 
     };
     // ---------------------
     private checkServiceKeepAlive = (obj: ENTITY_DATA) => {
         this.intervals[obj.id] = setInterval(() => {
-            const url = `http://${obj.ip}:${obj.port}`;
-            this.sendRestRequestPromise(url, 'keepAlive', {})
+
+            // const url = `http://${obj.ip}:${obj.port}`;
+            const ip = obj.ip.substr(-1) === '/' ? obj.ip.substring(0, obj.ip.length - 1) : obj.ip;
+            const port = (obj.port && !isNaN(Number(obj.port))) ? ':' + Number(obj.port) : '';
+            const url = ip + port;
+
+            this.sendGetRestRequestPromise(url, 'status', {})
                 .then((data) => {
                     if (obj.keepAliveStatus === DISCOVERY_STATUS.Down) {
                         DbManager.update({id: obj.id}, {$set: {'keepAliveStatus': DISCOVERY_STATUS.Ok}})
@@ -46,6 +53,7 @@ export class DiscoveryManager {
                                 Object.assign(obj, data);
                             })
                             .catch((data) => {
+                                console.log('cant save keepAliveStatus ok')
                             });
                     }
                 })
@@ -56,13 +64,14 @@ export class DiscoveryManager {
                                 Object.assign(obj, data);
                             })
                             .catch((data) => {
+                                console.log('cant save keepAliveStatus down')
                             });
                     }
                 });
         }, keepAliveInterval);
     };
     // ---------------------
-    public sendRestRequestPromise(url: string, path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> {
+    public sendPostRestRequestPromise(url: string, path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
 
@@ -90,6 +99,35 @@ export class DiscoveryManager {
         });
 
     }
+    // ---------------------
+    public sendGetRestRequestPromise(url: string, path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
 
+            request({
+                url: `${url}/${path}`,
+                method: 'GET',
+                json: true,
+                body: bodyObj,
+                timeout: keepAliveInterval - 500,
+            }, (error, response, body) => {
+
+                if ( error != null || typeof body !== 'object' || body.error) {
+                    // res.data = error;
+                    reject(res);
+                    return null;
+                }
+                else {
+                    // const respBody = response.body || {};
+                    res.success = true;
+                    resolve(res);
+                    return null;
+                }
+            });
+
+        });
+
+    }
+    // ----------------------
     public static startCheckKeepAlive = DiscoveryManager.instance.startCheckKeepAlive;
 }
