@@ -114,6 +114,7 @@ export class ApiManager implements IRest {
         }
 
         delete body.version;
+        delete body.keepAliveStatus;
         // body.lastAction = LAST_ACTION.Update;
         // body.collectionVersion = DbManager.createCollectionVersion();
 
@@ -126,6 +127,7 @@ export class ApiManager implements IRest {
                     collectionVersion: DbManager.getCollectionVersion()
                 };
                 this.saveToLog(request.baseUrl, request.body, res);
+                DiscoveryManager.updateServiceKeepAlive(data);
                 response.send(res);
             })
             .catch((data) => {
