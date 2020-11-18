@@ -41,16 +41,15 @@ export class AirResourcesComponent implements OnInit {
   };
 
   onMissionOptions = (missionType: MISSION_TYPE, airVehicle: AV_DATA_UI) => {
-    // TODO: close all panels
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;
     // open panel
     this.applicationService.screen.showLeftPanel = true;
     this.applicationService.screen.showMissionControl = true;
-    // todo : choose missionTab on MissionControl
+    // choose missionTab on MissionControl
+    this.applicationService.currentTabIndex = 1; /*(0 = TaskTab, 1 = MissionTab)*/
     //close others
     this.applicationService.screen.showSituationPicture = false;
     this.applicationService.screen.showVideo = false;
-
 
     switch (missionType) {
       case MISSION_TYPE.CommRelay: {
@@ -86,6 +85,7 @@ export class AirResourcesComponent implements OnInit {
       disableClose: true,
       data: {title: title, missionType: missionType, airVehicle: airVehicle}
     });
+    this.applicationService.isDialogOpen = true;
 
     dialogRef.afterClosed().subscribe((missionModel: MISSION_MODEL_UI) => {
       if (missionModel) {

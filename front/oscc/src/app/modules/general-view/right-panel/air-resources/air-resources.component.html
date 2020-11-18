@@ -10,7 +10,8 @@
           <mat-icon (click)="onCloseMenu(airVehicle.id)" *ngIf="isOpenMenu[airVehicle.id]">keyboard_arrow_up</mat-icon>
           <mat-icon (click)="onOpenMenu(airVehicle.id)" *ngIf="!isOpenMenu[airVehicle.id]">keyboard_arrow_down</mat-icon>
           <!-- 3 dotes-->
-          <mat-icon matRipple [matMenuTriggerFor]="missionOptions">more_vert</mat-icon>
+          <mat-icon matRipple *ngIf="!this.applicationService.isDialogOpen" [matMenuTriggerFor]="missionOptions">more_vert</mat-icon>
+          <mat-icon matRipple *ngIf="this.applicationService.isDialogOpen" [ngStyle]="{'cursor': 'no-drop'}">more_vert</mat-icon>
           <!--Menu mission Options-->
           <mat-menu #missionOptions="matMenu">
             <button mat-menu-item *ngIf="airVehicle.missionOptions.CommRelay === true"

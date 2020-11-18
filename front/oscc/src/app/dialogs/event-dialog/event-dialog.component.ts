@@ -214,6 +214,7 @@ export class EventDialogComponent implements OnInit {
     this.mapGeneralService.changeCursor(false);
     this.locationService.deleteLocationPointTemp('0');
     this.polygonService.deletePolygonManually('0');
+    this.applicationService.isDialogOpen = false;
   };
 
   onUpdateLinkedReports = (linkedReportIds: string[]) => {

@@ -40,7 +40,7 @@ export class MissionsMissionControlComponent implements OnInit {
       disableClose: true,
       data: {title: title}
     });
-
+    this.applicationService.isDialogOpen = true;
     dialogRef.afterClosed().subscribe((missionModel: MISSION_MODEL_UI) => {
       if (missionModel) {
         switch (missionModel.missionType) {

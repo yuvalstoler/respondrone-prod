@@ -135,8 +135,7 @@ export enum SORT_AIR_RESOURCES {
   UAVType = 'UAV type',
   status = 'Status',
   missionType = 'Mission type',
-  UAVEnergy = 'UAV energy',
-  payload = 'Payload'
+  UAVEnergy = 'UAV energy'
 }
 export enum MISSION_FIELDS {
   missionType = 'missionType',

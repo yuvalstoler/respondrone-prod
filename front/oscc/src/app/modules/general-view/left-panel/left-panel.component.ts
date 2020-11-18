@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {ApplicationService} from 'src/app/services/applicationService/application.service';
 import {HEADER_BUTTONS, LEFT_PANEL_ICON} from 'src/types';
 import {ContextMenuService} from '../../../services/contextMenuService/context-menu.service';
+import {MatTabChangeEvent} from '@angular/material/tabs';
 
 @Component({
   selector: 'app-left-panel',
@@ -29,7 +30,14 @@ export class LeftPanelComponent implements OnInit {
 
   closeMenu = () => {
     this.contextMenuService.closeLinkToMenu();
-
   };
+
+  getSelectedIndex(): number {
+    return this.applicationService.currentTabIndex;
+  }
+
+  onTabChange(event: MatTabChangeEvent) {
+    this.applicationService.currentTabIndex = event.index;
+  }
   
 }

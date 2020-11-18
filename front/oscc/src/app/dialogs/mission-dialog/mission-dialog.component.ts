@@ -573,6 +573,7 @@ export class MissionDialogComponent implements OnInit {
     this.locationService.deleteLocationPointTemp('0');
     this.polygonService.deletePolygonManually('0');
     this.polylineService.deletePolylineManually('0');
+    this.applicationService.isDialogOpen = false;
   };
 
 

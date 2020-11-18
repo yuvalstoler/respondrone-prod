@@ -28,8 +28,6 @@ export class SortByPriorityPipe implements PipeTransform {
       value = 'missionName';
     } else if (value === SORT_AIR_RESOURCES.UAVEnergy) {
       value = 'status';
-    } else if (value === SORT_AIR_RESOURCES.payload) {
-      value = 'status';
     }
     return array.sort((a: any, b: any) => {
       const valA = _.get(a, value);

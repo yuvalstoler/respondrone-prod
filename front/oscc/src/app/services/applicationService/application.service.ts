@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {DISPLAY_ON_SCREEN, HEADER_BUTTONS, LEFT_PANEL_ICON, STATE_DRAW, VIDEO_OR_MAP} from 'src/types';
 import {
   EVENT_DATA_UI,
-  FILE_FS_DATA, GEOPOINT3D_SHORT,
-  MISSION_REQUEST_DATA_UI, POINT3D,
+  FILE_FS_DATA,
+  GEOPOINT3D_SHORT,
+  MISSION_REQUEST_DATA_UI,
+  POINT3D,
   REPORT_DATA_UI,
   TASK_DATA_UI
 } from '../../../../../../classes/typings/all.typings';
@@ -31,6 +33,9 @@ export class ApplicationService {
   now = Date.now();
   typesConfig = {reportTypes: [], eventTypes: [], taskTypes: []};
   geoCounter: number = 0;
+
+  public currentTabIndex = 0;  //default tab index is 0
+  isDialogOpen = false;
 
   constructor(private connectionService: ConnectionService) {
 
@@ -64,8 +69,9 @@ export class ApplicationService {
   point3d_to_geoPoint3d_short_arr = (points: POINT3D[]): GEOPOINT3D_SHORT[] => {
     const geopoints = points.map(point => this.point3d_to_geoPoint3d_short(point));
     return geopoints;
-  }
+  };
+
   point3d_to_geoPoint3d_short = (point: POINT3D): GEOPOINT3D_SHORT => {
-    return {lon: point[0], lat: point[1], alt: point[2] || 0}
-  }
+    return {lon: point[0], lat: point[1], alt: point[2] || 0};
+  };
 }

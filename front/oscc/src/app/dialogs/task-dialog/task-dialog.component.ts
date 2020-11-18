@@ -95,6 +95,7 @@ export class TaskDialogComponent implements OnInit {
     this.applicationService.stateDraw = STATE_DRAW.notDraw;
     this.mapGeneralService.changeCursor(false);
     this.taskModel = _.cloneDeep(this.defaultTask);
+    this.applicationService.isDialogOpen = false;
   };
 
   onChangeComments = (comments: COMMENT[]) => {

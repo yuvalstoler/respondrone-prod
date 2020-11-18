@@ -8,7 +8,7 @@ import {ReportService} from '../../../../services/reportService/report.service';
 import {EventService} from '../../../../services/eventService/event.service';
 import {REPORT_DATA_UI} from '../../../../../../../../classes/typings/all.typings';
 import {ReportDialogComponent} from '../../../../dialogs/report-dialog/report-dialog.component';
-import {MediaService} from "../../../../services/mediaService/media.service";
+import {MediaService} from '../../../../services/mediaService/media.service';
 
 @Component({
   selector: 'app-reports-situation-picture',
@@ -50,7 +50,7 @@ export class ReportsSituationPictureComponent implements OnInit {
       disableClose: true,
       data: {title: title}
     });
-
+    this.applicationService.isDialogOpen = true;
     dialogRef.afterClosed().subscribe((result: REPORT_DATA_UI) => {
       if (result) {
         this.reportService.createReport(result, (report: REPORT_DATA_UI) => {

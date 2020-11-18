@@ -188,6 +188,7 @@ export class ReportDialogComponent {
     this.applicationService.stateDraw = STATE_DRAW.notDraw;
     this.mapGeneralService.changeCursor(false);
     this.locationService.deleteLocationPointTemp('0');
+    this.applicationService.isDialogOpen = false;
   };
 
   onUpdateLinkedEvents = (linkedEventIds: string[]) => {

@@ -61,7 +61,7 @@ export class TasksMissionControlComponent implements OnInit {
       disableClose: true,
       data: {title: title}
     });
-
+    this.applicationService.isDialogOpen = true;
     dialogRef.afterClosed().subscribe((result: TASK_DATA_UI) => {
       if (result) {
         this.tasksService.createTask(result, (task: TASK_DATA_UI) => {
