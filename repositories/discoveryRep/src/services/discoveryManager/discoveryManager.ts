@@ -37,6 +37,12 @@ export class DiscoveryManager {
 
     };
     // ---------------------
+    private updateServiceKeepAlive = (obj: ENTITY_DATA) => {
+        clearInterval(this.intervals[obj.id]);
+        this.intervals[obj.id] = undefined;
+        this.checkServiceKeepAlive(obj);
+    }
+    // ---------------------
     private checkServiceKeepAlive = (obj: ENTITY_DATA) => {
         this.intervals[obj.id] = setInterval(() => {
 
@@ -130,4 +136,5 @@ export class DiscoveryManager {
     }
     // ----------------------
     public static startCheckKeepAlive = DiscoveryManager.instance.startCheckKeepAlive;
+    public static updateServiceKeepAlive = DiscoveryManager.instance.updateServiceKeepAlive;
 }

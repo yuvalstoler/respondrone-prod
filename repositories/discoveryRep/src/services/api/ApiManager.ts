@@ -127,6 +127,7 @@ export class ApiManager implements IRest {
                     collectionVersion: DbManager.getCollectionVersion()
                 };
                 this.saveToLog(request.baseUrl, request.body, res);
+                DiscoveryManager.updateServiceKeepAlive(data);
                 response.send(res);
             })
             .catch((data) => {
