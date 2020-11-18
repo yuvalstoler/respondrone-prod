@@ -110,7 +110,7 @@
     <button (click)="onNoClick()" class="DialogActionsDelete"
             mat-raised-button>Cancel
     </button>
-    <button [mat-dialog-close]="taskModel"
+    <button (click)="onCreateClick()"
             class="DialogActionsCreate"
             [disabled]="(taskModel.title === '' || taskModel.title === undefined)"
             mat-raised-button>

@@ -7,7 +7,18 @@
   <div class="item2">{{fr.callSign}}</div>
   <!--icon 3 dotes-->
   <div class="item3">
-    <mat-icon>more_vert</mat-icon>
+    <!-- 3 dotes-->
+    <mat-icon matRipple *ngIf="!this.applicationService.isDialogOpen" [ngStyle]="{'cursor': 'pointer'}" [matMenuTriggerFor]="sendMenu">more_vert</mat-icon>
+    <mat-icon matRipple *ngIf="this.applicationService.isDialogOpen" [ngStyle]="{'cursor': 'no-drop'}">more_vert</mat-icon>
+    <!-- Send Menu -->
+    <mat-menu #sendMenu="matMenu">
+      <button mat-menu-item (click)="onSendMenu('task', fr)">
+        <span>Send a task</span>
+      </button>
+      <button mat-menu-item (click)="onSendMenu('message', fr)">
+        <span>Send a message</span>
+      </button>
+    </mat-menu>
   </div>
   <!--type-->
   <div class="item4">{{fr.type}}</div>

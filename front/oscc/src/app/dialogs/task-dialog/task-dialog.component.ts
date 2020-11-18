@@ -66,7 +66,7 @@ export class TaskDialogComponent implements OnInit {
               public dialogRef: MatDialogRef<TaskDialogComponent>,
               public mapGeneralService: MapGeneralService,
               public frService: FRService,
-              @Inject(MAT_DIALOG_DATA) public data: { title: string }) {
+              @Inject(MAT_DIALOG_DATA) public data: { title: string, fr?: FR_DATA_UI }) {
     this.initTaskModel();
   }
 
@@ -83,19 +83,29 @@ export class TaskDialogComponent implements OnInit {
     if (this.applicationService.selectedTasks.length === 1) {
       this.taskModel = _.cloneDeep(this.applicationService.selectedTasks[0]);
     } else {
-      this.taskModel = _.cloneDeep(this.defaultTask);
+      if (this.data.hasOwnProperty('fr')) {
+        this.defaultTask.assignees = [this.data.fr];
+        this.defaultTask.assigneeIds = [this.data.fr.id];
+        this.taskModel = _.cloneDeep(this.defaultTask);
+      } else {
+        this.taskModel = _.cloneDeep(this.defaultTask);
+      }
     }
   };
 
   clearPanel = () => {
     this.removeGeoInstructionsFromMap(this.taskModel.geographicInstructions);
-
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;
     this.applicationService.geoCounter = 0;
     this.applicationService.stateDraw = STATE_DRAW.notDraw;
     this.mapGeneralService.changeCursor(false);
     this.taskModel = _.cloneDeep(this.defaultTask);
     this.applicationService.isDialogOpen = false;
+  };
+
+  onCreateClick = () => {
+    this.dialogRef.close(this.taskModel);
+    this.clearPanel();
   };
 
   onChangeComments = (comments: COMMENT[]) => {

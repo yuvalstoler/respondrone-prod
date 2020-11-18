@@ -3,16 +3,14 @@ import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
-  ASYNC_RESPONSE,
   FR_DATA_UI,
-  ID_OBJ,
   POINT,
   POINT3D,
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {DRAW_LABEL} from "../../../types";
+import {DRAW_LABEL} from '../../../types';
 
 
 @Injectable({

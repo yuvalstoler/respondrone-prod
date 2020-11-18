@@ -49,7 +49,7 @@ export class EventsSituationPictureComponent implements OnInit {
       disableClose: true,
       data: {title: title}
     });
-
+    this.applicationService.isDialogOpen = true;
     dialogRef.afterClosed().subscribe((result: EVENT_DATA_UI) => {
       if (result) {
         this.eventService.createEvent(result, (event: EVENT_DATA_UI) => {

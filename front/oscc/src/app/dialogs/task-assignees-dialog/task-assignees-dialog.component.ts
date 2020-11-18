@@ -24,7 +24,7 @@ export class TaskAssigneesDialogComponent implements OnInit {
     } else {
       setTimeout(this.updateLinkedData, 50);
     }
-  }
+  };
 
   onNoClick(): void {
     this.dialogRef.close(false);

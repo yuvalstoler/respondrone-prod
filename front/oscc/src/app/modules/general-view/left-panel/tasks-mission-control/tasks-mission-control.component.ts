@@ -5,16 +5,9 @@ import {TasksMissionTableComponent} from './tasks-mission-table/tasks-mission-ta
 import {ConfirmDialogComponent} from '../../../../dialogs/confirm-dialog/confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {TaskDialogComponent} from '../../../../dialogs/task-dialog/task-dialog.component';
-import {
-  GEOGRAPHIC_INSTRUCTION,
-  GEOGRAPHIC_INSTRUCTION_TYPE,
-  TASK_DATA_UI, TASK_ACTION, OSCC_TASK_ACTION
-} from '../../../../../../../../classes/typings/all.typings';
+import {OSCC_TASK_ACTION, TASK_ACTION, TASK_DATA_UI} from '../../../../../../../../classes/typings/all.typings';
 import {TasksService} from '../../../../services/tasksService/tasks.service';
-import {LocationService} from '../../../../services/locationService/location.service';
-import {PolygonService} from '../../../../services/polygonService/polygon.service';
-import {PolylineService} from '../../../../services/polylineService/polyline.service';
-import {ArrowService} from '../../../../services/arrowService/arrow.service';
+import {GeoInstructionsService} from '../../../../services/geoInstructionsService/geo-instructions.service';
 
 @Component({
   selector: 'app-tasks-mission-control',
@@ -29,10 +22,7 @@ export class TasksMissionControlComponent implements OnInit {
 
   constructor(public applicationService: ApplicationService,
               public tasksService: TasksService,
-              public locationService: LocationService,
-              public polygonService: PolygonService,
-              public polylineService: PolylineService,
-              public arrowService: ArrowService,
+              public geoInstructionsService: GeoInstructionsService,
               public dialog: MatDialog) {
 
   }
@@ -65,28 +55,10 @@ export class TasksMissionControlComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: TASK_DATA_UI) => {
       if (result) {
         this.tasksService.createTask(result, (task: TASK_DATA_UI) => {
-          // this.reportService.linkReportsToEvent(task.reportIds, task.id);
         });
         this.applicationService.geoCounter = 0;
-        this.removeGeoInstructionsFromMap(result.geographicInstructions);
+        this.geoInstructionsService.removeGeoInstructionsFromMap(result.geographicInstructions);
         console.log(result);
-      }
-    });
-  };
-
-  removeGeoInstructionsFromMap = (geoInstructions: GEOGRAPHIC_INSTRUCTION[]) => {
-    geoInstructions.forEach(geoInstruction => {
-      if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.arrow) {
-        this.arrowService.deleteArrowPolylineManually(geoInstruction.id);
-      }
-      if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.polyline) {
-        this.polylineService.deletePolylineManually(geoInstruction.id);
-      }
-      if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.polygon) {
-        this.polygonService.deletePolygonManually(geoInstruction.id);
-      }
-      if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.point) {
-        this.locationService.deleteLocationPointTemp(geoInstruction.id);
       }
     });
   };
@@ -99,7 +71,7 @@ export class TasksMissionControlComponent implements OnInit {
     const data: OSCC_TASK_ACTION = {
       taskId: this.applicationService.selectedTasks[0].id,
       action: action
-    }
+    };
     this.tasksService.sendTaskAction(data);
   };
 
