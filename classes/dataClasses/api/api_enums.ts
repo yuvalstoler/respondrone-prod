@@ -220,6 +220,8 @@ export enum CCGW_API {
     getTaskById = '/getTaskById',
     userTaskAction = '/userTaskAction',
 
+    createMissionRequestFromMGW = '/createMissionRequestFromMGW',
+
 }
 
 export enum MG_API {
