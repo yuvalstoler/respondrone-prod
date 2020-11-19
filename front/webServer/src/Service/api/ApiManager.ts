@@ -546,6 +546,23 @@ export class ApiManager implements IRest {
                 response.send(res);
             });
     };
+
+    private updateMissionInDB = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody: MISSION_REQUEST_DATA = request.body;
+        MissionRequestManager.updateMissionInDB(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
     // ========================================================================
     private missionRequestAction = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
@@ -612,6 +629,7 @@ export class ApiManager implements IRest {
         [WS_API.readAllMissionRequest]: this.readAllMissionRequest,
         [WS_API.readAllMission]: this.readAllMission,
         [WS_API.readAllMissionRoute]: this.readAllMissionRoute,
+        [WS_API.updateMissionInDB]: this.updateMissionInDB,
 
         [WS_API.uploadFile]: this.uploadFile,
         [WS_API.removeFile]: this.removeFile,

@@ -1,5 +1,5 @@
 import {
-    COMMENT,
+    COMMENT, MISSION_ACTION_OPTIONS,
     ID_TYPE, LAST_ACTION, MISSION_REQUEST_DATA, MISSION_STATUS_UI, MISSION_TYPE, SOURCE_TYPE
 } from '../../typings/all.typings';
 import { DataUtility } from '../../applicationClasses/utility/dataUtility';
@@ -18,6 +18,7 @@ export class MissionRequest {
     idView: string;
     missionStatus: MISSION_STATUS_UI;
     uiText: {key: string}[] = []
+    actionOptions: MISSION_ACTION_OPTIONS
 
     constructor() {
     }

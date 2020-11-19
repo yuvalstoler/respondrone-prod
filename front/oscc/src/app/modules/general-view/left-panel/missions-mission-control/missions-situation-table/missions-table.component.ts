@@ -183,11 +183,11 @@ export class MissionsTableComponent implements OnInit, AfterViewInit {
 
 
   onChangeComments = (comments: COMMENT[], element: EVENT_DATA_UI) => {
-    const report = this.missionRequestService.getById(element.id);
-    if (report) {
-      const newReport = {...report};
-      newReport.comments = comments;
-      this.missionRequestService.createMissionRequest(newReport);
+    const mission = this.missionRequestService.getById(element.id);
+    if (mission) {
+      const newMission = {...mission};
+      newMission.comments = comments;
+      this.missionRequestService.updateMissionInDB(newMission);
     }
   };
 

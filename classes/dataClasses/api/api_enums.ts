@@ -14,6 +14,7 @@ export enum MS_API {
     readAllMission = '/readAllMission',
     readAllMissionRoute = '/readAllMissionRoute',
     missionRequestAction = '/missionRequestAction',
+    updateMissionInDB = '/updateMissionInDB',
 }
 
 export enum GS_API {
@@ -197,6 +198,7 @@ export enum WS_API {
     readAllMission = '/readAllMission',
     readAllMissionRoute = '/readAllMissionRoute',
     missionRequestAction = '/missionRequestAction',
+    updateMissionInDB = '/updateMissionInDB',
 
     updateAllReports = '/updateAllReports',
     updateAllEvents = '/updateAllEvents',

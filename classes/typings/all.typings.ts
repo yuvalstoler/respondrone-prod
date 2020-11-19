@@ -432,6 +432,7 @@ export type MISSION_REQUEST_DATA = REP_ENTITY & {
     time: number,
     idView: string,
     missionStatus: MISSION_STATUS_UI;
+    source: SOURCE_TYPE;
 
     commRelayMissionRequest?: COMM_RELAY_MISSION_REQUEST;
     followPathMissionRequest?: FOLLOW_PATH_MISSION_REQUEST;

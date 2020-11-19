@@ -57,7 +57,9 @@ export class ScanMissionRequest extends MissionRequest {
             time: this.time,
             idView: this.idView,
             createdBy: this.createdBy,
-            missionStatus: this.missionStatus,};
+            source: this.source,
+            missionStatus: this.missionStatus,
+        };
     };
 
     public toJsonForUI = (): MISSION_REQUEST_DATA_UI => {
@@ -73,8 +75,10 @@ export class ScanMissionRequest extends MissionRequest {
             time: this.time,
             idView: this.idView,
             createdBy: this.createdBy,
+            source: this.source,
             missionStatus: this.missionStatus,
             modeDefine: undefined,
+            actionOptions: this.actionOptions,
             textUI: [
                 {
                     title: 'Resource',
@@ -125,6 +129,7 @@ export class ScanMissionRequest extends MissionRequest {
         time: this.setTime,
         idView: this.setIdView,
         createdBy: this.setCreatedBy,
+        source: this.setSource,
         missionStatus: this.setMissionStatus,
     };
 

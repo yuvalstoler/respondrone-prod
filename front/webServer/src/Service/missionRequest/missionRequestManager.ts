@@ -1,37 +1,21 @@
 import {Converting} from '../../../../../classes/applicationClasses/utility/converting';
-import {Report} from '../../../../../classes/dataClasses/report/report';
 
-import {MS_API, RS_API, TS_API} from '../../../../../classes/dataClasses/api/api_enums';
+import {MS_API} from '../../../../../classes/dataClasses/api/api_enums';
 
 import {RequestManager} from '../../AppService/restConnections/requestManager';
 
 import {
     ASYNC_RESPONSE,
-    FILE_FS_DATA,
     ID_OBJ,
-    ID_TYPE,
-    LINKED_REPORT_DATA,
-    MEDIA_TYPE,
-    MISSION_DATA,
+    MISSION_ACTION_OPTIONS, MISSION_REQUEST_ACTION,
     MISSION_REQUEST_ACTION_OBJ,
     MISSION_REQUEST_DATA,
     MISSION_REQUEST_DATA_UI,
-    MISSION_TYPE,
-    OSCC_TASK_ACTION,
-    REPORT_DATA,
-    REPORT_DATA_UI
+    MISSION_STATUS_UI,
+    REPORT_DATA
 } from '../../../../../classes/typings/all.typings';
 import {SocketIO} from '../../websocket/socket.io';
-import {EventManager} from '../event/eventManager';
-import {ReportMdLogic} from '../../../../../classes/modeDefineTSSchemas/reports/reportMdLogic';
-import {DataUtility} from '../../../../../classes/applicationClasses/utility/dataUtility';
 import {MissionRequest} from "../../../../../classes/dataClasses/missionRequest/missionRequest";
-import {CommRelayMissionRequest} from "../../../../../classes/dataClasses/missionRequest/commRelayMissionRequest";
-import {ServoingMissionRequest} from "../../../../../classes/dataClasses/missionRequest/servoingMissionRequest";
-import {ScanMissionRequest} from "../../../../../classes/dataClasses/missionRequest/scanMissionRequest";
-import {ObservationMissionRequest} from "../../../../../classes/dataClasses/missionRequest/observationMissionRequest";
-import {FollowPathMissionRequest} from "../../../../../classes/dataClasses/missionRequest/followPathMissionRequest";
-import {DeliveryMissionRequest} from "../../../../../classes/dataClasses/missionRequest/deliveryMissionRequest";
 import {MissionRequestMdLogic} from "../../../../../classes/modeDefineTSSchemas/missionRequest/missionRequestMdLogic";
 
 const _ = require('lodash');
@@ -62,12 +46,12 @@ export class MissionRequestManager {
                 }
                 else {
                     //todo logger
-                    console.log('error getReportsFromRS', JSON.stringify(data));
+                    console.log('error getMissionRequestsFromMS', JSON.stringify(data));
                 }
             })
             .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA[]>) => {
                 //todo logger
-                console.log('error getReportsFromRS', JSON.stringify(data));
+                console.log('error getMissionRequestsFromMS', JSON.stringify(data));
             });
     };
     private getMissionRequests = (): MISSION_REQUEST_DATA[] => {
@@ -115,6 +99,18 @@ export class MissionRequestManager {
     private createMissionRequest = (data: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
         return new Promise((resolve, reject) => {
             RequestManager.requestToMS(MS_API.createMissionRequest, data)
+                .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                    resolve(data);
+                })
+                .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                    resolve(data);
+                });
+        });
+    }
+
+    private updateMissionInDB = (data: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
+        return new Promise((resolve, reject) => {
+            RequestManager.requestToMS(MS_API.updateMissionInDB, data)
                 .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                     resolve(data);
                 })
@@ -197,11 +193,37 @@ export class MissionRequestManager {
         this.missionRequests.forEach((missionRequest: MissionRequest) => {
             const missionRequestDataUI: MISSION_REQUEST_DATA_UI = missionRequest.toJsonForUI();
             missionRequestDataUI.modeDefine = MissionRequestMdLogic.validate(missionRequestDataUI);
+            missionRequestDataUI.actionOptions = missionRequest.actionOptions = this.getActionOptions(missionRequestDataUI);
 
             res.push(missionRequestDataUI);
         });
         return res;
     };
+
+    private getActionOptions = (data: MISSION_REQUEST_DATA_UI): MISSION_ACTION_OPTIONS => {
+        const res: MISSION_ACTION_OPTIONS = {};
+
+        if (data.missionStatus === MISSION_STATUS_UI.New) {
+            res[MISSION_REQUEST_ACTION.Accept] = true;
+            res[MISSION_REQUEST_ACTION.Reject] = true;
+        }
+        else if (data.missionStatus === MISSION_STATUS_UI.Pending) {
+            res[MISSION_REQUEST_ACTION.Cancel] = true;
+        }
+        else if (data.missionStatus === MISSION_STATUS_UI.WaitingForApproval) {
+            res[MISSION_REQUEST_ACTION.Approve] = true;
+            res[MISSION_REQUEST_ACTION.Reject] = true;
+            res[MISSION_REQUEST_ACTION.Cancel] = true;
+        }
+        else if (data.missionStatus === MISSION_STATUS_UI.Approve) {
+            res[MISSION_REQUEST_ACTION.Cancel] = true;
+        }
+        else if (data.missionStatus === MISSION_STATUS_UI.InProgress) {
+            res[MISSION_REQUEST_ACTION.Complete] = true;
+            res[MISSION_REQUEST_ACTION.Cancel] = true;
+        }
+        return res;
+    }
 
     private updateAllMissionRequests = (data: MISSION_REQUEST_DATA[]): Promise<ASYNC_RESPONSE> => {
         return new Promise((resolve, reject) => {
@@ -227,6 +249,7 @@ export class MissionRequestManager {
     public static readAllMissionRequest = MissionRequestManager.instance.readAllMissionRequest;
     public static updateAllMissionRequests = MissionRequestManager.instance.updateAllMissionRequests;
     public static missionRequestAction = MissionRequestManager.instance.missionRequestAction;
+    public static updateMissionInDB = MissionRequestManager.instance.updateMissionInDB;
 
     // public static updateAllReports = MissionRequestManager.instance.updateAllReports;
     // public static readReport = MissionRequestManager.instance.readReport;

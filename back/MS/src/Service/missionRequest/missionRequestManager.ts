@@ -515,10 +515,26 @@ export class MissionRequestManager {
     }
 
 
+    }
+
+    // --------------------------
+    private updateMissionInDB = (missionRequestData: MISSION_REQUEST_DATA) => {
+        return new Promise((resolve, reject) => {
+            return RequestManager.requestToDBS(DBS_API.createMissionRequest, missionRequestData)
+                .then((data: ASYNC_RESPONSE) => {
+                    UpdateListenersManager.updateMissionRequestListeners();
+                    resolve(data);
+                })
+                .catch((data) => {
+                    reject(data);
+                });
+        });
+    };
 
     // region API uncions
     public static createMissionRequestFromMGW = MissionRequestManager.instance.createMissionRequestFromMGW;
     public static createMissionRequest = MissionRequestManager.instance.createMissionRequest;
+    public static updateMissionInDB = MissionRequestManager.instance.updateMissionInDB;
     public static readAllMissionRequest = MissionRequestManager.instance.readAllMissionRequest;
     public static getMissionRequests = MissionRequestManager.instance.getMissionRequests;
     public static missionRequestAction = MissionRequestManager.instance.missionRequestAction;

@@ -3,16 +3,28 @@ import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
-  ASYNC_RESPONSE, COMM_RELAY_MISSION_REQUEST,
-  COMM_RELAY_TYPE, DELIVERY_MISSION_REQUEST, EVENT_DATA_UI, FOLLOW_PATH_MISSION_REQUEST,
-  GEOPOINT3D_SHORT, LAST_ACTION, LOCATION_TYPE, MISSION_MODEL_UI,
+  ASYNC_RESPONSE,
+  COMM_RELAY_MISSION_REQUEST,
+  COMM_RELAY_TYPE,
+  DELIVERY_MISSION_REQUEST,
+  FOLLOW_PATH_MISSION_REQUEST,
+  GEOPOINT3D_SHORT,
+  LAST_ACTION,
+  MISSION_MODEL_UI,
   MISSION_REQUEST_ACTION_OBJ,
   MISSION_REQUEST_DATA,
   MISSION_REQUEST_DATA_UI,
-  MISSION_ROUTE_DATA, MISSION_STATUS, MISSION_STATUS_UI,
-  MISSION_TYPE, OBSERVATION_MISSION_REQUEST,
+  MISSION_ROUTE_DATA,
+  MISSION_STATUS,
+  MISSION_STATUS_UI,
+  MISSION_TYPE,
+  OBSERVATION_MISSION_REQUEST,
   POINT,
-  POINT3D, SCAN_MISSION_REQUEST, SERVOING_MISSION_REQUEST, YAW_ORIENTATION,
+  POINT3D,
+  SCAN_MISSION_REQUEST,
+  SERVOING_MISSION_REQUEST,
+  SOURCE_TYPE,
+  YAW_ORIENTATION,
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
@@ -221,6 +233,16 @@ export class MissionRequestService {
       });
   };
   // ----------------------
+  public updateMissionInDB = (missionRequest: MISSION_REQUEST_DATA) => {
+    this.connectionService.post('/' + API_GENERAL.general + WS_API.updateMissionInDB, missionRequest)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+  // ----------------------
   private createMissionOnMap = (item: MISSION_REQUEST_DATA_UI) => {
     switch (item.missionType) {
       case MISSION_TYPE.Observation : {
@@ -398,6 +420,7 @@ export class MissionRequestService {
       idView: undefined,
       time: undefined,
       createdBy: '',
+      source: SOURCE_TYPE.OSCC,
       missionStatus: MISSION_STATUS_UI.Pending
     };
     this.createMissionRequest(missionRequest);
@@ -424,6 +447,7 @@ export class MissionRequestService {
       idView: undefined,
       time: undefined,
       createdBy: '',
+      source: SOURCE_TYPE.OSCC,
       missionStatus: MISSION_STATUS_UI.Pending
     };
     this.createMissionRequest(missionRequest);
@@ -448,6 +472,7 @@ export class MissionRequestService {
       idView: undefined,
       time: undefined,
       createdBy: '',
+      source: SOURCE_TYPE.OSCC,
       missionStatus: MISSION_STATUS_UI.Pending
     };
     this.createMissionRequest(missionRequest);
@@ -481,6 +506,7 @@ export class MissionRequestService {
       idView: undefined,
       time: undefined,
       createdBy: '',
+      source: SOURCE_TYPE.OSCC,
       missionStatus: MISSION_STATUS_UI.Pending
     };
     this.createMissionRequest(missionRequest);
@@ -503,6 +529,7 @@ export class MissionRequestService {
       idView: undefined,
       time: undefined,
       createdBy: '',
+      source: SOURCE_TYPE.OSCC,
       missionStatus: MISSION_STATUS_UI.Pending
     };
     this.createMissionRequest(missionRequest);
@@ -524,6 +551,7 @@ export class MissionRequestService {
       idView: undefined,
       time: undefined,
       createdBy: '',
+      source: SOURCE_TYPE.OSCC,
       missionStatus: MISSION_STATUS_UI.Pending
     };
     this.createMissionRequest(missionRequest);

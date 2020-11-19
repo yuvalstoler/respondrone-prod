@@ -138,6 +138,24 @@ export class ApiManager implements IRest {
 
     };
 
+    private updateMissionInDB = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+
+        const requestBody: MISSION_REQUEST_DATA = request.body;
+        MissionRequestManager.updateMissionInDB(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
 
 
     routers: {} = {
@@ -148,6 +166,7 @@ export class ApiManager implements IRest {
         [MS_API.readAllMission]: this.readAllMission,
         [MS_API.readAllMissionRoute]: this.readAllMissionRoute,
         [MS_API.missionRequestAction]: this.missionRequestAction,
+        [MS_API.updateMissionInDB]: this.updateMissionInDB,
 
     };
 
