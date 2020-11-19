@@ -9,40 +9,46 @@
     </div>
     <!--Camera-->
     <div class="camera-container container">
-      <div>Camera Control: <span>Test Me</span><mat-icon>lock</mat-icon></div>
+      <div class="itemCameraDiv">Camera Control:
+        <div class="CameraText"><span>Test Me</span><mat-icon>lock</mat-icon></div>
+      </div>
       <button mat-raised-button>Release Control</button>
       <button mat-raised-button>Un-Lock Control</button>
     </div>
     <!--Zoom-->
     <div class="zoom-container container">
       <div>Camera zoom: <span>X{{zoomModel}}</span></div>
-      <span>0</span>
-      <mat-slider
-        thumbLabel
-        [displayWith]="formatLabel"
-        [tickInterval]="tickIntervalZoom"
-        [step]="stepZoom"
-        [min]="minZoom"
-        [max]="maxZoom"
-        [(ngModel)]="zoomModel"
-      >
-      </mat-slider>
-      <span>10x</span>
+      <div>
+        <span>0</span>
+        <mat-slider
+          thumbLabel
+          [displayWith]="formatLabel"
+          [tickInterval]="tickIntervalZoom"
+          [step]="stepZoom"
+          [min]="minZoom"
+          [max]="maxZoom"
+          [(ngModel)]="zoomModel"
+        >
+        </mat-slider>
+        <span>10x</span>
+      </div>
     </div>
     <!--Speed-->
     <div class="speed-container container">
-      <div>Camera rate: <span>{{speedModel}}</span></div>
-      <img src="../../../../assets/turtle.png" class="speedImg" alt="Norway">
-      <mat-slider
-        thumbLabel
-        [tickInterval]="tickIntervalSpeed"
-        [min]="minSpeed"
-        [max]="maxSpeed"
-        [(ngModel)]="speedModel"
+      <div>Camera rate: <span>{{speedModel}}°</span></div>
+      <div>
+        <img src="../../../../assets/turtle.png" class="speedImg" alt="Norway">
+        <mat-slider
+          thumbLabel
+          [tickInterval]="tickIntervalSpeed"
+          [min]="minSpeed"
+          [max]="maxSpeed"
+          [(ngModel)]="speedModel"
 
-      >
-      </mat-slider>
-      <img src="../../../../assets/rabbit.png" class="speedImg" alt="Norway">
+        >
+        </mat-slider>
+        <img src="../../../../assets/rabbit.png" class="speedImg" alt="Norway">
+      </div>
     </div>
   </div>
   <div class="LiveVideoContent">
