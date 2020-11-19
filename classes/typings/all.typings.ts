@@ -456,7 +456,16 @@ export enum MISSION_REQUEST_ACTION {
 
 export type MISSION_REQUEST_DATA_UI = MISSION_REQUEST_DATA & {
     modeDefine: MISSION_REQUEST_DATA_MD,
+    actionOptions: MISSION_ACTION_OPTIONS,
     textUI?: {title: string, value: string}[]
+}
+
+export type MISSION_ACTION_OPTIONS = {
+    [MISSION_REQUEST_ACTION.Accept]?: boolean,
+    [MISSION_REQUEST_ACTION.Approve]?: boolean,
+    [MISSION_REQUEST_ACTION.Complete]?: boolean,
+    [MISSION_REQUEST_ACTION.Cancel]?: boolean,
+    [MISSION_REQUEST_ACTION.Reject]?: boolean,
 }
 
 export type MISSION_REQUEST_DATA_MD = {
@@ -645,7 +654,7 @@ export enum MISSION_STATUS_UI {
     Completed = 'Completed',
     Cancelled = 'Cancelled',
 
-    New = 'new',
+    New = 'New',
     WaitingForApproval = 'WaitingForApproval',
     Approve = 'Approve',
     Rejected = 'Rejected'
