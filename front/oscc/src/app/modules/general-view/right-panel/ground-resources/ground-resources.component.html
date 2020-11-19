@@ -9,7 +9,11 @@
   <!--icon 3 dotes-->
   <div class="item3">
     <!-- 3 dotes-->
-    <mat-icon matRipple *ngIf="!this.applicationService.isDialogOpen" [ngStyle]="{'cursor': 'pointer'}" [matMenuTriggerFor]="sendMenu">more_vert</mat-icon>
+    <mat-icon matRipple *ngIf="!this.applicationService.isDialogOpen"
+              (click)="$event.stopPropagation();"
+              [ngStyle]="{'cursor': 'pointer'}"
+              [matMenuTriggerFor]="sendMenu"
+    >more_vert</mat-icon>
     <mat-icon matRipple *ngIf="this.applicationService.isDialogOpen" [ngStyle]="{'cursor': 'no-drop'}">more_vert</mat-icon>
     <!-- Send Menu -->
     <mat-menu #sendMenu="matMenu">

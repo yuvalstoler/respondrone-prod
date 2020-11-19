@@ -7,10 +7,14 @@
         <div class="item1 title">{{airVehicle.name}}</div>
         <!--icons expend & 3 dotes-->
         <div class="item2">
-          <mat-icon (click)="onCloseMenu(airVehicle.id)" *ngIf="isOpenMenu[airVehicle.id]">keyboard_arrow_up</mat-icon>
-          <mat-icon (click)="onOpenMenu(airVehicle.id)" *ngIf="!isOpenMenu[airVehicle.id]">keyboard_arrow_down</mat-icon>
+          <mat-icon (click)="onCloseMenu($event, airVehicle.id)" *ngIf="isOpenMenu[airVehicle.id]">keyboard_arrow_up</mat-icon>
+          <mat-icon (click)="onOpenMenu($event, airVehicle.id)" *ngIf="!isOpenMenu[airVehicle.id]">keyboard_arrow_down</mat-icon>
           <!-- 3 dotes-->
-          <mat-icon matRipple *ngIf="!this.applicationService.isDialogOpen" [ngStyle]="{'cursor': 'pointer'}" [matMenuTriggerFor]="missionOptions">more_vert</mat-icon>
+          <mat-icon matRipple *ngIf="!this.applicationService.isDialogOpen"
+                    (click)="$event.stopPropagation();"
+                    [ngStyle]="{'cursor': 'pointer'}"
+                    [matMenuTriggerFor]="missionOptions"
+          >more_vert</mat-icon>
           <mat-icon matRipple *ngIf="this.applicationService.isDialogOpen" [ngStyle]="{'cursor': 'no-drop'}">more_vert</mat-icon>
           <!--Menu mission Options-->
           <mat-menu #missionOptions="matMenu">
@@ -76,14 +80,14 @@
         </div>
         <!--GPS-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item10">
-          {{airVehicle.gpsQuality}}
+          <img class="gpsIcon" [src]="airVehicle?.modeDefine?.styles?.gpsIcon" alt="gps">
         </div>
         <!--Azimuth-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item11">
           <span class="title">Azimuth: </span> {{airVehicle.heading}}°
         </div>
         <!--Status line-->
-        <div class="colorDiv" [ngStyle]="{'background-color': airVehicle.modeDefine?.styles?.statusColor}"></div>
+        <div class="colorDiv" [ngStyle]="{'background-color': airVehicle?.modeDefine?.styles?.statusColor}"></div>
       </div>
     </div>
   </div>

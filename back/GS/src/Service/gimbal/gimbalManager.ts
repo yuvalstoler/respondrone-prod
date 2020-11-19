@@ -15,8 +15,8 @@ import {
 import {SocketIOClient} from '../../websocket/socketIOClient';
 import {SocketIO} from '../../websocket/socket.io';
 import {SocketClient} from '../../websocket/socketClient';
-import {Gimbal} from "../../../../../classes/dataClasses/gimbal/Gimbal";
-import {RequestManager} from "../../AppService/restConnections/requestManager";
+import {Gimbal} from '../../../../../classes/dataClasses/gimbal/Gimbal';
+import {RequestManager} from '../../AppService/restConnections/requestManager';
 
 
 export class GimbalManager {
@@ -29,47 +29,95 @@ export class GimbalManager {
     timestamp: number;
 
     private constructor() {
-  /*      const date = Date.now();
+        const date = Date.now();
         const test: GIMBAL_DATA_TELEMETRY = {
             timestamp: {
                 timestamp: 0
             },
             gimbals: [
                 {
-                    "id": "string",
-                    "droneId": "string",
-                    "AIMode": 0,
-                    "gimbalParameters": {
-                        "pitch": -10,
-                        "yaw": -10
+                    'id': '1',
+                    'droneId': '1',
+                    'AIMode': 0,
+                    'gimbalParameters': {
+                        'pitch': -10,
+                        'yaw': -10
                     },
-                    "visibleCameraParameters": {
-                        "zoomVisibleCamera": 0
+                    'visibleCameraParameters': {
+                        'zoomVisibleCamera': 0 /*day*/
                     },
-                    "infraredCameraParameters": {
-                        "zoomInfraredCamera": 0,
-                        "colorPaletteInfraredCamera": COLOR_PALETTE_INFRARED_CAMERA.Arctic
+                    'infraredCameraParameters': { /*night*/
+                        'zoomInfraredCamera': 0,
+                        'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
                     },
-                    "trackedEntity": 0,
-                    "cameraLookAtPoint": {
-                        "lat": -90,
-                        "lon": -180,
-                        "alt": 0
+                    'trackedEntity': 0,
+                    'cameraLookAtPoint': {
+                        'lat': -90,
+                        'lon': -180,
+                        'alt': 0
                     },
-                    "opticalVideoURL": "string",
-                    "infraredVideoURL": "string"
+                    'opticalVideoURL': 'string',
+                    'infraredVideoURL': 'string'
+                },
+                {
+                    'id': '2',
+                    'droneId': '2',
+                    'AIMode': 0,
+                    'gimbalParameters': {
+                        'pitch': -10,
+                        'yaw': -10
+                    },
+                    'visibleCameraParameters': {
+                        'zoomVisibleCamera': 0 /*day*/
+                    },
+                    'infraredCameraParameters': { /*night*/
+                        'zoomInfraredCamera': 0,
+                        'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
+                    },
+                    'trackedEntity': 0,
+                    'cameraLookAtPoint': {
+                        'lat': -90,
+                        'lon': -180,
+                        'alt': 0
+                    },
+                    'opticalVideoURL': 'string',
+                    'infraredVideoURL': 'string'
+                },
+                {
+                    'id': '2',
+                    'droneId': '2',
+                    'AIMode': 0,
+                    'gimbalParameters': {
+                        'pitch': -10,
+                        'yaw': -10
+                    },
+                    'visibleCameraParameters': {
+                        'zoomVisibleCamera': 0 /*day*/
+                    },
+                    'infraredCameraParameters': { /*night*/
+                        'zoomInfraredCamera': 0,
+                        'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
+                    },
+                    'trackedEntity': 0,
+                    'cameraLookAtPoint': {
+                        'lat': -90,
+                        'lon': -180,
+                        'alt': 0
+                    },
+                    'opticalVideoURL': 'string',
+                    'infraredVideoURL': 'string'
                 }
             ]
 
-        }
+        };
         setInterval(() => {
             this.onGetGimbals(test);
-        }, 5000);*/
+        }, 5000);
     }
 
     private startGetSocket = () => {
         SocketClient.addToSortConfig(SOCKET_CLIENT_TYPES.GimbalTelemetrySenderRep, this.gimbalsSocketConfig);
-    }
+    };
 
     private onGetGimbals = (data: GIMBAL_DATA_TELEMETRY) => {
         this.gimbals = Converting.Arr_GIMBAL_DATA_to_Arr_Gimbal(data.gimbals);
@@ -91,7 +139,7 @@ export class GimbalManager {
                     resolve(data);
                 });
         });
-    }
+    };
 
     private gimbalsSocketConfig: {} = {
         [SOCKET_ROOM.Gimbals_Tel_room]: this.onGetGimbals,

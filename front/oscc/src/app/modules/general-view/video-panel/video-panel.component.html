@@ -1,11 +1,24 @@
 <div>
+  <!--Header-->
   <div *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"
        class="LiveVideoHeader">
     <!--Drone-->
     <div class="drone-container container">
-      <div>UAV name: <span>Test Alpha 122</span></div>
-      <div>Altitude: <span>Test 25m</span></div>
-      <div>Day<mat-slide-toggle></mat-slide-toggle>Night</div>
+      <div>UAV name:
+        <span>{{applicationService?.selectedAirVehicle?.name}}</span>&nbsp;
+        <!--<span>{{applicationService.selectedAirVehicle.id}}</span>-->
+      </div>
+      <div>Altitude: <span>{{applicationService?.selectedAirVehicle?.altitudeAGL}}m</span></div>
+      <div>Day<mat-slide-toggle (change)="changeSlide($event)"></mat-slide-toggle>Night</div>
+      <div class="videoSelect">
+        <mat-form-field appearance="outline" class="SPMatFormField">
+        <mat-select >
+          <mat-option *ngFor="let color of colorPalette" [value]="color">
+            {{color}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      </div>
     </div>
     <!--Camera-->
     <div class="camera-container container">
@@ -51,6 +64,7 @@
       </div>
     </div>
   </div>
+  <!--Arrows-->
   <div class="LiveVideoContent">
     <mat-icon class="arrows left" (click)="onClickLeft()"> keyboard_arrow_left </mat-icon>
     <mat-icon class="arrows right" (click)="onClickRight()"> keyboard_arrow_right </mat-icon>

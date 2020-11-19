@@ -28,11 +28,13 @@ export class AirResourcesComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onOpenMenu = (id) => {
+  onOpenMenu = ($event, id) => {
+    $event.stopPropagation();
     this.isOpenMenu[id] = true;
   };
 
-  onCloseMenu = (id) => {
+  onCloseMenu = ($event, id) => {
+    $event.stopPropagation();
     this.isOpenMenu[id] = false;
   };
 
@@ -116,7 +118,6 @@ export class AirResourcesComponent implements OnInit {
   onViewLiveVideo = (airVehicle: AV_DATA_UI) => {
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.liveVideo;
     // open panel
-    // TODO: open video
     this.applicationService.screen.showVideo = true;
     this.applicationService.selectedWindow = VIDEO_OR_MAP.map;
     //close others
@@ -124,6 +125,10 @@ export class AirResourcesComponent implements OnInit {
     this.applicationService.screen.showMissionControl = false;
     this.applicationService.screen.showSituationPicture = false;
     this.dialog.closeAll();
+
+    this.applicationService.selectedAirVehicle = airVehicle;
+    // const av = this.applicationService.selectedAirVehicle;
+
   };
 
 }

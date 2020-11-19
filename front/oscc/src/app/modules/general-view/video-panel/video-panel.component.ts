@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ApplicationService} from '../../../services/applicationService/application.service';
 import {VIDEO_OR_MAP} from '../../../../types';
 import {GimbalService} from '../../../services/gimbalService/gimbal.service';
+import {COLOR_PALETTE_INFRARED_CAMERA} from '../../../../../../../classes/typings/all.typings';
 
 @Component({
   selector: 'app-video-panel',
@@ -11,6 +12,7 @@ import {GimbalService} from '../../../services/gimbalService/gimbal.service';
 export class VideoPanelComponent implements OnInit {
 
   VIDEO_OR_MAP = VIDEO_OR_MAP;
+  colorPalette =  Object.values(COLOR_PALETTE_INFRARED_CAMERA);
 
   //zoom
   zoomModel = 0;
@@ -45,19 +47,27 @@ export class VideoPanelComponent implements OnInit {
     } else {
       this.applicationService.selectedWindow = VIDEO_OR_MAP.map;
     }
-
   };
 
-  onClickLeft(){
+  changeSlide = ($event) => {
+    if ($event.checked) {
+    //   night
+    //   todo : open select color
+    } else {
+    // day
+    }
+  };
+
+  onClickLeft() {
 
   }
-  onClickRight(){
+  onClickRight() {
 
   }
-  onClickDown(){
+  onClickDown() {
 
   }
-  onClickUp(){
+  onClickUp() {
 
   }
 

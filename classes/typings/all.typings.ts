@@ -328,6 +328,7 @@ export type AV_DATA_MD = {
         mapIcon: string,
         statusColor: string,
         iconSize: number,
+        gpsIcon: string
     }
 }
 
@@ -474,7 +475,7 @@ export type MISSION_REQUEST_DATA_MD = {
         mapIcon: string,
         textColor: string,
         dotColor: string,
-        iconSize: number,
+        iconSize: number
     },
     tableData: {
         id: TABLE_DATA_MD,

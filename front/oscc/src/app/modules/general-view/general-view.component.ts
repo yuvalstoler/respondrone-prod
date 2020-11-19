@@ -9,6 +9,7 @@ import {AirVehicleService} from '../../services/airVehicleService/airVehicle.ser
 import {MissionRequestService} from "../../services/missionRequestService/missionRequest.service";
 import {MissionService} from "../../services/missionService/mission.service";
 import {MissionRouteService} from "../../services/missionRouteService/missionRoute.service";
+import {GimbalService} from "../../services/gimbalService/gimbal.service";
 
 @Component({
   selector: 'app-general-view',
@@ -29,7 +30,8 @@ export class GeneralViewComponent implements OnInit {
               public missionService: MissionService,
               public missionRouteService: MissionRouteService,
               public airVehicleService: AirVehicleService,
-              public listenerMapService: ListenerMapService) { }
+              public listenerMapService: ListenerMapService,
+              public gimbalService: GimbalService) { }
 
   ngOnInit(): void {
   }

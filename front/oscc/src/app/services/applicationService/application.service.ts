@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {DISPLAY_ON_SCREEN, HEADER_BUTTONS, LEFT_PANEL_ICON, STATE_DRAW, VIDEO_OR_MAP} from 'src/types';
 import {
+  AV_DATA_UI,
   EVENT_DATA_UI,
   FILE_FS_DATA,
   GEOPOINT3D_SHORT,
@@ -28,6 +29,7 @@ export class ApplicationService {
   selectedViewMedia: FILE_FS_DATA;
   panelIcon: LEFT_PANEL_ICON = LEFT_PANEL_ICON.expand;
   stateDraw: STATE_DRAW = STATE_DRAW.notDraw;
+  private _selectedAirVehicle: AV_DATA_UI;
 
 
   now = Date.now();
@@ -65,6 +67,15 @@ export class ApplicationService {
       showVideo: false
     };
   }
+
+  get selectedAirVehicle(): AV_DATA_UI {
+    return this._selectedAirVehicle;
+  }
+
+  set selectedAirVehicle(value: AV_DATA_UI) {
+    this._selectedAirVehicle = value;
+  }
+
 
   point3d_to_geoPoint3d_short_arr = (points: POINT3D[]): GEOPOINT3D_SHORT[] => {
     const geopoints = points.map(point => this.point3d_to_geoPoint3d_short(point));

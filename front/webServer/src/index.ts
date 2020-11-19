@@ -22,6 +22,7 @@ import {
 import { REST_ROUTER_CONFIG } from '../../../classes/typings/all.typings';
 import {FrManager} from "./Service/fr/frManager";
 import {AirVehicleManager} from "./Service/airVehicle/airVehicleManager";
+import {GimbalManager} from "./Service/gimbal/gimbalManager";
 
 
 
@@ -69,6 +70,7 @@ export class Server {
         });
 
         FrManager.startGetSocket();
+        GimbalManager.startGetSocket();
         AirVehicleManager.startGetSocket();
         // AlgorithmManager.listen(restManager.routers['/missionAction']);
         // AltitudeSlotManager.listen(restManager.routers['/altitudeSlot']);

@@ -4,9 +4,9 @@ import {
     ID_OBJ,
     LAST_ACTION,
     MISSION_REQUEST_ACTION_OBJ,
-    MISSION_REQUEST_DATA,
+    MISSION_REQUEST_DATA, MISSION_STATUS_UI,
     MISSION_TYPE, REP_ARR_KEY,
-    REPORT_DATA,
+    REPORT_DATA, SOURCE_TYPE,
     TMM_RESPONSE
 } from "../../../../../classes/typings/all.typings";
 import {
@@ -252,17 +252,17 @@ export class MissionRequestManager {
                         newMissionRequest.idView = missionRequestData.idView || DataUtility.generateIDForView();
 
                         RequestManager.requestToDBS(DBS_API.createMissionRequest, newMissionRequest.toJsonForSave())
-                            .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
-                                res.data = data.data;
-                                res.success = data.success;
-                                res.description = data.description;
-                                if ( data.success ) {
+                            .then((result: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                                res.data = result.data;
+                                res.success = result.success;
+                                res.description = result.description;
+                                if ( result.success ) {
                                     // const missionRequest: MissionRequest = this.missionRequests.find(element => element.id === data.data.id);
                                     // if ( missionRequest ) {
                                     //     missionRequest.setValues(data.data);
                                     // }
                                     // else {
-                                        const missionRequest = this.newMissionRequestClass(missionRequestData.missionType, data.data);
+                                        const missionRequest = this.newMissionRequestClass(missionRequestData.missionType, result.data);
                                         if (missionRequest) {
                                             this.missionRequests.push(missionRequest);
                                         }
@@ -272,27 +272,27 @@ export class MissionRequestManager {
                                 }
                                 resolve(res);
                             })
-                            .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
-                                console.log(data);
-                                reject(data);
+                            .catch((err: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                                console.log(err);
+                                reject(err);
                             });
                     }
                     else {
-                        console.log('failed response from TMM', JSON.stringify(TMMResponse))
+                        console.log('failed response from TMM', JSON.stringify(TMMResponse));
                     }
 
                 })
                 .catch((data) => {
-                    console.log('failed send to TMM', JSON.stringify(data))
-                })
+                    console.log('failed send to TMM', JSON.stringify(data));
+                });
         });
-    }
+    };
     // ------------------
     private createMissionRequestFromMGW = (missionRequestData: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE<MISSION_REQUEST_DATA>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
 
-            missionRequestData.missionStatus = MISSION_STATUS_UI.New
+            missionRequestData.missionStatus = MISSION_STATUS_UI.New;
             missionRequestData.source = SOURCE_TYPE.MRF;
             missionRequestData.id = DataUtility.generateID();
             missionRequestData.time = missionRequestData.time || Date.now();
@@ -319,7 +319,7 @@ export class MissionRequestManager {
                     reject(data);
                 });
         });
-    }
+    };
     // ------------------
     private sendGetMissionRequest = (missionType: MISSION_TYPE, data: any): Promise<ASYNC_RESPONSE> => {
         const collectionVersion = RepositoryManager.getCollectionVersion(missionType);
@@ -515,7 +515,6 @@ export class MissionRequestManager {
     }
 
 
-    }
 
     // --------------------------
     private updateMissionInDB = (missionRequestData: MISSION_REQUEST_DATA) => {

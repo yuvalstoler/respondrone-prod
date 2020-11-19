@@ -6,6 +6,7 @@ const servicesConf = require('./../../../../../../../config/services.json');
 
 const FRSServiceURL = servicesConf.FRS.protocol + '://' + servicesConf.FRS.host + ':' + servicesConf.FRS.port;
 const MServiceURL = servicesConf.MS.protocol + '://' + servicesConf.MS.host + ':' + servicesConf.MS.port;
+const GServiceURL = servicesConf.GS.protocol + '://' + servicesConf.GS.host + ':' + servicesConf.GS.port;
 
 export class SocketIOClient {
     private static instance: SocketIOClient = new SocketIOClient();
@@ -18,6 +19,7 @@ export class SocketIOClient {
     private constructor() {
         this.sockets[SOCKET_IO_CLIENT_TYPES.FRS] = io(FRSServiceURL, {autoConnect: true});
         this.sockets[SOCKET_IO_CLIENT_TYPES.MS] = io(MServiceURL, {autoConnect: true});
+        this.sockets[SOCKET_IO_CLIENT_TYPES.GS] = io(GServiceURL, {autoConnect: true});
     }
 
     // public static getInstance() {
