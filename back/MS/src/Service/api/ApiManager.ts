@@ -62,14 +62,14 @@ export class ApiManager implements IRest {
     };
 
     private createMissionRequestFromMGW = (request: Request, response: Response) => {
-        // const requestBody: MISSION_REQUEST_DATA = request.body;
-        // MissionRequestManager.createMissionRequestFromMGW(requestBody)
-        //     .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
-        //         response.send(data);
-        //     })
-        //     .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
-        //         response.send(data);
-        //     });
+        const requestBody: MISSION_REQUEST_DATA = request.body;
+        MissionRequestManager.createMissionRequestFromMGW(requestBody)
+            .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                response.send(data);
+            });
     };
 
     private readAllMissionRequest = (request: Request, response: Response) => {

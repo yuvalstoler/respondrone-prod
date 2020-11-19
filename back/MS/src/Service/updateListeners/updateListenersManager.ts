@@ -40,7 +40,7 @@ export class UpdateListenersManager {
             const res: ASYNC_RESPONSE = {success: false};
             Promise.all(promisesArr)
                 .then((result: ASYNC_RESPONSE[]) => {
-                    console.log(Date.now(), 'finish *then* updateReportListeners');
+                    // console.log(Date.now(), 'finish *then* updateReportListeners');
                     res.success = true;
                     resolve(res);
                 })

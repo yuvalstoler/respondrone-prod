@@ -287,7 +287,40 @@ export class MissionRequestManager {
                 })
         });
     }
+    // ------------------
+    private createMissionRequestFromMGW = (missionRequestData: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE<MISSION_REQUEST_DATA>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
 
+            missionRequestData.missionStatus = MISSION_STATUS_UI.New
+            missionRequestData.source = SOURCE_TYPE.MRF;
+            missionRequestData.id = DataUtility.generateID();
+            missionRequestData.time = missionRequestData.time || Date.now();
+            missionRequestData.idView = missionRequestData.idView || DataUtility.generateIDForView();
+
+            const newMissionRequest: MissionRequest = this.newMissionRequestClass(missionRequestData.missionType, missionRequestData);
+            this.saveMissionInDB(newMissionRequest)
+                .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                    res.data = data.data;
+                    res.success = data.success;
+                    res.description = data.description;
+                    if ( data.success ) {
+                        const missionRequest = this.newMissionRequestClass(missionRequestData.missionType, data.data);
+                        if (missionRequest) {
+                            this.missionRequests.push(missionRequest);
+                        }
+
+                        UpdateListenersManager.updateMissionRequestListeners();
+                    }
+                    resolve(res);
+                })
+                .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                    console.log(data);
+                    reject(data);
+                });
+        });
+    }
+    // ------------------
     private sendGetMissionRequest = (missionType: MISSION_TYPE, data: any): Promise<ASYNC_RESPONSE> => {
         const collectionVersion = RepositoryManager.getCollectionVersion(missionType);
         if (collectionVersion !== undefined) {
@@ -472,10 +505,19 @@ export class MissionRequestManager {
                 });
         });
     };
+    // --------------------------
+    private deleteMissionFromDB = (idObj: ID_OBJ): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.requestToDBS(DBS_API.deleteMissionRequest, idObj)
+    }
+    // --------------------------
+    private saveMissionInDB = (newMissionRequest: MissionRequest): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.requestToDBS(DBS_API.createMissionRequest, newMissionRequest.toJsonForSave())
+    }
 
 
 
     // region API uncions
+    public static createMissionRequestFromMGW = MissionRequestManager.instance.createMissionRequestFromMGW;
     public static createMissionRequest = MissionRequestManager.instance.createMissionRequest;
     public static readAllMissionRequest = MissionRequestManager.instance.readAllMissionRequest;
     public static getMissionRequests = MissionRequestManager.instance.getMissionRequests;
