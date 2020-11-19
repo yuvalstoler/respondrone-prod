@@ -65,4 +65,8 @@ export class GroundResourcesComponent implements OnInit {
     });
   };
 
+  flyTo = (fr: FR_DATA_UI) => {
+    this.frService.flyToObject(fr)
+  }
+
 }

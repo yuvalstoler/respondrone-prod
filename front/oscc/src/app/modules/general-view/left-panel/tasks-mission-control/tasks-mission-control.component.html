@@ -13,19 +13,19 @@
 <!--         class="RightSideButton pointer">Archive-->
 <!--    </div>-->
 
-    <mat-form-field appearance="outline" *ngIf="applicationService.selectedTasks.length === 1">
-      <mat-label>Update status</mat-label>
-      <mat-select>
-        <mat-option value="Canceled" (click)="onTaskAction(TASK_ACTION.cancel)">
-          <span class="material-icons" [ngStyle]="{'color': '#6f30a0', 'font-size': '12px'}">stop_circle</span>
-          Canceled
-        </mat-option>
-        <mat-option value="Completed" (click)="onTaskAction(TASK_ACTION.complete)">
-          <span class="material-icons" [ngStyle]="{'color': '#92d150', 'font-size': '12px'}">stop_circle</span>
-          Completed
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+
+    <button mat-button *ngIf="applicationService.selectedTasks.length === 1"
+            [matMenuTriggerFor]="menu" class="RightSideButton">Update status</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="onTaskAction(TASK_ACTION.cancel)">
+        <span class="material-icons" [ngStyle]="{'color': '#6f30a0', 'font-size': '12px'}">stop_circle</span>
+        Canceled
+      </button>
+      <button mat-menu-item (click)="onTaskAction(TASK_ACTION.complete)">
+        <span class="material-icons" [ngStyle]="{'color': '#92d150', 'font-size': '12px'}">stop_circle</span>
+        Completed
+      </button>
+    </mat-menu>
 
 
     <div (click)="onEditTask()"
