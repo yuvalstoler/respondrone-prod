@@ -1,4 +1,5 @@
-<div *ngFor="let fr of frService.frs.data | sortByPriority: optionSelected " class="gridResources">
+<div *ngFor="let fr of frService.frs.data | sortByPriority: optionSelected "
+     class="gridResources" (click)="flyTo(fr)">
   <!--icon resource-->
   <div class="item1">
     <img [src]="fr.modeDefine?.styles?.mapIcon" class='icon'>

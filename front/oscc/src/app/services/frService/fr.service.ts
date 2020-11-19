@@ -93,8 +93,11 @@ export class FRService {
     // this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.icon, 30);
   };
 
-  public flyToObject = (coordinates: POINT | POINT3D) => {
-    this.mapGeneralService.flyToObject(coordinates);
+  public flyToObject = (object: FR_DATA_UI) => {
+    if (object.location) {
+      const coordinates: POINT3D = [object.location.longitude, object.location.latitude, object.location.altitude];
+      this.mapGeneralService.flyToObject(coordinates);
+    }
   };
 
 

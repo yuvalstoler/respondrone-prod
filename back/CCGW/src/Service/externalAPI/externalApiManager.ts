@@ -4,12 +4,13 @@ const _ = require('lodash');
 
 import {
     ASYNC_RESPONSE,
-    ID_OBJ,
+    ID_OBJ, MISSION_REQUEST_DATA,
     REPORT_DATA,
     TASK_DATA, USER_TASK_ACTION,
 
 } from '../../../../../classes/typings/all.typings';
 import {
+    MS_API,
     RS_API,
     TS_API
 } from "../../../../../classes/dataClasses/api/api_enums";
@@ -80,6 +81,23 @@ export class ExternalApiManager {
         });
     }
 
+    private createMissionRequestFromMGW = (missionRequestData: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE<MISSION_REQUEST_DATA>> => {
+        return new Promise((resolve, reject) => {
+            // const res: ASYNC_RESPONSE = {success: false};
+            //    todo send to RS
+            RequestManager.requestToMS(MS_API.createMissionRequestFromMGW, missionRequestData)
+                .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                    resolve(data);
+                })
+                .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                    reject(data);
+                });
+
+            // resolve(res);
+
+        });
+    }
+
 
     // region API uncions
 
@@ -87,6 +105,7 @@ export class ExternalApiManager {
     public static getTasks = ExternalApiManager.instance.getTasks;
     public static getTaskById = ExternalApiManager.instance.getTaskById;
     public static userTaskAction = ExternalApiManager.instance.userTaskAction;
+    public static createMissionRequestFromMGW = ExternalApiManager.instance.createMissionRequestFromMGW;
 
 
     // endregion API uncions

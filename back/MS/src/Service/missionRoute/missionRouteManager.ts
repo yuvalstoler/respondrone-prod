@@ -33,48 +33,6 @@ export class MissionRouteManager {
     }
 
     private startUpdateMissionRoutes = () => {
-        /*       const aa: MISSION_ROUTE_DATA = {
-            version:0,
-            lastAction: LAST_ACTION.Insert,
-            id: 'eee',
-            missionType: MISSION_TYPE.Observation,
-            status: ROUTE_STATUS.Active,
-            requestId: 'aaa',
-            missionId: 'www',
-            route: [
-                {
-                    point:  {
-                        lon: 33.810,
-                        lat: 27.464,
-                        alt: 0
-                    },
-                    velocity: 0,
-                    heading: 0
-                },
-                {
-                    point:  {
-                        lon: 34.172,
-                        lat: 27.357,
-                        alt: 0
-                    },
-                    velocity: 0,
-                    heading: 0
-                },
-                {
-                    point:  {
-                        lon: 34.315,
-                        lat: 27.176,
-                        alt: 0
-                    },
-                    velocity: 0,
-                    heading: 0
-                }
-            ]
-        }
-        this.missionRoutes.push(new MissionRoute(aa));
-        setTimeout(() => {
-            UpdateListenersManager.updateMissionRouteListeners();
-        }, 5000)*/
 
         setInterval(() => {
             RequestManager.requestToMissionRouteRep(`${MissionRouteRep_API.getLastMissionRoutes}/${this.collectionVersion}`,{})

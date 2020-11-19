@@ -13,7 +13,7 @@ import {
     ASYNC_RESPONSE,
     FILE_DB_DATA,
     FILE_GW_DATA,
-    ID_OBJ,
+    ID_OBJ, MISSION_REQUEST_DATA,
     REPORT_DATA,
     TASK_DATA,
     UPDATE_FILE_STATUS, USER_TASK_ACTION,
@@ -163,6 +163,21 @@ export class ApiManager implements IRest {
             });
     };
 
+    // -------------------------------
+
+    private createMissionRequestFromMGW = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<boolean> = {success: true};
+        const requestBody: MISSION_REQUEST_DATA = request.body;
+
+        ExternalApiManager.createMissionRequestFromMGW(requestBody)
+            .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(data);
+            });
+    };
+
     //--------------------------------
 
     routersExternal: {} = {
@@ -172,6 +187,8 @@ export class ApiManager implements IRest {
         [CCGW_API.getTasks]: this.getTasks,
         [CCGW_API.getTaskById]: this.getTaskById,
         [CCGW_API.userTaskAction]: this.userTaskAction,
+
+        [CCGW_API.createMissionRequestFromMGW]: this.createMissionRequestFromMGW,
     };
 
     routersInternal: {} = {
