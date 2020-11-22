@@ -12,7 +12,7 @@ export class TaskAssigneesDialogComponent implements OnInit {
   @ViewChild(TaskAssigneesContainerComponent) childComponent: TaskAssigneesContainerComponent ;
 
   constructor(public dialogRef: MatDialogRef<TaskAssigneesDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: string[]) { }
+              @Inject(MAT_DIALOG_DATA) public data: {title: string, ids: string[]}) { }
 
   ngOnInit(): void {
     this.updateLinkedData();
@@ -20,7 +20,7 @@ export class TaskAssigneesDialogComponent implements OnInit {
 
   updateLinkedData = () => {
     if (this.childComponent && this.childComponent.childComponent) {
-      this.childComponent.childComponent.checkSelected(this.data);
+      this.childComponent.childComponent.checkSelected(this.data.ids);
     } else {
       setTimeout(this.updateLinkedData, 50);
     }

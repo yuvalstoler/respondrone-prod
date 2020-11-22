@@ -169,7 +169,8 @@
         <div *ngIf="missionModel?.missionType === MISSION_TYPE.Servoing">
           <small>Choose FR to follow</small>
           <div class="">
-            <!--<app-task-assignee-table [element]="missionModel" [isFRs]="true" (updateAssignees)="onUpdateFRs($event)"></app-task-assignee-table>-->
+            <app-task-assignee-table [title]="'Missions entities'" [frs]="missionModel.frs" [ids]="missionModel.frIds"
+                                     (updateAssignees)="onUpdateFRs($event)"></app-task-assignee-table>
           </div>
         </div>
         <mat-action-row>
@@ -298,7 +299,9 @@
           <small>Choose FR to follow</small>
           <div class="">
             <app-task-assignee-table (updateAssignees)="onUpdateFRs($event)"
-                                     [element]="missionModel"></app-task-assignee-table>
+                                     [title]="'Missions entities'"
+                                     [ids]="missionModel?.frIds"
+                                     [frs]="missionModel?.frs" ></app-task-assignee-table>
           </div>
         </div>
         <mat-action-row>

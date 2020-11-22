@@ -1,7 +1,8 @@
 <mat-accordion>
   <div class="AirResourcesContainer scroll">
     <div *ngFor="let airVehicle of airVehicleService.airVehicles.data | sortByPriority: optionSelected">
-      <div [ngStyle]="{ 'grid-template-rows': isOpenMenu[airVehicle.id] ? '25px 25px 25px 7px 25px 25px' : '25px 25px 25px'}"
+      <div [ngStyle]="{ 'grid-template-rows': isOpenMenu[airVehicle.id] ? '25px 25px 25px 7px 25px 25px' : '25px 25px 25px',
+      'border-bottom': '5px solid' + airVehicle?.modeDefine?.styles?.statusColor}"
            class="gridAirResources" (click)="flyTo(airVehicle)">
         <!--title-->
         <div class="item1 title">{{airVehicle.name}}</div>
@@ -69,7 +70,7 @@
         <div class="item7">
           <span class="title">Speed: </span> {{airVehicle.velocity}} m/s
         </div>
-        <div class="item8"></div>
+        <div class="item8" *ngIf="isOpenMenu[airVehicle.id]"></div>
         <!--------------------- Expend Panel ----------------->
         <!--Alt ASL-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item9">
@@ -87,8 +88,9 @@
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item12">
           <span class="title">Azimuth: </span> {{airVehicle.heading}}°
         </div>
-        <!--Status line-->
-        <div class="colorDiv" [ngStyle]="{'background-color': airVehicle?.modeDefine?.styles?.statusColor}"></div>
+        <!--&lt;!&ndash;Status line&ndash;&gt;-->
+        <!--<div class="colorDiv" [ngStyle]="{'background-color': airVehicle?.modeDefine?.styles?.statusColor}"></div>-->
+
       </div>
     </div>
   </div>

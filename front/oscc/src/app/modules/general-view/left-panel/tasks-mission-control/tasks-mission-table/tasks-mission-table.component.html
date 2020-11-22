@@ -110,7 +110,11 @@
           <div class="example-element-assignees">
             <!--Task Assignees-->
             <div class="assignees">
-              <app-task-assignee-table [element]="element" (updateAssignees)="onUpdateAssignees($event, element)"></app-task-assignee-table>
+              <app-task-assignee-table
+                [title]="'Task assignee'"
+                [frs]="element?.assignees"
+                [ids]="element?.assigneeIds"
+                (updateAssignees)="onUpdateAssignees($event, element)"></app-task-assignee-table>
             </div>
 
             <!--Task Resources-->

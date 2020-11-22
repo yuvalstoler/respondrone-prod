@@ -51,14 +51,19 @@ export class VideoPanelComponent implements OnInit {
   };
 
   changeSlide = ($event) => {
-    if ($event.checked) {
-    //   night
-    //   todo : open select color
-      this.dayNight = true;
-    } else {
-    // day
-      this.dayNight = false;
-    }
+    this.dayNight = !!$event.checked;
+  };
+
+  checkColorPalette = ($event) => {
+    console.log($event.value);
+  };
+
+  onChangeZoom = (zoom) => {
+    console.log(zoom);
+  };
+
+  onChangeSpeed = (speed) => {
+    console.log(speed);
   };
 
   onClickLeft() {

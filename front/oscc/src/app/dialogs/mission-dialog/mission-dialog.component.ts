@@ -541,12 +541,12 @@ export class MissionDialogComponent implements OnInit {
   onUpdateFRs = (frIds: string[]) => {
     if (frIds && Array.isArray(frIds)) {
       this.missionModel.frIds = frIds;
-      const assignees = [];
+      const frs = [];
       this.missionModel.frIds.forEach((id: string) => {
         const assignee: FR_DATA_UI = this.frService.getFRById(id);
-        assignees.push(assignee);
+        frs.push(assignee);
       });
-      this.missionModel.frs = assignees;
+      this.missionModel.frs = frs;
     }
   };
 

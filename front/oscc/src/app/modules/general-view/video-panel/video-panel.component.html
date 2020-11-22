@@ -4,7 +4,7 @@
        class="LiveVideoHeader">
     <!--Drone-->
     <div class="drone-container container">
-      <div>UAV name:
+      <div>UAV nameElement:
         <span>{{applicationService?.selectedAirVehicle?.name}}</span>&nbsp;
         <!--<span>{{applicationService.selectedAirVehicle.id}}</span>-->
       </div>
@@ -13,7 +13,7 @@
       <div class="videoSelect" *ngIf="dayNight">
         <mat-form-field appearance="outline" class="SPMatFormField">
           <!--<mat-label>Choose color palette</mat-label>-->
-        <mat-select placeholder="Choose color palette">
+        <mat-select placeholder="Choose color palette" (selectionChange)="checkColorPalette($event)">
           <mat-option *ngFor="let color of colorPalette" [value]="color">
             {{color}}
           </mat-option>
@@ -42,6 +42,7 @@
           [min]="minZoom"
           [max]="maxZoom"
           [(ngModel)]="zoomModel"
+          (change)="onChangeZoom(zoomModel)"
         >
         </mat-slider>
         <span>10x</span>
@@ -58,7 +59,7 @@
           [min]="minSpeed"
           [max]="maxSpeed"
           [(ngModel)]="speedModel"
-
+          (change)="onChangeSpeed(speedModel)"
         >
         </mat-slider>
         <img src="../../../../assets/fast.png" class="speedFastImg" alt="fast">

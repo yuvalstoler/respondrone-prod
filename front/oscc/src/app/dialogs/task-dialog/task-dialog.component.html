@@ -88,7 +88,10 @@
       </div>
       <!--Task Assignees-->
       <div class="DialogContentItem">
-        <app-task-assignee-table [element]="taskModel" (updateAssignees)="onUpdateAssignees($event)"></app-task-assignee-table>
+        <app-task-assignee-table [frs]="taskModel?.assignees"
+                                 [title]="'Task assignees'"
+                                 [ids]="taskModel?.assigneeIds"
+                                 (updateAssignees)="onUpdateAssignees($event)"></app-task-assignee-table>
       </div>
       <!--Geographic Instructions-->
       <div class="DialogContentItem">

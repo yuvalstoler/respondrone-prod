@@ -1,8 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {
-  FR_DATA,
-  TASK_DATA_UI
-} from '../../../../../../../classes/typings/all.typings';
+import {FR_DATA} from '../../../../../../../classes/typings/all.typings';
 import {MatDialog} from '@angular/material/dialog';
 import {ApplicationService} from '../../../services/applicationService/application.service';
 import {MatSort} from '@angular/material/sort';
@@ -16,21 +13,23 @@ import {FRService} from '../../../services/frService/fr.service';
   styleUrls: ['./task-assignee-table.component.scss']
 })
 export class TaskAssigneeTableComponent implements OnInit {
-  //
-  // @Input() isFRs: boolean;
-  @Input() element: TASK_DATA_UI;
+
+  @Input() frs: any /*(TASK_DATA_UI | MISSION_MODEL_UI)*/;
+  @Input() ids: any /*(TASK_DATA_UI | MISSION_MODEL_UI)*/;
+  @Input() title: string;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @Output() updateAssignees = new EventEmitter<string[]>();
 
   displayedColumns: string[] = ['ID', 'Type', 'Status', 'actionsColumn'];
-  dataSource:  MatTableDataSource<FR_DATA>;
+  dataSource: MatTableDataSource<FR_DATA>;
 
   constructor(public dialog: MatDialog,
               public applicationService: ApplicationService,
-              public frService: FRService) { }
+              public frService: FRService) {
+  }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.element.assignees);
+    this.dataSource = new MatTableDataSource(this.frs);
   }
 
   ngAfterViewInit() {
@@ -42,12 +41,11 @@ export class TaskAssigneeTableComponent implements OnInit {
   };
 
   removeAt = (row: FR_DATA) => {
-    const assigneeIds = [...this.element.assigneeIds];
-    const index = assigneeIds.indexOf(row.id);
+    const index = this.ids.indexOf(row.id);
     if (index !== -1) {
-      assigneeIds.splice(index, 1);
+      this.ids.splice(index, 1);
     }
-    this.updateAssignees.emit(assigneeIds);
+    this.updateAssignees.emit(this.ids);
   };
 
   onAddAssignee = () => {
@@ -58,21 +56,23 @@ export class TaskAssigneeTableComponent implements OnInit {
   };
 
   openAddAssigneeDialog = (): void => {
+    const data = {
+      title: this.title,
+      ids: this.ids
+    };
     const dialogRef = this.dialog.open(TaskAssigneesDialogComponent, {
       width: '700px',
       disableClose: true,
-      data: this.element.assigneeIds
+      data: data
     });
 
     dialogRef.afterClosed().subscribe((result: string[]) => {
       if (result && Array.isArray(result)) {
-        const allLinked = [...this.element.assigneeIds, ...result];
+        const allLinked = [...this.ids, ...result];
         this.updateAssignees.emit(allLinked);
       }
     });
   };
-
-
 
 
 }

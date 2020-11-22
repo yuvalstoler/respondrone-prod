@@ -1,21 +1,24 @@
-<div class="AssigneesTable"><!--*ngIf="!isFRs"-->
+<div class="AssigneesTable">
   <div class="AssigneesHeader" >
-    <span class="DialogTitle">Task assignee</span>
+    <span class="DialogTitle">{{title}}</span>
     <span (click)="onAddAssignee()"
           [ngStyle]="{'color': (frService.frs.data.length <= 0) ? 'lightgray': '',
                       'border-bottom': (frService.frs.data.length <= 0) ? 'none' : ''}"
-          class="DialogAssignee pointer">Add assignee</span>
+          class="DialogAssignee pointer">Add {{(title === 'Task assignees') ? 'assignees' : 'entities'}}</span>
   </div>
   <!--<div *ngIf="isFRs">filter test</div>-->
-  <div *ngIf="frService?.frs?.data?.length <= 0" class="DialogNotElement">
-    No Assignees
+  <div *ngIf="frService?.frs?.data?.length === 0" class="DialogNotElement">
+    No {{title}}
   </div>
-  <div *ngIf="element?.assignees?.length <= 0" class="DialogNotElement">
-    Add assignees by clicking on the “Add assignee” button.
+
+    <!--Add entities by clicking on the “Add entities” button.-->
+
+  <div *ngIf="frs?.length === 0" class="DialogNotElement">
+    Add {{title}} by clicking on the “Add {{(title === 'Task assignees') ? 'assignees' : 'entities'}}” button.
   </div>
   <div class="tableScroll scroll">
-    <table *ngIf="frService?.frs?.data?.length > 0 && element?.assignees?.length > 0"
-           [dataSource]="element.assignees" class="mat-elevation-z8" mat-table matSort>
+    <table *ngIf="frService?.frs?.data?.length > 0 && frs.length > 0 "
+           [dataSource]="frs" class="mat-elevation-z8" mat-table matSort>
 
       <!-- ID Column -->
       <ng-container matColumnDef="ID">
