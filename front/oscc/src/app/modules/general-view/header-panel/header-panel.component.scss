@@ -1,6 +1,7 @@
 @import "../../../../styles/colors";
 @import "../../../../styles/variable";
 
+
 .HeaderContainer {
   color: $white;
 }
@@ -93,5 +94,9 @@
 .mat-menu-item {
   line-height: 25px;
   height: 25px;
+}
+.Disabled{
+  color: $darkGray;
+  cursor: no-drop !important;
 }
 

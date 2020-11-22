@@ -13,6 +13,7 @@ export class VideoPanelComponent implements OnInit {
 
   VIDEO_OR_MAP = VIDEO_OR_MAP;
   colorPalette =  Object.values(COLOR_PALETTE_INFRARED_CAMERA);
+  dayNight = false;
 
   //zoom
   zoomModel = 0;
@@ -53,8 +54,10 @@ export class VideoPanelComponent implements OnInit {
     if ($event.checked) {
     //   night
     //   todo : open select color
+      this.dayNight = true;
     } else {
     // day
+      this.dayNight = false;
     }
   };
 

@@ -53,25 +53,30 @@
   text-align: right;
 }
 .item8{
-  grid-column: 1;
+  grid-column: 1/ span 3;
   grid-row: 4;
+  border-top: 1px solid $gray;
 }
 .item9{
-  grid-column: 2;
-  grid-row: 4;
-}
-.item10{
-  grid-column: 3;
-  grid-row: 4/ span 2;
-  text-align: right;
-}
-.item11{
   grid-column: 1;
   grid-row: 5;
 }
-.item12{
+.item10{
+  grid-column: 2;
+  grid-row: 5;
+}
+.item11{
   grid-column: 3;
   grid-row: 5;
+  text-align: right;
+}
+.item12{
+  grid-column: 1;
+  grid-row: 6;
+}
+.item13{
+  grid-column: 3;
+  grid-row: 6;
   text-align: right;
 }
 .title {
@@ -80,7 +85,7 @@
 
 .colorDiv {
   height: 4px;
-  grid-row: 6;
+  grid-row: 7;
   grid-column: 1 / span 3;
   border-radius: 5px;
 }
@@ -90,5 +95,5 @@
   height: 30px;
 }
 .gpsIcon{
-  height: 30px;
+  height: 17px;
 }

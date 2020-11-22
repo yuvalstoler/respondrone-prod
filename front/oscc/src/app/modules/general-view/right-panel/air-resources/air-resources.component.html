@@ -1,7 +1,7 @@
 <mat-accordion>
   <div class="AirResourcesContainer scroll">
     <div *ngFor="let airVehicle of airVehicleService.airVehicles.data | sortByPriority: optionSelected">
-      <div [ngStyle]="{ 'grid-template-rows': isOpenMenu[airVehicle.id] ? '25px 20px 20px 20px 25px' : '25px 20px 25px'}"
+      <div [ngStyle]="{ 'grid-template-rows': isOpenMenu[airVehicle.id] ? '25px 25px 25px 7px 25px 25px' : '25px 25px 25px'}"
            class="gridAirResources" (click)="flyTo(airVehicle)">
         <!--title-->
         <div class="item1 title">{{airVehicle.name}}</div>
@@ -69,21 +69,22 @@
         <div class="item7">
           <span class="title">Speed: </span> {{airVehicle.velocity}} m/s
         </div>
+        <div class="item8"></div>
         <!--------------------- Expend Panel ----------------->
         <!--Alt ASL-->
-        <div *ngIf="isOpenMenu[airVehicle.id]" class="item8">
+        <div *ngIf="isOpenMenu[airVehicle.id]" class="item9">
           <span class="title">Alt ASL: </span> {{airVehicle.altitudeAsl}}
         </div>
         <!--Energy-->
-        <div *ngIf="isOpenMenu[airVehicle.id]" class="item9">
+        <div *ngIf="isOpenMenu[airVehicle.id]" class="item10">
           <span class="title">Energy: </span> {{airVehicle.energyLevel}}
         </div>
         <!--GPS-->
-        <div *ngIf="isOpenMenu[airVehicle.id]" class="item10">
+        <div *ngIf="isOpenMenu[airVehicle.id]" class="item11">
           <img class="gpsIcon" [src]="airVehicle?.modeDefine?.styles?.gpsIcon" alt="gps">
         </div>
         <!--Azimuth-->
-        <div *ngIf="isOpenMenu[airVehicle.id]" class="item11">
+        <div *ngIf="isOpenMenu[airVehicle.id]" class="item12">
           <span class="title">Azimuth: </span> {{airVehicle.heading}}°
         </div>
         <!--Status line-->

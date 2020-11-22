@@ -1,6 +1,7 @@
 @import "colors";
 
-.disabled{
-   background-color: $Disabled;
-   color: $darkGray;
- }
+.disabled {
+  background-color: $Disabled;
+  color: $darkGray;
+  cursor: no-drop !important;
+}

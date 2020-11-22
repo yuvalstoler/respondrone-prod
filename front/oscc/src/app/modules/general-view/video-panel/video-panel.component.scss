@@ -1,5 +1,6 @@
 @import '../../../../styles/colors';
 @import '../../../../styles/variable';
+@import '../../../../styles/override';
 
 .LiveVideoHeader {
   display: flex;
@@ -21,23 +22,53 @@
   display: grid;
   grid-template-columns: auto auto;
   grid-template-rows: calc(#{$headerVideoHeight} / 2 - 10px) calc(#{$headerVideoHeight} / 2 - 10px);
+  border-right: 1px solid $lightGray;
 
-  div{
+  div {
     padding: 0 10px;
     margin: auto 0;
     font-size: $fontSizeVideoText;
     font-weight: 600;
   }
-  span{
+
+  span {
     font-size: $fontSizeVideoText;
     font-weight: 100;
   }
-  mat-slide-toggle{
+
+  mat-slide-toggle {
     padding: 0 10px;
   }
-  .videoSelect {
-    margin: 0px 20px;
 
+  .videoSelect {
+    div {
+      font-size: $fontSizeText !important;
+    }
+  }
+
+  ::ng-deep .mat-form-field {
+    display: block !important;
+    color: $white !important;
+  }
+
+  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0em 0 0.5em 0 !important;
+  }
+
+  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
+    margin: -1em 0 !important;
+  }
+
+  ::ng-deep.mat-form-field-wrapper {
+    padding-bottom: 0em !important;
+  }
+
+  ::ng-deep.mat-select-value {
+    color: $white !important;
+  }
+
+  ::ng-deep.mat-form-field-appearance-outline .mat-select-arrow-wrapper {
+    transform: translateY(0%) !important;
   }
 
 }
@@ -46,32 +77,38 @@
   display: grid;
   grid-template-columns: auto auto;
   grid-template-rows: calc(#{$headerVideoHeight} / 2 - 10px) calc(#{$headerVideoHeight} / 2 - 10px);
+  border-right: 1px solid $lightGray;
 
-  .itemCameraDiv{
+  .itemCameraDiv {
     grid-column: 1 / span 2;
     grid-row: 1;
   }
 
-  div{
+  div {
     padding: 0 10px;
     margin: auto 0;
     font-size: $fontSizeVideoText;
     font-weight: 600;
   }
-  span{
+
+  span {
     font-size: $fontSizeVideoText;
     font-weight: 100;
   }
-  button{
-    margin: 0 10px;
+
+  button {
+    margin: 1px 10px 0px 0;
+    background: $lightGray;
   }
-  mat-icon{
+
+  mat-icon {
     margin: 0px 5px 0px 0px;
     height: 20px;
     width: 20px;
     font-size: 20px;
   }
-  .CameraText{
+
+  .CameraText {
     display: inline-flex;
   }
 }
@@ -81,13 +118,23 @@
   grid-template-columns: auto;
   grid-template-rows: calc(#{$headerVideoHeight} / 2 - 10px) calc(#{$headerVideoHeight} / 2 - 10px);
 
-  div{
+  .zoom-slider {
+    display: grid;
+    grid-template-columns: 1.5em auto 1.5em;
+
+    span {
+      margin: auto 0;
+    }
+  }
+
+  div {
     padding: 0 10px;
     margin: auto 0;
     font-size: $fontSizeVideoText;
     font-weight: 600;
   }
-  span{
+
+  span {
     font-size: $fontSizeVideoText;
     font-weight: 100;
   }
@@ -98,20 +145,25 @@
   grid-template-columns: auto;
   grid-template-rows: calc(#{$headerVideoHeight} / 2 - 10px) calc(#{$headerVideoHeight} / 2 - 10px);
 
-  div{
+  div {
     padding: 0 10px;
     margin: auto 0;
     font-size: $fontSizeVideoText;
     font-weight: 600;
   }
-  span{
+
+  span {
     font-size: $fontSizeVideoText;
     font-weight: 100;
   }
 }
 
-.speedImg {
+.speedSlowImg {
   width: 30px;
+  height: auto;
+}
+.speedFastImg{
+  width: 24px;
   height: auto;
 }
 
@@ -158,6 +210,17 @@
   bottom: 0;
   left: 49%
 }
+
 .mat-raised-button {
   line-height: 30px;
+}
+
+.mat-slider-horizontal {
+  height: 40px;
+  min-width: 160px;
+}
+
+.mat-slider {
+  padding: 0px;
+  vertical-align: bottom;
 }

@@ -18,7 +18,7 @@
         Mission Control</span>
     </div>
     <!--Live Video-->
-    <div (click)="onLiveVideo()" class="LeftSideButton">
+    <div (click)="onLiveVideo()" class="LeftSideButton"  [ngClass]="applicationService?.selectedAirVehicle ? '' : 'Disabled'">
       <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.liveVideo,
              LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}"
             class="LeftSideLabel">

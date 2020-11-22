@@ -10,9 +10,10 @@
       </div>
       <div>Altitude: <span>{{applicationService?.selectedAirVehicle?.altitudeAGL}}m</span></div>
       <div>Day<mat-slide-toggle (change)="changeSlide($event)"></mat-slide-toggle>Night</div>
-      <div class="videoSelect">
+      <div class="videoSelect" *ngIf="dayNight">
         <mat-form-field appearance="outline" class="SPMatFormField">
-        <mat-select >
+          <!--<mat-label>Choose color palette</mat-label>-->
+        <mat-select placeholder="Choose color palette">
           <mat-option *ngFor="let color of colorPalette" [value]="color">
             {{color}}
           </mat-option>
@@ -30,8 +31,8 @@
     </div>
     <!--Zoom-->
     <div class="zoom-container container">
-      <div>Camera zoom: <span>X{{zoomModel}}</span></div>
-      <div>
+      <div>Camera zoom: <span>x{{zoomModel}}</span></div>
+      <div class="zoom-slider">
         <span>0</span>
         <mat-slider
           thumbLabel
@@ -50,7 +51,7 @@
     <div class="speed-container container">
       <div>Camera rate: <span>{{speedModel}}°</span></div>
       <div>
-        <img src="../../../../assets/turtle.png" class="speedImg" alt="Norway">
+        <img src="../../../../assets/slow.png" class="speedSlowImg" alt="slow">
         <mat-slider
           thumbLabel
           [tickInterval]="tickIntervalSpeed"
@@ -60,7 +61,7 @@
 
         >
         </mat-slider>
-        <img src="../../../../assets/rabbit.png" class="speedImg" alt="Norway">
+        <img src="../../../../assets/fast.png" class="speedFastImg" alt="fast">
       </div>
     </div>
   </div>

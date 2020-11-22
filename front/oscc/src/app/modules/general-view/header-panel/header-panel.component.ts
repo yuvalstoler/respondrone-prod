@@ -52,18 +52,20 @@ export class HeaderPanelComponent implements OnInit {
   };
 
   onLiveVideo = () => {
-    if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.liveVideo) {
-      // this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
-    } else {
-      this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.liveVideo;
-      // open panel
-      // TODO: open video
-      this.applicationService.screen.showVideo = true;
-      this.applicationService.selectedWindow = VIDEO_OR_MAP.map;
-      //close others
-      this.applicationService.screen.showLeftPanel = false;
-      this.applicationService.screen.showMissionControl = false;
-      this.applicationService.screen.showSituationPicture = false;
+    if (this.applicationService.selectedAirVehicle) {
+      if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.liveVideo) {
+        // this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
+      } else {
+        this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.liveVideo;
+        // open panel
+        // TODO: open video
+        this.applicationService.screen.showVideo = true;
+        this.applicationService.selectedWindow = VIDEO_OR_MAP.map;
+        //close others
+        this.applicationService.screen.showLeftPanel = false;
+        this.applicationService.screen.showMissionControl = false;
+        this.applicationService.screen.showSituationPicture = false;
+      }
     }
   };
 
