@@ -181,12 +181,12 @@ export class MissionDialogComponent implements OnInit {
   }
 
   onClickMissionType = (step: number) => {
-    this.initMissionModel();
-    this.clearMap();
-    this.setStep(0);
+    this.setStep(step);
   };
 
   onChooseMission = (missionType: MISSION_TYPE) => {
+    this.initMissionModel();
+    this.clearMap();
     this.missionModel.missionType = missionType;
   };
 
@@ -249,14 +249,14 @@ export class MissionDialogComponent implements OnInit {
         break;
       }
       case MISSION_TYPE.Servoing: {
-        // TODO: FR Table
-        // if () {
-        //   res = true;
-        // }
+        // FR Table
+        if (this.missionModel.frs.length === 0) {
+          res = true;
+        }
         break;
       }
       case MISSION_TYPE.Delivery: {
-        //Cargo POINT
+        //TODO: Cargo POINT
         // if () {
         res = true;
         // }
@@ -286,8 +286,8 @@ export class MissionDialogComponent implements OnInit {
         } else if (this.missionModel.communicationType === COMM_RELAY_TYPE.Area &&
           this.missionModel.polygon.length === 0) {
           res = true;
-        } else if (this.missionModel.communicationType === COMM_RELAY_TYPE.Follow) {
-          //  TODO:
+        } else if (this.missionModel.communicationType === COMM_RELAY_TYPE.Follow &&
+          this.missionModel.frs.length === 0) {
           res = true;
         }
         break;

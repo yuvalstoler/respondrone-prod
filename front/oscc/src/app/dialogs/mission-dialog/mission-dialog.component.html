@@ -10,14 +10,14 @@
   </div>
   <!--&lt;!&ndash;Content&ndash;&gt; flut-->
   <div class="DialogContentItem">
-    <mat-accordion displayMode="default" multi>
+    <mat-accordion displayMode="default" multi class="example-headers-align">
       <!-- Select mission type -->
       <mat-expansion-panel #missionsType (opened)="onClickMissionType(0)" [expanded]="step === 0" hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
             Mission type
           </mat-panel-title>
-          <mat-panel-description class="">
+          <mat-panel-description class="" *ngIf="!missionsType.expanded">
             {{MISSION_TYPE_TEXT[missionModel?.missionType]}}
           </mat-panel-description>
           <mat-icon>{{missionsType.expanded ? 'remove' : 'add'}}</mat-icon>
@@ -47,13 +47,16 @@
           <mat-panel-title class="DialogTitle">
             Air resources
           </mat-panel-title>
-          <mat-panel-description class="">
+          <mat-panel-description class="" *ngIf="!airResources.expanded">
             <div *ngFor="let airVehicle of selectedAirVehicles; let i = index;">
               {{airVehicle?.name}}{{i === selectedAirVehicles.length - 1 ? '' : ', &nbsp;'}}
             </div>
           </mat-panel-description>
           <mat-icon>{{airResources.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
+        <div *ngIf="missionModel?.missionType === MISSION_TYPE.CommRelay">
+        <small>You can choose more then one</small>
+        </div>
         <div *ngFor="let airVehicle of airVehicleService.airVehicles.data; let i = index;" class="imageDivContainer">
           <div (click)="onChooseAirVehicle(airVehicle)"
                [ngClass]="{'SelectedImageAV': getSelectedAV(airVehicle?.id)}"
@@ -80,13 +83,20 @@
           </mat-panel-title>
           <!--for all locations-->
           <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&
-           missionModel?.polygon?.length > 0 || missionModel?.polyline?.length > 0">
+           missionModel?.polygon?.length > 0 || missionModel?.polyline?.length > 0  && !location?.expanded">
            Location exist on map.
           </mat-panel-description>
           <!--for point location-->
           <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw && missionModel?.location?.lon !== undefined &&
-           missionModel?.location?.lat !== undefined">
+           missionModel?.location?.lat !== undefined && !location?.expanded">
             long: {{missionModel?.location?.lon | number:'2.0-4'}}, Lat: {{missionModel?.location?.lat | number:'2.0-4'}}
+          </mat-panel-description>
+          <!--for FRs locations-->
+          <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&
+           missionModel?.frs?.length > 0 && !location?.expanded">
+            <div *ngFor="let fr of missionModel.frs; let i = index;">
+              {{fr?.modeDefine?.tableData?.id?.data}}{{i === missionModel.frs.length - 1 ? '' : ', &nbsp;'}}
+            </div>
           </mat-panel-description>
           <mat-icon>{{location.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
@@ -189,14 +199,14 @@
           <mat-panel-title class="DialogTitle">
             Communication Type
           </mat-panel-title>
-          <mat-panel-description class="">
+          <mat-panel-description class="" *ngIf="!commType?.expanded">
             {{missionModel?.communicationType}}
           </mat-panel-description>
           <mat-icon>{{commType.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
         <div>
           <mat-form-field appearance="outline" class="SPMatFormField">
-            <mat-select [(ngModel)]="missionModel.communicationType">
+            <mat-select [(ngModel)]="missionModel.communicationType" [placeholder]="'Fixed/Area/Follow'">
               <mat-option *ngFor="let type of commRelayTypes" [value]="type">
                 {{COMM_RELAY_TYPE_TEXT[type]}}
               </mat-option>
@@ -220,14 +230,22 @@
           <mat-panel-title class="DialogTitle">
             Communication Argument
           </mat-panel-title>
-          <!--for all locations-->
-          <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw && missionModel?.polygon?.length > 0">
+          <!--for polygon locations-->
+          <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&
+           missionModel?.polygon?.length > 0 && !commArg?.expanded">
             Communication Argument exist on map.
           </mat-panel-description>
           <!--for point location-->
           <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw && missionModel?.location?.lon !== undefined &&
-           missionModel?.location?.lat !== undefined">
+           missionModel?.location?.lat !== undefined  && !commArg?.expanded">
             long: {{missionModel?.location?.lon | number:'2.0-4'}}, Lat: {{missionModel?.location?.lat | number:'2.0-4'}}
+          </mat-panel-description>
+          <!--for FRs locations-->
+          <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&
+           missionModel?.frs?.length > 0 && !commArg?.expanded">
+            <div *ngFor="let fr of missionModel.frs; let i = index;">
+              {{fr?.modeDefine?.tableData?.id?.data}}{{i === missionModel.frs.length - 1 ? '' : ', &nbsp;'}}
+            </div>
           </mat-panel-description>
 
           <mat-icon>{{commArg.expanded ? 'remove' : 'add'}}</mat-icon>
@@ -321,12 +339,12 @@
           <mat-panel-title class="DialogTitle">
             Mission details
           </mat-panel-title>
-          <mat-panel-description class="">
-            <span *ngIf="missionModel?.missionDetails?.azimuth">Azimuth: {{missionModel?.missionDetails?.azimuth}}, &nbsp;</span>
-            <span *ngIf="missionModel?.missionDetails?.distance">Distance: {{missionModel?.missionDetails?.distance}}</span>
+          <mat-panel-description class="" *ngIf="!missionDetails?.expanded">
+            <span *ngIf="missionModel?.missionDetails?.azimuth">Azimuth: {{missionModel?.missionDetails?.azimuth}}°, &nbsp;</span>
+            <span *ngIf="missionModel?.missionDetails?.distance">Distance: {{missionModel?.missionDetails?.distance}}m</span>
             <span *ngIf="missionModel?.missionDetails?.scan?.speed">Speed: {{missionModel?.missionDetails?.scan?.speed}}, &nbsp;</span>
-            <span *ngIf="missionModel?.missionDetails?.scan?.overlapPercent">Overlap: {{missionModel?.missionDetails?.scan?.overlapPercent}}, &nbsp;</span>
-            <span *ngIf="missionModel?.missionDetails?.scan?.cameraFov">Camera FOV: {{missionModel?.missionDetails?.scan?.cameraFov}}</span>
+            <span *ngIf="missionModel?.missionDetails?.scan?.overlapPercent">Overlap: {{missionModel?.missionDetails?.scan?.overlapPercent}}%, &nbsp;</span>
+            <span *ngIf="missionModel?.missionDetails?.scan?.cameraFov">Camera FOV: {{missionModel?.missionDetails?.scan?.cameraFov}}%</span>
           </mat-panel-description>
           <mat-icon>{{missionDetails.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
@@ -391,7 +409,7 @@
               <small>Scan speed</small>
               <div class="ScanSelect">
                 <mat-form-field appearance="outline" class="SPMatFormField">
-                  <mat-select [(ngModel)]="missionModel.missionDetails.scan.speed" required>
+                  <mat-select [placeholder]="'Choose flight speed'" [(ngModel)]="missionModel.missionDetails.scan.speed" required>
                     <mat-option *ngFor="let speed of scanSpeed" [value]="speed">
                       {{speed}}
                     </mat-option>
@@ -462,10 +480,13 @@
           <mat-panel-title class="DialogTitle">
             Description
           </mat-panel-title>
+          <!--<mat-panel-description class="" *ngIf="!descriptions?.expanded">-->
+            <!--{{missionModel?.description}}-->
+          <!--</mat-panel-description>-->
           <mat-icon>{{descriptions.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
         <div>
-          <mat-form-field appearance="outline" class="SPMatFormField">
+          <mat-form-field appearance="outline" class="">
             <label>
             <textarea [(ngModel)]="missionModel.description" [ngStyle]="{'resize': 'none'}"
                       class="Label"
