@@ -50,6 +50,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { MissionDialogComponent } from './dialogs/mission-dialog/mission-dialog.component';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MissionUavDialogComponent } from './dialogs/mission-uav-dialog/mission-uav-dialog.component';
 
 const config: SocketIoConfig = SOCKET_CONFIG;
 
@@ -72,6 +73,7 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     TaskAssigneesTableComponent,
     TaskAssigneesContainerComponent,
     MissionDialogComponent,
+    MissionUavDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -120,7 +122,8 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     ReportDialogComponent,
     TaskDialogComponent,
     TaskAssigneesDialogComponent,
-    MissionDialogComponent
+    MissionDialogComponent,
+    MissionUavDialogComponent
   ]
 })
 export class AppModule {

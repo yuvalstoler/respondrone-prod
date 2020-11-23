@@ -445,7 +445,8 @@ export type MISSION_REQUEST_DATA = REP_ENTITY & {
 
 export type MISSION_REQUEST_ACTION_OBJ = {
     missionRequestId: ID_TYPE,
-    action: MISSION_REQUEST_ACTION
+    action: MISSION_REQUEST_ACTION,
+    avIds?: string
 }
 export enum MISSION_REQUEST_ACTION {
     Accept = 'Accept',

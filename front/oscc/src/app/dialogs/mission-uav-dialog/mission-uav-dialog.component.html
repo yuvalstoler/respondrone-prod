@@ -1,0 +1,39 @@
+<div class="DialogContainer">
+  <!--Header-->
+  <div class="DialogHeader" mat-dialog-title>
+    <span class="DialogHeaderTitle">{{data.title}}</span>
+    <span class="DialogHeaderX">
+      <button (click)="onNoClick()" mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </span>
+  </div>
+  <div class="DialogContentItem">
+    <h3>Select a UAV from the list below before approving the mission.</h3>
+      <!-- Air resources -->
+      <div *ngFor="let airVehicle of airVehicleService.airVehicles.data; let i = index;" class="imageDivContainer">
+        <div (click)="onChooseAirVehicle(airVehicle)"
+             [ngClass]="{'SelectedImageAV': getSelectedAV(airVehicle?.id)}"
+             class="airVehicleImageContainer">
+          <img [src]="'../../../../../assets/helicopter.png'">
+        </div>
+        {{airVehicle.name}}
+      </div>
+  </div>
+  <!--Action-->
+  <div class="DialogActions" mat-dialog-actions>
+    <button (click)="onNoClick()" class="DialogActionsDelete"
+            mat-raised-button>Cancel
+    </button>
+    <button (click)="onCreateClick()"
+            [disabled]="uavModel?.length === 0"
+            class="DialogActionsCreate"
+            mat-raised-button>Add
+    </button>
+  </div>
+</div>
+
+
+
+
+

@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {
   MISSION_MODEL_UI,
   MISSION_REQUEST_ACTION,
-  MISSION_REQUEST_ACTION_OBJ,
+  MISSION_REQUEST_ACTION_OBJ, MISSION_REQUEST_DATA_UI,
   MISSION_TYPE
 } from '../../../../../../../../classes/typings/all.typings';
 import {MatDialog} from '@angular/material/dialog';
@@ -11,6 +11,7 @@ import {ApplicationService} from '../../../../services/applicationService/applic
 import {LEFT_PANEL_ICON} from '../../../../../types';
 import {MissionsTableComponent} from './missions-situation-table/missions-table.component';
 import {MissionRequestService} from '../../../../services/missionRequestService/missionRequest.service';
+import {MissionUavDialogComponent} from '../../../../dialogs/mission-uav-dialog/mission-uav-dialog.component';
 
 @Component({
   selector: 'app-missions-mission-control',
@@ -69,13 +70,31 @@ export class MissionsMissionControlComponent implements OnInit {
 
   onMissionRequestAction = (action: MISSION_REQUEST_ACTION) => {
     if (this.applicationService.selectedMissionRequests[0]) {
-      const data: MISSION_REQUEST_ACTION_OBJ = {
-        missionRequestId: this.applicationService.selectedMissionRequests[0].id,
-        action: action
-      };
-      this.missionRequestService.sendMissionRequestAction(data);
+      this.openPanelAddAV(this.applicationService.selectedMissionRequests[0], action);
     }
   };
+
+  private openPanelAddAV = (selectedMissionRequest: MISSION_REQUEST_DATA_UI, action: MISSION_REQUEST_ACTION) => {
+    const dialogRef = this.dialog.open(MissionUavDialogComponent, {
+      width: 'auto',
+      disableClose: true,
+      data: {title: 'Add mission’s UAV'}
+    });
+    this.applicationService.isDialogOpen = true;
+    dialogRef.afterClosed().subscribe((result: any) => {
+     if (result) {
+       const data: MISSION_REQUEST_ACTION_OBJ = {
+         missionRequestId: this.applicationService.selectedMissionRequests[0].id,
+         action: action,
+         avIds: result
+       };
+       // TODO: add UAVs
+       console.log(data);
+       this.missionRequestService.sendMissionRequestAction(data);
+     }
+    });
+  };
+
 
   getFilter = (event) => {
     this.childComponent.applyFilter(event);
