@@ -10,21 +10,21 @@
   </div>
   <!--&lt;!&ndash;Content&ndash;&gt; flut-->
   <div class="DialogContentItem">
-    <mat-accordion displayMode="default" multi class="example-headers-align">
+    <mat-accordion class="example-headers-align" displayMode="default" multi>
       <!-- Select mission type -->
       <mat-expansion-panel #missionsType (opened)="onClickMissionType(0)" [expanded]="step === 0" hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title class="DialogTitle">
             Mission type
           </mat-panel-title>
-          <mat-panel-description class="" *ngIf="!missionsType.expanded">
+          <mat-panel-description *ngIf="!missionsType.expanded" class="">
             {{MISSION_TYPE_TEXT[missionModel?.missionType]}}
           </mat-panel-description>
           <mat-icon>{{missionsType.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
         <div>
           <mat-radio-group
-            aria-labelledby="example-radio-group-label" [(ngModel)]="missionModel.missionType"
+            [(ngModel)]="missionModel.missionType" aria-labelledby="example-radio-group-label"
             class="example-radio-group">
             <mat-radio-button (click)="onChooseMission(missionType)"
                               *ngFor="let missionType of missionTypes; let i = index"
@@ -47,7 +47,7 @@
           <mat-panel-title class="DialogTitle">
             Air resources
           </mat-panel-title>
-          <mat-panel-description class="" *ngIf="!airResources.expanded">
+          <mat-panel-description *ngIf="!airResources.expanded" class="">
             <div *ngFor="let airVehicle of selectedAirVehicles; let i = index;">
               {{airVehicle?.name}}{{i === selectedAirVehicles.length - 1 ? '' : ', &nbsp;'}}
             </div>
@@ -55,7 +55,7 @@
           <mat-icon>{{airResources.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
         <div *ngIf="missionModel?.missionType === MISSION_TYPE.CommRelay">
-        <small>You can choose more then one</small>
+          <small>You can choose more then one</small>
         </div>
         <div *ngFor="let airVehicle of airVehicleService.airVehicles.data; let i = index;" class="imageDivContainer">
           <div (click)="onChooseAirVehicle(airVehicle)"
@@ -84,12 +84,13 @@
           <!--for all locations-->
           <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&
            missionModel?.polygon?.length > 0 || missionModel?.polyline?.length > 0  && !location?.expanded">
-           Location exist on map.
+            Location exist on map.
           </mat-panel-description>
           <!--for point location-->
           <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw && missionModel?.location?.lon !== undefined &&
            missionModel?.location?.lat !== undefined && !location?.expanded">
-            long: {{missionModel?.location?.lon | number:'2.0-4'}}, Lat: {{missionModel?.location?.lat | number:'2.0-4'}}
+            long: {{missionModel?.location?.lon | number:'2.0-4'}},
+            Lat: {{missionModel?.location?.lat | number:'2.0-4'}}
           </mat-panel-description>
           <!--for FRs locations-->
           <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&
@@ -105,7 +106,7 @@
           <!--if point not exist-->
           <div *ngIf="applicationService.stateDraw !== STATE_DRAW.notDraw ||
          ( missionModel?.location?.lon === undefined && missionModel?.location?.lat === undefined)">
-            <small >Click on map to set an observation point</small>
+            <small>Click on map to set an observation point</small>
             <small>or</small>
             <div class="DialogGrid22">
               <!--Lat-->
@@ -146,7 +147,8 @@
                   class="DialogLink pointer">Change point
             </span>
             <small>Click on the "Change point"
-              button will delete the existing point in order to create a new one.</small>
+              button will delete the existing point in order to create a new one.
+            </small>
           </div>
         </div>
         <!--Polyline-->
@@ -155,11 +157,12 @@
             <small *ngIf="missionModel?.polyline?.length <= 0">Click minimum 3 points on the map to set a path</small>
 
             <span *ngIf="missionModel?.polyline?.length > 0">Exist on the map</span>
-            <span *ngIf="missionModel?.polyline?.length > 0" (click)="onEdit(MISSION_TYPE.Patrol)"
+            <span (click)="onEdit(MISSION_TYPE.Patrol)" *ngIf="missionModel?.polyline?.length > 0"
                   class="DialogLink pointer">Change polyline
             </span>
             <small *ngIf="missionModel?.polyline?.length > 0">Click on the "Change polyline"
-              button will delete the existing polyline in order to create  a new one.</small>
+              button will delete the existing polyline in order to create a new one.
+            </small>
           </div>
         </div>
         <!--Polygon-->
@@ -168,19 +171,20 @@
             <small *ngIf="missionModel?.polygon?.length <= 0">Click minimum 3 points on the map to set a polygon</small>
 
             <span *ngIf="missionModel?.polygon?.length > 0">Exist on the map</span>
-            <span *ngIf="missionModel?.polygon?.length > 0" (click)="onEdit(MISSION_TYPE.Scan)"
+            <span (click)="onEdit(MISSION_TYPE.Scan)" *ngIf="missionModel?.polygon?.length > 0"
                   class="DialogLink pointer">Change polygon
             </span>
             <small *ngIf="missionModel?.polygon?.length > 0">Click on the "Change polygon"
-              button will delete the existing polygon in order to create a new one.</small>
+              button will delete the existing polygon in order to create a new one.
+            </small>
           </div>
         </div>
         <!--FR Table-->
         <div *ngIf="missionModel?.missionType === MISSION_TYPE.Servoing">
           <small>Choose FR to follow</small>
           <div class="">
-            <app-task-assignee-table [title]="'Missions entities'" [frs]="missionModel.frs" [ids]="missionModel.frIds"
-                                     (updateAssignees)="onUpdateFRs($event)"></app-task-assignee-table>
+            <app-task-assignee-table (updateAssignees)="onUpdateFRs($event)" [frs]="missionModel.frs" [ids]="missionModel.frIds"
+                                     [title]="'Missions entities'"></app-task-assignee-table>
           </div>
         </div>
         <mat-action-row>
@@ -199,7 +203,7 @@
           <mat-panel-title class="DialogTitle">
             Communication Type
           </mat-panel-title>
-          <mat-panel-description class="" *ngIf="!commType?.expanded">
+          <mat-panel-description *ngIf="!commType?.expanded" class="">
             {{missionModel?.communicationType}}
           </mat-panel-description>
           <mat-icon>{{commType.expanded ? 'remove' : 'add'}}</mat-icon>
@@ -238,7 +242,8 @@
           <!--for point location-->
           <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw && missionModel?.location?.lon !== undefined &&
            missionModel?.location?.lat !== undefined  && !commArg?.expanded">
-            long: {{missionModel?.location?.lon | number:'2.0-4'}}, Lat: {{missionModel?.location?.lat | number:'2.0-4'}}
+            long: {{missionModel?.location?.lon | number:'2.0-4'}},
+            Lat: {{missionModel?.location?.lat | number:'2.0-4'}}
           </mat-panel-description>
           <!--for FRs locations-->
           <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&
@@ -255,7 +260,7 @@
           <!--if point not exist-->
           <div *ngIf="applicationService.stateDraw !== STATE_DRAW.notDraw ||
          ( missionModel?.location?.lon === undefined && missionModel?.location?.lat === undefined)">
-            <small >Click on map to set an communication point</small>
+            <small>Click on map to set an communication point</small>
             <small>or</small>
             <div class="DialogGrid22">
               <!--Lat-->
@@ -296,20 +301,23 @@
                   class="DialogLink pointer">Change point
             </span>
             <small>Click on the "Change point"
-              button will delete the existing point in order to create a new one.</small>
+              button will delete the existing point in order to create a new one.
+            </small>
           </div>
         </div>
         <!--Polygon-->
         <div *ngIf="missionModel?.communicationType === COMM_RELAY_TYPE.Area" class="ExpansionBody">
           <div>
-          <small *ngIf="missionModel?.polygon?.length <= 0">Click minimum 3 points on the map to set a polygon</small>
+            <small *ngIf="missionModel?.polygon?.length <= 0">Click minimum 3 points on the map to set a polygon</small>
 
-          <span *ngIf="missionModel?.polygon?.length > 0">Exist on the map</span>
-          <span *ngIf="missionModel?.polygon?.length > 0" (click)="onEdit(MISSION_TYPE.CommRelay, COMM_RELAY_TYPE.Area)"
-                class="DialogLink pointer">Change polygon
+            <span *ngIf="missionModel?.polygon?.length > 0">Exist on the map</span>
+            <span (click)="onEdit(MISSION_TYPE.CommRelay, COMM_RELAY_TYPE.Area)"
+                  *ngIf="missionModel?.polygon?.length > 0"
+                  class="DialogLink pointer">Change polygon
             </span>
-          <small *ngIf="missionModel?.polygon?.length > 0">Click on the "Change polygon"
-            button will delete the existing polygon in order to create a new one.</small>
+            <small *ngIf="missionModel?.polygon?.length > 0">Click on the "Change polygon"
+              button will delete the existing polygon in order to create a new one.
+            </small>
           </div>
         </div>
         <!--FR Table-->
@@ -317,9 +325,9 @@
           <small>Choose FR to follow</small>
           <div class="">
             <app-task-assignee-table (updateAssignees)="onUpdateFRs($event)"
-                                     [title]="'Missions entities'"
+                                     [frs]="missionModel?.frs"
                                      [ids]="missionModel?.frIds"
-                                     [frs]="missionModel?.frs" ></app-task-assignee-table>
+                                     [title]="'Missions entities'"></app-task-assignee-table>
           </div>
         </div>
         <mat-action-row>
@@ -330,8 +338,8 @@
         </mat-action-row>
       </mat-expansion-panel>
       <!-- Mission details -->
-      <mat-expansion-panel #missionDetails *ngIf="missionModel?.missionType !== MISSION_TYPE.CommRelay"
-                           (opened)="setStep(3)"
+      <mat-expansion-panel #missionDetails (opened)="setStep(3)"
+                           *ngIf="missionModel?.missionType !== MISSION_TYPE.CommRelay"
                            [disabled]="isDisabledFields.missionDetails"
                            [expanded]="step === 3"
                            hideToggle>
@@ -339,12 +347,18 @@
           <mat-panel-title class="DialogTitle">
             Mission details
           </mat-panel-title>
-          <mat-panel-description class="" *ngIf="!missionDetails?.expanded">
+          <mat-panel-description *ngIf="!missionDetails?.expanded" class="">
             <span *ngIf="missionModel?.missionDetails?.azimuth">Azimuth: {{missionModel?.missionDetails?.azimuth}}°, &nbsp;</span>
-            <span *ngIf="missionModel?.missionDetails?.distance">Distance: {{missionModel?.missionDetails?.distance}}m</span>
-            <span *ngIf="missionModel?.missionDetails?.scan?.speed">Speed: {{missionModel?.missionDetails?.scan?.speed}}, &nbsp;</span>
-            <span *ngIf="missionModel?.missionDetails?.scan?.overlapPercent">Overlap: {{missionModel?.missionDetails?.scan?.overlapPercent}}%, &nbsp;</span>
-            <span *ngIf="missionModel?.missionDetails?.scan?.cameraFov">Camera FOV: {{missionModel?.missionDetails?.scan?.cameraFov}}%</span>
+            <span *ngIf="missionModel?.missionDetails?.distance">Distance: {{missionModel?.missionDetails?.distance}}
+              m</span>
+            <span *ngIf="missionModel?.missionDetails?.scan?.speed">Speed: {{missionModel?.missionDetails?.scan?.speed}}
+              , &nbsp;</span>
+            <span
+              *ngIf="missionModel?.missionDetails?.scan?.overlapPercent">Overlap: {{missionModel?.missionDetails?.scan?.overlapPercent}}
+              %, &nbsp;</span>
+            <span
+              *ngIf="missionModel?.missionDetails?.scan?.cameraFov">Camera FOV: {{missionModel?.missionDetails?.scan?.cameraFov}}
+              %</span>
           </mat-panel-description>
           <mat-icon>{{missionDetails.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
@@ -384,7 +398,8 @@
           </div>
           <!--Details-->
           <div *ngIf="missionModel?.missionType !== MISSION_TYPE.Scan" class="DetailsContainer">
-            <small>Define distance of flying from the Observation point</small>
+            <small>Define distance of flying from the Observation point <span
+              *ngIf="missionModel.missionDetails.distance === null" class="Error">*</span></small>
             <div class="Grid3">
               <div class="item2">
                 <mat-form-field appearance="outline" class="">
@@ -402,23 +417,28 @@
               </div>
               <div class="item3">m</div>
             </div>
-            <mat-error *ngIf="missionModel.missionDetails.distance === null">Distance field is mandatory</mat-error>
+            <!--<mat-error *ngIf="missionModel.missionDetails.distance === null">Distance field is mandatory</mat-error>-->
           </div>
           <div *ngIf="missionModel?.missionType === MISSION_TYPE.Scan" class="DetailsContainer">
             <div class="Grid2">
-              <small>Scan speed</small>
+              <small>Scan speed <span *ngIf="missionModel.missionDetails.scan.speed === undefined"
+                                      class="Error">*</span></small>
+
               <div class="ScanSelect">
                 <mat-form-field appearance="outline" class="SPMatFormField">
-                  <mat-select [placeholder]="'Choose flight speed'" [(ngModel)]="missionModel.missionDetails.scan.speed" required>
+                  <mat-select [(ngModel)]="missionModel.missionDetails.scan.speed" [placeholder]="'Choose flight speed'"
+                              required>
                     <mat-option *ngFor="let speed of scanSpeed" [value]="speed">
                       {{speed}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
-              <mat-error *ngIf="missionModel.missionDetails.scan.speed === undefined">Scan speed field is mandatory
-              </mat-error>
-              <small>Overlap percent</small>
+              <!--<mat-error *ngIf="missionModel.missionDetails.scan.speed === undefined">*-->
+              <!--</mat-error>-->
+              <small>Overlap percent <span *ngIf="missionModel.missionDetails.scan.overlapPercent === null"
+                                           class="Error">*</span></small>
+
               <div class="Grid3">
                 <div class="item2">
                   <mat-form-field appearance="outline" class="">
@@ -436,10 +456,12 @@
                 </div>
                 <div class="item3">%</div>
               </div>
-              <mat-error *ngIf="missionModel.missionDetails.scan.overlapPercent === null">Scan overlap percent field is
-                mandatory
-              </mat-error>
-              <small>Camera FOV</small>
+              <!--<mat-error *ngIf="missionModel.missionDetails.scan.overlapPercent === null">Scan overlap percent field is-->
+              <!--mandatory-->
+              <!--</mat-error>-->
+              <small>Camera FOV <span *ngIf="missionModel.missionDetails.scan.cameraFov === null" class="Error">*</span>
+              </small>
+
               <div class="Grid3">
                 <div class="item2">
                   <mat-form-field appearance="outline" class="">
@@ -457,10 +479,16 @@
                 </div>
                 <div class="item3">%</div>
               </div>
-              <mat-error *ngIf="missionModel.missionDetails.scan.cameraFov === null">Scan camera FOV field is
-                mandatory
-              </mat-error>
+              <!--<mat-error *ngIf="missionModel.missionDetails.scan.cameraFov === null">Scan camera FOV field is-->
+              <!--mandatory-->
+              <!--</mat-error>-->
             </div>
+          </div>
+          <div *ngIf="(missionModel?.missionType !== MISSION_TYPE.Scan && missionModel.missionDetails.distance === null) ||
+                (missionModel?.missionType === MISSION_TYPE.Scan && missionModel.missionDetails.scan.speed === undefined ||
+                 missionModel?.missionType === MISSION_TYPE.Scan && missionModel.missionDetails.scan.overlapPercent === null ||
+                 missionModel?.missionType === MISSION_TYPE.Scan && missionModel.missionDetails.scan.cameraFov === null)">
+            <mat-error>*Mandatory fields</mat-error>
           </div>
         </div>
         <mat-action-row>
@@ -481,7 +509,7 @@
             Description
           </mat-panel-title>
           <!--<mat-panel-description class="" *ngIf="!descriptions?.expanded">-->
-            <!--{{missionModel?.description}}-->
+          <!--{{missionModel?.description}}-->
           <!--</mat-panel-description>-->
           <mat-icon>{{descriptions.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>

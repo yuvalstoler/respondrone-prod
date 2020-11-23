@@ -38,7 +38,7 @@ export type DISPLAY_ON_SCREEN = {
 
 export enum LEFT_PANEL_ICON {
   minimize = 'arrow_forward_ios',
-  expand = 'close'
+  expand = 'arrow_back_ios'
 }
 
 export enum STATE_DRAW {

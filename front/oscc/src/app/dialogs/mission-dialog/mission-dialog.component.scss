@@ -3,6 +3,10 @@
 .DialogTitle {
   margin: 0px 0px 0px 0px;
 }
+.Error{
+  color: $red;
+  font-size: large;
+}
 
 .airVehicleImageContainer {
   background: $gray;
@@ -49,6 +53,7 @@
   .item2{
     //display: inline-block;
   }
+
 }
 .Grid2 {
   display: grid;
@@ -59,9 +64,6 @@
   }
   .ScanSelect{
     width: 15em;
-  }
-  mat-error{
-    grid-column: 1/ span 2;
   }
 }
 
