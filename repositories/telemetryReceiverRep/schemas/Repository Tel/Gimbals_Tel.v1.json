@@ -139,6 +139,25 @@
               "lon"
             ]
           },
+          "cameraFootprint": {
+            "title": "Polygon",
+            "type": "object",
+            "x-examples": {
+              "example-1": {}
+            },
+            "properties": {
+              "coordinates": {
+                "type": "array",
+                "minItems": 3,
+                "items": {
+                  "$ref": "#/properties/gimbals/items/properties/cameraLookAtPoint"
+                }
+              }
+            },
+            "required": [
+              "coordinates"
+            ]
+          },
           "opticalVideoURL": {
             "type": "string",
             "description": "The URL of the rtsp stream from the optical sensor"
