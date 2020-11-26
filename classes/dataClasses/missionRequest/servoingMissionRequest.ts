@@ -78,13 +78,6 @@ export class ServoingMissionRequest extends MissionRequest {
             source: this.source,
             missionStatus: this.missionStatus,
             modeDefine: undefined,
-            actionOptions: this.actionOptions,
-            textUI: [
-                {
-                    title: 'Resource',
-                    value: '' + this.servoingMissionRequest.droneId
-                }
-            ]
         };
     };
 

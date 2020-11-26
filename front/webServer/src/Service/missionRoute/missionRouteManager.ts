@@ -27,6 +27,9 @@ import {ReportMdLogic} from '../../../../../classes/modeDefineTSSchemas/reports/
 import {DataUtility} from '../../../../../classes/applicationClasses/utility/dataUtility';
 import {MissionRoute} from "../../../../../classes/dataClasses/missionRoute/missionRoute";
 import {Mission} from "../../../../../classes/dataClasses/mission/mission";
+import {MissionRouteMdLogic} from "../../../../../classes/modeDefineTSSchemas/missionRoute/missionRouteMdLogic";
+import {MissionRequestManager} from "../missionRequest/missionRequestManager";
+import {MissionRequest} from "../../../../../classes/dataClasses/missionRequest/missionRequest";
 
 const _ = require('lodash');
 
@@ -101,7 +104,8 @@ export class MissionRouteManager {
         const res: MISSION_ROUTE_DATA_UI[] = [];
         this.missionRoutes.forEach((missionRoute: MissionRoute) => {
             const missionRouteDataUI: MISSION_ROUTE_DATA_UI = missionRoute.toJsonForUI();
-            // missionRouteRequestDataUI.modeDefine = ReportMdLogic.validate(missionRouteRequestDataUI);
+            const missionRequest: MissionRequest = MissionRequestManager.getMissionRequestById(missionRoute.requestId);
+            missionRouteDataUI.modeDefine = MissionRouteMdLogic.validate(missionRouteDataUI, missionRequest);
 
             res.push(missionRouteDataUI);
         });
@@ -109,6 +113,9 @@ export class MissionRouteManager {
     };
 
 
+    private getMissionRouteById = (missionId: ID_TYPE) => {
+        return this.missionRoutes.find(element => element.id === missionId)
+    }
 
     private sendDataToUI = (): void => {
         const jsonForSend: MISSION_ROUTE_DATA_UI[] = this.getDataForUI();
@@ -120,6 +127,7 @@ export class MissionRouteManager {
     public static getMissionRoutes = MissionRouteManager.instance.getMissionRoutes;
     public static readAllMissionRoute = MissionRouteManager.instance.readAllMissionRoute;
     public static updateAllMissionRoutes = MissionRouteManager.instance.updateAllMissionRoutes;
+    public static getMissionRouteById = MissionRouteManager.instance.getMissionRouteById;
 
     public static sendDataToUI = MissionRouteManager.instance.sendDataToUI;
 

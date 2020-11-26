@@ -9,7 +9,7 @@ import {
   COMMENT,
   EVENT_DATA_UI,
   FILE_FS_DATA, POINT,
-  MISSION_REQUEST_DATA_UI
+  MISSION_REQUEST_DATA_UI, ID_TYPE
 } from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
 import * as _ from 'lodash';
@@ -59,7 +59,25 @@ export class MissionsTableComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.missionRequestService.changeSelected$.subscribe((selectedMissionRequestId: ID_TYPE) => {
+      if (selectedMissionRequestId !== undefined) {
+        const row = this.dataSource.data.find(obj => obj.id === selectedMissionRequestId);
+        if (row) {
+          this.selectedElement = row;
+          this.selection.clear();
+          this.selection.select(row);
+          this.expandedElement = {};
+          this.expandedElement[row.id] = row;
+
+          const element = document.getElementById(row.id);
+          if (element) {
+            element.scrollIntoView({behavior: 'smooth', block: 'center', inline : 'center'});
+          }
+        }
+      }
+    });
+  }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
@@ -87,6 +105,7 @@ export class MissionsTableComponent implements OnInit, AfterViewInit {
     // this.selectedElement = row;
     // this.missionRequestService.selectIcon(row);
     //
+    this.selectedElement = this.selectedElement && this.selectedElement.id === row.id ? undefined : row;
     this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
   };
 
@@ -115,7 +134,7 @@ export class MissionsTableComponent implements OnInit, AfterViewInit {
   isAllSelected = () => {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+    return numSelected >= numRows;
   };
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */

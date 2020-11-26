@@ -76,13 +76,6 @@ export class DeliveryMissionRequest extends MissionRequest {
             source: this.source,
             missionStatus: this.missionStatus,
             modeDefine: undefined,
-            actionOptions: this.actionOptions,
-            textUI: [
-                {
-                    title: 'Resource',
-                    value: '' + this.deliveryMissionRequest.droneId
-                }
-            ]
         };
     };
 

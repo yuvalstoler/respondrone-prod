@@ -36,10 +36,6 @@ export class AirVehicle {
     routeId: string;
     name: string;
 
-    linkedMissionId: ID_TYPE;
-    modeDefine: AV_DATA_MD;
-    missionOptions: AV_OPTIONS;
-
     constructor(data: AV_DATA_REP) {
         if ( data ) {
             this.setValues(data, this.saveConfig);
@@ -106,9 +102,6 @@ export class AirVehicle {
         this.name = data;
     };
 
-    private setLinkedMissionId = (data: ID_TYPE) => {
-        this.linkedMissionId = data;
-    };
 
 
 
@@ -149,12 +142,10 @@ export class AirVehicle {
             operationalStatus: this.operationalStatus,
             capability: this.capability,
             routeId: this.routeId,
-            linkedMissionId: this.linkedMissionId,
             name: this.name,
 
-            missionName: undefined,
             modeDefine: undefined,
-            missionOptions: undefined
+            missionRequestId: undefined,
         };
     };
 
@@ -176,7 +167,6 @@ export class AirVehicle {
         capability: this.setCapability,
         routeId: this.setRouteId,
         name: this.setName,
-        linkedMissionId: this.setLinkedMissionId,
     };
 
 

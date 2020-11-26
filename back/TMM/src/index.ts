@@ -22,6 +22,8 @@ const url_ObservationMissionRep = services.ObservationMissionRep.protocol + '://
 const url_ScanMissionRep = services.ScanMissionRep.protocol + '://' + services.ScanMissionRep.host + ':' + services.ScanMissionRep.port;
 const url_ServoingMissionRep = services.ServoingMissionRep.protocol + '://' + services.ServoingMissionRep.host + ':' + services.ServoingMissionRep.port;
 const url_DeliveryMissionRep = services.DeliveryMissionRep.protocol + '://' + services.DeliveryMissionRep.host + ':' + services.DeliveryMissionRep.port;
+const url_MissionRep = services.MissionRep.protocol + '://' + services.MissionRep.host + ':' + services.MissionRep.port;
+const url_MissionRouteRep = services.MissionRouteRep.protocol + '://' + services.MissionRouteRep.host + ':' + services.MissionRouteRep.port;
 
 
 
@@ -120,7 +122,7 @@ export class Server {
             this.send(url, obj, res);
         });
     };
-
+    // ==================
     send = (url, obj, res) => {
         this.sendRestRequest(url, obj)
             .then((data: any) => {
@@ -130,6 +132,10 @@ export class Server {
                         entityId: data.id,
                         description: ''
                     });
+
+                    setTimeout(() => {
+                        this.sendMissionAndMissionRoute(data.id)
+                    }, 5000)
                 }
                 else {
                     res.send(data);
@@ -139,7 +145,122 @@ export class Server {
                 console.log('err', JSON.stringify(data));
             });
     }
+    // ==================
+    private sendMissionAndMissionRoute = (missionRequestId: string) => {
+        console.log('--------');
+        console.log('missionRequestId', missionRequestId);
 
+        const mission =  {
+            "id": "string",
+            "requestId": missionRequestId,
+            "missionType": "CommRelay",
+            "status": "Pending",
+            "description": "string",
+            "lastAction": "Insert",
+            "version": 0
+        }
+        const url = url_MissionRep + '/insertNewMission';
+        this.sendRestRequest(url, mission)
+            .then((data: any) => {
+                if (data.hasOwnProperty('id')) {
+                    console.log('missionId', data.id);
+                    const missionRoute =   {
+                        "id": "string",
+                        "requestId": missionRequestId,
+                        "missionId": data.id,
+                        "missionType": "CommRelay",
+                        "route": [
+                            {
+                                "point": {
+                                    "lat": this.getRandomLat(),
+                                    "lon": this.getRandomLon(),
+                                    "alt": 0
+                                },
+                                "velocity": 0,
+                                "heading": 0
+                            },
+                            {
+                                "point": {
+                                    "lat": this.getRandomLat(),
+                                    "lon": this.getRandomLon(),
+                                    "alt": 0
+                                },
+                                "velocity": 0,
+                                "heading": 0
+                            },
+                            {
+                                "point": {
+                                    "lat": this.getRandomLat(),
+                                    "lon": this.getRandomLon(),
+                                    "alt": 0
+                                },
+                                "velocity": 0,
+                                "heading": 0
+                            },
+                            {
+                                "point": {
+                                    "lat": this.getRandomLat(),
+                                    "lon": this.getRandomLon(),
+                                    "alt": 0
+                                },
+                                "velocity": 0,
+                                "heading": 0
+                            }
+                        ],
+                        "status": "NotActive",
+                        "lastAction": "Insert",
+                        "version": 0
+                    }
+                    const url = url_MissionRouteRep + '/insertNewMissionRoute';
+                    this.sendRestRequest(url, missionRoute)
+                        .then((data: any) => {
+                            if (data.id) {
+                                console.log('missionRouteId', data.id);
+
+                                this.setMissionRouteActive(missionRoute, data.id);
+                            } else {
+                                console.log('err missionRoute', JSON.stringify(data));
+                            }
+                        })
+                        .catch((data) => {
+                            console.log('err missionRoute', JSON.stringify(data));
+                        })
+
+                }
+                else {
+                   console.log('error mission', JSON.stringify(data))
+                }
+            })
+            .catch((data) => {
+                console.log('err mission', JSON.stringify(data));
+            });
+    }
+    // ==================
+    private setMissionRouteActive = (missionRoute, id) => {
+        setTimeout(() => {
+            missionRoute.id = id;
+            missionRoute.status = 'Active';
+            const url = url_MissionRouteRep + '/updateMissionRoute';
+            this.sendRestRequest(url, missionRoute)
+                .then((data: any) => {
+                    if (!data.id) {
+                        console.log('err setMissionRouteActive', JSON.stringify(data));
+                    }
+                })
+                .catch((data) => {
+                    console.log('err setMissionRouteActive', JSON.stringify(data));
+                })
+        }, 30000)
+    }
+    // ==================
+    private getRandomLat = () => {
+        return 42 + Math.random() * (0.2 + 0.1) - 0.1
+    }
+    // ==================
+    private getRandomLon = () => {
+        return 9 + Math.random() * (0.2 + 0.1) - 0.1
+    }
+    // ==================
     public sendRestRequest(url: string, bodyObj: Object): Promise<ASYNC_RESPONSE> {
         return new Promise((resolve, reject) => {
             (async () => {

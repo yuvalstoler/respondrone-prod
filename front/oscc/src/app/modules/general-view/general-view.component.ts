@@ -10,6 +10,7 @@ import {MissionRequestService} from "../../services/missionRequestService/missio
 import {MissionService} from "../../services/missionService/mission.service";
 import {MissionRouteService} from "../../services/missionRouteService/missionRoute.service";
 import {GimbalService} from "../../services/gimbalService/gimbal.service";
+import {GraphicOverlayService} from "../../services/graphicOverlayService/graphicOverlay.service";
 
 @Component({
   selector: 'app-general-view',
@@ -29,6 +30,7 @@ export class GeneralViewComponent implements OnInit {
               public missionRequestService: MissionRequestService,
               public missionService: MissionService,
               public missionRouteService: MissionRouteService,
+              public graphicOverlayService: GraphicOverlayService,
               public airVehicleService: AirVehicleService,
               public listenerMapService: ListenerMapService,
               public gimbalService: GimbalService) { }

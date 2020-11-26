@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import {SocketService} from '../socketService/socket.service';
 import {ToasterData} from '../../../../../../classes/applicationClasses/toasterData';
 import {NOTIFICATION_UI, TOASTER_OPTIONS} from '../../../../../../classes/typings/all.typings';
+import {take} from "rxjs/operators";
 // import {MatSnackBar} from "@angular/material";
 
 // implement toaster from:
@@ -17,8 +18,9 @@ export class CustomToasterService {
   options: TOASTER_OPTIONS =
     {
       timeOut: 10000,
-      positionClass: 'toast-top-right',
-      preventDuplicates: true
+      positionClass: 'toast-top-left',
+      preventDuplicates: true,
+      closeButton: true,
     };
 
   constructor(
@@ -68,4 +70,18 @@ export class CustomToasterService {
     return _.assign(_.clone(this.options), options);
   }
 
+  public missionToaster(toaster: NOTIFICATION_UI, cb: Function) {
+    const options = {
+      enableHtml: true,
+      closeButton: true,
+      positionClass: 'toast-bottom-right',
+      timeOut: 10000,
+      // tapToDismiss: false,
+    };
+
+    this.toastr.warning(toaster.message, toaster.title, options)
+      .onTap
+      .pipe(take(1))
+      .subscribe(() => cb());
+  }
 }

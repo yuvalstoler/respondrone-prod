@@ -8,7 +8,7 @@ import {
   COMM_RELAY_TYPE,
   DELIVERY_MISSION_REQUEST,
   FOLLOW_PATH_MISSION_REQUEST,
-  GEOPOINT3D_SHORT,
+  GEOPOINT3D_SHORT, ID_TYPE,
   LAST_ACTION,
   MISSION_MODEL_UI,
   MISSION_REQUEST_ACTION_OBJ,
@@ -30,7 +30,7 @@ import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
 import {API_GENERAL, WS_API} from '../../../../../../classes/dataClasses/api/api_enums';
-import {ICON_DATA, POLYGON_DATA, POLYLINE_DATA} from '../../../types';
+import {HEADER_BUTTONS, ICON_DATA, POLYGON_DATA, POLYLINE_DATA} from '../../../types';
 import {ApplicationService} from '../applicationService/application.service';
 
 
@@ -41,6 +41,7 @@ export class MissionRequestService {
 
   missionRequests: { data: MISSION_REQUEST_DATA_UI[] } = {data: []};
   missionRequests$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  changeSelected$: BehaviorSubject<ID_TYPE> = new BehaviorSubject(undefined);
 
 
   constructor(private connectionService: ConnectionService,
@@ -567,4 +568,27 @@ export class MissionRequestService {
   //   });
   // };
   // ----------------------
+
+  public goToMissionRequest = (missionRequestId: ID_TYPE) => {
+    if (missionRequestId !== undefined) {
+      this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;
+      // open panel
+      this.applicationService.screen.showLeftPanel = true;
+      this.applicationService.screen.showMissionControl = true;
+      // choose missionTab on MissionControl
+      this.applicationService.currentTabIndex = 1; /*(0 = TaskTab, 1 = MissionTab)*/
+      //close others
+      this.applicationService.screen.showSituationPicture = false;
+      this.applicationService.screen.showVideo = false;
+
+
+      setTimeout(() => {
+        const missionRequest = this.getById(missionRequestId);
+        this.applicationService.selectedMissionRequests.length = 0;
+        this.applicationService.selectedMissionRequests.push(missionRequest);
+        this.changeSelected$.next(missionRequestId)
+      }, 500);
+
+    }
+  }
 }

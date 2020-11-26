@@ -30,61 +30,68 @@ export class FrManager {
 
     private constructor() {
         const date = Date.now();
-        const test: FR_DATA_TELEMETRY = {
+        const data: FR_DATA_TELEMETRY = {
             'timestamp': {
                 'timestamp': 0
             },
             'FRs': [
                 {
-                    'id': 'aaa',
+                    'id': 'id1',
                     'callSign': 'PO-001',
                     'type': FR_TYPE.police,
                     'location': {
-                        'latitude': 32.379365,
-                        'longitude': 34.945756,
-                        'altitude': 0
+                        'latitude': 0,
+                        'longitude': 0,
+                        'altitude': 1000
                     },
                     'lastUpdated': {
                         'timestamp': date
                     },
                     'online': true,
-                    'status': FR_STATUS.busy
+                    'status': FR_STATUS.available
                 },
                 {
-                    'id': 'bbb',
+                    'id': 'id2',
                     'callSign': 'PARA-001',
                     'type': FR_TYPE.paramedic,
                     'location': {
-                        'latitude': 32.369365,
-                        'longitude': 34.955756,
+                        'latitude': 0,
+                        'longitude': 0,
                         'altitude': 0
                     },
                     'lastUpdated': {
-                        'timestamp': date + 50
+                        'timestamp': date - 3600000
                     },
                     'online': false,
                     'status': FR_STATUS.available
                 },
                 {
-                    'id': 'ccc',
-                    'callSign': 'FR-007',
+                    'id': 'id3',
+                    'callSign': 'FF-007',
                     'type': FR_TYPE.fireFighter,
                     'location': {
-                        'latitude': 32.367365,
-                        'longitude': 34.945756,
+                        'latitude': 0,
+                        'longitude': 0,
                         'altitude': 0
                     },
                     'lastUpdated': {
-                        'timestamp': date - 4550
+                        'timestamp': date - 5000
                     },
                     'online': false,
                     'status': FR_STATUS.busy
                 }
             ]
         };
+
         setInterval(() => {
-            this.onGetFRs(test);
-        }, 5000);
+            data.timestamp.timestamp = Date.now();
+            data.FRs.forEach(fr => {
+                fr.location.latitude = 42.30144 + Math.random() * (0.002 + 0.001) - 0.001;
+                fr.location.longitude = 9.15493 + Math.random() * (0.002 + 0.001) - 0.001;
+            });
+
+            this.onGetFRs(data);
+        }, 1000);
     }
 
     private startGetSocket = () => {

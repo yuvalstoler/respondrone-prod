@@ -5,7 +5,7 @@ import {
     AV_DATA_UI,
     AV_OPTIONS,
     CAPABILITY,
-    ID_TYPE, MISSION_TYPE,
+    ID_TYPE, MISSION_TYPE, MISSION_TYPE_TEXT,
     OPERATIONAL_STATUS,
     SOCKET_IO_CLIENT_TYPES
 } from '../../../../../classes/typings/all.typings';
@@ -14,6 +14,9 @@ import {SOCKET_ROOM} from "../../../../../classes/dataClasses/api/api_enums";
 import {SocketIOClient} from "../../websocket/socketIOClient";
 import {AirVehicle} from "../../../../../classes/dataClasses/airVehicle/airVehicle";
 import {AirVehicleMdLogic} from "../../../../../classes/modeDefineTSSchemas/airVehicles/airVehicleMdLogic";
+import {MissionRequestManager} from "../missionRequest/missionRequestManager";
+import {MissionRouteManager} from "../missionRoute/missionRouteManager";
+import {GimbalManager} from "../gimbal/gimbalManager";
 
 const _ = require('lodash');
 
@@ -51,45 +54,33 @@ export class AirVehicleManager {
         return res;
     }
 
+    private getAVById = (id: ID_TYPE): AirVehicle => {
+        return this.airVehicles.find(element => element.id === id);
+    }
+
     private getDataForUI = (): AV_DATA_UI[] => {
         const res: AV_DATA_UI[] = [];
         this.airVehicles.forEach((av: AirVehicle) => {
-            const avDataUI: AV_DATA_UI = av.toJsonForUI();
-            avDataUI.modeDefine = av.modeDefine = AirVehicleMdLogic.validate(avDataUI);
-            avDataUI.missionOptions = av.missionOptions = this.getMissionOptions(avDataUI);
 
+            let missionRequest;
+            const missionRoute = MissionRouteManager.getMissionRouteById(av.routeId);
+            if (missionRoute) {
+                missionRequest = MissionRequestManager.getMissionRequestById(missionRoute.requestId);
+            }
+
+            const avDataUI: AV_DATA_UI = av.toJsonForUI();
+            avDataUI.modeDefine = AirVehicleMdLogic.validate(avDataUI, missionRequest);
+            avDataUI.missionRequestId = missionRequest? missionRequest.id : undefined;
             res.push(avDataUI);
         });
         return res;
     };
 
-    private getMissionOptions = (data: AV_DATA_UI): AV_OPTIONS => {
-        const res: AV_OPTIONS = {};
-        if (data.operationalStatus === OPERATIONAL_STATUS.Ready) {
-            data.capability.forEach((item: CAPABILITY) => {
-                switch (item) {
-                    case CAPABILITY.Surveillance:
-                    case CAPABILITY.Patrol:
-                    case CAPABILITY.Scan:
-                        res[MISSION_TYPE.Patrol] = true;
-                        res[MISSION_TYPE.Observation] = true;
-                        res[MISSION_TYPE.Scan] = true;
-                        res[MISSION_TYPE.Servoing] = true;
-                        break;
-                    case CAPABILITY.CommRelay:
-                        res[MISSION_TYPE.CommRelay] = true;
-                        break;
-                    case CAPABILITY.Delivery:
-                        res[MISSION_TYPE.Delivery] = true;
-                        break;
-                }
-            });
-        }
-        return res;
-    }
+
 
     private sendDataToUI = (): void => {
         const jsonForSend: AV_DATA_UI[] = this.getDataForUI();
+        GimbalManager.sendDataToUI();
         SocketIO.emit('webServer_airVehiclesData', jsonForSend);
     };
 
@@ -103,7 +94,7 @@ export class AirVehicleManager {
     // region API uncions
 
     public static startGetSocket = AirVehicleManager.instance.startGetSocket;
-    public static getFRsByIds = AirVehicleManager.instance.getAVsByIds;
+    public static getAVById = AirVehicleManager.instance.getAVById;
 
 
 

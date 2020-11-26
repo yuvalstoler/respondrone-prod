@@ -26,29 +26,29 @@
             [matMenuTriggerFor]="menu" class="RightSideButton">Update status</button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item  (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Accept)"
-              *ngIf="applicationService?.selectedMissionRequests[0]?.actionOptions[MISSION_REQUEST_ACTION.Accept]">
+              *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Accept]">
         <span class="material-icons" [ngStyle]="{'color': '#fff746', 'font-size': '12px'}">stop_circle</span>
         Accept
       </button>
       <button mat-menu-item (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Approve)"
-              *ngIf="applicationService?.selectedMissionRequests[0]?.actionOptions[MISSION_REQUEST_ACTION.Approve]">
+              *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Approve]">
         <span class="material-icons" [ngStyle]="{'color': '#0c249c', 'font-size': '12px'}">stop_circle</span>
         Approve
       </button>
       <button mat-menu-item (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Reject)"
-              *ngIf="applicationService?.selectedMissionRequests[0]?.actionOptions[MISSION_REQUEST_ACTION.Reject]">
+              *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Reject]">
         <span class="material-icons" [ngStyle]="{'color': '#ff0000', 'font-size': '12px'}">stop_circle</span>
         Reject
       </button>
       <button mat-menu-item (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Cancel)"
-              *ngIf="applicationService?.selectedMissionRequests[0]?.actionOptions[MISSION_REQUEST_ACTION.Cancel]">
+              *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Cancel]">
         <span class="material-icons" [ngStyle]="{'color': '#6f30a0', 'font-size': '12px'}">stop_circle</span>
-        Canceled
+        Cancel
       </button>
       <button mat-menu-item (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Complete)"
-              *ngIf="applicationService?.selectedMissionRequests[0]?.actionOptions[MISSION_REQUEST_ACTION.Complete]">
+              *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Complete]">
         <span class="material-icons" [ngStyle]="{'color': '#92d150', 'font-size': '12px'}">stop_circle</span>
-        Completed</button>
+        Complete</button>
     </mat-menu>
 
     <div (click)="onCreateNewMission()"

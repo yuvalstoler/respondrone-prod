@@ -3,6 +3,7 @@ import {MAP} from 'src/types';
 import {ViewerConfiguration} from 'angular-cesium';
 import {CARTESIAN3, POINT, POINT3D} from '../../../../../../classes/typings/all.typings';
 import * as turf from '@turf/turf';
+import {mapDefaultPosition} from "../../../environments/environment";
 
 
 @Injectable({
@@ -118,7 +119,7 @@ export class CesiumService {
     cesiumViewer.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 
     cesiumViewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(34.895, 32.423, 5000.0),
+      destination: Cesium.Cartesian3.fromDegrees(mapDefaultPosition.lon, mapDefaultPosition.lat,  mapDefaultPosition.height),
       duration: 2,
     });
 

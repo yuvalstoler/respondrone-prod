@@ -94,7 +94,7 @@
           </div>
           <!--Mission info-->
           <div class="example-element-mission-info">
-           <div *ngFor="let textUIObj of element.textUI" class="textUI">
+           <div *ngFor="let textUIObj of element?.modeDefine?.data?.textUI" class="textUI">
              <span class="bold">{{textUIObj.title}}</span>:<span>{{textUIObj.value}}</span>
            </div>
           </div>
@@ -113,9 +113,9 @@
     <tr *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize; sticky: true"
         mat-header-row
     ></tr>
-    <tr (click)="selectRow(row)"
+    <tr [id]="row.id" (click)="selectRow(row)"
         *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;"
-        [ngStyle]="{'background-color': (expandedElement[row.id])? '#f2f2f2' : '' }"
+        [ngStyle]="{'background-color': (selectedElement?.id === row?.id) ? '#7F7F7F' : '' }"
         class="example-element-row pointer"
         mat-row>
       <!--      [class.selected]="applicationService.selectedReport === row"-->

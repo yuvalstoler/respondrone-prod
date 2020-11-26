@@ -8,7 +8,7 @@ import {
     ROUTE_STATUS,
     MISSION_DATA_REP,
     MISSION_DATA,
-    MISSION_ROUTE_DATA_REP, COLLECTION_VERSIONS,
+    MISSION_ROUTE_DATA_REP, COLLECTION_VERSIONS, COLLECITON_VERSION_TYPE,
 } from "../../../../../classes/typings/all.typings";
 import {MissionRequest} from "../../../../../classes/dataClasses/missionRequest/missionRequest";
 import {MissionRoute} from "../../../../../classes/dataClasses/missionRoute/missionRoute";
@@ -62,6 +62,9 @@ export class RepositoryManager {
             [MISSION_TYPE.Scan]: 0,
             [MISSION_TYPE.Servoing]: 0,
             [MISSION_TYPE.Delivery]: 0,
+            [COLLECITON_VERSION_TYPE.Mission]: 0,
+            [COLLECITON_VERSION_TYPE.MissionRoute]: 0,
+            [COLLECITON_VERSION_TYPE.GraphicOverlay]: 0,
         }
 
         RequestManager.requestToDBS(DBS_API.saveRepCollectionVersions, defaultCollectionVersion)
@@ -80,7 +83,7 @@ export class RepositoryManager {
             });
     }
     // --------------------------
-    private updateCollectionVersion = (key: MISSION_TYPE, value: number) => {
+    private updateCollectionVersion = (key: MISSION_TYPE | COLLECITON_VERSION_TYPE, value: number) => {
         if (this.collectionVersions.hasOwnProperty(key)) {
             this.collectionVersions[key] = value;
 
@@ -99,8 +102,8 @@ export class RepositoryManager {
         }
     }
     // -----------------------
-    private getCollectionVersion = (missiontype: MISSION_TYPE) => {
-        return this.collectionVersions ? this.collectionVersions[missiontype] : undefined;
+    private getCollectionVersion = (key: MISSION_TYPE | COLLECITON_VERSION_TYPE) => {
+        return this.collectionVersions ? this.collectionVersions[key] : undefined;
     }
 
     // region API uncions

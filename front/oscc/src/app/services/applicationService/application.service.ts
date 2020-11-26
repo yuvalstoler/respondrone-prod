@@ -59,8 +59,8 @@ export class ApplicationService {
     this.screen = {
       showLeftPanel: true,
       showRightPanel: true,
-      showAirResources: true,
-      showGrandResources: true,
+      showAirResources: false,
+      showGrandResources: false,
       showSituationPicture: true,
       showMissionControl: false,
       showViewMedia: false,
@@ -85,4 +85,13 @@ export class ApplicationService {
   point3d_to_geoPoint3d_short = (point: POINT3D): GEOPOINT3D_SHORT => {
     return {lon: point[0], lat: point[1], alt: point[2] || 0};
   };
+
+  geopoint3d_short_to_point3d_arr = (geopoints: GEOPOINT3D_SHORT[]): POINT3D[] => {
+    const points = geopoints.map(point => this.geopoint3d_short_to_point3d(point));
+    return points;
+  }
+
+  geopoint3d_short_to_point3d = (geopoint: GEOPOINT3D_SHORT): POINT3D => {
+    return [geopoint.lon, geopoint.lat, geopoint.alt];
+  }
 }

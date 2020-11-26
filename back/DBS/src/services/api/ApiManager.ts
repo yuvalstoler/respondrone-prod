@@ -10,9 +10,9 @@ import {
 import {
     ASYNC_RESPONSE, COLLECTION_VERSIONS,
     EVENT_DATA,
-    FILE_DB_DATA,
+    FILE_DB_DATA, GRAPHIC_OVERLAY_DATA,
     ID_OBJ,
-    ID_TYPE, MISSION_REQUEST_DATA,
+    ID_TYPE, MISSION_DATA, MISSION_REQUEST_DATA, MISSION_ROUTE_DATA,
     REPORT_DATA,
     TASK_DATA,
 } from '../../../../../classes/typings/all.typings';
@@ -38,9 +38,7 @@ export class ApiManager implements IRest {
     };
 
 
-    // ----------------------
-
-    // ----------------------
+    // region report ----------------------
     private setReport = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<REPORT_DATA> = {success: false};
 
@@ -158,8 +156,9 @@ export class ApiManager implements IRest {
             });
 
     };
+    // endregion ----------------------
 
-    // ----------------------
+    // region event ----------------------
 
     private setEvent = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<EVENT_DATA> = {success: false};
@@ -278,10 +277,9 @@ export class ApiManager implements IRest {
             });
 
     };
+    // endregion ----------------------
 
-
-
-    // ----------------------
+    // region file ----------------------
 
     private saveFileData = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE = {success: false};
@@ -337,7 +335,8 @@ export class ApiManager implements IRest {
             })
     }
 
-    // ----------------------
+    // endregion ----------------------
+
     // region task ----------------------
     private createTask = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<TASK_DATA> = {success: false};
@@ -538,6 +537,309 @@ export class ApiManager implements IRest {
     };
     // endregion ----------------------
 
+    // region missionRoute ----------------------
+    private createMissionRoute = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<MISSION_ROUTE_DATA> = {success: false};
+        const requestBody: MISSION_ROUTE_DATA = request.body;
+        if ( requestBody ) {
+            DbManager.createMissionRoute(requestBody)
+                .then((data: ASYNC_RESPONSE<MISSION_ROUTE_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE<MISSION_ROUTE_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing requestBody';
+            response.send(res);
+        }
+    };
+
+    private readMissionRoute = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<MISSION_ROUTE_DATA> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.readMissionRoute(requestBody)
+                .then((data: ASYNC_RESPONSE<MISSION_ROUTE_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE<MISSION_ROUTE_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private readAllMissionRoute = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<MISSION_ROUTE_DATA[]> = {success: false};
+        DbManager.readAllMissionRoute({})
+            .then((data: ASYNC_RESPONSE<MISSION_ROUTE_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE<MISSION_ROUTE_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
+    private deleteMissionRoute = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.deleteMissionRoute(requestBody)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private deleteAllMissionRoute = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody = request.body;
+        DbManager.deleteAllMissionRoute({})
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+    };
+
+    // endregion ----------------------
+
+    // region mission ----------------------
+    private createMission = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<MISSION_DATA> = {success: false};
+        const requestBody: MISSION_DATA = request.body;
+        if ( requestBody ) {
+            DbManager.createMission(requestBody)
+                .then((data: ASYNC_RESPONSE<MISSION_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE<MISSION_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing requestBody';
+            response.send(res);
+        }
+    };
+
+    private readMission = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<MISSION_DATA> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.readMission(requestBody)
+                .then((data: ASYNC_RESPONSE<MISSION_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE<MISSION_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private readAllMission = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<MISSION_DATA[]> = {success: false};
+        DbManager.readAllMission({})
+            .then((data: ASYNC_RESPONSE<MISSION_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE<MISSION_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
+    private deleteMission = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.deleteMission(requestBody)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private deleteAllMission = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody = request.body;
+        DbManager.deleteAllMission({})
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+    };
+
+    // endregion ----------------------
+
+    // region graphicOverlay ----------------------
+
+    private createGraphicOverlay = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<GRAPHIC_OVERLAY_DATA> = {success: false};
+        const requestBody: GRAPHIC_OVERLAY_DATA = request.body;
+        if ( requestBody ) {
+            DbManager.createGraphicOverlay(requestBody)
+                .then((data: ASYNC_RESPONSE<GRAPHIC_OVERLAY_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE<GRAPHIC_OVERLAY_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing requestBody';
+            response.send(res);
+        }
+    };
+
+    private readGraphicOverlay = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<GRAPHIC_OVERLAY_DATA> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.readGraphicOverlay(requestBody)
+                .then((data: ASYNC_RESPONSE<GRAPHIC_OVERLAY_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE<GRAPHIC_OVERLAY_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private readAllGraphicOverlay = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<GRAPHIC_OVERLAY_DATA[]> = {success: false};
+        DbManager.readAllGraphicOverlay({})
+            .then((data: ASYNC_RESPONSE<GRAPHIC_OVERLAY_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE<GRAPHIC_OVERLAY_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
+    private deleteGraphicOverlay = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.deleteGraphicOverlay(requestBody)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private deleteAllGraphicOverlay = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody = request.body;
+        DbManager.deleteAllGraphicOverlay({})
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+    };
+    // endregion ----------------------
+
     private saveRepCollectionVersions = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<COLLECTION_VERSIONS> = {success: false};
         const requestBody: MISSION_REQUEST_DATA = request.body;
@@ -609,6 +911,24 @@ export class ApiManager implements IRest {
         [DBS_API.readAllMissionRequest]: this.readAllMissionRequest,
         [DBS_API.deleteMissionRequest]: this.deleteMissionRequest,
         [DBS_API.deleteAllMissionRequest]: this.deleteAllMissionRequest,
+
+        [DBS_API.createMissionRoute]: this.createMissionRoute,
+        [DBS_API.readMissionRoute]: this.readMissionRoute,
+        [DBS_API.readAllMissionRoute]: this.readAllMissionRoute,
+        [DBS_API.deleteMissionRoute]: this.deleteMissionRoute,
+        [DBS_API.deleteAllMissionRoute]: this.deleteAllMissionRoute,
+
+        [DBS_API.createMission]: this.createMission,
+        [DBS_API.readMission]: this.readMission,
+        [DBS_API.readAllMission]: this.readAllMission,
+        [DBS_API.deleteMission]: this.deleteMission,
+        [DBS_API.deleteAllMission]: this.deleteAllMission,
+
+        [DBS_API.createGraphicOverlay]: this.createGraphicOverlay,
+        [DBS_API.readGraphicOverlay]: this.readGraphicOverlay,
+        [DBS_API.readAllGraphicOverlay]: this.readAllGraphicOverlay,
+        [DBS_API.deleteGraphicOverlay]: this.deleteGraphicOverlay,
+        [DBS_API.deleteAllGraphicOverlay]: this.deleteAllGraphicOverlay,
 
         [DBS_API.saveRepCollectionVersions]: this.saveRepCollectionVersions,
         [DBS_API.getRepCollectionVersions]: this.getRepCollectionVersions,

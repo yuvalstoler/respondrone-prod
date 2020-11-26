@@ -77,22 +77,6 @@ export class ObservationMissionRequest extends MissionRequest {
             source: this.source,
             missionStatus: this.missionStatus,
             modeDefine: undefined,
-            actionOptions: this.actionOptions,
-            textUI: [
-                {
-                    title: 'Resource',
-                    value: '' + this.observationMissionRequest.droneId
-                },
-                {
-                    title: 'Altitude offset',
-                    value: '' + this.observationMissionRequest.altitudeOffset
-                },
-                {
-                    title: 'Observation Azimuth',
-                    value: '' + this.observationMissionRequest.observationAzimuth
-                }
-            ]
-
         };
     };
 

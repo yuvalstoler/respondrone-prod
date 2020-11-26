@@ -6,17 +6,18 @@ import {RequestManager} from '../../AppService/restConnections/requestManager';
 
 import {
     ASYNC_RESPONSE,
-    ID_OBJ,
+    ID_OBJ, ID_TYPE,
     MISSION_ACTION_OPTIONS, MISSION_REQUEST_ACTION,
     MISSION_REQUEST_ACTION_OBJ,
     MISSION_REQUEST_DATA,
     MISSION_REQUEST_DATA_UI,
-    MISSION_STATUS_UI,
+    MISSION_STATUS_UI, REP_OBJ_KEY,
     REPORT_DATA
 } from '../../../../../classes/typings/all.typings';
 import {SocketIO} from '../../websocket/socket.io';
 import {MissionRequest} from "../../../../../classes/dataClasses/missionRequest/missionRequest";
 import {MissionRequestMdLogic} from "../../../../../classes/modeDefineTSSchemas/missionRequest/missionRequestMdLogic";
+import {AirVehicleManager} from "../airVehicle/airVehicleManager";
 
 const _ = require('lodash');
 
@@ -75,11 +76,12 @@ export class MissionRequestManager {
                         resolve(res);
                     }
                     else {
+                        console.log('error missionRequestAction', JSON.stringify(data));
                         reject(res);
                     }
                 })
                 .catch((data: ASYNC_RESPONSE<ID_OBJ>) => {
-                    console.log(data);
+                    console.log('error missionRequestAction', JSON.stringify(data));
                     reject(data);
                 });
         });
@@ -192,38 +194,14 @@ export class MissionRequestManager {
         const res: MISSION_REQUEST_DATA_UI[] = [];
         this.missionRequests.forEach((missionRequest: MissionRequest) => {
             const missionRequestDataUI: MISSION_REQUEST_DATA_UI = missionRequest.toJsonForUI();
-            missionRequestDataUI.modeDefine = MissionRequestMdLogic.validate(missionRequestDataUI);
-            missionRequestDataUI.actionOptions = missionRequest.actionOptions = this.getActionOptions(missionRequestDataUI);
+            const airVehicle = AirVehicleManager.getAVById(missionRequest[REP_OBJ_KEY[missionRequest.missionType]].droneId);
+            missionRequestDataUI.modeDefine = MissionRequestMdLogic.validate(missionRequestDataUI, airVehicle);
 
             res.push(missionRequestDataUI);
         });
         return res;
     };
 
-    private getActionOptions = (data: MISSION_REQUEST_DATA_UI): MISSION_ACTION_OPTIONS => {
-        const res: MISSION_ACTION_OPTIONS = {};
-
-        if (data.missionStatus === MISSION_STATUS_UI.New) {
-            res[MISSION_REQUEST_ACTION.Accept] = true;
-            res[MISSION_REQUEST_ACTION.Reject] = true;
-        }
-        else if (data.missionStatus === MISSION_STATUS_UI.Pending) {
-            res[MISSION_REQUEST_ACTION.Cancel] = true;
-        }
-        else if (data.missionStatus === MISSION_STATUS_UI.WaitingForApproval) {
-            res[MISSION_REQUEST_ACTION.Approve] = true;
-            res[MISSION_REQUEST_ACTION.Reject] = true;
-            res[MISSION_REQUEST_ACTION.Cancel] = true;
-        }
-        else if (data.missionStatus === MISSION_STATUS_UI.Approve) {
-            res[MISSION_REQUEST_ACTION.Cancel] = true;
-        }
-        else if (data.missionStatus === MISSION_STATUS_UI.InProgress) {
-            res[MISSION_REQUEST_ACTION.Complete] = true;
-            res[MISSION_REQUEST_ACTION.Cancel] = true;
-        }
-        return res;
-    }
 
     private updateAllMissionRequests = (data: MISSION_REQUEST_DATA[]): Promise<ASYNC_RESPONSE> => {
         return new Promise((resolve, reject) => {
@@ -236,6 +214,9 @@ export class MissionRequestManager {
         });
     }
 
+    private getMissionRequestById = (missionId: ID_TYPE) => {
+        return this.missionRequests.find(element => element.id === missionId)
+    }
 
     private sendDataToUI = (): void => {
         const jsonForSend: MISSION_REQUEST_DATA_UI[] = this.getDataForUI();
@@ -250,6 +231,7 @@ export class MissionRequestManager {
     public static updateAllMissionRequests = MissionRequestManager.instance.updateAllMissionRequests;
     public static missionRequestAction = MissionRequestManager.instance.missionRequestAction;
     public static updateMissionInDB = MissionRequestManager.instance.updateMissionInDB;
+    public static getMissionRequestById = MissionRequestManager.instance.getMissionRequestById;
 
     // public static updateAllReports = MissionRequestManager.instance.updateAllReports;
     // public static readReport = MissionRequestManager.instance.readReport;

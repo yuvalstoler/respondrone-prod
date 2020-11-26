@@ -13,6 +13,7 @@ export enum MS_API {
     readAllMissionRequest = '/readAllMissionRequest',
     readAllMission = '/readAllMission',
     readAllMissionRoute = '/readAllMissionRoute',
+    readAllGraphicOverlay = '/readAllGraphicOverlay',
     missionRequestAction = '/missionRequestAction',
     updateMissionInDB = '/updateMissionInDB',
 }
@@ -66,6 +67,24 @@ export enum DBS_API {
     readAllMissionRequest = '/readAllMissionRequest',
     deleteMissionRequest = '/deleteMissionRequest',
     deleteAllMissionRequest = '/deleteAllMissionRequest',
+
+    createMissionRoute = '/createMissionRoute',
+    readMissionRoute = '/readMissionRoute',
+    readAllMissionRoute = '/readAllMissionRoute',
+    deleteMissionRoute = '/deleteMissionRoute',
+    deleteAllMissionRoute = '/deleteAllMissionRoute',
+
+    createMission = '/createMission',
+    readMission = '/readMission',
+    readAllMission = '/readAllMission',
+    deleteMission = '/deleteMission',
+    deleteAllMission = '/deleteAllMission',
+
+    createGraphicOverlay = '/createGraphicOverlay',
+    readGraphicOverlay = '/readGraphicOverlay',
+    readAllGraphicOverlay = '/readAllGraphicOverlay',
+    deleteGraphicOverlay = '/deleteGraphicOverlay',
+    deleteAllGraphicOverlay = '/deleteAllGraphicOverlay',
 
     saveRepCollectionVersions = '/saveRepCollectionVersions',
     getRepCollectionVersions = '/getRepCollectionVersions',
@@ -197,6 +216,7 @@ export enum WS_API {
     readAllMissionRequest = '/readAllMissionRequest',
     readAllMission = '/readAllMission',
     readAllMissionRoute = '/readAllMissionRoute',
+    readAllGraphicOverlay = '/readAllGraphicOverlay',
     missionRequestAction = '/missionRequestAction',
     updateMissionInDB = '/updateMissionInDB',
 
@@ -206,6 +226,7 @@ export enum WS_API {
     updateAllMissionRequests = '/updateAllMissionRequests',
     updateAllMissions = '/updateAllMissions',
     updateAllMissionRoutes = '/updateAllMissionRoutes',
+    updateAllGraphicOverlays = '/updateAllGraphicOverlays',
 
     gimbalAction = '/gimbalAction',
 
@@ -280,4 +301,7 @@ export enum MissionRep_API {
 }
 export enum MissionRouteRep_API {
     getLastMissionRoutes = 'getLastMissionRoutes'
+}
+export enum GraphicOverlayRep_API {
+    getLastGraphicOverlays = 'getLastGraphicOverlays'
 }

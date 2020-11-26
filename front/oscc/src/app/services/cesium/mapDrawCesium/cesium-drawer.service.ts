@@ -252,7 +252,8 @@ export class CesiumDrawerService {
     const size = object.modeDefine.styles.iconSize || 30;
     const description = (object.hasOwnProperty('description')) ? object['description'] : '';
     const options = {
-      position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude),
+      position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude, object.location.altitude),
+      heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
       billboard: {
         image: object.modeDefine.styles.mapIcon,
         width: size,
@@ -271,7 +272,8 @@ export class CesiumDrawerService {
   private updateIconLabelOnMap = (mapDomId: string, entityCE, object: DRAW_OBJECT, label: DRAW_LABEL) => {
     const size = object.modeDefine.styles.iconSize || 30;
     const options = {
-      position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude),
+      position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude, object.location.altitude),
+      heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
       label: {
         text: label.text,
         font: '10pt monospace',
@@ -284,7 +286,6 @@ export class CesiumDrawerService {
         // textShadow: '2px 2px 4px ' + Cesium.Color.BLACK.withAlpha(0.9),
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         verticalOrigin: Cesium.VerticalOrigin.TOP,
-        heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
       }
     };
     this.cesiumService.updateItemCEOnMap(mapDomId, entityCE, options);
@@ -294,7 +295,8 @@ export class CesiumDrawerService {
     const size = object.modeDefine.styles.iconSize || 45;
     const description = (object.hasOwnProperty('description')) ? object['description'] : '';
     const iconData = this.cesiumService.cesiumViewer[mapDomId].entities.add({
-      position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude),
+      position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude, object.location.altitude),
+      heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
       billboard: {
         image: /* object.modeDefine.styles.mapIcon ||*/ '../../../../assets/markerBlue.png',
         width: size,
@@ -315,7 +317,8 @@ export class CesiumDrawerService {
     const size = object.modeDefine.styles.iconSize || 30;
 
     const iconLabel = this.cesiumService.cesiumViewer[mapDomId].entities.add({
-      position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude),
+      position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude, object.location.altitude),
+      heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
       label: {
         text: label.text,
         font: '10pt monospace',
@@ -328,7 +331,6 @@ export class CesiumDrawerService {
         // textShadow: '2px 2px 4px ' + Cesium.Color.BLACK.withAlpha(0.9),
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         verticalOrigin: Cesium.VerticalOrigin.TOP,
-        heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
       }
     });
 
@@ -557,6 +559,7 @@ export class CesiumDrawerService {
         outlineColor: Cesium.Color.YELLOW
       },
       position: undefined,
+      heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
       label: undefined,
       options: {
         description: description,
@@ -597,24 +600,24 @@ export class CesiumDrawerService {
     const label = {
       // position: positionCenter,
       text: title,
-      font: '25px Open Sans Hebrew Condensed, serif',
+      font: '14pt monospace',
       showBackground: false,
-      eyeOffset: new Cesium.Cartesian3(0, 0, 0), // to prevent labels mixing
+      eyeOffset: new Cesium.Cartesian3(0, 0, -100), // to prevent labels mixing
       pixelOffset: new Cesium.Cartesian2(0, 0),
       style: Cesium.LabelStyle.FILL,
       // outline: true,
       fillColor: Cesium.Color.BLACK,
       // textShadow: '2px 2px 4px ' + Cesium.Color.BLACK.withAlpha(0.9),
       outlineColor: Cesium.Color.BLACK,
-      outlineWidth: 2,
+      //outlineWidth: 2,
       horizontalOrigin: Cesium.HorizontalOrigin.END,
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-      heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
+      // heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
     };
 
     return {
       label: label,
-      position: positionCenter
+      position: positionCenter,
     };
   };
 
@@ -630,7 +633,7 @@ export class CesiumDrawerService {
     const label = {
       // position: positionCenter,
       text: title,
-      font: '25px Open Sans Hebrew Condensed, serif',
+      font: '10pt monospace',
       showBackground: false,
       eyeOffset: new Cesium.Cartesian3(0, 0, 0), // to prevent labels mixing
       pixelOffset: new Cesium.Cartesian2(-20, 0),
@@ -715,11 +718,11 @@ export class CesiumDrawerService {
   };
 
   // ==================POLYLINE==========================================================================================
-  public createPolylineFromServer = (domId: string, points: POINT[] | POINT3D[], id: string, description?: string) => {
+  public createPolylineFromServer = (domId: string, points: POINT3D[], id: string, description?: string, modeDefine?: any) => {
     let res = false;
-    const position = [];
+    const position: POINT3D[] = [];
     points.forEach(point => {
-      position.push([point[0], point[1]]);
+      position.push([point[0], point[1], point[2]]);
     });
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
     for (const mapDomId in mapsCE) {
@@ -730,7 +733,7 @@ export class CesiumDrawerService {
         this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][id] =
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][id] || {};
         this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][id] =
-          this.createPolyline(mapDomId, mapsCE[mapDomId], position, description);
+          this.createPolyline(mapDomId, mapsCE[mapDomId], position, description, modeDefine);
 
         if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][id]) {
           res = true;
@@ -740,9 +743,9 @@ export class CesiumDrawerService {
     return res;
   };
 
-  private createPolyline = (mapDomId: string, mapCE: any, taskPolyline: POINT[] | POINT3D[], description?: string) => {
+  private createPolyline = (mapDomId: string, mapCE: any, taskPolyline: POINT[] | POINT3D[], description?: string, modeDefine?: any) => {
     const positions = this.arrayPointsToCartesian3(taskPolyline);
-    return this.cesiumService.cesiumViewer[mapDomId].entities.add({
+    const options = {
       name: 'Polyline',
       polyline: {
         positions: positions,
@@ -752,7 +755,16 @@ export class CesiumDrawerService {
       options: {
         description: description,
       }
-    });
+    }
+
+    if (modeDefine && modeDefine.styles) {
+      const color = this.rgbaToCesiumColor(modeDefine.styles.color || this.cesiumService.colors.notSelected);
+      options.polyline.material = color;
+      if (modeDefine.styles.isDotted) {
+        options.polyline.material = new Cesium.PolylineDashMaterialProperty({color: color})
+      }
+    }
+    return this.cesiumService.cesiumViewer[mapDomId].entities.add(options);
   };
 
   public deletePolylineFromMap = (domId: string, idPolyline: string): boolean => {
@@ -786,11 +798,11 @@ export class CesiumDrawerService {
   };
 
   // ==================ARROW POLYLINE==========================================================================================
-  public createArrowPolylineFromServer = (domId: string, points: POINT[] | POINT3D[], id: string, description?: string) => {
+  public createArrowPolylineFromServer = (domId: string, points: POINT3D[], id: string, description?: string) => {
     let res = false;
-    const position: POINT[] | POINT3D[] = [];
+    const position: POINT3D[] = [];
     points.forEach(point => {
-      position.push([point[0], point[1]]);
+      position.push([point[0], point[1], point[2]]);
     });
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
     for (const mapDomId in mapsCE) {

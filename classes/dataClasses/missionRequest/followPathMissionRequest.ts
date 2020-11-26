@@ -77,21 +77,6 @@ export class FollowPathMissionRequest extends MissionRequest {
             source: this.source,
             missionStatus: this.missionStatus,
             modeDefine: undefined,
-            actionOptions: this.actionOptions,
-            textUI: [
-                {
-                    title: 'Resource',
-                    value: '' + this.followPathMissionRequest.droneId
-                },
-                {
-                    title: 'Gimbal azimuth',
-                    value: '' + this.followPathMissionRequest.gimbalAzimuth
-                },
-                {
-                    title: 'Yaw orientation',
-                    value: '' + this.followPathMissionRequest.yawOrientation
-                }
-            ]
         };
     };
 

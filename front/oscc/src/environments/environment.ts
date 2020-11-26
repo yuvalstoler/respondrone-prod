@@ -22,7 +22,7 @@ export const websocketOutTimeInterval = 3000;
 export const websocketCameraJoystickRoom = 'ui_proxy_setCamera';
 export const websocketFlightJoystickRoom = 'ui_proxy_setVelocity';
 
-export const mapDefaultPosition =  {lat: 32.637, lon: 35.052}; // [32.03529, 34.78821];
+export const mapDefaultPosition =  {lat: 42.3, lon: 9.2, height: 50000};
 export const mapMinZoom = 5;
 export const mapMaxZoom = 18;
 export const mapZoom = 16;

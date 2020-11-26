@@ -9,8 +9,8 @@ import {SORT_AIR_RESOURCES, SORT_GROUND_RESOURCES} from '../../../../types';
 })
 export class RightPanelComponent implements OnInit {
 
-  showAirResources: boolean = false;
-  showGroundResources: boolean = false;
+  showAirResources: boolean = true;
+  showGroundResources: boolean = true;
   optionGroundSelected: string = 'id';
   optionAirSelected: string = 'id';
   sortGroundList: SORT_GROUND_RESOURCES[] = Object.values(SORT_GROUND_RESOURCES);

@@ -30,7 +30,7 @@ export class GimbalManager {
 
     private constructor() {
         const date = Date.now();
-        const test: GIMBAL_DATA_TELEMETRY = {
+        const data: GIMBAL_DATA_TELEMETRY = {
             timestamp: {
                 timestamp: 0
             },
@@ -44,16 +44,16 @@ export class GimbalManager {
                         'yaw': -10
                     },
                     'visibleCameraParameters': {
-                        'zoomVisibleCamera': 0 /*day*/
+                        'zoomVisibleCamera': 4 /*day*/
                     },
                     'infraredCameraParameters': { /*night*/
-                        'zoomInfraredCamera': 0,
+                        'zoomInfraredCamera': 5,
                         'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
                     },
                     'trackedEntity': 0,
                     'cameraLookAtPoint': {
-                        'lat': -90,
-                        'lon': -180,
+                        'lat': 0,
+                        'lon': 0,
                         'alt': 0
                     },
                     'opticalVideoURL': 'string',
@@ -68,40 +68,40 @@ export class GimbalManager {
                         'yaw': -10
                     },
                     'visibleCameraParameters': {
-                        'zoomVisibleCamera': 0 /*day*/
+                        'zoomVisibleCamera': 6 /*day*/
                     },
                     'infraredCameraParameters': { /*night*/
-                        'zoomInfraredCamera': 0,
+                        'zoomInfraredCamera': 7,
                         'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
                     },
                     'trackedEntity': 0,
                     'cameraLookAtPoint': {
-                        'lat': -90,
-                        'lon': -180,
+                        'lat': 0,
+                        'lon': 0,
                         'alt': 0
                     },
                     'opticalVideoURL': 'string',
                     'infraredVideoURL': 'string'
                 },
                 {
-                    'id': '2',
-                    'droneId': '2',
+                    'id': '3',
+                    'droneId': '3',
                     'AIMode': 0,
                     'gimbalParameters': {
                         'pitch': -10,
                         'yaw': -10
                     },
                     'visibleCameraParameters': {
-                        'zoomVisibleCamera': 0 /*day*/
+                        'zoomVisibleCamera': 5 /*day*/
                     },
                     'infraredCameraParameters': { /*night*/
-                        'zoomInfraredCamera': 0,
+                        'zoomInfraredCamera': 6,
                         'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
                     },
                     'trackedEntity': 0,
                     'cameraLookAtPoint': {
-                        'lat': -90,
-                        'lon': -180,
+                        'lat': 0,
+                        'lon': 0,
                         'alt': 0
                     },
                     'opticalVideoURL': 'string',
@@ -111,8 +111,12 @@ export class GimbalManager {
 
         };
         setInterval(() => {
-            this.onGetGimbals(test);
-        }, 5000);
+            data.gimbals.forEach(drone => {
+                drone.cameraLookAtPoint.lat = 42.0 + Math.random() * (0.02 + 0.01) - 0.01;
+                drone.cameraLookAtPoint.lon = 9.95493 + Math.random() * (0.02 + 0.01) - 0.01;
+            });
+            this.onGetGimbals(data);
+        }, 1000);
     }
 
     private startGetSocket = () => {

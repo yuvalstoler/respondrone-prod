@@ -172,11 +172,11 @@ export class MapGeneralService {
 
   // Polyline =====================================================================================================
   // from Service =====
-  public createPolyline = (points: POINT[] | POINT3D[], id: string, description?: string) => {
+  public createPolyline = (points: POINT3D[], id: string, description?: string, modeDefine?: any) => {
     const domId = undefined;
     let res = false;
     this.deletePolylineFromMap(id);
-      res = this.cesiumDrawerService.createPolylineFromServer(domId, points, id, description);
+      res = this.cesiumDrawerService.createPolylineFromServer(domId, points, id, description, modeDefine);
     return res;
   };
 
@@ -189,7 +189,7 @@ export class MapGeneralService {
 
   // Arrow Polyline =====================================================================================================
   // from Service =====
-  public createArrowPolyline = (points: POINT[] | POINT3D[], polylineId: string, description?: string) => {
+  public createArrowPolyline = (points: POINT3D[], polylineId: string, description?: string) => {
     const domId = undefined;
     let res = false;
     this.deleteArrowPolylineFromMap(polylineId);

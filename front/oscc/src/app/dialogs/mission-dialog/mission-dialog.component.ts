@@ -7,7 +7,7 @@ import {
   GEOPOINT3D_SHORT,
   MISSION_MODEL_UI,
   MISSION_TYPE,
-  MISSION_TYPE_TEXT,
+  MISSION_TYPE_TEXT, OPERATIONAL_STATUS,
   POINT3D,
   SCAN_SPEED
 } from '../../../../../../classes/typings/all.typings';
@@ -38,6 +38,7 @@ export class MissionDialogComponent implements OnInit {
   commRelayTypes = Object.values(COMM_RELAY_TYPE);
   COMM_RELAY_TYPE_TEXT = COMM_RELAY_TYPE_TEXT;
   COMM_RELAY_TYPE = COMM_RELAY_TYPE;
+  OPERATIONAL_STATUS = OPERATIONAL_STATUS;
   scanSpeed = Object.values(SCAN_SPEED);
   step = 0;
   MISSION_FIELDS = MISSION_FIELDS;

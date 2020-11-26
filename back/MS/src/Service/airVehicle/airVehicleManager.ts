@@ -27,7 +27,7 @@ export class AirVehicleManager {
 
     private constructor() {
         const date = Date.now();
-        const test: AV_DATA_TELEMETRY_REP = {
+        const data: AV_DATA_TELEMETRY_REP = {
             'timestamp': {
                 'timestamp': 0
             },
@@ -36,8 +36,8 @@ export class AirVehicleManager {
                     'id': '1',
                     'type': AIR_VEHICLE_TYPE.Dji,
                     'location': {
-                        'lat': 32.979365,
-                        'lon': 34.8,
+                        'lat': 0,
+                        'lon': 0,
                         'alt': 0
                     },
                     'gpsQuality': 0,
@@ -52,17 +52,17 @@ export class AirVehicleManager {
                     },
                     'capability': [CAPABILITY.Delivery],
                     'commStatus': COMM_STATUS.OK,
-                    'operationalStatus': OPERATIONAL_STATUS.Ready,
-                    'routeId': 'string',
+                    'operationalStatus': OPERATIONAL_STATUS.OnMission,
+                    'routeId': 'kegteze',
                     'name': 'Alpha 1',
                 },
                 {
                     'id': '2',
                     'type': AIR_VEHICLE_TYPE.Dji,
                     'location': {
-                        'lat': 32.989365,
-                        'lon': 34.8,
-                        'alt': 0
+                        'lat': 0,
+                        'lon': 0,
+                        'alt': 1000
                     },
                     'gpsQuality': 0,
                     'energyLevel': 0,
@@ -77,15 +77,14 @@ export class AirVehicleManager {
                     'capability': [ CAPABILITY.Surveillance, CAPABILITY.CommRelay],
                     'commStatus': COMM_STATUS.OK,
                     'operationalStatus': OPERATIONAL_STATUS.Ready,
-                    'routeId': 'string',
                     'name': 'Alpha 2',
                 },
                 {
                     'id': '3',
                     'type': AIR_VEHICLE_TYPE.Dji,
                     'location': {
-                        'lat': 32.999365,
-                        'lon': 34.8,
+                        'lat': 0,
+                        'lon': 0,
                         'alt': 0
                     },
                     'gpsQuality': 0,
@@ -101,14 +100,19 @@ export class AirVehicleManager {
                     'capability': [CAPABILITY.CommRelay],
                     'commStatus': COMM_STATUS.OK,
                     'operationalStatus': OPERATIONAL_STATUS.Ready,
-                    'routeId': 'string',
                     'name': 'Alpha 3',
                 }
             ]
         };
         setInterval(() => {
-            this.onGetAirVehicles(test);
-        }, 5000);
+            data.timestamp.timestamp = Date.now();
+            data.drones.forEach(drone => {
+                drone.location.lat = 42.0 + Math.random() * (0.2 + 0.1) - 0.1;
+                drone.location.lon = 9.95493 + Math.random() * (0.2 + 0.1) - 0.1;
+            });
+
+            this.onGetAirVehicles(data);
+        }, 1000);
     }
 
     private startGetSocket = () => {

@@ -9,7 +9,7 @@ import {
     Response
 } from 'express';
 import {
-    ASYNC_RESPONSE,
+    ASYNC_RESPONSE, GRAPHIC_OVERLAY_DATA,
     ID_OBJ,
     MISSION_DATA,
     MISSION_DATA_UI,
@@ -28,6 +28,7 @@ import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 import {MissionRequestManager} from "../missionRequest/missionRequestManager";
 import {MissionManager} from "../mission/missionManager";
 import {MissionRouteManager} from "../missionRoute/missionRouteManager";
+import {GraphicOverlayManager} from "../graphicOverlay/graphicOverlayManager";
 
 
 export class ApiManager implements IRest {
@@ -120,6 +121,22 @@ export class ApiManager implements IRest {
             });
     };
 
+    private readAllGraphicOverlay = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<GRAPHIC_OVERLAY_DATA[]> = {success: false};
+        GraphicOverlayManager.readAllGraphicOverlay({})
+            .then((data: ASYNC_RESPONSE<GRAPHIC_OVERLAY_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
     private missionRequestAction = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
 
@@ -165,6 +182,7 @@ export class ApiManager implements IRest {
         [MS_API.readAllMissionRequest]: this.readAllMissionRequest,
         [MS_API.readAllMission]: this.readAllMission,
         [MS_API.readAllMissionRoute]: this.readAllMissionRoute,
+        [MS_API.readAllGraphicOverlay]: this.readAllGraphicOverlay,
         [MS_API.missionRequestAction]: this.missionRequestAction,
         [MS_API.updateMissionInDB]: this.updateMissionInDB,
 

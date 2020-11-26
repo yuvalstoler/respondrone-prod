@@ -78,29 +78,6 @@ export class ScanMissionRequest extends MissionRequest {
             source: this.source,
             missionStatus: this.missionStatus,
             modeDefine: undefined,
-            actionOptions: this.actionOptions,
-            textUI: [
-                {
-                    title: 'Resource',
-                    value: '' + this.scanMissionRequest.droneId
-                },
-                {
-                    title: 'Scan angle',
-                    value: '' + this.scanMissionRequest.scanAngle
-                },
-                {
-                    title: 'Scan speed',
-                    value: '' + this.scanMissionRequest.scanSpeed
-                },
-                {
-                    title: 'Overlap percent',
-                    value: '' + this.scanMissionRequest.overlapPercent
-                },
-                {
-                    title: 'Camera FOV',
-                    value: '' + this.scanMissionRequest.cameraFOV
-                }
-            ]
         };
     };
 

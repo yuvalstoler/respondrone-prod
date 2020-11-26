@@ -3,8 +3,8 @@ import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
-  ASYNC_RESPONSE, GEOPOINT3D_SHORT,
-  ID_OBJ, MISSION_DATA_UI,
+  ASYNC_RESPONSE, GEOPOINT3D_SHORT, GRAPHIC_OVERLAY_DATA_UI,
+  ID_OBJ,
   POINT,
   POINT3D,
 } from '../../../../../../classes/typings/all.typings';
@@ -19,10 +19,10 @@ import {ApplicationService} from "../applicationService/application.service";
 @Injectable({
   providedIn: 'root'
 })
-export class MissionService {
+export class GraphicOverlayService {
 
-  missions: {data: MISSION_DATA_UI[]} = {data: []};
-  missions$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  graphicOverlays: {data: GRAPHIC_OVERLAY_DATA_UI[]} = {data: []};
+  graphicOverlays$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private connectionService: ConnectionService,
               private socketService: SocketService,
@@ -30,22 +30,22 @@ export class MissionService {
               private mapGeneralService: MapGeneralService,
               private applicationService: ApplicationService) {
     this.socketService.connected$.subscribe(this.init);
-    this.socketService.connectToRoom('webServer_missions').subscribe(this.updateMissions);
+    this.socketService.connectToRoom('webServer_graphicOverlays').subscribe(this.updateGraphicOverlays);
   }
   // ----------------------
   private init = (isConnected: boolean = true): void => {
     if (isConnected) {
-      this.getMissions();
+      this.getGraphicOverlays();
     }
   };
   // ----------------------
-  public getMissions = (isConnected: boolean = true) => {
+  public getGraphicOverlays = (isConnected: boolean = true) => {
     if (isConnected) {
-      this.connectionService.post('/' + API_GENERAL.general + WS_API.readAllMission, {})
+      this.connectionService.post('/' + API_GENERAL.general + WS_API.readAllGraphicOverlay, {})
         .then((data) => {
           const dataResult = _.get(data, 'data', false);
           if (dataResult) {
-            this.updateMissions(dataResult);
+            this.updateGraphicOverlays(dataResult);
           }
         })
         .catch(e => {
@@ -54,22 +54,22 @@ export class MissionService {
     }
   };
   // ----------------------
-  private updateMissions = (data: MISSION_DATA_UI[]): void => {
+  private updateGraphicOverlays = (data: GRAPHIC_OVERLAY_DATA_UI[]): void => {
     if (Array.isArray(data)) {
       this.removeIfNotExist(data);
       this.updateData(data);
-      this.missions$.next(true);
+      this.graphicOverlays$.next(true);
     }
   };
   // ----------------------
-  private removeIfNotExist = (data: MISSION_DATA_UI[]): void => {
-    const notExist = _.differenceWith(this.missions.data, data, (o1, o2) => {
+  private removeIfNotExist = (data: GRAPHIC_OVERLAY_DATA_UI[]): void => {
+    const notExist = _.differenceWith(this.graphicOverlays.data, data, (o1, o2) => {
       return o1['id'] === o2['id'];
     });
     if (notExist.length > 0) {
-      notExist.forEach((item: MISSION_DATA_UI) => {
-        const index = this.missions.data.findIndex(d => d.id === item.id);
-        this.missions.data.splice(index, 1);
+      notExist.forEach((item: GRAPHIC_OVERLAY_DATA_UI) => {
+        const index = this.graphicOverlays.data.findIndex(d => d.id === item.id);
+        this.graphicOverlays.data.splice(index, 1);
         //TODO: delete data from MAP
         this.removeFromMap(item);
 
@@ -77,9 +77,9 @@ export class MissionService {
     }
   };
   // ----------------------
-  private updateData = (reportData: MISSION_DATA_UI[]): void => {
-    reportData.forEach((newItem: MISSION_DATA_UI) => {
-      const existingEvent: MISSION_DATA_UI = this.getById(newItem.id);
+  private updateData = (reportData: GRAPHIC_OVERLAY_DATA_UI[]): void => {
+    reportData.forEach((newItem: GRAPHIC_OVERLAY_DATA_UI) => {
+      const existingEvent: GRAPHIC_OVERLAY_DATA_UI = this.getById(newItem.id);
       if (existingEvent) {
         // existingEvent.setValues(newEvent);
         for (const fieldName in existingEvent) {
@@ -92,65 +92,56 @@ export class MissionService {
             existingEvent[fieldName] = newItem[fieldName];
           }
         }
-        // this.updateMission(newItem);
+        // this.updateGraphicOverlay(newItem);
       } else {
-        this.missions.data.push(newItem);
-        // this.drawMission(newItem);
+        this.graphicOverlays.data.push(newItem);
+        // this.drawGraphicOverlay(newItem);
       }
       this.removeFromMap(newItem);
-      this.drawMission(newItem);
+      this.drawGraphicOverlay(newItem);
     });
   };
   // ----------------------
-  private removeFromMap = (item: MISSION_DATA_UI) => {
-    if (item.missionMapOverlay && item.missionMapOverlay.point) {
+  private removeFromMap = (item: GRAPHIC_OVERLAY_DATA_UI) => {
+    if (item.shape && item.shape.lat && item.shape.lon) {
       this.mapGeneralService.deleteIcon(item.id);
     }
 
-    if (item.missionMapOverlay && item.missionMapOverlay.areas) {
-      item.missionMapOverlay.areas.forEach((area, index: number) => {
-        const polygonId = item.id + '_' + index
-        this.mapGeneralService.deletePolygonManually(polygonId);
-      })
+    if (item.shape && item.shape.coordinates) {
+      this.mapGeneralService.deletePolygonManually(item.id);
     }
   }
   // ----------------------
-  private drawMission = (item: MISSION_DATA_UI) => {
+  private drawGraphicOverlay = (item: GRAPHIC_OVERLAY_DATA_UI) => {
     // icons
-    if (item.missionMapOverlay && item.missionMapOverlay.point) {
+    if (item.shape && item.shape.lat && item.shape.lon) {
       // TODO change
       const iconData: ICON_DATA = {
         id: item.id,
-        description: item.description,
+        description: undefined,
         modeDefine: item.modeDefine,
         location: {
-          latitude: item.missionMapOverlay.point.lat,
-          longitude: item.missionMapOverlay.point.lon,
-          altitude: item.missionMapOverlay.point.alt,
+          latitude: item.shape.lat,
+          longitude: item.shape.lon,
+          altitude: item.shape.alt,
         }
       }
-
       this.mapGeneralService.createIcon(iconData);
     }
 
-    if (item.missionMapOverlay && item.missionMapOverlay.areas) {
-
-      item.missionMapOverlay.areas.forEach((area: {coordinates: GEOPOINT3D_SHORT[]}, index: number) => {
-        // TODO change
-        const polygon: POINT3D[] = this.applicationService.geopoint3d_short_to_point3d_arr(area.coordinates);
-        const polygonId = item.id + '_' + index
-        this.mapGeneralService.drawPolygonFromServer(polygon, polygonId, undefined, undefined);
-      })
+    if (item.shape && item.shape.coordinates) {
+      const polygon: POINT3D[] = this.applicationService.geopoint3d_short_to_point3d_arr(item.shape.coordinates);
+      this.mapGeneralService.drawPolygonFromServer(polygon, item.id, item.Type, undefined);
     }
   };
 
   // ----------------------
-  private updateMission = (item: MISSION_DATA_UI) => {
+  private updateGraphicOverlay = (item: GRAPHIC_OVERLAY_DATA_UI) => {
 
   };
   // -----------------------
-  public getById = (id: string): MISSION_DATA_UI => {
-    return this.missions.data.find(data => data.id === id);
+  public getById = (id: string): GRAPHIC_OVERLAY_DATA_UI => {
+    return this.graphicOverlays.data.find(data => data.id === id);
   };
 
   // -----------------------

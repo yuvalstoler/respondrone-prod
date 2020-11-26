@@ -58,12 +58,22 @@
           <small>You can choose more then one</small>
         </div>
         <div *ngFor="let airVehicle of airVehicleService.airVehicles.data; let i = index;" class="imageDivContainer">
-          <div (click)="onChooseAirVehicle(airVehicle)"
-               [ngClass]="{'SelectedImageAV': getSelectedAV(airVehicle?.id)}"
-               class="airVehicleImageContainer">
-            <img [src]="'../../../../../assets/helicopter.png'">
+          <div *ngIf="airVehicle.operationalStatus === OPERATIONAL_STATUS.Ready && airVehicle.modeDefine?.data?.missionOptions[missionModel?.missionType]">
+            <div (click)="onChooseAirVehicle(airVehicle)"
+                 [ngClass]="{'SelectedImageAV': getSelectedAV(airVehicle?.id)}"
+                 class="airVehicleImageContainer">
+              <img [src]="'../../../../../assets/helicopter.png'">
+            </div>
+            {{airVehicle.name}}
           </div>
-          {{airVehicle.name}}
+          <div *ngIf="airVehicle.operationalStatus !== OPERATIONAL_STATUS.Ready || !airVehicle.modeDefine?.data?.missionOptions[missionModel?.missionType]">
+            <div
+                 [ngStyle]="{'opacity': 0.3}"
+                 class="airVehicleImageContainer">
+              <img [src]="'../../../../../assets/helicopter.png'">
+            </div>
+            {{airVehicle.name}}
+          </div>
         </div>
         <mat-action-row>
           <button (click)="nextStep(MISSION_FIELDS.airResources)" [disabled]="selectedAirVehicles?.length <= 0"
@@ -410,7 +420,7 @@
                            class="Label"
                            matInput
                            min="0"
-                           placeholder="20"
+                           placeholder="0 m"
                            type="number">
                   </label>
                 </mat-form-field>
@@ -471,7 +481,7 @@
                              class="Label"
                              matInput
                              min="0"
-                             placeholder="20"
+                             placeholder="0 m"
                              required
                              type="number">
                     </label>

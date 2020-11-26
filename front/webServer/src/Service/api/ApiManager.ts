@@ -11,9 +11,18 @@ import {
     Response
 } from 'express';
 import {
-    ASYNC_RESPONSE, EVENT_DATA, MISSION_REQUEST_DATA,
-    ID_OBJ, OSCC_TASK_ACTION,
-    REPORT_DATA, TASK_DATA, MISSION_DATA, MISSION_ROUTE_DATA, GIMBAL_ACTION, MISSION_REQUEST_ACTION_OBJ,
+    ASYNC_RESPONSE,
+    EVENT_DATA,
+    MISSION_REQUEST_DATA,
+    ID_OBJ,
+    OSCC_TASK_ACTION,
+    REPORT_DATA,
+    TASK_DATA,
+    MISSION_DATA,
+    MISSION_ROUTE_DATA,
+    GIMBAL_ACTION,
+    MISSION_REQUEST_ACTION_OBJ,
+    GRAPHIC_OVERLAY_DATA_UI, GRAPHIC_OVERLAY_DATA,
 } from '../../../../../classes/typings/all.typings';
 
 
@@ -30,6 +39,7 @@ import {MissionRequestManager} from '../missionRequest/missionRequestManager';
 import {MissionManager} from '../mission/missionManager';
 import {MissionRouteManager} from '../missionRoute/missionRouteManager';
 import {GimbalManager} from '../gimbal/gimbalManager';
+import {GraphicOverlayManager} from "../graphicOverlay/graphicOverlayManager";
 
 
 export class ApiManager implements IRest {
@@ -495,6 +505,22 @@ export class ApiManager implements IRest {
             });
     };
 
+    private readAllGraphicOverlay = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<GRAPHIC_OVERLAY_DATA_UI[]> = {success: false};
+        GraphicOverlayManager.readAllGraphicOverlay({})
+            .then((data: ASYNC_RESPONSE<GRAPHIC_OVERLAY_DATA_UI[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
     private updateAllMissionRequests = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE = {success: false};
         const requestBody: MISSION_REQUEST_DATA[] = request.body;
@@ -534,6 +560,23 @@ export class ApiManager implements IRest {
         const res: ASYNC_RESPONSE = {success: false};
         const requestBody: MISSION_ROUTE_DATA[] = request.body;
         MissionRouteManager.updateAllMissionRoutes(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
+    private updateAllGraphicOverlays = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody: GRAPHIC_OVERLAY_DATA[] = request.body;
+        GraphicOverlayManager.updateAllGraphicOverlays(requestBody)
             .then((data: ASYNC_RESPONSE) => {
                 res.success = data.success;
                 res.data = data.data;
@@ -629,6 +672,7 @@ export class ApiManager implements IRest {
         [WS_API.readAllMissionRequest]: this.readAllMissionRequest,
         [WS_API.readAllMission]: this.readAllMission,
         [WS_API.readAllMissionRoute]: this.readAllMissionRoute,
+        [WS_API.readAllGraphicOverlay]: this.readAllGraphicOverlay,
         [WS_API.updateMissionInDB]: this.updateMissionInDB,
 
         [WS_API.uploadFile]: this.uploadFile,
@@ -640,6 +684,7 @@ export class ApiManager implements IRest {
         [WS_API.updateAllMissionRequests]: this.updateAllMissionRequests,
         [WS_API.updateAllMissions]: this.updateAllMissions,
         [WS_API.updateAllMissionRoutes]: this.updateAllMissionRoutes,
+        [WS_API.updateAllGraphicOverlays]: this.updateAllGraphicOverlays,
 
         [WS_API.missionRequestAction]: this.missionRequestAction,
         [WS_API.gimbalAction]: this.gimbalAction,

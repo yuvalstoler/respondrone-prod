@@ -1,6 +1,6 @@
 import {MongoConnector} from "../mongoConnector";
 
-export class RouteModel {
+export class GraphicOverlayModel {
 
     constructor() {
     }
@@ -11,7 +11,7 @@ export class RouteModel {
             id: String
         }, {strict: false});
 
-        return MongoConnector.getMongoose().model('route', schema);
+        return MongoConnector.getMongoose().model('graphicOverlay', schema);
     }
 }
 

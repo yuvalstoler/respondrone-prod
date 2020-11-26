@@ -52,14 +52,14 @@ export class AirVehicleService {
     }
   };
   // ----------------------
-  private updateData = (newItem: AV_DATA_UI[]): void => {
-    newItem.forEach((newAirVehicle: AV_DATA_UI) => {
-      const existingEvent: AV_DATA_UI = this.getAirVehicleById(newAirVehicle.id);
+  private updateData = (newItemArr: AV_DATA_UI[]): void => {
+    newItemArr.forEach((newItem: AV_DATA_UI) => {
+      const existingEvent: AV_DATA_UI = this.getAirVehicleById(newItem.id);
       if (existingEvent) {
         // existingEvent.setValues(newEvent);
         for (const fieldName in existingEvent) {
           if (existingEvent.hasOwnProperty(fieldName)) {
-            existingEvent[fieldName] = newAirVehicle[fieldName];
+            existingEvent[fieldName] = newItem[fieldName];
           }
         }
         for (const fieldName in newItem) {
@@ -67,10 +67,10 @@ export class AirVehicleService {
             existingEvent[fieldName] = newItem[fieldName];
           }
         }
-        this.updateAirVehicle(newAirVehicle);
+        this.updateAirVehicle(newItem);
       } else {
-        this.airVehicles.data.push(newAirVehicle);
-        this.drawAirVehicle(newAirVehicle);
+        this.airVehicles.data.push(newItem);
+        this.drawAirVehicle(newItem);
       }
 
     });

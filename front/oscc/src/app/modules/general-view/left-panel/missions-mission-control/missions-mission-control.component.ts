@@ -2,7 +2,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {
   MISSION_MODEL_UI,
   MISSION_REQUEST_ACTION,
-  MISSION_REQUEST_ACTION_OBJ, MISSION_REQUEST_DATA_UI,
+  MISSION_REQUEST_ACTION_OBJ,
+  MISSION_REQUEST_DATA_UI,
+  MISSION_STATUS_UI,
   MISSION_TYPE
 } from '../../../../../../../../classes/typings/all.typings';
 import {MatDialog} from '@angular/material/dialog';
@@ -70,7 +72,17 @@ export class MissionsMissionControlComponent implements OnInit {
 
   onMissionRequestAction = (action: MISSION_REQUEST_ACTION) => {
     if (this.applicationService.selectedMissionRequests[0]) {
-      this.openPanelAddAV(this.applicationService.selectedMissionRequests[0], action);
+      if (this.applicationService.selectedMissionRequests[0].missionStatus === MISSION_STATUS_UI.New) {
+        this.openPanelAddAV(this.applicationService.selectedMissionRequests[0], action);
+      }
+      else {
+        const data: MISSION_REQUEST_ACTION_OBJ = {
+          missionRequestId: this.applicationService.selectedMissionRequests[0].id,
+          action: action
+        };
+        this.missionRequestService.sendMissionRequestAction(data);
+      }
+
     }
   };
 

@@ -52,3 +52,18 @@
 .cesium-viewer-bottom {
   display: none !important;
 }
+
+// toastr ==================
+.toast-top-left {
+  top: 75px !important;
+  left: calc(50vw + 5px) !important;
+}
+
+.toast-info {
+  background-color: $darkGray !important;
+}
+
+.toast-warning {
+  background-color: $darkGray !important;
+  border: 2px solid $lightBlue;
+}

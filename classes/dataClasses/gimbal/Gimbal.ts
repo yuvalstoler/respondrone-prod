@@ -108,6 +108,9 @@ export class Gimbal {
             cameraLookAtPoint: this.cameraLookAtPoint,
             opticalVideoURL: this.opticalVideoURL,
             infraredVideoURL: this.infraredVideoURL,
+
+            modeDefine: undefined,
+            lineFromAirVehicle: undefined,
         };
     };
 

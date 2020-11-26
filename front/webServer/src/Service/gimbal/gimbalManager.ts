@@ -23,6 +23,7 @@ import {ObservationMissionRequest} from "../../../../../classes/dataClasses/miss
 import {FollowPathMissionRequest} from "../../../../../classes/dataClasses/missionRequest/followPathMissionRequest";
 import {DeliveryMissionRequest} from "../../../../../classes/dataClasses/missionRequest/deliveryMissionRequest";
 import {RequestManager} from "../../AppService/restConnections/requestManager";
+import {AirVehicleManager} from "../airVehicle/airVehicleManager";
 
 const _ = require('lodash');
 
@@ -64,7 +65,11 @@ export class GimbalManager {
         const res: GIMBAL_DATA_UI[] = [];
         this.gimbals.forEach((gimbal: Gimbal) => {
             const avDataUI: GIMBAL_DATA_UI = gimbal.toJsonForUI();
-            // avDataUI.modeDefine = gimbal.modeDefine = AirVehicleMdLogic.validate(avDataUI);
+           avDataUI.modeDefine = {styles: {}}// gimbal.modeDefine = AirVehicleMdLogic.validate(avDataUI);
+            const airVehicle = AirVehicleManager.getAVById(gimbal.droneId);
+            if (airVehicle) {
+                avDataUI.lineFromAirVehicle = [avDataUI.cameraLookAtPoint, airVehicle.location]
+            }
 
             res.push(avDataUI);
         });
@@ -102,6 +107,7 @@ export class GimbalManager {
     public static startGetSocket = GimbalManager.instance.startGetSocket;
     public static getByIds = GimbalManager.instance.getByIds;
     public static gimbalAction = GimbalManager.instance.gimbalAction;
+    public static sendDataToUI = GimbalManager.instance.sendDataToUI;
 
 
 

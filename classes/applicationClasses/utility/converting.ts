@@ -1,7 +1,7 @@
 import {
     AV_DATA_REP,
     EVENT_DATA,
-    FR_DATA, GIMBAL_DATA, MISSION_DATA,
+    FR_DATA, GIMBAL_DATA, GRAPHIC_OVERLAY_DATA, MISSION_DATA,
     MISSION_REQUEST_DATA,
     MISSION_REQUEST_DATA_UI, MISSION_ROUTE_DATA,
     MISSION_TYPE,
@@ -23,6 +23,7 @@ import {DeliveryMissionRequest} from "../../dataClasses/missionRequest/deliveryM
 import {Mission} from "../../dataClasses/mission/mission";
 import {MissionRoute} from "../../dataClasses/missionRoute/missionRoute";
 import {Gimbal} from "../../dataClasses/gimbal/Gimbal";
+import {GraphicOverlay} from "../../dataClasses/graphicOverlay/graphicOverlay";
 
 
 export class Converting {
@@ -110,6 +111,17 @@ export class Converting {
         if ( Array.isArray(dataArr) ) {
             dataArr.forEach((data: GIMBAL_DATA) => {
                 res.push(new Gimbal(data));
+            });
+        }
+        return res;
+    }
+
+    public static Arr_GRAPHIC_OVERLAY_DATA_to_Arr_GraphicOverlay = (dataArr: GRAPHIC_OVERLAY_DATA[]): GraphicOverlay[] => {
+        const res: GraphicOverlay[] = [];
+        //    todo data vaidation
+        if ( Array.isArray(dataArr) ) {
+            dataArr.forEach((data: GRAPHIC_OVERLAY_DATA) => {
+                res.push(new GraphicOverlay(data));
             });
         }
         return res;

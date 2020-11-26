@@ -17,8 +17,6 @@ export class MissionRequest {
     time: number;
     idView: string;
     missionStatus: MISSION_STATUS_UI;
-    uiText: {key: string}[] = []
-    actionOptions: MISSION_ACTION_OPTIONS
 
     constructor() {
     }

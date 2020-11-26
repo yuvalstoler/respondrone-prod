@@ -2,18 +2,25 @@ import {MissionRequest} from "../../../../../classes/dataClasses/missionRequest/
 import {
     ASYNC_RESPONSE,
     ID_OBJ,
+    ID_TYPE,
     LAST_ACTION,
+    MISSION_REQUEST_ACTION,
     MISSION_REQUEST_ACTION_OBJ,
-    MISSION_REQUEST_DATA, MISSION_STATUS_UI,
-    MISSION_TYPE, REP_ARR_KEY,
-    REPORT_DATA, SOURCE_TYPE,
+    MISSION_REQUEST_DATA,
+    MISSION_STATUS,
+    MISSION_STATUS_UI,
+    MISSION_TYPE,
+    REP_ARR_KEY,
+    REP_OBJ_KEY,
+    REPORT_DATA,
+    ROUTE_STATUS,
+    SOURCE_TYPE,
     TMM_RESPONSE
 } from "../../../../../classes/typings/all.typings";
 import {
     CommRelayMissionRep_API,
     DBS_API,
     DeliveryMissionRep_API,
-    MS_API,
     ObservationMissionRep_API,
     PatrolMissionRep_API,
     ScanMissionRep_API,
@@ -31,6 +38,8 @@ import {DeliveryMissionRequest} from "../../../../../classes/dataClasses/mission
 import {UpdateListenersManager} from "../updateListeners/updateListenersManager";
 import {RequestManager} from "../../AppService/restConnections/requestManager";
 import {RepositoryManager} from "../repositoryManager/repositoryManager";
+import {MissionRoute} from "../../../../../classes/dataClasses/missionRoute/missionRoute";
+import {MissionRouteManager} from "../missionRoute/missionRouteManager";
 
 const pollingInterval = 5000;
 
@@ -60,56 +69,9 @@ export class MissionRequestManager {
                     this.initAllMissionRequests();
                 }, 5000);
             });
-
     }
-
+    // ------------------
     private startUpdateMissionRequests = () => {
-        /*        const observation: MISSION_REQUEST_DATA = {
-            id: 'a1',
-            version: 0,
-            lastAction: LAST_ACTION.Insert,
-            description: 'aaa',
-            comments: [{source:'aa',text:'aa', time:0}],
-            createdBy: '',
-            time: 0,
-            idView: '1111',
-            missionType: MISSION_TYPE.Observation,
-            missionStatus: MISSION_STATUS_UI.Pending,
-            observationMissionRequest: {
-                altitudeOffset: 0,
-                observationAzimuth: 0,
-                observationPoint: {lat:30, lon:30,alt:0},
-                status: MISSION_STATUS.Pending,
-                droneId: 'ssdsd'
-            }
-        }
-        const scan: MISSION_REQUEST_DATA = {
-            id: 'a2',
-            version: 0,
-            lastAction: LAST_ACTION.Insert,
-            description: 'bbb',
-            comments: [{source:'aa',text:'aa', time:0}],
-            createdBy: '',
-            time: 0,
-            idView: '2222',
-            missionType: MISSION_TYPE.Scan,
-            missionStatus: MISSION_STATUS_UI.Pending,
-            scanMissionRequest: {
-                droneId: 'dfdf',
-                cameraFOV: 4,
-                overlapPrecent: 5,
-                polygon: {coordinates: []},
-                scanAngle: 4,
-                scanSpeed: SCAN_SPEED.High,
-                status: MISSION_STATUS.Pending
-            }
-        }
-        this.missionRequests.push(new ObservationMissionRequest(observation));
-        this.missionRequests.push(new ScanMissionRequest(scan));
-        setTimeout(() => {
-            UpdateListenersManager.updateMissionRequestListeners();
-        }, 5000);*/
-
         setInterval(() => {
             this.missionTypes.forEach((missionType: MISSION_TYPE) => {
                 const request = this.sendGetMissionRequest(missionType, {});
@@ -117,88 +79,43 @@ export class MissionRequestManager {
                     request
                         .then((data: ASYNC_RESPONSE<{ collectionVersion: number, id: string }>) => {
                             const repData = data.data;
-                            if (data.success && repData.hasOwnProperty('collectionVersion')) {
-                                if (RepositoryManager.getCollectionVersion(missionType) !== undefined
-                                    && repData.collectionVersion !== RepositoryManager.getCollectionVersion(missionType)
-                                    && repData.hasOwnProperty(REP_ARR_KEY[missionType])) {
-                                    const promiseArr = []
-                                    repData[REP_ARR_KEY[missionType]].forEach((missionData: MISSION_REQUEST_DATA) => {
-                                        if (missionData.lastAction === LAST_ACTION.Insert) {
-                                            let missionRequest: MissionRequest = this.missionRequests.find(element => element.id === missionData.id);
-                                            if ( missionRequest ) {
-                                                missionRequest.setValues(data.data);
-                                            }
-                                            else {
-                                                missionRequest = this.newMissionRequestClass(missionType, missionData);
-                                                this.missionRequests.push(missionRequest)
-                                            }
+                            if (data.success && repData.hasOwnProperty('collectionVersion') && repData.hasOwnProperty(REP_ARR_KEY[missionType])) {
+                                if (repData.collectionVersion !== RepositoryManager.getCollectionVersion(missionType)) {
+                                    if (repData.collectionVersion === 0) { // if collection is reset
+                                        this.deleteAllMissions(missionType);
+                                    }
+                                    else {
+                                        const promiseArr = [];
+                                        let promise;
 
-                                            const promise = RequestManager.requestToDBS(DBS_API.createMissionRequest, missionRequest.toJsonForSave());
-                                            promiseArr.push(promise)
-                                            promise
-                                                .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
-                                                    if ( data.success ) {
-
+                                        repData[REP_ARR_KEY[missionType]].forEach((missionData: MISSION_REQUEST_DATA) => {
+                                            switch (missionData.lastAction) {
+                                                case LAST_ACTION.Insert:
+                                                case LAST_ACTION.Update: {
+                                                    const missionRequest = this.getMissionRequestById(missionData.id);
+                                                    if (missionRequest) {
+                                                        missionRequest.setValues(missionData);
+                                                        this.checkIfToUpdateStatus(missionRequest);
+                                                        promise = this.saveMissionInDB(missionRequest.toJsonForSave());
+                                                        promiseArr.push(promise)
                                                     }
-                                                    else {
-                                                        console.log(data);
-                                                    }
-                                                })
-                                                .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
-                                                    console.log(data);
-                                                });
-
-                                        }
-                                        else if (missionData.lastAction === LAST_ACTION.Update) {
-                                            const missionRequest = this.missionRequests.find(element => element.id === missionData.id);
-                                            if (missionRequest) {
-                                                missionRequest.setValues(missionData)
-
-                                                const promise = RequestManager.requestToDBS(DBS_API.createMissionRequest, missionRequest.toJsonForSave());
-                                                promiseArr.push(promise)
-                                                promise
-                                                    .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
-                                                        if ( data.success ) {
-
-                                                        }
-                                                        else {
-                                                            console.log(data);
-                                                        }
-                                                    })
-                                                    .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
-                                                        console.log(data);
-                                                    });
+                                                    break;
+                                                }
+                                                case LAST_ACTION.Delete: {
+                                                    promise = this.deleteMissionFromDB({id: missionData.id});
+                                                    promiseArr.push(promise)
+                                                    break;
+                                                }
                                             }
-                                        }
-                                        else if (missionData.lastAction === LAST_ACTION.Delete) {
-                                            const index = this.missionRequests.findIndex(element => element.id === missionData.id);
-                                            if (index !== -1) {
-                                                this.missionRequests.splice(index, 1)
-                                                const promise = RequestManager.requestToDBS(DBS_API.deleteMissionRequest, {id: missionData.id});
-                                                promiseArr.push(promise)
-                                                promise
-                                                    .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
-                                                        if ( data.success ) {
-
-                                                        }
-                                                        else {
-                                                            console.log(data);
-                                                        }
-                                                    })
-                                                    .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
-                                                        console.log(data);
-                                                    });
-                                            }
-                                        }
-                                    })
-                                    Promise.all(promiseArr)
-                                        .then((data) => {
-                                            RepositoryManager.updateCollectionVersion(missionType, repData.collectionVersion);
-                                            UpdateListenersManager.updateMissionRequestListeners();
                                         })
-                                        .catch((data) => {
-                                            console.log('promiseAll failed', JSON.stringify(data))
-                                        })
+                                        Promise.all(promiseArr)
+                                            .then((data) => {
+                                                RepositoryManager.updateCollectionVersion(missionType, repData.collectionVersion);
+                                            })
+                                            .catch((data) => {
+                                                console.log('promiseAll failed', JSON.stringify(data))
+                                            })
+                                    }
                                 }
                             }
                             else {
@@ -212,10 +129,25 @@ export class MissionRequestManager {
             });
         }, pollingInterval)
     }
+    // ------------------
+    private checkIfToUpdateStatus = (missionRequest: MissionRequest) => {
+        if (missionRequest[REP_OBJ_KEY[missionRequest.missionType]].status === MISSION_STATUS.Completed
+            && missionRequest.missionStatus !== MISSION_STATUS_UI.Completed) {
+                missionRequest.missionStatus = MISSION_STATUS_UI.Completed;
+        }
 
+        if (missionRequest[REP_OBJ_KEY[missionRequest.missionType]].status === MISSION_STATUS.Cancelled
+            && missionRequest.missionStatus !== MISSION_STATUS_UI.Cancelled) {
+            missionRequest.missionStatus = MISSION_STATUS_UI.Cancelled;
+        }
 
-
-
+        if (missionRequest[REP_OBJ_KEY[missionRequest.missionType]].status === MISSION_STATUS.InProgress
+            && missionRequest.missionStatus === MISSION_STATUS_UI.WaitingForApproval) {
+            missionRequest.missionStatus = MISSION_STATUS_UI.Approved;
+            MissionRouteManager.onApproveMissionRoute()
+        }
+    }
+    // ------------------
     private getMissionRequestsFromDBS = (): Promise<ASYNC_RESPONSE<MISSION_REQUEST_DATA[]>> => {
         return new Promise((resolve, reject) => {
             RequestManager.requestToDBS(DBS_API.readAllMissionRequest, {})
@@ -237,7 +169,7 @@ export class MissionRequestManager {
                 });
         });
     };
-
+    // ------------------
     private createMissionRequest = (missionRequestData: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE<MISSION_REQUEST_DATA>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
@@ -251,67 +183,45 @@ export class MissionRequestManager {
                         newMissionRequest.time = missionRequestData.time || Date.now();
                         newMissionRequest.idView = missionRequestData.idView || DataUtility.generateIDForView();
 
-                        RequestManager.requestToDBS(DBS_API.createMissionRequest, newMissionRequest.toJsonForSave())
+                        this.saveMissionInDB(newMissionRequest.toJsonForSave())
                             .then((result: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
                                 res.data = result.data;
                                 res.success = result.success;
                                 res.description = result.description;
-                                if ( result.success ) {
-                                    // const missionRequest: MissionRequest = this.missionRequests.find(element => element.id === data.data.id);
-                                    // if ( missionRequest ) {
-                                    //     missionRequest.setValues(data.data);
-                                    // }
-                                    // else {
-                                        const missionRequest = this.newMissionRequestClass(missionRequestData.missionType, result.data);
-                                        if (missionRequest) {
-                                            this.missionRequests.push(missionRequest);
-                                        }
-                                    // }
-
-                                    UpdateListenersManager.updateMissionRequestListeners();
-                                }
                                 resolve(res);
                             })
-                            .catch((err: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
-                                console.log(err);
-                                reject(err);
+                            .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                                console.log(data);
+                                reject(data);
                             });
                     }
                     else {
-                        console.log('failed response from TMM', JSON.stringify(TMMResponse));
+                        console.log('failed response from TMM', JSON.stringify(TMMResponse))
                     }
 
                 })
                 .catch((data) => {
-                    console.log('failed send to TMM', JSON.stringify(data));
-                });
+                    console.log('failed send to TMM', JSON.stringify(data))
+                })
         });
-    };
+    }
     // ------------------
     private createMissionRequestFromMGW = (missionRequestData: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE<MISSION_REQUEST_DATA>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
 
-            missionRequestData.missionStatus = MISSION_STATUS_UI.New;
+            missionRequestData.missionStatus = MISSION_STATUS_UI.New
             missionRequestData.source = SOURCE_TYPE.MRF;
             missionRequestData.id = DataUtility.generateID();
             missionRequestData.time = missionRequestData.time || Date.now();
             missionRequestData.idView = missionRequestData.idView || DataUtility.generateIDForView();
 
             const newMissionRequest: MissionRequest = this.newMissionRequestClass(missionRequestData.missionType, missionRequestData);
-            this.saveMissionInDB(newMissionRequest)
+            this.saveMissionInDB(newMissionRequest.toJsonForSave())
                 .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
                     res.data = data.data;
                     res.success = data.success;
                     res.description = data.description;
-                    if ( data.success ) {
-                        const missionRequest = this.newMissionRequestClass(missionRequestData.missionType, data.data);
-                        if (missionRequest) {
-                            this.missionRequests.push(missionRequest);
-                        }
-
-                        UpdateListenersManager.updateMissionRequestListeners();
-                    }
                     resolve(res);
                 })
                 .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
@@ -319,7 +229,7 @@ export class MissionRequestManager {
                     reject(data);
                 });
         });
-    };
+    }
     // ------------------
     private sendGetMissionRequest = (missionType: MISSION_TYPE, data: any): Promise<ASYNC_RESPONSE> => {
         const collectionVersion = RepositoryManager.getCollectionVersion(missionType);
@@ -348,6 +258,7 @@ export class MissionRequestManager {
             }
         }
     }
+    // ------------------
     private newMissionRequestClass = (type: MISSION_TYPE, data: MISSION_REQUEST_DATA): MissionRequest => {
         let newMissionRequest: MissionRequest;
         switch (type) {
@@ -372,6 +283,7 @@ export class MissionRequestManager {
         }
         return newMissionRequest;
     }
+    // ------------------
     private sendToTMM = (missionRequest: MissionRequest) => {
         return new Promise((resolve, reject) => {
             let url;
@@ -410,13 +322,13 @@ export class MissionRequestManager {
             // resolve(data);
         });
     }
-    private updateRepository = (missionRequest: MissionRequest) => {
+    // ------------------
+    private updateRepository = (missionType: MISSION_TYPE, dataForRep: any): Promise<ASYNC_RESPONSE> => {
         return new Promise((resolve, reject) => {
             let url;
             let promise;
 
-            const dataForRep = missionRequest.toJsonForRep();
-            switch (missionRequest.missionType) {
+            switch (missionType) {
                 case MISSION_TYPE.CommRelay:
                     url = CommRelayMissionRep_API.updateCommRelayMissionRequest;
                     promise = RequestManager.requestToCommRelayMissionRep(url, dataForRep);
@@ -451,9 +363,12 @@ export class MissionRequestManager {
                         resolve(data);
                     });
             }
+            else {
+                reject({success: false, description: 'Incorrect mission type'});
+            }
         });
     }
-
+    // ------------------
     private readAllMissionRequest = (requestData): Promise<ASYNC_RESPONSE<MISSION_REQUEST_DATA[]>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: true, data: []};
@@ -463,8 +378,7 @@ export class MissionRequestManager {
             resolve(res);
         });
     }
-
-
+    // ------------------
     private getMissionRequests = (idObj: ID_OBJ = undefined): MISSION_REQUEST_DATA[] => {
         const res: MISSION_REQUEST_DATA[] = [];
         if ( idObj ) {
@@ -480,55 +394,174 @@ export class MissionRequestManager {
         }
         return res;
     };
-
+    // ------------------
+    private getMissionRequestById = (missionRequestId: ID_TYPE): MissionRequest => {
+        return this.missionRequests.find(element => element.id === missionRequestId)
+    }
+    // ------------------
     private missionRequestAction = (data: MISSION_REQUEST_ACTION_OBJ): Promise<ASYNC_RESPONSE> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
 
-
-            RequestManager.requestToObservationMissionRep(MS_API.missionRequestAction, data)
-                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
-                    res.data = data.data;
-                    res.success = data.success;
-                    res.description = data.description;
-
-                    if ( data.success ) {
-                        resolve(res);
+            const missionRequest = this.getMissionRequestById(data.missionRequestId);
+            const missionRequestData: MISSION_REQUEST_DATA = missionRequest.toJsonForSave();
+            if (missionRequest) {
+                if (missionRequest.missionStatus === MISSION_STATUS_UI.New) {
+                    switch (data.action) {
+                        case MISSION_REQUEST_ACTION.Accept: {
+                            missionRequestData.missionStatus = MISSION_STATUS_UI.Pending;
+                            missionRequestData[REP_OBJ_KEY[missionRequest.missionType]].droneId = data.avIds[0];
+                            this.createMissionRequest(missionRequestData)
+                                .then((data) => {
+                                    if (data.success) {
+                                        this.deleteMissionFromDB({id: missionRequest.id})
+                                        resolve(data);
+                                    }
+                                    else {
+                                        resolve(data);
+                                    }
+                                });
+                            break;
+                        }
+                        case MISSION_REQUEST_ACTION.Reject: {
+                            this.deleteMissionFromDB({id: missionRequest.id})
+                                .then((data: ASYNC_RESPONSE) => {
+                                    resolve(data)
+                                })
+                                .catch((data: ASYNC_RESPONSE) => {
+                                    reject(data)
+                                });
+                            break;
+                        }
                     }
-                    else {
-                        reject(res);
+                }
+                else {
+                    let  missionDataForRep = missionRequest.toJsonForRep();
+                    switch (data.action) {
+                        case MISSION_REQUEST_ACTION.Approve: {
+                            missionDataForRep[REP_OBJ_KEY[missionRequest.missionType]].lastAction = LAST_ACTION.Update;
+                            missionDataForRep[REP_OBJ_KEY[missionRequest.missionType]].status = MISSION_STATUS.InProgress;
+                            break;
+                        }
+                        case MISSION_REQUEST_ACTION.Complete: {
+                            missionDataForRep[REP_OBJ_KEY[missionRequest.missionType]].lastAction = LAST_ACTION.Update;
+                            missionDataForRep[REP_OBJ_KEY[missionRequest.missionType]].status = MISSION_STATUS.Completed;
+                            break;
+                        }
+                        case MISSION_REQUEST_ACTION.Reject:
+                        case MISSION_REQUEST_ACTION.Cancel: {
+                            missionDataForRep[REP_OBJ_KEY[missionRequest.missionType]].lastAction = LAST_ACTION.Update;
+                            missionDataForRep[REP_OBJ_KEY[missionRequest.missionType]].status = MISSION_STATUS.Cancelled;
+                            break;
+                        }
                     }
-                })
-                .catch((data: ASYNC_RESPONSE<ID_OBJ>) => {
-                    console.log(data);
-                    reject(data);
-                });
+
+                    this.updateRepository(missionRequest.missionType, missionDataForRep)
+                        .then((data: ASYNC_RESPONSE) => {
+                            resolve(data);
+                        })
+                        .catch((data) => {
+                            reject(data);
+                        });
+                }
+            }
+            else {
+                res.description = 'mission doesn\'t exist';
+                reject(res);
+            }
         });
     };
     // --------------------------
     private deleteMissionFromDB = (idObj: ID_OBJ): Promise<ASYNC_RESPONSE> => {
-        return RequestManager.requestToDBS(DBS_API.deleteMissionRequest, idObj)
-    }
-    // --------------------------
-    private saveMissionInDB = (newMissionRequest: MissionRequest): Promise<ASYNC_RESPONSE> => {
-        return RequestManager.requestToDBS(DBS_API.createMissionRequest, newMissionRequest.toJsonForSave())
-    }
-
-
-
-    // --------------------------
-    private updateMissionInDB = (missionRequestData: MISSION_REQUEST_DATA) => {
         return new Promise((resolve, reject) => {
-            return RequestManager.requestToDBS(DBS_API.createMissionRequest, missionRequestData)
+            RequestManager.requestToDBS(DBS_API.deleteMissionRequest, idObj)
                 .then((data: ASYNC_RESPONSE) => {
-                    UpdateListenersManager.updateMissionRequestListeners();
+                    if (data.success) {
+                        const index = this.missionRequests.findIndex(element => element.id === idObj.id);
+                        if (index !== -1) {
+                            this.missionRequests.splice(index, 1);
+                        }
+                        UpdateListenersManager.updateMissionRequestListeners();
+                    }
+                    else {
+                        console.log('error saveMissionInDB', JSON.stringify(data));
+                    }
+                    resolve(data);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    console.log('error saveMissionInDB', JSON.stringify(data));
+                    reject(data);
+                })
+        })
+
+    }
+    // --------------------------
+    private saveMissionInDB = (missionRequestData: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE> => {
+        return new Promise((resolve, reject) => {
+            RequestManager.requestToDBS(DBS_API.createMissionRequest, missionRequestData)
+                .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                    if (data.success) {
+                        let missionRequest: MissionRequest = this.getMissionRequestById(missionRequestData.id);
+                        if ( missionRequest ) {
+                            missionRequest.setValues(data.data);
+                        }
+                        else {
+                            missionRequest = this.newMissionRequestClass(missionRequestData.missionType, missionRequestData);
+                            this.missionRequests.push(missionRequest)
+                        }
+                        UpdateListenersManager.updateMissionRequestListeners();
+                    }
+                    else {
+                        console.log('error saveMissionInDB', JSON.stringify(data));
+                    }
                     resolve(data);
                 })
                 .catch((data) => {
+                    console.log('error saveMissionInDB', JSON.stringify(data));
                     reject(data);
                 });
         });
+    }
+    // --------------------------
+    private updateMissionInDB = (missionRequestData: MISSION_REQUEST_DATA) => {
+       return this.saveMissionInDB(missionRequestData);
     };
+    // --------------------------
+    private onUpdateMissionRoute = (missionRoute: MissionRoute) => {
+        const missionRequest: MissionRequest = this.getMissionRequestById(missionRoute.requestId);
+        if (missionRequest) {
+            if (missionRequest.missionStatus === MISSION_STATUS_UI.Pending) {
+                const missionRequestData = missionRequest.toJsonForSave()
+                missionRequestData.missionStatus = MISSION_STATUS_UI.WaitingForApproval;
+                this.saveMissionInDB(missionRequestData);
+            }
+            if (missionRequest.missionStatus === MISSION_STATUS_UI.Approved && missionRoute.status === ROUTE_STATUS.Active) {
+                const missionRequestData: MISSION_REQUEST_DATA = missionRequest.toJsonForSave();
+                missionRequestData.missionStatus = MISSION_STATUS_UI.InProgress;
+                this.saveMissionInDB(missionRequestData);
+            }
+        }
+    }
+    // --------------------------
+    private onRemoveMissionRoute = (missionRoute: MissionRoute) => {
+        const missionRequest: MissionRequest = this.getMissionRequestById(missionRoute.requestId);
+        if (missionRequest && missionRequest.missionStatus === MISSION_STATUS_UI.WaitingForApproval) {
+            const missionRequestData = missionRequest.toJsonForSave()
+            missionRequestData.missionStatus = MISSION_STATUS_UI.Pending;
+            this.saveMissionInDB(missionRequestData);
+        }
+    }
+    // --------------------------
+    private deleteAllMissions = (missionType: MISSION_TYPE) => {
+        RequestManager.requestToDBS(DBS_API.deleteAllMissionRequest, {})
+            .then((data) => {
+                console.log('all missionRequests deleted');
+                this.missionRequests = [];
+                RepositoryManager.updateCollectionVersion(missionType, 0);
+            })
+            .catch((data) => {});
+    }
+
 
     // region API uncions
     public static createMissionRequestFromMGW = MissionRequestManager.instance.createMissionRequestFromMGW;
@@ -537,6 +570,8 @@ export class MissionRequestManager {
     public static readAllMissionRequest = MissionRequestManager.instance.readAllMissionRequest;
     public static getMissionRequests = MissionRequestManager.instance.getMissionRequests;
     public static missionRequestAction = MissionRequestManager.instance.missionRequestAction;
+    public static getMissionRequestById = MissionRequestManager.instance.getMissionRequestById;
+    public static onUpdateMissionRoute = MissionRequestManager.instance.onUpdateMissionRoute;
 
 
     // endregion API uncions

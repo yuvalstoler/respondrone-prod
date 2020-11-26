@@ -9,7 +9,7 @@ export type LOGIN_UI = {
     token?: string;
 };
 
-export type TOASTER_OPTIONS = Partial<{ timeOut: number, extendedTimeOut: number, positionClass: string, preventDuplicates: boolean }>;
+export type TOASTER_OPTIONS = Partial<{ timeOut: number, extendedTimeOut: number, positionClass: string, preventDuplicates: boolean, closeButton: boolean }>;
 
 export type ID_TYPE = string;
 export type ID_OBJ = { id: ID_TYPE };
@@ -292,7 +292,7 @@ export type AV_DATA_REP = {
     commStatus: COMM_STATUS;
     operationalStatus: OPERATIONAL_STATUS;
     capability: CAPABILITY[];
-    routeId: string;
+    routeId?: string;
     name: string;
 }
 export type AV_DATA_TELEMETRY = {
@@ -315,13 +315,11 @@ export type AV_DATA = {
     operationalStatus: OPERATIONAL_STATUS;
     capability: CAPABILITY[];
     routeId: string;
-    linkedMissionId: ID_TYPE;
     name: string;
 }
 export type AV_DATA_UI = AV_DATA & {
-    modeDefine: AV_DATA_MD,
-    missionName: string;
-    missionOptions: AV_OPTIONS;
+    modeDefine: AV_DATA_MD;
+    missionRequestId: ID_TYPE;
 }
 export type AV_DATA_MD = {
     styles: {
@@ -329,6 +327,10 @@ export type AV_DATA_MD = {
         statusColor: string,
         iconSize: number,
         gpsIcon: string
+    },
+    data: {
+        missionName: string,
+        missionOptions: AV_OPTIONS
     }
 }
 
@@ -349,7 +351,10 @@ export type GIMBAL_DATA = {
     opticalVideoURL: string;
     infraredVideoURL: string;
 }
-export type GIMBAL_DATA_UI = GIMBAL_DATA;
+export type GIMBAL_DATA_UI = GIMBAL_DATA & {
+    modeDefine: any,
+    lineFromAirVehicle: GEOPOINT3D_SHORT[]
+};
 
 export type MISSION_MODEL_UI = {
     missionType: MISSION_TYPE,
@@ -372,6 +377,7 @@ export type MISSION_MODEL_UI = {
     description: string,
     comments: COMMENT[]
 }
+
 
 export enum MISSION_TYPE {
     CommRelay = 'CommRelay',
@@ -396,6 +402,51 @@ export enum MISSION_TYPE_TEXT {
     Scan = 'Scan mission',
     Servoing = 'Follow an entity',
     Delivery = 'Cargo drop mission',
+}
+
+
+export type REP_RESPONSE = { success: boolean, description: string } | {id: string, entVersion: number, collectionVersion: number}
+
+
+export enum COLLECITON_VERSION_TYPE {
+    Mission = 'Mission',
+    MissionRoute = 'MissionRoute',
+    GraphicOverlay = 'GraphicOverlay',
+};
+
+export type COLLECTION_VERSIONS = {
+    [MISSION_TYPE.CommRelay]: number,
+    [MISSION_TYPE.Patrol]: number,
+    [MISSION_TYPE.Observation]: number,
+    [MISSION_TYPE.Scan]: number,
+    [MISSION_TYPE.Servoing]: number,
+    [MISSION_TYPE.Delivery]: number,
+    [COLLECITON_VERSION_TYPE.Mission]: number,
+    [COLLECITON_VERSION_TYPE.MissionRoute]: number
+    [COLLECITON_VERSION_TYPE.GraphicOverlay]: number
+}
+
+
+
+export enum REP_ARR_KEY {
+    CommRelay = 'commRelayMissionRequests',
+    Patrol = 'followPathMissionRequests',
+    Observation = 'observationMissionRequests',
+    Scan = 'scanMissionRequests',
+    Servoing = 'servoingMissionRequests',
+    Delivery = 'deliveryMissionRequests',
+    Mission = 'missions',
+    MissionRoute = 'missionRoutes',
+    GraphicOverlay = 'graphicOverlays'
+}
+
+export enum REP_OBJ_KEY {
+    CommRelay = 'commRelayMissionRequest',
+    Patrol = 'followPathMissionRequest',
+    Observation = 'observationMissionRequest',
+    Scan = 'scanMissionRequest',
+    Servoing = 'servoingMissionRequest',
+    Delivery = 'deliveryMissionRequest',
 }
 
 
@@ -459,8 +510,6 @@ export enum MISSION_REQUEST_ACTION {
 
 export type MISSION_REQUEST_DATA_UI = MISSION_REQUEST_DATA & {
     modeDefine: MISSION_REQUEST_DATA_MD,
-    actionOptions: MISSION_ACTION_OPTIONS,
-    textUI?: {title: string, value: string}[]
 }
 
 export type MISSION_ACTION_OPTIONS = {
@@ -484,6 +533,10 @@ export type MISSION_REQUEST_DATA_MD = {
         time: TABLE_DATA_MD,
         message: TABLE_DATA_MD,
         map: TABLE_DATA_MD
+    },
+    data: {
+        textUI: {title: string, value: string}[],
+        actionOptions: MISSION_ACTION_OPTIONS
     }
 }
 
@@ -540,7 +593,7 @@ export type DELIVERY_MISSION_REQUEST = {
 
 export type MISSION_ROUTE_DATA_REP = {
     collectionVersion: number,
-    missionRoutes: MISSION_ROUTE_DATA[]
+    [REP_ARR_KEY.MissionRoute]: MISSION_ROUTE_DATA[]
 }
 export type MISSION_ROUTE_DATA = REP_ENTITY & {
     requestId: ID_TYPE;
@@ -548,6 +601,7 @@ export type MISSION_ROUTE_DATA = REP_ENTITY & {
     missionType: MISSION_TYPE;
     route: PointOfRoute[];
     status: ROUTE_STATUS;
+    time: number;
 }
 export type MISSION_ROUTE_DATA_UI = MISSION_ROUTE_DATA & {
     modeDefine: MISSION_ROUTE_DATA_MD
@@ -565,12 +619,15 @@ export type MISSION_ROUTE_DATA_MD = {
     styles: {
         isDotted: boolean,
         color: string
+    },
+    data: {
+        missionName: string
     }
 }
 
 export type MISSION_DATA_REP = {
     collectionVersion: number,
-    missions: MISSION_DATA[]
+    [REP_ARR_KEY.Mission]: MISSION_DATA[]
 }
 export type MISSION_DATA = REP_ENTITY & {
     requestId: ID_TYPE;
@@ -590,25 +647,55 @@ export type MISSION_DATA_MD = {
     }
 }
 
-export type COLLECTION_VERSIONS = {
-    [MISSION_TYPE.CommRelay]: number,
-    [MISSION_TYPE.Patrol]: number,
-    [MISSION_TYPE.Observation]: number,
-    [MISSION_TYPE.Scan]: number,
-    [MISSION_TYPE.Servoing]: number,
-    [MISSION_TYPE.Delivery]: number,
+
+export type GRAPHIC_OVERLAY_DATA_REP = {
+    collectionVersion: number,
+    [REP_ARR_KEY.GraphicOverlay]: GRAPHIC_OVERLAY_DATA[]
+}
+export type GRAPHIC_OVERLAY_DATA = REP_ENTITY & {
+    name: string;
+    // shape: GEOPOINT3D_SHORT | {coordinates: GEOPOINT3D_SHORT[]};
+    shape: {
+        lat?: number,
+        lon?: number,
+        alt?: number,
+        coordinates?: GEOPOINT3D_SHORT[]
+    }
+    color: GRAPHIC_OVERLAY_COLOR;
+    Type: GRAPHIC_OVERLAY_TYPE;
+    creationTime: TIMESTAMP;
+    lastUpdateTime: TIMESTAMP;
+}
+export type GRAPHIC_OVERLAY_DATA_UI = GRAPHIC_OVERLAY_DATA & {
+    modeDefine: GRAPHIC_OVERLAY_DATA_MD;
+}
+export type GRAPHIC_OVERLAY_DATA_MD = {
+    styles: {
+        mapIcon: string;
+        iconSize: number;
+        polygonColor: string;
+    }
+}
+export enum GRAPHIC_OVERLAY_COLOR {
+    Red = 'Red',
+    Green = 'Green',
+    Blue = 'Blue',
+    Black = 'Black',
+    White = 'White',
+    Yellow = 'Yellow',
+    Grey = 'Grey',
+    Default = 'Default',
+}
+export enum GRAPHIC_OVERLAY_TYPE {
+    FireLine = 'FireLine',
+    Person = 'Person',
+    Vehicle = 'Vehicle',
+    NetworkCoverage = 'NetworkCoverage',
+    General = 'General',
 }
 
-export enum REP_ARR_KEY {
-    CommRelay = 'commRelayMissionRequests',
-    Patrol = 'followPathMissionRequests',
-    Observation = 'observationMissionRequests',
-    Scan = 'scanMissionRequests',
-    Servoing = 'servoingMissionRequests',
-    Delivery = 'deliveryMissionRequests',
-    Mission = 'missions',
-    MissionRoute = 'missionRoutes'
-}
+
+
 
 export type TMM_RESPONSE = {
     success: boolean;
@@ -659,7 +746,7 @@ export enum MISSION_STATUS_UI {
 
     New = 'New',
     WaitingForApproval = 'WaitingForApproval',
-    Approve = 'Approve',
+    Approved = 'Approved',
     Rejected = 'Rejected'
 
 }
@@ -906,4 +993,17 @@ export enum SOCKET_CLIENT_TYPES {
     DroneTelemetrySenderRep = 'DroneTelemetrySenderRep',
     FRTelemetryReceiverRep = 'FRTelemetryReceiverRep',
     GimbalTelemetrySenderRep = 'GimbalTelemetrySenderRep',
+}
+
+export type VIDEO_DATA = {
+    height: number,
+    width: number,
+    blobs: BLOB[]
+}
+export type BLOB = {
+    id: number,
+    xMin: number,
+    xMax: number,
+    yMin: number,
+    yMax: number,
 }

@@ -5,8 +5,8 @@ const _ = require('lodash');
 import {
     ASYNC_RESPONSE, COLLECTION_VERSIONS,
     EVENT_DATA,
-    FILE_DB_DATA,
-    ID_OBJ, MISSION_REQUEST_DATA,
+    FILE_DB_DATA, GRAPHIC_OVERLAY_DATA,
+    ID_OBJ, MISSION_DATA, MISSION_REQUEST_DATA, MISSION_ROUTE_DATA,
     REPORT_DATA,
     TASK_DATA,
 } from '../../../../../classes/typings/all.typings';
@@ -17,6 +17,9 @@ import { EventModel } from "../mongo/models/eventModel";
 
 import { FileDataModel } from "../mongo/models/fileDataModel";
 import {CollectionVersionModel} from "../mongo/models/collectionVersionModel";
+import {MissionModel} from "../mongo/models/MissionModel";
+import {MissionRouteModel} from "../mongo/models/MissionRouteModel";
+import {GraphicOverlayModel} from "../mongo/models/GraphicOverlayModel";
 
 
 export class DbManager {
@@ -29,6 +32,9 @@ export class DbManager {
     eventModel = new EventModel().getSchema();
     taskModel = new TaskModel().getSchema();
     missionRequestModel = new MissionRequestModel().getSchema();
+    missionRouteModel = new MissionRouteModel().getSchema();
+    missionModel = new MissionModel().getSchema();
+    graphicOverlayModel = new GraphicOverlayModel().getSchema();
     collectionVersionModel = new CollectionVersionModel().getSchema();
 
     private constructor() {
@@ -37,7 +43,7 @@ export class DbManager {
 
     // ----------------------
 
-    // ----------------------
+    // region report ----------------------
     private setReport = (data: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
         return new Promise((resolve, reject) => {
             this.reportModel
@@ -111,8 +117,9 @@ export class DbManager {
                 });
         });
     };
+    // endregion ----------------------
 
-    // ----------------------
+    // region event ----------------------
     private setEvent = (data: EVENT_DATA): Promise<ASYNC_RESPONSE<EVENT_DATA>> => {
         return new Promise((resolve, reject) => {
             this.eventModel
@@ -186,12 +193,9 @@ export class DbManager {
                 });
         });
     };
+    // endregion ----------------------
 
-    // --------------------------------
-
-
-
-    //---------------------------------
+    // region file ----------------------
     private createFileData = (data: FILE_DB_DATA): Promise<ASYNC_RESPONSE<FILE_DB_DATA>> => {
         return new Promise((resolve, reject) => {
             this.fileDataModel
@@ -264,7 +268,7 @@ export class DbManager {
                 });
         });
     };
-    //---------------------------------
+    // endregion ----------------------
 
     // region task----------------------
     private createTask = (data: TASK_DATA): Promise<ASYNC_RESPONSE<TASK_DATA>> => {
@@ -419,6 +423,238 @@ export class DbManager {
     };
     //endregion -----------------------
 
+    // region missionRoute----------------------
+
+    private createMissionRoute = (data: MISSION_ROUTE_DATA): Promise<ASYNC_RESPONSE<MISSION_ROUTE_DATA>> => {
+        return new Promise((resolve, reject) => {
+            this.missionRouteModel
+                .findOneAndUpdate({id: data.id}, data, {new: true, upsert: true})
+                .exec()
+                .then((result: MISSION_ROUTE_DATA) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private readMissionRoute = (data: ID_OBJ): Promise<ASYNC_RESPONSE<MISSION_ROUTE_DATA>> => {
+        return new Promise((resolve, reject) => {
+            this.missionRouteModel.find(data)
+                .exec()
+                .then((result: MISSION_ROUTE_DATA) => {
+                    const obj = result[0];
+                    resolve({success: (obj !== undefined), data: obj} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private readAllMissionRoute = (data = {}): Promise<ASYNC_RESPONSE<MISSION_ROUTE_DATA[]>> => {
+        return new Promise((resolve, reject) => {
+            this.missionRouteModel.find(data)
+                .exec()
+                .then((result: MISSION_ROUTE_DATA[]) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private deleteMissionRoute = (data: ID_OBJ): Promise<ASYNC_RESPONSE<ID_OBJ>> => {
+        return new Promise((resolve, reject) => {
+            this.missionRouteModel
+                .findOneAndDelete(data)
+                .exec()
+                .then((result: ID_OBJ) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private deleteAllMissionRoute = (data = {}): Promise<ASYNC_RESPONSE<MISSION_ROUTE_DATA[]>> => {
+        return new Promise((resolve, reject) => {
+            this.missionRouteModel
+                .deleteMany(data)
+                .exec()
+                .then((result: MISSION_ROUTE_DATA[]) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+    //endregion -----------------------
+
+    // region mission----------------------
+
+    private createMission = (data: MISSION_DATA): Promise<ASYNC_RESPONSE<MISSION_DATA>> => {
+        return new Promise((resolve, reject) => {
+            this.missionModel
+                .findOneAndUpdate({id: data.id}, data, {new: true, upsert: true})
+                .exec()
+                .then((result: MISSION_DATA) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private readMission = (data: ID_OBJ): Promise<ASYNC_RESPONSE<MISSION_DATA>> => {
+        return new Promise((resolve, reject) => {
+            this.missionModel.find(data)
+                .exec()
+                .then((result: MISSION_DATA) => {
+                    const obj = result[0];
+                    resolve({success: (obj !== undefined), data: obj} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private readAllMission = (data = {}): Promise<ASYNC_RESPONSE<MISSION_DATA[]>> => {
+        return new Promise((resolve, reject) => {
+            this.missionModel.find(data)
+                .exec()
+                .then((result: MISSION_DATA[]) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private deleteMission = (data: ID_OBJ): Promise<ASYNC_RESPONSE<ID_OBJ>> => {
+        return new Promise((resolve, reject) => {
+            this.missionModel
+                .findOneAndDelete(data)
+                .exec()
+                .then((result: ID_OBJ) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private deleteAllMission = (data = {}): Promise<ASYNC_RESPONSE<MISSION_DATA[]>> => {
+        return new Promise((resolve, reject) => {
+            this.missionModel
+                .deleteMany(data)
+                .exec()
+                .then((result: MISSION_DATA[]) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+    //endregion -----------------------
+
+    // region graphicOverlay----------------------
+
+    private createGraphicOverlay = (data: GRAPHIC_OVERLAY_DATA): Promise<ASYNC_RESPONSE<GRAPHIC_OVERLAY_DATA>> => {
+        return new Promise((resolve, reject) => {
+            this.graphicOverlayModel
+                .findOneAndUpdate({id: data.id}, data, {new: true, upsert: true})
+                .exec()
+                .then((result: GRAPHIC_OVERLAY_DATA) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private readGraphicOverlay = (data: ID_OBJ): Promise<ASYNC_RESPONSE<GRAPHIC_OVERLAY_DATA>> => {
+        return new Promise((resolve, reject) => {
+            this.graphicOverlayModel.find(data)
+                .exec()
+                .then((result: GRAPHIC_OVERLAY_DATA) => {
+                    const obj = result[0];
+                    resolve({success: (obj !== undefined), data: obj} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private readAllGraphicOverlay = (data = {}): Promise<ASYNC_RESPONSE<GRAPHIC_OVERLAY_DATA[]>> => {
+        return new Promise((resolve, reject) => {
+            this.graphicOverlayModel.find(data)
+                .exec()
+                .then((result: GRAPHIC_OVERLAY_DATA[]) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private deleteGraphicOverlay = (data: ID_OBJ): Promise<ASYNC_RESPONSE<ID_OBJ>> => {
+        return new Promise((resolve, reject) => {
+            this.graphicOverlayModel
+                .findOneAndDelete(data)
+                .exec()
+                .then((result: ID_OBJ) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private deleteAllGraphicOverlay = (data = {}): Promise<ASYNC_RESPONSE<GRAPHIC_OVERLAY_DATA[]>> => {
+        return new Promise((resolve, reject) => {
+            this.graphicOverlayModel
+                .deleteMany(data)
+                .exec()
+                .then((result: GRAPHIC_OVERLAY_DATA[]) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    //endregion -----------------------
+
     private saveRepCollectionVersions = (data: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE<COLLECTION_VERSIONS>> => {
         return new Promise((resolve, reject) => {
             this.collectionVersionModel
@@ -482,6 +718,24 @@ export class DbManager {
     public static readAllMissionRequest = DbManager.instance.readAllMissionRequest;
     public static deleteMissionRequest = DbManager.instance.deleteMissionRequest;
     public static deleteAllMissionRequest = DbManager.instance.deleteAllMissionRequest;
+
+    public static createMissionRoute = DbManager.instance.createMissionRoute;
+    public static readMissionRoute = DbManager.instance.readMissionRoute;
+    public static readAllMissionRoute = DbManager.instance.readAllMissionRoute;
+    public static deleteMissionRoute = DbManager.instance.deleteMissionRoute;
+    public static deleteAllMissionRoute = DbManager.instance.deleteAllMissionRoute;
+
+    public static createMission = DbManager.instance.createMission;
+    public static readMission = DbManager.instance.readMission;
+    public static readAllMission = DbManager.instance.readAllMission;
+    public static deleteMission = DbManager.instance.deleteMission;
+    public static deleteAllMission = DbManager.instance.deleteAllMission;
+
+    public static createGraphicOverlay = DbManager.instance.createGraphicOverlay;
+    public static readGraphicOverlay = DbManager.instance.readGraphicOverlay;
+    public static readAllGraphicOverlay = DbManager.instance.readAllGraphicOverlay;
+    public static deleteGraphicOverlay = DbManager.instance.deleteGraphicOverlay;
+    public static deleteAllGraphicOverlay = DbManager.instance.deleteAllGraphicOverlay;
 
     public static saveRepCollectionVersions = DbManager.instance.saveRepCollectionVersions;
     public static getRepCollectionVersions = DbManager.instance.getRepCollectionVersions;

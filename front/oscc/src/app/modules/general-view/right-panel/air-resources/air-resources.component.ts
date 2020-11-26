@@ -1,7 +1,12 @@
 import {AirVehicleService} from '../../../../services/airVehicleService/airVehicle.service';
 import {Component, Input, OnInit} from '@angular/core';
 import {HEADER_BUTTONS, MAP, VIDEO_OR_MAP} from '../../../../../types';
-import {AV_DATA_UI, MISSION_MODEL_UI, MISSION_TYPE} from '../../../../../../../../classes/typings/all.typings';
+import {
+  AV_DATA_UI,
+  MISSION_MODEL_UI,
+  MISSION_TYPE,
+  OPERATIONAL_STATUS
+} from '../../../../../../../../classes/typings/all.typings';
 import {ApplicationService} from '../../../../services/applicationService/application.service';
 import {MissionDialogComponent} from '../../../../dialogs/mission-dialog/mission-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
@@ -18,6 +23,7 @@ export class AirResourcesComponent implements OnInit {
   @Input() optionSelected: string;
   isOpenMenu: MAP<any> = {};
   MISSION_TYPE = MISSION_TYPE;
+  OPERATIONAL_STATUS = OPERATIONAL_STATUS;
 
   constructor(public airVehicleService: AirVehicleService,
               public applicationService: ApplicationService,
@@ -131,4 +137,8 @@ export class AirResourcesComponent implements OnInit {
 
   };
 
+  onClickMission = (airVehicle: AV_DATA_UI, $event) => {
+    $event.stopPropagation();
+    this.missionRequestService.goToMissionRequest(airVehicle.missionRequestId)
+  }
 }

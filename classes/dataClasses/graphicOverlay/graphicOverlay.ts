@@ -1,36 +1,32 @@
 import {
     ID_TYPE,
-    MISSION_TYPE,
-    MISSION_STATUS,
     LAST_ACTION,
     MISSION_MAP_OVERLAY,
     MISSION_DATA,
     MISSION_DATA_MD,
     MISSION_DATA_UI,
-    PointOfRoute,
-    ROUTE_STATUS,
-    MISSION_ROUTE_DATA_UI,
-    MISSION_ROUTE_DATA_MD,
-    MISSION_ROUTE_DATA,
+    GEOPOINT3D_SHORT,
+    GRAPHIC_OVERLAY_COLOR,
+    GRAPHIC_OVERLAY_TYPE,
+    GRAPHIC_OVERLAY_DATA_UI, TIMESTAMP, GRAPHIC_OVERLAY_DATA,
 } from '../../typings/all.typings';
 import {DataUtility} from '../../applicationClasses/utility/dataUtility';
 
-export class MissionRoute {
+export class GraphicOverlay {
 
     id: ID_TYPE;
     lastAction: LAST_ACTION;
     version: number;
 
-    requestId: ID_TYPE;
-    missionId: ID_TYPE;
-    missionType: MISSION_TYPE;
-    route: PointOfRoute[];
-    status: ROUTE_STATUS;
+    name: string;
+    shape: GEOPOINT3D_SHORT | {coordinates: GEOPOINT3D_SHORT[]};
+    color: GRAPHIC_OVERLAY_COLOR;
+    Type: GRAPHIC_OVERLAY_TYPE;
+    creationTime: TIMESTAMP;
+    lastUpdateTime: TIMESTAMP;
 
-    modeDefine: MISSION_ROUTE_DATA_MD;
-    time: number;
 
-    constructor(data: MISSION_ROUTE_DATA) {
+    constructor(data: GRAPHIC_OVERLAY_DATA) {
         if ( data ) {
             this.setValues(data, this.saveConfig);
         }
@@ -44,35 +40,33 @@ export class MissionRoute {
             }
         }
     };
+
     private setLastAction = (data: LAST_ACTION) => {
         this.lastAction = data;
     };
     private setVersion = (data: number) => {
         this.version = data;
     };
-
-
-    private setRequestId = (data: ID_TYPE) => {
-        this.requestId = data;
+    private setName = (data: any) => {
+        this.name = data;
     };
-    private setMissionId = (data: ID_TYPE) => {
-        this.missionId = data;
+    private setShape = (data: any) => {
+        this.shape = data;
     };
-    private setMissionType = (data: MISSION_TYPE) => {
-        this.missionType = data;
+    private setColor = (data: any) => {
+        this.color = data;
     };
-    private setRoute = (data: PointOfRoute[]) => {
-        this.route = data;
+    private setType = (data: any) => {
+        this.Type = data;
     };
-    private setStatus = (data: ROUTE_STATUS) => {
-        this.status = data;
+    private setCreationTime = (data: any) => {
+        this.creationTime = data;
     };
-    private setTime = (data: number) => {
-        this.time = data;
+    private setLastUpdateTime = (data: any) => {
+        this.lastUpdateTime = data;
     };
 
-
-    public setValues = (data: Partial<MISSION_ROUTE_DATA>, saveConfig: Object = this.saveConfig) => {
+    public setValues = (data: Partial<MISSION_DATA>, saveConfig: Object = this.saveConfig) => {
         for ( const key in saveConfig ) {
             if ( saveConfig.hasOwnProperty(key) ) {
                 if ( data.hasOwnProperty(key) ) {
@@ -90,45 +84,46 @@ export class MissionRoute {
     };
 
 
-    public toJson = (): MISSION_ROUTE_DATA => {
+
+    public toJson = (): GRAPHIC_OVERLAY_DATA => {
         return {
             id: this.id,
+            name: this.name,
+            shape: this.shape,
+            color: this.color,
+            Type: this.Type,
+            creationTime: this.creationTime,
+            lastUpdateTime: this.lastUpdateTime,
             lastAction: this.lastAction,
             version: this.version,
-            requestId: this.requestId,
-            missionId: this.missionId,
-            missionType: this.missionType,
-            route: this.route,
-            status: this.status,
-            time: this.time,
         };
     };
 
-    public toJsonForUI = (): MISSION_ROUTE_DATA_UI => {
+    public toJsonForUI = (): GRAPHIC_OVERLAY_DATA_UI => {
         return {
             id: this.id,
+            name: this.name,
+            shape: this.shape,
+            color: this.color,
+            Type: this.Type,
+            creationTime: this.creationTime,
+            lastUpdateTime: this.lastUpdateTime,
             lastAction: this.lastAction,
             version: this.version,
-            requestId: this.requestId,
-            missionId: this.missionId,
-            missionType: this.missionType,
-            route: this.route,
-            status: this.status,
-            modeDefine: this.modeDefine,
-            time: this.time,
+            modeDefine: undefined
         };
     };
 
     saveConfig = {
         id: this.setId,
+        name: this.setName,
+        shape: this.setShape,
+        color: this.setColor,
+        Type: this.setType,
+        creationTime: this.setCreationTime,
+        lastUpdateTime: this.setLastUpdateTime,
         lastAction: this.setLastAction,
         version: this.setVersion,
-        requestId: this.setRequestId,
-        missionId: this.setMissionId,
-        missionType: this.setMissionType,
-        route: this.setRoute,
-        status: this.setStatus,
-        time: this.setTime,
     };
 
 
