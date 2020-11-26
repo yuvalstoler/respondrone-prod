@@ -17,7 +17,7 @@ const projConf = require('./../../../../../../../../config/projConf.json');
 
 const url_DBS = services.DBS.protocol + '://' + services.DBS.host + ':' + services.DBS.port;
 const url_WS = services.webServer.protocol + '://' + services.webServer.host + ':' + services.webServer.port;
-const url_TMM = services.TMM.protocol + '://' + services.TMM.host + ':' + services.TMM.port;
+const url_TMM = services.TMM.protocol + '://' + services.TMM.host + (services.TMM.port ? ':' + services.TMM.port : '');
 
 const url_CommRelayMissionRep = services.CommRelayMissionRep.protocol + '://' + services.CommRelayMissionRep.host + ':' + services.CommRelayMissionRep.port;
 const url_PatrolMissionRep = services.PatrolMissionRep.protocol + '://' + services.PatrolMissionRep.host + ':' + services.PatrolMissionRep.port;

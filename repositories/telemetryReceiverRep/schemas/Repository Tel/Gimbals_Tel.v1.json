@@ -49,14 +49,14 @@
             "properties": {
               "pitch": {
                 "type": "number",
-                "minimum": -10,
-                "maximum": 10,
+                "minimum": -180,
+                "maximum": 180,
                 "description": "Delta pitch"
               },
               "yaw": {
                 "type": "number",
-                "minimum": -10,
-                "maximum": 10,
+                "minimum": -180,
+                "maximum": 180,
                 "description": "Delta yaw"
               }
             },

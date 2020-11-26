@@ -38,6 +38,7 @@ export class ApplicationService {
 
   public currentTabIndex = 0;  //default tab index is 0
   isDialogOpen = false;
+  cursorPosition: GEOPOINT3D = {longitude: undefined, latitude: undefined}
 
   constructor(private connectionService: ConnectionService) {
 

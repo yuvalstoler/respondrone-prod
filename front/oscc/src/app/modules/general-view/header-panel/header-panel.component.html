@@ -70,6 +70,11 @@
 
   <!--Right Side-->
   <div class="HeaderRightSide">
+    <!--TMP cursor-->
+    <div class="RightSideButton">
+     lat: {{applicationService.cursorPosition?.latitude | number:'1.0-4'}},
+     lon: {{applicationService.cursorPosition?.longitude | number:'1.0-4'}}
+    </div>
     <!--SubSystemStatus-->
     <div class="RightSideButton">
       <mat-icon class="HPRightSideIcon">

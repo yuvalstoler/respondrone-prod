@@ -17,6 +17,7 @@ export class ListenerMapService {
   public setEventCallbacks = () => {
     // show billboard
     this.mapGeneralService.setMouseOverCallback(undefined, 'billboardDraw', this.showBillboard);
+    this.mapGeneralService.setMouseOverCallback(undefined, 'cursorPosition', this.showCursorPosition);
     };
 
   public showBillboard = (event: EVENT_LISTENER_DATA) => {
@@ -29,6 +30,10 @@ export class ListenerMapService {
       }
 
     // }
+  };
+
+  public showCursorPosition = (event: EVENT_LISTENER_DATA) => {
+    this.applicationService.cursorPosition = {longitude: event.pointLatLng[0], latitude: event.pointLatLng[1]};
   };
 
   removeBillboard = () => {

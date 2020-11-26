@@ -146,7 +146,7 @@ export class GimbalManager {
     };
 
     private gimbalsSocketConfig: {} = {
-        [SOCKET_ROOM.Gimbals_Tel_room]: this.onGetGimbals,
+        [SOCKET_CLIENT_TYPES.GimbalTelemetrySenderRep]: this.onGetGimbals,
     };
 
     // region API uncions
