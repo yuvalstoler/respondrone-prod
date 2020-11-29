@@ -6,16 +6,18 @@
   display: flex;
   height: $headerVideoHeight;
   background-color: $darkGrayOpacity;
+  z-index: 1000;
 }
 
 .LiveVideoContent {
-  cursor: pointer;
+
 }
 
 .container {
   color: $white;
   margin: 10px;
   font-size: $fontSizeText;
+  z-index: 1000;
 }
 
 .drone-container {
@@ -184,6 +186,8 @@
   height: 50px;
   width: 50px;
   color: $white;
+  z-index: 1000;
+  cursor: pointer;
 }
 
 .left {
@@ -223,4 +227,18 @@
 .mat-slider {
   padding: 0px;
   vertical-align: bottom;
+}
+
+.video {
+  z-index: 0;
+  position: absolute;
+
+
+  top: 200px;
+  left: 200px;
+  width: 700px;
+  height: 700px;
+  video {
+    width: 100%;
+  }
 }

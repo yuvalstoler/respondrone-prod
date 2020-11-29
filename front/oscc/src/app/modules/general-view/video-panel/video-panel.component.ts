@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {ApplicationService} from '../../../services/applicationService/application.service';
 import {VIDEO_OR_MAP} from '../../../../types';
 import {GimbalService} from '../../../services/gimbalService/gimbal.service';
-import {COLOR_PALETTE_INFRARED_CAMERA} from '../../../../../../../classes/typings/all.typings';
+import {
+  COLOR_PALETTE_INFRARED_CAMERA,
+  GIMBAL_ACTION,
+  VIDEO_DATA
+} from '../../../../../../../classes/typings/all.typings';
 
 @Component({
   selector: 'app-video-panel',
@@ -13,7 +17,7 @@ export class VideoPanelComponent implements OnInit {
 
   VIDEO_OR_MAP = VIDEO_OR_MAP;
   colorPalette =  Object.values(COLOR_PALETTE_INFRARED_CAMERA);
-  dayNight = false;
+  isNight = false;
 
   //zoom
   zoomModel = 0;
@@ -27,6 +31,21 @@ export class VideoPanelComponent implements OnInit {
   tickIntervalSpeed: number = 1;
   minSpeed: number = 0;
   maxSpeed: number = 20;
+
+  videoSource = 'http://localhost:6101/api/file/catVideo1.mov';
+  videoData: VIDEO_DATA = {
+    width: 1920,
+    height: 1080,
+    blobs:[
+      {
+        id: 1,
+        xMin: 0,
+        yMin: 0,
+        xMax: 20,
+        yMax: 20,
+      }
+    ]
+  }
 
   constructor(public applicationService: ApplicationService,
               public gimbalService: GimbalService) { }
@@ -51,33 +70,96 @@ export class VideoPanelComponent implements OnInit {
   };
 
   changeSlide = ($event) => {
-    this.dayNight = !!$event.checked;
+    this.isNight = !!$event.checked;
   };
 
   checkColorPalette = ($event) => {
-    console.log($event.value);
+    if (this.applicationService.selectedAirVehicle) {
+      const gimbal = this.gimbalService.gimbalsByDroneId[this.applicationService.selectedAirVehicle.id]
+
+      const gimbalAction: GIMBAL_ACTION = {
+        droneId: gimbal.droneId,
+        requestorID: 'test',
+        parameters: {
+          zoomInfraredCamera: gimbal.infraredCameraParameters.zoomInfraredCamera,
+          colorPaletteInfraredCamera: $event
+        }
+      }
+
+      this.gimbalService.sendGimbalAction(gimbalAction);
+    }
   };
 
   onChangeZoom = (zoom) => {
-    console.log(zoom);
+    if (this.applicationService.selectedAirVehicle) {
+      const gimbal = this.gimbalService.gimbalsByDroneId[this.applicationService.selectedAirVehicle.id]
+
+      const gimbalAction: GIMBAL_ACTION = {
+        droneId: gimbal.droneId,
+        requestorID: 'test',
+        parameters: undefined
+      }
+
+      if (this.isNight) {
+        gimbalAction.parameters =  {
+          zoomInfraredCamera: zoom,
+          colorPaletteInfraredCamera: gimbal.infraredCameraParameters.colorPaletteInfraredCamera
+        }
+      }
+      else {
+        gimbalAction.parameters =  {
+          zoomVisibleCamera: zoom,
+        }
+      }
+      this.gimbalService.sendGimbalAction(gimbalAction);
+    }
   };
 
   onChangeSpeed = (speed) => {
     console.log(speed);
   };
 
-  onClickLeft() {
+  onClickDirection(direction: 'left' | 'right' | 'up' | 'down') {
+    if (this.applicationService.selectedAirVehicle) {
+      const gimbal = this.gimbalService.gimbalsByDroneId[this.applicationService.selectedAirVehicle.id]
 
-  }
-  onClickRight() {
+      const gimbalAction: GIMBAL_ACTION = {
+        droneId: gimbal.droneId,
+        requestorID: 'test',
+        parameters: undefined
+      }
 
-  }
-  onClickDown() {
+      switch (direction) {
+        case "left":
+          gimbalAction.parameters = {
+            pitch: gimbal.gimbalParameters.pitch,
+            yaw: gimbal.gimbalParameters.yaw - this.speedModel
+          }
+          break;
+        case "right":
+          gimbalAction.parameters = {
+            pitch: gimbal.gimbalParameters.pitch,
+            yaw: gimbal.gimbalParameters.yaw + this.speedModel
+          }
+          break;
+        case "up":
+          gimbalAction.parameters = {
+            pitch: gimbal.gimbalParameters.pitch - this.speedModel,
+            yaw: gimbal.gimbalParameters.yaw
+          }
+          break;
+        case "down":
+          gimbalAction.parameters = {
+            pitch: gimbal.gimbalParameters.pitch + this.speedModel,
+            yaw: gimbal.gimbalParameters.yaw
+          }
+          break;
+      }
 
+      this.gimbalService.sendGimbalAction(gimbalAction);
+    }
   }
-  onClickUp() {
 
-  }
 
 
 }

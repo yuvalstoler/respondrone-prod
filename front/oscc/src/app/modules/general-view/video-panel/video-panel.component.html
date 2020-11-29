@@ -4,13 +4,13 @@
        class="LiveVideoHeader">
     <!--Drone-->
     <div class="drone-container container">
-      <div>UAV nameElement:
+      <div>UAV name:
         <span>{{applicationService?.selectedAirVehicle?.name}}</span>&nbsp;
         <!--<span>{{applicationService.selectedAirVehicle.id}}</span>-->
       </div>
-      <div>Altitude: <span>{{applicationService?.selectedAirVehicle?.altitudeAGL}}m</span></div>
+      <div>AGL: <span>{{applicationService?.selectedAirVehicle?.altitudeAGL}}m</span>, ASL: <span>{{applicationService?.selectedAirVehicle?.altitudeAsl}}m</span></div>
       <div>Day<mat-slide-toggle (change)="changeSlide($event)"></mat-slide-toggle>Night</div>
-      <div class="videoSelect" *ngIf="dayNight">
+      <div class="videoSelect" *ngIf="isNight">
         <mat-form-field appearance="outline" class="SPMatFormField">
           <!--<mat-label>Choose color palette</mat-label>-->
         <mat-select placeholder="Choose color palette" (selectionChange)="checkColorPalette($event)">
@@ -31,7 +31,10 @@
     </div>
     <!--Zoom-->
     <div class="zoom-container container">
-      <div>Camera zoom: <span>x{{zoomModel}}</span></div>
+      <div>Camera zoom:
+        <span *ngIf="!isNight">{{gimbalService.gimbalsByDroneId[applicationService?.selectedAirVehicle?.id]?.visibleCameraParameters?.zoomVisibleCamera}}x</span>
+        <span *ngIf="isNight">{{gimbalService.gimbalsByDroneId[applicationService?.selectedAirVehicle?.id]?.infraredCameraParameters?.zoomInfraredCamera}}x</span>
+      </div>
       <div class="zoom-slider">
         <span>0</span>
         <mat-slider
@@ -65,14 +68,32 @@
         <img src="../../../../assets/fast.png" class="speedFastImg" alt="fast">
       </div>
     </div>
+
+    <!--Telemetry-->
+    <div class="zoom-container container">
+      <div>Pitch: <span>{{gimbalService.gimbalsByDroneId[applicationService?.selectedAirVehicle?.id]?.gimbalParameters?.pitch}}°</span></div>
+      <div>Yaw: <span>{{gimbalService.gimbalsByDroneId[applicationService?.selectedAirVehicle?.id]?.gimbalParameters?.yaw}}°</span></div>
+    </div>
   </div>
   <!--Arrows-->
   <div class="LiveVideoContent">
-    <mat-icon class="arrows left" (click)="onClickLeft()"> keyboard_arrow_left </mat-icon>
-    <mat-icon class="arrows right" (click)="onClickRight()"> keyboard_arrow_right </mat-icon>
-    <mat-icon class="arrows upLow" (click)="onClickUp()" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"> keyboard_arrow_up </mat-icon>
-    <mat-icon class="arrows up" (click)="onClickUp()" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"> keyboard_arrow_up </mat-icon>
-    <mat-icon class="arrows down" (click)="onClickDown()"> keyboard_arrow_down </mat-icon>
+    <div class="video">
+      <video #videoPlayer autoplay="false" class="media" controls="controls">
+        <source [src]='videoSource'/>
+      </video>
+
+<!--      <div *ngFor="let blob of videoData.blobs" class="blob"-->
+<!--           [ngStyle]="{left: blob.xMin + 'px',-->
+<!--                       top: blob.yMin + 'px',-->
+<!--                       width: (blob.xMax - blob.xMin) + 'px',-->
+<!--                       height:  (blob.yMax - blob.yMin)+'px'}">-->
+<!--      </div>-->
+    </div>
+    <mat-icon class="arrows left" (click)="onClickDirection('left')"> keyboard_arrow_left </mat-icon>
+    <mat-icon class="arrows right" (click)="onClickDirection('right')"> keyboard_arrow_right </mat-icon>
+    <mat-icon class="arrows upLow" (click)="onClickDirection('up')" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"> keyboard_arrow_up </mat-icon>
+    <mat-icon class="arrows up" (click)="onClickDirection('up')" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"> keyboard_arrow_up </mat-icon>
+    <mat-icon class="arrows down" (click)="onClickDirection('down')"> keyboard_arrow_down </mat-icon>
     <mat-icon *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"
               class="expendVideo"
               (click)="onExpendVideo()">zoom_out_map</mat-icon>
