@@ -52,3 +52,10 @@ export type ENTITY_DATA = {
 export type ENTITY_ARR = any; // TODO change
 
 export type ASYNC_RESPONSE<T = any> = { success: boolean, description?: string, data?: T };
+
+export type LOG_DATA = {
+    url: string,
+    data: any,
+    response: any,
+    date: number
+}

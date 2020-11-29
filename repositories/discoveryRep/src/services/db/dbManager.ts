@@ -1,5 +1,5 @@
 import {EntityModel} from '../mongo/models/entityModel';
-import {ENTITY_DATA, ID_TYPE} from '../../classes/all.typings';
+import {ENTITY_DATA, ID_TYPE, LOG_DATA} from '../../classes/all.typings';
 import {LogModel} from "../mongo/models/logModel";
 
 const _ = require('lodash');
@@ -139,7 +139,7 @@ export class DbManager {
 
 
     // =============== Logs ==================
-    private saveLog = (data: any): void => {
+    private saveLog = (data: LOG_DATA): void => {
         this.logModel(data)
             .save()
             .then(result => {

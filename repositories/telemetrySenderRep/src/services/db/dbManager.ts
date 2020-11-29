@@ -1,4 +1,5 @@
 import {LogModel} from "../mongo/models/logModel";
+import {LOG_DATA} from "../../classes/all.typings";
 
 const _ = require('lodash');
 
@@ -16,7 +17,7 @@ export class DbManager {
 
 
     // =============== Logs ==================
-    private saveLog = (data: any): void => {
+    private saveLog = (data: LOG_DATA): void => {
         this.logModel(data)
             .save()
             .then(result => {

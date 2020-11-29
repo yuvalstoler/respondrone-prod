@@ -38,9 +38,10 @@ if (!fs.existsSync(targetPath)) {
 if (!fs.existsSync(targetPath)) {
     fs.mkdirSync(targetPath);
 }
-const foldersOfRepositoies = ['discoveryRep', 'entityRep', 'telemetryReceiverRep', 'telemetrySenderRep'];
+const foldersOfRepositoies = ['loggerRep','discoveryRep', 'entityRep', 'telemetryReceiverRep', 'telemetrySenderRep'];
 const mapServiceGroupInitName = {
     discoveryRep: 'EntityService',
+    loggerRep: 'EntityService',
     entityRep: 'EntityService',
     telemetryReceiverRep: 'TelemetryService',
     telemetrySenderRep: 'TelemetryService',

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script>
+            setInterval(() => {
+                // location.reload();
+            }, 1000);
+        </script>
+        <style>
+            table, th, td {
+                border: 1px solid rgba(0,0,0,0.4);
+                border-collapse: collapse;
+            }
+            td {
+                padding: 5px;
+            }
+            .error {
+                color: red;
+            }
+
+        </style>
+    </head>
+    <body class="container">
+        <div>
+            <h2>Logs:</h2>
+            <table>
+                <% for (var i = 0; i < logs.length; i++) { %>
+                    <tr class="row <%if(logs[i].response && logs[i].response.success === false){%>error<%}%>">
+                        <td class="date"><%= new Date(logs[i].date).toISOString() %></td>
+                        <td class="url"><%= logs[i].url %></td>
+                        <td class="data"><%= JSON.stringify(logs[i].data) %></td>
+                        <td class="response"><%= JSON.stringify(logs[i].response) %></td>
+                    </tr>
+                <% } %>
+            </table>
+        </div>
+    </body>
+</html>

@@ -1,5 +1,5 @@
 import * as WebSocket from 'ws';
-import {ENTITY_DATA, GENERAL_RESPONSE} from '../../classes/all.typings';
+import {ENTITY_DATA, GENERAL_RESPONSE, LOG_DATA} from '../../classes/all.typings';
 import {DbManager} from '../db/dbManager';
 
 
@@ -113,7 +113,7 @@ export class SocketManager {
     }
     // ---------------------------
     private saveToLog = (url: string, data: any, response: any) => {
-        const obj = {
+        const obj: LOG_DATA = {
             url: url,
             data: data,
             response: response,

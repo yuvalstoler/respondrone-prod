@@ -10,7 +10,7 @@ import {
     LAST_ACTION,
     REP_COLLECTION_GEN_RESPONSE,
     REP_ENT_GEN_RESPONSE,
-    ENTITY_ARR, DISCOVERY_STATUS
+    ENTITY_ARR, DISCOVERY_STATUS, LOG_DATA
 } from '../../classes/all.typings';
 import {DiscoveryManager} from "../discoveryManager/discoveryManager";
 
@@ -196,7 +196,7 @@ export class ApiManager implements IRest {
 
     // ---------------------------
     private saveToLog = (url: string, data: any, response: any) => {
-        const obj = {
+        const obj: LOG_DATA = {
             url: url,
             data: data,
             response: response,
