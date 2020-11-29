@@ -38,10 +38,10 @@ if (!fs.existsSync(targetPath)) {
 if (!fs.existsSync(targetPath)) {
     fs.mkdirSync(targetPath);
 }
-const foldersOfRepositoies = ['loggerRep','discoveryRep', 'entityRep', 'telemetryReceiverRep', 'telemetrySenderRep'];
+const foldersOfRepositoies = ['discoveryRep', 'loggerRep', 'entityRep', 'telemetryReceiverRep', 'telemetrySenderRep'];
 const mapServiceGroupInitName = {
     discoveryRep: 'EntityService',
-    loggerRep: 'EntityService',
+    loggerRep: 'LoggerService',
     entityRep: 'EntityService',
     telemetryReceiverRep: 'TelemetryService',
     telemetrySenderRep: 'TelemetryService',
@@ -60,8 +60,10 @@ foldersOfRepositoies.forEach((nameOfGroupRepositories) => {
             names[configFolder + file].nameOfGroupRepositories = nameOfGroupRepositories;
             /* namesNew2namesOrig[]*/
             ports[configFolder + file] = data1[mapServiceGroupInitName[nameOfGroupRepositories]].port;
+
         }
     });
+    const xxxx = 0;
 });
 //read templates
 for (let prop in templatesFiles) {

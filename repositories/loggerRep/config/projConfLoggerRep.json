@@ -1,0 +1,18 @@
+{
+  "serviceName": "LoggerService",
+  "LoggerService": {
+    "port": "4710",
+    "host": "localhost",
+    "protocol": "http",
+
+    "routes": {
+      "data": "/data"
+    },
+    "interval": 1000
+  },
+  "LogsMongo": {
+    "db": "repositoryLogs",
+    "url": "mongodb://localhost:27017/",
+    "col": "log"
+  }
+}
