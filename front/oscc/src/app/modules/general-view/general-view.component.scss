@@ -11,7 +11,6 @@
   height: $headerHeight;
 }
 .LiveVideoPanel{
-  background: $lightBlue;
   position: absolute;
   top: $headerHeight;
   left: 0px;
@@ -66,11 +65,12 @@
   position: absolute;
   bottom: 20px;
   left: 10px;
-  height: 30%;
-  width: 30%;
+  height: 32%;
+  width: 28%;
   z-index: 5;
   background: $lightBlue;
   border-radius: 15px;
+  overflow: hidden;
   mat-icon{
     cursor: pointer;
   }

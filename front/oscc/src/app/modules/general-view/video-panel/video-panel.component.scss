@@ -6,6 +6,8 @@
   display: flex;
   height: $headerVideoHeight;
   background-color: $darkGrayOpacity;
+  position: absolute;
+  width: 100vw;
   z-index: 1000;
 }
 
@@ -164,6 +166,7 @@
   width: 30px;
   height: auto;
 }
+
 .speedFastImg{
   width: 24px;
   height: auto;
@@ -172,7 +175,7 @@
 .expendVideo {
   position: absolute;
   bottom: 10px;
-  z-index: 10;
+  z-index: 50;
   right: 10px;
   width: 50px;
   height: auto;
@@ -229,16 +232,4 @@
   vertical-align: bottom;
 }
 
-.video {
-  z-index: 0;
-  position: absolute;
 
-
-  top: 200px;
-  left: 200px;
-  width: 700px;
-  height: 700px;
-  video {
-    width: 100%;
-  }
-}

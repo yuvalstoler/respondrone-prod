@@ -1,0 +1,58 @@
+@import "../../../../../styles/variable";
+
+.canvasContainer {
+  display: flex;
+  width: auto;
+  height: 100%;
+  //position: absolute;
+  //top: 0;
+  //left: 0;
+
+  & > * {
+    position: absolute;
+    height: calc(100vh - 70px);
+    //height: inherit;
+  }
+
+  #editingCanvas {
+    z-index: 2;
+    position: absolute;
+  }
+
+  .canvas {
+    z-index: 1;
+    display: block;
+    position: absolute;
+  }
+
+  .width-height-0 {
+    //height: 0;
+    //width: 0;
+    height: calc(100vh - #{$headerHeight});
+    width: 100vw;
+  }
+
+  //.piCounter {
+  //  position: absolute;
+  //  top: 5px;
+  //  left: 10px;
+  //  z-index: 3;
+  //  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  //}
+}
+.mediaContent{
+  z-index: 10 !important;
+}
+.canvasContent{
+  z-index: 11 !important;
+}
+.CanvasContainerSmall{
+  height: 30%;
+  width: 30%;
+  z-index: 5;
+  //background: $lightBlue;
+  border-radius: 15px;
+  mat-icon{
+    cursor: pointer;
+  }
+}

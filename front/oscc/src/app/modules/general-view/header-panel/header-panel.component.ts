@@ -99,9 +99,9 @@ export class HeaderPanelComponent implements OnInit {
       if (selectedIndex === -1 && event) {
         this.viewItemModel.push(item);
         if (item === VIEW_LIST.groundResourcesPanel) {
-          this.applicationService.screen.showGrandResources = true;
+          this.applicationService.screen.showGrandResources = false;
         } else if (item === VIEW_LIST.airResourcesPanel) {
-          this.applicationService.screen.showAirResources = true;
+          this.applicationService.screen.showAirResources = false;
         }
       }
 
@@ -110,9 +110,9 @@ export class HeaderPanelComponent implements OnInit {
       if (selectedIndex !== -1) {
         this.viewItemModel.splice(selectedIndex, 1);
         if (item === VIEW_LIST.groundResourcesPanel) {
-          this.applicationService.screen.showGrandResources = false;
+          this.applicationService.screen.showGrandResources = true;
         } else if (item === VIEW_LIST.airResourcesPanel) {
-          this.applicationService.screen.showAirResources = false;
+          this.applicationService.screen.showAirResources = true;
         }
       }
     }

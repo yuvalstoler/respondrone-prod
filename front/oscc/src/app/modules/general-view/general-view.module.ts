@@ -60,6 +60,7 @@ import { VideoPanelComponent } from './video-panel/video-panel.component';
 import {MissionsTableComponent} from './left-panel/missions-mission-control/missions-situation-table/missions-table.component';
 import {MatRippleModule} from '@angular/material/core';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { CanvasVideoComponent } from './video-panel/canvas-video/canvas-video.component';
 
 
 @NgModule({
@@ -91,6 +92,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     SortByPriorityPipe,
     VideoPanelComponent,
     MissionsTableComponent,
+    CanvasVideoComponent,
   ],
   imports: [
     CommonModule,

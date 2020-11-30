@@ -3,7 +3,7 @@ import {DISPLAY_ON_SCREEN, HEADER_BUTTONS, LEFT_PANEL_ICON, STATE_DRAW, VIDEO_OR
 import {
   AV_DATA_UI,
   EVENT_DATA_UI,
-  FILE_FS_DATA,
+  FILE_FS_DATA, GEOPOINT3D,
   GEOPOINT3D_SHORT,
   MISSION_REQUEST_DATA_UI,
   POINT3D,
@@ -38,7 +38,7 @@ export class ApplicationService {
 
   public currentTabIndex = 0;  //default tab index is 0
   isDialogOpen = false;
-  cursorPosition: GEOPOINT3D = {longitude: undefined, latitude: undefined}
+  cursorPosition: GEOPOINT3D = {longitude: undefined, latitude: undefined};
 
   constructor(private connectionService: ConnectionService) {
 
@@ -60,7 +60,7 @@ export class ApplicationService {
     this.screen = {
       showLeftPanel: true,
       showRightPanel: true,
-      showAirResources: false,
+      showAirResources: true,
       showGrandResources: false,
       showSituationPicture: true,
       showMissionControl: false,
@@ -90,9 +90,9 @@ export class ApplicationService {
   geopoint3d_short_to_point3d_arr = (geopoints: GEOPOINT3D_SHORT[]): POINT3D[] => {
     const points = geopoints.map(point => this.geopoint3d_short_to_point3d(point));
     return points;
-  }
+  };
 
   geopoint3d_short_to_point3d = (geopoint: GEOPOINT3D_SHORT): POINT3D => {
     return [geopoint.lon, geopoint.lat, geopoint.alt];
-  }
+  };
 }

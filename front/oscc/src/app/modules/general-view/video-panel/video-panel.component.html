@@ -77,18 +77,6 @@
   </div>
   <!--Arrows-->
   <div class="LiveVideoContent">
-    <div class="video">
-      <video #videoPlayer autoplay="false" class="media" controls="controls">
-        <source [src]='videoSource'/>
-      </video>
-
-<!--      <div *ngFor="let blob of videoData.blobs" class="blob"-->
-<!--           [ngStyle]="{left: blob.xMin + 'px',-->
-<!--                       top: blob.yMin + 'px',-->
-<!--                       width: (blob.xMax - blob.xMin) + 'px',-->
-<!--                       height:  (blob.yMax - blob.yMin)+'px'}">-->
-<!--      </div>-->
-    </div>
     <mat-icon class="arrows left" (click)="onClickDirection('left')"> keyboard_arrow_left </mat-icon>
     <mat-icon class="arrows right" (click)="onClickDirection('right')"> keyboard_arrow_right </mat-icon>
     <mat-icon class="arrows upLow" (click)="onClickDirection('up')" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"> keyboard_arrow_up </mat-icon>
@@ -96,6 +84,9 @@
     <mat-icon class="arrows down" (click)="onClickDirection('down')"> keyboard_arrow_down </mat-icon>
     <mat-icon *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"
               class="expendVideo"
-              (click)="onExpendVideo()">zoom_out_map</mat-icon>
+              (click)="onExpendVideo()">zoom_out_map
+    </mat-icon>
+    <!--Video-canvas-->
+    <app-canvas-video></app-canvas-video>
   </div>
 </div>

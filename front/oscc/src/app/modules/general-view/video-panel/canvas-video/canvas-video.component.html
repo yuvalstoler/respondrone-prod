@@ -1,0 +1,24 @@
+<div class="canvasContainer" [ngClass]="{'CanvasContainerSmall': !applicationService.screen.showLeftPanel && applicationService?.screen?.showVideo
+                   && applicationService?.selectedWindow === VIDEO_OR_MAP.video}">
+  <video #videoPlayer autoplay="false" class="mediaContent" controls="controls" [ngStyle]="getStyle()">
+    <source [src]='liveVideoService?.videoSource?.video'/>
+  </video>
+  <div id="primaryCanvasContainerDomID" class="canvasContent" [ngStyle]="getStyle()">
+    <canvas class="canvas" id="primaryCanvasDomID"
+            [ngClass]="{'CanvasContainerSmall': !applicationService.screen.showLeftPanel && applicationService?.screen?.showVideo
+                   && applicationService?.selectedWindow === VIDEO_OR_MAP.video}"
+            [ngStyle]="getStyle()">
+    <!--<canvas id="myCanvas" width="200px" height="100px" style="border:1px solid #00ff00;">-->
+      Your browser does not support the HTML canvas tag.
+    </canvas>
+  </div>
+</div>
+
+
+<!--      <div *ngFor="let blob of videoData.blobs" class="blob"-->
+<!--           [ngStyle]="{left: blob.xMin + 'px',-->
+<!--                       top: blob.yMin + 'px',-->
+<!--                       width: (blob.xMax - blob.xMin) + 'px',-->
+<!--                       height:  (blob.yMax - blob.yMin)+'px'}">-->
+<!--      </div>-->
+<!--</div>-->
