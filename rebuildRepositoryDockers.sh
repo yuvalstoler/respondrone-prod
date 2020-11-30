@@ -6,5 +6,5 @@ cd dockerBuildScript/;
 node index.js ip=10.111.185.4;
 cd ../../RD;
 docker-compose down;
-rm -rf data
+#rm -rf data
 docker-compose up -d --build

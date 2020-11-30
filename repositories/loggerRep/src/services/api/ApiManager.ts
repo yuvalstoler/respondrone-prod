@@ -41,7 +41,7 @@ export class ApiManager implements IRest {
     // ----------------------
     private startUpdateLogs = () => {
         setInterval(() => {
-            DbManager.getLogs({date : -1})
+            DbManager.getLogs({})
                 .then((data: LOG_DATA[]) => {
                     this.logs = data;
                 })
@@ -53,11 +53,16 @@ export class ApiManager implements IRest {
     private data = (request: Request, response: Response) => {
         response.render('data.ejs', {logs: this.logs});
     }
+    // ----------------------
+    private getData = (request: Request, response: Response) => {
+        response.render('getData.ejs', {logs: this.logs});
+    }
 
     // ---------------------------
 
     private routers = {
-        [routes.data]:         this.data,
+        [routes.data]:            this.data,
+        '/getData':               this.getData,
     };
 
     // region API uncions

@@ -3,6 +3,8 @@ import {ENTITY_DATA, ID_TYPE} from '../../classes/all.typings';
 import {LogModel} from "../mongo/models/logModel";
 
 const _ = require('lodash');
+const projConf = require("./../../../config/projConf.json");
+const limit = projConf.LoggerService.limit;
 
 
 export class DbManager {
@@ -24,6 +26,8 @@ export class DbManager {
         return new Promise((resolve, reject) => {
             this.logModel
                 .find(condition, '-_id -__v')
+                .sort({date : -1})
+                .limit(limit)
                 .lean()
                 .exec()
                 .then((result) => {
