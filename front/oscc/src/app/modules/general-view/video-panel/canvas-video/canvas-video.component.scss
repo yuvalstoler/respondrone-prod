@@ -1,6 +1,6 @@
 @import "../../../../../styles/variable";
 
-.canvasContainer {
+.canvasVideoContainer {
   display: flex;
   width: auto;
   height: 100%;
@@ -11,6 +11,7 @@
   & > * {
     position: absolute;
     height: calc(100vh - 70px);
+    //width: 100%;
     //height: inherit;
   }
 
@@ -19,38 +20,41 @@
     position: absolute;
   }
 
-  .canvas {
-    z-index: 1;
+  .canvasContainerDom{
+    z-index: 11 !important;
+    height: 100%;
+    width: 100%;
+  }
+
+  .canvasDom {
+    z-index: 12;
     display: block;
     position: absolute;
+    top: 0;
+    left: 0;
   }
 
-  .width-height-0 {
-    //height: 0;
-    //width: 0;
-    height: calc(100vh - #{$headerHeight});
-    width: 100vw;
+  .mediaContent{
+    z-index: 10 !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
   }
 
-  //.piCounter {
-  //  position: absolute;
-  //  top: 5px;
-  //  left: 10px;
-  //  z-index: 3;
-  //  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  //.width-height-0 {
+  //  //height: 0;
+  //  //width: 0;
+  //  height: calc(100vh - #{$headerHeight});
+  //  width: 100vw;
   //}
+
 }
-.mediaContent{
-  z-index: 10 !important;
-}
-.canvasContent{
-  z-index: 11 !important;
-}
-.CanvasContainerSmall{
+
+.CanvasDomSmall{
   height: 30%;
   width: 30%;
   z-index: 5;
-  //background: $lightBlue;
   border-radius: 15px;
   mat-icon{
     cursor: pointer;

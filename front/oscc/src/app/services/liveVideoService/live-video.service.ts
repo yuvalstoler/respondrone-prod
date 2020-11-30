@@ -3,16 +3,18 @@ import {ASYNC_RESPONSE, VIDEO_DATA} from '../../../../../../classes/typings/all.
 import {CanvasClass} from '../tagsService/CanvasClass';
 import {MAP} from '../../../types';
 import {EventHandler} from '../tagsService/eventHandler';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LiveVideoService {
 
-  primaryDomID: string = 'primaryCanvasDomID';
+  primaryDomID: string = 'canvasDomID';
   canvases: { [key: number]: CanvasClass } = {};
   image: MAP<any> = {};
   allDataForCanvas: any = undefined;
+  resizeVideoSize$: BehaviorSubject<{width: number, height: number}> = new BehaviorSubject<{width: number, height: number}>(undefined);
 
   videoSource = {video: 'http://localhost:6101/api/file/catVideo1.mov'};
   videoData: VIDEO_DATA = {
@@ -58,8 +60,14 @@ export class LiveVideoService {
   public createImageMain = (data: any, domID: string = this.primaryDomID) => {
     if (data) {
       this.buildAllDataObject();
-      const imageSize = {width: this.videoData.width, height: this.videoData.height};
-      this.canvases[domID].createImageMain(imageSize, this.allDataForCanvas);
+      // if (this.resizeVideoSize$.getValue() !== undefined) {
+      //   this.resizeVideoSize$.subscribe((sizeVideoContainer) => {
+      //     this.canvases[domID].createImageMain(sizeVideoContainer, this.allDataForCanvas);
+      //   });
+      // } else {
+      //   const videoSizeFromServer = {width: this.videoData.width, height: this.videoData.height};
+      //   this.canvases[domID].createImageMain(videoSizeFromServer, this.allDataForCanvas);
+      // }
     }
   };
 

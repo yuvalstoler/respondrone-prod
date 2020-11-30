@@ -25,25 +25,65 @@ export class CanvasClass {
     this.canvasContainer = <HTMLCanvasElement>document.getElementById(this.containerDomID);
     this.canvas.options = {domID: this.domID};
     this.ctx = this.canvas.getContext('2d');
-    console.log(this.canvas);
   };
 
-  public createImageMain = (imageSize, allData: any) => {
+  public createImageMain = (sizeVideoContainer, allData: any) => {
+    let factor = 1;
     if (this.containerDomID) {
+
+      this.setCanvasMeasurements(sizeVideoContainer.height, sizeVideoContainer.width);
+
       this.resolution = [this.canvas.width, this.canvas.height];
+
       const f0 = (this.canvasContainer.clientHeight) / this.ctx.canvas.height;
       const f1 = (this.canvasContainer.clientWidth) / this.ctx.canvas.width;
-      // this.canvas.width = imageSize.width;
-      // this.canvas.height = imageSize.height;
-      this.drawAllDataOnCanvas(allData);
+      factor = Math.min(f0, f1);
+
+      this.drawAllDataOnCanvas(allData, factor);
+      console.log(factor);
+      // };
     }
   };
 
-  private drawAllDataOnCanvas = (allData: any) => {
-    this.drawBlobsData(allData);
+  private setCanvasMeasurements = (height, width) => {
+    if (this.containerDomID) {
+      this.canvas.width = width;
+      this.canvas.height = height;
+      this.canvas.style.height = this.canvas.height + 'px';
+      this.canvas.style.width = this.canvas.width + 'px';
+      this.ctx.width = this.canvas.width;
+      this.ctx.height = this.canvas.height;
+
+      // console.log('canvasHeight ='  + this.canvasContainer.clientHeight, 'canvasWidth ='  + this.canvasContainer.clientWidth );
+      // console.log('ctxHeight ='  + this.ctx.canvas.height, 'ctxWidth ='  + this.ctx.canvas.width);
+    }
   };
 
-  private drawBlobsData = (allData: any) => {
+  // public zoomIn = (_factor?: number) => {
+  //   if (this.containerDomID) {
+  //     let factor = (_factor || 1);
+  //     if (!_factor || _factor === 0) {
+  //       _factor = 1;
+  //     }
+  //     if (_factor === -1) {
+  //       const f0 = (this.canvasContainer.clientHeight - 10) / this.ctx.canvas.height;
+  //       const f1 = (this.canvasContainer.clientWidth - 10) / this.ctx.canvas.width;
+  //       factor = Math.min(f0, f1);
+  //     }
+  //
+  //     if (((this.canvas.width > this.canvasContainer.clientWidth || this.canvas.height > this.canvasContainer.clientHeight) || factor > 1) &&
+  //       (this.canvas.width < (6000) || factor < 1) || _factor === -1) {
+  //       this.setCanvasMeasurements(this.canvas.height * factor, this.canvas.width * factor);
+  //       // this.callDrawFunction(true);
+  //     }
+  //   }
+  // };
+
+  private drawAllDataOnCanvas = (allData: any, factor: number) => {
+    this.drawBlobsData(allData, factor);
+  };
+
+  private drawBlobsData = (allData: any, factor: number) => {
     if (allData !== undefined &&
       Array.isArray(this.resolution) && this.resolution.length > 1 &&
       Number.isFinite(this.resolution[0]) && Number.isFinite(this.resolution[1])) {
@@ -52,23 +92,23 @@ export class CanvasClass {
       //  - draw blobs
       if (allData.hasOwnProperty('mark')) {
         allData.mark.blobs.forEach(blob => {
-          this.drawBlob(this.ctx, blob, this.resolution);
+          this.drawBlob(this.ctx, blob, factor);
         });
       }
     }
   };
 
-  public drawBlob = (ctx, blob: { id, xMin: 100, yMin: 100, xMax: 300, yMax: 400 }, resolution: POINT) => {
+  public drawBlob = (ctx, blob: { id, xMin: 100, yMin: 100, xMax: 300, yMax: 400 }, factor: number) => {
     ctx.beginPath();
     ctx.strokeStyle = '#ff00ff';
     ctx.strokeOpacity = 1;
     ctx.lineWidth = 3;
 
-    ctx.moveTo(blob.xMin, blob.yMin);
-    ctx.lineTo(blob.xMax, blob.yMin);
-    ctx.lineTo(blob.xMax, blob.yMax);
-    ctx.lineTo(blob.xMin, blob.yMax);
-    ctx.lineTo(blob.xMin, blob.yMin);
+    ctx.moveTo(blob.xMin * factor, blob.yMin * factor);
+    ctx.lineTo(blob.xMax * factor, blob.yMin * factor);
+    ctx.lineTo(blob.xMax * factor, blob.yMax * factor);
+    ctx.lineTo(blob.xMin * factor, blob.yMax * factor);
+    ctx.lineTo(blob.xMin * factor, blob.yMin * factor);
     ctx.stroke();
 
     ctx.restore();
