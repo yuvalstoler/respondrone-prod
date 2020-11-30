@@ -7,7 +7,7 @@
 
   <!--Canvas-->
   <div class="canvasContainerDom" id="canvasContainerDomID" [ngStyle]="getStyle()">
-    <video (resize)="resizeVideoWindow($event)" class="mediaContent" #videoPlayer autoplay="false" controls="controls" [ngStyle]="getStyle()">
+    <video class="mediaContent" #videoContainerDomID autoplay="false" controls="controls" >
       <source [src]='liveVideoService?.videoSource?.video'/>
     </video>
     <canvas class="canvasDom" id="canvasDomID"

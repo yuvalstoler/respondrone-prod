@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ASYNC_RESPONSE, VIDEO_DATA} from '../../../../../../classes/typings/all.typings';
+import {VIDEO_DATA} from '../../../../../../classes/typings/all.typings';
 import {CanvasClass} from '../tagsService/CanvasClass';
 import {MAP} from '../../../types';
 import {EventHandler} from '../tagsService/eventHandler';
@@ -14,7 +14,7 @@ export class LiveVideoService {
   canvases: { [key: number]: CanvasClass } = {};
   image: MAP<any> = {};
   allDataForCanvas: any = undefined;
-  resizeVideoSize$: BehaviorSubject<{width: number, height: number}> = new BehaviorSubject<{width: number, height: number}>(undefined);
+  resizeVideoSize$: BehaviorSubject<{ width: number, height: number }> = new BehaviorSubject<{ width: number, height: number }>(undefined);
 
   videoSource = {video: 'http://localhost:6101/api/file/catVideo1.mov'};
   videoData: VIDEO_DATA = {
@@ -51,23 +51,19 @@ export class LiveVideoService {
     this.canvases[this.primaryDomID] = new CanvasClass(primaryEventHandler);
   }
 
-  public createCanvas = (domID: string, containerDomID: string, editingCanvasDomID?: string) => {
-    this.canvases[domID].setDomID(domID, containerDomID, editingCanvasDomID, true);
-
-    this.createImageMain(this.videoData, domID);
+  public createCanvas = (domID: string, containerDomID: string, videoSize?) => {
+    this.canvases[domID].setDomID(domID, containerDomID, true);
+    this.getVideoData(videoSize);
   };
 
-  public createImageMain = (data: any, domID: string = this.primaryDomID) => {
+  getVideoData = (videoSize: {width: number, height: number}) => {
+    this.createImageMain(this.videoData, videoSize);
+  };
+
+  public createImageMain = (data: any, videoSize: {width: number, height: number}, domID: string = this.primaryDomID) => {
     if (data) {
       this.buildAllDataObject();
-      // if (this.resizeVideoSize$.getValue() !== undefined) {
-      //   this.resizeVideoSize$.subscribe((sizeVideoContainer) => {
-      //     this.canvases[domID].createImageMain(sizeVideoContainer, this.allDataForCanvas);
-      //   });
-      // } else {
-      //   const videoSizeFromServer = {width: this.videoData.width, height: this.videoData.height};
-      //   this.canvases[domID].createImageMain(videoSizeFromServer, this.allDataForCanvas);
-      // }
+      this.canvases[domID].createImageMain(videoSize, this.allDataForCanvas);
     }
   };
 

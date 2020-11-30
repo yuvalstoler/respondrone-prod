@@ -22,7 +22,7 @@
 
   .canvasContainerDom{
     z-index: 11 !important;
-    height: 100%;
+    height: calc(100vh - 70px);
     width: 100%;
   }
 

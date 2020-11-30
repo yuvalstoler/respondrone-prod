@@ -18,7 +18,7 @@ export class CanvasClass {
     this.img = new Image;
   }
 
-  public setDomID = (_domID: string, containerDomID: string, editingCanvasDomID?: string, isEventListen?: boolean) => {
+  public setDomID = (_domID: string, containerDomID: string, isEventListen?: boolean) => {
     this.domID = _domID;
     this.canvas = <HTMLCanvasElement>document.getElementById(this.domID);
     this.containerDomID = containerDomID;
@@ -27,17 +27,27 @@ export class CanvasClass {
     this.ctx = this.canvas.getContext('2d');
   };
 
-  public createImageMain = (sizeVideoContainer, allData: any) => {
+  public createImageMain = (sizeVideoContainer: {width: number, height: number}, allData: any) => {
     let factor = 1;
     if (this.containerDomID) {
 
-      this.setCanvasMeasurements(sizeVideoContainer.height, sizeVideoContainer.width);
+      // this.setCanvasMeasurements(sizeVideoContainer.height, sizeVideoContainer.width);
+      this.canvas.width = sizeVideoContainer.width;
+      this.canvas.height = sizeVideoContainer.height;
+      // this.resolution = [this.canvas.width, this.canvas.height];
 
-      this.resolution = [this.canvas.width, this.canvas.height];
-
+      console.log( this.canvasContainer.clientHeight, this.ctx.canvas.height);
+      console.log(this.canvasContainer.clientWidth,  this.ctx.canvas.width);
       const f0 = (this.canvasContainer.clientHeight) / this.ctx.canvas.height;
       const f1 = (this.canvasContainer.clientWidth) / this.ctx.canvas.width;
+
+
       factor = Math.min(f0, f1);
+
+      // if ( ((this.canvas.width > this.canvasContainer.clientWidth || this.canvas.height > this.canvasContainer.clientHeight) || factor > 1) &&
+      //   (this.canvas.width < (6000) || factor < 1) || factor === -1 ) {
+      //   this.setCanvasMeasurements(this.canvas.height * factor, this.canvas.width * factor);
+      // }
 
       this.drawAllDataOnCanvas(allData, factor);
       console.log(factor);
@@ -53,9 +63,6 @@ export class CanvasClass {
       this.canvas.style.width = this.canvas.width + 'px';
       this.ctx.width = this.canvas.width;
       this.ctx.height = this.canvas.height;
-
-      // console.log('canvasHeight ='  + this.canvasContainer.clientHeight, 'canvasWidth ='  + this.canvasContainer.clientWidth );
-      // console.log('ctxHeight ='  + this.ctx.canvas.height, 'ctxWidth ='  + this.ctx.canvas.width);
     }
   };
 
@@ -84,9 +91,9 @@ export class CanvasClass {
   };
 
   private drawBlobsData = (allData: any, factor: number) => {
-    if (allData !== undefined &&
+    if (allData !== undefined /*&&
       Array.isArray(this.resolution) && this.resolution.length > 1 &&
-      Number.isFinite(this.resolution[0]) && Number.isFinite(this.resolution[1])) {
+      Number.isFinite(this.resolution[0]) && Number.isFinite(this.resolution[1])*/) {
       this.allDataDetections = allData;
 
       //  - draw blobs
@@ -98,17 +105,22 @@ export class CanvasClass {
     }
   };
 
-  public drawBlob = (ctx, blob: { id, xMin: 100, yMin: 100, xMax: 300, yMax: 400 }, factor: number) => {
+  public drawBlob = (ctx, blob: { id, xMin: number, yMin: number, xMax: number, yMax: number }, factor: number) => {
     ctx.beginPath();
     ctx.strokeStyle = '#ff00ff';
     ctx.strokeOpacity = 1;
     ctx.lineWidth = 3;
 
-    ctx.moveTo(blob.xMin * factor, blob.yMin * factor);
-    ctx.lineTo(blob.xMax * factor, blob.yMin * factor);
-    ctx.lineTo(blob.xMax * factor, blob.yMax * factor);
-    ctx.lineTo(blob.xMin * factor, blob.yMax * factor);
-    ctx.lineTo(blob.xMin * factor, blob.yMin * factor);
+    const xMin = blob.xMin * factor;
+    const xMax = blob.xMax * factor;
+    const yMin = blob.yMin * factor;
+    const yMax = blob.yMax * factor;
+
+    ctx.moveTo(xMin, yMin);
+    ctx.lineTo(xMax, yMin);
+    ctx.lineTo(xMax, yMax);
+    ctx.lineTo(xMin, yMax);
+    ctx.lineTo(xMin, yMin);
     ctx.stroke();
 
     ctx.restore();

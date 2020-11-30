@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {LiveVideoService} from '../../../../services/liveVideoService/live-video.service';
 import {ApplicationService} from '../../../../services/applicationService/application.service';
 import {VIDEO_OR_MAP} from '../../../../../types';
@@ -10,24 +10,38 @@ import {BehaviorSubject, Subscription} from 'rxjs';
   templateUrl: './canvas-video.component.html',
   styleUrls: ['./canvas-video.component.scss']
 })
-export class CanvasVideoComponent implements OnInit, OnDestroy {
+export class CanvasVideoComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  @ViewChild('videoContainerDomID', { static: false }) videoDiv: ElementRef;
   canvasDomID = 'canvasDomID';
   canvasContainerDomID = 'canvasContainerDomID';
   VIDEO_OR_MAP = VIDEO_OR_MAP;
+  private resizeSubscription: Subscription;
+  width;
+  height;
+
 
   constructor(public liveVideoService: LiveVideoService,
+              public resizeService: ResizeService,
               public applicationService: ApplicationService) { }
 
   ngOnInit(): void {
-    // this.resizeVideoSize$.subscribe((size) => {
-    //   this.liveVideoService.createCanvas(this.canvasDomID, this.canvasContainerDomID);
-    // });
-    this.liveVideoService.createCanvas(this.canvasDomID, this.canvasContainerDomID);
+     const canvasContainer = <HTMLCanvasElement>document.getElementById(this.canvasContainerDomID);
+     this.width = canvasContainer.clientWidth;
+     this.height = canvasContainer.clientHeight;
+    this.liveVideoService.createCanvas(this.canvasDomID, this.canvasContainerDomID,
+      {width: this.width, height: this.height});
+
+    this.resizeSubscription = this.resizeService.onResize$
+      .subscribe(size => {
+        this.width = this.videoDiv.nativeElement.offsetWidth;
+        this.height = this.videoDiv.nativeElement.offsetHeight;
+        this.liveVideoService.createCanvas(this.canvasDomID, this.canvasContainerDomID, {width: this.width, height: this.height});
+      });
   }
 
-  resizeVideoWindow = ($event) => {
-    this.liveVideoService.resizeVideoSize$.next({width: $event.target.clientWidth, height: $event.target.clientHeight});
-  };
+  ngAfterViewInit(): void {
+  }
 
   getStyle = () => {
     let style;
@@ -43,7 +57,10 @@ export class CanvasVideoComponent implements OnInit, OnDestroy {
   };
 
   ngOnDestroy() {
-
+    if (this.resizeSubscription) {
+      this.resizeSubscription.unsubscribe();
+    }
   }
+
 
 }
