@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {VIDEO_DATA} from '../../../../../../classes/typings/all.typings';
+import {ASYNC_RESPONSE, VIDEO_DATA} from '../../../../../../classes/typings/all.typings';
 import {CanvasClass} from '../tagsService/CanvasClass';
 import {MAP} from '../../../types';
 import {EventHandler} from '../tagsService/eventHandler';
@@ -16,7 +16,7 @@ export class LiveVideoService {
   allDataForCanvas: any = undefined;
   resizeVideoSize$: BehaviorSubject<{ width: number, height: number }> = new BehaviorSubject<{ width: number, height: number }>(undefined);
 
-  videoSource = {video: 'http://localhost:6101/api/file/catVideo1.mov'};
+  // videoSource = {video: 'http://localhost:6101/api/file/catVideo1.mov'};
   videoData: VIDEO_DATA = {
     // id: 1,
     width: 1598,
@@ -51,20 +51,29 @@ export class LiveVideoService {
     this.canvases[this.primaryDomID] = new CanvasClass(primaryEventHandler);
   }
 
-  public createCanvas = (domID: string, containerDomID: string, videoSize?) => {
-    this.canvases[domID].setDomID(domID, containerDomID, true);
-    this.getVideoData(videoSize);
+  public createCanvas = (domID: string, containerDomID: string, videoSize?: { width: number, height: number }) => {
+    this.canvases[domID].setDomID(domID, containerDomID, videoSize, true);
+    // this.getVideoData(videoSize);
   };
 
-  getVideoData = (videoSize: {width: number, height: number}) => {
-    this.createImageMain(this.videoData, videoSize);
-  };
+  // public createImageMain = (data: any, videoSize: {width: number, height: number}, domID: string = this.primaryDomID) => {
+  //   if (data) {
+  //     this.buildAllDataObject();
+  //     this.canvases[domID].createImageMain(videoSize, this.allDataForCanvas);
+  //   }
+  // };
 
-  public createImageMain = (data: any, videoSize: {width: number, height: number}, domID: string = this.primaryDomID) => {
-    if (data) {
+  public createImageMain = (data: ASYNC_RESPONSE<any>, domID: string = this.primaryDomID) => {
+    if (data.success) {
+      // const key = this.applicationService.selectedTrackId.sensorId;
+      // if (key) {
+      //   this.image[key] = this.image[key] || {};
+      //   this.image[key] = data.data;
+      this.image = data.data;
       this.buildAllDataObject();
-      this.canvases[domID].createImageMain(videoSize, this.allDataForCanvas);
+      this.canvases[domID].createImageMain(this.image, this.allDataForCanvas);
     }
+    // }
   };
 
   private buildAllDataObject = () => {

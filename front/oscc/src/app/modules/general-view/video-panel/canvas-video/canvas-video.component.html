@@ -7,9 +7,9 @@
 
   <!--Canvas-->
   <div class="canvasContainerDom" id="canvasContainerDomID" [ngStyle]="getStyle()">
-    <video class="mediaContent" #videoContainerDomID autoplay="false" controls="controls" >
-      <source [src]='liveVideoService?.videoSource?.video'/>
-    </video>
+    <!--<video class="mediaContent" id="mediaDomID" #videoContainerDomID autoplay="false" controls="controls" >-->
+      <!--<source [src]='liveVideoService?.videoSource?.video'/>-->
+    <!--</video>-->
     <canvas class="canvasDom" id="canvasDomID"
             [ngClass]="{'CanvasDomSmall': !applicationService.screen.showLeftPanel && applicationService?.screen?.showVideo
                    && applicationService?.selectedWindow === VIDEO_OR_MAP.video}"
@@ -17,4 +17,11 @@
       Your browser does not support the HTML canvas tag.
     </canvas>
   </div>
+  <!--<div class="canvasContainer ">-->
+    <!--<div id="primaryCanvasContainerRegistration" class="animation scroll">-->
+
+      <!--<canvas class="width-height-0 canvas" id="primaryCanvasRegistration"></canvas>-->
+    <!--</div>-->
+
+  <!--</div>-->
 </div>

@@ -18,40 +18,54 @@ export class CanvasClass {
     this.img = new Image;
   }
 
-  public setDomID = (_domID: string, containerDomID: string, isEventListen?: boolean) => {
+  public setDomID = (_domID: string, containerDomID: string, sizeVideoContainer?: {width: number, height: number},  isEventListen?: boolean) => {
     this.domID = _domID;
     this.canvas = <HTMLCanvasElement>document.getElementById(this.domID);
     this.containerDomID = containerDomID;
     this.canvasContainer = <HTMLCanvasElement>document.getElementById(this.containerDomID);
+
     this.canvas.options = {domID: this.domID};
     this.ctx = this.canvas.getContext('2d');
+    // this.setCanvasMeasurements(sizeVideoContainer.height, sizeVideoContainer.width);
   };
 
-  public createImageMain = (sizeVideoContainer: {width: number, height: number}, allData: any) => {
+  public createImageMain = (imageURL, allData: any, /*sizeVideoContainer: {width: number, height: number}*/) => {
     let factor = 1;
+    // if (this.containerDomID) {
+    //
+    //   this.setCanvasMeasurements(sizeVideoContainer.height, sizeVideoContainer.width);
+    //   // this.canvas.width = sizeVideoContainer.width;
+    //   // this.canvas.height = sizeVideoContainer.height;
+    //
+    //   // this.resolution = [this.canvas.width, this.canvas.height];
+    //
+    //   console.log( this.canvasContainer.clientHeight, this.ctx.canvas.height);
+    //   console.log(this.canvasContainer.clientWidth,  this.ctx.canvas.width);
+    //   const f0 = (this.canvasContainer.clientHeight) / this.ctx.canvas.height;
+    //   const f1 = (this.canvasContainer.clientWidth) / this.ctx.canvas.width;
+    //
+    //
+    //   factor = Math.min(f0, f1);
+    //
+    //   // if ( ((this.canvas.width > this.canvasContainer.clientWidth || this.canvas.height > this.canvasContainer.clientHeight) || factor > 1) &&
+    //   //   (this.canvas.width < (6000) || factor < 1) || factor === -1 ) {
+    //   //   this.setCanvasMeasurements(this.canvas.height * factor, this.canvas.width * factor);
+    //   // }
+    //
+    //   this.drawAllDataOnCanvas(allData, factor);
+    //   console.log(factor);
+    //   // };
+    // }
     if (this.containerDomID) {
-
-      // this.setCanvasMeasurements(sizeVideoContainer.height, sizeVideoContainer.width);
-      this.canvas.width = sizeVideoContainer.width;
-      this.canvas.height = sizeVideoContainer.height;
-      // this.resolution = [this.canvas.width, this.canvas.height];
-
-      console.log( this.canvasContainer.clientHeight, this.ctx.canvas.height);
-      console.log(this.canvasContainer.clientWidth,  this.ctx.canvas.width);
-      const f0 = (this.canvasContainer.clientHeight) / this.ctx.canvas.height;
-      const f1 = (this.canvasContainer.clientWidth) / this.ctx.canvas.width;
-
-
-      factor = Math.min(f0, f1);
-
-      // if ( ((this.canvas.width > this.canvasContainer.clientWidth || this.canvas.height > this.canvasContainer.clientHeight) || factor > 1) &&
-      //   (this.canvas.width < (6000) || factor < 1) || factor === -1 ) {
-      //   this.setCanvasMeasurements(this.canvas.height * factor, this.canvas.width * factor);
-      // }
-
-      this.drawAllDataOnCanvas(allData, factor);
-      console.log(factor);
-      // };
+      this.img.src = imageURL.image.path;
+      this.src = imageURL;
+      this.img.onload = () => {
+        this.setCanvasMeasurements(this.img.height, this.img.width);
+        // For Absolute Coordinates !!!
+        this.resolution = /*[1, 1];*/ [this.img.width, this.img.height];
+        // this.zoomInForMainImage(-1);
+        this.drawAllDataOnCanvas(allData, factor);
+      };
     }
   };
 
@@ -63,6 +77,10 @@ export class CanvasClass {
       this.canvas.style.width = this.canvas.width + 'px';
       this.ctx.width = this.canvas.width;
       this.ctx.height = this.canvas.height;
+      // if (this.stage) {
+      //   this.stage.setWidth(width);
+      //   this.stage.setHeight(height);
+      // }
     }
   };
 
@@ -87,9 +105,16 @@ export class CanvasClass {
   // };
 
   private drawAllDataOnCanvas = (allData: any, factor: number) => {
+    this.drawImage(this.ctx, this.img);
     this.drawBlobsData(allData, factor);
   };
 
+  public drawImage = (ctx, img) => {
+    if (ctx && img) {
+      ctx.drawImage(img, 0, 0, ctx.canvas.width, ctx.canvas.height);
+    }
+
+  };
   private drawBlobsData = (allData: any, factor: number) => {
     if (allData !== undefined /*&&
       Array.isArray(this.resolution) && this.resolution.length > 1 &&
