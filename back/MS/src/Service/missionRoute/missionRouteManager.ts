@@ -84,18 +84,19 @@ export class MissionRouteManager {
                                     const promiseArr = [];
                                     let promise;
                                     repData[REP_ARR_KEY.MissionRoute].forEach((missionData: MISSION_ROUTE_DATA) => {
-                                        if (missionData.lastAction === LAST_ACTION.Insert) {
-                                            const newMission = new MissionRoute(missionData);
-                                            newMission.time = Date.now();
-                                            promise = this.saveMissionInDB(newMission.toJson());
-                                            promiseArr.push(promise)
-                                        }
-                                        else if (missionData.lastAction === LAST_ACTION.Update) {
+                                        if (missionData.lastAction === LAST_ACTION.Insert || missionData.lastAction === LAST_ACTION.Update) {
                                             const existingMission = this.getMissionRouteById(missionData.id);
                                             if (existingMission) {
-                                                existingMission.setValues(missionData);
-                                                promise = this.saveMissionInDB(existingMission.toJson());
+                                                const missionRouteForSave = new MissionRoute(existingMission.toJson());
+                                                missionRouteForSave.setValues(missionData);
+                                                promise = this.saveMissionInDB(missionRouteForSave.toJson());
                                                 promiseArr.push(promise);
+                                            }
+                                            else {
+                                                const newMission = new MissionRoute(missionData);
+                                                newMission.time = Date.now();
+                                                promise = this.saveMissionInDB(newMission.toJson());
+                                                promiseArr.push(promise)
                                             }
                                         }
                                         else if (missionData.lastAction === LAST_ACTION.Delete) {

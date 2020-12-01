@@ -582,12 +582,17 @@ export type SCAN_MISSION_REQUEST = {
 export type SERVOING_MISSION_REQUEST = {
     droneId: ID_TYPE,
     targetId: ID_TYPE,
-    targetType?: 'FR' | 'VideoTarget',
+    targetType?: TARGET_TYPE,
     status: MISSION_STATUS
 }
 export type DELIVERY_MISSION_REQUEST = {
     droneId: ID_TYPE,
     status: MISSION_STATUS
+}
+
+export enum TARGET_TYPE {
+    FR = 'FR',
+    VideoTarget = 'VideoTarget',
 }
 
 
@@ -714,9 +719,9 @@ export enum COMM_RELAY_TYPE {
     Follow = 'Follow',
 }
 export enum COMM_RELAY_TYPE_TEXT {
-    Fixed = 'Fixed Point',
-    Area = 'Polygon coverage',
-    Follow = 'Priority FRs',
+    Fixed = 'Fixed location',
+    Area = 'Area coverage',
+    Follow = 'Follow FRs',
 }
 
 export enum YAW_ORIENTATION {

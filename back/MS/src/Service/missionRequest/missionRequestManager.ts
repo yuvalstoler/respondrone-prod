@@ -94,9 +94,11 @@ export class MissionRequestManager {
                                                 case LAST_ACTION.Update: {
                                                     const missionRequest = this.getMissionRequestById(missionData.id);
                                                     if (missionRequest) {
-                                                        missionRequest.setValues(missionData);
-                                                        this.checkIfToUpdateStatus(missionRequest);
-                                                        promise = this.saveMissionInDB(missionRequest.toJsonForSave());
+                                                        const missionForSave = this.newMissionRequestClass(missionRequest.missionType, missionRequest.toJsonForSave());
+                                                        delete missionData.missionType;
+                                                        missionForSave.setValues(missionData);
+                                                        this.checkIfToUpdateStatus(missionForSave);
+                                                        promise = this.saveMissionInDB(missionForSave.toJsonForSave());
                                                         promiseArr.push(promise)
                                                     }
                                                     break;
@@ -439,18 +441,18 @@ export class MissionRequestManager {
                     let  missionDataForRep = missionRequest.toJsonForRep();
                     switch (data.action) {
                         case MISSION_REQUEST_ACTION.Approve: {
-                            missionDataForRep[REP_OBJ_KEY[missionRequest.missionType]].lastAction = LAST_ACTION.Update;
+                            missionDataForRep.lastAction = LAST_ACTION.Update;
                             missionDataForRep[REP_OBJ_KEY[missionRequest.missionType]].status = MISSION_STATUS.InProgress;
                             break;
                         }
                         case MISSION_REQUEST_ACTION.Complete: {
-                            missionDataForRep[REP_OBJ_KEY[missionRequest.missionType]].lastAction = LAST_ACTION.Update;
+                            missionDataForRep.lastAction = LAST_ACTION.Update;
                             missionDataForRep[REP_OBJ_KEY[missionRequest.missionType]].status = MISSION_STATUS.Completed;
                             break;
                         }
                         case MISSION_REQUEST_ACTION.Reject:
                         case MISSION_REQUEST_ACTION.Cancel: {
-                            missionDataForRep[REP_OBJ_KEY[missionRequest.missionType]].lastAction = LAST_ACTION.Update;
+                            missionDataForRep.lastAction = LAST_ACTION.Update;
                             missionDataForRep[REP_OBJ_KEY[missionRequest.missionType]].status = MISSION_STATUS.Cancelled;
                             break;
                         }
@@ -507,7 +509,9 @@ export class MissionRequestManager {
                         }
                         else {
                             missionRequest = this.newMissionRequestClass(missionRequestData.missionType, missionRequestData);
-                            this.missionRequests.push(missionRequest)
+                            if (missionRequest) {
+                                this.missionRequests.push(missionRequest);
+                            }
                         }
                         UpdateListenersManager.updateMissionRequestListeners();
                     }
