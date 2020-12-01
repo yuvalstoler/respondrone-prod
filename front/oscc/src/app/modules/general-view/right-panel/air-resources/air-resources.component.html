@@ -16,7 +16,7 @@
                     [ngStyle]="{'cursor': 'pointer'}"
                     [matMenuTriggerFor]="missionOptions"
           >more_vert</mat-icon>
-          <mat-icon matRipple *ngIf="this.applicationService.isDialogOpen && airVehicle.operationalStatus === OPERATIONAL_STATUS.Ready" [ngStyle]="{'cursor': 'no-drop'}">more_vert</mat-icon>
+          <mat-icon matRipple *ngIf="this.applicationService.isDialogOpen && (airVehicle.operationalStatus === OPERATIONAL_STATUS.Ready || airVehicle.operationalStatus === OPERATIONAL_STATUS.OnMission)" [ngStyle]="{'cursor': 'no-drop'}">more_vert</mat-icon>
           <!--Menu mission Options-->
           <mat-menu #missionOptions="matMenu">
             <button mat-menu-item *ngIf="airVehicle.modeDefine?.data?.missionOptions.CommRelay === true"

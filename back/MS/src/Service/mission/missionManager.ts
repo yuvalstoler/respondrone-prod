@@ -82,16 +82,17 @@ export class MissionManager {
                                     let promise;
 
                                     repData[REP_ARR_KEY.Mission].forEach((missionData: MISSION_DATA) => {
-                                        if (missionData.lastAction === LAST_ACTION.Insert) {
-                                            const newMission = new Mission(missionData);
-                                            promise = this.saveMissionInDB(newMission.toJson());
-                                            promiseArr.push(promise)
-                                        }
-                                        else if (missionData.lastAction === LAST_ACTION.Update) {
+                                        if (missionData.lastAction === LAST_ACTION.Insert || missionData.lastAction === LAST_ACTION.Update) {
                                             const existingMission: Mission = this.getMissionById(missionData.id);
                                             if (existingMission) {
-                                                existingMission.setValues(missionData);
-                                                promise = this.saveMissionInDB(existingMission.toJson());
+                                                const missionForSave = new Mission(existingMission.toJson())
+                                                missionForSave.setValues(missionData);
+                                                promise = this.saveMissionInDB(missionForSave.toJson());
+                                                promiseArr.push(promise)
+                                            }
+                                            else {
+                                                const newMission = new Mission(missionData);
+                                                promise = this.saveMissionInDB(newMission.toJson());
                                                 promiseArr.push(promise)
                                             }
                                         }

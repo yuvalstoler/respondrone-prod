@@ -15,7 +15,7 @@ import {
     MISSION_DATA_UI,
     MISSION_REQUEST_ACTION_OBJ,
     MISSION_REQUEST_DATA,
-    MISSION_ROUTE_DATA,
+    MISSION_ROUTE_DATA, MISSION_TYPE,
     POINT,
 } from '../../../../../classes/typings/all.typings';
 
@@ -64,13 +64,18 @@ export class ApiManager implements IRest {
 
     private createMissionRequestFromMGW = (request: Request, response: Response) => {
         const requestBody: MISSION_REQUEST_DATA = request.body;
-        MissionRequestManager.createMissionRequestFromMGW(requestBody)
-            .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
-                response.send(data);
-            })
-            .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
-                response.send(data);
-            });
+        if (requestBody.missionType in MISSION_TYPE) {
+            MissionRequestManager.createMissionRequestFromMGW(requestBody)
+                .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                    response.send(data);
+                })
+                .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                    response.send(data);
+                });
+        }
+        else {
+            response.send({success: false, data: 'missionType is not ' + Object.values(MISSION_TYPE)})
+        }
     };
 
     private readAllMissionRequest = (request: Request, response: Response) => {

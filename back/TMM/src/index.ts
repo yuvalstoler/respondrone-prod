@@ -13,7 +13,12 @@ const services = require('./../../../../../../config/services.json');
 
 
 import {API_GENERAL, TMM_API} from '../../../classes/dataClasses/api/api_enums';
-import {ASYNC_RESPONSE, REST_ROUTER_CONFIG} from '../../../classes/typings/all.typings';
+import {
+    ASYNC_RESPONSE,
+    COLOR_PALETTE_INFRARED_CAMERA,
+    GIMBAL_DATA_TELEMETRY,
+    REST_ROUTER_CONFIG
+} from '../../../classes/typings/all.typings';
 
 
 const url_CommRelayMissionRep = services.CommRelayMissionRep.protocol + '://' + services.CommRelayMissionRep.host + ':' + services.CommRelayMissionRep.port;
@@ -119,6 +124,74 @@ export class Server {
                 servoingMissionRequest: req.body,
                 lastAction: 'Insert'
             };
+            this.send(url, obj, res);
+        });
+
+        this.app.use('/' + TMM_API.gimbalAction, (req, res) => {
+            const url = 'http://localhost:4800/Gimbals_Tel';
+            const obj: GIMBAL_DATA_TELEMETRY = {
+                "timestamp": {
+                    "timestamp": Date.now()
+                },
+                "gimbals": [
+                    {
+                        'id': '1',
+                        'droneId': '1',
+                        'AIMode': 0,
+                        'gimbalParameters': {
+                            'pitch': -10,
+                            'yaw': -10
+                        },
+                        'visibleCameraParameters': {
+                            'zoomVisibleCamera': 4
+                        },
+                        'infraredCameraParameters': {
+                            'zoomInfraredCamera': 5,
+                            'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
+                        },
+                        'trackedEntity': 0,
+                        'cameraLookAtPoint': {
+                            "lat": 40.666824,
+                            "lon": -3.596345,
+                            "alt": 0
+                        },
+                        "cameraFootprint": {
+                            "coordinates": [
+                                {
+                                    "lat": 40.668596,
+                                    "lon": -3.596757,
+                                    "alt": 0
+                                },
+                                {
+                                    "lat": 40.665925,
+                                    "lon": -3.594291,
+                                    "alt": 0
+                                },
+                                {
+                                    "lat": 40.665053,
+                                    "lon": -3.595933,
+                                    "alt": 0
+                                },
+                                {
+                                    "lat": 40.667724,
+                                    "lon": -3.598399,
+                                    "alt": 0
+                                }
+                            ]
+                        },
+                        'opticalVideoURL': 'string',
+                        'infraredVideoURL': 'string'
+                    }
+                ]
+            }
+            if (req.body.parameters.yaw) {
+                obj.gimbals[0].gimbalParameters = req.body.parameters;
+            } else if (req.body.parameters.zoomVisibleCamera) {
+                obj.gimbals[0].visibleCameraParameters = req.body.parameters;
+            } else if (req.body.parameters.zoomInfraredCamera) {
+                obj.gimbals[0].infraredCameraParameters = req.body.parameters;
+            }
+
             this.send(url, obj, res);
         });
     };
@@ -250,7 +323,7 @@ export class Server {
                 .catch((data) => {
                     console.log('err setMissionRouteActive', JSON.stringify(data));
                 })
-        }, 30000)
+        }, 20000)
     }
     // ==================
     private getRandomLat = () => {

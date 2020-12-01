@@ -8,7 +8,8 @@ import {
   COMM_RELAY_TYPE,
   DELIVERY_MISSION_REQUEST,
   FOLLOW_PATH_MISSION_REQUEST,
-  GEOPOINT3D_SHORT, ID_TYPE,
+  GEOPOINT3D_SHORT,
+  ID_TYPE,
   LAST_ACTION,
   MISSION_MODEL_UI,
   MISSION_REQUEST_ACTION_OBJ,
@@ -24,6 +25,7 @@ import {
   SCAN_MISSION_REQUEST,
   SERVOING_MISSION_REQUEST,
   SOURCE_TYPE,
+  TARGET_TYPE,
   YAW_ORIENTATION,
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
@@ -226,10 +228,14 @@ export class MissionRequestService {
   // ----------------------
   public createMissionRequest = (missionRequest: MISSION_REQUEST_DATA) => {
     this.connectionService.post('/' + API_GENERAL.general + WS_API.createMissionRequest, missionRequest)
-      .then(res => {
-        console.log(res);
+      .then((res: ASYNC_RESPONSE) => {
+        if (!res.success) {
+          this.toasterService.error({message: 'Error creating mission request ' + JSON.stringify(res.data), title: ''});
+          console.log(res);
+        }
       })
       .catch(e => {
+        this.toasterService.error({message: 'Error creating mission request ' + JSON.stringify(e), title: ''});
         console.log(e);
       });
   };
@@ -331,11 +337,7 @@ export class MissionRequestService {
   };
   // ----------------------
   private changeCoord = (coordinates: GEOPOINT3D_SHORT[]): POINT3D[] => {
-    const res: POINT3D[] = [];
-    coordinates.forEach(coord => {
-      res.push([coord.lon, coord.lat, coord.alt]);
-    });
-    return res;
+    return this.applicationService.geopoint3d_short_to_point3d_arr(coordinates);
   };
   // -----------------------
   public getById = (id: string): MISSION_REQUEST_DATA_UI => {
@@ -517,7 +519,8 @@ export class MissionRequestService {
     const servoingMissionRequest: SERVOING_MISSION_REQUEST = {
       droneId: missionModel.airResources[0],
       status: MISSION_STATUS.Pending,
-      targetId: ''                                      // TODO
+      targetId: missionModel.frIds[0],
+      targetType: TARGET_TYPE.FR
     };
     const missionRequest: MISSION_REQUEST_DATA = {
       id: undefined,

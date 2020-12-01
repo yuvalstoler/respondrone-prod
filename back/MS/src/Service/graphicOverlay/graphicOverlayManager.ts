@@ -82,16 +82,17 @@ export class GraphicOverlayManager {
                                     let promise;
 
                                     repData[REP_ARR_KEY.GraphicOverlay].forEach((missionData: GRAPHIC_OVERLAY_DATA) => {
-                                        if (missionData.lastAction === LAST_ACTION.Insert) {
-                                            const newGraphicOverlay = new GraphicOverlay(missionData);
-                                            promise = this.saveGraphicOverlayInDB(newGraphicOverlay.toJson());
-                                            promiseArr.push(promise)
-                                        }
-                                        else if (missionData.lastAction === LAST_ACTION.Update) {
+                                        if (missionData.lastAction === LAST_ACTION.Insert || missionData.lastAction === LAST_ACTION.Update) {
                                             const existingGraphicOverlay: GraphicOverlay = this.getGraphicOverlayById(missionData.id);
                                             if (existingGraphicOverlay) {
-                                                existingGraphicOverlay.setValues(missionData);
-                                                promise = this.saveGraphicOverlayInDB(existingGraphicOverlay.toJson());
+                                                const graphicOverlayForSave = new GraphicOverlay(existingGraphicOverlay.toJson())
+                                                graphicOverlayForSave.setValues(missionData);
+                                                promise = this.saveGraphicOverlayInDB(graphicOverlayForSave.toJson());
+                                                promiseArr.push(promise)
+                                            }
+                                            else {
+                                                const newGraphicOverlay = new GraphicOverlay(missionData);
+                                                promise = this.saveGraphicOverlayInDB(newGraphicOverlay.toJson());
                                                 promiseArr.push(promise)
                                             }
                                         }

@@ -34,7 +34,7 @@ export class RequestManager {
         return RequestManager.sendRestRequest(url_WS, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
     public static requestToTMM = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
-        return RequestManager.sendRestRequest(url_TMM, API_GENERAL.general + path, bodyObj, timeout_AV);
+        return RequestManager.sendRestRequest(url_TMM, path, bodyObj, timeout_AV);
     };
 
 

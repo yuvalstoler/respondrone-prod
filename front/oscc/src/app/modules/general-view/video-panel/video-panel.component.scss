@@ -191,6 +191,8 @@
   color: $white;
   z-index: 1000;
   cursor: pointer;
+  background: rgba(0,0,0,0.2);
+  border-radius: 25px;
 }
 
 .left {
