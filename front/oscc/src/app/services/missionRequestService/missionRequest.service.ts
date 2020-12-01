@@ -516,6 +516,7 @@ export class MissionRequestService {
   };
 
   createServoingMission = (missionModel: MISSION_MODEL_UI) => {
+
     const servoingMissionRequest: SERVOING_MISSION_REQUEST = {
       droneId: missionModel.airResources[0],
       status: MISSION_STATUS.Pending,
@@ -589,7 +590,7 @@ export class MissionRequestService {
         const missionRequest = this.getById(missionRequestId);
         this.applicationService.selectedMissionRequests.length = 0;
         this.applicationService.selectedMissionRequests.push(missionRequest);
-        this.changeSelected$.next(missionRequestId)
+        this.changeSelected$.next(missionRequestId);
       }, 500);
 
     }

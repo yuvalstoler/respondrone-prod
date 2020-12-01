@@ -13,7 +13,7 @@
 
     <!--Add entities by clicking on the “Add entities” button.-->
 
-  <div *ngIf="frs?.length === 0" class="DialogNotElement">
+  <div *ngIf="frs?.length === 0 && frService?.frs?.data?.length > 0" class="DialogNotElement">
     Add {{title}} by clicking on the “Add {{(title === 'Task assignees') ? 'assignees' : 'entities'}}” button.
   </div>
   <div class="tableScroll scroll">

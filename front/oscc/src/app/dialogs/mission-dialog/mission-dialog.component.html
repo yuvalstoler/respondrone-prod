@@ -190,12 +190,16 @@
           </div>
         </div>
         <!--FR Table-->
-        <div *ngIf="missionModel?.missionType === MISSION_TYPE.Servoing">
+        <div *ngIf="missionModel?.missionType === MISSION_TYPE.Servoing && !data?.idBlob">
           <small>Choose FR to follow</small>
           <div class="">
             <app-task-assignee-table (updateAssignees)="onUpdateFRs($event)" [frs]="missionModel.frs" [ids]="missionModel.frIds"
                                      [title]="'Missions entities'"></app-task-assignee-table>
           </div>
+        </div>
+        <!--idBlob-->
+        <div *ngIf="missionModel?.missionType === MISSION_TYPE.Servoing && data?.idBlob">
+          idBlob = {{data?.idBlob}}
         </div>
         <mat-action-row>
           <button (click)="nextStep(MISSION_FIELDS.location)"

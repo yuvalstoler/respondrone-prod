@@ -3,6 +3,7 @@ import {LiveVideoService} from '../../../../services/liveVideoService/live-video
 import {ApplicationService} from '../../../../services/applicationService/application.service';
 import {VIDEO_OR_MAP} from '../../../../../types';
 import {ResizeService} from '../../../../services/ResizeService/resize.service';
+// import {JSMpeg} from '@cycjimmy/jsmpeg-player';
 import {BehaviorSubject, Subscription} from 'rxjs';
 
 @Component({
@@ -12,7 +13,7 @@ import {BehaviorSubject, Subscription} from 'rxjs';
 })
 export class CanvasVideoComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild('videoContainerDomID', { static: false }) videoDiv: ElementRef;
+  @ViewChild('streaming', {static: true}) streamingcanvas: ElementRef;
   canvasDomID = 'canvasDomID';
   canvasContainerDomID = 'canvasContainerDomID';
   VIDEO_OR_MAP = VIDEO_OR_MAP;
@@ -30,18 +31,27 @@ export class CanvasVideoComponent implements OnInit, AfterViewInit, OnDestroy {
      // this.width = mediaContainer.clientWidth;
      // this.height = mediaContainer.clientHeight;
 
-    this.liveVideoService.createCanvas(this.canvasDomID, this.canvasContainerDomID,
-      /*{width: this.width, height: this.height}*/);
-
     // this.resizeSubscription = this.resizeService.onResize$
     //   .subscribe(size => {
     //     this.width = this.videoDiv.nativeElement.offsetWidth;
     //     this.height = this.videoDiv.nativeElement.offsetHeight;
     //     this.liveVideoService.createCanvas(this.canvasDomID, this.canvasContainerDomID, {width: this.width, height: this.height});
     //   });
-    const image = {image: {path: 'http://localhost:6100/api/file/1601798987270.jpg', id: '1'}};
-    this.liveVideoService.createImageMain({success: true, data: image});
 
+
+    const url = 'ws://80.250.156.232:8082/';
+    const canvas = <HTMLCanvasElement>document.getElementById('canvasDomIDvideo'); /*this.streamingcanvas.nativeElement;*/
+    console.log(canvas.clientWidth, canvas.clientHeight);
+
+    this.liveVideoService.createCanvas(this.canvasDomID, 'canvasDomIDvideo', this.canvasContainerDomID/*,
+      {width: canvas.clientWidth, height: canvas.clientHeight}*/);
+
+    const player = new JSMpeg.Player(url,
+      { canvas: canvas, autoplay: true, audio: false, loop: true , disableGl: true}
+      );
+
+    // const image = {image: {path: 'http://localhost:6100/api/file/1601798987270.jpg', id: '1'}};
+    // this.liveVideoService.createImageMain({success: true, data: player});
   }
 
   ngAfterViewInit(): void {

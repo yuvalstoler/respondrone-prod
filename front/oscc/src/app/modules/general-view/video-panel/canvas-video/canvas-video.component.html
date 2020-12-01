@@ -3,25 +3,22 @@
      !applicationService.screen.showLeftPanel &&
       applicationService?.screen?.showVideo &&
       applicationService?.selectedWindow === VIDEO_OR_MAP.video}">
-  <!--Video-->
 
   <!--Canvas-->
   <div class="canvasContainerDom" id="canvasContainerDomID" [ngStyle]="getStyle()">
     <!--<video class="mediaContent" id="mediaDomID" #videoContainerDomID autoplay="false" controls="controls" >-->
       <!--<source [src]='liveVideoService?.videoSource?.video'/>-->
     <!--</video>-->
+
+    <canvas class="canvasDom" #streaming id="canvasDomIDvideo"
+            [ngStyle]="getStyle()">
+      Your browser does not support the HTML canvas tag.
+    </canvas>
     <canvas class="canvasDom" id="canvasDomID"
-            [ngClass]="{'CanvasDomSmall': !applicationService.screen.showLeftPanel && applicationService?.screen?.showVideo
-                   && applicationService?.selectedWindow === VIDEO_OR_MAP.video}"
             [ngStyle]="getStyle()">
       Your browser does not support the HTML canvas tag.
     </canvas>
   </div>
-  <!--<div class="canvasContainer ">-->
-    <!--<div id="primaryCanvasContainerRegistration" class="animation scroll">-->
-
-      <!--<canvas class="width-height-0 canvas" id="primaryCanvasRegistration"></canvas>-->
-    <!--</div>-->
-
-  <!--</div>-->
 </div>
+<!--[ngClass]="{'CanvasDomSmall': !applicationService.screen.showLeftPanel && applicationService?.screen?.showVideo-->
+<!--&& applicationService?.selectedWindow === VIDEO_OR_MAP.video}"-->

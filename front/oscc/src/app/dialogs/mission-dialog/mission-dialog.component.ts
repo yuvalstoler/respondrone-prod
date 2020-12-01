@@ -89,7 +89,7 @@ export class MissionDialogComponent implements OnInit {
               public frService: FRService,
               public customToasterService: CustomToasterService,
               public dialogRef: MatDialogRef<MissionDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: { title: string, missionType?: MISSION_TYPE, airVehicle?: AV_DATA_UI }) {
+              @Inject(MAT_DIALOG_DATA) public data: { title: string, missionType?: MISSION_TYPE, airVehicle?: AV_DATA_UI, idBlob?: string }) {
     this.initMissionModel();
 
     // add location to model
@@ -251,7 +251,7 @@ export class MissionDialogComponent implements OnInit {
       }
       case MISSION_TYPE.Servoing: {
         // FR Table
-        if (this.missionModel.frs.length === 0) {
+        if (this.missionModel.frs.length === 0 && this.data.idBlob === undefined) {
           res = true;
         }
         break;

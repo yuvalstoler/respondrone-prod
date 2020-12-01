@@ -1,36 +1,69 @@
 import {EventHandler} from './eventHandler';
 import {POINT} from '../../../../../../classes/typings/all.typings';
+import {CanvasTools} from './canvasTools';
 
 
 export class CanvasClass {
 
   domID: string;
+  domVideoID: string;
   containerDomID: string;
+  eventHandlerEmitter: EventHandler;
+  mouseDownEventHandler: EventHandler;
+  isReviewOnly: boolean = false;
   canvas: any;
+  canvasVideo: any;
   canvasContainer: any;
   ctx: any;
+  ctx2;
   img: any;
   src: string;
   resolution: POINT;
-  allDataDetections;
+  allDataDetections: {mark: any};
+  canvasTools: CanvasTools = new CanvasTools();
 
   constructor(_eventHandlerEmitter?: EventHandler) {
     this.img = new Image;
+    if ( _eventHandlerEmitter ) {
+      this.eventHandlerEmitter = _eventHandlerEmitter;
+    }
+    else {
+      this.isReviewOnly = true;
+    }
   }
 
-  public setDomID = (_domID: string, containerDomID: string, sizeVideoContainer?: {width: number, height: number},  isEventListen?: boolean) => {
+  public setDomID = (_domID: string, _domVideoID, containerDomID: string, sizeVideoContainer?: {width: number, height: number},  isEventListen?: boolean) => {
     this.domID = _domID;
     this.canvas = <HTMLCanvasElement>document.getElementById(this.domID);
+
+    this.domVideoID = _domVideoID;
+    this.canvasVideo = <HTMLCanvasElement>document.getElementById(this.domVideoID);
+
     this.containerDomID = containerDomID;
     this.canvasContainer = <HTMLCanvasElement>document.getElementById(this.containerDomID);
-
     this.canvas.options = {domID: this.domID};
+
+    console.log(this.canvas.clientWidth, this.canvas.clientHeight);
+    // console.log(this.canvasContainer.clientWidth, this.canvasContainer.clientHeight);
+    this.ctx2 = this.canvasVideo.getContext('2d');
     this.ctx = this.canvas.getContext('2d');
-    // this.setCanvasMeasurements(sizeVideoContainer.height, sizeVideoContainer.width);
+    this.fillHandler();
+    this.canvasContainer.onmousedown = function (e) {
+      if ( e.button === 1 ) {
+        return false;
+      }
+    };
+
+    if ( isEventListen ) {
+      this.canvas.addEventListener('mousedown', this.mouseDownHandler);
+      // this.canvas.addEventListener('mousewheel', this.onWheel);
+      // this.canvas.addEventListener('mousemove', this.mouseMoveHandler);
+      // this.canvas.addEventListener('mouseup', this.mouseUpHandler);
+    }
   };
 
-  public createImageMain = (imageURL, allData: any, /*sizeVideoContainer: {width: number, height: number}*/) => {
-    let factor = 1;
+  public createImageMain = (imageURL, allData: {mark: any}, /*sizeVideoContainer: {width: number, height: number}*/) => {
+    const factor = 1;
     // if (this.containerDomID) {
     //
     //   this.setCanvasMeasurements(sizeVideoContainer.height, sizeVideoContainer.width);
@@ -57,26 +90,47 @@ export class CanvasClass {
     //   // };
     // }
     if (this.containerDomID) {
-      this.img.src = imageURL.image.path;
-      this.src = imageURL;
-      this.img.onload = () => {
-        this.setCanvasMeasurements(this.img.height, this.img.width);
+      // this.img.src = imageURL.image.path;
+      // this.src = imageURL;
+      // this.img.onload = () => {
+
+      // console.log(this.canvas.clientWidth, this.canvas.clientHeight);
+        this.setCanvasMeasurements(this.canvasVideo.clientWidth, this.canvasVideo.clientHeight);
         // For Absolute Coordinates !!!
-        this.resolution = /*[1, 1];*/ [this.img.width, this.img.height];
+        // this.resolution = /*[1, 1];*/ [this.img.width, this.img.height];
         // this.zoomInForMainImage(-1);
         this.drawAllDataOnCanvas(allData, factor);
-      };
+      // };
     }
   };
 
-  private setCanvasMeasurements = (height, width) => {
+  private setCanvasMeasurements = ( width, height) => {
+    console.log(width, height, this.canvas.clientWidth, this.canvas.clientHeight);
     if (this.containerDomID) {
+
       this.canvas.width = width;
       this.canvas.height = height;
-      this.canvas.style.height = this.canvas.height + 'px';
-      this.canvas.style.width = this.canvas.width + 'px';
-      this.ctx.width = this.canvas.width;
-      this.ctx.height = this.canvas.height;
+
+       this.canvasVideo.width = width;
+      this.canvasVideo.height = height;
+
+     this.canvasVideo.style.width = this.canvas.style.width = width + 'px';
+     this.canvasVideo.style.height = this.canvas.style.height = height + 'px';
+
+      // this.canvas.width = width;
+      // this.canvas.height = height;
+
+      // this.canvas.style.height = height + 'px';
+      // this.canvas.style.width = width + 'px';
+
+      // this.canvasContainer.width = width;
+      // this.canvasContainer.height = height;
+
+      this.ctx.width = width;
+      this.ctx.height = height;
+
+      this.ctx2.width = width;
+      this.ctx2.height = height;
       // if (this.stage) {
       //   this.stage.setWidth(width);
       //   this.stage.setHeight(height);
@@ -104,18 +158,12 @@ export class CanvasClass {
   //   }
   // };
 
-  private drawAllDataOnCanvas = (allData: any, factor: number) => {
-    this.drawImage(this.ctx, this.img);
+  private drawAllDataOnCanvas = (allData: {mark: any}, factor: number) => {
+    // this.canvasTools.drawImage(this.ctx, this.img);
     this.drawBlobsData(allData, factor);
   };
 
-  public drawImage = (ctx, img) => {
-    if (ctx && img) {
-      ctx.drawImage(img, 0, 0, ctx.canvas.width, ctx.canvas.height);
-    }
-
-  };
-  private drawBlobsData = (allData: any, factor: number) => {
+  private drawBlobsData = (allData: {mark: any}, factor: number) => {
     if (allData !== undefined /*&&
       Array.isArray(this.resolution) && this.resolution.length > 1 &&
       Number.isFinite(this.resolution[0]) && Number.isFinite(this.resolution[1])*/) {
@@ -152,10 +200,74 @@ export class CanvasClass {
 
   };
 
-  public convertXYToAbsoluteCoordinates = (ctx, point: POINT, resolution: POINT): POINT => {
-    const x = Math.round((point[0] / resolution[0]) * ctx.canvas.width);
-    const y = Math.round((point[1] / resolution[1]) * ctx.canvas.height);
-    return [x, y];
+  private fillHandler = () => {
+    // this.changeDrawingEventHandler = new EventHandler(this.domID, this.changeDrawingStateEventHandlerConfig);
+    if ( !this.isReviewOnly ) {
+      this.mouseDownEventHandler = new EventHandler(this.domID, this.mouseDownEventHandlerConfig);
+    }
   };
 
+  private mouseDownHandler = (e) => {
+    if ( e.button !== 1 ) {
+      const point = this.canvasTools.getPointFromEvent(this.ctx, e);
+      if ( !point ) {
+        return;
+      }
+       if ( this.allDataDetections &&
+        Object.keys(this.allDataDetections.mark).length > 0 &&
+        this.allDataDetections.mark.constructor === Object ) {
+        const selectedId = this.canvasTools.findObjectToSelect(this.ctx, point, this.allDataDetections.mark, this.resolution);
+        this.callEventHandler(this.eventHandlerEmitter, 'selectedBlob', selectedId);
+      }
+    }
+  };
+
+  private callEventHandler = (handler: EventHandler, _value: string | number, params?: any) => {
+    if ( !handler ) {
+      return;
+    }
+    const value = _value;
+    if ( handler.handlers.hasOwnProperty(value) ) {
+      try {
+        handler.handlers[value](params);
+      }
+      catch (e) {
+      }
+    }
+  };
+
+  // private mouseDblclickHandler = (e) => {
+  //   if ( this._drawingState === 'polygon' || this._drawingState === 'rectangle' || this._drawingState === 'point' ) {
+  //     this.callEventHandler(this.changeDrawingEventHandler, this._drawingState);
+  //
+  //     this.callDrawFunction(true);
+  //   }
+  // };
+  //
+  // private mouseClick = (e) => {
+  //
+  //   if ( this._drawingState === 'edit' && !this.currentEntityID ) {
+  //     //
+  //     const point = this.canvasTools.getPointFromEvent(this.ctx, e);
+  //     if ( this.selectedForEdit.entityID ) {
+  //       this.currentEntityID = this.selectedForEdit.entityID;
+  //     }
+  //     else {
+  //       this.selectedForEdit = {entityID: undefined, serviceRectangle: undefined};
+  //     }
+  //     this.callDrawFunction(true);
+  //   }
+  //   else {
+  //     console.log(e);
+  //   }
+  // };
+  //
+  mouseDownEventHandlerConfig = {
+    // 'point': this.editPoint,
+  };
+
+  // mouseEventHandler = {
+  //   'click': this.mouseClick,
+  //   'dblclick': this.mouseDblclickHandler,
+  // };
 }

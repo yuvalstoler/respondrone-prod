@@ -4,15 +4,11 @@
   display: flex;
   width: auto;
   height: 100%;
-  //position: absolute;
-  //top: 0;
-  //left: 0;
+
 
   & > * {
     position: absolute;
     height: calc(100vh - 70px);
-    //width: 100%;
-    //height: inherit;
   }
 
   #editingCanvas {
@@ -20,34 +16,18 @@
     position: absolute;
   }
 
-  .canvasContainerDom{
-    z-index: 11 !important;
-    height: calc(100vh - 70px);
-    width: 100%;
-  }
-
   .canvasDom {
     z-index: 12;
     display: block;
     position: absolute;
-    top: 0;
-    left: 0;
+    height: calc(100vh - 70px) !important;
+    width: auto !important;
   }
 
-  .mediaContent{
-    z-index: 10 !important;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
+  .width-height-0 {
+    height: 0;
+    width: 0;
   }
-
-  //.width-height-0 {
-  //  //height: 0;
-  //  //width: 0;
-  //  height: calc(100vh - #{$headerHeight});
-  //  width: 100vw;
-  //}
 
 }
 
