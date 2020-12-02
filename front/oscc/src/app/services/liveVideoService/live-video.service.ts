@@ -14,6 +14,7 @@ import {MissionDialogComponent} from '../../dialogs/mission-dialog/mission-dialo
 import {ApplicationService} from '../applicationService/application.service';
 import {MatDialog} from '@angular/material/dialog';
 import {MissionRequestService} from '../missionRequestService/missionRequest.service';
+import {SocketService} from "../socketService/socket.service";
 
 @Injectable({
   providedIn: 'root'
@@ -57,12 +58,14 @@ export class LiveVideoService {
 
   constructor(public applicationService: ApplicationService,
               public dialog: MatDialog,
+              private socketService: SocketService,
               public missionRequestService: MissionRequestService) {
     const primaryEventHandler = new EventHandler(this.primaryDomID, this.mouseEventHandler);
     this.canvases[this.primaryDomID] = new CanvasClass(primaryEventHandler);
-    setInterval(() => {
-      this.createImageMain({success: true, data: {}});
-    }, 1000);
+    this.socketService.connectToRoom('test').subscribe(this.createImageMain);
+    // setInterval(() => {
+    //   this.createImageMain({success: true, data: {}});
+    // }, 1000);
   }
 
   public createCanvas = (domID: string, domVideoID: string, containerDomID: string, videoSize?: { width: number, height: number }) => {
