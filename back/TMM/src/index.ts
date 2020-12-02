@@ -12,7 +12,7 @@ const request = require('request');
 const services = require('./../../../../../../config/services.json');
 
 
-import {API_GENERAL, TMM_API} from '../../../classes/dataClasses/api/api_enums';
+import {API_GENERAL, THALES_API, TMM_API} from '../../../classes/dataClasses/api/api_enums';
 import {
     ASYNC_RESPONSE,
     COLOR_PALETTE_INFRARED_CAMERA,
@@ -127,7 +127,7 @@ export class Server {
             this.send(url, obj, res);
         });
 
-        this.app.use('/' + TMM_API.gimbalAction, (req, res) => {
+        this.app.use('/' + THALES_API.gimbalAction, (req, res) => {
             const url = 'http://localhost:4800/Gimbals_Tel';
             const obj: GIMBAL_DATA_TELEMETRY = {
                 "timestamp": {
@@ -185,7 +185,8 @@ export class Server {
                 ]
             }
             if (req.body.parameters.yaw) {
-                obj.gimbals[0].gimbalParameters = req.body.parameters;
+                obj.gimbals[0].gimbalParameters.yaw += req.body.parameters.yaw;
+                obj.gimbals[0].gimbalParameters.pitch += req.body.parameters.pitch;
             } else if (req.body.parameters.zoomVisibleCamera) {
                 obj.gimbals[0].visibleCameraParameters = req.body.parameters;
             } else if (req.body.parameters.zoomInfraredCamera) {

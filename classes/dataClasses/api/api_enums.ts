@@ -23,14 +23,16 @@ export enum GS_API {
 }
 
 export enum TMM_API {
-    gimbalAction = 'gimbalAction',
-
     commRelayMissionRequest = 'commRelayMissionRequest',
     followPathMissionRequest = 'followPathMissionRequest',
     observationMissionRequest = 'observationMissionRequest',
     scanMissionRequest = 'scanMissionRequest',
     servoingMissionRequest = 'servoingMissionRequest',
     deliveryMissionRequest = 'servoingMissionRequest',
+}
+
+export enum THALES_API {
+    gimbalAction = 'gimbalAction',
 }
 
 export enum DBS_API {

@@ -117,26 +117,26 @@ export class VideoPanelComponent implements OnInit {
       switch (direction) {
         case 'left':
           gimbalAction.parameters = {
-            pitch: gimbal.gimbalParameters.pitch,
-            yaw: gimbal.gimbalParameters.yaw - this.speedModel
+            pitch: 0,
+            yaw: -this.speedModel
           };
           break;
         case 'right':
           gimbalAction.parameters = {
-            pitch: gimbal.gimbalParameters.pitch,
-            yaw: gimbal.gimbalParameters.yaw + this.speedModel
+            pitch: 0,
+            yaw: this.speedModel
           };
           break;
         case 'up':
           gimbalAction.parameters = {
-            pitch: gimbal.gimbalParameters.pitch - this.speedModel,
-            yaw: gimbal.gimbalParameters.yaw
+            pitch: -this.speedModel,
+            yaw: 0
           };
           break;
         case 'down':
           gimbalAction.parameters = {
-            pitch: gimbal.gimbalParameters.pitch + this.speedModel,
-            yaw: gimbal.gimbalParameters.yaw
+            pitch: this.speedModel,
+            yaw: 0
           };
           break;
       }

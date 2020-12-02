@@ -1,7 +1,7 @@
 import {Converting} from '../../../../../classes/applicationClasses/utility/converting';
 
 
-import {GS_API, SOCKET_ROOM, TMM_API} from '../../../../../classes/dataClasses/api/api_enums';
+import {GS_API, SOCKET_ROOM, THALES_API, TMM_API} from '../../../../../classes/dataClasses/api/api_enums';
 
 import {
     ASYNC_RESPONSE,
@@ -29,7 +29,7 @@ export class GimbalManager {
     timestamp: number;
 
     private constructor() {
-        const date = Date.now();
+       /* const date = Date.now();
         const data: GIMBAL_DATA_TELEMETRY = {
             timestamp: {
                 timestamp: 0
@@ -44,9 +44,9 @@ export class GimbalManager {
                         'yaw': -10
                     },
                     'visibleCameraParameters': {
-                        'zoomVisibleCamera': 4 /*day*/
+                        'zoomVisibleCamera': 4
                     },
-                    'infraredCameraParameters': { /*night*/
+                    'infraredCameraParameters': {
                         'zoomInfraredCamera': 5,
                         'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
                     },
@@ -68,9 +68,9 @@ export class GimbalManager {
                         'yaw': -10
                     },
                     'visibleCameraParameters': {
-                        'zoomVisibleCamera': 6 /*day*/
+                        'zoomVisibleCamera': 6
                     },
-                    'infraredCameraParameters': { /*night*/
+                    'infraredCameraParameters': {
                         'zoomInfraredCamera': 7,
                         'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
                     },
@@ -92,9 +92,9 @@ export class GimbalManager {
                         'yaw': -10
                     },
                     'visibleCameraParameters': {
-                        'zoomVisibleCamera': 5 /*day*/
+                        'zoomVisibleCamera': 5
                     },
-                    'infraredCameraParameters': { /*night*/
+                    'infraredCameraParameters': {
                         'zoomInfraredCamera': 6,
                         'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
                     },
@@ -116,7 +116,7 @@ export class GimbalManager {
                 drone.cameraLookAtPoint.lon = 9.95493 + Math.random() * (0.02 + 0.01) - 0.01;
             });
             this.onGetGimbals(data);
-        }, 1000);
+        }, 1000);*/
     }
 
     private startGetSocket = () => {
@@ -135,7 +135,7 @@ export class GimbalManager {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
 
-            RequestManager.requestToTMM(TMM_API.gimbalAction, gimbalAction)
+            RequestManager.requestToTHALES(THALES_API.gimbalAction, gimbalAction)
                 .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                     resolve(data);
                 })
