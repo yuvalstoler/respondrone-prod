@@ -58,17 +58,17 @@ export class LiveVideoService {
 
   constructor(public applicationService: ApplicationService,
               public dialog: MatDialog,
-              public missionRequestService: MissionRequestService,
-              public socketService: SocketService) {
+              private socketService: SocketService,
+              public missionRequestService: MissionRequestService) {
     const primaryEventHandler = new EventHandler(this.primaryDomID, this.mouseEventHandler);
     this.canvases[this.primaryDomID] = new CanvasClass(primaryEventHandler);
-    setInterval(() => {
-      this.createImageMain({success: true, data: {}});
-    }, 1000);
-
-    // get blobs
     this.socketService.connectToRoom('test').subscribe(this.onBlobs);
+    // setInterval(() => {
+    //   this.createImageMain({success: true, data: {}});
+    // }, 1000);
   }
+
+
 
   private onBlobs = (data: BLOB_DATA) => { //TODO change
     this.videoData.width = data.width;
@@ -78,6 +78,7 @@ export class LiveVideoService {
     });
     const a = 1;
   }
+
 
   public createCanvas = (domID: string, domVideoID: string, containerDomID: string, videoSize?: { width: number, height: number }) => {
     this.canvases[domID].setDomID(domID, domVideoID, containerDomID, videoSize, true);
