@@ -1,24 +1,26 @@
-<div class="canvasVideoContainer"
-     [ngClass]="{'CanvasContainerSmall':
+<div [ngClass]="{'CanvasContainerSmall':
      !applicationService.screen.showLeftPanel &&
       applicationService?.screen?.showVideo &&
-      applicationService?.selectedWindow === VIDEO_OR_MAP.video}">
+      applicationService?.selectedWindow === VIDEO_OR_MAP.video}"
+     class="canvasVideoContainer">
 
   <!--Canvas-->
-  <div class="canvasContainerDom" id="canvasContainerDomID" [ngStyle]="getStyle()">
-    <!--<video class="mediaContent" id="mediaDomID" #videoContainerDomID autoplay="false" controls="controls" >-->
-      <!--<source [src]='liveVideoService?.videoSource?.video'/>-->
-    <!--</video>-->
+  <div class="wrapper">
+    <div class="container">
+    <div [ngStyle]="getStyle()" class="canvasContainerDom" id="canvasContainerDomID">
 
-    <canvas class="canvasDom" #streaming id="canvasDomIDvideo"
-            [ngStyle]="getStyle()">
-      Your browser does not support the HTML canvas tag.
-    </canvas>
-    <canvas class="canvasDom" id="canvasDomID"
-            [ngStyle]="getStyle()">
-      Your browser does not support the HTML canvas tag.
-    </canvas>
+      <canvas [ngStyle]="getStyle()" class="canvasDom1" width="1024" height="640"
+              id="canvasVideoDomID">
+        Your browser does not support the HTML canvas tag.
+      </canvas>
+      <canvas [ngStyle]="getStyle()" class="canvasDom2" width="1024" height="640"
+              id="canvasBlobsDomID">
+        Your browser does not support the HTML canvas tag.
+      </canvas>
+    </div>
+    </div>
   </div>
 </div>
+
 <!--[ngClass]="{'CanvasDomSmall': !applicationService.screen.showLeftPanel && applicationService?.screen?.showVideo-->
 <!--&& applicationService?.selectedWindow === VIDEO_OR_MAP.video}"-->

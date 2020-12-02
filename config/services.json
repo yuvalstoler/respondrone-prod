@@ -170,11 +170,15 @@
     "protocol": "http"
   },
 
-
-
   "TMM": {
     "port": "3000",
     "host": "localhost",
+    "protocol": "http"
+  },
+
+  "Blobs": {
+    "port": "4000",
+    "host": "192.168.1.15",
     "protocol": "http"
   }
 }

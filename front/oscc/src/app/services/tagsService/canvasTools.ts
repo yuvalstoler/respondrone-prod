@@ -1,4 +1,4 @@
-import {POINT} from '../../../../../../classes/typings/all.typings';
+import {BLOB_DATA, POINT} from '../../../../../../classes/typings/all.typings';
 
 
 export class CanvasTools {
@@ -22,34 +22,35 @@ export class CanvasTools {
     return point;
   }
 
-  public findObjectToSelect = (ctx, clickPoint: POINT, marks: { blobs: any[] }, resolution: POINT): string => {
+  public findObjectToSelect = (ctx, clickPoint: POINT, marks: BLOB_DATA, resolution: POINT): string => {
     let res: string;
-    if (marks.hasOwnProperty('blobs') && Array.isArray(marks.blobs) && marks.blobs.length > 0) {
-      for (const key in marks.blobs) {
-        if (marks.blobs.hasOwnProperty(key)) {
-          //   const rect: any = this.convertToMinMaxWithBorder(ctx, detections[key].mark.x, detections[key].mark.y,
-          //     detections[key].mark.width, detections[key].mark.height, false);
-          //   const from = rect[0];
-          //   const to = rect[1];
-          //
-          //   const minMaxPoints: POINT[] = [from, to];
-          //
-          //   // // prepare clickPoint to absolute !!!
-          //   // const newClickPoint: POINT = this.convertPointToAbsoluteCoordinates(ctx, clickPoint, resolution); /*clickPoint;*/
-          //   // minMaxPoints compare with clickPoint
-            const isExist: boolean = this.compareIfPointExictOnObject(marks.blobs[key], clickPoint);
-            if (isExist) {
-              res = marks.blobs[key].id;
-              console.log(marks.blobs[key], res);
-              break;
-            }
+    // todo: not work with new data
+    if (marks.hasOwnProperty('bb') && Array.isArray(marks.bb) && marks.bb.length > 0) {
+      // for (const key in marks.bb) {
+      //   if (marks.bb.hasOwnProperty(key)) {
+      //       const isExist: boolean = this.compareIfPointExictOnObject(marks.blobs[key], clickPoint);
+      //       if (isExist) {
+      //         res = marks.bb[key].id;
+      //         console.log(marks.bb[key], res);
+      //         break;
+      //       }
+      //   }
+      // }
+      marks.bb.forEach(blob => {
+        if (blob.hasOwnProperty('trackBB')) {
+          const isExist: boolean = this.compareIfPointExictOnObject(blob.trackBB, clickPoint);
+          if (isExist) {
+            res = blob.trackId;
+            console.log(blob, res);
+            // break;
+          }
         }
-      }
+      });
     }
     return res;
   };
 
-  private compareIfPointExictOnObject = (minmaxPoints: any, clickPoint: POINT): boolean => {
+  private compareIfPointExictOnObject = (minmaxPoints: { xMin: number, xMax: number, yMin: number, yMax: number }, clickPoint: POINT): boolean => {
     let res = false;
 
     if (clickPoint[0] > minmaxPoints.xMin && clickPoint[0] < minmaxPoints.xMax &&

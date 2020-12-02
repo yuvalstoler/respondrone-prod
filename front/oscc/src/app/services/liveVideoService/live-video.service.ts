@@ -3,8 +3,7 @@ import {
   ASYNC_RESPONSE,
   AV_DATA_UI, BLOB_DATA,
   MISSION_MODEL_UI,
-  MISSION_TYPE,
-  VIDEO_DATA
+  MISSION_TYPE
 } from '../../../../../../classes/typings/all.typings';
 import {CanvasClass} from '../tagsService/CanvasClass';
 import {HEADER_BUTTONS, MAP} from '../../../types';
@@ -14,44 +13,53 @@ import {MissionDialogComponent} from '../../dialogs/mission-dialog/mission-dialo
 import {ApplicationService} from '../applicationService/application.service';
 import {MatDialog} from '@angular/material/dialog';
 import {MissionRequestService} from '../missionRequestService/missionRequest.service';
-import {SocketService} from "../socketService/socket.service";
+import {SocketService} from '../socketService/socket.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LiveVideoService {
 
-  primaryDomID: string = 'canvasDomID';
+  primaryDomID: string = 'canvasBlobsDomID';
   canvases: { [key: number]: CanvasClass } = {};
   image: MAP<any> = {};
-  allDataForCanvas: { mark: any } = undefined;
+  allDataForCanvas: { mark: BLOB_DATA } = undefined;
   resizeVideoSize$: BehaviorSubject<{ width: number, height: number }> = new BehaviorSubject<{ width: number, height: number }>(undefined);
 
-  videoData: VIDEO_DATA = {
+  videoData: BLOB_DATA = {
     // id: 1,
     width: 1598,
     height: 899,
-    blobs: [
+    droneGPS: { lat: 32, lon: 34, alt: 100 },
+    unixtimestamp: '111',
+    time: '111',
+    bb: [
       {
-        id: "1",
-        xMin: 0,
-        yMin: 0,
-        xMax: 300,
-        yMax: 300,
+        trackId: '1',
+        trackBB: {
+          xMin: 0,
+          xMax: 0.2,
+          yMin: 0,
+          yMax: 0.2
+        }
       },
       {
-        id: "2",
-        xMin: 500,
-        yMin: 500,
-        xMax: 600,
-        yMax: 600,
+        trackId: '2',
+        trackBB: {
+          xMin: 0.3,
+          xMax: 0.5,
+          yMin: 0.3,
+          yMax: 0.5
+        }
       },
       {
-        id: "3",
-        xMin: 200,
-        yMin: 200,
-        xMax: 700,
-        yMax: 800,
+        trackId: '3',
+        trackBB: {
+          xMin: 0.9,
+          xMax: 1,
+          yMin: 0.9,
+          yMax: 1
+        }
       }
     ]
   };
@@ -63,11 +71,11 @@ export class LiveVideoService {
     const primaryEventHandler = new EventHandler(this.primaryDomID, this.mouseEventHandler);
     this.canvases[this.primaryDomID] = new CanvasClass(primaryEventHandler);
     // this.socketService.connectToRoom('test').subscribe(this.onBlobs);
-    // setInterval(() => {
-    //   this.createImageMain({success: true, data: {}});
-    // }, 1000);
+    setInterval(() => {
+      this.createImageMain({success: true, data: {}});
+    }, 1000);
 
-    this.startGetBlobs();
+    // this.startGetBlobs();
   }
 
   startGetBlobs = () => {
@@ -75,29 +83,18 @@ export class LiveVideoService {
     let ws = new WebSocket(url);
     ws.onopen = () => {
       console.log('Connection opened!');
-    }
+    };
     ws.onmessage = ({ data }) => this.showMessage(data);
     ws.onclose = () => {
       ws = null;
       setTimeout(() => {
         this.startGetBlobs();
       }, 1000);
-    }
-  }
+    };
+  };
 
   private showMessage(message) {
-    this.onBlobs(JSON.parse(message))
-  }
-
-
-
-  private onBlobs = (data: BLOB_DATA) => { //TODO change
-    this.videoData.width = data.width;
-    this.videoData.height = data.height;
-    this.videoData.blobs = data.bb.map((obj) => {
-      return {...obj.trackBB, ...{id: obj.trackId}}
-    });
-    const a = 1;
+    this.videoData = (JSON.parse(message));
   }
 
 
@@ -107,10 +104,6 @@ export class LiveVideoService {
 
   public createImageMain = (data: ASYNC_RESPONSE<any>, domID: string = this.primaryDomID) => {
     if (data.success) {
-      // const key = this.applicationService.selectedTrackId.sensorId;
-      // if (key) {
-      //   this.image[key] = this.image[key] || {};
-      //   this.image[key] = data.data;
       this.image = data.data;
       this.buildAllDataObject();
       this.canvases[domID].createImageMain(this.image, this.allDataForCanvas);
@@ -135,6 +128,10 @@ export class LiveVideoService {
   };
 
   onMissionOptions = (missionType: MISSION_TYPE, airVehicle: AV_DATA_UI, idBlob) => {
+    // Todo: add context menu and click on menu open =>
+
+
+    // todo: {
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;
     // open panel
     this.applicationService.screen.showLeftPanel = true;
@@ -146,6 +143,7 @@ export class LiveVideoService {
     this.applicationService.screen.showVideo = false;
 
     this.openPanel('Create new mission request', MISSION_TYPE.Servoing, airVehicle, idBlob);
+    // todo: }
   };
 
   private openPanel = (title: string, missionType: MISSION_TYPE, airVehicle: AV_DATA_UI, idBlob) => {

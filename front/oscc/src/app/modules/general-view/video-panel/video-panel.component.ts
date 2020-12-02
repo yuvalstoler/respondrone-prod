@@ -4,8 +4,7 @@ import {VIDEO_OR_MAP} from '../../../../types';
 import {GimbalService} from '../../../services/gimbalService/gimbal.service';
 import {
   COLOR_PALETTE_INFRARED_CAMERA,
-  GIMBAL_ACTION,
-  VIDEO_DATA
+  GIMBAL_ACTION
 } from '../../../../../../../classes/typings/all.typings';
 
 @Component({

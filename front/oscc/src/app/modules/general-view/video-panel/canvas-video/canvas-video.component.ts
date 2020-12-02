@@ -13,9 +13,10 @@ import {BehaviorSubject, Subscription} from 'rxjs';
 })
 export class CanvasVideoComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild('streaming', {static: true}) streamingcanvas: ElementRef;
-  canvasDomID = 'canvasDomID';
+  // @ViewChild('streaming', {static: true}) streamingcanvas: ElementRef;
+  canvasBlobsDomID = 'canvasBlobsDomID';
   canvasContainerDomID = 'canvasContainerDomID';
+  canvasVideoDomID = 'canvasVideoDomID';
   VIDEO_OR_MAP = VIDEO_OR_MAP;
   // private resizeSubscription: Subscription;
   // width;
@@ -40,10 +41,10 @@ export class CanvasVideoComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     const url = 'ws://192.168.1.15:8082/';
-    const canvas = <HTMLCanvasElement>document.getElementById('canvasDomIDvideo'); /*this.streamingcanvas.nativeElement;*/
+    const canvas = <HTMLCanvasElement>document.getElementById('canvasVideoDomID'); /*this.streamingcanvas.nativeElement;*/
     // console.log(canvas.clientWidth, canvas.clientHeight);
 
-    this.liveVideoService.createCanvas(this.canvasDomID, 'canvasDomIDvideo', this.canvasContainerDomID/*,
+    this.liveVideoService.createCanvas(this.canvasBlobsDomID, this.canvasVideoDomID, this.canvasContainerDomID/*,
       {width: canvas.clientWidth, height: canvas.clientHeight}*/);
 
     const player = new JSMpeg.Player(url,
@@ -59,13 +60,13 @@ export class CanvasVideoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getStyle = () => {
     let style;
-    if (!this.applicationService.screen.showLeftPanel && this.applicationService.screen.showVideo
-      && this.applicationService.selectedWindow === VIDEO_OR_MAP.video) {
-      style = {'width': 'auto', 'height': 100 + '%'};
-    } else if (!this.applicationService.screen.showLeftPanel && this.applicationService.screen.showVideo
-      && this.applicationService.selectedWindow === VIDEO_OR_MAP.map) {
-      style = {'width': this.liveVideoService.videoData.width, 'height': this.liveVideoService.videoData.height};
-    }
+    // if (!this.applicationService.screen.showLeftPanel && this.applicationService.screen.showVideo
+    //   && this.applicationService.selectedWindow === VIDEO_OR_MAP.video) {
+    //   style = {'width': 'auto', 'height': 100 + '%'};
+    // } else if (!this.applicationService.screen.showLeftPanel && this.applicationService.screen.showVideo
+    //   && this.applicationService.selectedWindow === VIDEO_OR_MAP.map) {
+    //   style = {'width': this.liveVideoService.videoData.width, 'height': this.liveVideoService.videoData.height};
+    // }
 
     return style;
   };
