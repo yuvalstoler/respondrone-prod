@@ -263,7 +263,7 @@ export type FR_DATA_MD = {
         mapIcon: string,
         color: string,
         dotColor: string,
-        iconSize: number
+        iconSize: number,
     },
     tableData: {
         id: TABLE_DATA_MD,
@@ -326,7 +326,8 @@ export type AV_DATA_MD = {
         mapIcon: string,
         statusColor: string,
         iconSize: number,
-        gpsIcon: string
+        gpsIcon: string,
+        isDisabled: boolean,
     },
     data: {
         missionName: string,
@@ -1029,8 +1030,6 @@ export type BLOB = {
 export type BLOB_DATA = {
     time: string,
     unixtimestamp: string,
-    width: number,
-    height: number,
     bb: {
         trackId: string,
         trackBB: {

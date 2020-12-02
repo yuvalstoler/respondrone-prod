@@ -105,10 +105,7 @@ export class CanvasClass {
   };
 
   private setCanvasMeasurements = ( width, height) => {
-    console.log('canvasVideo: ', width, height);
-    console.log('canvasBlob: ', this.canvas.clientWidth, this.canvas.clientHeight);
-    console.log('ctx: ', this.ctx.width, this.ctx.height);
-    console.log('ctx2: ', this.ctx2.width, this.ctx2.height);
+    console.log(width, height, this.canvas.clientWidth, this.canvas.clientHeight);
     if (this.containerDomID) {
 
       this.canvas.width = width;

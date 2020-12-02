@@ -137,7 +137,7 @@ export class GraphicOverlayService {
         modeDefine: item.modeDefine,
         polygon: this.applicationService.geopoint3d_short_to_point3d_arr(item.shape.coordinates)
       };
-      this.mapGeneralService.drawPolygonFromServer(polygonData.polygon, polygonData.id, polygonData.title, polygonData.description);
+      this.mapGeneralService.drawPolygonFromServer(polygonData.polygon, polygonData.id, polygonData.title, polygonData.description, polygonData.modeDefine);
     }
   };
 

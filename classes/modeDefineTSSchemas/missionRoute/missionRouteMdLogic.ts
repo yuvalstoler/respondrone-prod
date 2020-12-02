@@ -18,7 +18,7 @@ export class MissionRouteMdLogic implements IModeDefine {
         const obj: MISSION_ROUTE_DATA_MD = {
             styles: {
                 isDotted: MissionRouteMdLogic.isDotted(data, missionRequest),
-                color: MissionRouteMdLogic.getColor(data)
+                color: MissionRouteMdLogic.getColor(data, missionRequest)
             },
             data: {
                 missionName: MissionRouteMdLogic.getMissionName(data, missionRequest),
@@ -29,12 +29,20 @@ export class MissionRouteMdLogic implements IModeDefine {
 
 
     private static isDotted = (data: MISSION_ROUTE_DATA_UI, missionRequest: MissionRequest): boolean => {
-        const res = (missionRequest && (missionRequest.missionStatus === MISSION_STATUS_UI.WaitingForApproval))
+        const res = (missionRequest &&
+            (missionRequest.missionStatus === MISSION_STATUS_UI.WaitingForApproval || missionRequest.missionStatus === MISSION_STATUS_UI.Pending))
         return res;
     };
 
-    private static getColor = (data: MISSION_ROUTE_DATA_UI): string => {
+    private static getColor = (data: MISSION_ROUTE_DATA_UI, missionRequest: MissionRequest): string => {
         let res: string = MDClass.colors.lightBlue;
+        if (missionRequest) {
+            if  (missionRequest.missionStatus === MISSION_STATUS_UI.Approved) {
+                res = MDClass.colors.blue;
+            } else if (missionRequest.missionStatus === MISSION_STATUS_UI.InProgress) {
+                res = MDClass.colors.orange;
+            }
+        }
         return res;
     };
 

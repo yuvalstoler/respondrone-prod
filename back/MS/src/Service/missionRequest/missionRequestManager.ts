@@ -133,6 +133,13 @@ export class MissionRequestManager {
     }
     // ------------------
     private checkIfToUpdateStatus = (missionRequest: MissionRequest) => {
+        if (missionRequest[REP_OBJ_KEY[missionRequest.missionType]].status === MISSION_STATUS.Pending) {
+            const route = MissionRouteManager.getMissionRouteByRequestId(missionRequest.id);
+            if (route) {
+                console.log('------- mission pending route exists');
+                this.onUpdateMissionRoute(route);
+            }
+        }
         if (missionRequest[REP_OBJ_KEY[missionRequest.missionType]].status === MISSION_STATUS.Completed
             && missionRequest.missionStatus !== MISSION_STATUS_UI.Completed) {
                 missionRequest.missionStatus = MISSION_STATUS_UI.Completed;
@@ -145,6 +152,7 @@ export class MissionRequestManager {
 
         if (missionRequest[REP_OBJ_KEY[missionRequest.missionType]].status === MISSION_STATUS.InProgress
             && missionRequest.missionStatus === MISSION_STATUS_UI.WaitingForApproval) {
+            console.log('4. res from rep - change to approved')
             missionRequest.missionStatus = MISSION_STATUS_UI.Approved;
             MissionRouteManager.onApproveMissionRoute()
         }
@@ -448,6 +456,7 @@ export class MissionRequestManager {
                         case MISSION_REQUEST_ACTION.Approve: {
                             missionDataForRep.lastAction = LAST_ACTION.Update;
                             missionDataForRep[REP_OBJ_KEY[missionRequest.missionType]].status = MISSION_STATUS.InProgress;
+                            console.log('3. action approve - change to inProgress')
                             break;
                         }
                         case MISSION_REQUEST_ACTION.Complete: {
@@ -518,6 +527,7 @@ export class MissionRequestManager {
                                 this.missionRequests.push(missionRequest);
                             }
                         }
+                        console.log('1. mission Saved in DB', JSON.stringify(missionRequestData));
                         UpdateListenersManager.updateMissionRequestListeners();
                     }
                     else {
@@ -537,22 +547,20 @@ export class MissionRequestManager {
     };
     // --------------------------
     private onUpdateMissionRoute = (missionRoute: MissionRoute) => {
-        console.log("onUpdateMissionRoute", JSON.stringify(missionRoute));
         const missionRequest: MissionRequest = this.getMissionRequestById(missionRoute.requestId);
         if (missionRequest) {
             if (missionRequest.missionStatus === MISSION_STATUS_UI.Pending) {
                 const missionRequestData = missionRequest.toJsonForSave()
                 missionRequestData.missionStatus = MISSION_STATUS_UI.WaitingForApproval;
                 this.saveMissionInDB(missionRequestData);
+                console.log('2.onUpdateMissionRoute change to WaitingForApproval')
             }
-            if ((missionRequest.missionStatus === MISSION_STATUS_UI.Approved || missionRequest.missionStatus === MISSION_STATUS_UI.Pending) && missionRoute.status === ROUTE_STATUS.Active) {
+            if (missionRequest.missionStatus === MISSION_STATUS_UI.Approved && missionRoute.status === ROUTE_STATUS.Active) {
                 const missionRequestData: MISSION_REQUEST_DATA = missionRequest.toJsonForSave();
                 missionRequestData.missionStatus = MISSION_STATUS_UI.InProgress;
                 this.saveMissionInDB(missionRequestData);
+                console.log('5. not used - mission approved - change status to inProgress')
             }
-        }
-        else {
-            console.log("onUpdateMissionRoute missionRequest")
         }
     }
     // --------------------------

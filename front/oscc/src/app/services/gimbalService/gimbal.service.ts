@@ -120,7 +120,7 @@ export class GimbalService {
         modeDefine: item.modeDefine,
         polygon: this.applicationService.geopoint3d_short_to_point3d_arr(item.cameraFootprint.coordinates)
       };
-      this.mapGeneralService.drawPolygonFromServer(polygonData.polygon, polygonData.id, polygonData.title, polygonData.description);
+      this.mapGeneralService.drawPolygonFromServer(polygonData.polygon, polygonData.id, polygonData.title, polygonData.description, polygonData.modeDefine);
     }
 
     if (item.lineFromAirVehicle) {
@@ -130,7 +130,7 @@ export class GimbalService {
         modeDefine: item.modeDefine,
         polyline: this.applicationService.geopoint3d_short_to_point3d_arr(item.lineFromAirVehicle)
       };
-      this.mapGeneralService.createPolyline(polylineData.polyline, polylineData.id, polylineData.description);
+      this.mapGeneralService.createPolyline(polylineData.polyline, polylineData.id, polylineData.description, polylineData.modeDefine);
     }
 
   };

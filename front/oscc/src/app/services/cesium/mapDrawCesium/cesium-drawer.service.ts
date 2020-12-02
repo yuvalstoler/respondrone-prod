@@ -294,11 +294,12 @@ export class CesiumDrawerService {
   private createIconEntity = (mapDomId: string, object: DRAW_OBJECT) => {
     const size = object.modeDefine.styles.iconSize || 45;
     const description = (object.hasOwnProperty('description')) ? object['description'] : '';
+    const image = object.modeDefine && object.modeDefine.styles && object.modeDefine.styles.mapIcon ? object.modeDefine.styles.mapIcon : '../../../../assets/markerBlue.png'
     const iconData = this.cesiumService.cesiumViewer[mapDomId].entities.add({
       position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude, object.location.altitude),
       heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
       billboard: {
-        image: /* object.modeDefine.styles.mapIcon ||*/ '../../../../assets/markerBlue.png',
+        image: image,
         width: size,
         height: size,
         rotation: Cesium.Math.toRadians(-(object['heading'] || 0))
@@ -519,7 +520,7 @@ export class CesiumDrawerService {
   };
 
   // ======== Server =======================
-  public drawPolygonFromServer = (domId: string, positions: POINT3D[], idPolygon: string, title?: string, description?: string): boolean => {
+  public drawPolygonFromServer = (domId: string, positions: POINT3D[], idPolygon: string, title?: string, description?: string, modeDefine?: any): boolean => {
     // this.deletePolygonManually(domId, idPolygon);
     let res = false;
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
@@ -532,7 +533,7 @@ export class CesiumDrawerService {
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon] =
             this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon] || {};
           this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon] =
-            this.createPolygonFromServerEntity(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon], positions, title, description);
+            this.createPolygonFromServerEntity(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon], positions, title, description, modeDefine);
           //label
           // this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.labelPolygonCE] =
           //   this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.labelPolygonCE] || {};
@@ -547,16 +548,19 @@ export class CesiumDrawerService {
     return res;
   };
 
-  private createPolygonFromServerEntity = (mapDomId: string, entityCE: any, positions: POINT3D[], title: string, description: string): {} => {
+  private createPolygonFromServerEntity = (mapDomId: string, entityCE: any, positions: POINT3D[], title: string, description: string, modeDefine: any): {} => {
     const positionCE = this.arrayPointsToCartesian3(positions);
+    const outlineColor = (modeDefine && modeDefine.styles && modeDefine.styles.color) ? this.rgbaToCesiumColor( modeDefine.styles.color) : Cesium.Color.YELLOW;
+    const fillColor = (modeDefine && modeDefine.styles && modeDefine.styles.fillColor) ?  this.rgbaToCesiumColor(modeDefine.styles.fillColor) : Cesium.Color.YELLOW.withAlpha(0.5);
     const entityData = {
       name: 'polygon',
       polygon: {
         hierarchy: positionCE,
         height: 0,
-        material: Cesium.Color.YELLOW.withAlpha(0.5),
+        material: fillColor,
         outline: true,
-        outlineColor: Cesium.Color.YELLOW
+        outlineWidth: 2,
+        outlineColor: outlineColor
       },
       position: undefined,
       heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
@@ -745,25 +749,21 @@ export class CesiumDrawerService {
 
   private createPolyline = (mapDomId: string, mapCE: any, taskPolyline: POINT[] | POINT3D[], description?: string, modeDefine?: any) => {
     const positions = this.arrayPointsToCartesian3(taskPolyline);
+    const color = (modeDefine && modeDefine.styles && modeDefine.styles.color) ? modeDefine.styles.color : this.cesiumService.colors.notSelected;
+    const material = (modeDefine && modeDefine.styles && modeDefine.styles.isDotted) ? new Cesium.PolylineDashMaterialProperty({color: color}) : this.rgbaToCesiumColor(color)
     const options = {
       name: 'Polyline',
       polyline: {
         positions: positions,
         width: 4,
-        material: this.rgbaToCesiumColor(this.cesiumService.colors.notSelected),
+        material: material,
       },
       options: {
         description: description,
       }
     }
 
-    if (modeDefine && modeDefine.styles) {
-      const color = this.rgbaToCesiumColor(modeDefine.styles.color || this.cesiumService.colors.notSelected);
-      options.polyline.material = color;
-      if (modeDefine.styles.isDotted) {
-        options.polyline.material = new Cesium.PolylineDashMaterialProperty({color: color})
-      }
-    }
+
     return this.cesiumService.cesiumViewer[mapDomId].entities.add(options);
   };
 
