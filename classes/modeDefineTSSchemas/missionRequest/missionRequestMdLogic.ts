@@ -22,7 +22,8 @@ export class MissionRequestMdLogic implements IModeDefine {
                 mapIcon: MissionRequestMdLogic.getIcon(data),
                 textColor: MissionRequestMdLogic.getTextColor(data),
                 dotColor: MissionRequestMdLogic.getDotColor(data),
-                iconSize: this.getIconSize(data)
+                iconSize: this.getIconSize(data),
+                color: undefined,fillColor: undefined
             },
             tableData: MissionRequestMdLogic.tableData(data),
             data: {

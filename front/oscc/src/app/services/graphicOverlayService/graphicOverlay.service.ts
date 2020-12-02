@@ -11,7 +11,7 @@ import {
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {DRAW_LABEL, ICON_DATA} from "../../../types";
+import {DRAW_LABEL, ICON_DATA, POLYGON_DATA} from "../../../types";
 import {API_GENERAL, WS_API} from "../../../../../../classes/dataClasses/api/api_enums";
 import {ApplicationService} from "../applicationService/application.service";
 
@@ -130,8 +130,14 @@ export class GraphicOverlayService {
     }
 
     if (item.shape && item.shape.coordinates) {
-      const polygon: POINT3D[] = this.applicationService.geopoint3d_short_to_point3d_arr(item.shape.coordinates);
-      this.mapGeneralService.drawPolygonFromServer(polygon, item.id, item.Type, undefined);
+      const polygonData: POLYGON_DATA = {
+        id: item.id,
+        title: undefined,
+        description: undefined,
+        modeDefine: item.modeDefine,
+        polygon: this.applicationService.geopoint3d_short_to_point3d_arr(item.shape.coordinates)
+      };
+      this.mapGeneralService.drawPolygonFromServer(polygonData.polygon, polygonData.id, polygonData.title, polygonData.description);
     }
   };
 

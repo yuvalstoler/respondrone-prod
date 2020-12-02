@@ -103,17 +103,17 @@
 
   "FRTelemetryReceiverRep": {
     "port": "4702",
-    "host": "localhost",
+    "host": "20.71.141.60",
     "protocol": "http"
   },
   "DroneTelemetrySenderRep": {
     "port": "4704",
-    "host": "localhost",
+    "host": "20.71.141.60",
     "protocol": "http"
   },
   "GimbalTelemetrySenderRep": {
-    "port": "4702",
-    "host": "localhost",
+    "port": "4706",
+    "host": "20.71.141.60",
     "protocol": "http"
   },
 
@@ -121,60 +121,75 @@
 
   "CommRelayMissionRep": {
     "port": "4600",
-    "host": "localhost",
+    "host": "20.71.141.60",
     "protocol": "http"
   },
   "PatrolMissionRep": {
     "port": "4601",
-    "host": "localhost",
+    "host": "20.71.141.60",
     "protocol": "http"
   },
   "GraphicOverlayRep": {
     "port": "4602",
-    "host": "localhost",
+    "host": "20.71.141.60",
     "protocol": "http"
   },
   "MissionRouteRep": {
     "port": "4603",
-    "host": "localhost",
+    "host": "20.71.141.60",
     "protocol": "http"
   },
   "MissionRep": {
     "port": "4604",
-    "host": "localhost",
+    "host": "20.71.141.60",
     "protocol": "http"
   },
   "NFZRep": {
     "port": "4605",
-    "host": "localhost",
+    "host": "20.71.141.60",
     "protocol": "http"
   },
   "ObservationMissionRep": {
     "port": "4606",
-    "host": "localhost",
+    "host": "20.71.141.60",
     "protocol": "http"
   },
   "ScanMissionRep": {
     "port": "4607",
-    "host": "localhost",
+    "host": "20.71.141.60",
     "protocol": "http"
   },
   "ServoingMissionRep": {
     "port": "4608",
-    "host": "localhost",
+    "host": "20.71.141.60",
     "protocol": "http"
   },
   "DeliveryMissionRep": {
     "port": "4609",
-    "host": "localhost",
+    "host": "20.71.141.60",
     "protocol": "http"
   },
 
 
 
-  "TMM": {
+  "TMM2": {
     "port": "3000",
     "host": "localhost",
+    "protocol": "http"
+  },
+  "TMM": {
+    "port": "",
+    "host": "tmm.respondev.eu/api",
+    "protocol": "https"
+  },
+  "THALES2": {
+    "port": "3000",
+    "host": "localhost",
+    "protocol": "http"
+  },
+  "THALES": {
+    "port": "40001",
+    "host": "23.97.135.79",
     "protocol": "http"
   }
 }

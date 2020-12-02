@@ -18,7 +18,8 @@ export class GraphicOverlayMdLogic implements IModeDefine {
         const obj: GRAPHIC_OVERLAY_DATA_MD = {
             styles: {
                 mapIcon: GraphicOverlayMdLogic.getIcon(data),
-                polygonColor: GraphicOverlayMdLogic.getColor(data),
+                color: GraphicOverlayMdLogic.getColor(data),
+                fillColor: GraphicOverlayMdLogic.getFillColor(data),
                 iconSize: this.getIconSize(data)
             },
         };
@@ -33,6 +34,11 @@ export class GraphicOverlayMdLogic implements IModeDefine {
 
     private static getColor = (data: GRAPHIC_OVERLAY_DATA_UI): string => {
         let res: string = MDClass.colors.lightBlue;
+        return res;
+    };
+
+    private static getFillColor = (data: GRAPHIC_OVERLAY_DATA_UI): string => {
+        let res: string = 'rgba(0,0,0,0)';
         return res;
     };
 

@@ -353,9 +353,17 @@ export type GIMBAL_DATA = {
     infraredVideoURL: string;
 }
 export type GIMBAL_DATA_UI = GIMBAL_DATA & {
-    modeDefine: any,
+    modeDefine: GIMBAL_DATA_MD,
     lineFromAirVehicle: GEOPOINT3D_SHORT[]
 };
+export type GIMBAL_DATA_MD = {
+    styles: {
+        mapIcon: string,
+        iconSize: number,
+        color: string,
+        fillColor: string
+    }
+}
 
 export type MISSION_MODEL_UI = {
     missionType: MISSION_TYPE,
@@ -526,7 +534,9 @@ export type MISSION_REQUEST_DATA_MD = {
         mapIcon: string,
         textColor: string,
         dotColor: string,
-        iconSize: number
+        iconSize: number,
+        color: string,
+        fillColor: string
     },
     tableData: {
         id: TABLE_DATA_MD,
@@ -679,7 +689,8 @@ export type GRAPHIC_OVERLAY_DATA_MD = {
     styles: {
         mapIcon: string;
         iconSize: number;
-        polygonColor: string;
+        color: string;
+        fillColor: string;
     }
 }
 export enum GRAPHIC_OVERLAY_COLOR {

@@ -83,15 +83,15 @@ export class GimbalService {
   // ----------------------
   private removeFromMap = (item: GIMBAL_DATA_UI) => {
     if (item.cameraLookAtPoint) {
-      this.mapGeneralService.deleteIcon(item.id);
+      this.mapGeneralService.deleteIcon('cameraLookAtPoint' + item.id);
     }
 
     if (item.cameraFootprint) {
-      this.mapGeneralService.deletePolygonManually(item.id);
+      this.mapGeneralService.deletePolygonManually('cameraFootprint' + item.id);
     }
 
     if (item.lineFromAirVehicle) {
-      this.mapGeneralService.deletePolylineFromMap(item.id);
+      this.mapGeneralService.deletePolylineFromMap('lineFromAirVehicle' + item.id);
     }
   }
   // ----------------------

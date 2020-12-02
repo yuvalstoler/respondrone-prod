@@ -148,6 +148,11 @@ export class MissionRequestManager {
             missionRequest.missionStatus = MISSION_STATUS_UI.Approved;
             MissionRouteManager.onApproveMissionRoute()
         }
+        if (missionRequest[REP_OBJ_KEY[missionRequest.missionType]].status === MISSION_STATUS.InProgress
+            && missionRequest.missionStatus === MISSION_STATUS_UI.Approved) {
+            missionRequest.missionStatus = MISSION_STATUS_UI.InProgress;
+            MissionRouteManager.onApproveMissionRoute()
+        }
     }
     // ------------------
     private getMissionRequestsFromDBS = (): Promise<ASYNC_RESPONSE<MISSION_REQUEST_DATA[]>> => {
@@ -532,6 +537,7 @@ export class MissionRequestManager {
     };
     // --------------------------
     private onUpdateMissionRoute = (missionRoute: MissionRoute) => {
+        console.log("onUpdateMissionRoute", JSON.stringify(missionRoute));
         const missionRequest: MissionRequest = this.getMissionRequestById(missionRoute.requestId);
         if (missionRequest) {
             if (missionRequest.missionStatus === MISSION_STATUS_UI.Pending) {
@@ -539,11 +545,14 @@ export class MissionRequestManager {
                 missionRequestData.missionStatus = MISSION_STATUS_UI.WaitingForApproval;
                 this.saveMissionInDB(missionRequestData);
             }
-            if (missionRequest.missionStatus === MISSION_STATUS_UI.Approved && missionRoute.status === ROUTE_STATUS.Active) {
+            if ((missionRequest.missionStatus === MISSION_STATUS_UI.Approved || missionRequest.missionStatus === MISSION_STATUS_UI.Pending) && missionRoute.status === ROUTE_STATUS.Active) {
                 const missionRequestData: MISSION_REQUEST_DATA = missionRequest.toJsonForSave();
                 missionRequestData.missionStatus = MISSION_STATUS_UI.InProgress;
                 this.saveMissionInDB(missionRequestData);
             }
+        }
+        else {
+            console.log("onUpdateMissionRoute missionRequest")
         }
     }
     // --------------------------

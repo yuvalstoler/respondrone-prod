@@ -47,7 +47,7 @@ export class AirVehicleService {
         const index = this.airVehicles.data.findIndex(d => d.id === av.id);
         this.airVehicles.data.splice(index, 1);
         //TODO: delete data from MAP
-        this.mapGeneralService.deleteIcon(av.id);
+        this.mapGeneralService.deleteIcon('av' + av.id);
       });
     }
   };
@@ -82,7 +82,8 @@ export class AirVehicleService {
       id: 'av' + av.id,
       description: undefined,
       modeDefine: av.modeDefine,
-      location: av.location
+      location: av.location,
+      heading: av.heading
     };
     this.mapGeneralService.createIcon(iconData, label);
   };
@@ -94,7 +95,8 @@ export class AirVehicleService {
       id: 'av' + av.id,
       description: undefined,
       modeDefine: av.modeDefine,
-      location: av.location
+      location: av.location,
+      heading: av.heading
     };
     this.mapGeneralService.updateIcon(iconData, label);
   };

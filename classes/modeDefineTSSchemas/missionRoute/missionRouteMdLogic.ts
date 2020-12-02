@@ -29,7 +29,7 @@ export class MissionRouteMdLogic implements IModeDefine {
 
 
     private static isDotted = (data: MISSION_ROUTE_DATA_UI, missionRequest: MissionRequest): boolean => {
-        const res = (!missionRequest || !(missionRequest.missionStatus === MISSION_STATUS_UI.Approved))
+        const res = (missionRequest && (missionRequest.missionStatus === MISSION_STATUS_UI.WaitingForApproval))
         return res;
     };
 
