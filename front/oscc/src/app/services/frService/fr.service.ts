@@ -10,7 +10,7 @@ import {
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {DRAW_LABEL} from '../../../types';
+import {DRAW_LABEL, ICON_DATA} from '../../../types';
 
 
 @Injectable({
@@ -73,11 +73,23 @@ export class FRService {
   // ----------------------
   private drawFR = (fr: FR_DATA_UI) => {
     const label: DRAW_LABEL = {text: fr.callSign, color: _.get(fr, 'modeDefine.styles.color')};
+    const iconData: ICON_DATA = {
+      id: 'fr' + fr.id,
+      description: undefined,
+      modeDefine: fr.modeDefine,
+      location: fr.location
+    };
     this.mapGeneralService.createIcon(fr, label);
   };
   // ----------------------
   private updateFR = (fr: FR_DATA_UI) => {
     const label: DRAW_LABEL = {text: fr.callSign, color: _.get(fr, 'modeDefine.styles.color')};
+    const iconData: ICON_DATA = {
+      id: 'fr' + fr.id,
+      description: undefined,
+      modeDefine: fr.modeDefine,
+      location: fr.location
+    };
     this.mapGeneralService.updateIcon(fr, label);
   };
   // -----------------------

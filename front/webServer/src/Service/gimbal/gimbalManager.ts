@@ -4,10 +4,19 @@ import {
     AV_DATA_TELEMETRY_REP,
     GIMBAL_DATA_UI,
     AV_OPTIONS,
-    CAPABILITY, GIMBAL_DATA, GIMBAL_DATA_TELEMETRY,
-    ID_TYPE, MISSION_TYPE,
+    CAPABILITY,
+    GIMBAL_DATA,
+    GIMBAL_DATA_TELEMETRY,
+    ID_TYPE,
+    MISSION_TYPE,
     OPERATIONAL_STATUS,
-    SOCKET_IO_CLIENT_TYPES, GIMBAL_ACTION, ASYNC_RESPONSE, MISSION_REQUEST_DATA, REPORT_DATA
+    SOCKET_IO_CLIENT_TYPES,
+    GIMBAL_ACTION,
+    ASYNC_RESPONSE,
+    MISSION_REQUEST_DATA,
+    REPORT_DATA,
+    GEOPOINT3D_SHORT,
+    BLOB_DATA
 } from '../../../../../classes/typings/all.typings';
 import {SocketIO} from '../../websocket/socket.io';
 import {GS_API, MS_API, SOCKET_ROOM} from "../../../../../classes/dataClasses/api/api_enums";
@@ -24,6 +33,7 @@ import {FollowPathMissionRequest} from "../../../../../classes/dataClasses/missi
 import {DeliveryMissionRequest} from "../../../../../classes/dataClasses/missionRequest/deliveryMissionRequest";
 import {RequestManager} from "../../AppService/restConnections/requestManager";
 import {AirVehicleManager} from "../airVehicle/airVehicleManager";
+import {GimbalMdLogic} from "../../../../../classes/modeDefineTSSchemas/gimbals/gimbalMdLogic";
 
 const _ = require('lodash');
 
@@ -37,11 +47,55 @@ export class GimbalManager {
     gimbals: Gimbal[] = [];
 
     private constructor() {
-
+        /*setInterval(() => {
+            const aa: BLOB_DATA = {
+                time: "string",
+                unixtimestamp: "string",
+                width: 1598,
+                height: 899,
+                bb: [
+                    {
+                        trackId: "1",
+                        trackBB: {
+                            xMin: 0,
+                            yMin: 0,
+                            xMax: 300,
+                            yMax: 300,
+                        }
+                    },
+                    {
+                        trackId: "2",
+                        trackBB: {
+                            xMin: 500,
+                            yMin: 500,
+                            xMax: 600,
+                            yMax: 600,
+                        }
+                    },
+                    {
+                        trackId: "3",
+                        trackBB: {
+                            xMin: 200,
+                            yMin: 200,
+                            xMax: 700,
+                            yMax: 800,
+                        }
+                    }
+                ],
+                droneGPS: {lat:0 , lon:0, alt:0}
+            }
+            SocketIO.emit('test', aa);
+        }, 5000)*/
     }
 
     private startGetSocket = () => {
         SocketIOClient.addToSortConfig(SOCKET_IO_CLIENT_TYPES.GS, this.gimbalsSocketConfig);
+
+        SocketIOClient.addToSortConfig(SOCKET_IO_CLIENT_TYPES.VideoServer, {
+            'test': (data) => {
+                SocketIO.emit('test', data);
+            },
+        });
     }
 
     private onGetGimbals = (data: GIMBAL_DATA_TELEMETRY) => {
@@ -64,14 +118,14 @@ export class GimbalManager {
     private getDataForUI = (): GIMBAL_DATA_UI[] => {
         const res: GIMBAL_DATA_UI[] = [];
         this.gimbals.forEach((gimbal: Gimbal) => {
-            const avDataUI: GIMBAL_DATA_UI = gimbal.toJsonForUI();
-           avDataUI.modeDefine = {styles: {}}// gimbal.modeDefine = AirVehicleMdLogic.validate(avDataUI);
+            const dataUI: GIMBAL_DATA_UI = gimbal.toJsonForUI();
+            dataUI.modeDefine = GimbalMdLogic.validate(dataUI);
             const airVehicle = AirVehicleManager.getAVById(gimbal.droneId);
             if (airVehicle) {
-                avDataUI.lineFromAirVehicle = [avDataUI.cameraLookAtPoint, airVehicle.location]
+                dataUI.lineFromAirVehicle = [dataUI.cameraLookAtPoint, airVehicle.location]
             }
 
-            res.push(avDataUI);
+            res.push(dataUI);
         });
         return res;
     };
@@ -100,6 +154,7 @@ export class GimbalManager {
     private gimbalsSocketConfig: {} = {
         [SOCKET_ROOM.Gimbals_Tel_room]: this.onGetGimbals,
     };
+
 
 
     // region API uncions

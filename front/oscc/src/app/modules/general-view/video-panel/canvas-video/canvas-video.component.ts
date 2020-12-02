@@ -39,7 +39,7 @@ export class CanvasVideoComponent implements OnInit, AfterViewInit, OnDestroy {
     //   });
 
 
-    const url = 'ws://80.250.156.232:8082/';
+    const url = 'ws://192.168.1.15:8082/';
     const canvas = <HTMLCanvasElement>document.getElementById('canvasDomIDvideo'); /*this.streamingcanvas.nativeElement;*/
     console.log(canvas.clientWidth, canvas.clientHeight);
 

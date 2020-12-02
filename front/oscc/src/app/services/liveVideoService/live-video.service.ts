@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {
   ASYNC_RESPONSE,
-  AV_DATA_UI,
+  AV_DATA_UI, BLOB_DATA,
   MISSION_MODEL_UI,
   MISSION_TYPE,
   VIDEO_DATA
@@ -14,6 +14,7 @@ import {MissionDialogComponent} from '../../dialogs/mission-dialog/mission-dialo
 import {ApplicationService} from '../applicationService/application.service';
 import {MatDialog} from '@angular/material/dialog';
 import {MissionRequestService} from '../missionRequestService/missionRequest.service';
+import {SocketService} from "../socketService/socket.service";
 
 @Injectable({
   providedIn: 'root'
@@ -32,21 +33,21 @@ export class LiveVideoService {
     height: 899,
     blobs: [
       {
-        id: 1,
+        id: "1",
         xMin: 0,
         yMin: 0,
         xMax: 300,
         yMax: 300,
       },
       {
-        id: 2,
+        id: "2",
         xMin: 500,
         yMin: 500,
         xMax: 600,
         yMax: 600,
       },
       {
-        id: 3,
+        id: "3",
         xMin: 200,
         yMin: 200,
         xMax: 700,
@@ -57,12 +58,25 @@ export class LiveVideoService {
 
   constructor(public applicationService: ApplicationService,
               public dialog: MatDialog,
-              public missionRequestService: MissionRequestService) {
+              public missionRequestService: MissionRequestService,
+              public socketService: SocketService) {
     const primaryEventHandler = new EventHandler(this.primaryDomID, this.mouseEventHandler);
     this.canvases[this.primaryDomID] = new CanvasClass(primaryEventHandler);
     setInterval(() => {
       this.createImageMain({success: true, data: {}});
     }, 1000);
+
+    // get blobs
+    this.socketService.connectToRoom('test').subscribe(this.onBlobs);
+  }
+
+  private onBlobs = (data: BLOB_DATA) => { //TODO change
+    this.videoData.width = data.width;
+    this.videoData.height = data.height;
+    this.videoData.blobs = data.bb.map((obj) => {
+      return {...obj.trackBB, ...{id: obj.trackId}}
+    });
+    const a = 1;
   }
 
   public createCanvas = (domID: string, domVideoID: string, containerDomID: string, videoSize?: { width: number, height: number }) => {

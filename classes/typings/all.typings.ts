@@ -348,6 +348,7 @@ export type GIMBAL_DATA = {
     infraredCameraParameters: INFRARED_CAMERA_PARAMS;
     trackedEntity: number;
     cameraLookAtPoint: GEOPOINT3D_SHORT;
+    cameraFootprint: {coordinates: GEOPOINT3D_SHORT[]};
     opticalVideoURL: string;
     infraredVideoURL: string;
 }
@@ -992,6 +993,7 @@ export enum SOCKET_IO_CLIENT_TYPES {
     FRS = 'FRS',
     MS = 'MS',
     GS = 'GS',
+    VideoServer = 'VideoServer'
 }
 
 export enum SOCKET_CLIENT_TYPES {
@@ -1006,9 +1008,26 @@ export type VIDEO_DATA = {
     blobs: BLOB[]
 }
 export type BLOB = {
-    id: number,
+    id: string,
     xMin: number,
     xMax: number,
     yMin: number,
     yMax: number,
+}
+
+export type BLOB_DATA = {
+    time: string,
+    unixtimestamp: string,
+    width: number,
+    height: number,
+    bb: {
+        trackId: string,
+        trackBB: {
+            xMin: number,
+            xMax: number,
+            yMin: number,
+            yMax: number,
+        }
+    }[],
+    droneGPS: GEOPOINT3D_SHORT
 }

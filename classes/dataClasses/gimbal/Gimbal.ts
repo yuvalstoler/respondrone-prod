@@ -24,6 +24,7 @@ export class Gimbal {
     infraredCameraParameters: INFRARED_CAMERA_PARAMS;
     trackedEntity: number;
     cameraLookAtPoint: GEOPOINT3D_SHORT;
+    cameraFootprint: {coordinates: GEOPOINT3D_SHORT[]}
     opticalVideoURL: string;
     infraredVideoURL: string;
 
@@ -67,6 +68,9 @@ export class Gimbal {
     private setCameraLookAtPoint = (data: any) => {
         this.cameraLookAtPoint = data;
     };
+    private setCameraFootprint = (data: any) => {
+        this.cameraFootprint = data;
+    };
     private setOpticalVideoURL = (data: any) => {
         this.opticalVideoURL = data;
     };
@@ -106,6 +110,7 @@ export class Gimbal {
             infraredCameraParameters: this.infraredCameraParameters,
             trackedEntity: this.trackedEntity,
             cameraLookAtPoint: this.cameraLookAtPoint,
+            cameraFootprint: this.cameraFootprint,
             opticalVideoURL: this.opticalVideoURL,
             infraredVideoURL: this.infraredVideoURL,
 
@@ -123,6 +128,7 @@ export class Gimbal {
         infraredCameraParameters: this.setInfraredCameraParameters,
         trackedEntity: this.setTrackedEntity,
         cameraLookAtPoint: this.setCameraLookAtPoint,
+        cameraFootprint: this.setCameraFootprint,
         opticalVideoURL: this.setOpticalVideoURL,
         infraredVideoURL: this.setInfraredVideoURL,
     };

@@ -20,6 +20,10 @@ export class SocketIOClient {
         this.sockets[SOCKET_IO_CLIENT_TYPES.FRS] = io(FRSServiceURL, {autoConnect: true});
         this.sockets[SOCKET_IO_CLIENT_TYPES.MS] = io(MServiceURL, {autoConnect: true});
         this.sockets[SOCKET_IO_CLIENT_TYPES.GS] = io(GServiceURL, {autoConnect: true});
+        this.sockets[SOCKET_IO_CLIENT_TYPES.VideoServer] = io('http://192.168.1.15:3000', {autoConnect: true});
+        this.sockets[SOCKET_IO_CLIENT_TYPES.VideoServer].on('connect', () => {
+            console.log('video socket connected')
+        })
     }
 
     // public static getInstance() {

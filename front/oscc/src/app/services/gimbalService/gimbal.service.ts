@@ -11,7 +11,7 @@ import {
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {DRAW_LABEL, ICON_DATA} from '../../../types';
+import {DRAW_LABEL, ICON_DATA, POLYGON_DATA, POLYLINE_DATA} from '../../../types';
 import {ApplicationService} from "../applicationService/application.service";
 import {API_GENERAL, WS_API} from "../../../../../../classes/dataClasses/api/api_enums";
 
@@ -51,6 +51,7 @@ export class GimbalService {
         const index = this.gimbals.data.findIndex(d => d.id === gimbal.id);
         this.gimbals.data.splice(index, 1);
         delete this.gimbalsByDroneId[gimbal.droneId];
+        this.removeFromMap(gimbal);
       });
     }
   };
@@ -82,11 +83,15 @@ export class GimbalService {
   // ----------------------
   private removeFromMap = (item: GIMBAL_DATA_UI) => {
     if (item.cameraLookAtPoint) {
-      this.mapGeneralService.deleteIcon('gimbal' + item.id);
+      this.mapGeneralService.deleteIcon(item.id);
+    }
+
+    if (item.cameraFootprint) {
+      this.mapGeneralService.deletePolygonManually(item.id);
     }
 
     if (item.lineFromAirVehicle) {
-      this.mapGeneralService.deletePolylineFromMap('gimbal' + item.id);
+      this.mapGeneralService.deletePolylineFromMap(item.id);
     }
   }
   // ----------------------
@@ -95,7 +100,7 @@ export class GimbalService {
     if (item.cameraLookAtPoint) {
       // TODO change
       const iconData: ICON_DATA = {
-        id: 'gimbal' + item.id,
+        id: 'cameraLookAtPoint' + item.id,
         description: undefined,
         modeDefine: item.modeDefine,
         location: {
@@ -104,18 +109,34 @@ export class GimbalService {
           altitude: item.cameraLookAtPoint.alt,
         }
       }
-
       this.mapGeneralService.createIcon(iconData);
     }
 
-    if (item.lineFromAirVehicle) {
-      const polygon: POINT3D[] = this.applicationService.geopoint3d_short_to_point3d_arr(item.lineFromAirVehicle);
-      this.mapGeneralService.createPolyline(polygon, 'gimbal' + item.id, undefined, undefined);
+    if (item.cameraFootprint) {
+      const polygonData: POLYGON_DATA = {
+        id: 'cameraFootprint' + item.id,
+        title: undefined,
+        description: undefined,
+        modeDefine: item.modeDefine,
+        polygon: this.applicationService.geopoint3d_short_to_point3d_arr(item.cameraFootprint.coordinates)
+      };
+      this.mapGeneralService.drawPolygonFromServer(polygonData.polygon, polygonData.id, polygonData.title, polygonData.description);
     }
+
+    if (item.lineFromAirVehicle) {
+      const polylineData: POLYLINE_DATA = {
+        id: 'lineFromAirVehicle' + item.id,
+        description: undefined,
+        modeDefine: item.modeDefine,
+        polyline: this.applicationService.geopoint3d_short_to_point3d_arr(item.lineFromAirVehicle)
+      };
+      this.mapGeneralService.createPolyline(polylineData.polyline, polylineData.id, polylineData.description);
+    }
+
   };
   // -----------------------
   public sendGimbalAction = (gimbalAction: GIMBAL_ACTION) => {
-    this.connectionService.post('/' + API_GENERAL.general + WS_API.gimbalAction, {})
+    this.connectionService.post('/' + API_GENERAL.general + WS_API.gimbalAction, gimbalAction)
       .then((data) => {
       })
       .catch(e => {
