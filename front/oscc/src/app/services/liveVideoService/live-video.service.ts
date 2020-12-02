@@ -62,10 +62,31 @@ export class LiveVideoService {
               public missionRequestService: MissionRequestService) {
     const primaryEventHandler = new EventHandler(this.primaryDomID, this.mouseEventHandler);
     this.canvases[this.primaryDomID] = new CanvasClass(primaryEventHandler);
-    this.socketService.connectToRoom('test').subscribe(this.onBlobs);
+    // this.socketService.connectToRoom('test').subscribe(this.onBlobs);
     // setInterval(() => {
     //   this.createImageMain({success: true, data: {}});
     // }, 1000);
+
+    this.startGetBlobs();
+  }
+
+  startGetBlobs = () => {
+    const url = 'ws://192.168.1.15:4000';
+    let ws = new WebSocket(url);
+    ws.onopen = () => {
+      console.log('Connection opened!');
+    }
+    ws.onmessage = ({ data }) => this.showMessage(data);
+    ws.onclose = () => {
+      ws = null;
+      setTimeout(() => {
+        this.startGetBlobs();
+      }, 1000);
+    }
+  }
+
+  private showMessage(message) {
+    this.onBlobs(JSON.parse(message))
   }
 
 
