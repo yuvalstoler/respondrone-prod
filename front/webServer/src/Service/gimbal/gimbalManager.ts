@@ -90,12 +90,6 @@ export class GimbalManager {
 
     private startGetSocket = () => {
         SocketIOClient.addToSortConfig(SOCKET_IO_CLIENT_TYPES.GS, this.gimbalsSocketConfig);
-
-        SocketIOClient.addToSortConfig(SOCKET_IO_CLIENT_TYPES.VideoServer, {
-            'test': (data) => {
-                SocketIO.emit('test', data);
-            },
-        });
     }
 
     private onGetGimbals = (data: GIMBAL_DATA_TELEMETRY) => {

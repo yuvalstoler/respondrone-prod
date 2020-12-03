@@ -46,7 +46,7 @@ export type YXZ = { y: number, x: number, z: number };
 export type YXZW = YXZ & { w: number };
 export type POINT = [number, number];
 // @ts-ignore
-export type POINT3D = [number, number, number? ];
+export type POINT3D = [number, number, number?];
 export type VECTOR = [POINT3D, POINT3D];
 export type RECTANGLE = [POINT3D, POINT3D, POINT3D, POINT3D];
 
@@ -72,6 +72,7 @@ export enum REPORT_TYPE {
 //     explosionReport = 'Explosion Report',
 //
 }
+
 //
 export enum EVENT_TYPE { // TODO - change data fields
 //     general = 'general',
@@ -263,14 +264,13 @@ export type FR_DATA_MD = {
         mapIcon: string,
         color: string,
         dotColor: string,
-        iconSize: number,
+        iconSize: number
     },
     tableData: {
         id: TABLE_DATA_MD,
         status: TABLE_DATA_MD,
     }
 }
-
 
 
 export type AV_DATA_TELEMETRY_REP = {
@@ -349,7 +349,7 @@ export type GIMBAL_DATA = {
     infraredCameraParameters: INFRARED_CAMERA_PARAMS;
     trackedEntity: number;
     cameraLookAtPoint: GEOPOINT3D_SHORT;
-    cameraFootprint: {coordinates: GEOPOINT3D_SHORT[]};
+    cameraFootprint: { coordinates: GEOPOINT3D_SHORT[] };
     opticalVideoURL: string;
     infraredVideoURL: string;
 }
@@ -397,6 +397,7 @@ export enum MISSION_TYPE {
     Servoing = 'Servoing',
     Delivery = 'Delivery',
 }
+
 export type AV_OPTIONS = {
     [MISSION_TYPE.CommRelay]?: boolean,
     [MISSION_TYPE.Patrol]?: boolean,
@@ -405,6 +406,7 @@ export type AV_OPTIONS = {
     [MISSION_TYPE.Servoing]?: boolean,
     [MISSION_TYPE.Delivery]?: boolean
 }
+
 export enum MISSION_TYPE_TEXT {
     CommRelay = 'Comm mission',
     Patrol = 'Patrol mission',
@@ -415,7 +417,9 @@ export enum MISSION_TYPE_TEXT {
 }
 
 
-export type REP_RESPONSE = { success: boolean, description: string } | {id: string, entVersion: number, collectionVersion: number}
+export type REP_RESPONSE =
+    { success: boolean, description: string }
+    | { id: string, entVersion: number, collectionVersion: number }
 
 
 export enum COLLECITON_VERSION_TYPE {
@@ -435,7 +439,6 @@ export type COLLECTION_VERSIONS = {
     [COLLECITON_VERSION_TYPE.MissionRoute]: number
     [COLLECITON_VERSION_TYPE.GraphicOverlay]: number
 }
-
 
 
 export enum REP_ARR_KEY {
@@ -458,8 +461,6 @@ export enum REP_OBJ_KEY {
     Servoing = 'servoingMissionRequest',
     Delivery = 'deliveryMissionRequest',
 }
-
-
 
 
 export type REP_ENTITY = {
@@ -509,6 +510,7 @@ export type MISSION_REQUEST_ACTION_OBJ = {
     action: MISSION_REQUEST_ACTION,
     avIds?: string
 }
+
 export enum MISSION_REQUEST_ACTION {
     Accept = 'Accept',
     Approve = 'Approve',
@@ -547,7 +549,7 @@ export type MISSION_REQUEST_DATA_MD = {
         map: TABLE_DATA_MD
     },
     data: {
-        textUI: {title: string, value: string}[],
+        textUI: { title: string, value: string }[],
         actionOptions: MISSION_ACTION_OPTIONS
     }
 }
@@ -628,10 +630,12 @@ export type PointOfRoute = {
     velocity: number,
     heading: number
 }
+
 export enum ROUTE_STATUS {
     Active = 'Active',
     NotActive = 'NotActive',
 }
+
 export type MISSION_ROUTE_DATA_MD = {
     styles: {
         isDotted: boolean,
@@ -694,6 +698,7 @@ export type GRAPHIC_OVERLAY_DATA_MD = {
         fillColor: string;
     }
 }
+
 export enum GRAPHIC_OVERLAY_COLOR {
     Red = 'Red',
     Green = 'Green',
@@ -704,6 +709,7 @@ export enum GRAPHIC_OVERLAY_COLOR {
     Grey = 'Grey',
     Default = 'Default',
 }
+
 export enum GRAPHIC_OVERLAY_TYPE {
     FireLine = 'FireLine',
     Person = 'Person',
@@ -713,8 +719,6 @@ export enum GRAPHIC_OVERLAY_TYPE {
 }
 
 
-
-
 export type TMM_RESPONSE = {
     success: boolean;
     description: boolean,
@@ -722,7 +726,7 @@ export type TMM_RESPONSE = {
 }
 
 export type MISSION_MAP_OVERLAY = {
-    areas: {coordinates: GEOPOINT3D_SHORT[]}[];
+    areas: { coordinates: GEOPOINT3D_SHORT[] }[];
     point: GEOPOINT3D_SHORT;
 }
 
@@ -731,6 +735,7 @@ export enum COMM_RELAY_TYPE {
     Area = 'Area',
     Follow = 'Follow',
 }
+
 export enum COMM_RELAY_TYPE_TEXT {
     Fixed = 'Fixed location',
     Area = 'Area coverage',
@@ -812,7 +817,6 @@ export enum CAPABILITY {
 }
 
 
-
 export type GIMBAL_PARAMS = {
     pitch: number;
     yaw: number;
@@ -857,6 +861,7 @@ export enum TASK_ACTION {
     complete = 'complete',
     cancel = 'cancel'
 }
+
 export type USER_TASK_ACTION = {
     userId: ID_TYPE,
     taskId: ID_TYPE,
@@ -1014,30 +1019,21 @@ export enum SOCKET_CLIENT_TYPES {
     GimbalTelemetrySenderRep = 'GimbalTelemetrySenderRep',
 }
 
-export type VIDEO_DATA = {
-    height: number,
-    width: number,
-    blobs: BLOB[]
-}
 export type BLOB = {
-    id: string,
-    xMin: number,
-    xMax: number,
-    yMin: number,
-    yMax: number,
+    trackId: string,
+    trackBB: {
+        xMin: number,
+        xMax: number,
+        yMin: number,
+        yMax: number
+    }
 }
 
 export type BLOB_DATA = {
     time: string,
     unixtimestamp: string,
-    bb: {
-        trackId: string,
-        trackBB: {
-            xMin: number,
-            xMax: number,
-            yMin: number,
-            yMax: number,
-        }
-    }[],
+    width: number,
+    height: number,
+    bb: BLOB[],
     droneGPS: GEOPOINT3D_SHORT
 }

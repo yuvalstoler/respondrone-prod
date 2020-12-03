@@ -61,8 +61,8 @@ export class FrManager {
         const res: FR_DATA_UI[] = [];
         this.frs.forEach((user: FR) => {
             const userDataUI: FR_DATA_UI = user.toJsonForUI();
-           // const missionsFollowingFR: MISSION_REQUEST_DATA[] = MissionRequestManager.getMissionsFollowingFR(user.id);
-            userDataUI.modeDefine = FrMdLogic.validate(userDataUI, []);
+            const missionsFollowingFR: MISSION_REQUEST_DATA[] = MissionRequestManager.getMissionsFollowingFR(user.id);
+            userDataUI.modeDefine = FrMdLogic.validate(userDataUI, missionsFollowingFR);
 
             res.push(userDataUI);
         });

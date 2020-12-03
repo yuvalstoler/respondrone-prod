@@ -76,7 +76,7 @@ export class GimbalService {
       }
       this.gimbalsByDroneId[newItem.droneId] = newItem
 
-      this.removeFromMap(newItem);
+      // this.removeFromMap(newItem);
       this.drawMission(newItem);
     });
   };
@@ -109,6 +109,7 @@ export class GimbalService {
           altitude: item.cameraLookAtPoint.alt,
         }
       }
+      this.mapGeneralService.deleteIcon('cameraLookAtPoint' + item.id);
       this.mapGeneralService.createIcon(iconData);
     }
 

@@ -166,7 +166,7 @@ export class MissionRequestMdLogic implements IModeDefine {
     private static getColor = (data: MISSION_REQUEST_DATA_UI): string => {
         let res: string = MDClass.colors.lightBlue;
         if (data.missionType === MISSION_TYPE.Scan) {
-            res = MDClass.colors.yellow;
+            res = MDClass.colors.white;
         } else if (data.missionType === MISSION_TYPE.Patrol) {
             res = MDClass.colors.green;
         } else if (data.missionType === MISSION_TYPE.CommRelay) {

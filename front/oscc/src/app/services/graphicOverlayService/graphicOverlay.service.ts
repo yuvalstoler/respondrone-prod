@@ -132,7 +132,7 @@ export class GraphicOverlayService {
     if (item.shape && item.shape.coordinates) {
       const polygonData: POLYGON_DATA = {
         id: item.id,
-        title: undefined,
+        title: item.Type,
         description: undefined,
         modeDefine: item.modeDefine,
         polygon: this.applicationService.geopoint3d_short_to_point3d_arr(item.shape.coordinates)

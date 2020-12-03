@@ -559,7 +559,7 @@ export class CesiumDrawerService {
         height: 0,
         material: fillColor,
         outline: true,
-        outlineWidth: 2,
+        outlineWidth: 4,
         outlineColor: outlineColor
       },
       position: undefined,
@@ -750,7 +750,7 @@ export class CesiumDrawerService {
   private createPolyline = (mapDomId: string, mapCE: any, taskPolyline: POINT[] | POINT3D[], description?: string, modeDefine?: any) => {
     const positions = this.arrayPointsToCartesian3(taskPolyline);
     const color = (modeDefine && modeDefine.styles && modeDefine.styles.color) ? modeDefine.styles.color : this.cesiumService.colors.notSelected;
-    const material = (modeDefine && modeDefine.styles && modeDefine.styles.isDotted) ? new Cesium.PolylineDashMaterialProperty({color: color}) : this.rgbaToCesiumColor(color)
+    const material = (modeDefine && modeDefine.styles && modeDefine.styles.isDotted) ? new Cesium.PolylineDashMaterialProperty({color: this.rgbaToCesiumColor(color)}) : this.rgbaToCesiumColor(color)
     const options = {
       name: 'Polyline',
       polyline: {

@@ -47,7 +47,7 @@ export class FRService {
         const index = this.frs.data.findIndex(d => d.id === fr.id);
         this.frs.data.splice(index, 1);
         //TODO: delete data from MAP
-        this.mapGeneralService.deleteIcon(fr.id);
+        this.mapGeneralService.deleteIcon('fr' + fr.id);
       });
     }
   };

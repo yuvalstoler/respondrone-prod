@@ -35,9 +35,11 @@ export class MissionRouteMdLogic implements IModeDefine {
     };
 
     private static getColor = (data: MISSION_ROUTE_DATA_UI, missionRequest: MissionRequest): string => {
-        let res: string = MDClass.colors.lightBlue;
+        let res: string = MDClass.colors.grey;
         if (missionRequest) {
-            if  (missionRequest.missionStatus === MISSION_STATUS_UI.Approved) {
+            if (missionRequest.missionStatus === MISSION_STATUS_UI.Pending || missionRequest.missionStatus === MISSION_STATUS_UI.WaitingForApproval) {
+                res = MDClass.colors.lightBlue;
+            } else if  (missionRequest.missionStatus === MISSION_STATUS_UI.Approved) {
                 res = MDClass.colors.blue;
             } else if (missionRequest.missionStatus === MISSION_STATUS_UI.InProgress) {
                 res = MDClass.colors.orange;

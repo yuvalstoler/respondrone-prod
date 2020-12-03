@@ -2,33 +2,93 @@
 
 .canvasVideoContainer {
   display: flex;
-  width: auto;
+  width: 100vw;
+  height: calc(100vh - 70px);
+}
+
+//.canvasContainerDom{
+//  display: flex;
+//  width: 100%;
+//  height: 100%;
+//  //
+//  ////width: 100vw;
+//  ////height: calc(100vh - 70px);
+//  //
+//  //position: relative;
+//  //width: 100%;
+//  //padding-bottom: 100%;
+//
+//
+//  & > * {
+//    //position: absolute;
+//    //height: calc(100vh - 70px);
+//
+//    flex: 1;
+//    position: relative;
+//
+//    //position: absolute;
+//    //width: 100%;
+//    //height: 100%;
+//  }
+//
+//  #editingCanvas {
+//    z-index: 2;
+//    position: absolute;
+//  }
+//
+//  .canvasDom {
+//    //z-index: 12;
+//    //height: calc(100vh - 70px) !important;
+//    //width: auto !important;
+//
+//    z-index: 1;
+//    display: block;
+//    position: absolute;
+//  }
+//
+//  .width-height-0 {
+//    height: 0;
+//    width: 0;
+//  }
+//}
+
+.wrapper {
+  display: block;
+  padding: 0;
+  width: 100%;
   height: 100%;
+  position: absolute;
+}
 
+.container {
+  display: block;
+  //vertical-align: middle;
+}
 
-  & > * {
-    position: absolute;
-    height: calc(100vh - 70px);
-  }
+.canvasContainerDom {
+  position: relative;
+  max-width: 100vw;
+  //max-height: calc(100vh - 70px);
+  min-width: 320px;
+  margin: 0 auto;
+}
 
-  #editingCanvas {
-    z-index: 2;
-    position: absolute;
-  }
+.canvasDom1 {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
 
-  .canvasDom {
-    z-index: 12;
-    display: block;
-    position: absolute;
-    height: calc(100vh - 70px) !important;
-    width: auto !important;
-  }
-
-  .width-height-0 {
-    height: 0;
-    width: 0;
-  }
-
+.canvasDom2 {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }
 
 .CanvasDomSmall{

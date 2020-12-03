@@ -34,7 +34,7 @@ export class UpdateListenersManager {
             const allData: MISSION_REQUEST_DATA[] = MissionRequestManager.getMissionRequests(undefined);
             const promisesArr: Promise<ASYNC_RESPONSE>[] = [];
             listeners.forEach((listener: string) => {
-                console.log(Date.now(), 'start updateReportListeners: ', listener);
+                // console.log(Date.now(), 'start updateReportListeners: ', listener);
                 const requestPromise = RequestManager.requestToExternalService(listener, updateMissionRequestListenersURL, allData);
                 promisesArr.push(requestPromise);
             });
@@ -42,7 +42,7 @@ export class UpdateListenersManager {
             const res: ASYNC_RESPONSE = {success: false};
             Promise.all(promisesArr)
                 .then((result: ASYNC_RESPONSE[]) => {
-                    console.log(Date.now(), 'finish *then* updateReportListeners');
+                    // console.log(Date.now(), 'finish *then* updateReportListeners');
                     res.success = true;
                     resolve(res);
                 })
@@ -59,7 +59,7 @@ export class UpdateListenersManager {
             const allData: MISSION_DATA[] = MissionManager.getMissions(undefined);
             const promisesArr: Promise<ASYNC_RESPONSE>[] = [];
             listeners.forEach((listener: string) => {
-                console.log(Date.now(), 'start updateReportListeners: ', listener);
+                // console.log(Date.now(), 'start updateReportListeners: ', listener);
                 const requestPromise = RequestManager.requestToExternalService(listener, updateMissionsListenersURL, allData);
                 promisesArr.push(requestPromise);
             });
@@ -67,7 +67,7 @@ export class UpdateListenersManager {
             const res: ASYNC_RESPONSE = {success: false};
             Promise.all(promisesArr)
                 .then((result: ASYNC_RESPONSE[]) => {
-                    console.log(Date.now(), 'finish *then* updateReportListeners');
+                    // console.log(Date.now(), 'finish *then* updateReportListeners');
                     res.success = true;
                     resolve(res);
                 })
@@ -84,7 +84,7 @@ export class UpdateListenersManager {
             const allData: MISSION_ROUTE_DATA[] = MissionRouteManager.getMissionRoutes(undefined);
             const promisesArr: Promise<ASYNC_RESPONSE>[] = [];
             listeners.forEach((listener: string) => {
-                console.log(Date.now(), 'start updateReportListeners: ', listener);
+                // console.log(Date.now(), 'start updateReportListeners: ', listener);
                 const requestPromise = RequestManager.requestToExternalService(listener, updateMissionRoutesListenersURL, allData);
                 promisesArr.push(requestPromise);
             });
@@ -92,7 +92,7 @@ export class UpdateListenersManager {
             const res: ASYNC_RESPONSE = {success: false};
             Promise.all(promisesArr)
                 .then((result: ASYNC_RESPONSE[]) => {
-                    console.log(Date.now(), 'finish *then* updateReportListeners');
+                    // console.log(Date.now(), 'finish *then* updateReportListeners');
                     res.success = true;
                     resolve(res);
                 })
@@ -109,7 +109,7 @@ export class UpdateListenersManager {
             const allData: GRAPHIC_OVERLAY_DATA[] = GraphicOverlayManager.getGraphicOverlays(undefined);
             const promisesArr: Promise<ASYNC_RESPONSE>[] = [];
             listeners.forEach((listener: string) => {
-                console.log(Date.now(), 'start updateReportListeners: ', listener);
+                // console.log(Date.now(), 'start updateReportListeners: ', listener);
                 const requestPromise = RequestManager.requestToExternalService(listener, updateGraphicOverlaysListenersURL, allData);
                 promisesArr.push(requestPromise);
             });
@@ -117,7 +117,7 @@ export class UpdateListenersManager {
             const res: ASYNC_RESPONSE = {success: false};
             Promise.all(promisesArr)
                 .then((result: ASYNC_RESPONSE[]) => {
-                    console.log(Date.now(), 'finish *then* updateReportListeners');
+                    // console.log(Date.now(), 'finish *then* updateReportListeners');
                     res.success = true;
                     resolve(res);
                 })

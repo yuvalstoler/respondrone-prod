@@ -161,93 +161,95 @@ export class MissionRequestService {
   };
   // ----------------------
   private createMissionOnMap = (item: MISSION_REQUEST_DATA_UI, isNew: boolean) => {
-    switch (item.missionType) {
-      case MISSION_TYPE.Observation : {
-        const iconData: ICON_DATA = {
-          id: item.id,
-          description: item.description,
-          modeDefine: item.modeDefine,
-          location: {
-            latitude: item.observationMissionRequest.observationPoint.lat,
-            longitude: item.observationMissionRequest.observationPoint.lon,
-            altitude: item.observationMissionRequest.observationPoint.alt,
-          }
-        };
-        isNew ? this.mapGeneralService.createIcon(iconData) : this.mapGeneralService.updateIcon(iconData);
-        break;
-      }
-      case MISSION_TYPE.CommRelay : {
-        if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Fixed) {
+    // if (item.missionStatus !== MISSION_STATUS_UI.Cancelled && item.missionStatus !== MISSION_STATUS_UI.Completed) {
+      switch (item.missionType) {
+        case MISSION_TYPE.Observation : {
           const iconData: ICON_DATA = {
             id: item.id,
             description: item.description,
             modeDefine: item.modeDefine,
             location: {
-              latitude: item.commRelayMissionRequest.missionData.point.lat,
-              longitude: item.commRelayMissionRequest.missionData.point.lon,
-              altitude: item.commRelayMissionRequest.missionData.point.alt,
+              latitude: item.observationMissionRequest.observationPoint.lat,
+              longitude: item.observationMissionRequest.observationPoint.lon,
+              altitude: item.observationMissionRequest.observationPoint.alt,
             }
           };
           isNew ? this.mapGeneralService.createIcon(iconData) : this.mapGeneralService.updateIcon(iconData);
+          break;
         }
-        else if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Area) {
+        case MISSION_TYPE.CommRelay : {
+          if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Fixed) {
+            const iconData: ICON_DATA = {
+              id: item.id,
+              description: item.description,
+              modeDefine: item.modeDefine,
+              location: {
+                latitude: item.commRelayMissionRequest.missionData.point.lat,
+                longitude: item.commRelayMissionRequest.missionData.point.lon,
+                altitude: item.commRelayMissionRequest.missionData.point.alt,
+              }
+            };
+            isNew ? this.mapGeneralService.createIcon(iconData) : this.mapGeneralService.updateIcon(iconData);
+          }
+          else if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Area) {
+            const polygonData: POLYGON_DATA = {
+              id: item.id,
+              title: '',
+              description: item.description,
+              modeDefine: item.modeDefine,
+              polygon: this.changeCoord(item.commRelayMissionRequest.missionData.area.coordinates)
+            };
+            if (!isNew) {
+              this.mapGeneralService.deletePolygonManually(polygonData.id);
+            }
+            this.mapGeneralService.drawPolygonFromServer(polygonData.polygon, polygonData.id, polygonData.title, polygonData.description, polygonData.modeDefine);
+          }
+          break;
+        }
+        case MISSION_TYPE.Scan : {
           const polygonData: POLYGON_DATA = {
             id: item.id,
             title: '',
             description: item.description,
             modeDefine: item.modeDefine,
-            polygon: this.changeCoord(item.commRelayMissionRequest.missionData.area.coordinates)
+            polygon: this.changeCoord(item.scanMissionRequest.polygon.coordinates)
           };
           if (!isNew) {
             this.mapGeneralService.deletePolygonManually(polygonData.id);
           }
           this.mapGeneralService.drawPolygonFromServer(polygonData.polygon, polygonData.id, polygonData.title, polygonData.description, polygonData.modeDefine);
+          break;
         }
-        break;
-      }
-      case MISSION_TYPE.Scan : {
-        const polygonData: POLYGON_DATA = {
-          id: item.id,
-          title: '',
-          description: item.description,
-          modeDefine: item.modeDefine,
-          polygon: this.changeCoord(item.scanMissionRequest.polygon.coordinates)
-        };
-        if (!isNew) {
-          this.mapGeneralService.deletePolygonManually(polygonData.id);
+        case MISSION_TYPE.Patrol : {
+          const polylineData: POLYLINE_DATA = {
+            id: item.id,
+            description: item.description,
+            modeDefine: item.modeDefine,
+            polyline: this.changeCoord(item.followPathMissionRequest.polyline.coordinates)
+          };
+          this.mapGeneralService.createPolyline(polylineData.polyline, polylineData.id, polylineData.description, polylineData.modeDefine);
+          break;
         }
-        this.mapGeneralService.drawPolygonFromServer(polygonData.polygon, polygonData.id, polygonData.title, polygonData.description, polygonData.modeDefine);
-        break;
+        case MISSION_TYPE.Servoing : {
+          break;
+        }
+        case MISSION_TYPE.Delivery : {
+          // todo: point
+          const iconData: ICON_DATA = {
+            id: item.id,
+            description: item.description,
+            modeDefine: item.modeDefine,
+            location: {
+              latitude: 0/*item.deliveryMissionRequest.deliveryPoint.lat*/,
+              longitude: 0/*item.deliveryMissionRequest.deliveryPoint.lon*/,
+              altitude: 0/*item.deliveryMissionRequest.deliveryPoint.alt*/,
+            }
+          };
+          isNew ? this.mapGeneralService.createIcon(iconData) : this.mapGeneralService.updateIcon(iconData);
+          break;
+        }
       }
-      case MISSION_TYPE.Patrol : {
-        const polylineData: POLYLINE_DATA = {
-          id: item.id,
-          description: item.description,
-          modeDefine: item.modeDefine,
-          polyline: this.changeCoord(item.followPathMissionRequest.polyline.coordinates)
-        };
-        this.mapGeneralService.createPolyline(polylineData.polyline, polylineData.id, polylineData.description, polylineData.modeDefine);
-        break;
-      }
-      case MISSION_TYPE.Servoing : {
-        break;
-      }
-      case MISSION_TYPE.Delivery : {
-        // todo: point
-        const iconData: ICON_DATA = {
-          id: item.id,
-          description: item.description,
-          modeDefine: item.modeDefine,
-          location: {
-            latitude: 0/*item.deliveryMissionRequest.deliveryPoint.lat*/,
-            longitude: 0/*item.deliveryMissionRequest.deliveryPoint.lon*/,
-            altitude: 0/*item.deliveryMissionRequest.deliveryPoint.alt*/,
-          }
-        };
-        isNew ? this.mapGeneralService.createIcon(iconData) : this.mapGeneralService.updateIcon(iconData);
-        break;
-      }
-    }
+    // }
   };
   // ----------------------
   private changeCoord = (coordinates: GEOPOINT3D_SHORT[]): POINT3D[] => {

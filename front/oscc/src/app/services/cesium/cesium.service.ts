@@ -110,15 +110,11 @@ export class CesiumService {
 
 
 
-
-
     Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YzM3OTZkOC0wZWY0LTQzNWItODYxYS0wODdhNGIyZTM5NzAiLCJpZCI6MzcyNzEsImlhdCI6MTYwNjg2MDI0OH0.Fbmq26ejVXZvVXcgICzOibjAWkdd4isMV5qF-o33FxM'
     const cesiumViewer: any = new Cesium.Viewer(this.maps[0].containerId);
     cesiumViewer.scene.primitives.add(Cesium.createOsmBuildings());
-
-
-
-
+    const layers = cesiumViewer.baseLayerPicker.viewModel.imageryProviderViewModels;
+    cesiumViewer.baseLayerPicker.viewModel.selectedImagery = layers[4]
 
 
 

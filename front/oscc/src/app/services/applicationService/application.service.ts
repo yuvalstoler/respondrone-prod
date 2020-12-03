@@ -60,7 +60,7 @@ export class ApplicationService {
     this.screen = {
       showLeftPanel: true,
       showRightPanel: true,
-      showAirResources: false,
+      showAirResources: true,
       showGrandResources: false,
       showSituationPicture: true,
       showMissionControl: false,

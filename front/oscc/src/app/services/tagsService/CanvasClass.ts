@@ -1,17 +1,17 @@
 import {EventHandler} from './eventHandler';
-import {POINT} from '../../../../../../classes/typings/all.typings';
+import {BLOB, BLOB_DATA, POINT} from '../../../../../../classes/typings/all.typings';
 import {CanvasTools} from './canvasTools';
 
 
 export class CanvasClass {
 
-  domID: string;
+  domBlobID: string;
   domVideoID: string;
   containerDomID: string;
   eventHandlerEmitter: EventHandler;
   mouseDownEventHandler: EventHandler;
   isReviewOnly: boolean = false;
-  canvas: any;
+  canvasBlob: any;
   canvasVideo: any;
   canvasContainer: any;
   ctx: any;
@@ -19,51 +19,61 @@ export class CanvasClass {
   img: any;
   src: string;
   resolution: POINT;
-  allDataDetections: {mark: any};
+  allDataBlobs: { mark: BLOB_DATA };
   canvasTools: CanvasTools = new CanvasTools();
 
   constructor(_eventHandlerEmitter?: EventHandler) {
     this.img = new Image;
-    if ( _eventHandlerEmitter ) {
+    if (_eventHandlerEmitter) {
       this.eventHandlerEmitter = _eventHandlerEmitter;
-    }
-    else {
+    } else {
       this.isReviewOnly = true;
     }
   }
 
-  public setDomID = (_domID: string, _domVideoID, containerDomID: string, sizeVideoContainer?: {width: number, height: number},  isEventListen?: boolean) => {
-    this.domID = _domID;
-    this.canvas = <HTMLCanvasElement>document.getElementById(this.domID);
+  public setDomID = (_domID: string, _domVideoID, containerDomID: string, sizeVideoContainer?: { width: number, height: number }, isEventListen?: boolean) => {
+    this.domBlobID = _domID;
+    this.canvasBlob = <HTMLCanvasElement>document.getElementById(this.domBlobID);
+    this.canvasBlob.options = {domID: this.domBlobID};
 
     this.domVideoID = _domVideoID;
     this.canvasVideo = <HTMLCanvasElement>document.getElementById(this.domVideoID);
 
     this.containerDomID = containerDomID;
     this.canvasContainer = <HTMLCanvasElement>document.getElementById(this.containerDomID);
-    this.canvas.options = {domID: this.domID};
 
-    console.log(this.canvas.clientWidth, this.canvas.clientHeight);
-    // console.log(this.canvasContainer.clientWidth, this.canvasContainer.clientHeight);
+
+    this.ctx = this.canvasBlob.getContext('2d');
     this.ctx2 = this.canvasVideo.getContext('2d');
-    this.ctx = this.canvas.getContext('2d');
+
+
+    // const x = 0;
+    // const y = 0;
+    // // context2.drawImage( canvas1, x,y );
+    // this.ctx2.drawImage( this.canvasBlob, x, y );
+
     this.fillHandler();
     this.canvasContainer.onmousedown = function (e) {
-      if ( e.button === 1 ) {
+      if (e.button === 1) {
+        return false;
+      }
+    };
+    this.canvasContainer.contextmenu = function (e) {
+      if (e.button === 1) {
         return false;
       }
     };
 
-    if ( isEventListen ) {
-      this.canvas.addEventListener('mousedown', this.mouseDownHandler);
+    if (isEventListen) {
+      this.canvasBlob.addEventListener('contextmenu', this.contextClickHandler);
       // this.canvas.addEventListener('mousewheel', this.onWheel);
       // this.canvas.addEventListener('mousemove', this.mouseMoveHandler);
       // this.canvas.addEventListener('mouseup', this.mouseUpHandler);
     }
   };
 
-  public createImageMain = (imageURL, allData: {mark: any}, /*sizeVideoContainer: {width: number, height: number}*/) => {
-    const factor = 1;
+  public createImageMain = (imageURL, allData: { mark: BLOB_DATA }, /*sizeVideoContainer: {width: number, height: number}*/) => {
+    const factor = 1000;
     // if (this.containerDomID) {
     //
     //   this.setCanvasMeasurements(sizeVideoContainer.height, sizeVideoContainer.width);
@@ -95,46 +105,47 @@ export class CanvasClass {
       // this.img.onload = () => {
 
       // console.log(this.canvas.clientWidth, this.canvas.clientHeight);
-        this.setCanvasMeasurements(this.canvasVideo.clientWidth, this.canvasVideo.clientHeight);
-        // For Absolute Coordinates !!!
-        // this.resolution = /*[1, 1];*/ [this.img.width, this.img.height];
-        // this.zoomInForMainImage(-1);
-        this.drawAllDataOnCanvas(allData, factor);
+      this.setCanvasMeasurements(this.canvasVideo.clientWidth, this.canvasVideo.clientHeight);
+      // For Absolute Coordinates !!!
+      // this.resolution = /*[1, 1];*/ [this.img.width, this.img.height];
+      // this.zoomInForMainImage(-1);
+      this.drawAllDataOnCanvas(allData, factor);
       // };
     }
   };
 
-  private setCanvasMeasurements = ( width, height) => {
-    console.log(width, height, this.canvas.clientWidth, this.canvas.clientHeight);
+  private setCanvasMeasurements = (width, height) => {
+    // console.log('canvasVideo: ', width, height, ' canvasBlob: ', this.canvasBlob.clientWidth, this.canvasBlob.clientHeight);
+    // console.log('canvasContainer: ', this.canvasContainer.width, this.canvasContainer.height);
+    // console.log('ctx: ', this.ctx.width, this.ctx.height, ' ctx2: ', this.ctx2.width, this.ctx2.height);
     if (this.containerDomID) {
 
-      this.canvas.width = width;
-      this.canvas.height = height;
+      this.canvasBlob.width = width;
+      this.canvasBlob.height = height;
+      this.canvasBlob.style.width = width + 'px';
+      this.canvasBlob.style.height = height + 'px';
 
-       this.canvasVideo.width = width;
-      this.canvasVideo.height = height;
+      // this.canvasVideo.width = width;
+      // this.canvasVideo.height = height;
+      // this.canvasVideo.style.width = width + 'px';
+      // this.canvasVideo.style.height = height + 'px';
 
-     this.canvasVideo.style.width = this.canvas.style.width = width + 'px';
-     this.canvasVideo.style.height = this.canvas.style.height = height + 'px';
+      // // this.canvasContainer.width = width;
+      // // this.canvasContainer.height = height;
+      // // this.canvasContainer.style.height = height + 'px';
+      // // this.canvasContainer.style.width = width + 'px';
+      //
+      //
+      // this.ctx.width = width;
+      // this.ctx.height = height;
+      // // this.ctx.style.height = height + 'px';
+      // // this.ctx.style.width = width + 'px';
+      //
+      // this.ctx2.width = width;
+      // this.ctx2.height = height;
+      // // this.ctx2.style.height = height + 'px';
+      // // this.ctx2.style.width = width + 'px';
 
-      // this.canvas.width = width;
-      // this.canvas.height = height;
-
-      // this.canvas.style.height = height + 'px';
-      // this.canvas.style.width = width + 'px';
-
-      // this.canvasContainer.width = width;
-      // this.canvasContainer.height = height;
-
-      this.ctx.width = width;
-      this.ctx.height = height;
-
-      this.ctx2.width = width;
-      this.ctx2.height = height;
-      // if (this.stage) {
-      //   this.stage.setWidth(width);
-      //   this.stage.setHeight(height);
-      // }
     }
   };
 
@@ -158,80 +169,84 @@ export class CanvasClass {
   //   }
   // };
 
-  private drawAllDataOnCanvas = (allData: {mark: any}, factor: number) => {
+  private drawAllDataOnCanvas = (allData: { mark: BLOB_DATA }, factor: number) => {
     // this.canvasTools.drawImage(this.ctx, this.img);
     this.drawBlobsData(allData, factor);
   };
 
-  private drawBlobsData = (allData: {mark: any}, factor: number) => {
+  private drawBlobsData = (allData: { mark: BLOB_DATA }, factor: number) => {
     if (allData !== undefined /*&&
       Array.isArray(this.resolution) && this.resolution.length > 1 &&
       Number.isFinite(this.resolution[0]) && Number.isFinite(this.resolution[1])*/) {
-      this.allDataDetections = allData;
+      this.allDataBlobs = allData;
 
       //  - draw blobs
       if (allData.hasOwnProperty('mark')) {
-        allData.mark.blobs.forEach(blob => {
+        allData.mark.bb.forEach(blob => {
           this.drawBlob(this.ctx, blob, factor);
         });
       }
     }
   };
 
-  public drawBlob = (ctx, blob: { id, xMin: number, yMin: number, xMax: number, yMax: number }, factor: number) => {
+
+  public drawBlob = (ctx, blob: BLOB, factor: number) => {
     ctx.beginPath();
     ctx.strokeStyle = '#ff00ff';
     ctx.strokeOpacity = 1;
     ctx.lineWidth = 3;
 
-    const xMin = blob.xMin * factor;
-    const xMax = blob.xMax * factor;
-    const yMin = blob.yMin * factor;
-    const yMax = blob.yMax * factor;
+    if (blob.trackBB) {
 
-    ctx.moveTo(xMin, yMin);
-    ctx.lineTo(xMax, yMin);
-    ctx.lineTo(xMax, yMax);
-    ctx.lineTo(xMin, yMax);
-    ctx.lineTo(xMin, yMin);
-    ctx.stroke();
+      const xMin = blob.trackBB.xMin * factor;
+      const xMax = blob.trackBB.xMax * factor;
+      const yMin = blob.trackBB.yMin * factor;
+      const yMax = blob.trackBB.yMax * factor;
 
-    ctx.restore();
+      ctx.moveTo(xMin, yMin);
+      ctx.lineTo(xMax, yMin);
+      ctx.lineTo(xMax, yMax);
+      ctx.lineTo(xMin, yMax);
+      ctx.lineTo(xMin, yMin);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
 
   };
 
   private fillHandler = () => {
     // this.changeDrawingEventHandler = new EventHandler(this.domID, this.changeDrawingStateEventHandlerConfig);
-    if ( !this.isReviewOnly ) {
-      this.mouseDownEventHandler = new EventHandler(this.domID, this.mouseDownEventHandlerConfig);
+    if (!this.isReviewOnly) {
+      this.mouseDownEventHandler = new EventHandler(this.domBlobID, this.mouseDownEventHandlerConfig);
     }
   };
 
-  private mouseDownHandler = (e) => {
-    if ( e.button !== 1 ) {
+  private contextClickHandler = (e) => {
+    if (e.button !== 1) {
       const point = this.canvasTools.getPointFromEvent(this.ctx, e);
-      if ( !point ) {
+      if (!point) {
         return;
       }
-       if ( this.allDataDetections &&
-        Object.keys(this.allDataDetections.mark).length > 0 &&
-        this.allDataDetections.mark.constructor === Object ) {
-        const selectedId = this.canvasTools.findObjectToSelect(this.ctx, point, this.allDataDetections.mark, this.resolution);
+      if (this.allDataBlobs &&
+        Object.keys(this.allDataBlobs.mark).length > 0 &&
+        this.allDataBlobs.mark.constructor === Object) {
+        const selectedId = this.canvasTools.findObjectToSelect(this.ctx, point, this.allDataBlobs.mark, this.resolution);
         this.callEventHandler(this.eventHandlerEmitter, 'selectedBlob', selectedId);
       }
     }
   };
 
   private callEventHandler = (handler: EventHandler, _value: string | number, params?: any) => {
-    if ( !handler ) {
+    if (!handler) {
       return;
     }
     const value = _value;
-    if ( handler.handlers.hasOwnProperty(value) ) {
+    if (handler.handlers.hasOwnProperty(value)) {
       try {
         handler.handlers[value](params);
-      }
-      catch (e) {
+      } catch (e) {
       }
     }
   };

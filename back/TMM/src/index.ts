@@ -207,9 +207,9 @@ export class Server {
                         description: ''
                     });
 
-                    setTimeout(() => {
+                    // setTimeout(() => {
                         this.sendMissionAndMissionRoute(data.id)
-                    }, 5000)
+                    // }, 5000)
                 }
                 else {
                     res.send(data);

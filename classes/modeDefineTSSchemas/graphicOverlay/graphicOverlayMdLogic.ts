@@ -28,12 +28,52 @@ export class GraphicOverlayMdLogic implements IModeDefine {
 
 
     private static getIcon = (data: GRAPHIC_OVERLAY_DATA_UI): string => {
-        const res = '../../../../../assets/markerBlue.png';
+        let res = '../../../../../assets/markerBlue.png';
+        switch (data.color) {
+            case 'Red':
+                res = '../../../../../assets/markerRed.png';
+                break;
+            case 'Green':
+                res = '../../../../../assets/markerGreen.png';
+                break;
+            case 'Blue':
+                res = '../../../../../assets/markerBlue.png';
+                break;
+            case 'Black':
+                res = '../../../../../assets/markerBlack.png';
+                break;
+            case 'White':
+                res = '../../../../../assets/markerWhite.png';
+                break;
+            case 'Grey':
+                res = '../../../../../assets/markerGrey.png';
+                break;
+        }
         return res;
     };
 
     private static getColor = (data: GRAPHIC_OVERLAY_DATA_UI): string => {
-        let res: string = MDClass.colors.lightBlue;
+        let res: string = MDClass.colors.blue;
+        switch (data.color) {
+            case 'Red':
+                res = MDClass.colors.red;
+                break;
+            case 'Green':
+                res = MDClass.colors.green;
+                break;
+            case 'Blue':
+                res = MDClass.colors.blue;
+                break;
+            case 'Black':
+                res = MDClass.colors.black;
+                break;
+            case 'White':
+                res = MDClass.colors.white;
+                break;
+            case 'Grey':
+                res = MDClass.colors.grey;
+                break;
+        }
         return res;
     };
 

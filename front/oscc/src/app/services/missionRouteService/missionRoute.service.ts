@@ -119,9 +119,9 @@ export class MissionRouteService {
   };
   // ----------------------
   private removeFromMap = (item: MISSION_ROUTE_DATA_UI) => {
-    // if (item.route) {
-    //   this.mapGeneralService.deletePolylineFromMap(item.id);
-    // }
+    if (item.route) {
+      this.mapGeneralService.deletePolylineFromMap(item.id);
+    }
   }
   // ----------------------
   private drawMission = (item: MISSION_ROUTE_DATA_UI) => {

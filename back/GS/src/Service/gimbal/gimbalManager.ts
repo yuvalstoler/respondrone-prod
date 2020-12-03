@@ -52,61 +52,16 @@ export class GimbalManager {
                     },
                     'trackedEntity': 0,
                     'cameraLookAtPoint': {
-                        'lat': 0,
-                        'lon': 0,
+                        'lat': 42.3200,
+                        'lon': 9.2117,
                         'alt': 0
+                    },
+                    cameraFootprint: {
+                        coordinates: []
                     },
                     'opticalVideoURL': 'string',
                     'infraredVideoURL': 'string'
                 },
-                {
-                    'id': '2',
-                    'droneId': '2',
-                    'AIMode': 0,
-                    'gimbalParameters': {
-                        'pitch': -10,
-                        'yaw': -10
-                    },
-                    'visibleCameraParameters': {
-                        'zoomVisibleCamera': 6
-                    },
-                    'infraredCameraParameters': {
-                        'zoomInfraredCamera': 7,
-                        'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
-                    },
-                    'trackedEntity': 0,
-                    'cameraLookAtPoint': {
-                        'lat': 0,
-                        'lon': 0,
-                        'alt': 0
-                    },
-                    'opticalVideoURL': 'string',
-                    'infraredVideoURL': 'string'
-                },
-                {
-                    'id': '3',
-                    'droneId': '3',
-                    'AIMode': 0,
-                    'gimbalParameters': {
-                        'pitch': -10,
-                        'yaw': -10
-                    },
-                    'visibleCameraParameters': {
-                        'zoomVisibleCamera': 5
-                    },
-                    'infraredCameraParameters': {
-                        'zoomInfraredCamera': 6,
-                        'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
-                    },
-                    'trackedEntity': 0,
-                    'cameraLookAtPoint': {
-                        'lat': 0,
-                        'lon': 0,
-                        'alt': 0
-                    },
-                    'opticalVideoURL': 'string',
-                    'infraredVideoURL': 'string'
-                }
             ]
 
         };
@@ -114,6 +69,34 @@ export class GimbalManager {
             data.gimbals.forEach(drone => {
                 drone.cameraLookAtPoint.lat = 42.0 + Math.random() * (0.02 + 0.01) - 0.01;
                 drone.cameraLookAtPoint.lon = 9.95493 + Math.random() * (0.02 + 0.01) - 0.01;
+                drone.cameraFootprint.coordinates =
+                [
+                    {
+                        'lat': 42.1200,
+                        'lon': 9.2117,
+                        'alt': 0
+                    },
+                    {
+                        'lat': 42.3200 + Math.random() * (0.02 + 0.01) - 0.01,
+                        'lon': 9.7117+ Math.random() * (0.02 + 0.01) - 0.01,
+                        'alt': 0
+                    },
+                    {
+                        'lat': 42.5200+ Math.random() * (0.02 + 0.01) - 0.01,
+                        'lon': 9.0117+ Math.random() * (0.02 + 0.01) - 0.01,
+                        'alt': 0
+                    },
+                    {
+                        'lat': 42.3200+ Math.random() * (0.02 + 0.01) - 0.01,
+                        'lon': 9.0117+ Math.random() * (0.02 + 0.01) - 0.01,
+                        'alt': 0
+                    },
+                    {
+                        'lat': 42.1200,
+                        'lon': 9.2117,
+                        'alt': 0
+                    }
+                ]
             });
             this.onGetGimbals(data);
         }, 1000);*/
