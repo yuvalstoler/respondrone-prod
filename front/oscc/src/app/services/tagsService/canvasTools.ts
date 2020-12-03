@@ -52,9 +52,9 @@ export class CanvasTools {
 
   private compareIfPointExictOnObject = (minmaxPoints: { xMin: number, xMax: number, yMin: number, yMax: number }, clickPoint: POINT): boolean => {
     let res = false;
-
-    if (clickPoint[0] > minmaxPoints.xMin && clickPoint[0] < minmaxPoints.xMax &&
-      clickPoint[1] > minmaxPoints.yMin && clickPoint[1] < minmaxPoints.yMax) {
+const factor = 1000;
+    if (clickPoint[0] > minmaxPoints.xMin * factor && clickPoint[0] < minmaxPoints.xMax * factor &&
+      clickPoint[1] > minmaxPoints.yMin * factor && clickPoint[1] < minmaxPoints.yMax * factor) {
       res = true;
     }
 
