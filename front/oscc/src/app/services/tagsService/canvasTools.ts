@@ -1,4 +1,4 @@
-import {BLOB_DATA, POINT} from '../../../../../../classes/typings/all.typings';
+import {BLOB_DATA, POINT, SIZE} from '../../../../../../classes/typings/all.typings';
 
 
 export class CanvasTools {
@@ -22,23 +22,13 @@ export class CanvasTools {
     return point;
   }
 
-  public findObjectToSelect = (ctx, clickPoint: POINT, marks: BLOB_DATA, resolution: POINT): string => {
+  public findObjectToSelect = (ctx, clickPoint: POINT, marks: BLOB_DATA, resolution: SIZE): string => {
     let res: string;
     // todo: not work with new data
     if (marks.hasOwnProperty('bb') && Array.isArray(marks.bb) && marks.bb.length > 0) {
-      // for (const key in marks.bb) {
-      //   if (marks.bb.hasOwnProperty(key)) {
-      //       const isExist: boolean = this.compareIfPointExictOnObject(marks.blobs[key], clickPoint);
-      //       if (isExist) {
-      //         res = marks.bb[key].id;
-      //         console.log(marks.bb[key], res);
-      //         break;
-      //       }
-      //   }
-      // }
       marks.bb.forEach(blob => {
         if (blob.hasOwnProperty('trackBB')) {
-          const isExist: boolean = this.compareIfPointExictOnObject(blob.trackBB, clickPoint);
+          const isExist: boolean = this.compareIfPointExictOnObject(blob.trackBB, clickPoint, resolution);
           if (isExist) {
             res = blob.trackId;
             console.log(blob, res);
@@ -50,11 +40,15 @@ export class CanvasTools {
     return res;
   };
 
-  private compareIfPointExictOnObject = (minmaxPoints: { xMin: number, xMax: number, yMin: number, yMax: number }, clickPoint: POINT): boolean => {
+  private compareIfPointExictOnObject = (minmaxPoints: { xMin: number, xMax: number, yMin: number, yMax: number }, clickPoint: POINT, resolution: SIZE): boolean => {
     let res = false;
-const factor = 1000;
-    if (clickPoint[0] > minmaxPoints.xMin * factor && clickPoint[0] < minmaxPoints.xMax * factor &&
-      clickPoint[1] > minmaxPoints.yMin * factor && clickPoint[1] < minmaxPoints.yMax * factor) {
+    // console.log('clickPoint: ', clickPoint);
+    // console.log('clickBlob: ', ' xMin: ', minmaxPoints.xMin * resolution.width,
+    //   ', xMax: ', minmaxPoints.xMax * resolution.width,
+    //   ', yMin: ', minmaxPoints.yMin * resolution.height, ',' +
+    //   ' yMax: ', minmaxPoints.yMax * resolution.height);
+    if (clickPoint[0] > minmaxPoints.xMin * resolution.width && clickPoint[0] < minmaxPoints.xMax * resolution.width &&
+      clickPoint[1] > minmaxPoints.yMin * resolution.height && clickPoint[1] < minmaxPoints.yMax * resolution.height) {
       res = true;
     }
 

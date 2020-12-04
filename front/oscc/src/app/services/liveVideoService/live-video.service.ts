@@ -70,10 +70,10 @@ export class LiveVideoService {
               public missionRequestService: MissionRequestService) {
     const primaryEventHandler = new EventHandler(this.primaryDomID, this.mouseEventHandler);
     this.canvases[this.primaryDomID] = new CanvasClass(primaryEventHandler);
-    // this.socketService.connectToRoom('test').subscribe(this.onBlobs);
     setInterval(() => {
-      this.createImageMain({success: true, data: {}});
+      this.createImageMain({success: true, data: this.videoData});
     }, 1000);
+
 
     // this.startGetBlobs();
   }
@@ -98,8 +98,8 @@ export class LiveVideoService {
   }
 
 
-  public createCanvas = (domID: string, domVideoID: string, containerDomID: string, videoSize?: { width: number, height: number }) => {
-    this.canvases[domID].setDomID(domID, domVideoID, containerDomID, videoSize, true);
+  public createCanvas = (domID: string, domVideoID: string, containerDomID: string) => {
+    this.canvases[domID].setDomID(domID, domVideoID, containerDomID, true);
   };
 
   public createImageMain = (data: ASYNC_RESPONSE<any>, domID: string = this.primaryDomID) => {
@@ -160,7 +160,6 @@ export class LiveVideoService {
       }
     });
   };
-
 
   mouseEventHandler = {
     'selectedBlob': this.onSelectBlob
