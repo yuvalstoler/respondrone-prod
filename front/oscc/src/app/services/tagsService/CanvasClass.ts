@@ -14,8 +14,8 @@ export class CanvasClass {
   canvasBlob: any;
   canvasVideo: any;
   canvasContainer: any;
-  ctx: any;
-  ctx2;
+  ctxBlob: any;
+  ctxVideo;
   img: any;
   src: string;
   resolution: SIZE;
@@ -31,19 +31,19 @@ export class CanvasClass {
     }
   }
 
-  public setDomID = (_domID: string, _domVideoID, containerDomID: string, isEventListen?: boolean) => {
+  public setDomID = (_domBlobID: string, _domVideoID, containerDomID: string, isEventListen?: boolean) => {
     this.containerDomID = containerDomID;
     this.canvasContainer = <HTMLCanvasElement>document.getElementById(this.containerDomID);
 
-    this.domBlobID = _domID;
+    this.domBlobID = _domBlobID;
     this.canvasBlob = <HTMLCanvasElement>document.getElementById(this.domBlobID);
     this.canvasBlob.options = {domID: this.domBlobID};
 
     this.domVideoID = _domVideoID;
     this.canvasVideo = <HTMLCanvasElement>document.getElementById(this.domVideoID);
 
-    this.ctx = this.canvasBlob.getContext('2d');
-    this.ctx2 = this.canvasVideo.getContext('2d');
+    this.ctxBlob = this.canvasBlob.getContext('2d');
+    this.ctxVideo = this.canvasVideo.getContext('2d');
 
     this.fillHandler();
     this.canvasContainer.onmousedown = function (e) {
@@ -75,33 +75,44 @@ export class CanvasClass {
   };
 
   private setCanvasMeasurements = (width, height, ratio: number) => {
-
+    console.log('-------------------------------------------');
     console.log('canvasContainerOffset: ', width, height);
-    console.log('canvasVideo: ', this.canvasVideo.clientWidth, this.canvasVideo.clientHeight, ' canvasBlob: ', this.canvasBlob.clientWidth, this.canvasBlob.clientHeight);
+    console.log('canvasVideoClient: ', this.canvasVideo.clientWidth, this.canvasVideo.clientHeight, ' canvasBlob: ', this.canvasBlob.clientWidth, this.canvasBlob.clientHeight);
+    console.log('canvasVideoWidthHeight: ', this.canvasVideo.width, this.canvasVideo.height, ' canvasBlob: ', this.canvasBlob.width, this.canvasBlob.height);
     console.log('canvasVideoOffset: ', this.canvasVideo.offsetWidth, this.canvasVideo.offsetHeight, ' canvasBlobOffset: ', this.canvasBlob.offsetWidth, this.canvasBlob.offsetHeight);
     console.log('resolution ', this.resolution);
-    console.log('ctx: ', this.ctx.width, this.ctx.height, ' ctx2: ', this.ctx2.width, this.ctx2.height);
+    console.log( 'ctxVideo: ', this.ctxVideo.canvas.width, this.ctxVideo.canvas.height, ' ctxBlob: ', this.ctxBlob.canvas.width, this.ctxBlob.canvas.height);
+    console.log('-------------------------------------------');
     if (this.containerDomID) {
 
-      this.canvasBlob.setAttribute('width', this.canvasContainer.offsetWidth /** 0.8*/);
-      this.canvasBlob.setAttribute('height', this.canvasContainer.offsetWidth / ratio /** 0.8*/);
+      this.canvasBlob.setAttribute('width', width /** 0.8*/);
+      this.canvasBlob.setAttribute('height', height /** 0.8*/);
 
-      this.canvasVideo.setAttribute('width', this.canvasContainer.offsetWidth /** 0.8*/);
-      this.canvasVideo.setAttribute('height', this.canvasContainer.offsetWidth / ratio /** 0.8*/);
+      this.ctxBlob.canvas.width = this.canvasVideo.clientWidth;
+      this.ctxBlob.canvas.height = this.canvasVideo.clientHeight;
+      this.ctxBlob.canvas.style.width = this.canvasVideo.clientWidth + 'px';
+      this.ctxBlob.canvas.style.height = this.canvasVideo.clientHeight + 'px';
+
+      // this.ctxVideo.width = this.canvasVideo.clientWidth;
+      // this.ctxVideo.height = this.canvasVideo.clientHeight;
+      // this.ctxVideo.canvas.style.width = this.canvasVideo.clientWidth + 'px';
+      // this.ctxVideo.canvas.style.height = this.canvasVideo.clientHeight + 'px';
+
+
+      // this.canvasVideo.setAttribute('width', width /** 0.8*/);
+      // this.canvasVideo.setAttribute('height', width / ratio /** 0.8*/);
 
 
       // this.canvasBlob.setAttribute('style.width', this.canvasContainer.offsetWidth * 0.9 + 'px');
       // this.canvasBlob.setAttribute('style.height', this.canvasContainer.offsetWidth / ratio * 0.9 + 'px');
       // this.canvasVideo.setAttribute('style.width', this.canvasContainer.offsetWidth * 0.9 + 'px');
       // this.canvasVideo.setAttribute('style.height', this.canvasContainer.offsetWidth / ratio * 0.9 + 'px');
-
-
       // this.ctx.width = this.canvasVideo.clientWidth;
       // this.ctx.height = this.canvasVideo.clientHeight;
       // this.ctx2.width = this.canvasBlob.clientWidth ;
       // this.ctx2.height = this.canvasBlob.clientHeight;
 
-      this.resolution = {width: this.canvasBlob.clientWidth, height: this.canvasBlob.clientHeight};
+      this.resolution = {width: this.canvasVideo.clientWidth, height: this.canvasVideo.clientHeight};
 
       // // this.canvasContainer.width = width;
       // // this.canvasContainer.height = height;
@@ -153,7 +164,7 @@ export class CanvasClass {
       //  - draw blobs
       if (allData.hasOwnProperty('mark')) {
         allData.mark.bb.forEach(blob => {
-          this.drawBlob(this.ctx, blob, resolution);
+          this.drawBlob(this.ctxBlob, blob, resolution);
         });
       }
     }
@@ -196,14 +207,14 @@ export class CanvasClass {
 
   private contextClickHandler = (e) => {
     if (e.button !== 1) {
-      const point = this.canvasTools.getPointFromEvent(this.ctx, e);
+      const point = this.canvasTools.getPointFromEvent(this.ctxBlob, e);
       if (!point) {
         return;
       }
       if (this.allDataBlobs &&
         Object.keys(this.allDataBlobs.mark).length > 0 &&
         this.allDataBlobs.mark.constructor === Object) {
-        const selectedId = this.canvasTools.findObjectToSelect(this.ctx, point, this.allDataBlobs.mark, this.resolution);
+        const selectedId = this.canvasTools.findObjectToSelect(this.ctxBlob, point, this.allDataBlobs.mark, this.resolution);
         this.callEventHandler(this.eventHandlerEmitter, 'selectedBlob', selectedId);
       }
     }

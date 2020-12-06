@@ -44,11 +44,11 @@ export class CanvasVideoComponent implements OnInit, AfterViewInit, OnDestroy {
     const canvas = <HTMLCanvasElement>document.getElementById('canvasVideoDomID'); /*this.streamingcanvas.nativeElement;*/
     // console.log(canvas.clientWidth, canvas.clientHeight);
 
-    this.liveVideoService.createCanvas(this.canvasBlobsDomID, this.canvasVideoDomID, this.canvasContainerDomID);
-
     const player = new JSMpeg.Player(url,
       { canvas: canvas, autoplay: true, audio: false, loop: true , disableGl: true}
       );
+
+    this.liveVideoService.createCanvas(this.canvasBlobsDomID, this.canvasVideoDomID, this.canvasContainerDomID);
 
     // const image = {image: {path: 'http://localhost:6100/api/file/1601798987270.jpg', id: '1'}};
     // this.liveVideoService.createImageMain({success: true, data: player});
@@ -59,13 +59,13 @@ export class CanvasVideoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getStyle = () => {
     let style;
-    if (!this.applicationService.screen.showLeftPanel && this.applicationService.screen.showVideo
-      && this.applicationService.selectedWindow === VIDEO_OR_MAP.video) {
-      style = {'width': 'auto', 'height': 500};
-    } else if (!this.applicationService.screen.showLeftPanel && this.applicationService.screen.showVideo
-      && this.applicationService.selectedWindow === VIDEO_OR_MAP.map) {
-      style = {'width': this.liveVideoService.videoData.width, 'height': this.liveVideoService.videoData.height};
-    }
+    // if (!this.applicationService.screen.showLeftPanel && this.applicationService.screen.showVideo
+    //   && this.applicationService.selectedWindow === VIDEO_OR_MAP.video) {
+    //   style = {'width': 'auto', 'height': 500};
+    // } else if (!this.applicationService.screen.showLeftPanel && this.applicationService.screen.showVideo
+    //   && this.applicationService.selectedWindow === VIDEO_OR_MAP.map) {
+    //   style = {'width': this.liveVideoService.videoData.width, 'height': this.liveVideoService.videoData.height};
+    // }
 
     return style;
   };
