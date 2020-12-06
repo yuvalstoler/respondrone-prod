@@ -1,16 +1,12 @@
 import {
-    LOCATION_TYPE,
-    PRIORITY,
-    FR_DATA_MD,
-    FR_DATA_UI,
-    TABLE_DATA_MD,
-    FR_TYPE,
-    EVENT_DATA_UI,
-    AV_DATA_UI,
     AV_DATA_MD,
-    OPERATIONAL_STATUS,
-    MISSION_REQUEST_DATA_UI,
-    MISSION_STATUS_UI, MISSION_ROUTE_DATA_UI, MISSION_TYPE_TEXT, AV_OPTIONS, CAPABILITY, MISSION_TYPE
+    AV_DATA_UI,
+    AV_OPTIONS,
+    CAPABILITY,
+    COMM_STATUS,
+    MISSION_TYPE,
+    MISSION_TYPE_TEXT,
+    OPERATIONAL_STATUS
 } from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
@@ -28,7 +24,8 @@ export class AirVehicleMdLogic implements IModeDefine {
                 mapIcon: AirVehicleMdLogic.getIcon(data),
                 statusColor: AirVehicleMdLogic.getStatusColor(data),
                 iconSize: this.getIconSize(data),
-                gpsIcon: this.getGPSIcon(data)
+                gpsIcon: this.getGPSIcon(data),
+                isDisabled: this.isDisabled(data)
             },
             data: {
                 missionName: AirVehicleMdLogic.getMissionName(data, missionRequest),
@@ -71,6 +68,10 @@ export class AirVehicleMdLogic implements IModeDefine {
         }
         return res;
     }
+
+    private static isDisabled = (data: AV_DATA_UI): boolean => {
+        return (data.commStatus === COMM_STATUS.NoComm)
+    };
 
     private static getIcon = (data: AV_DATA_UI): string => {
         let res: string = '../../../../../assets/droneBlack.png';

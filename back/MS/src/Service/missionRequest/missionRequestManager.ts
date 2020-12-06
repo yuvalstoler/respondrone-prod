@@ -51,6 +51,8 @@ export class MissionRequestManager {
 
     missionRequests: MissionRequest[] = [];
     missionTypes: MISSION_TYPE[] = [MISSION_TYPE.CommRelay, MISSION_TYPE.Patrol, MISSION_TYPE.Scan, MISSION_TYPE.Observation, MISSION_TYPE.Servoing] // Object.values(MISSION_TYPE);
+    isSavingInDB = false;
+    isSavingInDBTimeout;
 
     private constructor() {
         this.initAllMissionRequests();
@@ -73,6 +75,10 @@ export class MissionRequestManager {
     // ------------------
     private startUpdateMissionRequests = () => {
         setInterval(() => {
+            if (this.isSavingInDB) {
+                console.log('=== savingInDB');
+                return;
+            }
             this.missionTypes.forEach((missionType: MISSION_TYPE) => {
                 const request = this.sendGetMissionRequest(missionType, {});
                 if (request) {
@@ -98,6 +104,7 @@ export class MissionRequestManager {
                                                         delete missionData.missionType;
                                                         missionForSave.setValues(missionData);
                                                         this.checkIfToUpdateStatus(missionForSave);
+                                                        console.log('create/update', missionForSave.missionStatus);
                                                         promise = this.saveMissionInDB(missionForSave.toJsonForSave());
                                                         promiseArr.push(promise)
                                                     }
@@ -109,7 +116,7 @@ export class MissionRequestManager {
                                                     break;
                                                 }
                                             }
-                                        })
+                                        });
                                         Promise.all(promiseArr)
                                             .then((data) => {
                                                 RepositoryManager.updateCollectionVersion(missionType, repData.collectionVersion);
@@ -145,9 +152,16 @@ export class MissionRequestManager {
 
         if (missionRequest[REP_OBJ_KEY[missionRequest.missionType]].status === MISSION_STATUS.InProgress
             && missionRequest.missionStatus === MISSION_STATUS_UI.WaitingForApproval) {
+            console.log('4. res from rep - change to approved')
             missionRequest.missionStatus = MISSION_STATUS_UI.Approved;
             MissionRouteManager.onApproveMissionRoute()
         }
+
+        // if (missionRequest[REP_OBJ_KEY[missionRequest.missionType]].status === MISSION_STATUS.InProgress
+        //     && missionRequest.missionStatus === MISSION_STATUS_UI.Approved) {
+        //     missionRequest.missionStatus = MISSION_STATUS_UI.InProgress;
+        //     MissionRouteManager.onApproveMissionRoute()
+        // }
     }
     // ------------------
     private getMissionRequestsFromDBS = (): Promise<ASYNC_RESPONSE<MISSION_REQUEST_DATA[]>> => {
@@ -185,6 +199,7 @@ export class MissionRequestManager {
                         newMissionRequest.time = missionRequestData.time || Date.now();
                         newMissionRequest.idView = missionRequestData.idView || DataUtility.generateIDForView();
 
+                        console.log('createMissionRequest');
                         this.saveMissionInDB(newMissionRequest.toJsonForSave())
                             .then((result: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
                                 res.data = result.data;
@@ -199,11 +214,15 @@ export class MissionRequestManager {
                     }
                     else {
                         console.log('failed response from TMM', JSON.stringify(TMMResponse))
+                        res.data = JSON.stringify(TMMResponse);
+                        resolve(res);
                     }
 
                 })
                 .catch((data) => {
                     console.log('failed send to TMM', JSON.stringify(data))
+                    res.data = JSON.stringify(data);
+                    reject(res);
                 })
         });
     }
@@ -443,6 +462,7 @@ export class MissionRequestManager {
                         case MISSION_REQUEST_ACTION.Approve: {
                             missionDataForRep.lastAction = LAST_ACTION.Update;
                             missionDataForRep[REP_OBJ_KEY[missionRequest.missionType]].status = MISSION_STATUS.InProgress;
+                            console.log('3. action approve - change to inProgress')
                             break;
                         }
                         case MISSION_REQUEST_ACTION.Complete: {
@@ -500,6 +520,14 @@ export class MissionRequestManager {
     // --------------------------
     private saveMissionInDB = (missionRequestData: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE> => {
         return new Promise((resolve, reject) => {
+            console.log("*before mission Saved in DB", missionRequestData.missionStatus)
+
+            this.isSavingInDB = true; console.log('1')
+            clearTimeout(this.isSavingInDBTimeout);
+            this.isSavingInDBTimeout = setTimeout(() => {
+                this.isSavingInDB = false; console.log('*0')
+            }, 500)
+
             RequestManager.requestToDBS(DBS_API.createMissionRequest, missionRequestData)
                 .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
                     if (data.success) {
@@ -513,14 +541,25 @@ export class MissionRequestManager {
                                 this.missionRequests.push(missionRequest);
                             }
                         }
+                        console.log('***after mission Saved in DB', missionRequest.missionStatus);
+                        this.checkIfRouteArrived(missionRequest);
                         UpdateListenersManager.updateMissionRequestListeners();
                     }
                     else {
                         console.log('error saveMissionInDB', JSON.stringify(data));
                     }
+
+                    this.isSavingInDB = false; console.log('0');
+                    clearTimeout(this.isSavingInDBTimeout);
+                    this.isSavingInDBTimeout = undefined;
+
                     resolve(data);
                 })
                 .catch((data) => {
+                    this.isSavingInDB = false; console.log('**0');
+                    clearTimeout(this.isSavingInDBTimeout);
+                    this.isSavingInDBTimeout = undefined;
+
                     console.log('error saveMissionInDB', JSON.stringify(data));
                     reject(data);
                 });
@@ -534,15 +573,31 @@ export class MissionRequestManager {
     private onUpdateMissionRoute = (missionRoute: MissionRoute) => {
         const missionRequest: MissionRequest = this.getMissionRequestById(missionRoute.requestId);
         if (missionRequest) {
-            if (missionRequest.missionStatus === MISSION_STATUS_UI.Pending) {
-                const missionRequestData = missionRequest.toJsonForSave()
-                missionRequestData.missionStatus = MISSION_STATUS_UI.WaitingForApproval;
-                this.saveMissionInDB(missionRequestData);
-            }
-            if (missionRequest.missionStatus === MISSION_STATUS_UI.Approved && missionRoute.status === ROUTE_STATUS.Active) {
-                const missionRequestData: MISSION_REQUEST_DATA = missionRequest.toJsonForSave();
-                missionRequestData.missionStatus = MISSION_STATUS_UI.InProgress;
-                this.saveMissionInDB(missionRequestData);
+            this.updateStatusByMissionRoute(missionRequest, missionRoute);
+        }
+    }
+    // -------------------------
+    private updateStatusByMissionRoute = (missionRequest: MissionRequest, missionRoute: MissionRoute) => {
+        if (missionRequest.missionStatus === MISSION_STATUS_UI.Pending) {
+            const missionRequestData = missionRequest.toJsonForSave()
+            missionRequestData.missionStatus = MISSION_STATUS_UI.WaitingForApproval;
+            console.log('onUpdateMissionRoute - change to WaitingForApproval')
+            this.saveMissionInDB(missionRequestData);
+        }
+        if (missionRequest.missionStatus === MISSION_STATUS_UI.Approved && missionRoute.status === ROUTE_STATUS.Active) {
+            const missionRequestData: MISSION_REQUEST_DATA = missionRequest.toJsonForSave();
+            missionRequestData.missionStatus = MISSION_STATUS_UI.InProgress;
+            console.log('onUpdateMissionRoute - change status to inProgress')
+            this.saveMissionInDB(missionRequestData);
+        }
+    }
+    // --------------------------
+    private checkIfRouteArrived = (missionRequest: MissionRequest) => {
+        if (missionRequest.missionStatus === MISSION_STATUS_UI.Pending || missionRequest.missionStatus === MISSION_STATUS_UI.Approved) {
+            const route = MissionRouteManager.getMissionRouteByRequestId(missionRequest.id);
+            if (route) {
+                console.log('checkIfRouteArrived');
+                this.updateStatusByMissionRoute(missionRequest, route);
             }
         }
     }

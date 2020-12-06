@@ -51,7 +51,7 @@ export class CanvasClass {
     // const y = 0;
     // // context2.drawImage( canvas1, x,y );
     // this.ctx2.drawImage( this.canvasBlob, x, y );
-    
+
     this.fillHandler();
     this.canvasContainer.onmousedown = function (e) {
       if (e.button === 1) {

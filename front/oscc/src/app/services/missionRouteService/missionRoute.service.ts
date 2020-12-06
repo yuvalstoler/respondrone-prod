@@ -11,7 +11,7 @@ import {
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {DRAW_LABEL, HEADER_BUTTONS, ICON_DATA} from "../../../types";
+import {DRAW_LABEL, HEADER_BUTTONS, ICON_DATA, POLYLINE_DATA} from "../../../types";
 import {API_GENERAL, WS_API} from "../../../../../../classes/dataClasses/api/api_enums";
 import {MissionRequestService} from "../missionRequestService/missionRequest.service";
 import {ApplicationService} from "../applicationService/application.service";
@@ -129,7 +129,13 @@ export class MissionRouteService {
     item.route.forEach((pointOfRoute: PointOfRoute) => {
       polyline.push([pointOfRoute.point.lon, pointOfRoute.point.lat, pointOfRoute.point.alt]);
     });
-    this.mapGeneralService.createPolyline(polyline, item.id, undefined, item.modeDefine);
+    const polylineData: POLYLINE_DATA = {
+      id: item.id,
+      description: undefined,
+      modeDefine: item.modeDefine,
+      polyline: polyline
+    };
+    this.mapGeneralService.createPolyline(polylineData.polyline, polylineData.id, polylineData.description, polylineData.modeDefine);
   };
   // -----------------------
   public getById = (id: string): MISSION_ROUTE_DATA_UI => {

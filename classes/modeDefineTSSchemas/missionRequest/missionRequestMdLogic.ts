@@ -1,10 +1,13 @@
 import {
-    MAP, MISSION_ACTION_OPTIONS, MISSION_REQUEST_ACTION,
+    MISSION_ACTION_OPTIONS,
+    MISSION_REQUEST_ACTION,
     MISSION_REQUEST_DATA_MD,
     MISSION_REQUEST_DATA_UI,
-    MISSION_STATUS_UI, MISSION_TYPE,
+    MISSION_STATUS_UI,
+    MISSION_TYPE,
     MISSION_TYPE_TEXT,
-    TABLE_DATA_MD
+    TABLE_DATA_MD,
+    TARGET_TYPE
 } from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
@@ -22,7 +25,9 @@ export class MissionRequestMdLogic implements IModeDefine {
                 mapIcon: MissionRequestMdLogic.getIcon(data),
                 textColor: MissionRequestMdLogic.getTextColor(data),
                 dotColor: MissionRequestMdLogic.getDotColor(data),
-                iconSize: this.getIconSize(data)
+                iconSize: MissionRequestMdLogic.getIconSize(data),
+                color: MissionRequestMdLogic.getColor(data),
+                fillColor: MissionRequestMdLogic.getFillColor(data)
             },
             tableData: MissionRequestMdLogic.tableData(data),
             data: {
@@ -149,12 +154,29 @@ export class MissionRequestMdLogic implements IModeDefine {
     }
 
     private static getIcon = (data: MISSION_REQUEST_DATA_UI): string => {
-        const res = '../../../../../assets/markerBlue.png';
+        let res = '../../../../../assets/markerBlue.png';
+        if (data.missionType === MISSION_TYPE.Observation) {
+            res = '../../../../../assets/markerYellow.png';
+        } else if (data.missionType === MISSION_TYPE.CommRelay) {
+            res = '../../../../../assets/markerPurple.png';
+        }
         return res;
     };
 
     private static getColor = (data: MISSION_REQUEST_DATA_UI): string => {
         let res: string = MDClass.colors.lightBlue;
+        if (data.missionType === MISSION_TYPE.Scan) {
+            res = MDClass.colors.white;
+        } else if (data.missionType === MISSION_TYPE.Patrol) {
+            res = MDClass.colors.green;
+        } else if (data.missionType === MISSION_TYPE.CommRelay) {
+            res = MDClass.colors.purple;
+        }
+        return res;
+    };
+
+    private static getFillColor = (data: MISSION_REQUEST_DATA_UI): string => {
+        let res: string = 'rgba(0,0,0,0)'
         return res;
     };
 

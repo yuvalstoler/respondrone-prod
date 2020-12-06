@@ -8,7 +8,7 @@ import { RequestManager } from '../../AppService/restConnections/requestManager'
 import {
     ASYNC_RESPONSE,
     ID_OBJ,
-    FR_DATA, FR_DATA_UI, SOCKET_IO_CLIENT_TYPES, FR_DATA_TELEMETRY, ID_TYPE
+    FR_DATA, FR_DATA_UI, SOCKET_IO_CLIENT_TYPES, FR_DATA_TELEMETRY, ID_TYPE, MISSION_REQUEST_DATA
 } from '../../../../../classes/typings/all.typings';
 import {SocketIO} from '../../websocket/socket.io';
 import {ReportManager} from '../report/reportManager';
@@ -16,6 +16,7 @@ import {FR} from '../../../../../classes/dataClasses/fr/FR';
 import {FrMdLogic} from "../../../../../classes/modeDefineTSSchemas/frs/frMdLogic";
 import {SOCKET_ROOM} from "../../../../../classes/dataClasses/api/api_enums";
 import {SocketIOClient} from "../../websocket/socketIOClient";
+import {MissionRequestManager} from "../missionRequest/missionRequestManager";
 
 
 export class FrManager {
@@ -60,7 +61,8 @@ export class FrManager {
         const res: FR_DATA_UI[] = [];
         this.frs.forEach((user: FR) => {
             const userDataUI: FR_DATA_UI = user.toJsonForUI();
-            userDataUI.modeDefine = user.modeDefine = FrMdLogic.validate(userDataUI);
+            const missionsFollowingFR: MISSION_REQUEST_DATA[] = MissionRequestManager.getMissionsFollowingFR(user.id);
+            userDataUI.modeDefine = FrMdLogic.validate(userDataUI, missionsFollowingFR);
 
             res.push(userDataUI);
         });

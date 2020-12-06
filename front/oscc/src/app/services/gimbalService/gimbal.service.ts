@@ -76,22 +76,22 @@ export class GimbalService {
       }
       this.gimbalsByDroneId[newItem.droneId] = newItem
 
-      this.removeFromMap(newItem);
+      // this.removeFromMap(newItem);
       this.drawMission(newItem);
     });
   };
   // ----------------------
   private removeFromMap = (item: GIMBAL_DATA_UI) => {
     if (item.cameraLookAtPoint) {
-      this.mapGeneralService.deleteIcon(item.id);
+      this.mapGeneralService.deleteIcon('cameraLookAtPoint' + item.id);
     }
 
     if (item.cameraFootprint) {
-      this.mapGeneralService.deletePolygonManually(item.id);
+      this.mapGeneralService.deletePolygonManually('cameraFootprint' + item.id);
     }
 
     if (item.lineFromAirVehicle) {
-      this.mapGeneralService.deletePolylineFromMap(item.id);
+      this.mapGeneralService.deletePolylineFromMap('lineFromAirVehicle' + item.id);
     }
   }
   // ----------------------
@@ -109,6 +109,7 @@ export class GimbalService {
           altitude: item.cameraLookAtPoint.alt,
         }
       }
+      this.mapGeneralService.deleteIcon('cameraLookAtPoint' + item.id);
       this.mapGeneralService.createIcon(iconData);
     }
 
@@ -120,7 +121,7 @@ export class GimbalService {
         modeDefine: item.modeDefine,
         polygon: this.applicationService.geopoint3d_short_to_point3d_arr(item.cameraFootprint.coordinates)
       };
-      this.mapGeneralService.drawPolygonFromServer(polygonData.polygon, polygonData.id, polygonData.title, polygonData.description);
+      this.mapGeneralService.drawPolygonFromServer(polygonData.polygon, polygonData.id, polygonData.title, polygonData.description, polygonData.modeDefine);
     }
 
     if (item.lineFromAirVehicle) {
@@ -130,7 +131,7 @@ export class GimbalService {
         modeDefine: item.modeDefine,
         polyline: this.applicationService.geopoint3d_short_to_point3d_arr(item.lineFromAirVehicle)
       };
-      this.mapGeneralService.createPolyline(polylineData.polyline, polylineData.id, polylineData.description);
+      this.mapGeneralService.createPolyline(polylineData.polyline, polylineData.id, polylineData.description, polylineData.modeDefine);
     }
 
   };

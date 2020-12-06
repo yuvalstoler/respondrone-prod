@@ -141,10 +141,10 @@ export class MapGeneralService {
 
 
   //Polygon ====================================================================================================
-  public drawPolygonFromServer = (arrayPoints: POINT3D[], id: string, title: string, description: string) => {
+  public drawPolygonFromServer = (arrayPoints: POINT3D[], id: string, title: string, description: string, modeDefine?: any) => {
     const domId = undefined;
     let res = false;
-    res = this.cesiumDrawerService.drawPolygonFromServer(domId, arrayPoints, id, title, description);
+    res = this.cesiumDrawerService.drawPolygonFromServer(domId, arrayPoints, id, title, description, modeDefine);
     return res;
   };
 

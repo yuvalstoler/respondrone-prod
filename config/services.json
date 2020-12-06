@@ -112,7 +112,7 @@
     "protocol": "http"
   },
   "GimbalTelemetrySenderRep": {
-    "port": "4702",
+    "port": "4706",
     "host": "localhost",
     "protocol": "http"
   },
@@ -170,15 +170,26 @@
     "protocol": "http"
   },
 
+
+
   "TMM": {
     "port": "3000",
     "host": "localhost",
     "protocol": "http"
   },
-
-  "Blobs": {
-    "port": "4000",
-    "host": "192.168.1.15",
+  "TMM2": {
+    "port": "",
+    "host": "tmm.respondev.eu/api",
+    "protocol": "https"
+  },
+  "THALES": {
+    "port": "3000",
+    "host": "localhost",
+    "protocol": "http"
+  },
+  "THALES2": {
+    "port": "40001",
+    "host": "23.97.135.79",
     "protocol": "http"
   }
 }

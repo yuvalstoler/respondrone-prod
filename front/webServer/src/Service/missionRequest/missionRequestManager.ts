@@ -6,18 +6,23 @@ import {RequestManager} from '../../AppService/restConnections/requestManager';
 
 import {
     ASYNC_RESPONSE,
-    ID_OBJ, ID_TYPE,
-    MISSION_ACTION_OPTIONS, MISSION_REQUEST_ACTION,
+    COMM_RELAY_TYPE,
+    ID_OBJ,
+    ID_TYPE,
     MISSION_REQUEST_ACTION_OBJ,
     MISSION_REQUEST_DATA,
     MISSION_REQUEST_DATA_UI,
-    MISSION_STATUS_UI, REP_OBJ_KEY,
-    REPORT_DATA
+    MISSION_STATUS_UI,
+    MISSION_TYPE,
+    REP_OBJ_KEY,
+    REPORT_DATA,
+    TARGET_TYPE
 } from '../../../../../classes/typings/all.typings';
 import {SocketIO} from '../../websocket/socket.io';
 import {MissionRequest} from "../../../../../classes/dataClasses/missionRequest/missionRequest";
 import {MissionRequestMdLogic} from "../../../../../classes/modeDefineTSSchemas/missionRequest/missionRequestMdLogic";
 import {AirVehicleManager} from "../airVehicle/airVehicleManager";
+import {MissionRouteManager} from "../missionRoute/missionRouteManager";
 
 const _ = require('lodash');
 
@@ -59,6 +64,24 @@ export class MissionRequestManager {
         const res: MISSION_REQUEST_DATA[] = [];
         this.missionRequests.forEach((mission: MissionRequest) => {
             res.push(mission.toJsonForSave());
+        });
+        return res;
+    }
+
+    private getMissionsFollowingFR = (frId: ID_TYPE): MISSION_REQUEST_DATA[] => {
+        const res = [];
+        this.missionRequests.forEach((mission: MissionRequest) => {
+            const missionData: MISSION_REQUEST_DATA = mission.toJsonForSave();
+            if (missionData.missionStatus === MISSION_STATUS_UI.InProgress && missionData.missionType === MISSION_TYPE.Servoing && missionData.servoingMissionRequest
+                && missionData.servoingMissionRequest.targetType === TARGET_TYPE.FR && missionData.servoingMissionRequest.targetId === frId) {
+                console.log("--- mission following FR", frId, 'Servoing', missionData.id)
+                res.push(missionData);
+            } else if (missionData.missionStatus === MISSION_STATUS_UI.InProgress && missionData.missionType === MISSION_TYPE.CommRelay && missionData.commRelayMissionRequest
+                && missionData.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Follow && missionData.commRelayMissionRequest.missionData.FRs
+                && missionData.commRelayMissionRequest.missionData.FRs.indexOf(frId) !== -1) {
+                console.log("--- mission following FR", frId, 'CommRelayFollow', missionData.id)
+                res.push(missionData);
+            }
         });
         return res;
     }
@@ -209,6 +232,7 @@ export class MissionRequestManager {
             this.missionRequests = Converting.Arr_MISSION_REQUEST_DATA_to_Arr_MissionRequest(data);
             res.success = true;
             this.sendDataToUI();
+            MissionRouteManager.sendDataToUI();
             resolve(res);
 
         });
@@ -239,6 +263,7 @@ export class MissionRequestManager {
     // public static deleteAllReport = MissionRequestManager.instance.deleteAllReport;
 
     public static sendDataToUI = MissionRequestManager.instance.sendDataToUI;
+    public static getMissionsFollowingFR = MissionRequestManager.instance.getMissionsFollowingFR;
 
 
     // endregion API uncions

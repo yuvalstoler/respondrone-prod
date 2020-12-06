@@ -156,6 +156,10 @@ export class MissionRouteManager {
         return this.missionRoutes.find(element => element.id === missionId)
     }
     // -----------------------
+    private getMissionRouteByRequestId = (requestId: ID_TYPE) => {
+        return this.missionRoutes.find(element => element.requestId === requestId)
+    }
+    // -----------------------
     private onApproveMissionRoute = () => {
         // TODO change
         setTimeout(() => {
@@ -229,6 +233,7 @@ export class MissionRouteManager {
     public static readAllMissionRoute = MissionRouteManager.instance.readAllMissionRoute;
     public static getMissionRoutes = MissionRouteManager.instance.getMissionRoutes;
     public static getMissionRouteById = MissionRouteManager.instance.getMissionRouteById;
+    public static getMissionRouteByRequestId = MissionRouteManager.instance.getMissionRouteByRequestId;
     public static onApproveMissionRoute = MissionRouteManager.instance.onApproveMissionRoute;
 
 

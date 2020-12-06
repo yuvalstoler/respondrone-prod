@@ -78,7 +78,7 @@ export class CesiumService {
   public createMap = (mapId: string) => {
     // Your access token can be found at: https://cesium.com/ion/tokens.
     // Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwMzA2MGYzNi1mOWU5LTQwMzItYjcxNi1hYTQ0YzlhNzY5MzgiLCJpZCI6MzcyNzEsImlhdCI6MTYwNDgzMjcxMH0.s8iZsRvt0A0-j9rSE5AxJFyktfLnFWvX5JlXgx5fazI';
-    const cesiumViewer: any = new Cesium.Viewer(
+   /* const cesiumViewer: any = new Cesium.Viewer(
       this.maps[0].containerId,
       {
         //  baseLayerPicker: false,
@@ -105,7 +105,19 @@ export class CesiumService {
         requestRenderMode: true,
         maximumRenderTime: Infinity,
       }
-    );
+    );*/
+
+
+
+
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YzM3OTZkOC0wZWY0LTQzNWItODYxYS0wODdhNGIyZTM5NzAiLCJpZCI6MzcyNzEsImlhdCI6MTYwNjg2MDI0OH0.Fbmq26ejVXZvVXcgICzOibjAWkdd4isMV5qF-o33FxM'
+    const cesiumViewer: any = new Cesium.Viewer(this.maps[0].containerId);
+    cesiumViewer.scene.primitives.add(Cesium.createOsmBuildings());
+    const layers = cesiumViewer.baseLayerPicker.viewModel.imageryProviderViewModels;
+    cesiumViewer.baseLayerPicker.viewModel.selectedImagery = layers[4]
+
+
+
 
     this.cesiumViewer[mapId] = this.cesiumViewer[mapId] || {};
     this.cesiumViewer[mapId] = cesiumViewer;
@@ -118,14 +130,17 @@ export class CesiumService {
     this.cesiumMapObjects[mapId] = this.cesiumMapObjects[mapId] || {};
     cesiumViewer.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 
-    cesiumViewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(mapDefaultPosition.lon, mapDefaultPosition.lat,  mapDefaultPosition.height),
-      duration: 2,
-    });
+    setTimeout(() => {
+      cesiumViewer.camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(mapDefaultPosition.lon, mapDefaultPosition.lat,  mapDefaultPosition.height),
+        duration: 2,
+      });
+    }, 2000)
 
-    setInterval(() => {
-      cesiumViewer.scene.requestRender();
-    }, 100);
+
+    // setInterval(() => {
+    //   cesiumViewer.scene.requestRender();
+    // }, 100);
   };
 
   public getMapByDomId = (domId): MAP<any> => {

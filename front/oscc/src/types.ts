@@ -104,7 +104,8 @@ export type POLYGON_DATA = {
   title: string,
   modeDefine: {
     styles: {
-      dotColor: string
+      color: string,
+      fillColor: string
     }
   },
   polygon: POINT3D[]
@@ -115,7 +116,8 @@ export type POLYLINE_DATA = {
   description: string,
   modeDefine: {
     styles: {
-      dotColor: string
+      color: string
+      isDotted?: boolean
     }
   },
   polyline: POINT3D[]

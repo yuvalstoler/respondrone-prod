@@ -7,7 +7,6 @@ const servicesConf = require('./../../../../../../../config/services.json');
 const FRSServiceURL = servicesConf.FRS.protocol + '://' + servicesConf.FRS.host + ':' + servicesConf.FRS.port;
 const MServiceURL = servicesConf.MS.protocol + '://' + servicesConf.MS.host + ':' + servicesConf.MS.port;
 const GServiceURL = servicesConf.GS.protocol + '://' + servicesConf.GS.host + ':' + servicesConf.GS.port;
-const VideoServerURL = servicesConf.Blobs.protocol + '://' + servicesConf.Blobs.host + ':' + servicesConf.Blobs.port;
 
 export class SocketIOClient {
     private static instance: SocketIOClient = new SocketIOClient();
@@ -21,14 +20,6 @@ export class SocketIOClient {
         this.sockets[SOCKET_IO_CLIENT_TYPES.FRS] = io(FRSServiceURL, {autoConnect: true});
         this.sockets[SOCKET_IO_CLIENT_TYPES.MS] = io(MServiceURL, {autoConnect: true});
         this.sockets[SOCKET_IO_CLIENT_TYPES.GS] = io(GServiceURL, {autoConnect: true});
-        this.sockets[SOCKET_IO_CLIENT_TYPES.VideoServer] = io(VideoServerURL, {autoConnect: true});
-        this.sockets[SOCKET_IO_CLIENT_TYPES.VideoServer].on('connect', () => {
-            console.log('video socket connected');
-        });
-
-        this.sockets[SOCKET_IO_CLIENT_TYPES.MS].on('connect', () => {
-            console.log('ms connected');
-        });
     }
 
     // public static getInstance() {
