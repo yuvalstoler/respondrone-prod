@@ -45,6 +45,7 @@ export type GEOMETRY = { coordinates: POINT | POINT3D, type?: string };
 export type YXZ = { y: number, x: number, z: number };
 export type YXZW = YXZ & { w: number };
 export type POINT = [number, number];
+export type SIZE = {width: number, height: number};
 // @ts-ignore
 export type POINT3D = [number, number, number?];
 export type VECTOR = [POINT3D, POINT3D];

@@ -1,4 +1,5 @@
 @import "../../../../../styles/variable";
+@import "../../../../../styles/colors";
 
 .canvasVideoContainer {
   display: flex;
@@ -6,97 +7,65 @@
   height: calc(100vh - 70px);
 }
 
-//.canvasContainerDom{
-//  display: flex;
-//  width: 100%;
-//  height: 100%;
-//  //
-//  ////width: 100vw;
-//  ////height: calc(100vh - 70px);
-//  //
-//  //position: relative;
-//  //width: 100%;
-//  //padding-bottom: 100%;
-//
-//
-//  & > * {
-//    //position: absolute;
-//    //height: calc(100vh - 70px);
-//
-//    flex: 1;
-//    position: relative;
-//
-//    //position: absolute;
-//    //width: 100%;
-//    //height: 100%;
-//  }
-//
-//  #editingCanvas {
-//    z-index: 2;
-//    position: absolute;
-//  }
-//
-//  .canvasDom {
-//    //z-index: 12;
-//    //height: calc(100vh - 70px) !important;
-//    //width: auto !important;
-//
-//    z-index: 1;
-//    display: block;
-//    position: absolute;
-//  }
-//
-//  .width-height-0 {
-//    height: 0;
-//    width: 0;
-//  }
-//}
-
-.wrapper {
-  display: block;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-}
-
-.container {
-  display: block;
-  //vertical-align: middle;
-}
-
-.canvasContainerDom {
-  position: relative;
-  max-width: 100vw;
-  //max-height: calc(100vh - 70px);
-  min-width: 320px;
-  margin: 0 auto;
-}
-
-.canvasDom1 {
-  width: 100%;
-  height: auto;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-}
-
-.canvasDom2 {
-  width: 100%;
-  height: auto;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-}
-
-.CanvasDomSmall{
-  height: 30%;
-  width: 30%;
+.CanvasDomSmall {
+  height: 500px;
+  width: 650px;
   z-index: 5;
   border-radius: 15px;
-  mat-icon{
+
+  mat-icon {
     cursor: pointer;
   }
 }
+
+///////////////////////////////////////////////////////////
+.wrapper {
+  position: relative;
+  background: $lightGray;
+  width: 100%;
+  height: 100%;
+}
+
+.image-detail {
+  height: 100%;
+  width: 100%;
+  display: block;
+  position: relative;
+}
+
+.image-detail-canvas {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+
+//.canvasContainerDom {
+//  position: absolute;
+//  top: 50%;
+//  left: 50%;
+//  transform: translate(-50%, -50%);
+//  background: gold;
+//  overflow: hidden;
+//  width: 100%;
+//  height: calc(100vh - 70px);
+//}
+//
+//.canvasDom1, .canvasDom2 {
+//  width: auto;
+//  max-width: 100%;
+//  max-height: 100%;
+//  height: auto;
+//  margin: 0 auto;
+//  display: block;
+//  position: fixed;
+//}
+//
+//canvas {
+//  display: block;
+//}
