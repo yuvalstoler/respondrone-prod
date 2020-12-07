@@ -684,9 +684,10 @@ export type GRAPHIC_OVERLAY_DATA = REP_ENTITY & {
         coordinates?: GEOPOINT3D_SHORT[]
     }
     color: GRAPHIC_OVERLAY_COLOR;
-    Type: GRAPHIC_OVERLAY_TYPE;
+    type: GRAPHIC_OVERLAY_TYPE;
     creationTime: TIMESTAMP;
     lastUpdateTime: TIMESTAMP;
+    metadata: METADATA_OBJ[]
 }
 export type GRAPHIC_OVERLAY_DATA_UI = GRAPHIC_OVERLAY_DATA & {
     modeDefine: GRAPHIC_OVERLAY_DATA_MD;
@@ -698,6 +699,10 @@ export type GRAPHIC_OVERLAY_DATA_MD = {
         color: string;
         fillColor: string;
     }
+}
+export type METADATA_OBJ = {
+    name: string,
+    value: string
 }
 
 export enum GRAPHIC_OVERLAY_COLOR {
@@ -717,6 +722,7 @@ export enum GRAPHIC_OVERLAY_TYPE {
     Vehicle = 'Vehicle',
     NetworkCoverage = 'NetworkCoverage',
     General = 'General',
+    Building = 'Building'
 }
 
 

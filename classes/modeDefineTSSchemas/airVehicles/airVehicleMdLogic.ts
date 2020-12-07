@@ -70,7 +70,7 @@ export class AirVehicleMdLogic implements IModeDefine {
     }
 
     private static isDisabled = (data: AV_DATA_UI): boolean => {
-        return (data.commStatus === COMM_STATUS.NoComm)
+        return (data.operationalStatus === OPERATIONAL_STATUS.NotActive || data.commStatus === COMM_STATUS.NoComm);
     };
 
     private static getIcon = (data: AV_DATA_UI): string => {

@@ -79,7 +79,7 @@ export class LiveVideoService {
   }
 
   startGetBlobs = () => {
-    const url = 'ws://192.168.1.15:4000';
+    const url = 'ws://20.71.141.60:4000/';
     let ws = new WebSocket(url);
     ws.onopen = () => {
       console.log('Connection opened!');

@@ -8,7 +8,7 @@ import {
     GEOPOINT3D_SHORT,
     GRAPHIC_OVERLAY_COLOR,
     GRAPHIC_OVERLAY_TYPE,
-    GRAPHIC_OVERLAY_DATA_UI, TIMESTAMP, GRAPHIC_OVERLAY_DATA,
+    GRAPHIC_OVERLAY_DATA_UI, TIMESTAMP, GRAPHIC_OVERLAY_DATA, METADATA_OBJ,
 } from '../../typings/all.typings';
 import {DataUtility} from '../../applicationClasses/utility/dataUtility';
 
@@ -21,7 +21,8 @@ export class GraphicOverlay {
     name: string;
     shape: GEOPOINT3D_SHORT | {coordinates: GEOPOINT3D_SHORT[]};
     color: GRAPHIC_OVERLAY_COLOR;
-    Type: GRAPHIC_OVERLAY_TYPE;
+    type: GRAPHIC_OVERLAY_TYPE;
+    metadata: METADATA_OBJ[];
     creationTime: TIMESTAMP;
     lastUpdateTime: TIMESTAMP;
 
@@ -57,7 +58,10 @@ export class GraphicOverlay {
         this.color = data;
     };
     private setType = (data: any) => {
-        this.Type = data;
+        this.type = data;
+    };
+    private setMetadata = (data: any) => {
+        this.metadata = data;
     };
     private setCreationTime = (data: any) => {
         this.creationTime = data;
@@ -91,7 +95,8 @@ export class GraphicOverlay {
             name: this.name,
             shape: this.shape,
             color: this.color,
-            Type: this.Type,
+            type: this.type,
+            metadata: this.metadata,
             creationTime: this.creationTime,
             lastUpdateTime: this.lastUpdateTime,
             lastAction: this.lastAction,
@@ -105,7 +110,8 @@ export class GraphicOverlay {
             name: this.name,
             shape: this.shape,
             color: this.color,
-            Type: this.Type,
+            type: this.type,
+            metadata: this.metadata,
             creationTime: this.creationTime,
             lastUpdateTime: this.lastUpdateTime,
             lastAction: this.lastAction,
@@ -119,7 +125,8 @@ export class GraphicOverlay {
         name: this.setName,
         shape: this.setShape,
         color: this.setColor,
-        Type: this.setType,
+        type: this.setType,
+        metadata: this.setMetadata,
         creationTime: this.setCreationTime,
         lastUpdateTime: this.setLastUpdateTime,
         lastAction: this.setLastAction,

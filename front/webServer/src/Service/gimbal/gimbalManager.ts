@@ -33,7 +33,7 @@ import {FollowPathMissionRequest} from "../../../../../classes/dataClasses/missi
 import {DeliveryMissionRequest} from "../../../../../classes/dataClasses/missionRequest/deliveryMissionRequest";
 import {RequestManager} from "../../AppService/restConnections/requestManager";
 import {AirVehicleManager} from "../airVehicle/airVehicleManager";
-// import {GimbalMdLogic} from "../../../../../classes/modeDefineTSSchemas/gimbals/gimbalMdLogic";
+import {GimbalMdLogic} from "../../../../../classes/modeDefineTSSchemas/gimbals/gimbalMdLogic";
 
 const _ = require('lodash');
 
@@ -113,7 +113,7 @@ export class GimbalManager {
         const res: GIMBAL_DATA_UI[] = [];
         this.gimbals.forEach((gimbal: Gimbal) => {
             const dataUI: GIMBAL_DATA_UI = gimbal.toJsonForUI();
-            // dataUI.modeDefine = GimbalMdLogic.validate(dataUI);
+            dataUI.modeDefine = GimbalMdLogic.validate(dataUI);
             const airVehicle = AirVehicleManager.getAVById(gimbal.droneId);
             if (airVehicle) {
                 dataUI.lineFromAirVehicle = [dataUI.cameraLookAtPoint, airVehicle.location]

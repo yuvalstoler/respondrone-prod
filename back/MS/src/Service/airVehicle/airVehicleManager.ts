@@ -26,7 +26,7 @@ export class AirVehicleManager {
     timestamp: number;
 
     private constructor() {
-/*        const date = Date.now();
+        const date = Date.now();
         const data: AV_DATA_TELEMETRY_REP = {
             'timestamp': {
                 'timestamp': 0
@@ -53,7 +53,7 @@ export class AirVehicleManager {
                     'capability': [CAPABILITY.Delivery],
                     'commStatus': COMM_STATUS.OK,
                     'operationalStatus': OPERATIONAL_STATUS.OnMission,
-                    'routeId': 'kegteze',
+                    'routeId': 'zaqleqk',
                     'name': 'Alpha 1',
                 },
                 {
@@ -112,7 +112,7 @@ export class AirVehicleManager {
             });
 
             this.onGetAirVehicles(data);
-        }, 1000);*/
+        }, 1000);
     }
 
     private startGetSocket = () => {

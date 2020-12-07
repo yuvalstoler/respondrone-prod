@@ -42,7 +42,7 @@ export class FrManager {
                     'location': {
                         'latitude': 0,
                         'longitude': 0,
-                        'altitude': 1000
+                        'altitude': 0
                     },
                     'lastUpdated': {
                         'timestamp': date
@@ -83,11 +83,19 @@ export class FrManager {
             ]
         };
 
+        let lat = 42.2332, lon = 9.1061, diff = 0.00005, sign = 0, key1 = 'latitude', key2 = 'longitude';
+        setInterval(() => {
+            const tmp = lat; lat = lon; lon = tmp;
+            const tmpKey = key1; key1 = key2; key2 = tmpKey;
+            sign++;
+        },  2 * 60 * 1000);
+
         setInterval(() => {
             data.timestamp.timestamp = Date.now();
-            data.FRs.forEach(fr => {
-                fr.location.latitude = 42.30144 + Math.random() * (0.002 + 0.001) - 0.001;
-                fr.location.longitude = 9.15493 + Math.random() * (0.002 + 0.001) - 0.001;
+            data.FRs.forEach((fr, index) => {
+                lat += diff * (sign % 3 === 0 || sign % 4 === 0 ? -1 : 1)
+                fr.location[key1] = lat;
+                fr.location[key2] = lon + index * 0.005;
             });
 
             this.onGetFRs(data);
