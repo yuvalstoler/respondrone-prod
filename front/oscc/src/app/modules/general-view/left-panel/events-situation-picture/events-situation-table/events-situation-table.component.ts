@@ -5,7 +5,13 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {LEFT_PANEL_ICON, MAP} from '../../../../../../types';
 import {ApplicationService} from '../../../../../services/applicationService/application.service';
-import {COMMENT, EVENT_DATA_UI, LOCATION_TYPE, POINT} from '../../../../../../../../../classes/typings/all.typings';
+import {
+  COMMENT,
+  EVENT_DATA_UI,
+  LOCATION_TYPE,
+  MISSION_REQUEST_DATA_UI,
+  POINT
+} from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
 import {ReportService} from '../../../../../services/reportService/report.service';
 import * as _ from 'lodash';
@@ -28,7 +34,7 @@ import {ContextMenuService} from '../../../../../services/contextMenuService/con
 
 export class EventsSituationTableComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['select', 'id', 'title', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map'];
+  displayedColumns: string[] = ['expandCollapse', 'select', 'id', 'title', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map'];
   displayedColumnsMinimize: string[] = ['id', 'priority', 'type'];
   dataSource = new MatTableDataSource<EVENT_DATA_UI>();
 
@@ -68,13 +74,15 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
   }
 
   private selectRow = (row: EVENT_DATA_UI): void => {
-    if (this.selectedElement) {
-      this.eventService.unselectIcon(this.selectedElement);
-    }
-    this.selectedElement = row;
-    this.eventService.selectIcon(row);
+    // if (this.selectedElement) {
+    //   this.eventService.unselectIcon(this.selectedElement);
+    // }
+    // this.selectedElement = row;
+    // this.eventService.selectIcon(row);
+    //
+    // this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
 
-    this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
+    this.selectedElement = this.selectedElement && this.selectedElement.id === row.id ? undefined : row;
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -149,6 +157,11 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
       }
     }
     return $event ? this.selection.toggle(row) : null;
+  };
+
+  onExpandCollapse = (row: EVENT_DATA_UI) => {
+    event.stopPropagation();
+    this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
   };
 
   onUpdateLinkedReports = (result: string[], element: EVENT_DATA_UI) => {

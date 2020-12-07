@@ -183,3 +183,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   font-weight: 900;
 }
 
+.selected-row-color {
+  background-color: $darkGrayOpacity !important;
+}
+

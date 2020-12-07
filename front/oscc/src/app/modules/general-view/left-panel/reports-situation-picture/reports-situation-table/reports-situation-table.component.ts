@@ -9,7 +9,7 @@ import {ReportService} from '../../../../../services/reportService/report.servic
 import {
   COMMENT,
   EVENT_DATA_UI,
-  FILE_FS_DATA, POINT,
+  FILE_FS_DATA, MISSION_REQUEST_DATA_UI, POINT,
   REPORT_DATA_UI
 } from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
@@ -34,7 +34,7 @@ import {ContextMenuService} from '../../../../../services/contextMenuService/con
 
 export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['select', 'id', 'source', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map', 'attachment'];
+  displayedColumns: string[] = ['expandCollapse', 'select', 'id', 'source', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map', 'attachment'];
   displayedColumnsMinimize: string[] = ['id', 'priority', 'type'];
   dataSource = new MatTableDataSource<REPORT_DATA_UI>();
 
@@ -81,13 +81,15 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
     // this.expandedElement = this.expandedElement === element ? null : element;
 
-    if (this.selectedElement) {
-      this.reportService.unselectIcon(this.selectedElement);
-    }
-    this.selectedElement = row;
-    this.reportService.selectIcon(row);
+    // if (this.selectedElement) {
+    //   this.reportService.unselectIcon(this.selectedElement);
+    // }
+    // this.selectedElement = row;
+    // this.reportService.selectIcon(row);
+    //
+    // this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
 
-    this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
+    this.selectedElement = this.selectedElement && this.selectedElement.id === row.id ? undefined : row;
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -179,6 +181,11 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
       }
     }
     return $event ? this.selection.toggle(row) : null;
+  };
+
+  onExpandCollapse = (row: REPORT_DATA_UI) => {
+    event.stopPropagation();
+    this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
   };
 
   onUpdateLinkedEvents = (result: string[], element: REPORT_DATA_UI) => {

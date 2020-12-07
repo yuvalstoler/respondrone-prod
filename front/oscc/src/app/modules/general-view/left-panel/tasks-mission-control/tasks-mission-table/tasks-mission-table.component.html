@@ -3,7 +3,7 @@
     <ng-container *ngFor="let column of (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;
     let i = index" matColumnDef="{{column}}">
       <!--Rows-->
-      <span *ngIf="column !== 'select'">
+      <span *ngIf="column !== 'select' && column !== 'expandCollapse'">
         <th *matHeaderCellDef [disabled]="isSortingDisabled(column)"
             mat-header-cell mat-sort-header>
           <span *ngIf="column !== 'message' && column !== 'assignees' && column !== 'map'"
@@ -65,6 +65,17 @@
           </mat-checkbox>
       </td>
       </span>
+      <!--Expand/Collapse-->
+      <span *ngIf="column === 'expandCollapse'">
+      <th *matHeaderCellDef class="tableCheckbox" mat-header-cell>
+      </th>
+        <td *matCellDef="let row" mat-cell>
+           <mat-icon class="HPRightSideIcon"
+                     (click)="onExpandCollapse(row)">
+             {{this.expandedElement[row.id] === undefined ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}}
+           </mat-icon>
+      </td>
+      </span>
     </ng-container>
 
 
@@ -80,10 +91,10 @@
           <!--Description & Comments-->
           <div class="example-element-description">
             <mat-accordion displayMode="flat">
-              <mat-expansion-panel
-                [expanded]="panelOpenState[element.id]"
+              <mat-expansion-panel expanded>
+                <!--[expanded]="panelOpenState[element.id]"
                 (opened)="panelOpenState[element.id] = true;"
-                (closed)="panelOpenState[element.id] = false;">
+                (closed)="panelOpenState[element.id] = false;">-->
                 <!--header -->
                 <mat-expansion-panel-header>
                   <div class="expendTitle">
@@ -144,8 +155,7 @@
     ></tr>
     <tr (click)="selectRow(row)"
         *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;"
-        [ngStyle]="{'background-color': (expandedElement[row.id])? '#f2f2f2' : '' }"
-        class="example-element-row pointer"
+        class="example-element-row pointer" [ngClass]="(selectedElement?.id === row?.id) ? 'selected-row-color' : ''"
         mat-row>
       <!-- [class.selected]="applicationService.selectedEvent === row"-->
       <!--&lt;&ndash;&gt; [ngStyle]="{'background-color': (selectedData === row)? '#7f7f7f' : '' }"-->

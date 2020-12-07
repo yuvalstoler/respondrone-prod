@@ -256,8 +256,8 @@
           <!--for point location-->
           <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw && missionModel?.location?.lon !== undefined &&
            missionModel?.location?.lat !== undefined  && !commArg?.expanded">
-            long: {{missionModel?.location?.lon | number:'2.0-4'}},
-            Lat: {{missionModel?.location?.lat | number:'2.0-4'}}
+            long: {{missionModel?.location?.lon | number:'1.0-4'}},
+            Lat: {{missionModel?.location?.lat | number:'1.0-4'}}
           </mat-panel-description>
           <!--for FRs locations-->
           <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&

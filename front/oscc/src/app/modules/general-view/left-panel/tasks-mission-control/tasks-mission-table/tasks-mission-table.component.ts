@@ -1,6 +1,12 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {COMMENT, EVENT_DATA_UI, POINT, TASK_DATA_UI} from '../../../../../../../../../classes/typings/all.typings';
+import {
+  COMMENT,
+  EVENT_DATA_UI,
+  MISSION_REQUEST_DATA_UI,
+  POINT,
+  TASK_DATA_UI
+} from '../../../../../../../../../classes/typings/all.typings';
 import {LEFT_PANEL_ICON, MAP} from '../../../../../../types';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatSort} from '@angular/material/sort';
@@ -24,7 +30,7 @@ import * as _ from 'lodash';
 })
 export class TasksMissionTableComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['select', 'id', 'title', 'status', 'priority', 'type', 'description', 'time', 'message', 'assignees', 'map'];
+  displayedColumns: string[] = ['expandCollapse', 'select', 'id', 'title', 'status', 'priority', 'type', 'description', 'time', 'message', 'assignees', 'map'];
   displayedColumnsMinimize: string[] = ['id', 'priority', 'type'];
   dataSource = new MatTableDataSource<TASK_DATA_UI>();
 
@@ -61,13 +67,15 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit {
   }
 
   private selectRow = (row: TASK_DATA_UI): void => {
-    if (this.selectedElement) {
-      this.tasksService.unselectIcon(this.selectedElement);
-    }
-    this.selectedElement = row;
-    this.tasksService.selectIcon(row);
+    // if (this.selectedElement) {
+    //   this.tasksService.unselectIcon(this.selectedElement);
+    // }
+    // this.selectedElement = row;
+    // this.tasksService.selectIcon(row);
+    //
+    // this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
 
-    this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
+    this.selectedElement = this.selectedElement && this.selectedElement.id === row.id ? undefined : row;
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -142,6 +150,11 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit {
       }
     }
     return $event ? this.selection.toggle(row) : null;
+  };
+
+  onExpandCollapse = (row: TASK_DATA_UI) => {
+    event.stopPropagation();
+    this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
   };
 
   onChangeComments = (comments: COMMENT[], element: EVENT_DATA_UI) => {

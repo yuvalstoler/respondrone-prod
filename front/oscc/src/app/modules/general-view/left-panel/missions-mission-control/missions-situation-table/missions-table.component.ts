@@ -34,7 +34,7 @@ import {MissionRequestService} from "../../../../../services/missionRequestServi
 
 export class MissionsTableComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['select', 'id', 'missionStatus', 'missionType', 'description', 'createdBy', 'time', 'message', 'map'];
+  displayedColumns: string[] = ['expandCollapse', 'select', 'id', 'missionStatus', 'missionType', 'description', 'createdBy', 'time', 'message', 'map'];
   displayedColumnsMinimize: string[] = [ 'id', 'missionStatus', 'missionType', 'map'];
   dataSource = new MatTableDataSource<MISSION_REQUEST_DATA_UI>();
 
@@ -106,7 +106,13 @@ export class MissionsTableComponent implements OnInit, AfterViewInit {
     // this.missionRequestService.selectIcon(row);
     //
     this.selectedElement = this.selectedElement && this.selectedElement.id === row.id ? undefined : row;
-    this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
+    // this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
+
+    // if (this.selectedElement) {
+    //   this.selection.clear();
+    //   this.applicationService.selectedMissionRequests = [];
+    //   this.onChangeCheckbox({checked: true}, this.selectedElement);
+    // }
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -200,6 +206,10 @@ export class MissionsTableComponent implements OnInit, AfterViewInit {
     return $event ? this.selection.toggle(row) : null;
   };
 
+  onExpandCollapse = (row: MISSION_REQUEST_DATA_UI) => {
+    event.stopPropagation();
+    this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
+  };
 
   onChangeComments = (comments: COMMENT[], element: EVENT_DATA_UI) => {
     const mission = this.missionRequestService.getById(element.id);
