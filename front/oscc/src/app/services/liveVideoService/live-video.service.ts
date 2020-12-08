@@ -121,9 +121,12 @@ export class LiveVideoService {
     console.log('selected blob id = ', options.selectedId);
     if (options.selectedId) {
       const airVehicle = this.applicationService.selectedAirVehicle;
-      this.onMissionOptions(MISSION_TYPE.Servoing, airVehicle, options);
-      // this.tracksListService.fillDetectionsDataForCanvas();
-      // this.applicationService.newDataForMainImage$.next(true);
+      if (airVehicle.modeDefine.data.missionOptions.hasOwnProperty(MISSION_TYPE.Servoing) &&
+        airVehicle.modeDefine.data.missionOptions[MISSION_TYPE.Servoing] === true) {
+        this.onMissionOptions(MISSION_TYPE.Servoing, airVehicle, options);
+        // this.tracksListService.fillDetectionsDataForCanvas();
+        // this.applicationService.newDataForMainImage$.next(true);
+      }
     }
   };
 
