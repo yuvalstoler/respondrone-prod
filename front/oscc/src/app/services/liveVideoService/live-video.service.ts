@@ -2,18 +2,17 @@ import {Injectable} from '@angular/core';
 import {
   ASYNC_RESPONSE,
   AV_DATA_UI, BLOB_DATA,
-  MISSION_MODEL_UI,
-  MISSION_TYPE
+  MISSION_TYPE, POINT
 } from '../../../../../../classes/typings/all.typings';
 import {CanvasClass} from '../tagsService/CanvasClass';
-import {HEADER_BUTTONS, MAP} from '../../../types';
+import {MAP} from '../../../types';
 import {EventHandler} from '../tagsService/eventHandler';
 import {BehaviorSubject} from 'rxjs';
-import {MissionDialogComponent} from '../../dialogs/mission-dialog/mission-dialog.component';
 import {ApplicationService} from '../applicationService/application.service';
 import {MatDialog} from '@angular/material/dialog';
 import {MissionRequestService} from '../missionRequestService/missionRequest.service';
 import {SocketService} from '../socketService/socket.service';
+import {ContextMenuService} from '../contextMenuService/context-menu.service';
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +66,7 @@ export class LiveVideoService {
   constructor(public applicationService: ApplicationService,
               public dialog: MatDialog,
               private socketService: SocketService,
+              public contextMenuService: ContextMenuService,
               public missionRequestService: MissionRequestService) {
     const primaryEventHandler = new EventHandler(this.primaryDomID, this.mouseEventHandler);
     this.canvases[this.primaryDomID] = new CanvasClass(primaryEventHandler);
@@ -117,48 +117,22 @@ export class LiveVideoService {
     };
   };
 
-  public onSelectBlob = (id: string) => {
-    console.log('selected blob id = ', id);
-    if (id) {
+  public onSelectBlob = (options: {selectedId: number, point: POINT}) => {
+    console.log('selected blob id = ', options.selectedId);
+    if (options.selectedId) {
       const airVehicle = this.applicationService.selectedAirVehicle;
-      this.onMissionOptions(MISSION_TYPE.Servoing, airVehicle, id);
+      this.onMissionOptions(MISSION_TYPE.Servoing, airVehicle, options);
       // this.tracksListService.fillDetectionsDataForCanvas();
       // this.applicationService.newDataForMainImage$.next(true);
     }
   };
 
-  onMissionOptions = (missionType: MISSION_TYPE, airVehicle: AV_DATA_UI, idBlob) => {
+  onMissionOptions = (missionType: MISSION_TYPE, airVehicle: AV_DATA_UI, options: {selectedId: number, point: POINT}) => {
     // Todo: add context menu and click on menu open =>
-
-
-    // todo: {
-    this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;
-    // open panel
-    this.applicationService.screen.showLeftPanel = true;
-    this.applicationService.screen.showMissionControl = true;
-    // choose missionTab on MissionControl
-    this.applicationService.currentTabIndex = 1; /*(0 = TaskTab, 1 = MissionTab)*/
-    //close others
-    this.applicationService.screen.showSituationPicture = false;
-    this.applicationService.screen.showVideo = false;
-
-    this.openPanel('Create new mission request', MISSION_TYPE.Servoing, airVehicle, idBlob);
-    // todo: }
-  };
-
-  private openPanel = (title: string, missionType: MISSION_TYPE, airVehicle: AV_DATA_UI, idBlob) => {
-    const dialogRef = this.dialog.open(MissionDialogComponent, {
-      width: '45vw',
-      disableClose: true,
-      data: {title: title, missionType: missionType, airVehicle: airVehicle, idBlob: idBlob}
-    });
-    this.applicationService.isDialogOpen = true;
-
-    dialogRef.afterClosed().subscribe((missionModel: MISSION_MODEL_UI) => {
-      if (missionModel) {
-        this.missionRequestService.createServoingMission(missionModel);
-      }
-    });
+    this.contextMenuService.isOpenBlob = true;
+    this.contextMenuService.singleTooltip.top = options.point[1] + 40 + 'px';
+    this.contextMenuService.singleTooltip.left = options.point[0] + 85 + 'px';
+    this.contextMenuService.selectedBlob = {missionType, airVehicle, options};
   };
 
   mouseEventHandler = {

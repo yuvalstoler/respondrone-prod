@@ -51,6 +51,7 @@
         <div *ngFor="let viewItem of viewItems; let i = index">
           <mat-checkbox class="mat-menu-item"
                         #checkboxes
+                        [checked]="viewItem"
                         (change)="onChangeCheckbox($event, viewItem)"
                         (click)="$event.stopPropagation();"
                        >{{viewItem}}</mat-checkbox>

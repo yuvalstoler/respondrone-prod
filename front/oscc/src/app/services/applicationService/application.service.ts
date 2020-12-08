@@ -61,7 +61,7 @@ export class ApplicationService {
       showLeftPanel: true,
       showRightPanel: true,
       showAirResources: true,
-      showGrandResources: false,
+      showGrandResources: true,
       showSituationPicture: true,
       showMissionControl: false,
       showViewMedia: false,

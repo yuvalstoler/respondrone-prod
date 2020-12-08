@@ -1,0 +1,11 @@
+@import "../../../styles/colors";
+
+.ContextSingleMenu {
+  background: $lightGray;
+  color: $black;
+  border-radius: 5px;
+  position: absolute;
+  min-width: max-content;
+  z-index: 10001 !important;
+  padding: 5px;
+}

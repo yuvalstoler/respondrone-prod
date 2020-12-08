@@ -215,7 +215,7 @@ export class CanvasClass {
         Object.keys(this.allDataBlobs.mark).length > 0 &&
         this.allDataBlobs.mark.constructor === Object) {
         const selectedId = this.canvasTools.findObjectToSelect(this.ctxBlob, point, this.allDataBlobs.mark, this.resolution);
-        this.callEventHandler(this.eventHandlerEmitter, 'selectedBlob', selectedId);
+        this.callEventHandler(this.eventHandlerEmitter, 'selectedBlob', {selectedId, point});
       }
     }
   };

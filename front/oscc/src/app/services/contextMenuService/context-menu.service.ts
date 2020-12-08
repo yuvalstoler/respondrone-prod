@@ -1,16 +1,24 @@
 import {Injectable} from '@angular/core';
-import {LINKED_EVENT_DATA, LINKED_REPORT_DATA} from '../../../../../../classes/typings/all.typings';
+import {
+  AV_DATA_UI,
+  LINKED_EVENT_DATA,
+  LINKED_REPORT_DATA,
+  MISSION_TYPE, POINT
+} from '../../../../../../classes/typings/all.typings';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContextMenuService {
 
+  //for linkedToWindow
   private _isOpenLinkToMenu = false;
   selectedLinkTo: LINKED_REPORT_DATA[] | LINKED_EVENT_DATA[];
   type: string = '';
 
-  private _isOpenSortGroundMenu = false;
+  //for ContextMenu
+  isOpenBlob = false;
+  selectedBlob: {missionType: MISSION_TYPE, airVehicle: AV_DATA_UI, options: {selectedId: number, point: POINT}};
 
   singleTooltip: { top: string, left: string } = {top: '-100em', left: '-100em'};
 
@@ -36,9 +44,6 @@ export class ContextMenuService {
     this._isOpenLinkToMenu = false;
   };
 
-  get isOpenSortGroundMenu(): boolean {
-    return this._isOpenSortGroundMenu;
-  }
 
 
 

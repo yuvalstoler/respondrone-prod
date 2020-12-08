@@ -94,7 +94,7 @@ export class HeaderPanelComponent implements OnInit {
   };
 
   onChangeCheckbox = (event, item: string) => {
-    if (event.checked) {
+    if (!event.checked) {
       const selectedIndex = this.viewItemModel.findIndex(data => data === item);
       if (selectedIndex === -1 && event) {
         this.viewItemModel.push(item);
