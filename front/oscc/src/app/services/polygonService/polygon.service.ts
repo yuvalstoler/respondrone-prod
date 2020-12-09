@@ -86,6 +86,7 @@ export class PolygonService {
   public deletePolygonManually = (polygonId) => {
     this.mapGeneralService.deletePolygonManually(polygonId);
     this.polygon$.next([]);
+    this.drawerPolygonClass.arrayPoints = [];
   };
 
 }

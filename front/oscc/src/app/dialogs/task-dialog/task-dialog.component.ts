@@ -125,20 +125,28 @@ export class TaskDialogComponent implements OnInit {
   };
 
   removeGeoInstructionsFromMap = (geoInstructions: GEOGRAPHIC_INSTRUCTION[]) => {
-    geoInstructions.forEach(geoInstruction => {
-      if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.arrow) {
-        this.arrowService.deleteArrowPolylineManually(geoInstruction.id);
-      }
-      if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.polyline) {
-        this.polylineService.deletePolylineManually(geoInstruction.id);
-      }
-      if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.polygon) {
-        this.polygonService.deletePolygonManually(geoInstruction.id);
-      }
-      if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.point) {
-        this.locationService.deleteLocationPointTemp(geoInstruction.id);
-      }
-    });
+    if (Array.isArray(geoInstructions) && geoInstructions.length > 0) {
+      geoInstructions.forEach(geoInstruction => {
+        if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.arrow) {
+          this.arrowService.deleteArrowPolylineManually(geoInstruction.id);
+        }
+        if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.polyline) {
+          this.polylineService.deletePolylineManually(geoInstruction.id);
+        }
+        if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.polygon) {
+          this.polygonService.deletePolygonManually(geoInstruction.id);
+        }
+        if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.point) {
+          this.locationService.deleteLocationPointTemp(geoInstruction.id);
+        }
+      });
+    }
+      const id = this.applicationService.geoCounter.toString();
+      this.arrowService.deleteArrowPolylineManually(id);
+      this.polylineService.deletePolylineManually(id);
+      this.polygonService.deletePolygonManually(id);
+      this.locationService.deleteLocationPointTemp(id);
+
   };
 
 }

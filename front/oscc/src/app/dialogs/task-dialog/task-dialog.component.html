@@ -10,7 +10,7 @@
   </div>
   <!--Content-->
   <mat-dialog-content class="DialogContent">
-
+<!--left part-->
     <div class="item1">
       <!--Title-->
       <div class="DialogContentItem">
@@ -73,6 +73,7 @@
                             [isOpenDescription]="true"></app-comments-panel>
       </div>
     </div>
+<!--right part-->
     <div class="item2">
       <!--Resources-->
       <div class="DialogContentItem">
@@ -97,14 +98,6 @@
       <div class="DialogContentItem">
         <app-geo-instructions [element]="taskModel"></app-geo-instructions>
       </div>
-
-      <!--&lt;!&ndash;Linked Reports&ndash;&gt;-->
-      <!--<div class="DialogContentItem">-->
-        <!--<app-linked-events-table [element]="reportModel"-->
-                                 <!--[isAllColumns]="false"-->
-                                 <!--(updateLinkedEvents)="onUpdateLinkedEvents($event)">-->
-        <!--</app-linked-events-table>-->
-      <!--</div>-->
 
     </div>
   </mat-dialog-content>

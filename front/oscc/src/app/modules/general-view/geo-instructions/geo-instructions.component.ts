@@ -86,10 +86,10 @@ export class GeoInstructionsComponent implements OnInit {
 
   };
 
-  setSelectedInstruction = (item: GEOGRAPHIC_INSTRUCTION_TYPE) => {
-    this.selectedGeoInstruction = item;
+  setSelectedInstruction = (type: GEOGRAPHIC_INSTRUCTION_TYPE) => {
+    this.selectedGeoInstruction = type;
     this.isSave = true;
-    switch (item) {
+    switch (type) {
       case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
         this.applicationService.stateDraw = STATE_DRAW.drawArrow;
         this.mapGeneralService.changeCursor(true);
@@ -118,14 +118,40 @@ export class GeoInstructionsComponent implements OnInit {
     }
   };
 
+  cancelInstruction = (type: GEOGRAPHIC_INSTRUCTION_TYPE) => {
+    const id = this.applicationService.geoCounter.toString();
+    switch (type) {
+      case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
+        this.arrowService.deleteArrowPolylineManually(id);
+        break;
+      case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+        break;
+      case GEOGRAPHIC_INSTRUCTION_TYPE.point:
+        this.locationService.deleteLocationPointTemp(id);
+        break;
+      case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
+        this.polygonService.deletePolygonManually(id);
+        break;
+      case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
+        this.polylineService.deletePolylineManually(id);
+        break;
+    }
+    this.clearInstruction();
+  };
+
   saveInstruction = (type: GEOGRAPHIC_INSTRUCTION_TYPE) => {
-    this.isSave = false;
+    // this.isSave = false;
     this.geoInstructionModel.type = type;
     this.geoInstructionModel.modeDefine.styles.mapIcon = this.setIcon(type);
     this.geoInstructionModel.id = this.applicationService.geoCounter.toString();
     this.geographicInstructionsModel.push(this.geoInstructionModel);
     this.applicationService.geoCounter = this.geographicInstructionsModel.length;
+    // clear
+    this.clearInstruction();
+  };
 
+  clearInstruction = () => {
+    this.isSave = false;
     this.selectedGeoInstruction = undefined;
     this.geoInstructionModel = _.cloneDeep(this.defaultModel);
     this.element.geographicInstructions = this.geographicInstructionsModel;

@@ -117,9 +117,14 @@
     </div>
     <!--Save Button-->
     <div *ngIf="selectedGeoInstruction !== undefined" class="DialogCenter">
+      <button (click)="cancelInstruction(selectedGeoInstruction)"
+               class="DialogActionsSave">
+        Cancel
+      </button>
       <button (click)="saveInstruction(selectedGeoInstruction)"
               [disabled]="geoInstructionModel.description === ''"
-              [ngClass]="{'disabled': geoInstructionModel.description === ''}" class="DialogActionsSave">
+              [ngClass]="{'disabled': geoInstructionModel.description === ''}"
+              class="DialogActionsSave">
         Save
       </button>
     </div>

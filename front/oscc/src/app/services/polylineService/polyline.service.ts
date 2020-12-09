@@ -46,6 +46,7 @@ export class PolylineService {
   public deletePolylineManually = (polylineId) => {
     this.mapGeneralService.deletePolylineFromMap(polylineId);
     this.polyline$.next([]);
+    this.drawPolylineClass.arrayPoints = [];
   };
 
 
