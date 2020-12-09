@@ -142,7 +142,7 @@ export class GeoInstructionsComponent implements OnInit {
   saveInstruction = (type: GEOGRAPHIC_INSTRUCTION_TYPE) => {
     // this.isSave = false;
     this.geoInstructionModel.type = type;
-    this.geoInstructionModel.modeDefine.styles.mapIcon = this.setIcon(type);
+    // this.geoInstructionModel.modeDefine.styles.mapIcon = this.setIcon(type);
     this.geoInstructionModel.id = this.applicationService.geoCounter.toString();
     this.geographicInstructionsModel.push(this.geoInstructionModel);
     this.applicationService.geoCounter = this.geographicInstructionsModel.length;
@@ -159,27 +159,27 @@ export class GeoInstructionsComponent implements OnInit {
     this.mapGeneralService.changeCursor(false);
   };
 
-  setIcon = (type: GEOGRAPHIC_INSTRUCTION_TYPE): string => {
-    let res: string;
-    switch (type) {
-      case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
-        res = 'arrow_forward';
-        break;
-      case GEOGRAPHIC_INSTRUCTION_TYPE.address:
-        res = 'location_on';
-        break;
-      case GEOGRAPHIC_INSTRUCTION_TYPE.point:
-        res = 'location_on';
-        break;
-      case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
-        res = 'crop_5_4';
-        break;
-      case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
-        res = 'timeline';
-        break;
-    }
-    return res;
-  };
+  // setIcon = (type: GEOGRAPHIC_INSTRUCTION_TYPE): string => {
+  //   let res: string;
+  //   switch (type) {
+  //     case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
+  //       res = 'arrow_forward';
+  //       break;
+  //     case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+  //       res = 'location_on';
+  //       break;
+  //     case GEOGRAPHIC_INSTRUCTION_TYPE.point:
+  //       res = 'location_on';
+  //       break;
+  //     case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
+  //       res = 'crop_5_4';
+  //       break;
+  //     case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
+  //       res = 'timeline';
+  //       break;
+  //   }
+  //   return res;
+  // };
 
   locationChanged = (event) => {
     if (event.target.value !== '') {

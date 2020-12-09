@@ -187,5 +187,7 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit {
     }
   };
 
-
+  getSeparateString = (column) => {
+    return column.split(/(?=[A-Z])/).join(' ');
+  };
 }

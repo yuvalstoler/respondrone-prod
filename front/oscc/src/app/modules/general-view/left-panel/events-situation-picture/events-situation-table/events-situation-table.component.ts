@@ -211,5 +211,9 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
     }
 
   };
+
+  getSeparateString = (column) => {
+    return column.split(/(?=[A-Z])/).join(' ');
+  };
 }
 

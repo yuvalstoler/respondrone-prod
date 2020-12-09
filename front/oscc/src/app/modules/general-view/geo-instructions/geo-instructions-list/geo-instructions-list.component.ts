@@ -2,7 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {
   GEOGRAPHIC_INSTRUCTION,
   GEOGRAPHIC_INSTRUCTION_TYPE,
-  POINT, POINT3D
+  POINT,
+  POINT3D
 } from '../../../../../../../../classes/typings/all.typings';
 import {LocationService} from '../../../../services/locationService/location.service';
 import {PolygonService} from '../../../../services/polygonService/polygon.service';
@@ -20,6 +21,7 @@ import {MapGeneralService} from '../../../../services/mapGeneral/map-general.ser
 export class GeoInstructionsListComponent implements OnInit {
 
   @Input() geographicInstructionsModel: GEOGRAPHIC_INSTRUCTION [] = [];
+  @Input() isNotViewOnly: boolean = true;
 
   constructor(public locationService: LocationService,
               public polygonService: PolygonService,
@@ -87,5 +89,26 @@ export class GeoInstructionsListComponent implements OnInit {
     }
   };
 
+  getIcon = (geoInstruction: GEOGRAPHIC_INSTRUCTION): string => {
+    let res: string;
+    switch (geoInstruction.type) {
+      case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
+        res = 'arrow_forward';
+        break;
+      case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+        res = 'location_on';
+        break;
+      case GEOGRAPHIC_INSTRUCTION_TYPE.point:
+        res = 'location_on';
+        break;
+      case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
+        res = 'crop_5_4';
+        break;
+      case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
+        res = 'timeline';
+        break;
+    }
+    return res;
+  };
 
 }

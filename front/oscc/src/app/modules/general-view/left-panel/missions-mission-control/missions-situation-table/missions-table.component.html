@@ -1,13 +1,13 @@
 <div class="table-scroll scroll">
   <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort multiTemplateDataRows>
-    <ng-container *ngFor="let column of (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;
+    <ng-container *ngFor="let column of (applicationService.panelIcon === LEFT_PANEL_ICON.expand)? displayedColumns: displayedColumnsMinimize;
     let i = index" matColumnDef="{{column}}">
       <!--Rows-->
       <span *ngIf="column !== 'select' && column !== 'expandCollapse'">
         <th *matHeaderCellDef [disabled]="isSortingDisabled(column)"
             mat-header-cell mat-sort-header>
           <span *ngIf="column !== 'message' && column !== 'link' && column !== 'map' && column !== 'attachment'"
-                class="capitalize">{{column}}</span>
+                class="capitalize">{{getSeparateString(column)}}</span>
           <mat-icon *ngIf="column === 'message'" class="HPRightSideIcon" matTooltip="Comments" matTooltipPosition="above">comment</mat-icon>
           <mat-icon *ngIf="column === 'link'" class="HPRightSideIcon" matTooltip="Linked events" matTooltipPosition="above">link</mat-icon>
           <mat-icon *ngIf="column === 'map'" class="HPRightSideIcon" matTooltip="Report location" matTooltipPosition="above">location_on</mat-icon>
@@ -125,7 +125,7 @@
         mat-header-row
     ></tr>
     <tr [id]="row.id" (click)="selectRow(row)"
-        *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;"
+        *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)? displayedColumns: displayedColumnsMinimize;"
         class="example-element-row pointer" [ngClass]="(selectedElement?.id === row?.id) ? 'selected-row-color' : ''"
         mat-row>
       <!--      [class.selected]="applicationService.selectedReport === row"-->

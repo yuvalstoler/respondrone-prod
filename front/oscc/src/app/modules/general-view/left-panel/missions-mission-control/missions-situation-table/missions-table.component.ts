@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
@@ -8,13 +8,12 @@ import {ApplicationService} from '../../../../../services/applicationService/app
 import {
   COMMENT,
   EVENT_DATA_UI,
-  FILE_FS_DATA, POINT,
   MISSION_REQUEST_DATA_UI, ID_TYPE
 } from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
 import * as _ from 'lodash';
 import {ContextMenuService} from '../../../../../services/contextMenuService/context-menu.service';
-import {MissionRequestService} from "../../../../../services/missionRequestService/missionRequest.service";
+import {MissionRequestService} from '../../../../../services/missionRequestService/missionRequest.service';
 
 
 
@@ -34,7 +33,53 @@ import {MissionRequestService} from "../../../../../services/missionRequestServi
 
 export class MissionsTableComponent implements OnInit, AfterViewInit {
 
+  // // Table columns
+  // initColumns: any[] = [
+  //   {
+  //     name: 'expandCollapse',
+  //     display: 'expandCollapse'
+  //   },
+  //   {
+  //     name: 'select',
+  //     display: 'Select'
+  //   },
+  //   {
+  //     name: 'id',
+  //     display: 'ID'
+  //   },
+  //   {
+  //     name: 'missionStatus',
+  //     display: 'Mission Status'
+  //   },
+  //   {
+  //     name: 'missionType',
+  //     display: 'Mission Type'
+  //   },
+  //   {
+  //     name: 'description',
+  //     display: 'Description'
+  //   },
+  //   {
+  //     name: 'createdBy',
+  //     display: 'Created By'
+  //   },
+  //   {
+  //     name: 'time',
+  //     display: 'Time'
+  //   },
+  //   {
+  //     name: 'message',
+  //     display: 'Message'
+  //   },
+  //   {
+  //     name: 'map',
+  //     display: 'Map'
+  //   }
+  // ];
+
   displayedColumns: string[] = ['expandCollapse', 'select', 'id', 'missionStatus', 'missionType', 'description', 'createdBy', 'time', 'message', 'map'];
+  // displayedColumns: any[] = this.initColumns.map(col => col.name);
+
   displayedColumnsMinimize: string[] = [ 'id', 'missionStatus', 'missionType', 'map'];
   dataSource = new MatTableDataSource<MISSION_REQUEST_DATA_UI>();
 
@@ -226,4 +271,9 @@ export class MissionsTableComponent implements OnInit, AfterViewInit {
       this.missionRequestService.flyToObject(element);
     }
   };
+
+  getSeparateString = (column) => {
+   return column.split(/(?=[A-Z])/).join(' ');
+  };
+
 }

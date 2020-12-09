@@ -7,7 +7,7 @@
         <th *matHeaderCellDef [disabled]="isSortingDisabled(column)"
             mat-header-cell mat-sort-header>
           <span *ngIf="column !== 'message' && column !== 'assignees' && column !== 'map'"
-                class="capitalize">{{column}}</span>
+                class="capitalize">{{getSeparateString(column)}}</span>
           <mat-icon *ngIf="column === 'message'" class="HPRightSideIcon" matTooltip="Comments" matTooltipPosition="above">comment</mat-icon>
           <mat-icon *ngIf="column === 'assignees'" class="HPRightSideIcon" matTooltip="Task’s Assignee" matTooltipPosition="above">people</mat-icon>
           <mat-icon *ngIf="column === 'map'" class="HPRightSideIcon" matTooltip="Task’s geo-location" matTooltipPosition="above">location_on</mat-icon>
@@ -116,7 +116,10 @@
 
           <!--Geo instructions-->
           <div class="example-element-geo-instructions scroll">
-            <app-geo-instructions-list [geographicInstructionsModel]="element.geographicInstructions"></app-geo-instructions-list>
+            <app-geo-instructions-list
+              [geographicInstructionsModel]="element.geographicInstructions"
+              [isNotViewOnly]="false"
+            ></app-geo-instructions-list>
           </div>
 
           <!--Task assignees & Resources-->

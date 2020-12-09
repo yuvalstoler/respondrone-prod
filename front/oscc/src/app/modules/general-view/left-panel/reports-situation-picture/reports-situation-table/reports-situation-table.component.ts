@@ -250,4 +250,8 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
       this.contextMenuService.openLinkToMenu(clickPosition, element.events, 'event');
     }
   };
+
+  getSeparateString = (column) => {
+    return column.split(/(?=[A-Z])/).join(' ');
+  };
 }
