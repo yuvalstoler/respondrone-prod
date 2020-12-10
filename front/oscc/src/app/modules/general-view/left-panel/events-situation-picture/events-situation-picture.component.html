@@ -1,13 +1,13 @@
 <div>
   <!--Header-->
   <div class="HeaderLeftPanel">
-    <div class="LeftSideButton">
+    <div class="LeftSideSearchButton">
       <mat-icon>search</mat-icon>
-      <input matInput type="text" (keyup)="getFilter($event)" >
+      <input (keyup)="getFilter($event)" matInput type="text">
     </div>
   </div>
 
-  <div class="HeaderRightPanel" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand">
+  <div *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand" class="HeaderRightPanel">
     <div (click)="onArchiveEvent()"
          *ngIf="applicationService.selectedEvents.length > 0"
          class="RightSideButton pointer">Archive
@@ -24,7 +24,7 @@
          class="RightSideButton pointer">Create New Event
     </div>
   </div>
-  <div class="HeaderRightPanel" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.minimize"></div>
+  <div *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.minimize" class="HeaderRightPanel"></div>
   <!--Table-->
   <div>
     <app-events-situation-table></app-events-situation-table>

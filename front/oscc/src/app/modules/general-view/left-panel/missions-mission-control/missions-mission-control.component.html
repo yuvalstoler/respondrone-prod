@@ -1,61 +1,63 @@
 <div>
   <!--Header-->
   <div class="HeaderLeftPanel">
-    <div class="LeftSideButton">
+    <div class="LeftSideSearchButton">
       <mat-icon>search</mat-icon>
-      <input #input (keyup)="getFilter($event)" matInput>
+      <input (keyup)="getFilter($event)" matInput type="text">
     </div>
   </div>
 
 
-  <div class="HeaderRightPanel">
-<!--    <div (click)="onArchiveReport()"-->
-<!--         *ngIf="applicationService.selectedReports.length > 0"-->
-<!--         class="RightSideButton pointer">Archive-->
-<!--    </div>-->
-<!--    <div (click)="onEditReport()"-->
-<!--         *ngIf="applicationService.selectedReports.length === 1"-->
-<!--         class="RightSideButton pointer">Edit-->
-<!--    </div>-->
-<!--    <div (click)="onDeleteReport()"-->
-<!--         *ngIf="applicationService.selectedReports.length > 0"-->
-<!--         class="RightSideButton pointer">Delete-->
-<!--    </div>-->
+  <div *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand" class="HeaderRightPanel">
+    <!--    <div (click)="onArchiveReport()"-->
+    <!--         *ngIf="applicationService.selectedReports.length > 0"-->
+    <!--         class="RightSideButton pointer">Archive-->
+    <!--    </div>-->
+    <!--    <div (click)="onEditReport()"-->
+    <!--         *ngIf="applicationService.selectedReports.length === 1"-->
+    <!--         class="RightSideButton pointer">Edit-->
+    <!--    </div>-->
+    <!--    <div (click)="onDeleteReport()"-->
+    <!--         *ngIf="applicationService.selectedReports.length > 0"-->
+    <!--         class="RightSideButton pointer">Delete-->
+    <!--    </div>-->
 
-    <button mat-button *ngIf="applicationService?.selectedMissionRequests?.length === 1"
-            [matMenuTriggerFor]="menu" class="RightSideButton">Update status</button>
+    <button *ngIf="applicationService?.selectedMissionRequests?.length === 1" [matMenuTriggerFor]="menu"
+            class="RightSideButton" mat-button>Update status
+    </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item  (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Accept)"
-              *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Accept]">
-        <span class="material-icons" [ngStyle]="{'color': '#fff746', 'font-size': '12px'}">stop_circle</span>
+      <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Accept)" *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Accept]"
+              mat-menu-item>
+        <span [ngStyle]="{'color': '#fff746', 'font-size': '12px'}" class="material-icons">stop_circle</span>
         Accept
       </button>
-      <button mat-menu-item (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Approve)"
-              *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Approve]">
-        <span class="material-icons" [ngStyle]="{'color': '#0c249c', 'font-size': '12px'}">stop_circle</span>
+      <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Approve)" *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Approve]"
+              mat-menu-item>
+        <span [ngStyle]="{'color': '#0c249c', 'font-size': '12px'}" class="material-icons">stop_circle</span>
         Approve
       </button>
-      <button mat-menu-item (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Reject)"
-              *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Reject]">
-        <span class="material-icons" [ngStyle]="{'color': '#ff0000', 'font-size': '12px'}">stop_circle</span>
+      <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Reject)" *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Reject]"
+              mat-menu-item>
+        <span [ngStyle]="{'color': '#ff0000', 'font-size': '12px'}" class="material-icons">stop_circle</span>
         Reject
       </button>
-      <button mat-menu-item (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Cancel)"
-              *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Cancel]">
-        <span class="material-icons" [ngStyle]="{'color': '#6f30a0', 'font-size': '12px'}">stop_circle</span>
+      <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Cancel)" *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Cancel]"
+              mat-menu-item>
+        <span [ngStyle]="{'color': '#6f30a0', 'font-size': '12px'}" class="material-icons">stop_circle</span>
         Cancel
       </button>
-      <button mat-menu-item (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Complete)"
-              *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Complete]">
-        <span class="material-icons" [ngStyle]="{'color': '#92d150', 'font-size': '12px'}">stop_circle</span>
-        Complete</button>
+      <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Complete)" *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Complete]"
+              mat-menu-item>
+        <span [ngStyle]="{'color': '#92d150', 'font-size': '12px'}" class="material-icons">stop_circle</span>
+        Complete
+      </button>
     </mat-menu>
 
     <div (click)="onCreateNewMission()"
          class="RightSideButton pointer">Create New Mission
     </div>
   </div>
-  <div class="HeaderRightPanel" *ngIf="applicationService?.panelIcon === LEFT_PANEL_ICON.minimize"></div>
+  <div *ngIf="applicationService?.panelIcon === LEFT_PANEL_ICON.minimize" class="HeaderRightPanel"></div>
   <!--Table-->
   <div>
     <app-missions-table></app-missions-table>

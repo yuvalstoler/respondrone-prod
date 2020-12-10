@@ -18,7 +18,7 @@
   justify-content: flex-start;
 
   .LeftSideButton {
-    margin: auto 10px;
+    margin: auto 15px;
     text-align: center;
     height: $headerHeight;
     display: flex;
@@ -33,7 +33,7 @@
   }
 
   .LeftSideLabel {
-
+    font-size: $fontSizeTitleHeader;
   }
 
   .LPSelected {
@@ -95,8 +95,26 @@
   line-height: 25px;
   height: 25px;
 }
+
 .Disabled{
   color: $darkGray;
   cursor: no-drop !important;
 }
 
+// Search Bar =======================================================
+.search__input {
+  border: $black 0;
+  background-color: transparent;
+  margin: 8px;
+  font-size: 16px;
+}
+
+.search__input:focus {
+  outline: 0;
+}
+
+.search__container {
+  background-color: $white;
+  color: $black;
+  border-radius: 3px;
+}

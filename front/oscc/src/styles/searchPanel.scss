@@ -9,8 +9,7 @@
   justify-content: flex-start;
   height: 50px;
 
-
-  .LeftSideButton {
+  .LeftSideSearchButton {
     margin: auto 10px;
     text-align: center;
     height: $headerSituationPicture;
@@ -20,9 +19,20 @@
     font-size: 18px;
     border-radius: 8px;
     border: 1px solid $gray;
-    width: 9em;
+    width: 10em;
     padding: 0 10px;
+
+    input{
+      border: hidden;
+      width: inherit;
+      font-size: 14px;
+    }
+    input:focus, textarea:focus, select:focus{
+      outline: none;
+    }
   }
+
+
 }
 
 .HeaderRightPanel {

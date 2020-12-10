@@ -1,15 +1,6 @@
 @import "../../../../styles/colors";
 @import "../../../../styles/variable";
 
-:host ::ng-deep .mat-tab-label {
-  font-size: $fontSizeTitle;
-  font-weight: bold;
-}
-
-/* Styles for the active tab label */
-.mat-tab-label.mat-tab-label-active {
-
-}
 .LeftPanelX{
   position: absolute;
   float: right;
@@ -18,7 +9,18 @@
   color: $gray;
 }
 
-:host ::ng-deep.mat-tab-label.mat-tab-disabled {
+::ng-deep .mat-tab-list .mat-tab-label {
+  font-size: $fontSizeTitle;
+  font-weight: bold;
+}
+
+/* Styles for the active tab label */
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+  font-weight: bold !important;
+  color: $black;
+}
+
+::ng-deep.mat-tab-label.mat-tab-disabled {
   cursor: default;
   position: absolute;
   right: 0;

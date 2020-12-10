@@ -1,9 +1,9 @@
 <div>
   <!--Header-->
   <div class="HeaderLeftPanel">
-    <div class="LeftSideButton">
+    <div class="LeftSideSearchButton">
       <mat-icon>search</mat-icon>
-      <input #input (keyup)="getFilter($event)" matInput>
+      <input (keyup)="getFilter($event)" matInput type="text">
     </div>
   </div>
 
