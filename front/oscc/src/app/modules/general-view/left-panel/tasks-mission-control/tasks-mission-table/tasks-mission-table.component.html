@@ -2,22 +2,25 @@
   <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort multiTemplateDataRows>
     <ng-container *ngFor="let column of (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;
     let i = index" matColumnDef="{{column}}">
-      <!--Rows-->
-      <span *ngIf="column !== 'select' && column !== 'expandCollapse'">
+      <!--Rows without Checkbox, Expand/Collapse, Status-->
+      <span *ngIf="column !== 'select' && column !== 'expandCollapse' && column !== 'status'">
         <th *matHeaderCellDef [disabled]="isSortingDisabled(column)"
             mat-header-cell mat-sort-header>
           <span *ngIf="column !== 'message' && column !== 'assignees' && column !== 'map'"
                 class="capitalize">{{(column !== 'id') ? getSeparateString(column) : 'ID'}}</span>
-          <mat-icon *ngIf="column === 'message'" class="HPRightSideIcon" matTooltip="Comments" matTooltipPosition="above">comment</mat-icon>
-          <mat-icon *ngIf="column === 'assignees'" class="HPRightSideIcon" matTooltip="Task’s Assignee" matTooltipPosition="above">people</mat-icon>
-          <mat-icon *ngIf="column === 'map'" class="HPRightSideIcon" matTooltip="Task’s geo-location" matTooltipPosition="above">location_on</mat-icon>
+          <mat-icon *ngIf="column === 'message'" class="HPRightSideIcon" matTooltip="Comments"
+                    matTooltipPosition="above">comment</mat-icon>
+          <mat-icon *ngIf="column === 'assignees'" class="HPRightSideIcon" matTooltip="Task’s Assignee"
+                    matTooltipPosition="above">people</mat-icon>
+          <mat-icon *ngIf="column === 'map'" class="HPRightSideIcon" matTooltip="Task’s geo-location"
+                    matTooltipPosition="above">location_on</mat-icon>
         </th>
-        <td *matCellDef="let element" mat-cell  [ngStyle]="{'color': element.modeDefine?.styles?.textColor}">
+        <td *matCellDef="let element" [ngStyle]="{'color': element.modeDefine?.styles?.textColor}" mat-cell>
           <span *ngIf="element.modeDefine?.tableData[column]">
             <!--icon-->
-            <mat-icon *ngIf="element.modeDefine?.tableData[column]?.type === 'matIcon'"
+            <mat-icon (click)="clickOnIcon($event, element, column)"
+                      *ngIf="element.modeDefine?.tableData[column]?.type === 'matIcon'"
                       [ngStyle]="{'color': element.modeDefine?.tableData[column]?.color}"
-                      (click)="clickOnIcon($event, element, column)"
                       class="HPRightSideIcon">
                {{element.modeDefine?.tableData[column]?.data}}
              </mat-icon>
@@ -29,21 +32,13 @@
             <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'">
                {{element.modeDefine?.tableData[column]?.data}}
             </span>
-            <!--data-->
+            <!--date-->
             <span *ngIf="element.modeDefine?.tableData[column]?.type === 'date'">
                {{element.modeDefine?.tableData[column]?.data | customDate: applicationService.now}}
             </span>
           </span>
-
-<!--          <span *ngIf="!element.modeDefine?.tableData[column]">-->
-<!--            {{element[column]}}-->
-<!--          </span>-->
-
-          <span *ngIf="!element.modeDefine?.tableData[column] && column !== 'status'">
-            {{element[column]}}
-          </span>
-          <span *ngIf="column === 'status'">
-            <span class="material-icons" [ngStyle]="{'color': element.modeDefine?.styles?.dotColor, 'font-size': '12px'}">stop_circle</span>
+          <!--All elements-->
+          <span *ngIf="!element.modeDefine?.tableData[column]">
             {{element[column]}}
           </span>
         </td>
@@ -70,11 +65,22 @@
       <th *matHeaderCellDef class="tableCheckbox" mat-header-cell>
       </th>
         <td *matCellDef="let row" mat-cell>
-           <mat-icon class="tableExpandIcon"
-                     (click)="onExpandCollapse(row)">
+           <mat-icon (click)="onExpandCollapse(row)"
+                     class="tableExpandIcon">
              {{this.expandedElement[row.id] === undefined ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}}
            </mat-icon>
       </td>
+      </span>
+      <!--Status-->
+      <span *ngIf="column === 'status'">
+        <th *matHeaderCellDef class="Status" mat-header-cell>Status</th>
+        <td *matCellDef="let element" mat-cell>
+          <span>
+           <span [ngStyle]="{'color': element.modeDefine?.styles?.dotColor, 'font-size': '9px'}"
+                 class="material-icons">stop_circle</span>
+            {{element[column]}}
+          </span>
+         </td>
       </span>
     </ng-container>
 
@@ -107,8 +113,8 @@
             </mat-accordion>
             <!--Comments array-->
             <div class="example-element-comments">
-              <app-comments-panel [comments]="element.comments"
-                                  (changeComments)="onChangeComments($event, element)"
+              <app-comments-panel (changeComments)="onChangeComments($event, element)"
+                                  [comments]="element.comments"
                                   [isOpenDescription]="panelOpenState[element.id]">
               </app-comments-panel>
             </div>
@@ -127,10 +133,10 @@
             <!--Task Assignees-->
             <div class="assignees">
               <app-task-assignee-table
-                [title]="'Task assignee'"
+                (updateAssignees)="onUpdateAssignees($event, element)"
                 [frs]="element?.assignees"
                 [ids]="element?.assigneeIds"
-                (updateAssignees)="onUpdateAssignees($event, element)"></app-task-assignee-table>
+                [title]="'Task assignee'"></app-task-assignee-table>
             </div>
 
             <!--Task Resources-->
@@ -144,21 +150,22 @@
             <!--Created by-->
             <div class="example-element-createdBy">
               <span class="expendTitle">Created By: <span class="expendContent">{{element.createdBy}}</span></span>
-              <span class="expendTitle right">Time: <span class="expendContent">{{element.time  | customDate: applicationService.now }}</span></span>
+              <span class="expendTitle right">Time: <span
+                class="expendContent">{{element.time  | customDate: applicationService.now }}</span></span>
             </div>
-        </div>
+          </div>
 
         </div>
       </td>
     </ng-container>
 
 
-    <tr  mat-header-row
-         *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand) ? displayedColumns: displayedColumnsMinimize; sticky: true"
+    <tr *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand) ? displayedColumns: displayedColumnsMinimize; sticky: true"
+        mat-header-row
     ></tr>
     <tr (click)="selectRow(row)"
         *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;"
-        class="example-element-row pointer" [ngClass]="(selectedElement?.id === row?.id) ? 'selected-row-color' : ''"
+        [ngClass]="(selectedElement?.id === row?.id) ? 'selected-row-color' : ''" class="example-element-row pointer"
         mat-row>
       <!-- [class.selected]="applicationService.selectedEvent === row"-->
       <!--&lt;&ndash;&gt; [ngStyle]="{'background-color': (selectedData === row)? '#7f7f7f' : '' }"-->
