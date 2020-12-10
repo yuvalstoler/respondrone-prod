@@ -175,10 +175,14 @@
   color: $white;
 }
 
+// material design
+
 ::ng-deep.mat-expansion-panel:not([class*=mat-elevation-z]) {
   box-shadow: none;
 }
-
-.mat-expansion-panel-header.mat-expanded {
+::ng-deep.mat-expansion-panel-header.mat-expanded {
   height: 30px;
+}
+::ng-deep.mat-elevation-z8 {
+  box-shadow: none !important;
 }

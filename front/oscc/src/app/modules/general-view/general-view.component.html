@@ -13,7 +13,7 @@
   </app-video-panel>
 
   <!--Map Cesium-->
-  <div>
+  <div oncontextmenu="return false;">
     <app-map></app-map>
     <div [ngClass]="{'MapRegular':applicationService.panelIcon === LEFT_PANEL_ICON.expand && applicationService.screen.showLeftPanel,
                      'MapWide': applicationService.panelIcon === LEFT_PANEL_ICON.minimize && applicationService.screen.showLeftPanel,

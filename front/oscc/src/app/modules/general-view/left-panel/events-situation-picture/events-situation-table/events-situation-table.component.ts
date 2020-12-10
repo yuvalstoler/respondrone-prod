@@ -35,7 +35,7 @@ import {ContextMenuService} from '../../../../../services/contextMenuService/con
 export class EventsSituationTableComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['expandCollapse', 'select', 'id', 'title', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map'];
-  displayedColumnsMinimize: string[] = ['id', 'priority', 'type'];
+  displayedColumnsMinimize: string[] = ['id', 'title', 'priority', 'type'];
   dataSource = new MatTableDataSource<EVENT_DATA_UI>();
 
   expandedElement: MAP<EVENT_DATA_UI> = {};

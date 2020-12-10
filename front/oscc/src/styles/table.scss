@@ -20,13 +20,16 @@ table {
 .tableCheckbox {
   width: 30px;
 }
+.tableExpandIcon{
+  margin-top: 5px;
+}
 
 .mat-column-description {
   max-width: 11em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-right: 5px;
+  padding-right: 10px;
 }
 
 //.mat-column-description:hover {
@@ -154,8 +157,8 @@ tr.example-element-row:not(.example-expanded-row):active {
   text-transform: capitalize;
 }
 .tableImage {
-  height:30px;
-  width: 30px;
+  height: 22px;
+  width: 22px;
 }
 .expendTitle {
   font-size: $fontSizeTitle;

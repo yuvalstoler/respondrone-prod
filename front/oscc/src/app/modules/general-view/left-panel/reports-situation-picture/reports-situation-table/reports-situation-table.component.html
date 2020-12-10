@@ -7,7 +7,7 @@
         <th *matHeaderCellDef [disabled]="isSortingDisabled(column)"
             mat-header-cell mat-sort-header>
           <span *ngIf="column !== 'message' && column !== 'link' && column !== 'map' && column !== 'attachment'"
-                class="capitalize">{{getSeparateString(column)}}</span>
+                class="capitalize">{{(column !== 'id') ? getSeparateString(column) : 'ID'}}</span>
           <mat-icon *ngIf="column === 'message'" class="HPRightSideIcon" matTooltip="Comments" matTooltipPosition="above">comment</mat-icon>
           <mat-icon *ngIf="column === 'link'" class="HPRightSideIcon" matTooltip="Linked events" matTooltipPosition="above">link</mat-icon>
           <mat-icon *ngIf="column === 'map'" class="HPRightSideIcon" matTooltip="Report location" matTooltipPosition="above">location_on</mat-icon>
@@ -61,7 +61,7 @@
       <th *matHeaderCellDef class="tableCheckbox" mat-header-cell>
       </th>
         <td *matCellDef="let row" mat-cell>
-           <mat-icon class="HPRightSideIcon"
+           <mat-icon class="tableExpandIcon"
                      (click)="onExpandCollapse(row)">
              {{this.expandedElement[row.id] === undefined ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}}
            </mat-icon>
