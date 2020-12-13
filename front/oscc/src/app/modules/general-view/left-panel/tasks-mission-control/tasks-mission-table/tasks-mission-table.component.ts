@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {
   COMMENT,
@@ -14,6 +14,8 @@ import {ApplicationService} from '../../../../../services/applicationService/app
 import {TasksService} from '../../../../../services/tasksService/tasks.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import * as _ from 'lodash';
+import {DescriptionPanelComponent} from '../../../description-panel/description-panel.component';
+
 
 @Component({
   selector: 'app-tasks-mission-table',
@@ -38,7 +40,6 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit {
   selection = new SelectionModel<TASK_DATA_UI>(true, []);
   selectedElement: TASK_DATA_UI;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
-
   panelOpenState: MAP<boolean> = {};
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
@@ -65,6 +66,10 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  getOpenStateDescription = ($event) => {
+    this.panelOpenState = $event;
+  };
 
   private selectRow = (row: TASK_DATA_UI): void => {
     // if (this.selectedElement) {

@@ -1,0 +1,13 @@
+<mat-accordion>
+  <mat-expansion-panel [hideToggle]="(description === '' || description === undefined)"
+                       [disabled]="(description === '' || description === undefined)"
+    (opened)="onOpenPanel()"
+    (closed)="onClosePanel()">
+    <mat-expansion-panel-header>
+      <div class="expendTitle">
+        Description
+      </div>
+    </mat-expansion-panel-header>
+    <div class="description-content scroll">{{description}}</div>
+  </mat-expansion-panel>
+</mat-accordion>

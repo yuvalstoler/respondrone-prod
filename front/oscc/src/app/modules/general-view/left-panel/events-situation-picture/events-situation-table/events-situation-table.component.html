@@ -2,8 +2,9 @@
   <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort multiTemplateDataRows>
     <ng-container *ngFor="let column of (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;
     let i = index" matColumnDef="{{column}}">
-      <!--Rows-->
+      <!--All Rows-->
       <span *ngIf="column !== 'select' && column !== 'expandCollapse'">
+        <!-- icons message link map on header-->
         <th *matHeaderCellDef [disabled]="isSortingDisabled(column)"
             mat-header-cell mat-sort-header>
           <span *ngIf="column !== 'message' && column !== 'link' && column !== 'map'"
@@ -13,6 +14,7 @@
           <mat-icon *ngIf="column === 'link'" class="HPRightSideIcon" matTooltip="Linked reports" matTooltipPosition="above">link</mat-icon>
           <mat-icon *ngIf="column === 'map'" class="HPRightSideIcon" matTooltip="Event location" matTooltipPosition="above">location_on</mat-icon>
         </th>
+        <!-- icons message link map on rows-->
         <td *matCellDef="let element" mat-cell>
           <span *ngIf="element.modeDefine?.tableData[column]">
             <!--icon-->
@@ -82,19 +84,8 @@
           class="example-element-detail-event">
           <!--Description & Comments-->
           <div class="example-element-description">
-            <mat-accordion>
-              <mat-expansion-panel expanded>
-                <!--[expanded]="panelOpenState[element.id]"
-                (opened)="panelOpenState[element.id] = true;"
-                (closed)="panelOpenState[element.id] = false;">-->
-                <mat-expansion-panel-header>
-                  <div class="expendTitle">
-                    Description
-                  </div>
-                </mat-expansion-panel-header>
-                <div class="description-content scroll">{{element.description}}</div>
-              </mat-expansion-panel>
-            </mat-accordion>
+            <!--Description-->
+            <app-description-panel [description]="element.description"  [descriptionId]="element.id" (panelOpenState)="getOpenStateDescription($event)"></app-description-panel>
             <!--Comments array-->
             <div class="example-element-comments">
               <app-comments-panel [comments]="element.comments"

@@ -6,6 +6,14 @@
 
 .example-element-mission-description {
   grid-column: 1;
+  grid-row: 1;
+
+  .mat-expansion-panel-header.mat-expanded {
+    height: 40px;
+  }
+  .mat-expansion-panel-content {
+    margin-bottom: 10px;
+  }
 }
 
 .example-element-mission-info {
@@ -19,7 +27,8 @@
 .example-element-detail-mission {
   overflow: hidden;
   display: grid;
-  grid-template-columns: 40% 25% 35%;
+  grid-template-columns: 33% auto 33%;
+  gap: 30px;
   max-height: 22em;
 }
 

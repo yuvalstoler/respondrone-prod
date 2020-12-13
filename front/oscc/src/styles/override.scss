@@ -67,3 +67,10 @@
   background-color: $darkGray !important;
   border: 2px solid $lightBlue;
 }
+// expend accordion
+::ng-deep.mat-expansion-panel-spacing {
+   margin: 5px 0;
+}
+::ng-deep.mat-expansion-panel-body {
+  padding: 0 0px 10px 10px;
+}

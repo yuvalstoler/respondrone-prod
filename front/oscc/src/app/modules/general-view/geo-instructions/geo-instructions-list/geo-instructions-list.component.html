@@ -7,20 +7,20 @@
   <mat-expansion-panel (click)="flyToInstruction(geoInstruction)"
                        *ngFor="let geoInstruction of geographicInstructionsModel; let i = index"
                        [expanded]="false"
-                       [togglePosition]="'before'"
+                       [togglePosition]="'after'"
                        cdkDrag>
     <mat-expansion-panel-header [ngStyle]="{'cursor': 'grabbing'}">
       <div class="expendTitle">
         <mat-icon mat-list-icon>{{getIcon(geoInstruction)}}</mat-icon>
-        <span mat-line class="expendTitleText">{{geoInstruction?.description}}</span>
+        <span mat-line class="expendTitleText">{{geoInstruction?.type}}</span>
       </div>
       <button class='DialogButtonGeoX'
               (click)="removeGeoInstruction($event, i)"
               *ngIf="isNotViewOnly"
         >X</button>
     </mat-expansion-panel-header>
-    <div class="description-content">
-      <div class="description-content scroll">
+    <div class="">
+      <div class="">
         {{geoInstruction?.description}}
       </div>
     </div>

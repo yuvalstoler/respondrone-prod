@@ -1,6 +1,6 @@
 <div class="table-scroll scroll">
   <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort multiTemplateDataRows>
-    <ng-container *ngFor="let column of (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;
+    <ng-container *ngFor="let column of (applicationService.panelIcon === LEFT_PANEL_ICON.expand)? displayedColumns: displayedColumnsMinimize;
     let i = index" matColumnDef="{{column}}">
       <!--Rows without Checkbox, Expand/Collapse, Status-->
       <span *ngIf="column !== 'select' && column !== 'expandCollapse' && column !== 'status'">
@@ -96,21 +96,9 @@
           class="example-element-detail-tasks">
           <!--Description & Comments-->
           <div class="example-element-description">
-            <mat-accordion displayMode="flat">
-              <mat-expansion-panel expanded>
-                <!--[expanded]="panelOpenState[element.id]"
-                (opened)="panelOpenState[element.id] = true;"
-                (closed)="panelOpenState[element.id] = false;">-->
-                <!--header -->
-                <mat-expansion-panel-header>
-                  <div class="expendTitle">
-                    Description
-                  </div>
-                </mat-expansion-panel-header>
-                <!--body-->
-                <div class="description-content scroll">{{element.description}}</div>
-              </mat-expansion-panel>
-            </mat-accordion>
+            <!--Description-->
+            <app-description-panel [description]="element.description" [descriptionId]="element.id"
+                                   (panelOpenState)="getOpenStateDescription($event)"></app-description-panel>
             <!--Comments array-->
             <div class="example-element-comments">
               <app-comments-panel (changeComments)="onChangeComments($event, element)"
@@ -121,15 +109,33 @@
           </div>
 
           <!--Geo instructions-->
-          <div class="example-element-geo-instructions scroll">
-            <app-geo-instructions-list
-              [geographicInstructionsModel]="element.geographicInstructions"
-              [isNotViewOnly]="false"
-            ></app-geo-instructions-list>
+          <div class="example-element-geo-instructions">
+            <div class="geo-instructions-container scroll">
+              <app-geo-instructions-list
+                [geographicInstructionsModel]="element.geographicInstructions"
+                [isNotViewOnly]="false"
+              ></app-geo-instructions-list>
+            </div>
+            <!--Created by-->
+            <div class="example-element-createdBy">
+              <span class="expendTitle">Created By: <span class="expendContent">{{element.createdBy}}</span></span>
+              <span class="expendTitle right">Time: <span
+                class="expendContent">{{element.time  | customDate: applicationService.now }}</span></span>
+            </div>
           </div>
 
           <!--Task assignees & Resources-->
           <div class="example-element-assignees">
+            <!--Task Resources-->
+            <div class="example-element-resources">
+            <app-resources-panel [resources]="element.resources"></app-resources-panel>
+            </div>
+            <!--<div class="example-element-resources">-->
+              <!--<div class="expendTitle">-->
+                <!--Task Resources-->
+              <!--</div>-->
+              <!--<div class="description-content scroll">{{element.resources}}</div>-->
+            <!--</div>-->
             <!--Task Assignees-->
             <div class="assignees">
               <app-task-assignee-table
@@ -137,21 +143,6 @@
                 [frs]="element?.assignees"
                 [ids]="element?.assigneeIds"
                 [title]="'Task assignee'"></app-task-assignee-table>
-            </div>
-
-            <!--Task Resources-->
-            <div class="example-element-resources">
-              <div class="expendTitle">
-                Task Resources
-              </div>
-              <div class="description-content scroll">{{element.resources}}</div>
-            </div>
-
-            <!--Created by-->
-            <div class="example-element-createdBy">
-              <span class="expendTitle">Created By: <span class="expendContent">{{element.createdBy}}</span></span>
-              <span class="expendTitle right">Time: <span
-                class="expendContent">{{element.time  | customDate: applicationService.now }}</span></span>
             </div>
           </div>
 

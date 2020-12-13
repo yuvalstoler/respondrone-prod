@@ -17,6 +17,7 @@ import {GeoInstructionsService} from '../../../../services/geoInstructionsServic
 export class TasksMissionControlComponent implements OnInit {
 
   @ViewChild(TasksMissionTableComponent) childComponent: TasksMissionTableComponent;
+
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
   TASK_ACTION = TASK_ACTION;
 

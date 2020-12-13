@@ -10,12 +10,14 @@ import {ApplicationService} from '../../../services/applicationService/applicati
 export class CommentsPanelComponent implements OnInit {
 
   @Input() comments: COMMENT[];
-  @Input() isOpenDescription: boolean;
+  @Input() isOpenDescription: boolean = false;
   @Input() isShowTitle: boolean = true;
   @Output() changeComments = new EventEmitter<COMMENT[]>();
   comment = '';
 
-  constructor(public applicationService: ApplicationService) { }
+  constructor(public applicationService: ApplicationService) {
+    console.log(this.isOpenDescription);
+  }
 
   ngOnInit(): void {
   }

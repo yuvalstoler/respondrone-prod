@@ -135,6 +135,10 @@ export class MissionsTableComponent implements OnInit, AfterViewInit {
     });
   }
 
+  getOpenStateDescription = ($event) => {
+    this.panelOpenState = $event;
+  };
+
   private selectRow = (row: MISSION_REQUEST_DATA_UI): void => {
     // if (this.applicationService.selectedReport === undefined) {
     //   this.applicationService.selectedReport = element;

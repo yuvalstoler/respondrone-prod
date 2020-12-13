@@ -13,7 +13,7 @@
     </mat-list-item>
   </div>
   <div class="CommentSendGrid3">
-    <div class="CommentIconContainer">
+    <div class="CommentIconContainerCircle">
       <mat-icon class="CommentIcon">account_circle</mat-icon>
     </div>
     <mat-form-field appearance="outline" class="">
@@ -24,7 +24,7 @@
       </label>
     </mat-form-field>
     <div (click)="onSendComment()"
-         class="CommentIconContainer pointer">
+         class="CommentIconContainerArrow pointer">
       <mat-icon [ngStyle]="{'color': (comment === '' || comment === undefined) ? 'lightgray' : 'black' }"
                 class="CommentIcon">send
       </mat-icon>

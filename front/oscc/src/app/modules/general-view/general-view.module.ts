@@ -61,6 +61,8 @@ import {MissionsTableComponent} from './left-panel/missions-mission-control/miss
 import {MatRippleModule} from '@angular/material/core';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { CanvasVideoComponent } from './video-panel/canvas-video/canvas-video.component';
+import { DescriptionPanelComponent } from './description-panel/description-panel.component';
+import { ResourcesPanelComponent } from './resources-panel/resources-panel.component';
 
 
 @NgModule({
@@ -93,6 +95,8 @@ import { CanvasVideoComponent } from './video-panel/canvas-video/canvas-video.co
     VideoPanelComponent,
     MissionsTableComponent,
     CanvasVideoComponent,
+    DescriptionPanelComponent,
+    ResourcesPanelComponent,
   ],
   imports: [
     CommonModule,

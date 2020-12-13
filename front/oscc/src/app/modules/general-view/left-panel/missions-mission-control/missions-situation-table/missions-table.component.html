@@ -89,19 +89,8 @@
           class="example-element-detail-mission">
           <!--Description-->
           <div class="example-element-mission-description">
-            <mat-accordion>
-              <mat-expansion-panel expanded>
-                <!--[expanded]="panelOpenState[element.id]"
-                (opened)="panelOpenState[element.id] = true;"
-                (closed)="panelOpenState[element.id] = false;">-->
-                <mat-expansion-panel-header>
-                  <div class="expendTitle">
-                    Description
-                  </div>
-                </mat-expansion-panel-header>
-                <div class="description-content scroll">{{element.description}}</div>
-              </mat-expansion-panel>
-            </mat-accordion>
+            <app-description-panel [description]="element.description" [descriptionId]="element.id"
+                                   (panelOpenState)="getOpenStateDescription($event)"></app-description-panel>
           </div>
           <!--Mission info-->
           <div class="example-element-mission-info">
@@ -113,7 +102,7 @@
           <div class="example-element-mission-comments">
             <app-comments-panel [comments]="element.comments"
                                 (changeComments)="onChangeComments($event, element)"
-                                [isOpenDescription]="panelOpenState[element.id]">
+                                [isOpenDescription]="false">
             </app-comments-panel>
           </div>
         </div>

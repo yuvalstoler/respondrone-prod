@@ -72,6 +72,10 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
     });
   }
 
+  getOpenStateDescription = ($event) => {
+    this.panelOpenState = $event;
+  };
+
   private selectRow = (row: REPORT_DATA_UI): void => {
     // if (this.applicationService.selectedReport === undefined) {
     //   this.applicationService.selectedReport = element;

@@ -9,7 +9,6 @@ import {
   COMMENT,
   EVENT_DATA_UI,
   LOCATION_TYPE,
-  MISSION_REQUEST_DATA_UI,
   POINT
 } from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
@@ -72,6 +71,10 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  getOpenStateDescription = ($event) => {
+    this.panelOpenState = $event;
+  };
 
   private selectRow = (row: EVENT_DATA_UI): void => {
     // if (this.selectedElement) {

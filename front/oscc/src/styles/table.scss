@@ -8,8 +8,10 @@
   overflow: auto;
 }
 
+
 table {
   width: 100%;
+  //border-collapse: collapse;
 }
 
 .table-scroll {
@@ -68,28 +70,31 @@ tr.example-element-row:not(.example-expanded-row):hover {
 tr.example-element-row:not(.example-expanded-row):active {
   background: $lightGray;
 }
-.example-element-row td {
-  border-bottom-width: 0;
-}
+//.example-element-row td {
+//  border-bottom-width: 0;
+//}
 
 .example-element-detail-event {
   overflow: hidden;
   display: grid;
   grid-template-columns: 45% auto;
   max-height: 20em;
+  column-gap: 40px;
 }
 .example-element-detail-report {
   overflow: hidden;
   display: grid;
   grid-template-columns: 45% auto;
   max-height: 22em;
+  column-gap: 40px;
 }
 //descriptions
 .example-element-detail-tasks {
   overflow: hidden;
   display: grid;
-  grid-template-columns: 35% auto 33%;
+  grid-template-columns: 33% auto 33%;
   max-height: 20em;
+  column-gap: 30px;
 }
 
 .example-element-description {
@@ -102,11 +107,8 @@ tr.example-element-row:not(.example-expanded-row):active {
   .mat-expansion-panel-content {
     margin-bottom: 10px;
   }
-
- ::ng-deep .mat-expansion-panel-body {
-   padding: 0 0px 0px 5px;
-  }
 }
+
 .description-content{
   overflow: auto;
   max-height: 4.5em;
@@ -128,9 +130,12 @@ tr.example-element-row:not(.example-expanded-row):active {
 .example-element-geo-instructions{
   grid-column: 2;
   grid-row: 1;
-  margin: 5px 10px 0 10px;
+  //margin-top: 5px;
+  position: relative;
+}
+.geo-instructions-container{
   overflow: auto;
-  max-height: 19em;
+  max-height: 15em;
 }
 //task-assignees
 .example-element-assignees{
@@ -139,10 +144,19 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 //resources
 .example-element-resources{
+  .mat-expansion-panel-header.mat-expanded {
+    height: 40px;
+  }
+  .mat-expansion-panel-content {
+    margin-bottom: 10px;
+  }
 
 }
 .example-element-createdBy{
-
+  position: absolute;
+  bottom: 11px;
+  width: 100%;
+  display: contents;
 }
 .expendContent{
   font-size: $fontSizeText;
@@ -164,16 +178,15 @@ tr.example-element-row:not(.example-expanded-row):active {
   font-size: $fontSizeTitle;
   color: $black;
   font-weight: 600;
-  //margin: 10px 0px 0px 0px;
 }
 .expendTitleText{
-  max-width: 14em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
-  float: right;
-  margin: 3px;
+  //max-width: 14em;
+  //white-space: nowrap;
+  //overflow: hidden;
+  //text-overflow: ellipsis;
+  //display: block;
+  //float: right;
+  margin: 3px 3px 3px 5px;
 }
 ::ng-deep.mat-expansion-panel:not([class*=mat-elevation-z]) {
  box-shadow: none !important;
@@ -187,6 +200,6 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 
 .selected-row-color {
-  background-color: $darkGrayOpacity !important;
+  background-color: $grayOpacity !important;
 }
 
