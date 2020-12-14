@@ -7,7 +7,7 @@
   //margin: 10px 0px 0px 0px;
 }
 .CommentContainer{
-  margin-top: 10px;
+  //margin-top: 10px;
 
 }
 .CommentDescriptionOpen{
@@ -21,6 +21,7 @@
   display: grid;
   grid-template-columns: 2em auto 3em;
   overflow: hidden;
+  margin-top: 5px;
 }
 .CommentsGrid1{
   grid-row: 1;
@@ -41,13 +42,14 @@
   grid-row: 2;
   grid-column: 2/ span 2;
   margin: auto 5px;
-  width: 19em;
+  //width: 19em;
 }
 
 .CommentSendGrid3 {
   display: grid;
   grid-template-columns: 2em auto 2em;
-  grid-template-rows: 52px;
+  grid-template-rows: 49px;
+  gap: 5px;
 
   ::ng-deep .mat-form-field {
     display: block !important;

@@ -25,6 +25,7 @@ export class AirVehicleMdLogic implements IModeDefine {
                 statusColor: AirVehicleMdLogic.getStatusColor(data),
                 iconSize: this.getIconSize(data),
                 gpsIcon: this.getGPSIcon(data),
+                gpsDescription: this.getGPSDescription(data),
                 isDisabled: this.isDisabled(data)
             },
             data: {
@@ -67,7 +68,7 @@ export class AirVehicleMdLogic implements IModeDefine {
             });
         }
         return res;
-    }
+    };
 
     private static isDisabled = (data: AV_DATA_UI): boolean => {
         return (data.operationalStatus === OPERATIONAL_STATUS.NotActive || data.commStatus === COMM_STATUS.NoComm);
@@ -110,6 +111,24 @@ export class AirVehicleMdLogic implements IModeDefine {
             res = '../../../../../assets/FullGPS.png';
         } else if (data.gpsQuality === 5) {
             res = '../../../../../assets/FullGPS.png';
+        }
+        return res;
+    };
+
+    private static getGPSDescription = (data: AV_DATA_UI): string => {
+        let res = 'NoGPS';
+        if (data.gpsQuality === 0) {
+            res = 'NoGPS';
+        } else if (data.gpsQuality === 1) {
+            res = '1GPS';
+        } else if (data.gpsQuality === 2) {
+            res = '2GPS';
+        } else if (data.gpsQuality === 3) {
+            res = '3GPS';
+        } else if (data.gpsQuality === 4) {
+            res = 'FullGPS';
+        } else if (data.gpsQuality === 5) {
+            res = 'FullGPS';
         }
         return res;
     };

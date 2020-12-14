@@ -16,7 +16,7 @@
   <div oncontextmenu="return false;">
     <app-map></app-map>
     <div [ngClass]="{'MapRegular':applicationService.panelIcon === LEFT_PANEL_ICON.expand && applicationService.screen.showLeftPanel,
-                     'MapWide': applicationService.panelIcon === LEFT_PANEL_ICON.minimize && applicationService.screen.showLeftPanel,
+                     'MapWide': applicationService.panelIcon === LEFT_PANEL_ICON.collapse && applicationService.screen.showLeftPanel,
                      'MapAll': !applicationService.screen.showLeftPanel && applicationService?.screen?.showVideo
                      && applicationService?.selectedWindow === VIDEO_OR_MAP.video,
                      'MapSmall': !applicationService.screen.showLeftPanel && applicationService?.screen?.showVideo
@@ -41,7 +41,6 @@
   <mat-sidenav-container>
     <mat-sidenav #LeftPanel [(opened)]="applicationService.screen.showLeftPanel"
                  [ngClass]="(applicationService.panelIcon === LEFT_PANEL_ICON.expand)? 'LeftPanel' : 'LeftNarrowPanel'"
-                 class="LeftPanel"
                  mode="side">
       <app-left-panel></app-left-panel>
     </mat-sidenav>

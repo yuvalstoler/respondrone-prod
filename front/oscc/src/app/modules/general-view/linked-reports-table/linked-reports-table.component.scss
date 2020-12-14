@@ -2,7 +2,8 @@
 
 .tableScroll {
   max-height: 190px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   margin-top: 10px;
 }
 

@@ -16,7 +16,8 @@ table {
 
 .table-scroll {
   max-height: calc(100vh - #{$headerHeight} - 100px);
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .tableCheckbox {
@@ -77,24 +78,24 @@ tr.example-element-row:not(.example-expanded-row):active {
 .example-element-detail-event {
   overflow: hidden;
   display: grid;
-  grid-template-columns: 45% auto;
+  grid-template-columns: 45% 52%; //41% 52%;
   max-height: 20em;
-  column-gap: 40px;
+  column-gap: 2%;
 }
 .example-element-detail-report {
   overflow: hidden;
   display: grid;
-  grid-template-columns: 45% auto;
+  grid-template-columns: 45% 52%;
   max-height: 22em;
-  column-gap: 40px;
+  column-gap: 2%;
 }
 //descriptions
 .example-element-detail-tasks {
   overflow: hidden;
   display: grid;
-  grid-template-columns: 33% auto 33%;
+  grid-template-columns: 33% 30% 33%;
   max-height: 20em;
-  column-gap: 30px;
+  column-gap: 2%;
 }
 
 .example-element-description {

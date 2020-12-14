@@ -83,7 +83,8 @@
         </div>
         <!--GPS-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item11">
-          <img class="gpsIcon" [src]="airVehicle?.modeDefine?.styles?.gpsIcon" alt="gps">
+          <img class="gpsIcon" [src]="airVehicle?.modeDefine?.styles?.gpsIcon" alt="gps"
+               [matTooltip]="airVehicle?.modeDefine?.styles?.gpsDescription">
         </div>
         <!--Azimuth-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item12">

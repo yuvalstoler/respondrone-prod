@@ -32,7 +32,7 @@ import {DescriptionPanelComponent} from '../../../description-panel/description-
 })
 export class TasksMissionTableComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['expandCollapse', 'select', 'id', 'title', 'status', 'priority', 'type', 'description', 'time', 'message', 'assignees', 'map'];
+  displayedColumns: string[] = ['expandCollapse', 'select', 'id', 'title', 'priority', 'status', 'type', 'description', 'time', 'message', 'assignees', 'map'];
   displayedColumnsMinimize: string[] = ['id', 'priority', 'type'];
   dataSource = new MatTableDataSource<TASK_DATA_UI>();
 

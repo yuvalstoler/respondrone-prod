@@ -328,6 +328,7 @@ export type AV_DATA_MD = {
         statusColor: string,
         iconSize: number,
         gpsIcon: string,
+        gpsDescription: string,
         isDisabled: boolean,
     },
     data: {

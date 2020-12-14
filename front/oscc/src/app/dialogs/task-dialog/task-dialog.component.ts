@@ -40,7 +40,7 @@ export class TaskDialogComponent implements OnInit {
     createdBy: undefined,
     time: undefined,
     type: this.types[0],
-    priority: this.priorities[0],
+    priority: this.priorities[1],
     description: '',
     comments: [],
     idView: '',

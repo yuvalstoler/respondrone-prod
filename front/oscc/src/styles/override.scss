@@ -35,6 +35,9 @@
 ::ng-deep th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
   padding-right: 10px !important;
 }
+::ng-deep th.mat-header-cell, td.mat-cell, td.mat-footer-cell{
+  padding: 0px 5px !important;
+}
 
 // footer table
 ::ng-deep.mat-cell, .mat-footer-cell {
@@ -67,10 +70,16 @@
   background-color: $darkGray !important;
   border: 2px solid $lightBlue;
 }
-// expend accordion
+// expend accordion =======================================================================
 ::ng-deep.mat-expansion-panel-spacing {
    margin: 5px 0;
 }
 ::ng-deep.mat-expansion-panel-body {
   padding: 0 0px 10px 10px;
+}
+// icon button ============================================================================
+::ng-deep.mat-icon-button{
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
 }

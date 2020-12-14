@@ -5,7 +5,7 @@
       <!--Rows-->
       <span *ngIf="column !== 'select'">
         <th *matHeaderCellDef [disabled]="isSortingDisabled(column)" mat-header-cell mat-sort-header>
-          <span class="capitalize">{{column}}</span>
+          <span class="capitalize">{{(column === 'id') ? 'ID': (column === 'createdBy'? 'created By': column )}}</span>
         </th>
         <td *matCellDef="let element" mat-cell>
           <span *ngIf="element.modeDefine?.tableData[column]">

@@ -22,7 +22,7 @@ export class LeftPanelComponent implements OnInit {
 
  minimizationPanel = () => {
     if (this.applicationService.panelIcon === LEFT_PANEL_ICON.expand) {
-      this.applicationService.panelIcon = LEFT_PANEL_ICON.minimize;
+      this.applicationService.panelIcon = LEFT_PANEL_ICON.collapse;
     } else {
       this.applicationService.panelIcon = LEFT_PANEL_ICON.expand;
     }

@@ -27,6 +27,7 @@
             <!--image-->
             <img *ngIf="element.modeDefine?.tableData[column]?.type === 'image'"
                  [src]="element.modeDefine?.tableData[column]?.data"
+                 [matTooltip]="element?.priority"
                  class="tableImage">
             <!--text-->
             <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'">

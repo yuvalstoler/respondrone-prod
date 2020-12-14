@@ -77,7 +77,7 @@
 }
 
 .LeftPanel{
-  width: $leftPanelWidth;
+  width: $leftPanelWidth !important;
   height: calc(100vh - #{$headerHeight}) !important; //  calc(100vh - var(--headerHeight));
   overflow: hidden !important;
   top: $headerHeight;
