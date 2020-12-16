@@ -39,7 +39,7 @@ export class EventDialogComponent implements OnInit {
     createdBy: undefined,
     time: undefined,
     title: '',
-    type: this.types[0],
+    type: '',
     priority: this.priorities[0],
     description: '',
     locationType: LOCATION_TYPE.none,

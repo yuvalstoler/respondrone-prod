@@ -32,7 +32,7 @@
         <div class="DialogContentItem ">
           <div class="DialogTitle">Type</div>
           <mat-form-field appearance="outline" class="SPMatFormField">
-            <mat-select [(ngModel)]="eventModel.type">
+            <mat-select [(ngModel)]="eventModel.type" [placeholder]="'Choose type'">
               <mat-option *ngFor="let type of types" [value]="type">
                 {{type}}
               </mat-option>

@@ -36,7 +36,7 @@ export class ReportDialogComponent {
     source: SOURCE_TYPE.OSCC,
     createdBy: undefined,
     time: undefined,
-    type: this.types[0],
+    type: '',
     priority: this.priorities[0],
     description: '',
     locationType: LOCATION_TYPE.none,
