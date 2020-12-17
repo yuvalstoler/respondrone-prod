@@ -27,7 +27,7 @@ import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
 })
 export class TaskDialogComponent implements OnInit {
 
-  @ViewChild('title', {static: true}) firstItem: ElementRef;
+  // @ViewChild('title', {static: true}) firstItem: ElementRef;
 
   taskModel: TASK_DATA_UI;
   types = this.applicationService.typesConfig.taskTypes;
@@ -71,7 +71,7 @@ export class TaskDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.firstItem.nativeElement.focus();
+    // this.firstItem.nativeElement.focus();
   }
 
   onNoClick(): void {

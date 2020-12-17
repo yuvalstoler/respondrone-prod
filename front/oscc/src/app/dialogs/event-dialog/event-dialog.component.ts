@@ -27,7 +27,7 @@ import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
 })
 export class EventDialogComponent implements OnInit {
 
-  @ViewChild('title', {static: true}) firstItem: ElementRef;
+  // @ViewChild('title', {static: true}) firstItem: ElementRef;
 
   eventModel: EVENT_DATA_UI;
   types = this.applicationService.typesConfig.eventTypes;
@@ -89,7 +89,7 @@ export class EventDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.firstItem.nativeElement.focus();
+    // this.firstItem.nativeElement.focus();
   }
 
   private initEventModel = () => {

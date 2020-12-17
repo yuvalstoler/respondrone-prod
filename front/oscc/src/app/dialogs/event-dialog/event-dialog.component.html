@@ -3,7 +3,7 @@
   <div class="DialogHeader" mat-dialog-title>
     <span class="DialogHeaderTitle">{{data.title}}</span>
     <span class="DialogHeaderX">
-      <button  mat-icon-button (click)="onNoClick()">
+      <button (click)="onNoClick()" mat-icon-button>
       <mat-icon>close</mat-icon>
     </button>
   </span>
@@ -13,18 +13,19 @@
     <div class="item1">
       <!--Title-->
       <div class="DialogContentItem">
-        <div class="DialogTitle">Event Title</div>
+        <div class="DialogTitle">Event Title
+          <mat-error *ngIf="eventModel.title === '' || eventModel.title === undefined">
+            *
+          </mat-error>
+        </div>
         <mat-form-field appearance="outline" class="SPMatFormField">
           <label>
-            <input [(ngModel)]="eventModel.title" class="Label" matInput
-                   #title
+            <input #title [(ngModel)]="eventModel.title" class="Label"
+                   matInput
                    placeholder="For example: Fire in the city"
-                   type="text" required>
+                   required type="text">
           </label>
         </mat-form-field>
-        <mat-error *ngIf="eventModel.title === '' || eventModel.title === undefined">
-          Event title field is required
-        </mat-error>
       </div>
       <!--Type & Priority-->
       <div class="DialogGrid2">
@@ -77,7 +78,8 @@
         <mat-radio-group
           aria-labelledby="example-radio-group-label"
           class="example-radio-group">
-          <mat-radio-button (click)="onChangeLocation($event, location)" *ngFor="let location of locations; let i = index"
+          <mat-radio-button (click)="onChangeLocation($event, location)"
+                            *ngFor="let location of locations; let i = index"
                             [checked]="locationTypeByName[location] === eventModel.locationType"
                             [value]="location" class="example-radio-button">
             {{location}}
@@ -93,14 +95,15 @@
               </mat-form-field>
             </div>
             <!--Location-->
-            <div *ngIf="location === LOCATION_NAMES.locationPoint && eventModel.locationType === LOCATION_TYPE.locationPoint">
+            <div
+              *ngIf="location === LOCATION_NAMES.locationPoint && eventModel.locationType === LOCATION_TYPE.locationPoint">
               <small>Choose location point from the map or write Lat/Long</small>
               <div class="DialogGrid22">
                 <!--Lat-->
                 <mat-form-field appearance="outline" class="">
                   <label>
-                    <input (click)="$event.stopPropagation()"
-                           (change)="locationChanged($event, 'latitude')"
+                    <input (change)="locationChanged($event, 'latitude')"
+                           (click)="$event.stopPropagation()"
                            (keyup)="locationChanged($event, 'latitude')"
                            [(ngModel)]="eventModel.location.latitude"
                            class="Label"
@@ -113,8 +116,8 @@
                 <!--Long-->
                 <mat-form-field appearance="outline" class="">
                   <label>
-                    <input (click)="$event.stopPropagation()"
-                           (change)="locationChanged($event, 'longitude')"
+                    <input (change)="locationChanged($event, 'longitude')"
+                           (click)="$event.stopPropagation()"
                            (keyup)="locationChanged($event, 'longitude')" [(ngModel)]="eventModel.location.longitude"
                            class="Label"
                            matInput
@@ -132,8 +135,8 @@
       <!--Linked Reports-->
       <div class="DialogContentItem">
         <app-linked-reports-table (updateLinkedReports)="onUpdateLinkedReports($event)"
-                                  [isAllColumns]="false"
-                                  [element]="eventModel">
+                                  [element]="eventModel"
+                                  [isAllColumns]="false">
         </app-linked-reports-table>
       </div>
     </div>

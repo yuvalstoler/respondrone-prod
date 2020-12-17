@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MAP} from '../../../../types';
 
 @Component({
@@ -16,6 +16,7 @@ export class DescriptionPanelComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
   }
 
   onOpenPanel = () => {
@@ -25,5 +26,7 @@ export class DescriptionPanelComponent implements OnInit {
   onClosePanel = () => {
     this.panelOpenState.emit({[this.descriptionId]: false});
   };
+
+
 
 }

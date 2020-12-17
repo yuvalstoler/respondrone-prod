@@ -80,7 +80,7 @@ export class MissionsTableComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['expandCollapse', 'select', 'id', 'missionStatus', 'missionType', 'description', 'createdBy', 'time', 'message', 'map'];
   // displayedColumns: any[] = this.initColumns.map(col => col.name);
 
-  displayedColumnsMinimize: string[] = [ 'id', 'missionStatus', 'missionType', 'map'];
+  displayedColumnsMinimize: string[] = [ 'id', 'missionStatus', 'missionType', 'createdBy', 'map'];
   dataSource = new MatTableDataSource<MISSION_REQUEST_DATA_UI>();
 
   expandedElement: MAP<MISSION_REQUEST_DATA_UI> = {};

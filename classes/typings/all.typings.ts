@@ -410,12 +410,12 @@ export type AV_OPTIONS = {
 }
 
 export enum MISSION_TYPE_TEXT {
-    CommRelay = 'Comm mission',
-    Patrol = 'Patrol mission',
-    Observation = 'Observation mission',
-    Scan = 'Scan mission',
-    Servoing = 'Follow an entity',
-    Delivery = 'Cargo drop mission',
+    CommRelay = 'Communications relay mission request',
+    Patrol = 'Patrol mission request',
+    Observation = 'Observation mission request',
+    Scan = 'Scan mission request',
+    Servoing = 'Follow entity mission request',
+    Delivery = 'Cargo drop mission request',
 }
 
 

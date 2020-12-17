@@ -10,7 +10,7 @@
                 class="capitalize">{{(column !== 'id') ? getSeparateString(column) : 'ID'}}</span>
           <mat-icon *ngIf="column === 'message'" class="HPRightSideIcon" matTooltip="Comments" matTooltipPosition="above">comment</mat-icon>
           <mat-icon *ngIf="column === 'link'" class="HPRightSideIcon" matTooltip="Linked events" matTooltipPosition="above">link</mat-icon>
-          <mat-icon *ngIf="column === 'map'" class="HPRightSideIcon" matTooltip="Report location" matTooltipPosition="above">location_on</mat-icon>
+          <mat-icon *ngIf="column === 'map'" class="HPRightSideIcon" matTooltip="Mission location" matTooltipPosition="above">location_on</mat-icon>
           <mat-icon *ngIf="column === 'attachment'" class="HPRightSideIcon" matTooltip="Media" matTooltipPosition="above">attach_file</mat-icon>
         </th>
         <td *matCellDef="let element" mat-cell [ngStyle]="{'color': element.modeDefine?.styles?.textColor}" >
@@ -43,7 +43,7 @@
             {{element[column]}}
           </span>
           <span *ngIf="column === 'missionStatus'">
-            <span class="material-icons" [ngStyle]="{'color': element.modeDefine?.styles?.dotColor, 'font-size': '12px'}">stop_circle</span>
+            <span class="material-icons" [ngStyle]="{'color': element.modeDefine?.styles?.dotColor, 'font-size': '9px'}">stop_circle</span>
             {{element[column]}}
           </span>
         </td>

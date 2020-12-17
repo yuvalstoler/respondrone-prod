@@ -14,7 +14,11 @@
     <div class="item1">
       <!--Title-->
       <div class="DialogContentItem">
-        <div class="DialogTitle">Task Title</div>
+        <div class="DialogTitle">Task Title
+          <mat-error *ngIf="taskModel.title === '' || taskModel.title === undefined">
+            *
+          </mat-error>
+        </div>
         <mat-form-field appearance="outline" class="SPMatFormField">
           <label>
             <input [(ngModel)]="taskModel.title" class="Label" matInput
@@ -24,9 +28,6 @@
                    type="text">
           </label>
         </mat-form-field>
-        <mat-error *ngIf="taskModel.title === '' || taskModel.title === undefined">
-          Task title field is required
-        </mat-error>
       </div>
       <!--Type & Priority-->
       <div class="DialogGrid2">
