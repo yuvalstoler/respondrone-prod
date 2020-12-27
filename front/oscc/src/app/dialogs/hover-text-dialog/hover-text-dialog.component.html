@@ -1,0 +1,6 @@
+<div *ngIf="applicationService.hoverTextData?.text"
+     [style.left]="applicationService.hoverTextData?.left"
+     [style.top]="applicationService.hoverTextData?.top"
+     class="container">
+  {{applicationService.hoverTextData.text}}
+</div>

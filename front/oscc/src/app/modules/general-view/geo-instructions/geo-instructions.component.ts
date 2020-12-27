@@ -37,8 +37,8 @@ export class GeoInstructionsComponent implements OnInit {
     id: undefined,
     type: undefined,
     description: '',
-    location: {longitude: undefined, latitude: undefined},
-    modeDefine: {styles: {mapIcon: '', iconSize: undefined}},
+    location: {longitude: undefined, latitude: undefined, altitude: 0},
+    modeDefine: {styles: {mapIcon: '', iconSize: undefined, labelText: undefined, labelOffset: undefined, labelBackground: undefined, hoverText: undefined, color: undefined, isDotted: undefined, fillColor: undefined}},
     address: '',
     polygon: [],
     arrow: [],
@@ -68,7 +68,7 @@ export class GeoInstructionsComponent implements OnInit {
     });
 
     // add arrow to model
-    this.arrowService.arrow$.subscribe((positions: POINT[] | POINT3D[]) => {
+    this.arrowService.arrow$.subscribe((positions: POINT3D[]) => {
       this.geoInstructionModel.arrow = positions;
     });
 

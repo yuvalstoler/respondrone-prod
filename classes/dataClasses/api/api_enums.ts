@@ -14,6 +14,7 @@ export enum MS_API {
     readAllMission = '/readAllMission',
     readAllMissionRoute = '/readAllMissionRoute',
     readAllGraphicOverlay = '/readAllGraphicOverlay',
+    readAllNFZ = '/readAllNFZ',
     missionRequestAction = '/missionRequestAction',
     updateMissionInDB = '/updateMissionInDB',
 }
@@ -87,6 +88,12 @@ export enum DBS_API {
     readAllGraphicOverlay = '/readAllGraphicOverlay',
     deleteGraphicOverlay = '/deleteGraphicOverlay',
     deleteAllGraphicOverlay = '/deleteAllGraphicOverlay',
+
+    createNFZ = '/createNFZ',
+    readNFZ = '/readNFZ',
+    readAllNFZ = '/readAllNFZ',
+    deleteNFZ = '/deleteNFZ',
+    deleteAllNFZ = '/deleteAllNFZ',
 
     saveRepCollectionVersions = '/saveRepCollectionVersions',
     getRepCollectionVersions = '/getRepCollectionVersions',
@@ -219,6 +226,7 @@ export enum WS_API {
     readAllMission = '/readAllMission',
     readAllMissionRoute = '/readAllMissionRoute',
     readAllGraphicOverlay = '/readAllGraphicOverlay',
+    readAllNFZ = '/readAllNFZ',
     missionRequestAction = '/missionRequestAction',
     updateMissionInDB = '/updateMissionInDB',
 
@@ -229,6 +237,7 @@ export enum WS_API {
     updateAllMissions = '/updateAllMissions',
     updateAllMissionRoutes = '/updateAllMissionRoutes',
     updateAllGraphicOverlays = '/updateAllGraphicOverlays',
+    updateAllNFZs = '/updateAllNFZs',
 
     gimbalAction = '/gimbalAction',
 
@@ -306,4 +315,7 @@ export enum MissionRouteRep_API {
 }
 export enum GraphicOverlayRep_API {
     getLastGraphicOverlays = 'getLastGraphicOverlays'
+}
+export enum NFZRep_API {
+    getLastNFZs = 'getLastNFZs'
 }

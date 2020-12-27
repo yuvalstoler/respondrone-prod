@@ -1,4 +1,12 @@
-import {PRIORITY, TABLE_DATA_MD, TASK_DATA_MD, TASK_DATA_UI, TASK_STATUS} from '../../typings/all.typings';
+import {
+    PRIORITY,
+    TABLE_DATA_MD,
+    TASK_ACTION,
+    TASK_ACTION_OPTIONS,
+    TASK_DATA_MD,
+    TASK_DATA_UI,
+    TASK_STATUS
+} from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
 import {MDClass} from "../mdClass";
@@ -14,7 +22,10 @@ export class TaskMdLogic implements IModeDefine {
                 dotColor: TaskMdLogic.getDotColor(data),
                 textColor: TaskMdLogic.getTextColor(data),
             },
-            tableData: TaskMdLogic.tableData(data)
+            tableData: TaskMdLogic.tableData(data),
+            data: {
+                actionOptions: TaskMdLogic.getActionOptions(data)
+            }
         };
         return obj;
     }
@@ -58,11 +69,15 @@ export class TaskMdLogic implements IModeDefine {
         return res;
     };
 
-    private static getIcon = (data: TASK_DATA_UI): string => {
-        let res;
-        res = '../../../../../assets/markerBlue.png';
+    private static getActionOptions = (data: TASK_DATA_UI): TASK_ACTION_OPTIONS => {
+        const res: TASK_ACTION_OPTIONS = {};
+
+        if (data.status === TASK_STATUS.inProgress || data.status === TASK_STATUS.pending) {
+            res[TASK_ACTION.complete] = true;
+            res[TASK_ACTION.cancel] = true;
+        }
         return res;
-    };
+    }
 
     private static tableData = (data: TASK_DATA_UI) => {
         let res = {

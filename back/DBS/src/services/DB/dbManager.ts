@@ -6,7 +6,7 @@ import {
     ASYNC_RESPONSE, COLLECTION_VERSIONS,
     EVENT_DATA,
     FILE_DB_DATA, GRAPHIC_OVERLAY_DATA,
-    ID_OBJ, MISSION_DATA, MISSION_REQUEST_DATA, MISSION_ROUTE_DATA,
+    ID_OBJ, MISSION_DATA, MISSION_REQUEST_DATA, MISSION_ROUTE_DATA, NFZ_DATA,
     REPORT_DATA,
     TASK_DATA,
 } from '../../../../../classes/typings/all.typings';
@@ -20,6 +20,7 @@ import {CollectionVersionModel} from "../mongo/models/collectionVersionModel";
 import {MissionModel} from "../mongo/models/MissionModel";
 import {MissionRouteModel} from "../mongo/models/MissionRouteModel";
 import {GraphicOverlayModel} from "../mongo/models/GraphicOverlayModel";
+import {NFZModel} from "../mongo/models/NFZModel";
 
 
 export class DbManager {
@@ -35,6 +36,7 @@ export class DbManager {
     missionRouteModel = new MissionRouteModel().getSchema();
     missionModel = new MissionModel().getSchema();
     graphicOverlayModel = new GraphicOverlayModel().getSchema();
+    nfzModel = new NFZModel().getSchema();
     collectionVersionModel = new CollectionVersionModel().getSchema();
 
     private constructor() {
@@ -655,6 +657,84 @@ export class DbManager {
 
     //endregion -----------------------
 
+    // region nfz----------------------
+
+    private createNFZ = (data: NFZ_DATA): Promise<ASYNC_RESPONSE<NFZ_DATA>> => {
+        return new Promise((resolve, reject) => {
+            this.nfzModel
+                .findOneAndUpdate({id: data.id}, data, {new: true, upsert: true})
+                .exec()
+                .then((result: NFZ_DATA) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private readNFZ = (data: ID_OBJ): Promise<ASYNC_RESPONSE<NFZ_DATA>> => {
+        return new Promise((resolve, reject) => {
+            this.nfzModel.find(data)
+                .exec()
+                .then((result: NFZ_DATA) => {
+                    const obj = result[0];
+                    resolve({success: (obj !== undefined), data: obj} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private readAllNFZ = (data = {}): Promise<ASYNC_RESPONSE<NFZ_DATA[]>> => {
+        return new Promise((resolve, reject) => {
+            this.nfzModel.find(data)
+                .exec()
+                .then((result: NFZ_DATA[]) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private deleteNFZ = (data: ID_OBJ): Promise<ASYNC_RESPONSE<ID_OBJ>> => {
+        return new Promise((resolve, reject) => {
+            this.nfzModel
+                .findOneAndDelete(data)
+                .exec()
+                .then((result: ID_OBJ) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private deleteAllNFZ = (data = {}): Promise<ASYNC_RESPONSE<NFZ_DATA[]>> => {
+        return new Promise((resolve, reject) => {
+            this.nfzModel
+                .deleteMany(data)
+                .exec()
+                .then((result: NFZ_DATA[]) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    //endregion -----------------------
+
     private saveRepCollectionVersions = (data: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE<COLLECTION_VERSIONS>> => {
         return new Promise((resolve, reject) => {
             this.collectionVersionModel
@@ -736,6 +816,12 @@ export class DbManager {
     public static readAllGraphicOverlay = DbManager.instance.readAllGraphicOverlay;
     public static deleteGraphicOverlay = DbManager.instance.deleteGraphicOverlay;
     public static deleteAllGraphicOverlay = DbManager.instance.deleteAllGraphicOverlay;
+
+    public static createNFZ = DbManager.instance.createNFZ;
+    public static readNFZ = DbManager.instance.readNFZ;
+    public static readAllNFZ = DbManager.instance.readAllNFZ;
+    public static deleteNFZ = DbManager.instance.deleteNFZ;
+    public static deleteAllNFZ = DbManager.instance.deleteAllNFZ;
 
     public static saveRepCollectionVersions = DbManager.instance.saveRepCollectionVersions;
     public static getRepCollectionVersions = DbManager.instance.getRepCollectionVersions;

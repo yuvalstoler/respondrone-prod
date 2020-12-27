@@ -6,9 +6,9 @@ export class DrawPolygonClass {
 
   arrayPoints: POINT3D[] = [];
   circleIndex = -1;
-  
+
   constructor() {
-    
+
   }
 
   //  function click, mouseMove, doubleClick
@@ -35,7 +35,7 @@ export class DrawPolygonClass {
   };
 
   //  function save array POINT[]
-  private savePointToArray = (point: POINT): POINT3D[] => {
+  private savePointToArray = (point: POINT3D): POINT3D[] => {
     if (this.arrayPoints.length === 0) {
       this.arrayPoints.push(point);
     }
@@ -63,7 +63,7 @@ export class DrawPolygonClass {
   };
 
   //  function save temporary point to array POINT[]
-  private saveTempPointToArray = (point: POINT): POINT3D[] => {
+  private saveTempPointToArray = (point: POINT3D): POINT3D[] => {
     const polygonTempArray: POINT3D[] = [];
     if (Array.isArray(this.arrayPoints) && this.arrayPoints.length > 0) {
       if (this.arrayPoints.length === 1) {
@@ -97,13 +97,13 @@ export class DrawPolygonClass {
       for (let i = 0; i < polygon.length - 2; i++) {
         for (let k = i + 1; k < polygon.length - 1; k++) {
           if (!res) {
-            res = this.checkCrossLines([[polygon[i][0], polygon[i][1]], [polygon[i + 1][0], polygon[i + 1][1]]],
-              [[polygon[k][0], polygon[k][1]], [polygon[k + 1][0], polygon[k + 1][1]]]);
+            res = this.checkCrossLines([[polygon[i][0], polygon[i][1], 0], [polygon[i + 1][0], polygon[i + 1][1], 0]],
+              [[polygon[k][0], polygon[k][1], 0], [polygon[k + 1][0], polygon[k + 1][1], 0]]);
           }
         }
         if (!res) {
-          res = this.checkCrossLines([[polygon[i][0], polygon[i][1]], [polygon[i + 1][0], polygon[i + 1][1]]],
-            [[polygon[polygon.length - 1][0], polygon[polygon.length - 1][1]], [polygon[0][0], polygon[0][1]]]);
+          res = this.checkCrossLines([[polygon[i][0], polygon[i][1], 0], [polygon[i + 1][0], polygon[i + 1][1], 0]],
+            [[polygon[polygon.length - 1][0], polygon[polygon.length - 1][1], 0], [polygon[0][0], polygon[0][1], 0]]);
         }
       }
     }

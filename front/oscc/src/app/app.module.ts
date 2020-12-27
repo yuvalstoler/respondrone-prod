@@ -52,6 +52,7 @@ import {MatSliderModule} from '@angular/material/slider';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MissionUavDialogComponent } from './dialogs/mission-uav-dialog/mission-uav-dialog.component';
 import { ContextMenuComponent } from './dialogs/context-menu/context-menu.component';
+import { HoverTextDialogComponent } from './dialogs/hover-text-dialog/hover-text-dialog.component';
 
 const config: SocketIoConfig = SOCKET_CONFIG;
 
@@ -76,6 +77,7 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     MissionDialogComponent,
     MissionUavDialogComponent,
     ContextMenuComponent,
+    HoverTextDialogComponent,
   ],
   imports: [
     BrowserModule,

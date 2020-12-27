@@ -3,8 +3,8 @@ import {
   AV_DATA_UI,
   EVENT_DATA_UI,
   FR_DATA_UI,
-  GEOGRAPHIC_INSTRUCTION, GEOPOINT3D,
-  POINT, POINT3D,
+  GEOGRAPHIC_INSTRUCTION, GEOPOINT3D, ICON_STYLES,
+  POINT, POINT3D, POLYGON_STYLES, POLYLINE_STYLES,
   REPORT_DATA_UI
 } from '../../../classes/typings/all.typings';
 
@@ -33,8 +33,32 @@ export type DISPLAY_ON_SCREEN = {
   showSituationPicture: boolean;
   showMissionControl: boolean;
   showViewMedia: boolean;
-  showVideo: boolean
+  showVideo: boolean,
+
+  showFRLocations: boolean,
+  showReports: boolean,
+  showEvents: boolean,
+  showTasks: boolean,
+  showMissions: boolean,
+  showMissionPlans: boolean,
+  showUAV: boolean,
+  showNFZ: boolean,
+  showGraphicOverlays: boolean,
 };
+
+export enum VIEW_LIST {
+  showFRLocations = 'FR Location',
+  showReports = 'Reports',
+  showEvents = 'Events',
+  showTasks = 'Tasks',
+  showMissions = 'Missions',
+  showMissionPlans = 'Mission plans',
+  showUAV = 'UAV locations',
+  showNFZ = 'NFZ',
+  showGraphicOverlays = 'Graphic overlays',
+  showGrandResources = 'Ground Resources Panel',
+  showAirResources = 'Air Resources Panel',
+}
 
 export enum LEFT_PANEL_ICON {
   collapse = 'arrow_forward_ios',
@@ -53,79 +77,77 @@ export enum STATE_DRAW {
 export type EVENT_LISTENER_DATA = {
   type: string,
   pointPX: Cartesian2,
-  pointLatLng: POINT,
+  pointLatLng: POINT3D,
   distance?: number,
   object?: OPTIONS_ENTITY
 };
 
 export enum TYPE_OBJECTS_CE {
   locationPointCE = 'locationPointCE',
-  billboardCE = 'billboardCE',
+  // billboardCE = 'billboardCE',
   iconCE = 'iconCE',
-  iconLabelCE = 'iconLabelCE',
+  // iconLabelCE = 'iconLabelCE',
   polygonCE = 'polygonCE',
-  labelPolygonCE = 'labelPolygonCE',
+  // labelPolygonCE = 'labelPolygonCE',
   polylineCE = 'polylineCE',
   arrowPolylineCE = 'arrowPolylineCE'
 }
 
+export enum ITEM_TYPE {
+  missionRequest = 'missionRequest',
+  report = 'report',
+  event = 'event',
+  task = 'task',
+  mission = 'mission',
+  missionRoute = 'missionRoute'
+}
+
 export type OPTIONS_ENTITY = {
-  description: string,
-  id?: string
+  hoverText: string,
+  data?: any,
+  type?: ITEM_TYPE
 };
 
-export enum VIEW_LIST {
-  frLocation = 'FR Location',
-  reportsLocation = 'Reports Location',
-  events = 'Events',
-  UAVLocationsAndRouts = 'UAV locations and routs',
-  missionsPlane = 'Missions plans',
-  nfz = 'NFZ',
-  airResourcesPanel = 'Air Resources Panel',
-  groundResourcesPanel = 'Ground Resources Panel'
-}
 
 
 export type ICON_DATA = {
   id: string,
-  description: string,
   heading?: number,
   modeDefine: {
-    styles: {
-      mapIcon: string,
-      iconSize: number
-    }
+    styles: ICON_STYLES
   },
-  location: GEOPOINT3D
+  isShow: boolean,
+  location: POINT3D
+  optionsData: any,
+  type: ITEM_TYPE
 };
+
+
 export type POLYGON_DATA = {
   id: string,
-  description: string,
-  title: string,
   modeDefine: {
-    styles: {
-      color: string,
-      fillColor: string
-    }
+    styles: POLYGON_STYLES
   },
-  polygon: POINT3D[]
+  isShow: boolean,
+  polygon: POINT3D[],
+  optionsData: any,
+  type: ITEM_TYPE
 };
+
+
 
 export type POLYLINE_DATA = {
   id: string,
-  description: string,
   modeDefine: {
-    styles: {
-      color: string
-      isDotted?: boolean
-    }
+    styles: POLYLINE_STYLES
   },
-  polyline: POINT3D[]
+  isShow: boolean,
+  polyline: POINT3D[],
+  optionsData: any,
+  type: ITEM_TYPE
 };
 
 
-export type DRAW_OBJECT = ICON_DATA | EVENT_DATA_UI | REPORT_DATA_UI | GEOGRAPHIC_INSTRUCTION | FR_DATA_UI | AV_DATA_UI;
-export type DRAW_LABEL = {text: string, color: string};
 
 export enum SORT_GROUND_RESOURCES {
   lastUpdate = 'Last update',

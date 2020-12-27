@@ -65,6 +65,7 @@ export class RepositoryManager {
             [COLLECITON_VERSION_TYPE.Mission]: 0,
             [COLLECITON_VERSION_TYPE.MissionRoute]: 0,
             [COLLECITON_VERSION_TYPE.GraphicOverlay]: 0,
+            [COLLECITON_VERSION_TYPE.NFZ]: 0,
         }
 
         RequestManager.requestToDBS(DBS_API.saveRepCollectionVersions, defaultCollectionVersion)

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {MAP} from 'src/types';
 import {ViewerConfiguration} from 'angular-cesium';
-import {CARTESIAN3, POINT, POINT3D} from '../../../../../../classes/typings/all.typings';
+import {CARTESIAN2, CARTESIAN3, GEOPOINT3D, POINT, POINT3D} from '../../../../../../classes/typings/all.typings';
 import * as turf from '@turf/turf';
 import {mapDefaultPosition} from "../../../environments/environment";
 
@@ -32,14 +32,24 @@ export class CesiumService {
   colors = {
     polygonNFZ: 'rgba(255, 52, 47, 1)',
     dynamicNFZ: 'rgba(23, 173, 17, 1)',
-    polygon: 'rgba(26, 115, 255, 1)',
+    polygon: 'rgb(26,115,255)',
+    polyline: 'rgb(26,115,255)',
+    polygonCross: 'rgba(255, 52, 47, 1)',
     polygonFromServer: 'rgba(255, 208, 11, 1)',
     selected: 'rgba(250, 17, 255, 1)',
     notSelected: 'rgba(255, 253, 34, 1)',
     polylineStop: '#ffffff',
     polylineStart: 'rgba(89, 177, 241, 1)',
-    borderColor: '#000000'
+    borderColor: '#000000',
+    arrowColor: 'rgb(26,115,255)'
   };
+
+  defaults = {
+    font: '14pt monospace',
+    markerIcon: '../../../assets/markerBlue.png',
+    markerSize: {width: 45, height: 45},
+    labelBackground: 'rgba(255, 255 ,255 ,1)',
+  }
 
   constructor(private viewerConf: ViewerConfiguration) {
     // viewerConf.viewerOptions = [{
@@ -224,5 +234,18 @@ export class CesiumService {
       }
     }
   };
+
+  public latLonToScreenPosition = (data: POINT3D): CARTESIAN2 => {
+    let res;
+    const cartesian = this.pointDegreesToCartesian3(data);
+    const mapsCE: MAP<any> = this.getMapByDomId(undefined);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        res = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
+          mapsCE[mapDomId].scene, cartesian)
+      }
+    }
+    return res;
+  }
 
 }

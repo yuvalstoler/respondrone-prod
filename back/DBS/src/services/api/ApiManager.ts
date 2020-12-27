@@ -12,7 +12,7 @@ import {
     EVENT_DATA,
     FILE_DB_DATA, GRAPHIC_OVERLAY_DATA,
     ID_OBJ,
-    ID_TYPE, MISSION_DATA, MISSION_REQUEST_DATA, MISSION_ROUTE_DATA,
+    ID_TYPE, MISSION_DATA, MISSION_REQUEST_DATA, MISSION_ROUTE_DATA, NFZ_DATA,
     REPORT_DATA,
     TASK_DATA,
 } from '../../../../../classes/typings/all.typings';
@@ -840,6 +840,108 @@ export class ApiManager implements IRest {
     };
     // endregion ----------------------
 
+    // region NFZ ----------------------
+
+    private createNFZ = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<NFZ_DATA> = {success: false};
+        const requestBody: NFZ_DATA = request.body;
+        if ( requestBody ) {
+            DbManager.createNFZ(requestBody)
+                .then((data: ASYNC_RESPONSE<NFZ_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE<NFZ_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing requestBody';
+            response.send(res);
+        }
+    };
+
+    private readNFZ = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<NFZ_DATA> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.readNFZ(requestBody)
+                .then((data: ASYNC_RESPONSE<NFZ_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE<NFZ_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private readAllNFZ = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<NFZ_DATA[]> = {success: false};
+        DbManager.readAllNFZ({})
+            .then((data: ASYNC_RESPONSE<NFZ_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE<NFZ_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
+    private deleteNFZ = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.deleteNFZ(requestBody)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private deleteAllNFZ = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody = request.body;
+        DbManager.deleteAllNFZ({})
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+    };
+    // endregion ----------------------
+
+
     private saveRepCollectionVersions = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<COLLECTION_VERSIONS> = {success: false};
         const requestBody: MISSION_REQUEST_DATA = request.body;
@@ -929,6 +1031,12 @@ export class ApiManager implements IRest {
         [DBS_API.readAllGraphicOverlay]: this.readAllGraphicOverlay,
         [DBS_API.deleteGraphicOverlay]: this.deleteGraphicOverlay,
         [DBS_API.deleteAllGraphicOverlay]: this.deleteAllGraphicOverlay,
+
+        [DBS_API.createNFZ]: this.createNFZ,
+        [DBS_API.readNFZ]: this.readNFZ,
+        [DBS_API.readAllNFZ]: this.readAllNFZ,
+        [DBS_API.deleteNFZ]: this.deleteNFZ,
+        [DBS_API.deleteAllNFZ]: this.deleteAllNFZ,
 
         [DBS_API.saveRepCollectionVersions]: this.saveRepCollectionVersions,
         [DBS_API.getRepCollectionVersions]: this.getRepCollectionVersions,

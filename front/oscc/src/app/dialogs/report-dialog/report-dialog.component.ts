@@ -36,11 +36,11 @@ export class ReportDialogComponent {
     source: SOURCE_TYPE.OSCC,
     createdBy: undefined,
     time: undefined,
-    type: '',
+    type: this.types[0],
     priority: this.priorities[0],
     description: '',
     locationType: LOCATION_TYPE.none,
-    location: {longitude: undefined, latitude: undefined},
+    location: {longitude: undefined, latitude: undefined, altitude: 0},
     address: '',
     eventIds: [],
     comments: [],
@@ -75,7 +75,7 @@ export class ReportDialogComponent {
     // add location on panel
     this.locationService.locationPoint$.subscribe(latlon => {
       if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
-        this.reportModel.location = {longitude: latlon.lon, latitude: latlon.lat};
+        this.reportModel.location = {longitude: latlon.lon, latitude: latlon.lat, altitude: 0};
       }
     });
   }
@@ -112,19 +112,19 @@ export class ReportDialogComponent {
     }
     if (location === LOCATION_NAMES.noLocation) {
       this.reportModel.locationType = LOCATION_TYPE.none;
-      this.reportModel.location = {longitude: undefined, latitude: undefined};
+      this.reportModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
       this.reportModel.address = '';
       this.locationService.deleteLocationPointTemp('0');
 
     } else if (location === LOCATION_NAMES.address) {
-      this.reportModel.location = {longitude: undefined, latitude: undefined};
+      this.reportModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
       this.reportModel.locationType = LOCATION_TYPE.address;
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
       this.mapGeneralService.changeCursor(false);
       this.locationService.deleteLocationPointTemp('0');
 
     } else if (location === LOCATION_NAMES.locationPoint) {
-      this.reportModel.location = {longitude: undefined, latitude: undefined};
+      this.reportModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
       this.customToasterService.info({message: 'Click on map to set the report\'s location', title: 'location'});
       this.reportModel.address = '';
       // if (this.reportModel.location.latitude === undefined && this.reportModel.location.longitude === undefined) {

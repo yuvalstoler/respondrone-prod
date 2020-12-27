@@ -39,11 +39,11 @@ export class EventDialogComponent implements OnInit {
     createdBy: undefined,
     time: undefined,
     title: '',
-    type: '',
+    type: this.types[0],
     priority: this.priorities[0],
     description: '',
     locationType: LOCATION_TYPE.none,
-    location: {longitude: undefined, latitude: undefined},
+    location: {longitude: undefined, latitude: undefined, altitude: 0},
     address: '',
     polygon: [],
     reportIds: [],
@@ -77,7 +77,7 @@ export class EventDialogComponent implements OnInit {
     // add location on panel
     this.locationService.locationPoint$.subscribe(latlon => {
       if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
-        this.eventModel.location = {longitude: latlon.lon, latitude: latlon.lat};
+        this.eventModel.location = {longitude: latlon.lon, latitude: latlon.lat, altitude: 0};
       }
     });
 
@@ -129,7 +129,7 @@ export class EventDialogComponent implements OnInit {
     }
     if (location === LOCATION_NAMES.noLocation) {
       this.eventModel.locationType = LOCATION_TYPE.none;
-      this.eventModel.location = {longitude: undefined, latitude: undefined};
+      this.eventModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
       this.eventModel.address = '';
       this.eventModel.polygon = [];
       this.locationService.deleteLocationPointTemp('0');
@@ -137,7 +137,7 @@ export class EventDialogComponent implements OnInit {
 
     }
     else if (location === LOCATION_NAMES.address) {
-      this.eventModel.location = {longitude: undefined, latitude: undefined};
+      this.eventModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
       this.eventModel.polygon = [];
       this.eventModel.locationType = LOCATION_TYPE.address;
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
@@ -147,7 +147,7 @@ export class EventDialogComponent implements OnInit {
 
     }
     else if (location === LOCATION_NAMES.locationPoint) {
-      this.eventModel.location = {longitude: undefined, latitude: undefined};
+      this.eventModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
       // toaster
       this.customToasterService.info({message: 'Click on map to set the event\'s location', title: 'location'});
       this.eventModel.address = '';
@@ -167,7 +167,7 @@ export class EventDialogComponent implements OnInit {
       this.customToasterService.info(
         {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
       this.locationService.deleteLocationPointTemp('0');
-      this.eventModel.location = {longitude: undefined, latitude: undefined};
+      this.eventModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
       this.eventModel.address = '';
       this.eventModel.locationType = LOCATION_TYPE.polygon;
       this.applicationService.stateDraw = STATE_DRAW.drawPolygon;

@@ -29,7 +29,7 @@ export class GimbalManager {
     timestamp: number;
 
     private constructor() {
-       /* const date = Date.now();
+        const date = Date.now();
         const data: GIMBAL_DATA_TELEMETRY = {
             timestamp: {
                 timestamp: 0
@@ -72,34 +72,34 @@ export class GimbalManager {
                 drone.cameraFootprint.coordinates =
                 [
                     {
-                        'lat': 42.1200,
-                        'lon': 9.2117,
+                        'lat': 42.05,
+                        'lon': 9.94493,
                         'alt': 0
                     },
                     {
-                        'lat': 42.3200 + Math.random() * (0.02 + 0.01) - 0.01,
-                        'lon': 9.7117+ Math.random() * (0.02 + 0.01) - 0.01,
+                        'lat': 42.05 + Math.random() * (0.02 + 0.01) - 0.01,
+                        'lon': 9.98493+ Math.random() * (0.02 + 0.01) - 0.01,
                         'alt': 0
                     },
                     {
-                        'lat': 42.5200+ Math.random() * (0.02 + 0.01) - 0.01,
-                        'lon': 9.0117+ Math.random() * (0.02 + 0.01) - 0.01,
+                        'lat': 41.95+ Math.random() * (0.02 + 0.01) - 0.01,
+                        'lon': 9.98493+ Math.random() * (0.02 + 0.01) - 0.01,
                         'alt': 0
                     },
                     {
-                        'lat': 42.3200+ Math.random() * (0.02 + 0.01) - 0.01,
-                        'lon': 9.0117+ Math.random() * (0.02 + 0.01) - 0.01,
+                        'lat': 41.95+ Math.random() * (0.02 + 0.01) - 0.01,
+                        'lon': 9.94493+ Math.random() * (0.02 + 0.01) - 0.01,
                         'alt': 0
                     },
                     {
-                        'lat': 42.1200,
-                        'lon': 9.2117,
+                        'lat': 42.05,
+                        'lon': 9.94493,
                         'alt': 0
                     }
                 ]
             });
             this.onGetGimbals(data);
-        }, 1000);*/
+        }, 1000);
     }
 
     private startGetSocket = () => {

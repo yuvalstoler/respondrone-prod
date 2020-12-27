@@ -11,10 +11,16 @@ export class ReportMdLogic implements IModeDefine {
     public static validate(data: REPORT_DATA_UI): REPORT_DATA_MD {
         const obj: REPORT_DATA_MD = {
             styles: {
-                icon: this.getPriorityIcon(data).data,
+                // icon
                 mapIcon: this.getMapIcon(data).data,
-                selectedIcon: this.getMapIcon(data).data,
-                iconSize: this.getIconSize(data)
+                iconSize: this.getIconSize(data),
+                hoverText: undefined,
+                labelText: undefined,
+                labelBackground: undefined,
+                labelOffset: undefined,
+                // other
+                icon: this.getPriorityIcon(data).data,
+                mapIconSelected: this.getMapIconSelected(data).data,
             },
             tableData: ReportMdLogic.tableData(data)
         };
@@ -30,6 +36,18 @@ export class ReportMdLogic implements IModeDefine {
             res.data = '../../../../../assets/mapPriorityMiddle.png';
         } else if (data.priority === PRIORITY.low) {
             res.data = '../../../../../assets/mapPriorityLow.png';
+        }
+        return res;
+    };
+
+    private static getMapIconSelected = (data: REPORT_DATA_UI): TABLE_DATA_MD => {
+        let res: TABLE_DATA_MD = {type: 'image', data: '', color: ''};
+        if (data.priority === PRIORITY.high) {
+            res.data = '../../../../../assets/mapPriorityHighSelected.png';
+        } else if (data.priority === PRIORITY.middle) {
+            res.data = '../../../../../assets/mapPriorityMiddleSelected.png';
+        } else if (data.priority === PRIORITY.low) {
+            res.data = '../../../../../assets/mapPriorityLowSelected.png';
         }
         return res;
     };
@@ -81,8 +99,8 @@ export class ReportMdLogic implements IModeDefine {
         return res;
     };
 
-    private static getIconSize = (data: REPORT_DATA_UI): number => {
-        return 30;
+    private static getIconSize = (data: REPORT_DATA_UI): {width: number, height: number} => {
+        return {width: 30, height: 30};
     };
 
 }

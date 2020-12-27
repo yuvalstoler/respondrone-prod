@@ -22,7 +22,7 @@ import {
     MISSION_ROUTE_DATA,
     GIMBAL_ACTION,
     MISSION_REQUEST_ACTION_OBJ,
-    GRAPHIC_OVERLAY_DATA_UI, GRAPHIC_OVERLAY_DATA,
+    GRAPHIC_OVERLAY_DATA_UI, GRAPHIC_OVERLAY_DATA, NFZ_DATA_UI, NFZ_DATA,
 } from '../../../../../classes/typings/all.typings';
 
 
@@ -40,6 +40,7 @@ import {MissionManager} from '../mission/missionManager';
 import {MissionRouteManager} from '../missionRoute/missionRouteManager';
 import {GimbalManager} from '../gimbal/gimbalManager';
 import {GraphicOverlayManager} from "../graphicOverlay/graphicOverlayManager";
+import {NFZManager} from "../NFZ/NFZManager";
 
 
 export class ApiManager implements IRest {
@@ -521,6 +522,22 @@ export class ApiManager implements IRest {
             });
     };
 
+    private readAllNFZ = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<NFZ_DATA_UI[]> = {success: false};
+        NFZManager.readAllNFZ({})
+            .then((data: ASYNC_RESPONSE<NFZ_DATA_UI[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
     private updateAllMissionRequests = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE = {success: false};
         const requestBody: MISSION_REQUEST_DATA[] = request.body;
@@ -577,6 +594,23 @@ export class ApiManager implements IRest {
         const res: ASYNC_RESPONSE = {success: false};
         const requestBody: GRAPHIC_OVERLAY_DATA[] = request.body;
         GraphicOverlayManager.updateAllGraphicOverlays(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
+    private updateAllNFZs = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody: NFZ_DATA[] = request.body;
+        NFZManager.updateAllNFZs(requestBody)
             .then((data: ASYNC_RESPONSE) => {
                 res.success = data.success;
                 res.data = data.data;
@@ -673,6 +707,7 @@ export class ApiManager implements IRest {
         [WS_API.readAllMission]: this.readAllMission,
         [WS_API.readAllMissionRoute]: this.readAllMissionRoute,
         [WS_API.readAllGraphicOverlay]: this.readAllGraphicOverlay,
+        [WS_API.readAllNFZ]: this.readAllNFZ,
         [WS_API.updateMissionInDB]: this.updateMissionInDB,
 
         [WS_API.uploadFile]: this.uploadFile,
@@ -685,6 +720,7 @@ export class ApiManager implements IRest {
         [WS_API.updateAllMissions]: this.updateAllMissions,
         [WS_API.updateAllMissionRoutes]: this.updateAllMissionRoutes,
         [WS_API.updateAllGraphicOverlays]: this.updateAllGraphicOverlays,
+        [WS_API.updateAllNFZs]: this.updateAllNFZs,
 
         [WS_API.missionRequestAction]: this.missionRequestAction,
         [WS_API.gimbalAction]: this.gimbalAction,

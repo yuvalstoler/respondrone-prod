@@ -17,10 +17,18 @@ export class GimbalMdLogic implements IModeDefine {
     public static validate(data: GIMBAL_DATA_UI): GIMBAL_DATA_MD {
         const obj: GIMBAL_DATA_MD = {
             styles: {
+                // icon
                 mapIcon: GimbalMdLogic.getIcon(data),
                 iconSize: GimbalMdLogic.getIconSize(data),
+                hoverText: undefined,
+                labelText: undefined,
+                labelBackground: undefined,
+                labelOffset: undefined,
+                // polygon
                 color: GimbalMdLogic.getColor(data),
                 fillColor: GimbalMdLogic.getFillColor(data),
+                // polyline
+                isDotted: undefined
             }
         };
         return obj;
@@ -33,8 +41,8 @@ export class GimbalMdLogic implements IModeDefine {
     };
 
 
-    private static getIconSize = (data: GIMBAL_DATA_UI): number => {
-        return 20;
+    private static getIconSize = (data: GIMBAL_DATA_UI): {width: number, height: number} => {
+        return {width: 20, height: 20};
     };
 
     private static getColor = (data: GIMBAL_DATA_UI): string => {
@@ -43,7 +51,7 @@ export class GimbalMdLogic implements IModeDefine {
     };
 
     private static getFillColor = (data: GIMBAL_DATA_UI): string => {
-        let res: string = 'rgba(0,0,0,0)';
+        let res: string = MDClass.colors.transparent;
         return res;
     };
 }

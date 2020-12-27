@@ -1,0 +1,13 @@
+@import "../../../styles/colors";
+
+.container {
+  background: $lightGray;
+  color: $black;
+  border-radius: 5px;
+  position: absolute;
+  z-index: 10001 !important;
+  padding: 5px;
+  max-width: 350px;
+  transform: translate(-50%, 0%);
+  white-space: pre-line;
+}

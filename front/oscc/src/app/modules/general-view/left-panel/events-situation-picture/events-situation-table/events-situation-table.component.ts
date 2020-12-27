@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
@@ -31,7 +31,7 @@ import {ContextMenuService} from '../../../../../services/contextMenuService/con
   ]
 })
 
-export class EventsSituationTableComponent implements OnInit, AfterViewInit {
+export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   displayedColumns: string[] = ['expandCollapse', 'select', 'id', 'title', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map'];
   displayedColumnsMinimize: string[] = ['id', 'title', 'priority', 'type'];
@@ -39,7 +39,6 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
 
   expandedElement: MAP<EVENT_DATA_UI> = {};
   selection = new SelectionModel<EVENT_DATA_UI>(true, []);
-  selectedElement: EVENT_DATA_UI;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   panelOpenState: MAP<boolean> = {};
@@ -77,15 +76,9 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
   };
 
   private selectRow = (row: EVENT_DATA_UI): void => {
-    // if (this.selectedElement) {
-    //   this.eventService.unselectIcon(this.selectedElement);
-    // }
-    // this.selectedElement = row;
-    // this.eventService.selectIcon(row);
-    //
-    // this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
-
-    this.selectedElement = this.selectedElement && this.selectedElement.id === row.id ? undefined : row;
+    this.eventService.unselectEvent(this.eventService.selectedElement);
+    this.eventService.selectedElement = this.eventService.selectedElement && this.eventService.selectedElement.id === row.id ? undefined : row;
+    this.eventService.selectEvent(this.eventService.selectedElement);
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -210,7 +203,7 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
         const top = event.clientY - 10;
         const left = event.clientX + 20;
         const clickPosition = {x: left, y: top};
-        this.contextMenuService.openLinkToMenu(clickPosition, element.reports, 'report');
+        this.contextMenuService.openLinkToMenu(clickPosition, element, 'event');
     }
 
   };
@@ -218,5 +211,10 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit {
   getSeparateString = (column) => {
     return column.split(/(?=[A-Z])/).join(' ');
   };
+
+  ngOnDestroy() {
+    this.eventService.unselectEvent(this.eventService.selectedElement);
+    this.eventService.selectedElement = undefined;
+  }
 }
 

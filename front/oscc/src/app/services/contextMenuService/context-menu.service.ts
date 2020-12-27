@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {
-  AV_DATA_UI,
+  AV_DATA_UI, EVENT_DATA_UI,
   LINKED_EVENT_DATA,
   LINKED_REPORT_DATA,
-  MISSION_TYPE, POINT
+  MISSION_TYPE, POINT, REPORT_DATA_UI
 } from '../../../../../../classes/typings/all.typings';
 
 @Injectable({
@@ -13,8 +13,9 @@ export class ContextMenuService {
 
   //for linkedToWindow
   private _isOpenLinkToMenu = false;
-  selectedLinkTo: LINKED_REPORT_DATA[] | LINKED_EVENT_DATA[];
-  type: string = '';
+
+  selectedLinkTo: REPORT_DATA_UI | EVENT_DATA_UI;
+  type: 'report' | 'event';
 
   //for ContextMenu
   isOpenBlob = false;
@@ -30,7 +31,7 @@ export class ContextMenuService {
     return this._isOpenLinkToMenu;
   }
 
-  openLinkToMenu = (clickPosition, linkTo: LINKED_REPORT_DATA[] | LINKED_EVENT_DATA[], type: string) => {
+  openLinkToMenu = (clickPosition, linkTo: REPORT_DATA_UI | EVENT_DATA_UI, type: 'report' | 'event') => {
     this.selectedLinkTo = linkTo;
     this.type = type;
     this._isOpenLinkToMenu = true;

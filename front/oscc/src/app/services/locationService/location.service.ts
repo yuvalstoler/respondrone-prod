@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import {EVENT_LISTENER_DATA, STATE_DRAW} from '../../../types';
-import {GEOPOINT3D, GEOPOINT3D_SHORT, NOTIFICATION_UI, POINT} from '../../../../../../classes/typings/all.typings';
+import {
+  GEOPOINT3D,
+  GEOPOINT3D_SHORT,
+  NOTIFICATION_UI,
+  POINT,
+  POINT3D
+} from '../../../../../../classes/typings/all.typings';
 import {DrawMarkerClass} from '../classes/drawMarkerClass';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
@@ -12,7 +18,7 @@ import {ApplicationService} from '../applicationService/application.service';
 export class LocationService {
 
   locationPoint$: BehaviorSubject<GEOPOINT3D_SHORT> = new BehaviorSubject({lon: undefined, lat: undefined, alt: 0});
-  locationPointTemp: POINT;
+  locationPointTemp: POINT3D;
   drawMarkerClass: DrawMarkerClass;
   downClick: boolean = false;
   isMarker: boolean = false;
@@ -100,7 +106,7 @@ export class LocationService {
   };
 
   public createOrUpdateLocationTemp = (locationPoint: GEOPOINT3D_SHORT) => {
-    this.locationPointTemp = [locationPoint.lon, locationPoint.lat];
+    this.locationPointTemp = [locationPoint.lon, locationPoint.lat, 0];
     const idTemp = this.applicationService.geoCounter.toString();
     this.mapGeneralService.createOrUpdateLocationTemp(locationPoint, idTemp);
   };

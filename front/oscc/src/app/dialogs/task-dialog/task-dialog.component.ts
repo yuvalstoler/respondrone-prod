@@ -19,6 +19,7 @@ import {FRService} from '../../services/frService/fr.service';
 import {PolylineService} from '../../services/polylineService/polyline.service';
 import {ArrowService} from '../../services/arrowService/arrow.service';
 import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
+import {DataUtility} from "../../../../../../classes/applicationClasses/utility/dataUtility";
 
 @Component({
   selector: 'app-task-dialog',
@@ -39,7 +40,7 @@ export class TaskDialogComponent implements OnInit {
     assigneeIds: [],
     createdBy: undefined,
     time: undefined,
-    type: '',
+    type: this.types[0],
     priority: this.priorities[1],
     description: '',
     comments: [],
@@ -104,7 +105,11 @@ export class TaskDialogComponent implements OnInit {
   };
 
   onCreateClick = () => {
-    this.dialogRef.close(this.taskModel);
+    const taskModel = _.cloneDeep(this.taskModel);
+    taskModel.geographicInstructions.forEach((geoInstruction?: GEOGRAPHIC_INSTRUCTION) => {
+      geoInstruction.id = DataUtility.generateID();
+    })
+    this.dialogRef.close(taskModel);
     this.clearPanel();
   };
 

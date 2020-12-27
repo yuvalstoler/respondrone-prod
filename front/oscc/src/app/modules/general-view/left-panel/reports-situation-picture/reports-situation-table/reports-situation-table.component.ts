@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
@@ -32,7 +32,7 @@ import {ContextMenuService} from '../../../../../services/contextMenuService/con
   ]
 })
 
-export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
+export class ReportsSituationTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   displayedColumns: string[] = ['expandCollapse', 'select', 'id', 'source', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map', 'attachment'];
   displayedColumnsMinimize: string[] = ['id', 'priority', 'type'];
@@ -40,7 +40,6 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
 
   expandedElement: MAP<REPORT_DATA_UI> = {};
   selection = new SelectionModel<REPORT_DATA_UI>(true, []);
-  selectedElement: REPORT_DATA_UI;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   panelOpenState: MAP<boolean> = {};
@@ -77,23 +76,9 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
   };
 
   private selectRow = (row: REPORT_DATA_UI): void => {
-    // if (this.applicationService.selectedReport === undefined) {
-    //   this.applicationService.selectedReport = element;
-    // } else {
-    //   this.applicationService.selectedReport = undefined;
-    // }
-
-    // this.expandedElement = this.expandedElement === element ? null : element;
-
-    // if (this.selectedElement) {
-    //   this.reportService.unselectIcon(this.selectedElement);
-    // }
-    // this.selectedElement = row;
-    // this.reportService.selectIcon(row);
-    //
-    // this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
-
-    this.selectedElement = this.selectedElement && this.selectedElement.id === row.id ? undefined : row;
+    this.reportService.unselectReport(this.reportService.selectedElement)
+    this.reportService.selectedElement = this.reportService.selectedElement && this.reportService.selectedElement.id === row.id ? undefined : row;
+    this.reportService.selectReport(this.reportService.selectedElement)
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -251,11 +236,16 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit {
       const top = event.clientY - 10;
       const left = event.clientX + 20;
       const clickPosition = {x: left, y: top};
-      this.contextMenuService.openLinkToMenu(clickPosition, element.events, 'event');
+      this.contextMenuService.openLinkToMenu(clickPosition, element, 'report');
     }
   };
 
   getSeparateString = (column) => {
     return column.split(/(?=[A-Z])/).join(' ');
   };
+
+  ngOnDestroy() {
+    this.reportService.unselectReport(this.reportService.selectedElement);
+    this.reportService.selectedElement = undefined;
+  }
 }

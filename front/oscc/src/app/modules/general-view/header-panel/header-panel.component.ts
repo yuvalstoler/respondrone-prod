@@ -3,6 +3,16 @@ import {HEADER_BUTTONS, VIDEO_OR_MAP, VIEW_LIST} from 'src/types';
 import {ApplicationService} from 'src/app/services/applicationService/application.service';
 import {DefaultValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {animate, animateChild, group, query, state, style, transition, trigger} from '@angular/animations';
+import {FRService} from "../../../services/frService/fr.service";
+import {ReportService} from "../../../services/reportService/report.service";
+import {EventService} from "../../../services/eventService/event.service";
+import {TasksService} from "../../../services/tasksService/tasks.service";
+import {MissionService} from "../../../services/missionService/mission.service";
+import {MissionRequestService} from "../../../services/missionRequestService/missionRequest.service";
+import {AirVehicleService} from "../../../services/airVehicleService/airVehicle.service";
+import {GraphicOverlayService} from "../../../services/graphicOverlayService/graphicOverlay.service";
+import {GimbalService} from "../../../services/gimbalService/gimbal.service";
+import {NFZService} from "../../../services/nfzService/nfz.service";
 
 @Component({
   selector: 'app-header-panel',
@@ -91,13 +101,24 @@ export class HeaderPanelComponent implements OnInit {
 
   Header_Buttons = HEADER_BUTTONS;
 
-  viewItems: string[] = Object.values(VIEW_LIST);
+  viewItems: string[] = Object.keys(VIEW_LIST);
   viewItemModel: string[] = [];
 
   _value = '';
   expanded = false;
+  VIEW_LIST = VIEW_LIST;
 
-  constructor(public applicationService: ApplicationService) { }
+  constructor(public applicationService: ApplicationService,
+              private frService: FRService,
+              private reportService: ReportService,
+              private eventService: EventService,
+              private taskService: TasksService,
+              private missionService: MissionService,
+              private missionRequestService: MissionRequestService,
+              private airVehicleService: AirVehicleService,
+              private graphicOverlayService: GraphicOverlayService,
+              private gimbalService: GimbalService,
+              private nfzService: NFZService) { }
 
   ngOnInit(): void {
 
@@ -176,28 +197,59 @@ export class HeaderPanelComponent implements OnInit {
   };
 
   onChangeCheckbox = (event, item: string) => {
-    if (!event.checked) {
-      const selectedIndex = this.viewItemModel.findIndex(data => data === item);
-      if (selectedIndex === -1 && event) {
-        this.viewItemModel.push(item);
-        if (item === VIEW_LIST.groundResourcesPanel) {
-          this.applicationService.screen.showGrandResources = false;
-        } else if (item === VIEW_LIST.airResourcesPanel) {
-          this.applicationService.screen.showAirResources = false;
-        }
-      }
-
-    } else {
-      const selectedIndex = this.viewItemModel.findIndex(data => data === item);
-      if (selectedIndex !== -1) {
-        this.viewItemModel.splice(selectedIndex, 1);
-        if (item === VIEW_LIST.groundResourcesPanel) {
-          this.applicationService.screen.showGrandResources = true;
-        } else if (item === VIEW_LIST.airResourcesPanel) {
-          this.applicationService.screen.showAirResources = true;
-        }
-      }
+    this.applicationService.screen[item] = !this.applicationService.screen[item];
+    switch (item) {
+      case 'showFRLocations':
+        this.applicationService.screen[item] ? this.frService.showAll() : this.frService.hideAll();
+        break;
+      case 'showReports':
+        this.applicationService.screen[item] ? this.reportService.showAll() : this.reportService.hideAll();
+        break;
+      case 'showEvents':
+        this.applicationService.screen[item] ? this.eventService.showAll() : this.eventService.hideAll();
+        break;
+      case 'showTasks':
+        this.applicationService.screen[item] ? this.taskService.showAll() : this.taskService.hideAll();
+        break;
+      case 'showMissions':
+        this.applicationService.screen[item] ? this.missionService.showAll() : this.missionService.hideAll();
+        break;
+      case 'showMissionPlans':
+        this.applicationService.screen[item] ? this.missionRequestService.showAll() : this.missionRequestService.hideAll();
+        break;
+      case 'showUAV':
+        this.applicationService.screen[item] ? this.airVehicleService.showAll() : this.airVehicleService.hideAll();
+        this.applicationService.screen[item] ? this.gimbalService.showAll() : this.gimbalService.hideAll();
+        break;
+      case 'showNFZ':
+        this.applicationService.screen[item] ? this.nfzService.showAll() : this.nfzService.hideAll();
+        break;
+      case 'showGraphicOverlays':
+        this.applicationService.screen[item] ? this.graphicOverlayService.showAll() : this.graphicOverlayService.hideAll();
+        break;
     }
+    // if (!event.checked) {
+    //   const selectedIndex = this.viewItemModel.findIndex(data => data === item);
+    //   if (selectedIndex === -1 && event) {
+    //     this.viewItemModel.push(item);
+    //     if (item === VIEW_LIST.groundResourcesPanel) {
+    //       this.applicationService.screen.showGrandResources = false;
+    //     } else if (item === VIEW_LIST.airResourcesPanel) {
+    //       this.applicationService.screen.showAirResources = false;
+    //     }
+    //   }
+    //
+    // } else {
+    //   const selectedIndex = this.viewItemModel.findIndex(data => data === item);
+    //   if (selectedIndex !== -1) {
+    //     this.viewItemModel.splice(selectedIndex, 1);
+    //     if (item === VIEW_LIST.groundResourcesPanel) {
+    //       this.applicationService.screen.showGrandResources = true;
+    //     } else if (item === VIEW_LIST.airResourcesPanel) {
+    //       this.applicationService.screen.showAirResources = true;
+    //     }
+    //   }
+    // }
   //   TODO: this.viewItemModel show or hide
 
   };

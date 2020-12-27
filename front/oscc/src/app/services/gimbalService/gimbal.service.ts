@@ -3,7 +3,7 @@ import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
-  ASYNC_RESPONSE, GEOPOINT3D_SHORT, GIMBAL_ACTION, GIMBAL_DATA_UI,
+  ASYNC_RESPONSE, FR_DATA_UI, GEOPOINT3D_SHORT, GIMBAL_ACTION, GIMBAL_DATA_UI,
   ID_OBJ, MAP, MISSION_DATA_UI,
   POINT,
   POINT3D,
@@ -11,7 +11,7 @@ import {
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {DRAW_LABEL, ICON_DATA, POLYGON_DATA, POLYLINE_DATA} from '../../../types';
+import {ICON_DATA, ITEM_TYPE, POLYGON_DATA, POLYLINE_DATA} from '../../../types';
 import {ApplicationService} from "../applicationService/application.service";
 import {API_GENERAL, WS_API} from "../../../../../../classes/dataClasses/api/api_enums";
 
@@ -83,57 +83,53 @@ export class GimbalService {
   // ----------------------
   private removeFromMap = (item: GIMBAL_DATA_UI) => {
     if (item.cameraLookAtPoint) {
-      this.mapGeneralService.deleteIcon('cameraLookAtPoint' + item.id);
+      this.mapGeneralService.deleteIcon(this.getId(item.id));
     }
 
     if (item.cameraFootprint) {
-      this.mapGeneralService.deletePolygonManually('cameraFootprint' + item.id);
+      this.mapGeneralService.deletePolygonManually(this.getId(item.id));
     }
 
     if (item.lineFromAirVehicle) {
-      this.mapGeneralService.deletePolylineFromMap('lineFromAirVehicle' + item.id);
+      this.mapGeneralService.deletePolylineFromMap(this.getId(item.id));
     }
   }
   // ----------------------
   private drawMission = (item: GIMBAL_DATA_UI) => {
-    // icons
     if (item.cameraLookAtPoint) {
       // TODO change
       const iconData: ICON_DATA = {
-        id: 'cameraLookAtPoint' + item.id,
-        description: undefined,
+        id: this.getId(item.id),
         modeDefine: item.modeDefine,
-        location: {
-          latitude: item.cameraLookAtPoint.lat,
-          longitude: item.cameraLookAtPoint.lon,
-          altitude: item.cameraLookAtPoint.alt,
-        }
+        isShow: this.applicationService.screen.showUAV,
+        location: this.applicationService.geopoint3d_short_to_point3d(item.cameraLookAtPoint),
+        optionsData: item,
+        type: undefined
       }
-      this.mapGeneralService.deleteIcon('cameraLookAtPoint' + item.id);
       this.mapGeneralService.createIcon(iconData);
     }
-
     if (item.cameraFootprint) {
       const polygonData: POLYGON_DATA = {
-        id: 'cameraFootprint' + item.id,
-        title: undefined,
-        description: undefined,
+        id: this.getId(item.id),
         modeDefine: item.modeDefine,
-        polygon: this.applicationService.geopoint3d_short_to_point3d_arr(item.cameraFootprint.coordinates)
+        isShow: this.applicationService.screen.showUAV,
+        polygon: this.applicationService.geopoint3d_short_to_point3d_arr(item.cameraFootprint.coordinates),
+        optionsData: item,
+        type: undefined
       };
-      this.mapGeneralService.drawPolygonFromServer(polygonData.polygon, polygonData.id, polygonData.title, polygonData.description, polygonData.modeDefine);
+      this.mapGeneralService.drawPolygonFromServer(polygonData);
     }
-
     if (item.lineFromAirVehicle) {
       const polylineData: POLYLINE_DATA = {
-        id: 'lineFromAirVehicle' + item.id,
-        description: undefined,
+        id: this.getId(item.id),
         modeDefine: item.modeDefine,
-        polyline: this.applicationService.geopoint3d_short_to_point3d_arr(item.lineFromAirVehicle)
+        isShow: this.applicationService.screen.showUAV,
+        polyline: this.applicationService.geopoint3d_short_to_point3d_arr(item.lineFromAirVehicle),
+        optionsData: item,
+        type: undefined
       };
-      this.mapGeneralService.createPolyline(polylineData.polyline, polylineData.id, polylineData.description, polylineData.modeDefine);
+      this.mapGeneralService.createPolyline(polylineData);
     }
-
   };
   // -----------------------
   public sendGimbalAction = (gimbalAction: GIMBAL_ACTION) => {
@@ -148,4 +144,37 @@ export class GimbalService {
   public getById = (id: string): GIMBAL_DATA_UI => {
     return this.gimbals.data.find(data => data.id === id);
   };
+  // -----------------------
+  private getId = (id: string) => { // to make sure the ID is unique
+    return 'gimbal' + id;
+  }
+
+  // -----------------------
+  public hideAll = () => {
+    this.gimbals.data.forEach((item: GIMBAL_DATA_UI) => {
+      if (item.cameraLookAtPoint) {
+        this.mapGeneralService.hideIcon(this.getId(item.id));
+      }
+      if (item.cameraFootprint) {
+        this.mapGeneralService.hidePolygon(this.getId(item.id));
+      }
+      if (item.lineFromAirVehicle) {
+        this.mapGeneralService.hidePolyline(this.getId(item.id));
+      }
+    });
+  }
+  // -----------------------
+  public showAll = () => {
+    this.gimbals.data.forEach((item: GIMBAL_DATA_UI) => {
+      if (item.cameraLookAtPoint) {
+        this.mapGeneralService.showIcon(this.getId(item.id));
+      }
+      if (item.cameraFootprint) {
+        this.mapGeneralService.showPolygon(this.getId(item.id));
+      }
+      if (item.lineFromAirVehicle) {
+        this.mapGeneralService.showPolyline(this.getId(item.id));
+      }
+    });
+  }
 }

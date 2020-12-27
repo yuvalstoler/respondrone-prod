@@ -1,11 +1,11 @@
-import {POINT} from '../../../../../../classes/typings/all.typings';
+import {POINT3D} from '../../../../../../classes/typings/all.typings';
 import * as _ from 'lodash';
 import {GeoCalculate} from './geoCalculate';
 import {EVENT_LISTENER_DATA} from '../../../types';
 
 export class DrawPolylineClass {
 
-  arrayPoints: POINT[] = [];
+  arrayPoints: POINT3D[] = [];
 
   constructor() {
   }
@@ -13,8 +13,8 @@ export class DrawPolylineClass {
   // Polygon ===========================================================================================================
 
   // function click, mouseMove, doubleClick
-  public mouseEvents = (event: EVENT_LISTENER_DATA): POINT[] => {
-    let res: POINT[];
+  public mouseEvents = (event: EVENT_LISTENER_DATA): POINT3D[] => {
+    let res: POINT3D[];
     switch (event.type) {
       case 'leftClick' : {
         // res = this.savePointToArray(event.pointLatLng);
@@ -36,14 +36,14 @@ export class DrawPolylineClass {
     return res;
   };
 
-  private closeDrawing = (point: POINT): POINT[] => {
+  private closeDrawing = (point: POINT3D): POINT3D[] => {
     const tempArrayPoints = this.arrayPoints;
     this.arrayPoints = [];
     return tempArrayPoints;
   };
 
-  //  function save array POINT[]
-  private savePointToArray = (point: POINT): POINT[] => {
+  //  function save array POINT3D[]
+  private savePointToArray = (point: POINT3D): POINT3D[] => {
     if (this.arrayPoints.length === 0) {
       this.arrayPoints.push(point);
     }
@@ -54,9 +54,9 @@ export class DrawPolylineClass {
     return this.addLastPointForPolyline();
   };
 
-  //  function save temporary point to array POINT[]
-  private saveTempPointToArray = (point: POINT): POINT[] => {
-    const polygonTempArray: POINT[] = [];
+  //  function save temporary point to array POINT3D[]
+  private saveTempPointToArray = (point: POINT3D): POINT3D[] => {
+    const polygonTempArray: POINT3D[] = [];
     if (Array.isArray(this.arrayPoints) && this.arrayPoints.length > 0) {
       if (this.arrayPoints.length === 1) {
         polygonTempArray[0] = this.arrayPoints[0];
@@ -70,8 +70,8 @@ export class DrawPolylineClass {
   };
 
   // function adds the last point as the first
-  private addLastPointForPolyline = (): POINT[] => {
-    const polygonArray: POINT[] = [];
+  private addLastPointForPolyline = (): POINT3D[] => {
+    const polygonArray: POINT3D[] = [];
     if (Array.isArray(this.arrayPoints) && this.arrayPoints.length > 0) {
       if (this.arrayPoints.length === 1) {
         polygonArray.push(this.arrayPoints[0]);
@@ -83,7 +83,7 @@ export class DrawPolylineClass {
     return polygonArray;
   };
 
-  public checkIfCircleExist = (event: EVENT_LISTENER_DATA, route: POINT[], distanceMeter: number) => {
+  public checkIfCircleExist = (event: EVENT_LISTENER_DATA, route: POINT3D[], distanceMeter: number) => {
     let res = -1;
     route.forEach((circle, index) => {
       const distance = GeoCalculate.calcDistanceBetweenToPoints(event.pointLatLng, circle);
@@ -95,7 +95,7 @@ export class DrawPolylineClass {
     return res;
   };
 
-  public checkIfPolylineExist = (event: EVENT_LISTENER_DATA, route: POINT[], distanceMeter: number) => {
+  public checkIfPolylineExist = (event: EVENT_LISTENER_DATA, route: POINT3D[], distanceMeter: number) => {
     let res = false;
       const distance = GeoCalculate.calcDistanceFromPointToPolyline(event.pointLatLng, route);
       if (distance && distance <= (distanceMeter * 4)) { // 1px

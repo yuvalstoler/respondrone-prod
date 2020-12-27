@@ -18,7 +18,12 @@ export class MissionRouteMdLogic implements IModeDefine {
         const obj: MISSION_ROUTE_DATA_MD = {
             styles: {
                 isDotted: MissionRouteMdLogic.isDotted(data, missionRequest),
-                color: MissionRouteMdLogic.getColor(data, missionRequest)
+                color: MissionRouteMdLogic.getColor(data, missionRequest),
+
+                hoverText: undefined,
+                labelText: undefined,
+                labelBackground: undefined,
+                labelOffset: undefined,
             },
             data: {
                 missionName: MissionRouteMdLogic.getMissionName(data, missionRequest),

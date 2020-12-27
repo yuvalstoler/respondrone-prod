@@ -11,6 +11,7 @@ import {MissionService} from "../../services/missionService/mission.service";
 import {MissionRouteService} from "../../services/missionRouteService/missionRoute.service";
 import {GimbalService} from "../../services/gimbalService/gimbal.service";
 import {GraphicOverlayService} from "../../services/graphicOverlayService/graphicOverlay.service";
+import {NFZService} from "../../services/nfzService/nfz.service";
 
 @Component({
   selector: 'app-general-view',
@@ -33,7 +34,8 @@ export class GeneralViewComponent implements OnInit {
               public graphicOverlayService: GraphicOverlayService,
               public airVehicleService: AirVehicleService,
               public listenerMapService: ListenerMapService,
-              public gimbalService: GimbalService) { }
+              public gimbalService: GimbalService,
+              public NFZService: NFZService) { }
 
   ngOnInit(): void {
   }

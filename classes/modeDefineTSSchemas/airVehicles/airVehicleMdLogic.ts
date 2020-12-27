@@ -21,9 +21,15 @@ export class AirVehicleMdLogic implements IModeDefine {
     public static validate(data: AV_DATA_UI, missionRequest: MissionRequest): AV_DATA_MD {
         const obj: AV_DATA_MD = {
             styles: {
+                // icon
                 mapIcon: AirVehicleMdLogic.getIcon(data),
+                iconSize: AirVehicleMdLogic.getIconSize(data),
+                hoverText: undefined,
+                labelText: AirVehicleMdLogic.getLabelText(data),
+                labelBackground: AirVehicleMdLogic.getStatusColor(data),
+                labelOffset: AirVehicleMdLogic.getLabelOffset(data),
+                // other
                 statusColor: AirVehicleMdLogic.getStatusColor(data),
-                iconSize: this.getIconSize(data),
                 gpsIcon: this.getGPSIcon(data),
                 gpsDescription: this.getGPSDescription(data),
                 isDisabled: this.isDisabled(data)
@@ -93,8 +99,16 @@ export class AirVehicleMdLogic implements IModeDefine {
         return res;
     };
 
-    private static getIconSize = (data: AV_DATA_UI): number => {
-        return 60;
+    private static getIconSize = (data: AV_DATA_UI): {width: number, height: number} => {
+        return {width: 60, height: 60};
+    };
+
+    private static getLabelOffset = (data: AV_DATA_UI): {x: number, y: number} => {
+        return {x: 0, y: 30};
+    };
+
+    private static getLabelText = (data: AV_DATA_UI): string => {
+        return data.name;
     };
 
     private static getGPSIcon = (data: AV_DATA_UI): string => {

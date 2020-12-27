@@ -3,7 +3,7 @@ import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
-  ASYNC_RESPONSE, GEOPOINT3D_SHORT, GRAPHIC_OVERLAY_DATA_UI,
+  ASYNC_RESPONSE, FR_DATA_UI, GEOPOINT3D_SHORT, GRAPHIC_OVERLAY_DATA_UI,
   ID_OBJ,
   POINT,
   POINT3D,
@@ -11,9 +11,9 @@ import {
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {DRAW_LABEL, ICON_DATA, POLYGON_DATA} from "../../../types";
 import {API_GENERAL, WS_API} from "../../../../../../classes/dataClasses/api/api_enums";
 import {ApplicationService} from "../applicationService/application.service";
+import {ICON_DATA, ITEM_TYPE, POLYGON_DATA} from "../../../types";
 
 
 @Injectable({
@@ -81,6 +81,7 @@ export class GraphicOverlayService {
     reportData.forEach((newItem: GRAPHIC_OVERLAY_DATA_UI) => {
       const existingEvent: GRAPHIC_OVERLAY_DATA_UI = this.getById(newItem.id);
       if (existingEvent) {
+        const previousShapeType = this.getShapeType(existingEvent);
         // existingEvent.setValues(newEvent);
         for (const fieldName in existingEvent) {
           if (existingEvent.hasOwnProperty(fieldName)) {
@@ -92,59 +93,60 @@ export class GraphicOverlayService {
             existingEvent[fieldName] = newItem[fieldName];
           }
         }
+        if (previousShapeType !== this.getShapeType(existingEvent)) {
+          this.removeFromMap(newItem);
+        }
         // this.updateGraphicOverlay(newItem);
       } else {
         this.graphicOverlays.data.push(newItem);
         // this.drawGraphicOverlay(newItem);
       }
-      this.removeFromMap(newItem);
       this.drawGraphicOverlay(newItem);
     });
   };
   // ----------------------
   private removeFromMap = (item: GRAPHIC_OVERLAY_DATA_UI) => {
-    if (item.shape && item.shape.lat && item.shape.lon) {
+    if (this.getShapeType(item) === 'icon') {
       this.mapGeneralService.deleteIcon(item.id);
     }
 
-    if (item.shape && item.shape.coordinates) {
+    if (this.getShapeType(item) === 'polygon') {
       this.mapGeneralService.deletePolygonManually(item.id);
     }
   }
   // ----------------------
   private drawGraphicOverlay = (item: GRAPHIC_OVERLAY_DATA_UI) => {
     // icons
-    if (item.shape && item.shape.lat && item.shape.lon) {
+    const shapeType = this.getShapeType(item);
+    if (shapeType === 'icon') {
       // TODO change
       const iconData: ICON_DATA = {
         id: item.id,
-        description: undefined,
         modeDefine: item.modeDefine,
-        location: {
-          latitude: item.shape.lat,
-          longitude: item.shape.lon,
-          altitude: item.shape.alt,
-        }
+        isShow: this.applicationService.screen.showGraphicOverlays,
+        location: this.applicationService.geopoint3d_short_to_point3d(item.shape as GEOPOINT3D_SHORT),
+        optionsData: item,
+        type: undefined
       }
       this.mapGeneralService.createIcon(iconData);
     }
-
-    if (item.shape && item.shape.coordinates) {
+    else if (shapeType === 'polygon') {
       const polygonData: POLYGON_DATA = {
         id: item.id,
-        title: item.type,
-        description: undefined,
         modeDefine: item.modeDefine,
-        polygon: this.applicationService.geopoint3d_short_to_point3d_arr(item.shape.coordinates)
+        isShow: this.applicationService.screen.showGraphicOverlays,
+        polygon: this.applicationService.geopoint3d_short_to_point3d_arr(item.shape.coordinates),
+        optionsData: item,
+        type: undefined
       };
-      this.mapGeneralService.drawPolygonFromServer(polygonData.polygon, polygonData.id, polygonData.title, polygonData.description, polygonData.modeDefine);
+      this.mapGeneralService.drawPolygonFromServer(polygonData);
     }
   };
 
   // ----------------------
-  private updateGraphicOverlay = (item: GRAPHIC_OVERLAY_DATA_UI) => {
-
-  };
+  // private updateGraphicOverlay = (item: GRAPHIC_OVERLAY_DATA_UI) => {
+  //
+  // };
   // -----------------------
   public getById = (id: string): GRAPHIC_OVERLAY_DATA_UI => {
     return this.graphicOverlays.data.find(data => data.id === id);
@@ -154,6 +156,42 @@ export class GraphicOverlayService {
   public flyToObject = (coordinates: POINT | POINT3D) => {
     this.mapGeneralService.flyToObject(coordinates);
   };
+  // -----------------------
+  private getShapeType = (item: GRAPHIC_OVERLAY_DATA_UI): 'icon' | 'polygon' => {
+    let res: 'icon' | 'polygon';
+    if (item.shape) {
+      if (item.shape.coordinates) {
+        res = 'polygon'
+      } else if (item.shape.lat && item.shape.lon) {
+        res = 'icon'
+      }
+    }
+    return res;
+  }
 
+  // -----------------------
+  public hideAll = () => {
+    this.graphicOverlays.data.forEach((item: GRAPHIC_OVERLAY_DATA_UI) => {
+      const shapeType = this.getShapeType(item);
+      if (shapeType === 'icon') {
+        this.mapGeneralService.hideIcon(item.id);
+      }
+      else if (shapeType === 'polygon') {
+        this.mapGeneralService.hidePolygon(item.id);
+      }
+    });
+  }
+  // -----------------------
+  public showAll = () => {
+    this.graphicOverlays.data.forEach((item: GRAPHIC_OVERLAY_DATA_UI) => {
+      const shapeType = this.getShapeType(item);
+      if (shapeType === 'icon') {
+        this.mapGeneralService.showIcon(item.id);
+      }
+      else if (shapeType === 'polygon') {
+        this.mapGeneralService.showPolygon(item.id);
+      }
+    });
+  }
 
 }

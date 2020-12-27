@@ -10,7 +10,8 @@ import {
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {DRAW_LABEL, ICON_DATA} from '../../../types';
+import {ICON_DATA, ITEM_TYPE} from '../../../types';
+import {ApplicationService} from "../applicationService/application.service";
 
 
 @Injectable({
@@ -24,7 +25,8 @@ export class FRService {
   constructor(private connectionService: ConnectionService,
               private socketService: SocketService,
               private toasterService: CustomToasterService,
-              private mapGeneralService: MapGeneralService) {
+              private mapGeneralService: MapGeneralService,
+              private applicationService: ApplicationService) {
 
     this.socketService.connectToRoom('webServer_frsData').subscribe(this.updateFRs);
 
@@ -47,7 +49,7 @@ export class FRService {
         const index = this.frs.data.findIndex(d => d.id === fr.id);
         this.frs.data.splice(index, 1);
         //TODO: delete data from MAP
-        this.mapGeneralService.deleteIcon('fr' + fr.id);
+        this.mapGeneralService.deleteIcon(this.getId(fr.id));
       });
     }
   };
@@ -72,25 +74,19 @@ export class FRService {
   };
   // ----------------------
   private drawFR = (fr: FR_DATA_UI) => {
-    const label: DRAW_LABEL = {text: fr.callSign, color: _.get(fr, 'modeDefine.styles.color')};
     const iconData: ICON_DATA = {
-      id: 'fr' + fr.id,
-      description: undefined,
+      id: this.getId(fr.id),
       modeDefine: fr.modeDefine,
-      location: fr.location
+      isShow: this.applicationService.screen.showFRLocations,
+      location: this.applicationService.geopoint3d_to_point3d(fr.location),
+      optionsData: fr,
+      type: undefined
     };
-    this.mapGeneralService.createIcon(fr, label);
+    this.mapGeneralService.createIcon(iconData);
   };
   // ----------------------
   private updateFR = (fr: FR_DATA_UI) => {
-    const label: DRAW_LABEL = {text: fr.callSign, color: _.get(fr, 'modeDefine.styles.color')};
-    const iconData: ICON_DATA = {
-      id: 'fr' + fr.id,
-      description: undefined,
-      modeDefine: fr.modeDefine,
-      location: fr.location
-    };
-    this.mapGeneralService.updateIcon(fr, label);
+    this.drawFR(fr);
   };
   // -----------------------
   public getFRById = (id: string): FR_DATA_UI => {
@@ -107,10 +103,26 @@ export class FRService {
 
   public flyToObject = (object: FR_DATA_UI) => {
     if (object.location) {
-      const coordinates: POINT3D = [object.location.longitude, object.location.latitude, object.location.altitude];
+      const coordinates: POINT3D = this.applicationService.geopoint3d_to_point3d(object.location);
       this.mapGeneralService.flyToObject(coordinates);
     }
   };
 
+  // -----------------------
+  private getId = (id: string) => { // to make sure the ID is unique
+    return 'fr' + id;
+  }
+  // -----------------------
+  public hideAll = () => {
+    this.frs.data.forEach((fr: FR_DATA_UI) => {
+      this.mapGeneralService.hideIcon(this.getId(fr.id));
+    });
+  }
+  // -----------------------
+  public showAll = () => {
+    this.frs.data.forEach((fr: FR_DATA_UI) => {
+      this.mapGeneralService.showIcon(this.getId(fr.id));
+    });
+  }
 
 }

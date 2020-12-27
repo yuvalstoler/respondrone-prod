@@ -3,6 +3,8 @@ import {ApplicationService} from 'src/app/services/applicationService/applicatio
 import {HEADER_BUTTONS, LEFT_PANEL_ICON} from 'src/types';
 import {ContextMenuService} from '../../../services/contextMenuService/context-menu.service';
 import {MatTabChangeEvent} from '@angular/material/tabs';
+import {ReportService} from "../../../services/reportService/report.service";
+import {EventService} from "../../../services/eventService/event.service";
 
 @Component({
   selector: 'app-left-panel',
@@ -15,7 +17,9 @@ export class LeftPanelComponent implements OnInit {
   Header_Buttons = HEADER_BUTTONS;
 
   constructor(public applicationService: ApplicationService,
-              public contextMenuService: ContextMenuService) { }
+              public contextMenuService: ContextMenuService,
+              private reportService: ReportService,
+              private eventService: EventService) { }
 
   ngOnInit(): void {
   }
@@ -28,16 +32,23 @@ export class LeftPanelComponent implements OnInit {
     }
   };
 
-  closeMenu = () => {
+  onSituationPictureTabChange = () => {
     this.contextMenuService.closeLinkToMenu();
+    this.resetSelected();
   };
 
   getSelectedIndex(): number {
     return this.applicationService.currentTabIndex;
   }
 
-  onTabChange(event: MatTabChangeEvent) {
+  onMissionControlTabChange(event: MatTabChangeEvent) {
     this.applicationService.currentTabIndex = event.index;
+    this.resetSelected();
   }
-  
+
+  resetSelected = () => {
+    this.reportService.unselectReport(this.reportService.selectedElement);
+    this.eventService.unselectEvent(this.eventService.selectedElement);
+    this.reportService.selectedElement = this.eventService.selectedElement = undefined;
+  }
 }

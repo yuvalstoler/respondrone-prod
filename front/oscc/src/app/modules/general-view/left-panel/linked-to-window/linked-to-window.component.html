@@ -1,4 +1,4 @@
-<div *ngIf="contextMenuService?.isOpenLinkToMenu && contextMenuService?.selectedLinkTo?.length > 0"
+<div *ngIf="contextMenuService?.isOpenLinkToMenu && contextMenuService?.selectedLinkTo"
      [style.left]="contextMenuService?.singleTooltip?.left"
      [style.top]="contextMenuService?.singleTooltip?.top"
      class="ContextSingleMenu">
@@ -12,8 +12,8 @@
   <mat-dialog-content >
     <mat-selection-list dense class="ContextContent scroll"
                         [(ngModel)]="selectedLinks">
-      <mat-list-option *ngFor="let link of contextMenuService?.selectedLinkTo" [value]="link" checkboxPosition="before">
-       {{link.idView}} - {{link.type}}
+      <mat-list-option *ngFor="let link of (contextMenuService?.selectedLinkTo?.reports || contextMenuService?.selectedLinkTo?.events)" [value]="link" checkboxPosition="before">
+       {{link.idView}} {{link.type ? ' - ' + link.type : ''}}
       </mat-list-option>
     </mat-selection-list>
   </mat-dialog-content>

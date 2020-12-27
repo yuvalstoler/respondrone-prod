@@ -22,12 +22,21 @@ export class MissionRequestMdLogic implements IModeDefine {
     public static validate(data: MISSION_REQUEST_DATA_UI, airVehicle: AirVehicle): MISSION_REQUEST_DATA_MD {
         const obj: MISSION_REQUEST_DATA_MD = {
             styles: {
+                // icon
                 mapIcon: MissionRequestMdLogic.getIcon(data),
+                iconSize: MissionRequestMdLogic.getIconSize(data),
+                // polygon/polyline
+                color: MissionRequestMdLogic.getColor(data),
+                fillColor: MissionRequestMdLogic.getFillColor(data),
+                isDotted: undefined,
+                // common
+                hoverText: undefined,
+                labelText: undefined,
+                labelBackground: undefined,
+                labelOffset: undefined,
+                // other
                 textColor: MissionRequestMdLogic.getTextColor(data),
                 dotColor: MissionRequestMdLogic.getDotColor(data),
-                iconSize: MissionRequestMdLogic.getIconSize(data),
-                color: MissionRequestMdLogic.getColor(data),
-                fillColor: MissionRequestMdLogic.getFillColor(data)
             },
             tableData: MissionRequestMdLogic.tableData(data),
             data: {
@@ -154,7 +163,7 @@ export class MissionRequestMdLogic implements IModeDefine {
     }
 
     private static getIcon = (data: MISSION_REQUEST_DATA_UI): string => {
-        let res = '../../../../../assets/markerBlue.png';
+        let res = '../../../../../assets/markerGreen.png';
         if (data.missionType === MISSION_TYPE.Observation) {
             res = '../../../../../assets/markerYellow.png';
         } else if (data.missionType === MISSION_TYPE.CommRelay) {
@@ -164,7 +173,7 @@ export class MissionRequestMdLogic implements IModeDefine {
     };
 
     private static getColor = (data: MISSION_REQUEST_DATA_UI): string => {
-        let res: string = MDClass.colors.lightBlue;
+        let res: string = MDClass.colors.darkGray;
         if (data.missionType === MISSION_TYPE.Scan) {
             res = MDClass.colors.white;
         } else if (data.missionType === MISSION_TYPE.Patrol) {
@@ -176,7 +185,7 @@ export class MissionRequestMdLogic implements IModeDefine {
     };
 
     private static getFillColor = (data: MISSION_REQUEST_DATA_UI): string => {
-        let res: string = 'rgba(0,0,0,0)'
+        let res: string = MDClass.colors.transparent;
         return res;
     };
 
@@ -239,8 +248,8 @@ export class MissionRequestMdLogic implements IModeDefine {
         return res;
     };
 
-    private static getIconSize = (data: MISSION_REQUEST_DATA_UI): number => {
-        return 45;
-    };
+    private static getIconSize = (data: MISSION_REQUEST_DATA_UI): {width: number, height: number} => {
+        return {width: 45, height: 45};
+    }
 
 }

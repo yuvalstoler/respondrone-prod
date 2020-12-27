@@ -10,7 +10,7 @@ import {
   REPORT_DATA_UI
 } from '../../../../../../classes/typings/all.typings';
 import {CesiumDrawerService} from '../cesium/mapDrawCesium/cesium-drawer.service';
-import {DRAW_LABEL, DRAW_OBJECT, OPTIONS_ENTITY} from '../../../types';
+import {ICON_DATA, OPTIONS_ENTITY, POLYGON_DATA, POLYLINE_DATA} from '../../../types';
 
 @Injectable({
   providedIn: 'root'
@@ -125,34 +125,40 @@ export class MapGeneralService {
   };
 
   // Billboard =====================================================================================================
-  public createBillboard = (locationPoint: GEOPOINT3D, billboardId: string, options: OPTIONS_ENTITY): boolean => {
-    const domId = undefined;
-    let res = false;
-    res = this.cesiumDrawerService.createBillboardObject(domId, locationPoint, billboardId, options);
-    return res;
-  };
-
-  public removeBillboard = (billboardId: string): boolean => {
-    const domId = undefined;
-    let res = false;
-    res = this.cesiumDrawerService.removeBillboardFromMap(domId, billboardId);
-    return res;
-  };
+  // public createBillboard = (locationPoint: GEOPOINT3D, billboardId: string, options: OPTIONS_ENTITY): boolean => {
+  //   const domId = undefined;
+  //   let res = false;
+  //   res = this.cesiumDrawerService.createBillboardObject(domId, locationPoint, billboardId, options);
+  //   return res;
+  // };
+  //
+  // public removeBillboard = (billboardId: string): boolean => {
+  //   const domId = undefined;
+  //   let res = false;
+  //   res = this.cesiumDrawerService.removeBillboardFromMap(domId, billboardId);
+  //   return res;
+  // };
 
 
   //Polygon ====================================================================================================
-  public drawPolygonFromServer = (arrayPoints: POINT3D[], id: string, title: string, description: string, modeDefine?: any) => {
+  public drawPolygonFromServer = (polygonData: POLYGON_DATA) => {
     const domId = undefined;
     let res = false;
-    res = this.cesiumDrawerService.drawPolygonFromServer(domId, arrayPoints, id, title, description, modeDefine);
+    res = this.cesiumDrawerService.drawPolygonFromServer(domId, polygonData);
+    return res;
+  };
+
+  public editPolygonFromServer = (polygonId: string, options: {outlineColor: string, fillColor: string}) => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.editPolygonFromServer(domId, polygonId, options);
     return res;
   };
 
   public drawPolygonManually = (arrayPoints: POINT3D[], id: string, isCross: boolean) => {
     const domId = undefined;
     let res = false;
-    const color = isCross ? '#ff3c54' : '#59b1f1';
-    res = this.cesiumDrawerService.drawPolygonManually(domId, arrayPoints, id, color);
+    res = this.cesiumDrawerService.drawPolygonManually(domId, arrayPoints, id, isCross);
     return res;
   };
 
@@ -170,13 +176,26 @@ export class MapGeneralService {
     return res;
   };
 
-  // Polyline =====================================================================================================
-  // from Service =====
-  public createPolyline = (points: POINT3D[], id: string, description?: string, modeDefine?: any) => {
+  public hidePolygon = (id: string): boolean => {
     const domId = undefined;
     let res = false;
-    this.deletePolylineFromMap(id);
-      res = this.cesiumDrawerService.createPolylineFromServer(domId, points, id, description, modeDefine);
+    res = this.cesiumDrawerService.hidePolygonOnMap(domId, id);
+    return res;
+  };
+
+  public showPolygon = (id: string): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.showPolygonOnMap(domId, id);
+    return res;
+  };
+
+  // Polyline =====================================================================================================
+  // from Service =====
+  public createPolyline = (polylineData: POLYLINE_DATA) => {
+    const domId = undefined;
+    let res = false;
+      res = this.cesiumDrawerService.createPolylineFromServer(domId, polylineData);
     return res;
   };
 
@@ -187,13 +206,26 @@ export class MapGeneralService {
     return res;
   };
 
-  // Arrow Polyline =====================================================================================================
-  // from Service =====
-  public createArrowPolyline = (points: POINT3D[], polylineId: string, description?: string) => {
+  public hidePolyline = (id: string): boolean => {
     const domId = undefined;
     let res = false;
-    this.deleteArrowPolylineFromMap(polylineId);
-    res = this.cesiumDrawerService.createArrowPolylineFromServer(domId, points, polylineId, description);
+    res = this.cesiumDrawerService.hidePolylineOnMap(domId, id);
+    return res;
+  };
+
+  public showPolyline = (id: string): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.showPolylineOnMap(domId, id);
+    return res;
+  };
+
+  // Arrow Polyline =====================================================================================================
+  // from Service =====
+  public createArrowPolyline = (arrowData: POLYLINE_DATA) => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.createArrowPolylineFromServer(domId, arrowData);
     return res;
   };
 
@@ -204,21 +236,34 @@ export class MapGeneralService {
     return res;
   };
 
+  public hideArrowPolyline = (id: string): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.hideArrowPolylineOnMap(domId, id);
+    return res;
+  };
+
+  public showArriwPolyline = (id: string): boolean => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.showArrowPolylineOnMap(domId, id);
+    return res;
+  };
 
   // Icons ========================================================================================================
-  public createIcon = (object: DRAW_OBJECT, label?: DRAW_LABEL): boolean => {
+  public createIcon = (object: ICON_DATA): boolean => {
     const domId = undefined;
     let res = false;
-    res = this.cesiumDrawerService.createIconObject(domId, object, label);
+    res = this.cesiumDrawerService.createIconObject(domId, object);
     return res;
   };
 
-  public updateIcon = (object: DRAW_OBJECT, label?: DRAW_LABEL): boolean => {
-    const domId = undefined;
-    let res = false;
-    res = this.cesiumDrawerService.updateIconFromMap(domId, object.id, object, label);
-    return res;
-  };
+  // public updateIcon = (object: DRAW_OBJECT, label?: DRAW_LABEL): boolean => {
+  //   const domId = undefined;
+  //   let res = false;
+  //   res = this.cesiumDrawerService.updateIconFromMap(domId, object.id, object, label);
+  //   return res;
+  // };
 
   public deleteIcon = (billboardId: string): boolean => {
     const domId = undefined;
@@ -248,7 +293,7 @@ export class MapGeneralService {
     return res;
   };
 
-  public editIcon = (billboardId: string, iconUrl: string, size: number): boolean => {
+  public editIcon = (billboardId: string, iconUrl: string, size: {width: number, height: number}): boolean => {
     const domId = undefined;
     let res = false;
     res = this.cesiumDrawerService.editIcon(domId, billboardId, iconUrl, size);

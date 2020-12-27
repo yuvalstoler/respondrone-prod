@@ -1,3 +1,5 @@
+import {NFZManager} from "../nfz/nfzManager";
+
 const _ = require('lodash');
 import * as core from 'express-serve-static-core';
 
@@ -15,7 +17,7 @@ import {
     MISSION_DATA_UI,
     MISSION_REQUEST_ACTION_OBJ,
     MISSION_REQUEST_DATA,
-    MISSION_ROUTE_DATA, MISSION_TYPE,
+    MISSION_ROUTE_DATA, MISSION_TYPE, NFZ_DATA,
     POINT,
 } from '../../../../../classes/typings/all.typings';
 
@@ -142,6 +144,23 @@ export class ApiManager implements IRest {
             });
     };
 
+    private readAllNFZ = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<NFZ_DATA[]> = {success: false};
+        NFZManager.readAllNFZ({})
+            .then((data: ASYNC_RESPONSE<NFZ_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
+
     private missionRequestAction = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
 
@@ -188,6 +207,7 @@ export class ApiManager implements IRest {
         [MS_API.readAllMission]: this.readAllMission,
         [MS_API.readAllMissionRoute]: this.readAllMissionRoute,
         [MS_API.readAllGraphicOverlay]: this.readAllGraphicOverlay,
+        [MS_API.readAllNFZ]: this.readAllNFZ,
         [MS_API.missionRequestAction]: this.missionRequestAction,
         [MS_API.updateMissionInDB]: this.updateMissionInDB,
 

@@ -38,7 +38,10 @@ export class ApplicationService {
 
   public currentTabIndex = 0;  //default tab index is 0
   isDialogOpen = false;
-  cursorPosition: GEOPOINT3D = {longitude: undefined, latitude: undefined};
+  cursorPosition: GEOPOINT3D = {longitude: undefined, latitude: undefined, altitude: undefined};
+  hoverTextData: { top: string, left: string, text: string };
+
+  // mapDisplay: DISPLAY_ON_MAP;
 
   constructor(private connectionService: ConnectionService) {
 
@@ -65,7 +68,17 @@ export class ApplicationService {
       showSituationPicture: true,
       showMissionControl: false,
       showViewMedia: false,
-      showVideo: false
+      showVideo: false,
+
+      showFRLocations: true,
+      showReports: true,
+      showEvents: true,
+      showTasks: true,
+      showMissions: true,
+      showMissionPlans: true,
+      showUAV: true,
+      showNFZ: true,
+      showGraphicOverlays: true,
     };
   }
 
@@ -94,5 +107,9 @@ export class ApplicationService {
 
   geopoint3d_short_to_point3d = (geopoint: GEOPOINT3D_SHORT): POINT3D => {
     return [geopoint.lon, geopoint.lat, geopoint.alt];
+  };
+
+  geopoint3d_to_point3d = (geopoint: GEOPOINT3D): POINT3D => {
+    return [geopoint.longitude, geopoint.latitude, geopoint.altitude];
   };
 }

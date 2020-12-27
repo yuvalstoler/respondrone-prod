@@ -1,5 +1,5 @@
 import {
-    ASYNC_RESPONSE, GRAPHIC_OVERLAY_DATA, ID_OBJ, MISSION_DATA, MISSION_REQUEST_DATA, MISSION_ROUTE_DATA,
+    ASYNC_RESPONSE, GRAPHIC_OVERLAY_DATA, ID_OBJ, MISSION_DATA, MISSION_REQUEST_DATA, MISSION_ROUTE_DATA, NFZ_DATA,
     REPORT_DATA
 } from '../../../../../classes/typings/all.typings';
 import { RequestManager } from '../../AppService/restConnections/requestManager';
@@ -9,6 +9,7 @@ import {MissionManager} from "../mission/missionManager";
 import {MissionRouteManager} from "../missionRoute/missionRouteManager";
 import {Mission} from "../../../../../classes/dataClasses/mission/mission";
 import {GraphicOverlayManager} from "../graphicOverlay/graphicOverlayManager";
+import {NFZManager} from "../nfz/nfzManager";
 
 const _ = require('lodash');
 
@@ -20,6 +21,7 @@ const updateMissionRequestListenersURL = API_GENERAL.general + WS_API.updateAllM
 const updateMissionsListenersURL = API_GENERAL.general + WS_API.updateAllMissions;
 const updateMissionRoutesListenersURL = API_GENERAL.general + WS_API.updateAllMissionRoutes;
 const updateGraphicOverlaysListenersURL = API_GENERAL.general + WS_API.updateAllGraphicOverlays;
+const updateNFZsListenersURL = API_GENERAL.general + WS_API.updateAllNFZs;
 
 export class UpdateListenersManager {
 
@@ -129,7 +131,30 @@ export class UpdateListenersManager {
 
     }
 
+    private updateNFZListeners = (): Promise<ASYNC_RESPONSE> => {
+        return new Promise((resolve, reject) => {
+            const allData: NFZ_DATA[] = NFZManager.getNFZs(undefined);
+            const promisesArr: Promise<ASYNC_RESPONSE>[] = [];
+            listeners.forEach((listener: string) => {
+                // console.log(Date.now(), 'start updateReportListeners: ', listener);
+                const requestPromise = RequestManager.requestToExternalService(listener, updateNFZsListenersURL, allData);
+                promisesArr.push(requestPromise);
+            });
 
+            const res: ASYNC_RESPONSE = {success: false};
+            Promise.all(promisesArr)
+                .then((result: ASYNC_RESPONSE[]) => {
+                    // console.log(Date.now(), 'finish *then* updateReportListeners');
+                    res.success = true;
+                    resolve(res);
+                })
+                .catch((error: ASYNC_RESPONSE[]) => {
+                    console.log(Date.now(), 'finish *catch* updateReportListeners');
+                    resolve(res);
+                });
+        });
+
+    }
 
 
 
@@ -140,6 +165,7 @@ export class UpdateListenersManager {
     public static updateMissionListeners = UpdateListenersManager.instance.updateMissionListeners;
     public static updateMissionRouteListeners = UpdateListenersManager.instance.updateMissionRouteListeners;
     public static updateGraphicOverlayListeners = UpdateListenersManager.instance.updateGraphicOverlayListeners;
+    public static updateNFZListeners = UpdateListenersManager.instance.updateNFZListeners;
 
 
     // endregion API functions

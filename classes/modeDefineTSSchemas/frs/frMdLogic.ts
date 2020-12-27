@@ -3,7 +3,7 @@ import {
     PRIORITY,
     FR_DATA_MD,
     FR_DATA_UI,
-    TABLE_DATA_MD, FR_TYPE, EVENT_DATA_UI, MISSION_REQUEST_DATA
+    TABLE_DATA_MD, FR_TYPE, EVENT_DATA_UI, MISSION_REQUEST_DATA, AV_DATA_UI
 } from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
@@ -17,10 +17,15 @@ export class FrMdLogic implements IModeDefine {
     public static validate(data: FR_DATA_UI, missionsFollowingFR: MISSION_REQUEST_DATA[]): FR_DATA_MD {
         const obj: FR_DATA_MD = {
             styles: {
+                // icon
                 mapIcon: FrMdLogic.getIcon(data, missionsFollowingFR),
-                color: FrMdLogic.getColor(data),
+                iconSize: FrMdLogic.getIconSize(data),
+                hoverText: undefined,
+                labelText: FrMdLogic.getLabelText(data),
+                labelBackground: FrMdLogic.getColor(data),
+                labelOffset: FrMdLogic.getLabelOffset(data),
+                // other
                 dotColor: FrMdLogic.getDotColor(data),
-                iconSize: FrMdLogic.getIconSize(data)
             },
             tableData: FrMdLogic.tableData(data)
         };
@@ -62,6 +67,10 @@ export class FrMdLogic implements IModeDefine {
         return res;
     };
 
+    private static getLabelText = (data: FR_DATA_UI): string => {
+        return data.callSign;
+    };
+
     private static tableData = (data: FR_DATA_UI) => {
         let res = {
             id: {
@@ -76,8 +85,12 @@ export class FrMdLogic implements IModeDefine {
         return res;
     };
 
-    private static getIconSize = (data: FR_DATA_UI): number => {
-        return 45;
+    private static getIconSize = (data: FR_DATA_UI): {width: number, height: number} => {
+        return {width: 45, height: 45};
+    };
+
+    private static getLabelOffset = (data: FR_DATA_UI): {x: number, y: number} => {
+        return {x: 0, y: 27};
     };
 
 }

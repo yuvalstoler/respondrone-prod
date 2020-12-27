@@ -1,11 +1,4 @@
-import {
-    LOCATION_TYPE,
-    PRIORITY,
-    EVENT_DATA_MD,
-    EVENT_DATA_UI,
-    TABLE_DATA_MD,
-    REPORT_DATA_UI
-} from '../../typings/all.typings';
+import {EVENT_DATA_MD, EVENT_DATA_UI, LOCATION_TYPE, PRIORITY, TABLE_DATA_MD} from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
 import {MDClass} from "../mdClass";
@@ -18,10 +11,20 @@ export class EventMdLogic implements IModeDefine {
     public static validate(data: EVENT_DATA_UI): EVENT_DATA_MD {
         const obj: EVENT_DATA_MD = {
             styles: {
-                icon: this.getPriorityIcon(data).data,
-                mapIcon: this.getMapIcon(data).data,
-                selectedIcon: this.getMapIcon(data).data,
-                iconSize: this.getIconSize(data)
+                // icon
+                mapIcon: EventMdLogic.getMapIcon(data).data,
+                iconSize: EventMdLogic.getIconSize(data),
+                // polygon
+                color: EventMdLogic.getColor(data),
+                fillColor: EventMdLogic.getFillColor(data),
+                // common
+                hoverText: undefined,
+                labelText: EventMdLogic.getLabelText(data),
+                labelBackground: undefined,
+                labelOffset: EventMdLogic.getLabelOffset(data),
+                // other
+                icon: EventMdLogic.getPriorityIcon(data).data,
+                mapIconSelected: EventMdLogic.getMapIconSelected(data).data,
             },
             tableData: EventMdLogic.tableData(data)
         };
@@ -36,6 +39,18 @@ export class EventMdLogic implements IModeDefine {
             res.data = '../../../../../assets/mapPriorityMiddle.png';
         } else if (data.priority === PRIORITY.low) {
             res.data = '../../../../../assets/mapPriorityLow.png';
+        }
+        return res;
+    };
+
+    private static getMapIconSelected = (data: EVENT_DATA_UI): TABLE_DATA_MD => {
+        let res: TABLE_DATA_MD = {type: 'image', data: '', color: ''};
+        if (data.priority === PRIORITY.high) {
+            res.data = '../../../../../assets/mapPriorityHighSelected.png';
+        } else if (data.priority === PRIORITY.middle) {
+            res.data = '../../../../../assets/mapPriorityMiddleSelected.png';
+        } else if (data.priority === PRIORITY.low) {
+            res.data = '../../../../../assets/mapPriorityLowSelected.png';
         }
         return res;
     };
@@ -82,8 +97,31 @@ export class EventMdLogic implements IModeDefine {
         return res;
     };
 
-    private static getIconSize = (data: EVENT_DATA_UI): number => {
-        return 30;
+    private static getColor = (data: EVENT_DATA_UI): string => {
+        let res: string = MDClass.colors.yellow;
+        return res;
+    };
+
+    private static getFillColor = (data: EVENT_DATA_UI): string => {
+        let res: string = MDClass.colors.yellowOpacity;
+        return res;
+    };
+
+    private static getLabelOffset = (data: EVENT_DATA_UI): {x: number, y: number} => {
+        return {x: 0, y: 0};
+    };
+
+    private static getLabelText = (data: EVENT_DATA_UI): string => {
+        let res;
+        if (data.locationType === LOCATION_TYPE.polygon) {
+            res = data.title
+        }
+        return res;
+    };
+
+
+    private static getIconSize = (data: EVENT_DATA_UI): {width: number, height: number} => {
+        return {width: 30, height: 30};
     };
 
 }

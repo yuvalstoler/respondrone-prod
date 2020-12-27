@@ -1,17 +1,12 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
-import {
-  ASYNC_RESPONSE, GEOPOINT3D_SHORT,
-  ID_OBJ, ID_TYPE, MISSION_DATA_UI, MISSION_REQUEST_DATA_UI, MISSION_ROUTE_DATA, MISSION_ROUTE_DATA_UI, MISSION_STATUS,
-  POINT,
-  POINT3D, PointOfRoute, SOURCE_TYPE,
-} from '../../../../../../classes/typings/all.typings';
+import {MISSION_ROUTE_DATA_UI, POINT3D, PointOfRoute,} from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {DRAW_LABEL, HEADER_BUTTONS, ICON_DATA, POLYLINE_DATA} from "../../../types";
+import {ITEM_TYPE, POLYLINE_DATA} from "../../../types";
 import {API_GENERAL, WS_API} from "../../../../../../classes/dataClasses/api/api_enums";
 import {MissionRequestService} from "../missionRequestService/missionRequest.service";
 import {ApplicationService} from "../applicationService/application.service";
@@ -131,11 +126,13 @@ export class MissionRouteService {
     });
     const polylineData: POLYLINE_DATA = {
       id: item.id,
-      description: undefined,
       modeDefine: item.modeDefine,
-      polyline: polyline
+      isShow: true,
+      polyline: polyline,
+      optionsData: item,
+      type: ITEM_TYPE.missionRoute
     };
-    this.mapGeneralService.createPolyline(polylineData.polyline, polylineData.id, polylineData.description, polylineData.modeDefine);
+    this.mapGeneralService.createPolyline(polylineData);
   };
   // -----------------------
   public getById = (id: string): MISSION_ROUTE_DATA_UI => {

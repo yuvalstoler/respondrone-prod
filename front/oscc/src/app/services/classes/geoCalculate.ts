@@ -4,7 +4,7 @@ import * as turf from '@turf/turf';
 export class GeoCalculate {
 
 
-  public static calcDistanceFromPointToPolyline = (startPoint: POINT | POINT3D, polyline: POINT[]): number => {
+  public static calcDistanceFromPointToPolyline = (startPoint: POINT | POINT3D, polyline: POINT3D[]): number => {
     // distance - meters;
     let distance: number;
     if (GeoCalculate.isCartographicPOINT(startPoint)) {

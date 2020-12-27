@@ -3,7 +3,7 @@ import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
-  ASYNC_RESPONSE, EVENT_DATA_UI,
+  ASYNC_RESPONSE, EVENT_DATA_UI, FR_DATA_UI,
   ID_OBJ,
   LINKED_REPORT_DATA,
   LOCATION_TYPE,
@@ -15,6 +15,7 @@ import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {ApplicationService} from '../applicationService/application.service';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
+import {ICON_DATA, ITEM_TYPE} from "../../../types";
 
 
 @Injectable({
@@ -25,6 +26,7 @@ export class ReportService {
   reports: { data: REPORT_DATA_UI[] } = {data: []};
   reports$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   tempReportObjectCE: {type: LOCATION_TYPE, objectCE: any, id: string, report: REPORT_DATA_UI};
+  selectedElement: REPORT_DATA_UI;
 
   constructor(private connectionService: ConnectionService,
               private socketService: SocketService,
@@ -82,7 +84,7 @@ export class ReportService {
   };
   // ----------------------
   public deleteObjectFromMap = (data: REPORT_DATA_UI) => {
-    switch (data.type) {
+    switch (data.locationType) {
       case LOCATION_TYPE.address: {
         break;
       }
@@ -136,7 +138,15 @@ export class ReportService {
   // ----------------------
   private createReportOnMap = (report: REPORT_DATA_UI) => {
     if (report.locationType === LOCATION_TYPE.locationPoint && report.location.latitude && report.location.longitude) {
-      this.mapGeneralService.createIcon(report);
+      const iconData: ICON_DATA = {
+        id: report.id,
+        modeDefine: report.modeDefine,
+        isShow: this.applicationService.screen.showReports,
+        location: this.applicationService.geopoint3d_to_point3d(report.location),
+        optionsData: report,
+        type: ITEM_TYPE.report
+      }
+      this.mapGeneralService.createIcon(iconData);
     }
   };
   // ----------------------
@@ -144,9 +154,7 @@ export class ReportService {
     if (report.locationType !== prevLocationType || report.locationType === LOCATION_TYPE.none) {
       this.mapGeneralService.deleteIcon(report.id);
     }
-    if (report.locationType === LOCATION_TYPE.locationPoint && report.location.latitude && report.location.longitude) {
-      this.mapGeneralService.updateIcon(report);
-    }
+    this.createReportOnMap(report);
   };
   // ----------------------
   public createReport = (reportData: REPORT_DATA, cb?: Function) => {
@@ -218,12 +226,29 @@ export class ReportService {
     return this.reports.data.find(data => data.id === eventId);
   };
   // ------------------------
-  public selectIcon = (report: REPORT_DATA_UI) => {
-    this.mapGeneralService.editIcon(report.id, report.modeDefine.styles.selectedIcon, 40);
+  public selectReport = (report: REPORT_DATA_UI) => {
+    if (report && report.modeDefine.styles.iconSize) {
+      const size = {width: report.modeDefine.styles.iconSize.width + 10, height: report.modeDefine.styles.iconSize.height + 10};
+      this.mapGeneralService.editIcon(report.id, report.modeDefine.styles.mapIconSelected, size);
+    }
   };
   // ------------------------
-  public unselectIcon = (report: REPORT_DATA_UI) => {
-    this.mapGeneralService.editIcon(report.id, report.modeDefine.styles.mapIcon, 30);
+  public unselectReport = (report: REPORT_DATA_UI) => {
+    if (report) {
+      this.mapGeneralService.editIcon(report.id, report.modeDefine.styles.mapIcon, report.modeDefine.styles.iconSize);
+    }
   };
+  // -----------------------
+  public hideAll = () => {
+    this.reports.data.forEach((report: REPORT_DATA_UI) => {
+      this.mapGeneralService.hideIcon(report.id);
+    });
+  }
+  // -----------------------
+  public showAll = () => {
+    this.reports.data.forEach((report: REPORT_DATA_UI) => {
+      this.mapGeneralService.showIcon(report.id);
+    });
+  }
 
 }

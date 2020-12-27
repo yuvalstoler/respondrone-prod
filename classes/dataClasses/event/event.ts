@@ -15,7 +15,7 @@ export class Event {
     priority: PRIORITY;
     description: string = '';
     locationType: LOCATION_TYPE = LOCATION_TYPE.none;
-    location: GEOPOINT3D = {latitude: undefined, longitude: undefined};
+    location: GEOPOINT3D = {latitude: undefined, longitude: undefined, altitude: undefined};
     address: ADDRESS;
     polygon: POINT3D[];
     reportIds: string[] = [];

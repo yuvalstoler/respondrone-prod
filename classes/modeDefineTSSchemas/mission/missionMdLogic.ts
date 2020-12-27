@@ -17,9 +17,17 @@ export class MissionMdLogic implements IModeDefine {
     public static validate(data: MISSION_DATA_UI): MISSION_DATA_MD {
         const obj: MISSION_DATA_MD = {
             styles: {
+                // icon
                 mapIcon: MissionMdLogic.getIcon(data),
-                polygonColor: MissionMdLogic.getColor(data),
-                iconSize: this.getIconSize(data)
+                iconSize: MissionMdLogic.getIconSize(data),
+                // polygon
+                color: MissionMdLogic.getColor(data),
+                fillColor: MissionMdLogic.getFillColor(data),
+                // common
+                hoverText: undefined,
+                labelText: undefined,
+                labelBackground: undefined,
+                labelOffset: undefined,
             },
         };
         return obj;
@@ -32,13 +40,18 @@ export class MissionMdLogic implements IModeDefine {
     };
 
     private static getColor = (data: MISSION_DATA_UI): string => {
-        let res: string = MDClass.colors.lightBlue;
+        let res: string = MDClass.colors.blue;
+        return res;
+    };
+
+    private static getFillColor = (data: MISSION_DATA_UI): string => {
+        let res: string = MDClass.colors.transparent;
         return res;
     };
 
 
-    private static getIconSize = (data: MISSION_DATA_UI): number => {
-        return 45;
+    private static getIconSize = (data: MISSION_DATA_UI): {width: number, height: number} => {
+        return {width: 45, height: 45};
     };
 
 }

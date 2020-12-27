@@ -58,7 +58,7 @@ export enum BOOLEAN_NUMBER {
 
 export type GEOPOINT = { latitude: number, longitude: number };
 export type GEOPOINT3D_SHORT = { lat: number, lon: number, alt: number };
-export type GEOPOINT3D = GEOPOINT & { altitude?: number };
+export type GEOPOINT3D = GEOPOINT & { altitude: number };
 export type ADDRESS = string;
 export type POLYGON_GEOPOINT = GEOPOINT3D[];
 
@@ -147,11 +147,9 @@ export type LINKED_REPORT_DATA = {
     modeDefine: REPORT_DATA_MD,
 }
 export type REPORT_DATA_MD = {
-    styles: {
+    styles: ICON_STYLES & {
         icon: string,
-        mapIcon: string,
-        selectedIcon: string,
-        iconSize: number
+        mapIconSelected: string,
     },
     tableData: {
         id: TABLE_DATA_MD,
@@ -201,11 +199,9 @@ export type LINKED_EVENT_DATA = {
     modeDefine: EVENT_DATA_MD,
 }
 export type EVENT_DATA_MD = {
-    styles: {
+    styles: ICON_STYLES & POLYGON_STYLES & {
         icon: string,
-        mapIcon: string,
-        selectedIcon: string,
-        iconSize: number
+        mapIconSelected: string,
     },
     tableData: {
         id: TABLE_DATA_MD,
@@ -261,11 +257,8 @@ export type FR_DATA_UI = FR_DATA & {
     modeDefine: FR_DATA_MD,
 }
 export type FR_DATA_MD = {
-    styles: {
-        mapIcon: string,
-        color: string,
+    styles: ICON_STYLES & {
         dotColor: string,
-        iconSize: number
     },
     tableData: {
         id: TABLE_DATA_MD,
@@ -323,10 +316,8 @@ export type AV_DATA_UI = AV_DATA & {
     missionRequestId: ID_TYPE;
 }
 export type AV_DATA_MD = {
-    styles: {
-        mapIcon: string,
+    styles: ICON_STYLES & {
         statusColor: string,
-        iconSize: number,
         gpsIcon: string,
         gpsDescription: string,
         isDisabled: boolean,
@@ -360,12 +351,7 @@ export type GIMBAL_DATA_UI = GIMBAL_DATA & {
     lineFromAirVehicle: GEOPOINT3D_SHORT[]
 };
 export type GIMBAL_DATA_MD = {
-    styles: {
-        mapIcon: string,
-        iconSize: number,
-        color: string,
-        fillColor: string
-    }
+    styles: ICON_STYLES & POLYGON_STYLES & POLYLINE_STYLES
 }
 
 export type MISSION_MODEL_UI = {
@@ -428,6 +414,7 @@ export enum COLLECITON_VERSION_TYPE {
     Mission = 'Mission',
     MissionRoute = 'MissionRoute',
     GraphicOverlay = 'GraphicOverlay',
+    NFZ = 'NFZ',
 };
 
 export type COLLECTION_VERSIONS = {
@@ -440,6 +427,7 @@ export type COLLECTION_VERSIONS = {
     [COLLECITON_VERSION_TYPE.Mission]: number,
     [COLLECITON_VERSION_TYPE.MissionRoute]: number
     [COLLECITON_VERSION_TYPE.GraphicOverlay]: number
+    [COLLECITON_VERSION_TYPE.NFZ]: number
 }
 
 
@@ -452,7 +440,8 @@ export enum REP_ARR_KEY {
     Delivery = 'deliveryMissionRequests',
     Mission = 'missions',
     MissionRoute = 'missionRoutes',
-    GraphicOverlay = 'graphicOverlays'
+    GraphicOverlay = 'graphicOverlays',
+    NFZ = 'NFZs'
 }
 
 export enum REP_OBJ_KEY {
@@ -534,14 +523,11 @@ export type MISSION_ACTION_OPTIONS = {
     [MISSION_REQUEST_ACTION.Reject]?: boolean,
 }
 
+
 export type MISSION_REQUEST_DATA_MD = {
-    styles: {
-        mapIcon: string,
+    styles: ICON_STYLES & POLYGON_STYLES & POLYLINE_STYLES & {
         textColor: string,
         dotColor: string,
-        iconSize: number,
-        color: string,
-        fillColor: string
     },
     tableData: {
         id: TABLE_DATA_MD,
@@ -603,6 +589,7 @@ export type SERVOING_MISSION_REQUEST = {
 }
 export type DELIVERY_MISSION_REQUEST = {
     droneId: ID_TYPE,
+    deliveryPoint: GEOPOINT3D_SHORT
     status: MISSION_STATUS
 }
 
@@ -639,10 +626,7 @@ export enum ROUTE_STATUS {
 }
 
 export type MISSION_ROUTE_DATA_MD = {
-    styles: {
-        isDotted: boolean,
-        color: string
-    },
+    styles: POLYLINE_STYLES,
     data: {
         missionName: string
     }
@@ -663,11 +647,7 @@ export type MISSION_DATA_UI = MISSION_DATA & {
     modeDefine: MISSION_DATA_MD;
 }
 export type MISSION_DATA_MD = {
-    styles: {
-        mapIcon: string;
-        polygonColor: string;
-        iconSize: number;
-    }
+    styles: ICON_STYLES & POLYGON_STYLES
 }
 
 
@@ -694,17 +674,15 @@ export type GRAPHIC_OVERLAY_DATA_UI = GRAPHIC_OVERLAY_DATA & {
     modeDefine: GRAPHIC_OVERLAY_DATA_MD;
 }
 export type GRAPHIC_OVERLAY_DATA_MD = {
-    styles: {
-        mapIcon: string;
-        iconSize: number;
-        color: string;
-        fillColor: string;
-    }
+    styles: ICON_STYLES & POLYGON_STYLES
 }
 export type METADATA_OBJ = {
     name: string,
     value: string
 }
+
+
+
 
 export enum GRAPHIC_OVERLAY_COLOR {
     Red = 'Red',
@@ -725,6 +703,27 @@ export enum GRAPHIC_OVERLAY_TYPE {
     General = 'General',
     Building = 'Building'
 }
+
+
+
+
+export type NFZ_DATA_REP = {
+    collectionVersion: number,
+    [REP_ARR_KEY.NFZ]: NFZ_DATA[]
+}
+export type NFZ_DATA = REP_ENTITY & {
+    name: string;
+    polygon: { coordinates: GEOPOINT3D_SHORT[] }
+    minAlt: number,
+    maxAlt: number,
+}
+export type NFZ_DATA_UI = NFZ_DATA & {
+    modeDefine: NFZ_DATA_MD;
+}
+export type NFZ_DATA_MD = {
+    styles: POLYGON_STYLES
+}
+
 
 
 export type TMM_RESPONSE = {
@@ -876,6 +875,11 @@ export type USER_TASK_ACTION = {
     action: TASK_ACTION
 }
 
+export type TASK_ACTION_OPTIONS = {
+    [TASK_ACTION.cancel]?: boolean,
+    [TASK_ACTION.complete]?: boolean
+}
+
 export type OSCC_TASK_ACTION = {
     taskId: ID_TYPE,
     action: TASK_ACTION
@@ -911,14 +915,14 @@ export type TASK_DATA_MD = {
     tableData: {
         priority: TABLE_DATA_MD,
         assignees: TABLE_DATA_MD,
+    },
+    data: {
+        actionOptions: TASK_ACTION_OPTIONS
     }
 }
 
 export type GEOGRAPHIC_INSTRUCTION_MD = {
-    styles: {
-        mapIcon: string,
-        iconSize: number
-    }
+    styles: ICON_STYLES & POLYLINE_STYLES & POLYGON_STYLES
 }
 
 export enum GEOGRAPHIC_INSTRUCTION_TYPE {
@@ -935,7 +939,7 @@ export type GEOGRAPHIC_INSTRUCTION = {
     location: GEOPOINT3D,
     description: string,
     address: ADDRESS,
-    arrow: POINT[] | POINT3D[],
+    arrow: POINT3D[],
     polygon: POINT3D[],
     polyline: POINT3D[],
     modeDefine: GEOGRAPHIC_INSTRUCTION_MD
@@ -949,7 +953,25 @@ export enum TASK_STATUS {
     cancelled = 'Cancelled'
 }
 
-
+export type ICON_STYLES = COMMON_STYLES & {
+    mapIcon: string,
+    iconSize: {width: number, height: number},
+}
+export type POLYGON_STYLES = COMMON_STYLES & {
+    color: string,
+    fillColor: string,
+    polygonLabelPosition?: POINT3D
+}
+export type POLYLINE_STYLES = COMMON_STYLES & {
+    color: string,
+    isDotted: boolean,
+}
+export type COMMON_STYLES = {
+    hoverText: string,
+    labelText: string
+    labelBackground: string,
+    labelOffset: {x: number, y: number}
+}
 // export enum TASK_TYPE { // TODO - change data fields
 //     general = 'general',
 //     rescue = 'rescue',

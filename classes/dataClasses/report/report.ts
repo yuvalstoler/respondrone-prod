@@ -24,7 +24,7 @@ export class Report {
     priority: PRIORITY;
     description: string = '';
     locationType: LOCATION_TYPE = LOCATION_TYPE.none;
-    location: GEOPOINT3D = {latitude: undefined, longitude: undefined};
+    location: GEOPOINT3D = {latitude: undefined, longitude: undefined, altitude: undefined};
     address: ADDRESS;
     media: FILE_FS_DATA[] = [];
     mediaFileIds: MAP<boolean> = {};

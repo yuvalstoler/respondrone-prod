@@ -4,7 +4,7 @@ import {
     FR_DATA, GIMBAL_DATA, GRAPHIC_OVERLAY_DATA, MISSION_DATA,
     MISSION_REQUEST_DATA,
     MISSION_REQUEST_DATA_UI, MISSION_ROUTE_DATA,
-    MISSION_TYPE,
+    MISSION_TYPE, NFZ_DATA,
     REPORT_DATA,
     TASK_DATA
 } from '../../typings/all.typings';
@@ -24,6 +24,7 @@ import {Mission} from "../../dataClasses/mission/mission";
 import {MissionRoute} from "../../dataClasses/missionRoute/missionRoute";
 import {Gimbal} from "../../dataClasses/gimbal/Gimbal";
 import {GraphicOverlay} from "../../dataClasses/graphicOverlay/graphicOverlay";
+import {NFZ} from "../../dataClasses/nfz/nfz";
 
 
 export class Converting {
@@ -122,6 +123,17 @@ export class Converting {
         if ( Array.isArray(dataArr) ) {
             dataArr.forEach((data: GRAPHIC_OVERLAY_DATA) => {
                 res.push(new GraphicOverlay(data));
+            });
+        }
+        return res;
+    }
+
+    public static Arr_NFZ_DATA_to_Arr_NFZ = (dataArr: NFZ_DATA[]): NFZ[] => {
+        const res: NFZ[] = [];
+        //    todo data vaidation
+        if ( Array.isArray(dataArr) ) {
+            dataArr.forEach((data: NFZ_DATA) => {
+                res.push(new NFZ(data));
             });
         }
         return res;

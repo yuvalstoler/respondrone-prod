@@ -1,10 +1,10 @@
 import {EVENT_LISTENER_DATA} from '../../../types';
-import {POINT} from '../../../../../../classes/typings/all.typings';
+import {POINT, POINT3D} from '../../../../../../classes/typings/all.typings';
 import {GeoCalculate} from './geoCalculate';
 
 
 export class DrawMarkerClass {
-  
+
   constructor() {}
 
   public mouseEvents = (event: EVENT_LISTENER_DATA): POINT[] => {
@@ -31,7 +31,7 @@ export class DrawMarkerClass {
   };
 
 
-  public checkIfMarkerExist = (event: EVENT_LISTENER_DATA, marker: POINT, distanceMeter: number): boolean => {
+  public checkIfMarkerExist = (event: EVENT_LISTENER_DATA, marker: POINT3D, distanceMeter: number): boolean => {
     let res = false;
       const distance = GeoCalculate.calcDistanceBetweenToPoints(event.pointLatLng, marker);
       console.log(distance, ' ', distanceMeter * 15);
@@ -41,5 +41,5 @@ export class DrawMarkerClass {
       console.log(res);
     return res;
   };
-  
+
 }

@@ -29,6 +29,7 @@ const url_DeliveryMissionRep = services.DeliveryMissionRep.protocol + '://' + se
 const url_MissionRep = services.MissionRep.protocol + '://' + services.MissionRep.host + ':' + services.MissionRep.port;
 const url_MissionRouteRep = services.MissionRouteRep.protocol + '://' + services.MissionRouteRep.host + ':' + services.MissionRouteRep.port;
 const url_GraphicOverlayRep = services.GraphicOverlayRep.protocol + '://' + services.GraphicOverlayRep.host + ':' + services.GraphicOverlayRep.port;
+const url_NFZRep = services.NFZRep.protocol + '://' + services.NFZRep.host + ':' + services.NFZRep.port;
 
 const timeout_AV = projConf.timeOutREST;
 
@@ -73,6 +74,9 @@ export class RequestManager {
     };
     public static requestToGraphicOverlayRep = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_GraphicOverlayRep, path, bodyObj, timeout_AV);
+    };
+    public static requestToNFZRep = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_NFZRep, path, bodyObj, timeout_AV);
     };
 
 

@@ -2,12 +2,14 @@
   #geoInstructionList="cdkDropList"
   (cdkDropListDropped)="drop($event)"
   [cdkDropListData]="geographicInstructionsModel"
+  [cdkDropListDisabled] = 'true'
   cdkDropList
 >
   <mat-expansion-panel (click)="flyToInstruction(geoInstruction)"
                        *ngFor="let geoInstruction of geographicInstructionsModel; let i = index"
                        [expanded]="false"
                        [togglePosition]="'after'"
+
                        cdkDrag>
     <mat-expansion-panel-header [ngStyle]="{'cursor': 'grabbing'}">
       <div class="expendTitle">
@@ -28,5 +30,5 @@
 </mat-accordion>
 
 <div *ngIf="geographicInstructionsModel.length <= 0" class="DialogNotElement">
-  Not geo instructions
+  No geographic instructions
 </div>

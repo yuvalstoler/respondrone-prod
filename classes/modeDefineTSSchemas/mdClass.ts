@@ -18,6 +18,8 @@ export class MDClass {
 
         brown: '#963c3c',
         yellow: '#ffc000',
+        yellowOpacity: 'rgba(225,192,0,0.4)',
+        redOpacity: 'rgba(193,37,36,0.4)',
         transparent: 'rgba(225,225,225,0)'
     };
 

@@ -3,15 +3,15 @@ import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
-  ASYNC_RESPONSE, GEOPOINT3D_SHORT,
-  ID_OBJ, MISSION_DATA_UI,
+  ASYNC_RESPONSE, FR_DATA_UI, GEOPOINT3D_SHORT,
+  ID_OBJ, ID_TYPE, MISSION_DATA_UI,
   POINT,
   POINT3D,
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {DRAW_LABEL, ICON_DATA} from "../../../types";
+import {ICON_DATA, ITEM_TYPE, MAP, POLYGON_DATA} from "../../../types";
 import {API_GENERAL, WS_API} from "../../../../../../classes/dataClasses/api/api_enums";
 import {ApplicationService} from "../applicationService/application.service";
 
@@ -23,6 +23,7 @@ export class MissionService {
 
   missions: {data: MISSION_DATA_UI[]} = {data: []};
   missions$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  polygonIdsByMission: MAP<string[]> = {};
 
   constructor(private connectionService: ConnectionService,
               private socketService: SocketService,
@@ -92,13 +93,11 @@ export class MissionService {
             existingEvent[fieldName] = newItem[fieldName];
           }
         }
-        // this.updateMission(newItem);
+        this.updateMission(newItem);
       } else {
         this.missions.data.push(newItem);
-        // this.drawMission(newItem);
+        this.drawMission(newItem);
       }
-      this.removeFromMap(newItem);
-      this.drawMission(newItem);
     });
   };
   // ----------------------
@@ -109,44 +108,46 @@ export class MissionService {
 
     if (item.missionMapOverlay && item.missionMapOverlay.areas) {
       item.missionMapOverlay.areas.forEach((area, index: number) => {
-        const polygonId = item.id + '_' + index
-        this.mapGeneralService.deletePolygonManually(polygonId);
+        this.mapGeneralService.deletePolygonManually(this.getIdPolygon(item.id, index));
+        delete this.polygonIdsByMission[item.id];
       })
     }
   }
   // ----------------------
   private drawMission = (item: MISSION_DATA_UI) => {
     // icons
+    this.polygonIdsByMission[item.id] = [];
     if (item.missionMapOverlay && item.missionMapOverlay.point) {
-      // TODO change
       const iconData: ICON_DATA = {
         id: item.id,
-        description: item.description,
         modeDefine: item.modeDefine,
-        location: {
-          latitude: item.missionMapOverlay.point.lat,
-          longitude: item.missionMapOverlay.point.lon,
-          altitude: item.missionMapOverlay.point.alt,
-        }
+        isShow: this.applicationService.screen.showMissions,
+        location: this.applicationService.geopoint3d_short_to_point3d(item.missionMapOverlay.point),
+        optionsData: item,
+        type: ITEM_TYPE.mission
       }
-
       this.mapGeneralService.createIcon(iconData);
     }
 
     if (item.missionMapOverlay && item.missionMapOverlay.areas) {
-
       item.missionMapOverlay.areas.forEach((area: {coordinates: GEOPOINT3D_SHORT[]}, index: number) => {
-        // TODO change
-        const polygon: POINT3D[] = this.applicationService.geopoint3d_short_to_point3d_arr(area.coordinates);
-        const polygonId = item.id + '_' + index
-        this.mapGeneralService.drawPolygonFromServer(polygon, polygonId, undefined, undefined);
+        const polygonData: POLYGON_DATA = {
+          id: this.getIdPolygon(item.id, index),
+          modeDefine: item.modeDefine,
+          isShow: this.applicationService.screen.showMissions,
+          polygon: this.applicationService.geopoint3d_short_to_point3d_arr(area.coordinates),
+          optionsData: item,
+          type: ITEM_TYPE.mission
+        };
+        this.polygonIdsByMission[item.id].push(polygonData.id);
+        this.mapGeneralService.drawPolygonFromServer(polygonData);
       })
     }
   };
 
   // ----------------------
   private updateMission = (item: MISSION_DATA_UI) => {
-
+    this.drawMission(item);
   };
   // -----------------------
   public getById = (id: string): MISSION_DATA_UI => {
@@ -157,6 +158,38 @@ export class MissionService {
   public flyToObject = (coordinates: POINT | POINT3D) => {
     this.mapGeneralService.flyToObject(coordinates);
   };
+  // -----------------------
+  private getIdPolygon = (missionId: ID_TYPE, index: number) => {
+    return missionId + '_' + index
+  }
+  // -----------------------
+  public hideAll = () => {
+    this.missions.data.forEach((item: MISSION_DATA_UI) => {
+      if (item.missionMapOverlay && item.missionMapOverlay.point) {
+        this.mapGeneralService.hideIcon(item.id);
+      }
 
+      if (item.missionMapOverlay && item.missionMapOverlay.areas) {
+        item.missionMapOverlay.areas.forEach((area: {coordinates: GEOPOINT3D_SHORT[]}, index: number) => {
+          const id = this.getIdPolygon(item.id, index)
+          this.mapGeneralService.hidePolygon(id);
+        })
+      }
+    });
+  }
+  // -----------------------
+  public showAll = () => {
+    this.missions.data.forEach((item: MISSION_DATA_UI) => {
+      if (item.missionMapOverlay && item.missionMapOverlay.point) {
+        this.mapGeneralService.showIcon(item.id);
+      }
 
+      if (item.missionMapOverlay && item.missionMapOverlay.areas) {
+        item.missionMapOverlay.areas.forEach((area: {coordinates: GEOPOINT3D_SHORT[]}, index: number) => {
+          const id = this.getIdPolygon(item.id, index)
+          this.mapGeneralService.showPolygon(id);
+        })
+      }
+    });
+  }
 }
