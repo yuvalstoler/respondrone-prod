@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject, NgZone, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {
   COMMENT,
@@ -35,6 +35,12 @@ export class EventDialogComponent implements OnInit {
   locations = Object.values(LOCATION_NAMES);
   comment = '';
 
+  address: Object;
+  establishmentAddress: Object;
+  formattedAddress: string;
+  formattedEstablishmentAddress: string;
+
+
   defaultEvent: EVENT_DATA_UI = {
     createdBy: undefined,
     time: undefined,
@@ -70,6 +76,7 @@ export class EventDialogComponent implements OnInit {
               public customToasterService: CustomToasterService,
               public reportService: ReportService,
               public mapGeneralService: MapGeneralService,
+              public zone: NgZone,
               public dialogRef: MatDialogRef<EventDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: { title: string }) {
     this.initEventModel();
@@ -261,5 +268,22 @@ export class EventDialogComponent implements OnInit {
     }
     return res;
   };
+
+  getAddress = (place: object) => {
+    this.address = place['formatted_address'];
+    // this.phone = this.getPhone(place);
+    this.formattedAddress = place['formatted_address'];
+    this.zone.run(() => this.formattedAddress = place['formatted_address']);
+  };
+
+  // getEstablishmentAddress = (place: object) => {
+  //   this.establishmentAddress = place['formatted_address'];
+  //   this.phone = this.getPhone(place);
+  //   this.formattedEstablishmentAddress = place['formatted_address'];
+  //   this.zone.run(() => {
+  //     this.formattedEstablishmentAddress = place['formatted_address'];
+  //     this.phone = place['formatted_phone_number'];
+  //   });
+  // };
 
 }
