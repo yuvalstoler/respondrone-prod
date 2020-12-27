@@ -113,7 +113,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 .description-content{
   overflow: auto;
   max-height: 4.5em;
-  font-size: $fontSizeText;
+  font-size: $fontSizeText13;
 }
 // comments
 .example-element-comments {
@@ -160,7 +160,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   display: contents;
 }
 .expendContent{
-  font-size: $fontSizeText;
+  font-size: $fontSizeText13;
   color: $black;
   font-weight: 200;
 }
@@ -176,7 +176,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   width: 22px;
 }
 .expendTitle {
-  font-size: $fontSizeTitle;
+  font-size: $fontSizeTitle14;
   color: $black;
   font-weight: 600;
 }
@@ -196,7 +196,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   padding: 0 10px 0 0;
 }
 .mat-header-cell {
-  font-size: $fontSizeText;
+  font-size: $fontSizeText13;
   font-weight: 900;
 }
 

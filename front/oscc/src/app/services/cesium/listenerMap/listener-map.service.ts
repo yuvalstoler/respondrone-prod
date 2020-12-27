@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {ApplicationService} from "../../applicationService/application.service";
-import {MapGeneralService} from "../../mapGeneral/map-general.service";
-import {EVENT_LISTENER_DATA, OPTIONS_ENTITY} from "../../../../types";
-import {GEOPOINT3D} from "../../../../../../../classes/typings/all.typings";
+import {ApplicationService} from '../../applicationService/application.service';
+import {MapGeneralService} from '../../mapGeneral/map-general.service';
+import {EVENT_LISTENER_DATA, OPTIONS_ENTITY} from '../../../../types';
+import {GEOPOINT3D} from '../../../../../../../classes/typings/all.typings';
 
 @Injectable({
   providedIn: 'root'

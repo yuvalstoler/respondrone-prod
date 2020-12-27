@@ -18,7 +18,7 @@
 .container {
   color: $white;
   margin: 10px;
-  font-size: $fontSizeText;
+  font-size: $fontSizeText13;
   z-index: 1000;
 }
 
@@ -31,12 +31,12 @@
   div {
     padding: 0 10px;
     margin: auto 0;
-    font-size: $fontSizeVideoText;
+    font-size: $fontSizeVideoText16;
     font-weight: 600;
   }
 
   span {
-    font-size: $fontSizeVideoText;
+    font-size: $fontSizeVideoText16;
     font-weight: 100;
   }
 
@@ -46,7 +46,7 @@
 
   .videoSelect {
     div {
-      font-size: $fontSizeText !important;
+      font-size: $fontSizeText13 !important;
     }
   }
 
@@ -91,12 +91,12 @@
   div {
     padding: 0 10px;
     margin: auto 0;
-    font-size: $fontSizeVideoText;
+    font-size: $fontSizeVideoText16;
     font-weight: 600;
   }
 
   span {
-    font-size: $fontSizeVideoText;
+    font-size: $fontSizeVideoText16;
     font-weight: 100;
   }
 
@@ -134,12 +134,12 @@
   div {
     padding: 0 10px;
     margin: auto 0;
-    font-size: $fontSizeVideoText;
+    font-size: $fontSizeVideoText16;
     font-weight: 600;
   }
 
   span {
-    font-size: $fontSizeVideoText;
+    font-size: $fontSizeVideoText16;
     font-weight: 100;
   }
 }
@@ -152,12 +152,12 @@
   div {
     padding: 0 10px;
     margin: auto 0;
-    font-size: $fontSizeVideoText;
+    font-size: $fontSizeVideoText16;
     font-weight: 600;
   }
 
   span {
-    font-size: $fontSizeVideoText;
+    font-size: $fontSizeVideoText16;
     font-weight: 100;
   }
 }

@@ -63,6 +63,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { CanvasVideoComponent } from './video-panel/canvas-video/canvas-video.component';
 import { DescriptionPanelComponent } from './description-panel/description-panel.component';
 import { ResourcesPanelComponent } from './resources-panel/resources-panel.component';
+import {CursorPositionComponent} from './cursor-position/cursor-position.component';
 
 
 @NgModule({
@@ -97,6 +98,7 @@ import { ResourcesPanelComponent } from './resources-panel/resources-panel.compo
     CanvasVideoComponent,
     DescriptionPanelComponent,
     ResourcesPanelComponent,
+    CursorPositionComponent
   ],
   imports: [
     CommonModule,
@@ -155,6 +157,7 @@ import { ResourcesPanelComponent } from './resources-panel/resources-panel.compo
     SortByPriorityPipe,
     VideoPanelComponent,
     MissionsTableComponent,
+    CursorPositionComponent
   ],
   providers: [
     PolygonsEditorService,

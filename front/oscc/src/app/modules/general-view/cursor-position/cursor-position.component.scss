@@ -1,0 +1,27 @@
+@import "../../../../styles/colors";
+@import "../../../../styles/variable";
+
+.CursorPosition{
+  //position: absolute;
+  //bottom: 5px;
+  //right: 5px;
+  cursor: context-menu;
+}
+.CPContainer{
+  width: auto;
+  height: auto;
+  span{
+    //width: 6em;
+    text-align: left;
+    display: inline-block;
+    //padding: 14px 8px;
+    white-space: nowrap;
+  }
+}
+.LeftPanelTabsContentCursor{
+  //background: $black;
+  //border-right: 1px solid $gray;
+  cursor: context-menu;
+  text-align: center;
+  //height: $headerHeight;
+}

@@ -12,7 +12,7 @@ import {
   SCAN_SPEED
 } from '../../../../../../classes/typings/all.typings';
 import {AirVehicleService} from '../../services/airVehicleService/airVehicle.service';
-import {MISSION_FIELDS, STATE_DRAW} from '../../../types';
+import {HEADER_BUTTONS, MISSION_FIELDS, STATE_DRAW, VIDEO_OR_MAP} from '../../../types';
 import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
 import {ApplicationService} from '../../services/applicationService/application.service';
 import {LocationService} from '../../services/locationService/location.service';
@@ -537,6 +537,24 @@ export class MissionDialogComponent implements OnInit {
         this.mapGeneralService.changeCursor(true);
       }
     }
+  };
+
+  onChooseFromCamera = (airVehicles) => {
+    this.onViewLiveVideo(airVehicles[0]);
+    this.onNoClick();
+  };
+
+  onViewLiveVideo = (airVehicle: AV_DATA_UI) => {
+    this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.liveVideo;
+    // open panel
+    this.applicationService.screen.showVideo = true;
+    this.applicationService.selectedWindow = VIDEO_OR_MAP.map;
+    //close others
+    this.applicationService.screen.showLeftPanel = false;
+    this.applicationService.screen.showMissionControl = false;
+    this.applicationService.screen.showSituationPicture = false;
+
+    this.applicationService.selectedAirVehicle = airVehicle;
   };
 
   onUpdateFRs = (frIds: string[]) => {
