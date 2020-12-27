@@ -11,7 +11,7 @@
   grid-template-columns: 45% auto 30%;
   //grid-template-rows: 25px 20px 20px 20px 25px;
   padding: 0 10px;
-  font-size: $fontSizeText;
+  font-size: $fontSizeText13;
   color: $black;
   border-radius: 8px;
   background: $lightGray;
@@ -19,13 +19,14 @@
   //border-radius: 15px;
 }
 .item1{
-  grid-column: 1;
+  grid-column: 1 / span 2;
   grid-row: 1;
 }
 .item2{
   grid-column: 3;
   grid-row: 1;
   text-align: right;
+  white-space: nowrap;
 
   mat-icon{
     cursor: pointer;
@@ -34,24 +35,29 @@
 .item3{
   grid-column: 1 / span 2;
   grid-row: 2;
+  white-space: nowrap;
 }
 .item4{
   grid-column: 3;
   grid-row: 2;
   text-align: right;
+  white-space: nowrap;
 }
 .item5{
   grid-column: 1;
   grid-row: 3;
+  white-space: nowrap;
 }
 .item6{
   grid-column: 2;
   grid-row: 3;
+  white-space: nowrap;
 }
 .item7{
   grid-column: 3;
   grid-row: 3;
   text-align: right;
+  white-space: nowrap;
 }
 .item8{
   grid-column: 1/ span 3;
@@ -61,10 +67,12 @@
 .item9{
   grid-column: 1;
   grid-row: 5;
+  white-space: nowrap;
 }
 .item10{
   grid-column: 2;
   grid-row: 5;
+  white-space: nowrap;
 }
 .item11{
   grid-column: 3;
@@ -74,11 +82,13 @@
 .item12{
   grid-column: 1;
   grid-row: 6;
+  white-space: nowrap;
 }
 .item13{
   grid-column: 3;
   grid-row: 6;
   text-align: right;
+  white-space: nowrap;
 }
 .title {
   font-weight: bold;

@@ -139,6 +139,6 @@ export class AirResourcesComponent implements OnInit {
 
   onClickMission = (airVehicle: AV_DATA_UI, $event) => {
     $event.stopPropagation();
-    this.missionRequestService.goToMissionRequest(airVehicle.missionRequestId)
+    this.missionRequestService.goToMissionRequest(airVehicle.missionRequestId);
   }
 }

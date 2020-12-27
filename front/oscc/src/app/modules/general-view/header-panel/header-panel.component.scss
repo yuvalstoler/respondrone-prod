@@ -16,15 +16,16 @@
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: flex-start;
+  max-width: calc(100vw - 50%);
 
   .LeftSideButton {
-    margin: auto 15px;
+    margin: auto 10px;
     text-align: center;
     height: $headerHeight;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: $fontSizeTitleHeader;
+    font-size: $fontSizeTitleHeader17;
     cursor: pointer;
   }
 
@@ -33,7 +34,7 @@
   }
 
   .LeftSideLabel {
-    font-size: $fontSizeTitleHeader;
+    font-size: $fontSizeTitleHeader17;
   }
 
   .LPSelected {
@@ -48,11 +49,13 @@
 
 
 .HeaderRightSide {
-  position: inherit;
+  position: absolute;
   display: flex;
+  right: 0;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: flex-end;
+  max-width: calc(100vw - 50%);
 
   .RightSideButton {
     margin: auto 5px;
@@ -61,7 +64,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: $fontSizeTitleHeader;
+    font-size: $fontSizeTitleHeader17;
   }
 
   .HPRightSideIcon {
@@ -99,6 +102,10 @@
 .Disabled{
   color: $darkGray;
   cursor: no-drop !important;
+}
+
+::ng-deep.mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button {
+   padding: 0 5px !important;
 }
 
 // Search Bar =======================================================

@@ -85,14 +85,17 @@
             {{location}}
             <!--Address-->
             <div *ngIf="location === LOCATION_NAMES.address && eventModel.locationType === LOCATION_TYPE.address">
-              <mat-form-field appearance="outline" class="LocationAddress">
-                <label>
-                  <input [(ngModel)]="eventModel.address" class="Label" matInput
-                         placeholder="E.g. Richard St."
-                         required
-                         type="text">
-                </label>
-              </mat-form-field>
+              <!--<mat-form-field appearance="outline" class="LocationAddress">-->
+                <!--<label>-->
+                  <!--<input [(ngModel)]="eventModel.address" class="Label" matInput-->
+                         <!--ngxAutocomPlace-->
+                         <!--placeholder="E.g. Richard St."-->
+                         <!--required-->
+                         <!--type="text">-->
+                  <!--&lt;!&ndash;<input type="text" matInput  ngxAutocomPlace (selectedPlace)="placeChangedCallback($event)"/>&ndash;&gt;-->
+                <!--</label>-->
+              <!--</mat-form-field>-->
+              <app-autocomplete-address (setAddress)="getAddress($event)" adressType="geocode"></app-autocomplete-address>
             </div>
             <!--Location-->
             <div

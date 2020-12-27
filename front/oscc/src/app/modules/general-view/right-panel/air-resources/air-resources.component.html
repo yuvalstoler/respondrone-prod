@@ -1,49 +1,62 @@
 <mat-accordion>
   <div class="AirResourcesContainer scroll">
     <div *ngFor="let airVehicle of airVehicleService.airVehicles.data | sortByPriority: optionSelected">
-      <div [ngStyle]="{ 'grid-template-rows': isOpenMenu[airVehicle.id] ? '25px 25px 25px 7px 25px 25px' : '25px 25px 25px',
-      'border-bottom': '5px solid' + airVehicle?.modeDefine?.styles?.statusColor}"
-           class="gridAirResources" (click)="flyTo(airVehicle)">
+      <div (click)="flyTo(airVehicle)"
+           [ngStyle]="{ 'grid-template-rows': isOpenMenu[airVehicle.id] ? '25px 25px 25px 7px 25px 25px' : '25px 25px 25px',
+      'border-bottom': '5px solid' + airVehicle?.modeDefine?.styles?.statusColor}" class="gridAirResources">
         <!--title-->
         <div class="item1 title">{{airVehicle.name}}</div>
         <!--icons expend & 3 dotes-->
         <div class="item2">
-          <mat-icon (click)="onCloseMenu($event, airVehicle.id)" *ngIf="isOpenMenu[airVehicle.id]">keyboard_arrow_up</mat-icon>
-          <mat-icon (click)="onOpenMenu($event, airVehicle.id)" *ngIf="!isOpenMenu[airVehicle.id]">keyboard_arrow_down</mat-icon>
+          <mat-icon (click)="onCloseMenu($event, airVehicle.id)" *ngIf="isOpenMenu[airVehicle.id]">keyboard_arrow_up
+          </mat-icon>
+          <mat-icon (click)="onOpenMenu($event, airVehicle.id)" *ngIf="!isOpenMenu[airVehicle.id]">keyboard_arrow_down
+          </mat-icon>
           <!-- 3 dotes-->
-          <mat-icon matRipple *ngIf="!this.applicationService.isDialogOpen"
-                    (click)="$event.stopPropagation();"
-                    [ngStyle]="{'cursor': 'pointer'}"
+          <mat-icon (click)="$event.stopPropagation();" *ngIf="!this.applicationService.isDialogOpen"
                     [matMenuTriggerFor]="missionOptions"
-          >more_vert</mat-icon>
-          <mat-icon matRipple *ngIf="this.applicationService.isDialogOpen && (airVehicle.operationalStatus === OPERATIONAL_STATUS.Ready || airVehicle.operationalStatus === OPERATIONAL_STATUS.OnMission)" [ngStyle]="{'cursor': 'no-drop'}">more_vert</mat-icon>
+                    [ngStyle]="{'cursor': 'pointer'}"
+                    matRipple
+          >more_vert
+          </mat-icon>
+          <mat-icon
+            *ngIf="this.applicationService.isDialogOpen && (airVehicle.operationalStatus === OPERATIONAL_STATUS.Ready || airVehicle.operationalStatus === OPERATIONAL_STATUS.OnMission)"
+            [ngStyle]="{'cursor': 'no-drop'}"
+            matRipple>more_vert
+          </mat-icon>
           <!--Menu mission Options-->
           <mat-menu #missionOptions="matMenu">
-            <button mat-menu-item *ngIf="airVehicle.modeDefine?.data?.missionOptions.CommRelay === true"
-                    (click)="onMissionOptions(MISSION_TYPE.CommRelay, airVehicle)">
+            <button (click)="onMissionOptions(MISSION_TYPE.CommRelay, airVehicle)"
+                    *ngIf="airVehicle.modeDefine?.data?.missionOptions.CommRelay === true"
+                    mat-menu-item>
               <span>Create comm mission</span>
             </button>
-            <button mat-menu-item *ngIf="airVehicle.modeDefine?.data?.missionOptions.Patrol === true"
-                    (click)="onMissionOptions(MISSION_TYPE.Patrol, airVehicle)">
+            <button (click)="onMissionOptions(MISSION_TYPE.Patrol, airVehicle)"
+                    *ngIf="airVehicle.modeDefine?.data?.missionOptions.Patrol === true"
+                    mat-menu-item>
               <span>Create patrol mission</span>
             </button>
-            <button mat-menu-item *ngIf="airVehicle.modeDefine?.data?.missionOptions.Observation === true"
-                    (click)="onMissionOptions(MISSION_TYPE.Observation, airVehicle)">
+            <button (click)="onMissionOptions(MISSION_TYPE.Observation, airVehicle)"
+                    *ngIf="airVehicle.modeDefine?.data?.missionOptions.Observation === true"
+                    mat-menu-item>
               <span>Create observation mission</span>
             </button>
-            <button mat-menu-item *ngIf="airVehicle.modeDefine?.data?.missionOptions.Scan === true"
-                    (click)="onMissionOptions(MISSION_TYPE.Scan, airVehicle)">
+            <button (click)="onMissionOptions(MISSION_TYPE.Scan, airVehicle)"
+                    *ngIf="airVehicle.modeDefine?.data?.missionOptions.Scan === true"
+                    mat-menu-item>
               <span>Create scan mission</span>
             </button>
-            <button mat-menu-item *ngIf="airVehicle.modeDefine?.data?.missionOptions.Delivery === true"
-                    (click)="onMissionOptions(MISSION_TYPE.Delivery, airVehicle)">
+            <button (click)="onMissionOptions(MISSION_TYPE.Delivery, airVehicle)"
+                    *ngIf="airVehicle.modeDefine?.data?.missionOptions.Delivery === true"
+                    mat-menu-item>
               <span>Cargo drop mission</span>
             </button>
-            <button mat-menu-item *ngIf="airVehicle.modeDefine?.data?.missionOptions.Servoing === true"
-                    (click)="onMissionOptions(MISSION_TYPE.Servoing, airVehicle)">
+            <button (click)="onMissionOptions(MISSION_TYPE.Servoing, airVehicle)"
+                    *ngIf="airVehicle.modeDefine?.data?.missionOptions.Servoing === true"
+                    mat-menu-item>
               <span>Follow an entity mission</span>
             </button>
-            <button mat-menu-item (click)="onViewLiveVideo(airVehicle)">
+            <button (click)="onViewLiveVideo(airVehicle)" mat-menu-item>
               <span>View live video</span>
             </button>
           </mat-menu>
@@ -51,13 +64,15 @@
         <!--mission-->
         <div class="item3">
           <span class="title">Mission: &nbsp;</span>
-          <span class="underline" *ngIf="airVehicle.modeDefine?.data?.missionName" class="underline pointer" (click)="onClickMission(airVehicle, $event)">{{airVehicle.modeDefine?.data?.missionName}}</span>
+          <span (click)="onClickMission(airVehicle, $event)" *ngIf="airVehicle.modeDefine?.data?.missionName"
+                class="underline pointer"
+                class="underline">{{airVehicle.modeDefine?.data?.missionName}}</span>
         </div>
         <!--status-->
         <div class="item4">
         <span [ngStyle]="{'color': airVehicle.modeDefine?.styles?.statusColor, 'font-size': '12px'}"
-              class="material-icons">stop_circle</span>
-          {{airVehicle.operationalStatus}}
+              class="material-icons">stop_circle
+        </span>{{airVehicle.operationalStatus}}
         </div>
         <!--TTL-->
         <div class="item5">
@@ -71,7 +86,7 @@
         <div class="item7">
           <span class="title">Speed: </span> {{airVehicle.velocity | number: '1.0-0'}} m/s
         </div>
-        <div class="item8" *ngIf="isOpenMenu[airVehicle.id]"></div>
+        <div *ngIf="isOpenMenu[airVehicle.id]" class="item8"></div>
         <!--------------------- Expend Panel ----------------->
         <!--Alt ASL-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item9">
@@ -83,8 +98,9 @@
         </div>
         <!--GPS-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item11">
-          <img class="gpsIcon" [src]="airVehicle?.modeDefine?.styles?.gpsIcon" alt="gps"
-               [matTooltip]="airVehicle?.modeDefine?.styles?.gpsDescription">
+          <img [matTooltip]="airVehicle?.modeDefine?.styles?.gpsDescription"
+               [src]="airVehicle?.modeDefine?.styles?.gpsIcon" alt="gps"
+               class="gpsIcon">
         </div>
         <!--Azimuth-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item12">

@@ -26,7 +26,7 @@
 .imageDivContainer {
   display: inline-block;
   text-align: center;
-  font-size: $fontSizeText;
+  font-size: $fontSizeText13;
 }
 
 .DialogContentItem {
@@ -48,7 +48,7 @@
   grid-template-columns: 5em 1.5em;
   .item1, .item3 {
     margin: auto;
-    font-size: $fontSizeTitle;
+    font-size: $fontSizeTitle14;
   }
   .item2{
     //display: inline-block;
@@ -77,8 +77,17 @@
   float: right;
   border-bottom: 1px solid $black;
   margin-right: 27px;
-  font-size: $fontSizeText;
+  font-size: $fontSizeText13;
   color: $black;
+}
+.MissionLink{
+  border-bottom: 1px solid $black;
+  margin-right: 27px;
+  font-size: $fontSizeText13;
+  color: $black;
+}
+.MissionEntitiesContainer{
+  margin-top: 10px;
 }
 
 // mat-angular =========================================================================================================

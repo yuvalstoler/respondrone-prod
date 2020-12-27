@@ -71,10 +71,14 @@
 
   <!--Right Side-->
   <div class="HeaderRightSide">
-    <!--TMP cursor-->
+    <!--&lt;!&ndash;TMP cursor&ndash;&gt;-->
+
+     <!--lat: {{applicationService.cursorPosition?.latitude | number:'1.0-4'}},-->
+     <!--lon: {{applicationService.cursorPosition?.longitude | number:'1.0-4'}}-->
+    <!--</div>-->
+    <!--Cursor position LAT LNG panel-->
     <div class="RightSideButton">
-     lat: {{applicationService.cursorPosition?.latitude | number:'1.0-4'}},
-     lon: {{applicationService.cursorPosition?.longitude | number:'1.0-4'}}
+    <app-cursor-position></app-cursor-position>
     </div>
     <!--SubSystemStatus-->
     <div class="RightSideButton">

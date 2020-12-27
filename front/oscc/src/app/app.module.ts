@@ -11,7 +11,7 @@ import {AngularCesiumModule} from 'angular-cesium';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
-import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldControl} from '@angular/material/form-field';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatTableModule} from '@angular/material/table';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -53,6 +53,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MissionUavDialogComponent } from './dialogs/mission-uav-dialog/mission-uav-dialog.component';
 import { ContextMenuComponent } from './dialogs/context-menu/context-menu.component';
 import { HoverTextDialogComponent } from './dialogs/hover-text-dialog/hover-text-dialog.component';
+import {AutocompleteAddressComponent} from './dialogs/autocomplete-address/autocomplete-address.component';
 
 const config: SocketIoConfig = SOCKET_CONFIG;
 
@@ -78,6 +79,7 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     MissionUavDialogComponent,
     ContextMenuComponent,
     HoverTextDialogComponent,
+    AutocompleteAddressComponent
   ],
   imports: [
     BrowserModule,
@@ -127,7 +129,8 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     TaskDialogComponent,
     TaskAssigneesDialogComponent,
     MissionDialogComponent,
-    MissionUavDialogComponent
+    MissionUavDialogComponent,
+    AutocompleteAddressComponent
   ]
 })
 export class AppModule {
