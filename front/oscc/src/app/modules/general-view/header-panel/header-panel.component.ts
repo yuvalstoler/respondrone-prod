@@ -132,6 +132,8 @@ export class HeaderPanelComponent implements OnInit {
       // open panel
       this.applicationService.screen.showLeftPanel = true;
       this.applicationService.screen.showSituationPicture = true;
+
+      this.applicationService.currentTabIndex = 0;
       //close others
       this.applicationService.screen.showMissionControl = false;
       this.applicationService.screen.showVideo = false;

@@ -174,8 +174,7 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit {
   clickOnIcon = ($event, element: TASK_DATA_UI, column: string) => {
     $event.stopPropagation();
     if (column === 'map') {
-      // const coordinates: POINT = [element.location.longitude, element.location.latitude];
-      // this.tasksService.flyToObject(coordinates);
+      this.tasksService.flyToObject(element);
     } else if (column === 'assignees') {
 
     }

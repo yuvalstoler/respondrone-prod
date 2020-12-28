@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ApplicationService} from '../../applicationService/application.service';
 import {MapGeneralService} from '../../mapGeneral/map-general.service';
-import {EVENT_LISTENER_DATA, OPTIONS_ENTITY} from '../../../../types';
-import {GEOPOINT3D} from '../../../../../../../classes/typings/all.typings';
+import {EVENT_LISTENER_DATA, ITEM_TYPE} from '../../../../types';
 import {CesiumService} from '../cesium.service';
+import {MissionRequestService} from "../../missionRequestService/missionRequest.service";
+import {ReportService} from "../../reportService/report.service";
+import {EventService} from "../../eventService/event.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,10 @@ export class ListenerMapService {
 
   constructor(public mapGeneralService: MapGeneralService,
               public cesiumService: CesiumService,
-              public applicationService: ApplicationService) {
+              public applicationService: ApplicationService,
+              public missionRequestService: MissionRequestService,
+              public reportService: ReportService,
+              public eventService: EventService) {
     this.setEventCallbacks();
   }
 
@@ -38,7 +43,17 @@ export class ListenerMapService {
   };
 
   public showItemOnTable = (event: EVENT_LISTENER_DATA) => {
-
+    if (event.object && event.object.data) {
+      if (event.object.type === ITEM_TYPE.report) {
+        this.reportService.goToReport(event.object.data.id);
+      }
+      else if (event.object.type === ITEM_TYPE.event) {
+        this.eventService.goToEvent(event.object.data.id);
+      }
+      else if (event.object.type === ITEM_TYPE.missionRequest || event.object.type === ITEM_TYPE.missionRoute || event.object.type === ITEM_TYPE.mission) {
+        this.missionRequestService.goToMissionRequest(event.object.data.id);
+      }
+    }
   };
 
   // public showBillboard = (event: EVENT_LISTENER_DATA) => {

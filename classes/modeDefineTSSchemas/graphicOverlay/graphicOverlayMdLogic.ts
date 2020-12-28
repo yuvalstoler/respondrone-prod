@@ -104,7 +104,7 @@ export class GraphicOverlayMdLogic implements IModeDefine {
         if (GraphicOverlayMdLogic.getType(data) === 'polygon' && data.shape.coordinates.length > 0) {
             let minIndex = 0;
             data.shape.coordinates.forEach((coord: GEOPOINT3D_SHORT, index: number) => {
-                if (coord.lat < data.shape.coordinates[index].lat) {
+                if (coord.lat > data.shape.coordinates[minIndex].lat) {
                     minIndex = index;
                 }
             });

@@ -4,7 +4,7 @@ import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
   ASYNC_RESPONSE, EVENT_DATA_UI, FR_DATA_UI,
-  ID_OBJ,
+  ID_OBJ, ID_TYPE,
   LINKED_REPORT_DATA,
   LOCATION_TYPE,
   REPORT_DATA,
@@ -15,7 +15,7 @@ import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {ApplicationService} from '../applicationService/application.service';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {ICON_DATA, ITEM_TYPE} from "../../../types";
+import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE} from "../../../types";
 
 
 @Injectable({
@@ -27,6 +27,7 @@ export class ReportService {
   reports$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   tempReportObjectCE: {type: LOCATION_TYPE, objectCE: any, id: string, report: REPORT_DATA_UI};
   selectedElement: REPORT_DATA_UI;
+  changeSelected$: BehaviorSubject<ID_TYPE> = new BehaviorSubject(undefined);
 
   constructor(private connectionService: ConnectionService,
               private socketService: SocketService,
@@ -249,6 +250,29 @@ export class ReportService {
     this.reports.data.forEach((report: REPORT_DATA_UI) => {
       this.mapGeneralService.showIcon(report.id);
     });
+  }
+  // -----------------------
+  public goToReport = (id: ID_TYPE) => {
+    if (id !== undefined) {
+      this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.situationPictures;
+      // open panel
+      this.applicationService.screen.showLeftPanel = true;
+      this.applicationService.screen.showSituationPicture = true;
+      // choose missionTab on MissionControl
+      this.applicationService.currentTabIndex = 1; /*(0 = Events, 1 = Reports)*/
+      //close others
+      this.applicationService.screen.showMissionControl = false;
+      this.applicationService.screen.showVideo = false;
+
+
+      setTimeout(() => {
+        const item = this.getReportById(id);
+        this.applicationService.selectedReports.length = 0;
+        this.applicationService.selectedReports.push(item);
+        this.changeSelected$.next(id);
+      }, 500);
+
+    }
   }
 
 }

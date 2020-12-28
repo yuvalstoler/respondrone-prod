@@ -7,7 +7,7 @@ import {LEFT_PANEL_ICON, MAP} from '../../../../../../types';
 import {ApplicationService} from '../../../../../services/applicationService/application.service';
 import {
   COMMENT,
-  EVENT_DATA_UI,
+  EVENT_DATA_UI, ID_TYPE,
   LOCATION_TYPE,
   POINT
 } from '../../../../../../../../../classes/typings/all.typings';
@@ -58,6 +58,23 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
   }
 
   ngOnInit(): void {
+    this.eventService.changeSelected$.subscribe((selectedId: ID_TYPE) => {
+      if (selectedId !== undefined) {
+        const row = this.dataSource.data.find(obj => obj.id === selectedId);
+        if (row) {
+          this.eventService.selectedElement = row;
+          this.selection.clear();
+          this.selection.select(row);
+          this.expandedElement = {};
+          this.expandedElement[row.id] = row;
+
+          const element = document.getElementById(row.id);
+          if (element) {
+            element.scrollIntoView({behavior: 'smooth', block: 'center', inline : 'center'});
+          }
+        }
+      }
+    });
   }
 
   ngAfterViewInit() {

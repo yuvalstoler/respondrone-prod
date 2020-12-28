@@ -9,7 +9,7 @@ import {ReportService} from '../../../../../services/reportService/report.servic
 import {
   COMMENT,
   EVENT_DATA_UI,
-  FILE_FS_DATA, MISSION_REQUEST_DATA_UI, POINT,
+  FILE_FS_DATA, ID_TYPE, MISSION_REQUEST_DATA_UI, POINT,
   REPORT_DATA_UI
 } from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
@@ -58,7 +58,25 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.reportService.changeSelected$.subscribe((selectedId: ID_TYPE) => {
+      if (selectedId !== undefined) {
+        const row = this.dataSource.data.find(obj => obj.id === selectedId);
+        if (row) {
+          this.reportService.selectedElement = row;
+          this.selection.clear();
+          this.selection.select(row);
+          this.expandedElement = {};
+          this.expandedElement[row.id] = row;
+
+          const element = document.getElementById(row.id);
+          if (element) {
+            element.scrollIntoView({behavior: 'smooth', block: 'center', inline : 'center'});
+          }
+        }
+      }
+    });
+  }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;

@@ -1253,6 +1253,13 @@ export class CesiumDrawerService {
     const distance = this.calculatePixelToMeter(mapDomId, clickPositionMap.position);
 
     if (clickPosition) {
+      const pickedObjects = this.cesiumService.cesiumViewer[mapDomId].scene.drillPick(clickPositionMap.position);
+      let item = {};
+      pickedObjects.forEach((pickedObject) => {
+        if (Cesium.defined(pickedObject) && pickedObject.id) {
+          item = _.get(pickedObject, 'id.options') || {};
+        }
+      });
       for (const listenerName in leftClickListeners) {
         if (leftClickListeners.hasOwnProperty(listenerName)) {
           try {
@@ -1261,6 +1268,7 @@ export class CesiumDrawerService {
               pointPX: clickPositionMap.position,
               pointLatLng: clickPosition,
               distance: distance,
+              object: item
               // stopPropagation: leftClickListeners.preventDefault
             });
           } catch (e) {

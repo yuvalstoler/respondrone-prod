@@ -2,7 +2,7 @@
 <div *ngIf="applicationService.screen.showSituationPicture">
   <!--Header-->
   <div>
-    <mat-tab-group animationDuration="0ms" (selectedTabChange)="onSituationPictureTabChange($event)">
+    <mat-tab-group animationDuration="0ms" [selectedIndex]="getSelectedSituationPictureIndex()" (selectedTabChange)="onSituationPictureTabChange($event)">
       <!--Events-->
       <mat-tab label="Events">
         <app-events-situation-picture></app-events-situation-picture>
@@ -26,7 +26,7 @@
 <div *ngIf="applicationService.screen.showMissionControl">
   <!--Header-->
   <div>
-    <mat-tab-group animationDuration="0ms" [selectedIndex]="getSelectedIndex()" (selectedTabChange)="onMissionControlTabChange($event)">
+    <mat-tab-group animationDuration="0ms" [selectedIndex]="getSelectedMissionControlIndex()" (selectedTabChange)="onMissionControlTabChange($event)">
       <!--Tasks-->
       <mat-tab label="Tasks">
         <app-tasks-mission-control></app-tasks-mission-control>

@@ -231,8 +231,33 @@ export class TasksService {
     // this.mapGeneralService.editIcon(task.id, task.modeDefine.styles.icon, 30);
   };
   // -----------------------
-  public flyToObject = (coordinates: POINT | POINT3D) => {
-    this.mapGeneralService.flyToObject(coordinates);
+  public flyToObject = (task: TASK_DATA_UI) => {
+    if (task.geographicInstructions && task.geographicInstructions.length > 0) {
+      const geoInstruction = task.geographicInstructions[0];
+      let coordinates: POINT3D;
+
+      switch (geoInstruction.type) {
+        case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
+          coordinates = geoInstruction.arrow[0];
+          break;
+        case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+          break;
+        case GEOGRAPHIC_INSTRUCTION_TYPE.point:
+          coordinates = this.applicationService.geopoint3d_to_point3d(geoInstruction.location);
+          break;
+        case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
+          coordinates = geoInstruction.polygon[0];
+          break;
+        case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
+          coordinates = geoInstruction.polyline[0];
+          break;
+      }
+
+       if (coordinates) {
+         this.mapGeneralService.flyToObject(coordinates);
+       }
+    }
+
   };
 
   // -----------------------

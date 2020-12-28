@@ -6,7 +6,7 @@ import {
   ASYNC_RESPONSE,
   EVENT_DATA,
   EVENT_DATA_UI, FR_DATA_UI,
-  ID_OBJ,
+  ID_OBJ, ID_TYPE,
   LINKED_EVENT_DATA,
   LOCATION_TYPE,
   POINT,
@@ -15,7 +15,7 @@ import {
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {ICON_DATA, ITEM_TYPE, POLYGON_DATA} from "../../../types";
+import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE, POLYGON_DATA} from "../../../types";
 import {ApplicationService} from "../applicationService/application.service";
 
 
@@ -28,6 +28,7 @@ export class EventService {
   events$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   tempEventObjectCE: {type: LOCATION_TYPE, objectCE: any, id: string, event: EVENT_DATA_UI};
   selectedElement: EVENT_DATA_UI;
+  changeSelected$: BehaviorSubject<ID_TYPE> = new BehaviorSubject(undefined);
 
   constructor(private connectionService: ConnectionService,
               private socketService: SocketService,
@@ -321,6 +322,29 @@ export class EventService {
         this.mapGeneralService.showPolygon(event.id);
       }
     });
+  }
+  // -----------------------
+  public goToEvent = (id: ID_TYPE) => {
+    if (id !== undefined) {
+      this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.situationPictures;
+      // open panel
+      this.applicationService.screen.showLeftPanel = true;
+      this.applicationService.screen.showSituationPicture = true;
+      // choose missionTab on MissionControl
+      this.applicationService.currentTabIndex = 0; /*(0 = Events, 1 = Reports)*/
+      //close others
+      this.applicationService.screen.showMissionControl = false;
+      this.applicationService.screen.showVideo = false;
+
+
+      setTimeout(() => {
+        const item = this.getEventById(id);
+        this.applicationService.selectedEvents.length = 0;
+        this.applicationService.selectedEvents.push(item);
+        this.changeSelected$.next(id);
+      }, 500);
+
+    }
   }
 
 }
