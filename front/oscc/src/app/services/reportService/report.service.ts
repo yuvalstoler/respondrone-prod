@@ -267,9 +267,11 @@ export class ReportService {
 
       setTimeout(() => {
         const item = this.getReportById(id);
-        this.applicationService.selectedReports.length = 0;
-        this.applicationService.selectedReports.push(item);
-        this.changeSelected$.next(id);
+        if (item) {
+          this.applicationService.selectedReports.length = 0;
+          this.applicationService.selectedReports.push(item);
+          this.changeSelected$.next(id);
+        }
       }, 500);
 
     }

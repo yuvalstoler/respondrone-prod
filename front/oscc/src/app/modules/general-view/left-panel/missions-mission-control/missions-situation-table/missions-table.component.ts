@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
@@ -31,7 +31,7 @@ import {MissionRequestService} from '../../../../../services/missionRequestServi
   ]
 })
 
-export class MissionsTableComponent implements OnInit, AfterViewInit {
+export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // // Table columns
   // initColumns: any[] = [
@@ -89,6 +89,7 @@ export class MissionsTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   panelOpenState: MAP<boolean> = {};
+  subscriptions = [];
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
 
@@ -97,21 +98,21 @@ export class MissionsTableComponent implements OnInit, AfterViewInit {
               public eventService: EventService,
               public contextMenuService: ContextMenuService) {
 
-    this.missionRequestService.missionRequests$.subscribe((isNewData: boolean) => {
+    const subscription = this.missionRequestService.missionRequests$.subscribe((isNewData: boolean) => {
       if (isNewData) {
         this.dataSource.data = [...this.missionRequestService.missionRequests.data];
       }
     });
+    this.subscriptions.push(subscription);
   }
 
   ngOnInit(): void {
-    this.missionRequestService.changeSelected$.subscribe((selectedMissionRequestId: ID_TYPE) => {
+    const subscription = this.missionRequestService.changeSelected$.subscribe((selectedMissionRequestId: ID_TYPE) => {
       if (selectedMissionRequestId !== undefined) {
         const row = this.dataSource.data.find(obj => obj.id === selectedMissionRequestId);
         if (row) {
-          this.selectedElement = row;
-          this.selection.clear();
-          this.selection.select(row);
+          this.selectRow(row);
+
           this.expandedElement = {};
           this.expandedElement[row.id] = row;
 
@@ -122,6 +123,7 @@ export class MissionsTableComponent implements OnInit, AfterViewInit {
         }
       }
     });
+    this.subscriptions.push(subscription);
   }
 
   ngAfterViewInit() {
@@ -140,28 +142,9 @@ export class MissionsTableComponent implements OnInit, AfterViewInit {
   };
 
   private selectRow = (row: MISSION_REQUEST_DATA_UI): void => {
-    // if (this.applicationService.selectedReport === undefined) {
-    //   this.applicationService.selectedReport = element;
-    // } else {
-    //   this.applicationService.selectedReport = undefined;
-    // }
-
-    // this.expandedElement = this.expandedElement === element ? null : element;
-
-    // if (this.selectedElement) {
-    //   this.missionRequestService.unselectIcon(this.selectedElement);
-    // }
-    // this.selectedElement = row;
-    // this.missionRequestService.selectIcon(row);
-    //
-    this.selectedElement = this.selectedElement && this.selectedElement.id === row.id ? undefined : row;
-    // this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
-
-    // if (this.selectedElement) {
-    //   this.selection.clear();
-    //   this.applicationService.selectedMissionRequests = [];
-    //   this.onChangeCheckbox({checked: true}, this.selectedElement);
-    // }
+    this.selection.clear();
+    this.applicationService.selectedMissionRequests = []
+    this.onChangeCheckbox({checked: true}, row);
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -202,9 +185,9 @@ export class MissionsTableComponent implements OnInit, AfterViewInit {
         this.selection.select(row);
 
         const selectedIndex = this.applicationService.selectedMissionRequests.findIndex(data => data.id === row.id);
-        const report = this.missionRequestService.getById(row.id);
-        if (selectedIndex === -1 && report) {
-          this.applicationService.selectedMissionRequests.push(report);
+        const item = this.missionRequestService.getById(row.id);
+        if (selectedIndex === -1 && item) {
+          this.applicationService.selectedMissionRequests.push(item);
         }
       });
     }
@@ -242,9 +225,9 @@ export class MissionsTableComponent implements OnInit, AfterViewInit {
 
     if ($event.checked) {
       const selectedIndex = this.applicationService.selectedMissionRequests.findIndex(data => data.id === row.id);
-      const event = this.missionRequestService.getById(row.id);
-      if (selectedIndex === -1 && event) {
-        this.applicationService.selectedMissionRequests.push(event);
+      const item = this.missionRequestService.getById(row.id);
+      if (selectedIndex === -1 && item) {
+        this.applicationService.selectedMissionRequests.push(item);
       }
     } else {
       const selectedIndex = this.applicationService.selectedMissionRequests.findIndex(data => data.id === row.id);
@@ -279,5 +262,19 @@ export class MissionsTableComponent implements OnInit, AfterViewInit {
   getSeparateString = (column) => {
    return column.split(/(?=[A-Z])/).join(' ');
   };
+
+  resetTable = () => {
+    this.selection.clear();
+    this.applicationService.selectedMissionRequests = [];
+  }
+
+  ngOnDestroy() {
+    this.resetTable();
+
+    this.missionRequestService.changeSelected$.next(undefined);
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
+  }
 
 }
