@@ -294,7 +294,7 @@ export class CesiumDrawerService {
 
     const styles: ICON_STYLES = (iconData.modeDefine && iconData.modeDefine.styles) ? iconData.modeDefine.styles : {} as any;
     const size = styles.iconSize || this.cesiumService.defaults.markerSize;
-    const image = styles.mapIcon || this.cesiumService.defaults.markerIcon
+    const image = styles.mapIcon || this.cesiumService.defaults.markerIcon;
     const label = this.getIconLabelOptions(iconData);
 
     const options = {
@@ -325,7 +325,7 @@ export class CesiumDrawerService {
       return entityCE;
     }
     else {
-      return this.cesiumService.cesiumViewer[mapDomId].entities.add(options)
+      return this.cesiumService.cesiumViewer[mapDomId].entities.add(options);
     }
   };
 
@@ -355,7 +355,7 @@ export class CesiumDrawerService {
   // };
 
   private getIconLabelOptions = (object: ICON_DATA): {} => {
-    let iconLabel = undefined
+    let iconLabel;
     if (object.modeDefine.styles && object.modeDefine.styles.labelText) {
       const text = object.modeDefine.styles.labelText;
       const offset = object.modeDefine.styles.labelOffset || {x: 0, y: 0};
@@ -595,7 +595,7 @@ export class CesiumDrawerService {
     const labelOptions = this.getPolygonLabelOptions(polygonData);
     let labelLocation;
     if (labelOptions) {
-      labelLocation = this.pointDegreesToCartesian3(styles.polygonLabelPosition || this.cesiumService.getPolygonCenter(polygonData.polygon))
+      labelLocation = this.pointDegreesToCartesian3(styles.polygonLabelPosition || this.cesiumService.getPolygonCenter(polygonData.polygon));
     }
     const polygon =  fillColor ? {
       hierarchy: positionsCartesian,
@@ -639,7 +639,7 @@ export class CesiumDrawerService {
   };
 
   private getPolygonLabelOptions = (polygonData: POLYGON_DATA): {} => {
-    let polygonLabel = undefined
+    let polygonLabel;
     if (polygonData.modeDefine.styles && polygonData.modeDefine.styles.labelText) {
       const text = polygonData.modeDefine.styles.labelText;
 
@@ -884,7 +884,7 @@ export class CesiumDrawerService {
 
     const styles: POLYLINE_STYLES = (polylineData.modeDefine && polylineData.modeDefine.styles) ? polylineData.modeDefine.styles : {} as any;
     const color = styles.color || this.cesiumService.colors.polyline;
-    const material = styles.isDotted ? new Cesium.PolylineDashMaterialProperty({color: this.rgbaToCesiumColor(color)}) : this.rgbaToCesiumColor(color)
+    const material = styles.isDotted ? new Cesium.PolylineDashMaterialProperty({color: this.rgbaToCesiumColor(color)}) : this.rgbaToCesiumColor(color);
 
     const options = {
       name: 'Polyline',
@@ -899,7 +899,7 @@ export class CesiumDrawerService {
         data: polylineData.optionsData,
         type: polylineData.type
       }
-    }
+    };
 
     if (entityCE) {
       for (const key in options) {

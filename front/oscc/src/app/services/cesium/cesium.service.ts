@@ -49,7 +49,7 @@ export class CesiumService {
     markerIcon: '../../../assets/markerBlue.png',
     markerSize: {width: 45, height: 45},
     labelBackground: 'rgba(255, 255 ,255 ,1)',
-  }
+  };
 
   constructor(private viewerConf: ViewerConfiguration) {
     // viewerConf.viewerOptions = [{
