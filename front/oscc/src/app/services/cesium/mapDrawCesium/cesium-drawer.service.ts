@@ -597,16 +597,20 @@ export class CesiumDrawerService {
     if (labelOptions) {
       labelLocation = this.pointDegreesToCartesian3(styles.polygonLabelPosition || this.cesiumService.getPolygonCenter(polygonData.polygon))
     }
+    const polygon =  fillColor ? {
+      hierarchy: positionsCartesian,
+      height: 0,
+      material: fillColor,
+      outline: false,
+    } : undefined;
 
     const options = {
       name: 'polygon',
-      polygon: {
-        hierarchy: positionsCartesian,
-        height: 0,
-        material: fillColor,
-        outline: true,
-        outlineWidth: 4,
-        outlineColor: outlineColor
+      polygon: polygon,
+      polyline: {
+        positions: positionsCartesian,
+        width: 4,
+        material: outlineColor,
       },
       position: labelLocation,
       heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
