@@ -1,8 +1,8 @@
-import {AfterContentInit, AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {
   COMMENT,
-  EVENT_DATA_UI,
+  EVENT_DATA_UI, ID_TYPE,
   MISSION_REQUEST_DATA_UI,
   POINT,
   TASK_DATA_UI
@@ -30,7 +30,7 @@ import {DescriptionPanelComponent} from '../../../description-panel/description-
     ]),
   ]
 })
-export class TasksMissionTableComponent implements OnInit, AfterViewInit {
+export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   displayedColumns: string[] = ['expandCollapse', 'select', 'id', 'title', 'priority', 'status', 'type', 'description', 'time', 'message', 'assignees', 'map'];
   displayedColumnsMinimize: string[] = ['id', 'priority', 'type'];
@@ -41,19 +41,38 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit {
   selectedElement: TASK_DATA_UI;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   panelOpenState: MAP<boolean> = {};
+  subscriptions = [];
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
 
   constructor(public applicationService: ApplicationService,
               public tasksService: TasksService) {
-    this.tasksService.tasks$.subscribe((isNewData: boolean) => {
+    const subscription = this.tasksService.tasks$.subscribe((isNewData: boolean) => {
       if (isNewData) {
         this.dataSource.data = [...this.tasksService.tasks.data];
       }
     });
+    this.subscriptions.push(subscription);
   }
 
   ngOnInit(): void {
+    const subscription = this.tasksService.changeSelected$.subscribe((selectedId: ID_TYPE) => {
+      if (selectedId !== undefined) {
+        const row = this.dataSource.data.find(obj => obj.id === selectedId);
+        if (row) {
+          this.selectRow(row);
+
+          this.expandedElement = {};
+          this.expandedElement[row.id] = row;
+
+          const element = document.getElementById(row.id);
+          if (element) {
+            element.scrollIntoView({behavior: 'smooth', block: 'center', inline : 'center'});
+          }
+        }
+      }
+    });
+    this.subscriptions.push(subscription);
   }
 
   ngAfterViewInit() {
@@ -72,15 +91,9 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit {
   };
 
   private selectRow = (row: TASK_DATA_UI): void => {
-    // if (this.selectedElement) {
-    //   this.tasksService.unselectIcon(this.selectedElement);
-    // }
-    // this.selectedElement = row;
-    // this.tasksService.selectIcon(row);
-    //
-    // this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
-
-    this.selectedElement = this.selectedElement && this.selectedElement.id === row.id ? undefined : row;
+    this.selection.clear();
+    this.applicationService.selectedTasks = []
+    this.onChangeCheckbox({checked: true}, row);
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -194,4 +207,19 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit {
   getSeparateString = (column) => {
     return column.split(/(?=[A-Z])/).join(' ');
   };
+
+  resetTable = () => {
+    this.selection.clear();
+    this.applicationService.selectedTasks = [];
+  }
+
+
+  ngOnDestroy() {
+    this.resetTable();
+
+    this.tasksService.changeSelected$.next(undefined);
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
+  }
 }

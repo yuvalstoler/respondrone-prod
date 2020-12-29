@@ -43,6 +43,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   panelOpenState: MAP<boolean> = {};
+  subscriptions = [];
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
 
@@ -51,21 +52,21 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
               public eventService: EventService,
               public contextMenuService: ContextMenuService) {
 
-    this.reportService.reports$.subscribe((isNewData: boolean) => {
+    const subscription = this.reportService.reports$.subscribe((isNewData: boolean) => {
       if (isNewData) {
         this.dataSource.data = [...this.reportService.reports.data];
       }
     });
+    this.subscriptions.push(subscription);
   }
 
   ngOnInit(): void {
-    this.reportService.changeSelected$.subscribe((selectedId: ID_TYPE) => {
+    const subscription = this.reportService.changeSelected$.subscribe((selectedId: ID_TYPE) => {
       if (selectedId !== undefined) {
         const row = this.dataSource.data.find(obj => obj.id === selectedId);
         if (row) {
-          this.reportService.selectedElement = row;
-          this.selection.clear();
-          this.selection.select(row);
+          this.selectRow(row);
+
           this.expandedElement = {};
           this.expandedElement[row.id] = row;
 
@@ -76,6 +77,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
         }
       }
     });
+    this.subscriptions.push(subscription);
   }
 
   ngAfterViewInit() {
@@ -94,6 +96,14 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
   };
 
   private selectRow = (row: REPORT_DATA_UI): void => {
+    this.selection.clear();
+    this.applicationService.selectedReports = [];
+    this.onChangeCheckbox({checked: true}, row);
+
+    // this.changeSelected(row);
+  };
+
+  private changeSelected = (row: REPORT_DATA_UI) => {
     this.reportService.unselectReport(this.reportService.selectedElement)
     this.reportService.selectedElement = this.reportService.selectedElement && this.reportService.selectedElement.id === row.id ? undefined : row;
     this.reportService.selectReport(this.reportService.selectedElement)
@@ -177,9 +187,10 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
 
     if ($event.checked) {
       const selectedIndex = this.applicationService.selectedReports.findIndex(data => data.id === row.id);
-      const event = this.reportService.getReportById(row.id);
-      if (selectedIndex === -1 && event) {
-        this.applicationService.selectedReports.push(event);
+      const report = this.reportService.getReportById(row.id);
+      if (selectedIndex === -1 && report) {
+        this.applicationService.selectedReports.push(report);
+        this.changeSelected(report);
       }
     } else {
       const selectedIndex = this.applicationService.selectedReports.findIndex(data => data.id === row.id);
@@ -262,8 +273,20 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
     return column.split(/(?=[A-Z])/).join(' ');
   };
 
-  ngOnDestroy() {
+  resetTable = () => {
     this.reportService.unselectReport(this.reportService.selectedElement);
     this.reportService.selectedElement = undefined;
+
+    this.selection.clear();
+    this.applicationService.selectedReports = [];
+  }
+
+  ngOnDestroy() {
+    this.resetTable()
+
+    this.reportService.changeSelected$.next(undefined);
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
   }
 }

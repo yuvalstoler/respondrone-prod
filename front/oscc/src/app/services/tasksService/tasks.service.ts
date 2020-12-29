@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  ASYNC_RESPONSE, FR_DATA_UI, GEOGRAPHIC_INSTRUCTION_TYPE, ID_OBJ, OSCC_TASK_ACTION,
+  ASYNC_RESPONSE, FR_DATA_UI, GEOGRAPHIC_INSTRUCTION_TYPE, ID_OBJ, ID_TYPE, OSCC_TASK_ACTION,
   POINT,
   POINT3D, TASK_DATA,
   TASK_DATA_UI
@@ -11,7 +11,7 @@ import {SocketService} from '../socketService/socket.service';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
 import * as _ from 'lodash';
-import {ICON_DATA, ITEM_TYPE, POLYGON_DATA, POLYLINE_DATA} from "../../../types";
+import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE, POLYGON_DATA, POLYLINE_DATA} from "../../../types";
 import {ApplicationService} from "../applicationService/application.service";
 
 @Injectable({
@@ -21,6 +21,7 @@ export class TasksService {
 
   tasks: {data: TASK_DATA_UI[]} = {data: []};
   tasks$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  changeSelected$: BehaviorSubject<ID_TYPE> = new BehaviorSubject(undefined);
 
   constructor(private connectionService: ConnectionService,
               private socketService: SocketService,
@@ -109,7 +110,7 @@ export class TasksService {
               modeDefine: geoInstruction.modeDefine,
               isShow: this.applicationService.screen.showTasks,
               polyline: geoInstruction.arrow,
-              optionsData: geoInstruction,
+              optionsData: task,
               type: ITEM_TYPE.task
             };
             this.mapGeneralService.createArrowPolyline(arrowData);
@@ -122,7 +123,7 @@ export class TasksService {
               modeDefine: geoInstruction.modeDefine,
               isShow: this.applicationService.screen.showTasks,
               location: this.applicationService.geopoint3d_to_point3d(geoInstruction.location),
-              optionsData: geoInstruction,
+              optionsData: task,
               type: ITEM_TYPE.task
             }
             this.mapGeneralService.createIcon(iconData);
@@ -133,7 +134,7 @@ export class TasksService {
               modeDefine: geoInstruction.modeDefine,
               isShow: this.applicationService.screen.showTasks,
               polygon: geoInstruction.polygon,
-              optionsData: geoInstruction,
+              optionsData: task,
               type: ITEM_TYPE.task
             };
             this.mapGeneralService.drawPolygonFromServer(polygonData);
@@ -144,7 +145,7 @@ export class TasksService {
               modeDefine: geoInstruction.modeDefine,
               isShow: this.applicationService.screen.showTasks,
               polyline: geoInstruction.polyline,
-              optionsData: geoInstruction,
+              optionsData: task,
               type: ITEM_TYPE.task
             };
             this.mapGeneralService.createPolyline(polylineData);
@@ -309,5 +310,30 @@ export class TasksService {
         });
       }
     });
+  }
+  // -----------------------
+  public goToTask = (id: ID_TYPE) => {
+    if (id !== undefined) {
+      this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;
+      // open panel
+      this.applicationService.screen.showLeftPanel = true;
+      this.applicationService.screen.showMissionControl = true;
+      // choose missionTab on MissionControl
+      this.applicationService.currentTabIndex = 0; /*(0 = TaskTab, 1 = MissionTab)*/
+      //close others
+      this.applicationService.screen.showSituationPicture = false;
+      this.applicationService.screen.showVideo = false;
+
+
+      setTimeout(() => {
+        const item = this.getTaskById(id);
+        if (item) {
+          this.applicationService.selectedTasks.length = 0;
+          this.applicationService.selectedTasks.push(item);
+          this.changeSelected$.next(id);
+        }
+      }, 500);
+
+    }
   }
 }

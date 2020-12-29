@@ -42,6 +42,7 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   panelOpenState: MAP<boolean> = {};
+  subscriptions = [];
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
 
@@ -50,21 +51,21 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
               public reportService: ReportService,
               public contextMenuService: ContextMenuService) {
 
-    this.eventService.events$.subscribe((isNewData: boolean) => {
+    const subscription = this.eventService.events$.subscribe((isNewData: boolean) => {
       if (isNewData) {
         this.dataSource.data = [...this.eventService.events.data];
       }
     });
+    this.subscriptions.push(subscription);
   }
 
   ngOnInit(): void {
-    this.eventService.changeSelected$.subscribe((selectedId: ID_TYPE) => {
+    const subscription = this.eventService.changeSelected$.subscribe((selectedId: ID_TYPE) => {
       if (selectedId !== undefined) {
         const row = this.dataSource.data.find(obj => obj.id === selectedId);
         if (row) {
-          this.eventService.selectedElement = row;
-          this.selection.clear();
-          this.selection.select(row);
+          this.selectRow(row);
+
           this.expandedElement = {};
           this.expandedElement[row.id] = row;
 
@@ -75,6 +76,7 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
         }
       }
     });
+    this.subscriptions.push(subscription);
   }
 
   ngAfterViewInit() {
@@ -93,6 +95,14 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
   };
 
   private selectRow = (row: EVENT_DATA_UI): void => {
+    this.selection.clear();
+    this.applicationService.selectedEvents = [];
+    this.onChangeCheckbox({checked: true}, row);
+
+    // this.changeSelected(row);
+  };
+
+  private changeSelected = (row: EVENT_DATA_UI) => {
     this.eventService.unselectEvent(this.eventService.selectedElement);
     this.eventService.selectedElement = this.eventService.selectedElement && this.eventService.selectedElement.id === row.id ? undefined : row;
     this.eventService.selectEvent(this.eventService.selectedElement);
@@ -162,6 +172,7 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
       const event = this.eventService.getEventById(row.id);
       if (selectedIndex === -1 && event) {
         this.applicationService.selectedEvents.push(event);
+        this.changeSelected(event);
       }
     } else {
       const selectedIndex = this.applicationService.selectedEvents.findIndex(data => data.id === row.id);
@@ -229,9 +240,21 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
     return column.split(/(?=[A-Z])/).join(' ');
   };
 
-  ngOnDestroy() {
+  resetTable = () => {
     this.eventService.unselectEvent(this.eventService.selectedElement);
     this.eventService.selectedElement = undefined;
+
+    this.selection.clear();
+    this.applicationService.selectedEvents = [];
+  }
+
+  ngOnDestroy() {
+    this.resetTable();
+
+    this.eventService.changeSelected$.next(undefined);
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
   }
 }
 

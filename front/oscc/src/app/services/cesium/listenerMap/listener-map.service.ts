@@ -6,6 +6,7 @@ import {CesiumService} from '../cesium.service';
 import {MissionRequestService} from "../../missionRequestService/missionRequest.service";
 import {ReportService} from "../../reportService/report.service";
 import {EventService} from "../../eventService/event.service";
+import {TasksService} from "../../tasksService/tasks.service";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class ListenerMapService {
               public applicationService: ApplicationService,
               public missionRequestService: MissionRequestService,
               public reportService: ReportService,
-              public eventService: EventService) {
+              public eventService: EventService,
+              public taskService: TasksService) {
     this.setEventCallbacks();
   }
 
@@ -49,6 +51,9 @@ export class ListenerMapService {
       }
       else if (event.object.type === ITEM_TYPE.event) {
         this.eventService.goToEvent(event.object.data.id);
+      }
+      else if (event.object.type === ITEM_TYPE.task) {
+        this.taskService.goToTask(event.object.data.id);
       }
       else if (event.object.type === ITEM_TYPE.missionRequest || event.object.type === ITEM_TYPE.missionRoute || event.object.type === ITEM_TYPE.mission) {
         this.missionRequestService.goToMissionRequest(event.object.data.id);

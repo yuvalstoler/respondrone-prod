@@ -45,7 +45,7 @@ export class CesiumService {
   };
 
   defaults = {
-    font: '14pt monospace',
+    font: '12pt monospace',
     markerIcon: '../../../assets/markerBlue.png',
     markerSize: {width: 45, height: 45},
     labelBackground: 'rgba(255, 255 ,255 ,1)',
@@ -87,19 +87,20 @@ export class CesiumService {
 
   public createMap = (mapId: string) => {
     // Your access token can be found at: https://cesium.com/ion/tokens.
-    // Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwMzA2MGYzNi1mOWU5LTQwMzItYjcxNi1hYTQ0YzlhNzY5MzgiLCJpZCI6MzcyNzEsImlhdCI6MTYwNDgzMjcxMH0.s8iZsRvt0A0-j9rSE5AxJFyktfLnFWvX5JlXgx5fazI';
-   /* const cesiumViewer: any = new Cesium.Viewer(
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YzM3OTZkOC0wZWY0LTQzNWItODYxYS0wODdhNGIyZTM5NzAiLCJpZCI6MzcyNzEsImlhdCI6MTYwNjg2MDI0OH0.Fbmq26ejVXZvVXcgICzOibjAWkdd4isMV5qF-o33FxM'
+
+    const cesiumViewer: any = new Cesium.Viewer(
       this.maps[0].containerId,
       {
         //  baseLayerPicker: false,
         //  resolutionScale: 0.5,
-        terrainProvider: Cesium.createWorldTerrain({
-          requestWaterMask: false,
-          requestVertexNormals: true
-        }),
+        // terrainProvider: Cesium.createWorldTerrain({
+        //   requestWaterMask: false,
+        //   requestVertexNormals: true
+        // }),
 
         sceneModePicker: true,
-        sceneMode: Cesium.SceneMode.SCENE2D,
+        sceneMode: Cesium.SceneMode.SCENE3D,
         navigationHelpButton: false,
         timeline: false,
         selectionIndicator: false,
@@ -115,14 +116,11 @@ export class CesiumService {
         requestRenderMode: true,
         maximumRenderTime: Infinity,
       }
-    );*/
+    );
 
+    // const cesiumViewer: any = new Cesium.Viewer(this.maps[0].containerId);
+    // cesiumViewer.scene.primitives.add(Cesium.createOsmBuildings());
 
-
-
-    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YzM3OTZkOC0wZWY0LTQzNWItODYxYS0wODdhNGIyZTM5NzAiLCJpZCI6MzcyNzEsImlhdCI6MTYwNjg2MDI0OH0.Fbmq26ejVXZvVXcgICzOibjAWkdd4isMV5qF-o33FxM'
-    const cesiumViewer: any = new Cesium.Viewer(this.maps[0].containerId);
-    cesiumViewer.scene.primitives.add(Cesium.createOsmBuildings());
     const layers = cesiumViewer.baseLayerPicker.viewModel.imageryProviderViewModels;
     cesiumViewer.baseLayerPicker.viewModel.selectedImagery = layers[4]
 
@@ -145,12 +143,12 @@ export class CesiumService {
         destination: Cesium.Cartesian3.fromDegrees(mapDefaultPosition.lon, mapDefaultPosition.lat,  mapDefaultPosition.height),
         duration: 2,
       });
-    }, 2000)
+    }, 4000)
 
 
-    // setInterval(() => {
-    //   cesiumViewer.scene.requestRender();
-    // }, 100);
+    setInterval(() => {
+      cesiumViewer.scene.requestRender();
+    }, 100);
   };
 
   public getMapByDomId = (domId): MAP<any> => {
