@@ -121,7 +121,7 @@ export class EventMdLogic implements IModeDefine {
 
 
     private static getIconSize = (data: EVENT_DATA_UI): {width: number, height: number} => {
-        return {width: 30, height: 30};
+        return {width: 40, height: 40};
     };
 
 }

@@ -100,7 +100,7 @@ export class ReportMdLogic implements IModeDefine {
     };
 
     private static getIconSize = (data: REPORT_DATA_UI): {width: number, height: number} => {
-        return {width: 30, height: 30};
+        return {width: 40, height: 40};
     };
 
 }
