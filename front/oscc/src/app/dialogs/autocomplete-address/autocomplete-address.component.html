@@ -1,4 +1,11 @@
-<input class="input"
-       type="text"
-       [(ngModel)]="autocompleteInput"
-       #addresstext style="padding: 12px 20px; border: 1px solid #ccc; width: 400px">
+<mat-form-field appearance="outline" class="LocationAddress">
+  <label>
+    <input class="input"
+           matInput
+           type="text"
+           required
+           [(ngModel)]="autocompleteInput"
+           #addresstext >
+
+  </label>
+</mat-form-field>

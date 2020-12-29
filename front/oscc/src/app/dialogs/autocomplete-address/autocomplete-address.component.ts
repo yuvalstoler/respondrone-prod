@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-// import {} from 'googlemaps';
+// import { } from 'googlemaps';
+// import { } from '@types/googlemaps';
+/// <reference path="../../../../../../node_modules/@types/googlemaps/index.d.ts"/>
 
 @Component({
   selector: 'app-autocomplete-address',
@@ -9,17 +10,18 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class AutocompleteAddressComponent implements OnInit {
 
-  @Input() adressType: string;
+  @Input() address: string;
+  @Input() addressType: string;
   @Output() setAddress: EventEmitter<any> = new EventEmitter();
-  @ViewChild('addresstext') addresstext: any;
+  @ViewChild('addresstext') addressText: any;
 
   autocompleteInput: string;
   queryWait: boolean;
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit() {
+    this.autocompleteInput = this.address;
   }
 
   ngAfterViewInit() {
@@ -27,15 +29,15 @@ export class AutocompleteAddressComponent implements OnInit {
   }
 
   private getPlaceAutocomplete = () => {
-    // const autocomplete = new google.maps.places.Autocomplete(this.addresstext.nativeElement,
-    //   {
-    //     componentRestrictions: { country: 'US' },
-    //     types: [this.adressType]  // 'establishment' / 'address' / 'geocode'
-    //   });
-    // google.maps.event.addListener(autocomplete, 'place_changed', () => {
-    //   const place = autocomplete.getPlace();
-    //   this.invokeEvent(place);
-    // });
+    const autocomplete = new google.maps.places.Autocomplete(this.addressText.nativeElement,
+      {
+        componentRestrictions: { country: 'FR' },
+        types: [this.addressType]  // 'establishment' / 'address' / 'geocode'
+      });
+    google.maps.event.addListener(autocomplete, 'place_changed', () => {
+      const place = autocomplete.getPlace();
+      this.invokeEvent(place);
+    });
   };
 
   invokeEvent = (place: Object) => {

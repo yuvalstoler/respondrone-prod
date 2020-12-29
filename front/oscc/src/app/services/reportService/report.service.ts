@@ -3,7 +3,7 @@ import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
-  ASYNC_RESPONSE, EVENT_DATA_UI, FR_DATA_UI,
+  ASYNC_RESPONSE,
   ID_OBJ, ID_TYPE,
   LINKED_REPORT_DATA,
   LOCATION_TYPE,
@@ -15,7 +15,7 @@ import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {ApplicationService} from '../applicationService/application.service';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE} from "../../../types";
+import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE} from '../../../types';
 
 
 @Injectable({
@@ -146,7 +146,7 @@ export class ReportService {
         location: this.applicationService.geopoint3d_to_point3d(report.location),
         optionsData: report,
         type: ITEM_TYPE.report
-      }
+      };
       this.mapGeneralService.createIcon(iconData);
     }
   };
@@ -244,13 +244,13 @@ export class ReportService {
     this.reports.data.forEach((report: REPORT_DATA_UI) => {
       this.mapGeneralService.hideIcon(report.id);
     });
-  }
+  };
   // -----------------------
   public showAll = () => {
     this.reports.data.forEach((report: REPORT_DATA_UI) => {
       this.mapGeneralService.showIcon(report.id);
     });
-  }
+  };
   // -----------------------
   public goToReport = (id: ID_TYPE) => {
     if (id !== undefined) {

@@ -2,13 +2,14 @@
 <div *ngIf="applicationService.screen.showSituationPicture">
   <!--Header-->
   <div>
-    <mat-tab-group animationDuration="0ms" [selectedIndex]="getSelectedSituationPictureIndex()" (selectedTabChange)="onSituationPictureTabChange($event)">
+    <mat-tab-group animationDuration="0ms" [selectedIndex]="getSelectedSituationPictureIndex()"
+                   (selectedTabChange)="onSituationPictureTabChange($event)">
       <!--Events-->
-      <mat-tab label="Events">
+      <mat-tab label="Events" [ngStyle]="{'color': applicationService.currentTabIndex === 0? 'black !important': ''}">
         <app-events-situation-picture></app-events-situation-picture>
       </mat-tab>
       <!--Reports-->
-      <mat-tab label="Reports">
+      <mat-tab label="Reports" [ngStyle]="{'color': applicationService.currentTabIndex === 1? 'black !important': ''}">
         <app-reports-situation-picture></app-reports-situation-picture>
       </mat-tab>
       <!--Button-->
@@ -26,7 +27,8 @@
 <div *ngIf="applicationService.screen.showMissionControl">
   <!--Header-->
   <div>
-    <mat-tab-group animationDuration="0ms" [selectedIndex]="getSelectedMissionControlIndex()" (selectedTabChange)="onMissionControlTabChange($event)">
+    <mat-tab-group animationDuration="0ms" [selectedIndex]="getSelectedMissionControlIndex()"
+                   (selectedTabChange)="onMissionControlTabChange($event)">
       <!--Tasks-->
       <mat-tab label="Tasks">
         <app-tasks-mission-control></app-tasks-mission-control>

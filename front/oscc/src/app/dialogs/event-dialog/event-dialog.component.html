@@ -74,7 +74,11 @@
     <div class="item2">
       <!--Location-->
       <div class="DialogContentItem">
-        <div class="DialogTitle">Location</div>
+        <div class="DialogTitle">Location
+          <!--<mat-error *ngIf="eventModel.location === '' || eventModel.location === undefined">-->
+            <!--*-->
+          <!--</mat-error>-->
+        </div>
         <mat-radio-group
           aria-labelledby="example-radio-group-label"
           class="example-radio-group">
@@ -85,17 +89,7 @@
             {{location}}
             <!--Address-->
             <div *ngIf="location === LOCATION_NAMES.address && eventModel.locationType === LOCATION_TYPE.address">
-              <!--<mat-form-field appearance="outline" class="LocationAddress">-->
-                <!--<label>-->
-                  <!--<input [(ngModel)]="eventModel.address" class="Label" matInput-->
-                         <!--ngxAutocomPlace-->
-                         <!--placeholder="E.g. Richard St."-->
-                         <!--required-->
-                         <!--type="text">-->
-                  <!--&lt;!&ndash;<input type="text" matInput  ngxAutocomPlace (selectedPlace)="placeChangedCallback($event)"/>&ndash;&gt;-->
-                <!--</label>-->
-              <!--</mat-form-field>-->
-              <app-autocomplete-address (setAddress)="getAddress($event)" adressType="geocode"></app-autocomplete-address>
+              <app-autocomplete-address (setAddress)="getAddress($event)" addressType="geocode" [address]="eventModel.address"></app-autocomplete-address>
             </div>
             <!--Location-->
             <div

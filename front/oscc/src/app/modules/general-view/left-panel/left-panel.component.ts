@@ -1,16 +1,15 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ApplicationService} from 'src/app/services/applicationService/application.service';
 import {HEADER_BUTTONS, LEFT_PANEL_ICON} from 'src/types';
 import {ContextMenuService} from '../../../services/contextMenuService/context-menu.service';
 import {MatTabChangeEvent} from '@angular/material/tabs';
-import {ReportService} from "../../../services/reportService/report.service";
-import {EventService} from "../../../services/eventService/event.service";
+import {ReportService} from '../../../services/reportService/report.service';
+import {EventService} from '../../../services/eventService/event.service';
 
 @Component({
   selector: 'app-left-panel',
   templateUrl: './left-panel.component.html',
   styleUrls: ['./left-panel.component.scss'],
-  // encapsulation: ViewEncapsulation.None
 })
 export class LeftPanelComponent implements OnInit {
 
@@ -19,12 +18,13 @@ export class LeftPanelComponent implements OnInit {
   constructor(public applicationService: ApplicationService,
               public contextMenuService: ContextMenuService,
               private reportService: ReportService,
-              private eventService: EventService) { }
+              private eventService: EventService) {
+  }
 
   ngOnInit(): void {
   }
 
- minimizationPanel = () => {
+  minimizationPanel = () => {
     if (this.applicationService.panelIcon === LEFT_PANEL_ICON.expand) {
       this.applicationService.panelIcon = LEFT_PANEL_ICON.collapse;
     } else {
@@ -46,10 +46,10 @@ export class LeftPanelComponent implements OnInit {
     return this.applicationService.currentTabIndex;
   }
 
-  onMissionControlTabChange(event: MatTabChangeEvent) {
+  onMissionControlTabChange = (event: MatTabChangeEvent) => {
     this.applicationService.currentTabIndex = event.index;
     this.resetSelected();
-  }
+  };
 
   resetSelected = () => {
     this.reportService.unselectReport(this.reportService.selectedElement);

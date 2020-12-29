@@ -204,3 +204,6 @@ tr.example-element-row:not(.example-expanded-row):active {
   background-color: $grayOpacity !important;
 }
 
+::ng-deep.mat-radio-label-content {
+  width: inherit;
+}

@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {
   COMMENT,
   EVENT_DATA_UI,
-  GEOPOINT3D, GEOPOINT3D_SHORT,
+  GEOPOINT3D_SHORT,
   LINKED_REPORT_DATA,
   LOCATION_NAMES,
   LOCATION_TYPE,
@@ -34,12 +34,6 @@ export class EventDialogComponent implements OnInit {
   priorities = Object.values(PRIORITY);
   locations = Object.values(LOCATION_NAMES);
   comment = '';
-
-  address: Object;
-  establishmentAddress: Object;
-  formattedAddress: string;
-  formattedEstablishmentAddress: string;
-
 
   defaultEvent: EVENT_DATA_UI = {
     createdBy: undefined,
@@ -115,7 +109,7 @@ export class EventDialogComponent implements OnInit {
         break;
       }
       case LOCATION_TYPE.address: {
-        this.eventService.tempEventObjectCE = {type: LOCATION_TYPE.address, objectCE: event.address, id: event.id, event};
+        this.eventService.tempEventObjectCE = {type: LOCATION_TYPE.address, objectCE: event.location, id: event.id, event};
         break;
       }
       case LOCATION_TYPE.polygon: {
@@ -144,7 +138,7 @@ export class EventDialogComponent implements OnInit {
 
     }
     else if (location === LOCATION_NAMES.address) {
-      this.eventModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
+      // this.eventModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
       this.eventModel.polygon = [];
       this.eventModel.locationType = LOCATION_TYPE.address;
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
@@ -175,7 +169,7 @@ export class EventDialogComponent implements OnInit {
         {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
       this.locationService.deleteLocationPointTemp('0');
       this.eventModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
-      this.eventModel.address = '';
+      this.eventModel.address =  '';
       this.eventModel.locationType = LOCATION_TYPE.polygon;
       this.applicationService.stateDraw = STATE_DRAW.drawPolygon;
       this.mapGeneralService.changeCursor(true);
@@ -269,21 +263,18 @@ export class EventDialogComponent implements OnInit {
     return res;
   };
 
-  getAddress = (place: object) => {
-    this.address = place['formatted_address'];
-    // this.phone = this.getPhone(place);
-    this.formattedAddress = place['formatted_address'];
-    this.zone.run(() => this.formattedAddress = place['formatted_address']);
-  };
+  getAddress = (place: any) => {
+    // this.formattedAddress = place['formatted_address'];
+    // this.zone.run(() => this.formattedAddress = place['formatted_address']);
+    const geometry = place.geometry;
+    if (geometry.viewport) {
+      const lat = geometry.viewport.getCenter().lat();
+      const lng = geometry.viewport.getCenter().lng();
+      this.eventModel.location = {latitude: lat, longitude: lng, altitude: 0};
+      this.eventModel.address = place['formatted_address'];
+      console.log(lat, lng);
+    }
 
-  // getEstablishmentAddress = (place: object) => {
-  //   this.establishmentAddress = place['formatted_address'];
-  //   this.phone = this.getPhone(place);
-  //   this.formattedEstablishmentAddress = place['formatted_address'];
-  //   this.zone.run(() => {
-  //     this.formattedEstablishmentAddress = place['formatted_address'];
-  //     this.phone = place['formatted_phone_number'];
-  //   });
-  // };
+  };
 
 }

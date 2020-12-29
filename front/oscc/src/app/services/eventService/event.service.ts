@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 import {
   ASYNC_RESPONSE,
   EVENT_DATA,
-  EVENT_DATA_UI, FR_DATA_UI,
+  EVENT_DATA_UI,
   ID_OBJ, ID_TYPE,
   LINKED_EVENT_DATA,
   LOCATION_TYPE,
@@ -15,8 +15,8 @@ import {
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE, POLYGON_DATA} from "../../../types";
-import {ApplicationService} from "../applicationService/application.service";
+import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE, POLYGON_DATA} from '../../../types';
+import {ApplicationService} from '../applicationService/application.service';
 
 
 @Injectable({
@@ -41,9 +41,7 @@ export class EventService {
   }
   // ----------------------
   private init = (isConnected: boolean = true): void => {
-    if (isConnected) {
-      this.getEvents();
-    }
+      this.getEvents(isConnected);
   };
   // ----------------------
   public getEvents = (isConnected: boolean = true) => {
@@ -152,7 +150,7 @@ export class EventService {
         location: this.applicationService.geopoint3d_to_point3d(event.location),
         optionsData: event,
         type: ITEM_TYPE.event
-      }
+      };
       this.mapGeneralService.createIcon(iconData);
     } else if (this.getType(event) === 'polygon') {
       const polygonData: POLYGON_DATA = {
@@ -162,7 +160,7 @@ export class EventService {
         polygon: event.polygon,
         optionsData: event,
         type: ITEM_TYPE.event
-      }
+      };
       this.mapGeneralService.drawPolygonFromServer(polygonData);
     }
 
@@ -266,7 +264,7 @@ export class EventService {
         this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.mapIconSelected, size);
       }
       else if (this.getType(event) === 'polygon') {
-        const options = {outlineColor: '#ffffff', fillColor: event.modeDefine.styles.fillColor}
+        const options = {outlineColor: '#ffffff', fillColor: event.modeDefine.styles.fillColor};
         this.mapGeneralService.editPolygonFromServer(event.id, options);
       }
     }
@@ -278,7 +276,7 @@ export class EventService {
         this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.mapIcon, event.modeDefine.styles.iconSize);
       }
       else if (this.getType(event) === 'polygon') {
-        const options = {outlineColor: event.modeDefine.styles.color, fillColor: event.modeDefine.styles.fillColor}
+        const options = {outlineColor: event.modeDefine.styles.color, fillColor: event.modeDefine.styles.fillColor};
         this.mapGeneralService.editPolygonFromServer(event.id, options);
       }
     }
@@ -292,9 +290,10 @@ export class EventService {
     this.mapGeneralService.flyToPolygon(coordinates);
   };
 
-  public getType = (event: EVENT_DATA_UI) : 'icon' | 'polygon' => {
-    if (event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.latitude && event.location.longitude) {
-      return 'icon'
+  public getType = (event: EVENT_DATA_UI): 'icon' | 'polygon' => {
+    if ((event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.latitude && event.location.longitude) ||
+      (event.locationType === LOCATION_TYPE.address && event.location && event.location.latitude && event.location.longitude)) {
+      return 'icon';
     } else if (event.locationType === LOCATION_TYPE.polygon && event.polygon && event.polygon.length > 0) {
       return 'polygon';
     }
@@ -310,7 +309,7 @@ export class EventService {
         this.mapGeneralService.hidePolygon(event.id);
       }
     });
-  }
+  };
   // -----------------------
   public showAll = () => {
     this.events.data.forEach((event: EVENT_DATA_UI) => {
@@ -322,7 +321,7 @@ export class EventService {
         this.mapGeneralService.showPolygon(event.id);
       }
     });
-  }
+  };
   // -----------------------
   public goToEvent = (id: ID_TYPE) => {
     if (id !== undefined) {
@@ -345,6 +344,6 @@ export class EventService {
       }, 500);
 
     }
-  }
+  };
 
 }
