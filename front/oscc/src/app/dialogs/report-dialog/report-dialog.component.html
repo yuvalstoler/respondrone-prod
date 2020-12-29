@@ -69,13 +69,7 @@
             {{location}}
             <!--Address-->
             <div *ngIf="location === LOCATION_NAMES.address && reportModel.locationType === LOCATION_TYPE.address">
-              <mat-form-field appearance="outline" class="LocationAddress">
-                <label>
-                  <input [(ngModel)]="reportModel.address" class="Label" matInput
-                         placeholder="E.g. Richard St."
-                         type="text">
-                </label>
-              </mat-form-field>
+              <app-autocomplete-address (setAddress)="getAddress($event)" addressType="geocode" [address]="reportModel.address"></app-autocomplete-address>
             </div>
             <!--Location-->
             <div *ngIf="location === LOCATION_NAMES.locationPoint && reportModel.locationType === LOCATION_TYPE.locationPoint">

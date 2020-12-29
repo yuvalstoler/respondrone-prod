@@ -174,7 +174,7 @@
 
   "TMM": {
     "port": "3000",
-    "host": "localhost",
+    "host": "192.168.1.31",
     "protocol": "http"
   },
   "TMM2": {

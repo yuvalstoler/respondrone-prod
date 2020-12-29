@@ -15,16 +15,16 @@ export class AutocompleteAddressComponent implements OnInit {
   @Output() setAddress: EventEmitter<any> = new EventEmitter();
   @ViewChild('addresstext') addressText: any;
 
-  autocompleteInput: string;
+  // autocompleteInput: string;
   queryWait: boolean;
 
   constructor() {}
 
   ngOnInit() {
-    this.autocompleteInput = this.address;
   }
 
   ngAfterViewInit() {
+    // this.autocompleteInput = this.address;
     this.getPlaceAutocomplete();
   }
 

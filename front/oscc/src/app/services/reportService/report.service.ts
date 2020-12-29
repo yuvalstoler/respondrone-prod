@@ -87,6 +87,7 @@ export class ReportService {
   public deleteObjectFromMap = (data: REPORT_DATA_UI) => {
     switch (data.locationType) {
       case LOCATION_TYPE.address: {
+        this.mapGeneralService.deleteIcon(data.id);
         break;
       }
       case LOCATION_TYPE.locationPoint: {
@@ -122,6 +123,7 @@ export class ReportService {
   public hideObjectOnMap = (tempObjectCE) => {
     switch (tempObjectCE.type) {
       case LOCATION_TYPE.address: {
+        this.mapGeneralService.hideIcon(tempObjectCE.id);
         break;
       }
       case LOCATION_TYPE.locationPoint: {
@@ -134,11 +136,13 @@ export class ReportService {
   public showReportOnMap = (report: REPORT_DATA_UI) => {
     if (report.locationType === LOCATION_TYPE.locationPoint && report.location && report.location.latitude && report.location.longitude) {
       this.mapGeneralService.showIcon(report.id);
+    } else if (report.locationType === LOCATION_TYPE.address && report.location && report.location.latitude && report.location.longitude) {
+      this.mapGeneralService.showIcon(report.id);
     }
   };
   // ----------------------
   private createReportOnMap = (report: REPORT_DATA_UI) => {
-    if (report.locationType === LOCATION_TYPE.locationPoint && report.location.latitude && report.location.longitude) {
+    if ((report.locationType === LOCATION_TYPE.locationPoint || report.locationType === LOCATION_TYPE.address) && report.location.latitude && report.location.longitude) {
       const iconData: ICON_DATA = {
         id: report.id,
         modeDefine: report.modeDefine,

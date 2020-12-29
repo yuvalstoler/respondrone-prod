@@ -64,6 +64,7 @@ import { CanvasVideoComponent } from './video-panel/canvas-video/canvas-video.co
 import { DescriptionPanelComponent } from './description-panel/description-panel.component';
 import { ResourcesPanelComponent } from './resources-panel/resources-panel.component';
 import {CursorPositionComponent} from './cursor-position/cursor-position.component';
+import {AutocompleteAddressComponent} from './autocomplete-address/autocomplete-address.component';
 
 
 @NgModule({
@@ -98,7 +99,8 @@ import {CursorPositionComponent} from './cursor-position/cursor-position.compone
     CanvasVideoComponent,
     DescriptionPanelComponent,
     ResourcesPanelComponent,
-    CursorPositionComponent
+    CursorPositionComponent,
+    AutocompleteAddressComponent
   ],
   imports: [
     CommonModule,
@@ -157,7 +159,8 @@ import {CursorPositionComponent} from './cursor-position/cursor-position.compone
     SortByPriorityPipe,
     VideoPanelComponent,
     MissionsTableComponent,
-    CursorPositionComponent
+    CursorPositionComponent,
+    AutocompleteAddressComponent
   ],
   providers: [
     PolygonsEditorService,

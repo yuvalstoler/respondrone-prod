@@ -9,7 +9,7 @@ import {ReportService} from '../../../../../services/reportService/report.servic
 import {
   COMMENT,
   EVENT_DATA_UI,
-  FILE_FS_DATA, ID_TYPE, MISSION_REQUEST_DATA_UI, POINT,
+  FILE_FS_DATA, ID_TYPE, LOCATION_TYPE, MISSION_REQUEST_DATA_UI, POINT,
   REPORT_DATA_UI
 } from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
@@ -104,9 +104,9 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
   };
 
   private changeSelected = (row: REPORT_DATA_UI) => {
-    this.reportService.unselectReport(this.reportService.selectedElement)
+    this.reportService.unselectReport(this.reportService.selectedElement);
     this.reportService.selectedElement = this.reportService.selectedElement && this.reportService.selectedElement.id === row.id ? undefined : row;
-    this.reportService.selectReport(this.reportService.selectedElement)
+    this.reportService.selectReport(this.reportService.selectedElement);
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -259,8 +259,11 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
   clickOnIcon = (event, element: REPORT_DATA_UI, column: string) => {
     event.stopPropagation();
     if (column === 'map') {
-      const coordinates: POINT = [element.location.longitude, element.location.latitude];
-      this.eventService.flyToObject(coordinates);
+
+      if (element.locationType === LOCATION_TYPE.locationPoint || element.locationType === LOCATION_TYPE.address) {
+        const coordinates: POINT = [element.location.longitude, element.location.latitude];
+        this.eventService.flyToObject(coordinates);
+      }
     } else if (column === 'link') {
       const top = event.clientY - 10;
       const left = event.clientX + 20;
@@ -279,10 +282,10 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
 
     this.selection.clear();
     this.applicationService.selectedReports = [];
-  }
+  };
 
   ngOnDestroy() {
-    this.resetTable()
+    this.resetTable();
 
     this.reportService.changeSelected$.next(undefined);
     this.subscriptions.forEach((subscription) => {

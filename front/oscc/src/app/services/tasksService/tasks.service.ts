@@ -11,8 +11,8 @@ import {SocketService} from '../socketService/socket.service';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
 import * as _ from 'lodash';
-import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE, POLYGON_DATA, POLYLINE_DATA} from "../../../types";
-import {ApplicationService} from "../applicationService/application.service";
+import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE, POLYGON_DATA, POLYLINE_DATA} from '../../../types';
+import {ApplicationService} from '../applicationService/application.service';
 
 @Injectable({
   providedIn: 'root'
@@ -101,6 +101,7 @@ export class TasksService {
     //   this.mapGeneralService.deleteIcon(event.id);
     //   this.mapGeneralService.deletePolygonManually(event.id);
     // }
+    let iconData: ICON_DATA;
     if (Array.isArray(task.geographicInstructions) && task.geographicInstructions.length > 0) {
       task.geographicInstructions.forEach((geoInstruction, i) => {
         switch (geoInstruction.type) {
@@ -116,16 +117,25 @@ export class TasksService {
             this.mapGeneralService.createArrowPolyline(arrowData);
             break;
           case GEOGRAPHIC_INSTRUCTION_TYPE.address:
-            break;
-          case GEOGRAPHIC_INSTRUCTION_TYPE.point:
-            const iconData: ICON_DATA = {
+            iconData = {
               id: geoInstruction.id,
               modeDefine: geoInstruction.modeDefine,
               isShow: this.applicationService.screen.showTasks,
               location: this.applicationService.geopoint3d_to_point3d(geoInstruction.location),
               optionsData: task,
               type: ITEM_TYPE.task
-            }
+            };
+            this.mapGeneralService.createIcon(iconData);
+            break;
+          case GEOGRAPHIC_INSTRUCTION_TYPE.point:
+            iconData = {
+              id: geoInstruction.id,
+              modeDefine: geoInstruction.modeDefine,
+              isShow: this.applicationService.screen.showTasks,
+              location: this.applicationService.geopoint3d_to_point3d(geoInstruction.location),
+              optionsData: task,
+              type: ITEM_TYPE.task
+            };
             this.mapGeneralService.createIcon(iconData);
             break;
           case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
@@ -154,6 +164,7 @@ export class TasksService {
       });
     }
   };
+  // ----------------------
   public removeGeographicInstructionsFromMap = (task: TASK_DATA_UI) => {
     if (Array.isArray(task.geographicInstructions) && task.geographicInstructions.length > 0) {
       task.geographicInstructions.forEach((geoInstruction, i) => {
@@ -162,6 +173,7 @@ export class TasksService {
             this.mapGeneralService.deleteArrowPolylineFromMap(geoInstruction.id);
             break;
           case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+            this.mapGeneralService.deleteIcon(geoInstruction.id);
             break;
           case GEOGRAPHIC_INSTRUCTION_TYPE.point:
             this.mapGeneralService.deleteIcon(geoInstruction.id);
@@ -175,7 +187,7 @@ export class TasksService {
         }
       });
     }
-  }
+  };
   // ----------------------
   public createTask = (taskData: TASK_DATA, cb?: Function) => {
     this.connectionService.post('/api/createTask', taskData)
@@ -242,6 +254,7 @@ export class TasksService {
           coordinates = geoInstruction.arrow[0];
           break;
         case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+          coordinates = this.applicationService.geopoint3d_to_point3d(geoInstruction.location);
           break;
         case GEOGRAPHIC_INSTRUCTION_TYPE.point:
           coordinates = this.applicationService.geopoint3d_to_point3d(geoInstruction.location);
@@ -260,7 +273,6 @@ export class TasksService {
     }
 
   };
-
   // -----------------------
   public hideAll = () => {
     this.tasks.data.forEach((task: TASK_DATA_UI) => {
@@ -271,6 +283,7 @@ export class TasksService {
               this.mapGeneralService.hideArrowPolyline(geoInstruction.id);
               break;
             case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+              this.mapGeneralService.hideIcon(geoInstruction.id);
               break;
             case GEOGRAPHIC_INSTRUCTION_TYPE.point:
               this.mapGeneralService.hideIcon(geoInstruction.id);
@@ -285,7 +298,7 @@ export class TasksService {
         });
       }
     });
-  }
+  };
   // -----------------------
   public showAll = () => {
     this.tasks.data.forEach((task: TASK_DATA_UI) => {
@@ -296,6 +309,7 @@ export class TasksService {
               this.mapGeneralService.showArriwPolyline(geoInstruction.id);
               break;
             case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+              this.mapGeneralService.showIcon(geoInstruction.id);
               break;
             case GEOGRAPHIC_INSTRUCTION_TYPE.point:
               this.mapGeneralService.showIcon(geoInstruction.id);
@@ -310,7 +324,7 @@ export class TasksService {
         });
       }
     });
-  }
+  };
   // -----------------------
   public goToTask = (id: ID_TYPE) => {
     if (id !== undefined) {

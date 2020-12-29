@@ -116,4 +116,12 @@ export class LocationService {
     this.locationPoint$.next({lon: undefined, lat: undefined, alt: 0});
   };
 
+  public deleteLocationPoint = (id) => {
+    this.mapGeneralService.deleteIcon(id);
+  };
+
+  // public removeLocationPoint = (id) => {
+  //   this.mapGeneralService.removeIcon(id);
+  // };
+
 }

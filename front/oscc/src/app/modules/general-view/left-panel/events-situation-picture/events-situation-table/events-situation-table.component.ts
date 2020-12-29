@@ -220,7 +220,7 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
   clickOnIcon = (event, element: EVENT_DATA_UI, column: string) => {
     event.stopPropagation();
     if (column === 'map') {
-      if (element.locationType === LOCATION_TYPE.locationPoint) {
+      if (element.locationType === LOCATION_TYPE.locationPoint || element.locationType === LOCATION_TYPE.address) {
         const coordinates: POINT = [element.location.longitude, element.location.latitude];
         this.eventService.flyToObject(coordinates);
       }

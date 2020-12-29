@@ -36,15 +36,18 @@
       <div class="DialogTitle">
         Address
       </div>
+      <!--<div>-->
+        <!--<mat-form-field appearance="outline" class="LocationAddress">-->
+          <!--<label>-->
+            <!--<input [(ngModel)]="geoInstructionModel.address" class="Label" matInput-->
+                   <!--placeholder="E.g. Richard St."-->
+                   <!--type="text">-->
+          <!--</label>-->
+        <!--</mat-form-field>-->
+      <!--</div>-->
       <!--Address-->
       <div>
-        <mat-form-field appearance="outline" class="LocationAddress">
-          <label>
-            <input [(ngModel)]="geoInstructionModel.address" class="Label" matInput
-                   placeholder="E.g. Richard St."
-                   type="text">
-          </label>
-        </mat-form-field>
+        <app-autocomplete-address (setAddress)="getAddress($event)" addressType="geocode" [address]="geoInstructionModel.address"></app-autocomplete-address>
       </div>
     </div>
     <!--Point-->
@@ -116,7 +119,7 @@
       </mat-form-field>
       <mat-error *ngIf="geoInstructionModel.description === ''">Description field is mandatory</mat-error>
     </div>
-    <!--Save Button-->
+    <!--Action Buttons-->
     <div *ngIf="selectedGeoInstruction !== undefined" class="DialogCenter">
       <button (click)="cancelInstruction(selectedGeoInstruction)"
                class="DialogActionsSave">

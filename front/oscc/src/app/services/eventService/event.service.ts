@@ -83,6 +83,7 @@ export class EventService {
   public deleteObjectFromMap = (data: EVENT_DATA_UI) => {
     switch (data.locationType) {
       case LOCATION_TYPE.address: {
+        this.mapGeneralService.deleteIcon(data.id);
         break;
       }
       case LOCATION_TYPE.polygon: {
@@ -99,6 +100,7 @@ export class EventService {
   public hideObjectOnMap = (tempObjectCE) => {
     switch (tempObjectCE.type) {
       case LOCATION_TYPE.address: {
+        this.mapGeneralService.hideIcon(tempObjectCE.id);
         break;
       }
       case LOCATION_TYPE.polygon: {

@@ -117,7 +117,8 @@ export class ReportDialogComponent {
       this.locationService.deleteLocationPointTemp('0');
 
     } else if (location === LOCATION_NAMES.address) {
-      this.reportModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
+      this.reportModel.address = '';
+      // this.reportModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
       this.reportModel.locationType = LOCATION_TYPE.address;
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
       this.mapGeneralService.changeCursor(false);
@@ -165,7 +166,7 @@ export class ReportDialogComponent {
   };
 
   onNoClick(): void {
-    if (this.reportService.tempReportObjectCE && this.reportService.tempReportObjectCE.hasOwnProperty('event')) {
+    if (this.reportService.tempReportObjectCE && this.reportService.tempReportObjectCE.hasOwnProperty('report')) {
       this.reportService.showReportOnMap(this.reportService.tempReportObjectCE.report);
     }
     if (!this.reportModel.id) {
@@ -219,6 +220,22 @@ export class ReportDialogComponent {
       res = true;
     }
     return res;
+  };
+
+  getAddress = (place: any) => {
+    // this.zone.run(() => this.formattedAddress = place['formatted_address']);
+    if (this.reportService.tempReportObjectCE !== undefined) {
+      this.reportService.hideObjectOnMap(this.reportService.tempReportObjectCE);
+    }
+    const geometry = place.geometry;
+    if (geometry.viewport) {
+      const lat = geometry.viewport.getCenter().lat();
+      const lng = geometry.viewport.getCenter().lng();
+      this.reportModel.location = {latitude: lat, longitude: lng, altitude: 0};
+      this.reportModel.address = place['formatted_address'];
+      this.locationService.createOrUpdateLocationTemp({ lat: lat, lon: lng, alt: 0 });
+      this.eventService.flyToObject([lng, lat, 0]);
+    }
   };
 
 }

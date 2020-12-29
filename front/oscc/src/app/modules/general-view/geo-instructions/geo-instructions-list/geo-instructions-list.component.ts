@@ -40,9 +40,10 @@ export class GeoInstructionsListComponent implements OnInit {
         this.arrowService.deleteArrowPolylineManually(geoInstruction.id);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+        this.locationService.deleteLocationPoint(geoInstruction.id);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.point:
-        this.locationService.deleteLocationPointTemp(geoInstruction.id);
+        this.locationService.deleteLocationPoint(geoInstruction.id);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
         this.polygonService.deletePolygonManually(geoInstruction.id);
@@ -61,7 +62,7 @@ export class GeoInstructionsListComponent implements OnInit {
         coordinate = geoInstruction.arrow[geoInstruction.arrow.length - 1];
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.address:
-        // coordinate = geoInstruction.address;
+        coordinate = [geoInstruction.location.longitude, geoInstruction.location.latitude];
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.point:
         coordinate = [geoInstruction.location.longitude, geoInstruction.location.latitude];

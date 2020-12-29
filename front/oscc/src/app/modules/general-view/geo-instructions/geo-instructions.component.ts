@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {
   GEOGRAPHIC_INSTRUCTION,
   GEOGRAPHIC_INSTRUCTION_TYPE,
-  GEOPOINT3D, GEOPOINT3D_SHORT, POINT,
+  GEOPOINT3D_SHORT,
   POINT3D,
   TASK_DATA_UI
 } from '../../../../../../../classes/typings/all.typings';
@@ -38,7 +38,13 @@ export class GeoInstructionsComponent implements OnInit {
     type: undefined,
     description: '',
     location: {longitude: undefined, latitude: undefined, altitude: 0},
-    modeDefine: {styles: {mapIcon: '', iconSize: undefined, labelText: undefined, labelOffset: undefined, labelBackground: undefined, hoverText: undefined, color: undefined, isDotted: undefined, fillColor: undefined}},
+    modeDefine: {
+      styles:
+        {
+          mapIcon: '', iconSize: undefined, labelText: undefined, labelOffset: undefined, labelBackground: undefined,
+          hoverText: undefined, color: undefined, isDotted: undefined, fillColor: undefined
+        }
+    },
     address: '',
     polygon: [],
     arrow: [],
@@ -55,7 +61,7 @@ export class GeoInstructionsComponent implements OnInit {
               public mapGeneralService: MapGeneralService,
               public polylineService: PolylineService) {
 
-    this.geoInstructionModel =  _.cloneDeep(this.defaultModel);
+    this.geoInstructionModel = _.cloneDeep(this.defaultModel);
 
     // add location to model
     this.locationService.locationPoint$.subscribe(latlon => {
@@ -79,7 +85,7 @@ export class GeoInstructionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.geographicInstructionsModel =  _.cloneDeep(this.element.geographicInstructions);
+    this.geographicInstructionsModel = _.cloneDeep(this.element.geographicInstructions);
   }
 
   onAddInstruction = () => {
@@ -97,6 +103,7 @@ export class GeoInstructionsComponent implements OnInit {
           {message: 'Click minimum 2 points to set a arrow. Click double click to finish', title: 'arrow'});
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+        this.mapGeneralService.changeCursor(false);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.point:
         this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
@@ -125,6 +132,7 @@ export class GeoInstructionsComponent implements OnInit {
         this.arrowService.deleteArrowPolylineManually(id);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+        this.locationService.deleteLocationPointTemp(id);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.point:
         this.locationService.deleteLocationPointTemp(id);
@@ -203,6 +211,16 @@ export class GeoInstructionsComponent implements OnInit {
       this.triggerBtn.closeMenu();
     } else {
       this.triggerBtn.openMenu();
+    }
+  };
+
+  getAddress = (place: any) => {
+    const geometry = place.geometry;
+    if (geometry.viewport) {
+      const lat = geometry.viewport.getCenter().lat();
+      const lng = geometry.viewport.getCenter().lng();
+      this.geoInstructionModel.location = {latitude: lat, longitude: lng, altitude: 0};
+      this.geoInstructionModel.address = place['formatted_address'];
     }
   };
 

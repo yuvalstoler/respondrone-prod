@@ -53,7 +53,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MissionUavDialogComponent } from './dialogs/mission-uav-dialog/mission-uav-dialog.component';
 import { ContextMenuComponent } from './dialogs/context-menu/context-menu.component';
 import { HoverTextDialogComponent } from './dialogs/hover-text-dialog/hover-text-dialog.component';
-import {AutocompleteAddressComponent} from './dialogs/autocomplete-address/autocomplete-address.component';
+// import {AutocompleteAddressComponent} from './dialogs/autocomplete-address/autocomplete-address.component';
 
 const config: SocketIoConfig = SOCKET_CONFIG;
 
@@ -79,7 +79,7 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     MissionUavDialogComponent,
     ContextMenuComponent,
     HoverTextDialogComponent,
-    AutocompleteAddressComponent
+    // AutocompleteAddressComponent
   ],
   imports: [
     BrowserModule,
@@ -130,7 +130,7 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     TaskAssigneesDialogComponent,
     MissionDialogComponent,
     MissionUavDialogComponent,
-    AutocompleteAddressComponent
+    // AutocompleteAddressComponent
   ]
 })
 export class AppModule {

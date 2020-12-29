@@ -131,30 +131,30 @@ export class EventDialogComponent implements OnInit {
     if (location === LOCATION_NAMES.noLocation) {
       this.eventModel.locationType = LOCATION_TYPE.none;
       this.eventModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
-      this.eventModel.address = '';
+      this.eventModel.address =  '';
       this.eventModel.polygon = [];
       this.locationService.deleteLocationPointTemp('0');
       this.polygonService.deletePolygonManually('0');
 
     }
     else if (location === LOCATION_NAMES.address) {
-      // this.eventModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
+      this.eventModel.address = '';
       this.eventModel.polygon = [];
       this.eventModel.locationType = LOCATION_TYPE.address;
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
       this.mapGeneralService.changeCursor(false);
       this.locationService.deleteLocationPointTemp('0');
       this.polygonService.deletePolygonManually('0');
-
     }
     else if (location === LOCATION_NAMES.locationPoint) {
       this.eventModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
       // toaster
       this.customToasterService.info({message: 'Click on map to set the event\'s location', title: 'location'});
-      this.eventModel.address = '';
+      this.eventModel.address =  '';
       this.eventModel.polygon = [];
       this.eventModel.locationType = LOCATION_TYPE.locationPoint;
       this.polygonService.deletePolygonManually('0');
+      this.locationService.deleteLocationPointTemp('0');
 
       // if (this.eventModel.location.latitude === undefined && this.eventModel.location.longitude === undefined) {
       this.eventModel.locationType = LOCATION_TYPE.locationPoint;
@@ -204,6 +204,7 @@ export class EventDialogComponent implements OnInit {
 
   onCreateClick(): void {
     this.dialogRef.close(this.eventModel);
+    console.log(this.eventModel);
     this.clearPanel();
   }
 
@@ -252,8 +253,7 @@ export class EventDialogComponent implements OnInit {
         this.eventModel.location.longitude === undefined)) {
       res = true;
     }
-    if (this.eventModel.locationType === LOCATION_TYPE.address &&
-      (this.eventModel.address === undefined || this.eventModel.address === '')) {
+    if (this.eventModel.locationType === LOCATION_TYPE.address && this.eventModel.address === '' ) {
       res = true;
     }
     if (this.eventModel.locationType === LOCATION_TYPE.polygon &&
@@ -264,17 +264,20 @@ export class EventDialogComponent implements OnInit {
   };
 
   getAddress = (place: any) => {
-    // this.formattedAddress = place['formatted_address'];
-    // this.zone.run(() => this.formattedAddress = place['formatted_address']);
+    // this.zone.run(() => this.formattedAddress = place['formatted_address'])
+    // this.locationService.deleteLocationPoint(this.eventModel.id);
+    if (this.eventService.tempEventObjectCE !== undefined) {
+      this.eventService.hideObjectOnMap(this.eventService.tempEventObjectCE);
+    }
     const geometry = place.geometry;
     if (geometry.viewport) {
       const lat = geometry.viewport.getCenter().lat();
       const lng = geometry.viewport.getCenter().lng();
       this.eventModel.location = {latitude: lat, longitude: lng, altitude: 0};
       this.eventModel.address = place['formatted_address'];
-      console.log(lat, lng);
+      this.locationService.createOrUpdateLocationTemp({ lat: lat, lon: lng, alt: 0 });
+      this.eventService.flyToObject([lng, lat, 0]);
     }
-
   };
 
 }

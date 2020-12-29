@@ -10,13 +10,13 @@ import {
     SOCKET_IO_CLIENT_TYPES
 } from '../../../../../classes/typings/all.typings';
 import {SocketIO} from '../../websocket/socket.io';
-import {SOCKET_ROOM} from "../../../../../classes/dataClasses/api/api_enums";
-import {SocketIOClient} from "../../websocket/socketIOClient";
-import {AirVehicle} from "../../../../../classes/dataClasses/airVehicle/airVehicle";
-import {AirVehicleMdLogic} from "../../../../../classes/modeDefineTSSchemas/airVehicles/airVehicleMdLogic";
-import {MissionRequestManager} from "../missionRequest/missionRequestManager";
-import {MissionRouteManager} from "../missionRoute/missionRouteManager";
-import {GimbalManager} from "../gimbal/gimbalManager";
+import {SOCKET_ROOM} from '../../../../../classes/dataClasses/api/api_enums';
+import {SocketIOClient} from '../../websocket/socketIOClient';
+import {AirVehicle} from '../../../../../classes/dataClasses/airVehicle/airVehicle';
+import {AirVehicleMdLogic} from '../../../../../classes/modeDefineTSSchemas/airVehicles/airVehicleMdLogic';
+import {MissionRequestManager} from '../missionRequest/missionRequestManager';
+import {MissionRouteManager} from '../missionRoute/missionRouteManager';
+import {GimbalManager} from '../gimbal/gimbalManager';
 
 const _ = require('lodash');
 
@@ -35,12 +35,12 @@ export class AirVehicleManager {
 
     private startGetSocket = () => {
         SocketIOClient.addToSortConfig(SOCKET_IO_CLIENT_TYPES.MS, this.avsSocketConfig);
-    }
+    };
 
     private onGetAVs = (data: AV_DATA_TELEMETRY_REP) => {
         this.airVehicles = Converting.Arr_AV_DATA_to_Arr_AV(data.drones);
 
-        this.sendDataToUI()
+        this.sendDataToUI();
     };
 
     private getAVsByIds = (ids: ID_TYPE[]): AV_DATA_UI[] => {
@@ -52,11 +52,11 @@ export class AirVehicleManager {
             }
         });
         return res;
-    }
+    };
 
     private getAVById = (id: ID_TYPE): AirVehicle => {
         return this.airVehicles.find(element => element.id === id);
-    }
+    };
 
     private getDataForUI = (): AV_DATA_UI[] => {
         const res: AV_DATA_UI[] = [];
@@ -70,7 +70,7 @@ export class AirVehicleManager {
 
             const avDataUI: AV_DATA_UI = av.toJsonForUI();
             avDataUI.modeDefine = AirVehicleMdLogic.validate(avDataUI, missionRequest);
-            avDataUI.missionRequestId = missionRequest? missionRequest.id : undefined;
+            avDataUI.missionRequestId = missionRequest ? missionRequest.id : undefined;
             res.push(avDataUI);
         });
         return res;
