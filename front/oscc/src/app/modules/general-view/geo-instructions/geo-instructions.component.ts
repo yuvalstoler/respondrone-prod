@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {
   GEOGRAPHIC_INSTRUCTION,
   GEOGRAPHIC_INSTRUCTION_TYPE,
-  GEOPOINT3D_SHORT,
+  GEOPOINT3D_SHORT, LOCATION_TYPE,
   POINT3D,
   TASK_DATA_UI
 } from '../../../../../../../classes/typings/all.typings';
@@ -16,6 +16,7 @@ import {ArrowService} from '../../../services/arrowService/arrow.service';
 import {PolylineService} from '../../../services/polylineService/polyline.service';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {MapGeneralService} from '../../../services/mapGeneral/map-general.service';
+import {GeoInstructionsService} from '../../../services/geoInstructionsService/geo-instructions.service';
 
 @Component({
   selector: 'app-geo-instructions',
@@ -59,7 +60,8 @@ export class GeoInstructionsComponent implements OnInit {
               public polygonService: PolygonService,
               public arrowService: ArrowService,
               public mapGeneralService: MapGeneralService,
-              public polylineService: PolylineService) {
+              public polylineService: PolylineService,
+              public geoInstructionsService: GeoInstructionsService) {
 
     this.geoInstructionModel = _.cloneDeep(this.defaultModel);
 
@@ -103,6 +105,7 @@ export class GeoInstructionsComponent implements OnInit {
           {message: 'Click minimum 2 points to set a arrow. Click double click to finish', title: 'arrow'});
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+        this.geoInstructionModel.address = '';
         this.mapGeneralService.changeCursor(false);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.point:
@@ -215,12 +218,21 @@ export class GeoInstructionsComponent implements OnInit {
   };
 
   getAddress = (place: any) => {
+    // if (this.geoInstructionsService.tempGeoInstructionObjectCE !== undefined) {
+    //   this.geoInstructionsService.hideObjectOnMap(this.geoInstructionsService.tempGeoInstructionObjectCE);
+    // }
+    // const id = this.applicationService.geoCounter.toString();
     const geometry = place.geometry;
     if (geometry.viewport) {
       const lat = geometry.viewport.getCenter().lat();
       const lng = geometry.viewport.getCenter().lng();
       this.geoInstructionModel.location = {latitude: lat, longitude: lng, altitude: 0};
       this.geoInstructionModel.address = place['formatted_address'];
+      const idTemp = this.applicationService.geoCounter.toString();
+      this.locationService.deleteLocationPointTemp(idTemp);
+      this.locationService.drawLocationFromServer({ lat: lat, lon: lng, alt: 0 }, idTemp);
+      // this.locationService.createOrUpdateLocationTemp({ lat: lat, lon: lng, alt: 0 });
+      this.geoInstructionsService.flyToObject([lng, lat, 0]);
     }
   };
 

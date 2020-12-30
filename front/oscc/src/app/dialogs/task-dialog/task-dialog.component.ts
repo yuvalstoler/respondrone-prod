@@ -19,7 +19,7 @@ import {FRService} from '../../services/frService/fr.service';
 import {PolylineService} from '../../services/polylineService/polyline.service';
 import {ArrowService} from '../../services/arrowService/arrow.service';
 import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
-import {DataUtility} from "../../../../../../classes/applicationClasses/utility/dataUtility";
+import {DataUtility} from '../../../../../../classes/applicationClasses/utility/dataUtility';
 
 @Component({
   selector: 'app-task-dialog',
@@ -108,7 +108,7 @@ export class TaskDialogComponent implements OnInit {
     const taskModel = _.cloneDeep(this.taskModel);
     taskModel.geographicInstructions.forEach((geoInstruction?: GEOGRAPHIC_INSTRUCTION) => {
       geoInstruction.id = DataUtility.generateID();
-    })
+    });
     this.dialogRef.close(taskModel);
     this.clearPanel();
   };
@@ -140,6 +140,9 @@ export class TaskDialogComponent implements OnInit {
         }
         if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.polygon) {
           this.polygonService.deletePolygonManually(geoInstruction.id);
+        }
+        if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.address) {
+          this.locationService.deleteLocationPointTemp(geoInstruction.id);
         }
         if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.point) {
           this.locationService.deleteLocationPointTemp(geoInstruction.id);

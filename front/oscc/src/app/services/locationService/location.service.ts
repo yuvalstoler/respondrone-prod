@@ -117,7 +117,7 @@ export class LocationService {
   };
 
   public deleteLocationPoint = (id) => {
-    this.mapGeneralService.deleteIcon(id);
+    this.mapGeneralService.deleteLocationPointTemp(id);
   };
 
   // public removeLocationPoint = (id) => {
