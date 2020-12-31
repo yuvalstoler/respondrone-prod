@@ -79,13 +79,12 @@ export class ReportsSituationPictureComponent implements OnInit {
             this.eventService.unlinkEventsFromReport(reportData.eventIds, reportData.id);
             reportData.media.forEach((mediaData) => {
               this.mediaService.deleteFile(mediaData);
-            })
+            });
             this.reportService.deleteReport({id: reportData.id});
           }, index * 500);
         });
 
-
-        this.applicationService.selectedReports.length = 0;
+        this.childComponent.resetTable();
       }
     });
   };

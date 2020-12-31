@@ -341,8 +341,6 @@ export class EventService {
       setTimeout(() => {
         const item = this.getEventById(id);
         if (item) {
-          this.applicationService.selectedEvents.length = 0;
-          this.applicationService.selectedEvents.push(item);
           this.changeSelected$.next(id);
         }
       }, 500);

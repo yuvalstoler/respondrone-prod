@@ -342,8 +342,6 @@ export class TasksService {
       setTimeout(() => {
         const item = this.getTaskById(id);
         if (item) {
-          this.applicationService.selectedTasks.length = 0;
-          this.applicationService.selectedTasks.push(item);
           this.changeSelected$.next(id);
         }
       }, 500);
