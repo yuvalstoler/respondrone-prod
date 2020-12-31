@@ -19,6 +19,7 @@
   <div class="">
     <app-geo-instructions-list
       [geographicInstructionsModel]="geographicInstructionsModel"
+      (changeGeographicInstructionsModel)="saveGIM(geographicInstructionsModel)"
       [isNotViewOnly]="true">
     </app-geo-instructions-list>
   </div>

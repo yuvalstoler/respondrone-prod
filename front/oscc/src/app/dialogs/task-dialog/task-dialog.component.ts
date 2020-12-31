@@ -20,6 +20,7 @@ import {PolylineService} from '../../services/polylineService/polyline.service';
 import {ArrowService} from '../../services/arrowService/arrow.service';
 import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
 import {DataUtility} from '../../../../../../classes/applicationClasses/utility/dataUtility';
+import {TasksService} from "../../services/tasksService/tasks.service";
 
 @Component({
   selector: 'app-task-dialog',
@@ -66,6 +67,7 @@ export class TaskDialogComponent implements OnInit {
               public arrowService: ArrowService,
               public dialogRef: MatDialogRef<TaskDialogComponent>,
               public mapGeneralService: MapGeneralService,
+              public tasksService: TasksService,
               public frService: FRService,
               @Inject(MAT_DIALOG_DATA) public data: { title: string, fr?: FR_DATA_UI }) {
     this.initTaskModel();
@@ -76,6 +78,7 @@ export class TaskDialogComponent implements OnInit {
   }
 
   onNoClick(): void {
+    this.tasksService.showAll();
     this.clearPanel();
     this.dialogRef.close(false);
   }
@@ -105,6 +108,16 @@ export class TaskDialogComponent implements OnInit {
   };
 
   onCreateClick = () => {
+    const taskModel = _.cloneDeep(this.taskModel);
+    taskModel.geographicInstructions.forEach((geoInstruction?: GEOGRAPHIC_INSTRUCTION) => {
+      geoInstruction.id = DataUtility.generateID();
+    });
+    this.dialogRef.close(taskModel);
+    this.clearPanel();
+  };
+
+  onEditClick = () => {
+    console.log(this.taskModel.geographicInstructions);
     const taskModel = _.cloneDeep(this.taskModel);
     taskModel.geographicInstructions.forEach((geoInstruction?: GEOGRAPHIC_INSTRUCTION) => {
       geoInstruction.id = DataUtility.generateID();

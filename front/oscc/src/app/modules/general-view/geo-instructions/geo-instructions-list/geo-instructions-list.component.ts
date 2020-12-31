@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
   GEOGRAPHIC_INSTRUCTION,
   GEOGRAPHIC_INSTRUCTION_TYPE,
@@ -22,12 +22,14 @@ export class GeoInstructionsListComponent implements OnInit {
 
   @Input() geographicInstructionsModel: GEOGRAPHIC_INSTRUCTION [] = [];
   @Input() isNotViewOnly: boolean = true;
+  @Output() changeGeographicInstructionsModel = new EventEmitter<any[]>();
 
   constructor(public locationService: LocationService,
               public polygonService: PolygonService,
               public arrowService: ArrowService,
               public polylineService: PolylineService,
-              public mapGeneralService: MapGeneralService) { }
+              public mapGeneralService: MapGeneralService) {
+  }
 
   ngOnInit(): void {
   }
@@ -36,9 +38,6 @@ export class GeoInstructionsListComponent implements OnInit {
     event.stopPropagation();
     // const geoInstruction = this.geographicInstructionsModel[index];
     switch (geoInstruction.type) {
-      case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
-        this.arrowService.deleteArrowPolylineManually(geoInstruction.id);
-        break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.address:
         this.locationService.deleteLocationPoint(geoInstruction.id);
         this.mapGeneralService.deleteIcon(geoInstruction.id);
@@ -47,14 +46,22 @@ export class GeoInstructionsListComponent implements OnInit {
         this.locationService.deleteLocationPoint(geoInstruction.id);
         this.mapGeneralService.deleteIcon(geoInstruction.id);
         break;
+      case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
+        this.mapGeneralService.hideArrowPolyline(geoInstruction.id);
+        // this.arrowService.deleteArrowPolylineManually(geoInstruction.id);
+        break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
-        this.polygonService.deletePolygonManually(geoInstruction.id);
+        this.mapGeneralService.hidePolygon(geoInstruction.id);
+        // this.polygonService.deletePolygonManually(geoInstruction.id);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
-        this.polylineService.deletePolylineManually(geoInstruction.id);
+        this.mapGeneralService.hidePolyline(geoInstruction.id);
+        // this.polylineService.deletePolylineManually(geoInstruction.id);
         break;
     }
+    // todo: find index by obj geoInstruction
     this.geographicInstructionsModel.splice(index, 1);
+    this.changeGeographicInstructionsModel.emit(this.geographicInstructionsModel);
   };
 
   flyToInstruction = (geoInstruction: GEOGRAPHIC_INSTRUCTION) => {
@@ -113,5 +120,6 @@ export class GeoInstructionsListComponent implements OnInit {
     }
     return res;
   };
+
 
 }

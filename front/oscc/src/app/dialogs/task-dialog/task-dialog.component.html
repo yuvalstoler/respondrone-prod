@@ -107,7 +107,17 @@
     <button (click)="onNoClick()" class="DialogActionsDelete"
             mat-raised-button>Cancel
     </button>
-    <button (click)="onCreateClick()"
+    <!--Create-->
+    <button *ngIf="data.title === 'Create new task'"
+            (click)="onCreateClick()"
+            class="DialogActionsCreate"
+            [disabled]="(taskModel.title === '' || taskModel.title === undefined)"
+            mat-raised-button>
+      {{data.title}}
+    </button>
+    <!--Edit-->
+    <button *ngIf="data.title === 'Edit task'"
+            (click)="onEditClick()"
             class="DialogActionsCreate"
             [disabled]="(taskModel.title === '' || taskModel.title === undefined)"
             mat-raised-button>

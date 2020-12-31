@@ -174,6 +174,12 @@ export class GeoInstructionsComponent implements OnInit {
     this.mapGeneralService.changeCursor(false);
   };
 
+  saveGIM = (geographicInstructionsModel) => {
+    this.geographicInstructionsModel = geographicInstructionsModel;
+    this.element.geographicInstructions = this.geographicInstructionsModel;
+    console.log(this.geographicInstructionsModel);
+  };
+
   // setIcon = (type: GEOGRAPHIC_INSTRUCTION_TYPE): string => {
   //   let res: string;
   //   switch (type) {
