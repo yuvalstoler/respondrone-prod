@@ -81,7 +81,7 @@ export class EventsSituationPictureComponent implements OnInit {
           }, index * 500);
         });
 
-        this.applicationService.selectedEvents.length = 0;
+        this.childComponent.resetTable();
       }
     });
   };

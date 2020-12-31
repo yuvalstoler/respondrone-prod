@@ -118,7 +118,6 @@
   },
 
 
-
   "CommRelayMissionRep": {
     "port": "4600",
     "host": "localhost",
@@ -171,10 +170,9 @@
   },
 
 
-
   "TMM": {
     "port": "3000",
-    "host": "192.168.1.31",
+    "host": "localhost",
     "protocol": "http"
   },
   "TMM2": {

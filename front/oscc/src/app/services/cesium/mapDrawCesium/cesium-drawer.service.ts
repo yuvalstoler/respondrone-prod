@@ -806,7 +806,8 @@ export class CesiumDrawerService {
 
               const outlineMaterial = this.rgbaToCesiumColor(options.outlineColor || this.cesiumService.colors.polygon);
               const fillMaterial = options.fillColor ? this.rgbaToCesiumColor(options.fillColor) : undefined;
-              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon].polygon.outlineColor = outlineMaterial;
+              // this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon].polygon.outlineColor = outlineMaterial;
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon].polyline.material = outlineMaterial;
               this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon].polygon.material = fillMaterial;
               res = true;
             }

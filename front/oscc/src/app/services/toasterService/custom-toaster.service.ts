@@ -17,7 +17,7 @@ export class CustomToasterService {
 
   options: TOASTER_OPTIONS =
     {
-      timeOut: 10000,
+      timeOut: 30000,
       positionClass: 'toast-top-left',
       preventDuplicates: true,
       closeButton: true,

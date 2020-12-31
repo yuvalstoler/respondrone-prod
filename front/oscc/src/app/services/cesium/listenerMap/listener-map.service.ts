@@ -55,8 +55,11 @@ export class ListenerMapService {
       else if (event.object.type === ITEM_TYPE.task) {
         this.taskService.goToTask(event.object.data.id);
       }
-      else if (event.object.type === ITEM_TYPE.missionRequest || event.object.type === ITEM_TYPE.missionRoute || event.object.type === ITEM_TYPE.mission) {
+      else if (event.object.type === ITEM_TYPE.missionRequest) {
         this.missionRequestService.goToMissionRequest(event.object.data.id);
+      }
+      else if (event.object.type === ITEM_TYPE.missionRoute || event.object.type === ITEM_TYPE.mission) {
+        this.missionRequestService.goToMissionRequest(event.object.data.requestId);
       }
     }
   };
