@@ -33,7 +33,7 @@ export class PolylineService {
   public drawManually = (event: EVENT_LISTENER_DATA) => {
     if (this.applicationService.stateDraw === STATE_DRAW.drawPolyline) {
       const points: POINT3D[] = this.drawPolylineClass.mouseEvents(event);
-      const idTemp = this.applicationService.geoCounter.toString();
+      const idTemp = this.applicationService.getGeoCounter();
       const polylineData: POLYLINE_DATA = {
         id: idTemp,
         modeDefine: undefined,
@@ -41,7 +41,7 @@ export class PolylineService {
         polyline: points,
         optionsData: undefined,
         type: undefined
-      }
+      };
       this.mapGeneralService.createPolyline(polylineData);
       if (event.type === 'doubleClick') {
         this.polyline$.next(points);

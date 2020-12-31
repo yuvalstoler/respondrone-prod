@@ -20,7 +20,7 @@ import {PolylineService} from '../../services/polylineService/polyline.service';
 import {ArrowService} from '../../services/arrowService/arrow.service';
 import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
 import {DataUtility} from '../../../../../../classes/applicationClasses/utility/dataUtility';
-import {TasksService} from "../../services/tasksService/tasks.service";
+import {TasksService} from '../../services/tasksService/tasks.service';
 
 @Component({
   selector: 'app-task-dialog',
@@ -110,7 +110,9 @@ export class TaskDialogComponent implements OnInit {
   onCreateClick = () => {
     const taskModel = _.cloneDeep(this.taskModel);
     taskModel.geographicInstructions.forEach((geoInstruction?: GEOGRAPHIC_INSTRUCTION) => {
-      geoInstruction.id = DataUtility.generateID();
+      if (geoInstruction.id.substring(0, 3) === 'tmp') {
+        geoInstruction.id = DataUtility.generateID();
+      }
     });
     this.dialogRef.close(taskModel);
     this.clearPanel();
@@ -120,7 +122,9 @@ export class TaskDialogComponent implements OnInit {
     console.log(this.taskModel.geographicInstructions);
     const taskModel = _.cloneDeep(this.taskModel);
     taskModel.geographicInstructions.forEach((geoInstruction?: GEOGRAPHIC_INSTRUCTION) => {
-      geoInstruction.id = DataUtility.generateID();
+      if (geoInstruction.id.substring(0, 3) === 'tmp') {
+        geoInstruction.id = DataUtility.generateID();
+      }
     });
     this.dialogRef.close(taskModel);
     this.clearPanel();
@@ -145,24 +149,26 @@ export class TaskDialogComponent implements OnInit {
   removeGeoInstructionsFromMap = (geoInstructions: GEOGRAPHIC_INSTRUCTION[]) => {
     if (Array.isArray(geoInstructions) && geoInstructions.length > 0) {
       geoInstructions.forEach(geoInstruction => {
-        if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.arrow) {
-          this.arrowService.deleteArrowPolylineManually(geoInstruction.id);
-        }
-        if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.polyline) {
-          this.polylineService.deletePolylineManually(geoInstruction.id);
-        }
-        if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.polygon) {
-          this.polygonService.deletePolygonManually(geoInstruction.id);
-        }
-        if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.address) {
-          this.locationService.deleteLocationPointTemp(geoInstruction.id);
-        }
-        if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.point) {
-          this.locationService.deleteLocationPointTemp(geoInstruction.id);
+        if (geoInstruction.id.substring(0, 3) === 'tmp') {
+          if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.arrow) {
+            this.arrowService.deleteArrowPolylineManually(geoInstruction.id);
+          }
+          if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.polyline) {
+            this.polylineService.deletePolylineManually(geoInstruction.id);
+          }
+          if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.polygon) {
+            this.polygonService.deletePolygonManually(geoInstruction.id);
+          }
+          if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.address) {
+            this.locationService.deleteLocationPointTemp(geoInstruction.id);
+          }
+          if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.point) {
+            this.locationService.deleteLocationPointTemp(geoInstruction.id);
+          }
         }
       });
     }
-      const id = this.applicationService.geoCounter.toString();
+      const id = this.applicationService.getGeoCounter();
       this.arrowService.deleteArrowPolylineManually(id);
       this.polylineService.deletePolylineManually(id);
       this.polygonService.deletePolygonManually(id);

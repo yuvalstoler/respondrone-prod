@@ -29,7 +29,7 @@ export class ArrowService {
   public drawManually = (event: EVENT_LISTENER_DATA) => {
     if (this.applicationService.stateDraw === STATE_DRAW.drawArrow) {
       const points: POINT3D[] = this.drawPolylineClass.mouseEvents(event);
-      const idTemp = this.applicationService.geoCounter.toString();
+      const idTemp = this.applicationService.getGeoCounter();
 
       const arrowData: POLYLINE_DATA = {
         id: idTemp,

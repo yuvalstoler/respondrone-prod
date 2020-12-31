@@ -133,7 +133,7 @@ export class GeoInstructionsComponent implements OnInit {
   };
 
   cancelInstruction = (type: GEOGRAPHIC_INSTRUCTION_TYPE) => {
-    const id = this.applicationService.geoCounter.toString();
+    const id = this.applicationService.getGeoCounter();
     switch (type) {
       case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
         this.arrowService.deleteArrowPolylineManually(id);
@@ -158,7 +158,7 @@ export class GeoInstructionsComponent implements OnInit {
     // this.isSave = false;
     this.geoInstructionModel.type = type;
     // this.geoInstructionModel.modeDefine.styles.mapIcon = this.setIcon(type);
-    this.geoInstructionModel.id = this.applicationService.geoCounter.toString();
+    this.geoInstructionModel.id = this.applicationService.getGeoCounter();
     this.geographicInstructionsModel.push(this.geoInstructionModel);
     this.applicationService.geoCounter = this.geographicInstructionsModel.length;
     // clear
@@ -221,7 +221,7 @@ export class GeoInstructionsComponent implements OnInit {
 
   clearAddress = (event) => {
     this.geoInstructionModel.address = '';
-    const idTemp = this.applicationService.geoCounter.toString();
+    const idTemp = this.applicationService.getGeoCounter();
     this.locationService.deleteLocationPointTemp(idTemp);
     // console.log(event.target.value);
     // event.target.value = '';
@@ -231,7 +231,7 @@ export class GeoInstructionsComponent implements OnInit {
     // if (this.geoInstructionsService.tempGeoInstructionObjectCE !== undefined) {
     //   this.geoInstructionsService.hideObjectOnMap(this.geoInstructionsService.tempGeoInstructionObjectCE);
     // }
-    // const idTemp = this.applicationService.geoCounter.toString();
+    // const idTemp = this.applicationService.getGeoCounter();
     // this.locationService.deleteLocationPointTemp(idTemp);
     const geometry = place.geometry;
     if (geometry.viewport) {
@@ -240,7 +240,7 @@ export class GeoInstructionsComponent implements OnInit {
       this.geoInstructionModel.location = {latitude: lat, longitude: lng, altitude: 0};
       this.geoInstructionModel.address = place['formatted_address'];
 
-      const idTemp = this.applicationService.geoCounter.toString();
+      const idTemp = this.applicationService.getGeoCounter();
       // this.locationService.deleteLocationPointTemp(idTemp);
       this.locationService.drawLocationFromServer({ lat: lat, lon: lng, alt: 0 }, idTemp);
       this.geoInstructionsService.flyToObject([lng, lat, 0]);

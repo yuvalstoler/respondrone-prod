@@ -42,7 +42,7 @@ export class LocationService {
     if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
       const locationPoint: GEOPOINT3D_SHORT = {lon: event.pointLatLng[0], lat: event.pointLatLng[1], alt: 0};
       // open marker on mouseOver
-      const idTemp = this.applicationService.geoCounter.toString();
+      const idTemp = this.applicationService.getGeoCounter();
       if (event.type === 'mouseOver') {
         this.mapGeneralService.deleteLocationPointTemp(idTemp);
         this.drawLocationFromServer(locationPoint, idTemp);
@@ -75,7 +75,7 @@ export class LocationService {
       if (event.type === 'mouseOver') {
         if (this.isMarker) {
           // edit marker location
-          const idTemp = this.applicationService.geoCounter.toString();
+          const idTemp = this.applicationService.getGeoCounter();
           this.deleteLocationPointTemp(idTemp);
           this.drawLocationFromServer(locationPoint, idTemp);
           this.downClick = true;
@@ -109,7 +109,7 @@ export class LocationService {
 
   public createOrUpdateLocationTemp = (locationPoint: GEOPOINT3D_SHORT) => {
     this.locationPointTemp = [locationPoint.lon, locationPoint.lat, 0];
-    const idTemp = this.applicationService.geoCounter.toString();
+    const idTemp = this.applicationService.getGeoCounter();
     this.mapGeneralService.createOrUpdateLocationTemp(locationPoint, idTemp);
   };
 

@@ -301,29 +301,31 @@ export class TasksService {
   };
   // -----------------------
   public showAll = () => {
-    this.tasks.data.forEach((task: TASK_DATA_UI) => {
-      if (Array.isArray(task.geographicInstructions) && task.geographicInstructions.length > 0) {
-        task.geographicInstructions.forEach((geoInstruction, i) => {
-          switch (geoInstruction.type) {
-            case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
-              this.mapGeneralService.showArriwPolyline(geoInstruction.id);
-              break;
-            case GEOGRAPHIC_INSTRUCTION_TYPE.address:
-              this.mapGeneralService.showIcon(geoInstruction.id);
-              break;
-            case GEOGRAPHIC_INSTRUCTION_TYPE.point:
-              this.mapGeneralService.showIcon(geoInstruction.id);
-              break;
-            case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
-              this.mapGeneralService.showPolygon(geoInstruction.id);
-              break;
-            case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
-              this.mapGeneralService.showPolyline(geoInstruction.id);
-              break;
-          }
-        });
-      }
-    });
+    if (this.applicationService.screen.showTasks) {
+      this.tasks.data.forEach((task: TASK_DATA_UI) => {
+        if (Array.isArray(task.geographicInstructions) && task.geographicInstructions.length > 0) {
+          task.geographicInstructions.forEach((geoInstruction, i) => {
+            switch (geoInstruction.type) {
+              case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
+                this.mapGeneralService.showArriwPolyline(geoInstruction.id);
+                break;
+              case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+                this.mapGeneralService.showIcon(geoInstruction.id);
+                break;
+              case GEOGRAPHIC_INSTRUCTION_TYPE.point:
+                this.mapGeneralService.showIcon(geoInstruction.id);
+                break;
+              case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
+                this.mapGeneralService.showPolygon(geoInstruction.id);
+                break;
+              case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
+                this.mapGeneralService.showPolyline(geoInstruction.id);
+                break;
+            }
+          });
+        }
+      });
+    }
   };
   // -----------------------
   public goToTask = (id: ID_TYPE) => {

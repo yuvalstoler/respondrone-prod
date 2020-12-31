@@ -112,4 +112,9 @@ export class ApplicationService {
   geopoint3d_to_point3d = (geopoint: GEOPOINT3D): POINT3D => {
     return [geopoint.longitude, geopoint.latitude, geopoint.altitude];
   };
+
+
+  getGeoCounter = () => {
+    return 'tmp' + this.geoCounter;
+  }
 }
