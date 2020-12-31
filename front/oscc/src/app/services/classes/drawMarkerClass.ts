@@ -34,7 +34,7 @@ export class DrawMarkerClass {
   public checkIfMarkerExist = (event: EVENT_LISTENER_DATA, marker: POINT3D, distanceMeter: number): boolean => {
     let res = false;
       const distance = GeoCalculate.calcDistanceBetweenToPoints(event.pointLatLng, marker);
-      console.log(distance, ' ', distanceMeter * 15);
+      // console.log(distance, ' ', distanceMeter * 15);
       if (distance && distance <= (distanceMeter * 15)) { // 1px
         res = true;
       }

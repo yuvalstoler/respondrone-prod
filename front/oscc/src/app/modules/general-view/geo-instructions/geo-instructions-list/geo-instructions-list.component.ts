@@ -32,18 +32,20 @@ export class GeoInstructionsListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  removeGeoInstruction = (event, index: number) => {
+  removeGeoInstruction = (event, geoInstruction, index: number) => {
     event.stopPropagation();
-    const geoInstruction = this.geographicInstructionsModel[index];
+    // const geoInstruction = this.geographicInstructionsModel[index];
     switch (geoInstruction.type) {
       case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
         this.arrowService.deleteArrowPolylineManually(geoInstruction.id);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.address:
         this.locationService.deleteLocationPoint(geoInstruction.id);
+        this.mapGeneralService.deleteIcon(geoInstruction.id);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.point:
         this.locationService.deleteLocationPoint(geoInstruction.id);
+        this.mapGeneralService.deleteIcon(geoInstruction.id);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
         this.polygonService.deletePolygonManually(geoInstruction.id);

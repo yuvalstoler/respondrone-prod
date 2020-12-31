@@ -79,6 +79,7 @@ export class LocationService {
           this.deleteLocationPointTemp(idTemp);
           this.drawLocationFromServer(locationPoint, idTemp);
           this.downClick = true;
+          this.locationPointTemp = undefined;
         }
       }
       // mouseDown on map, close draw
@@ -86,6 +87,7 @@ export class LocationService {
         // close edit
         this.isMarker = false;
         this.downClick = false;
+        this.locationPointTemp = event.pointLatLng;
         // this.applicationService.stateDraw = STATE_DRAW.notDraw;
         // this.mapGeneralService.changeCursor(false);
       }

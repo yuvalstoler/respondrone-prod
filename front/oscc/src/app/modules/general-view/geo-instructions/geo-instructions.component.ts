@@ -91,7 +91,11 @@ export class GeoInstructionsComponent implements OnInit {
   }
 
   onAddInstruction = () => {
-
+    if (this.isSave) {
+      this.triggerBtn.closeMenu();
+    } else {
+      this.triggerBtn.openMenu();
+    }
   };
 
   setSelectedInstruction = (type: GEOGRAPHIC_INSTRUCTION_TYPE) => {
@@ -209,29 +213,30 @@ export class GeoInstructionsComponent implements OnInit {
     }
   };
 
-  onClick = () => {
-    if (this.isSave) {
-      this.triggerBtn.closeMenu();
-    } else {
-      this.triggerBtn.openMenu();
-    }
+  clearAddress = (event) => {
+    this.geoInstructionModel.address = '';
+    const idTemp = this.applicationService.geoCounter.toString();
+    this.locationService.deleteLocationPointTemp(idTemp);
+    // console.log(event.target.value);
+    // event.target.value = '';
   };
 
   getAddress = (place: any) => {
     // if (this.geoInstructionsService.tempGeoInstructionObjectCE !== undefined) {
     //   this.geoInstructionsService.hideObjectOnMap(this.geoInstructionsService.tempGeoInstructionObjectCE);
     // }
-    // const id = this.applicationService.geoCounter.toString();
+    // const idTemp = this.applicationService.geoCounter.toString();
+    // this.locationService.deleteLocationPointTemp(idTemp);
     const geometry = place.geometry;
     if (geometry.viewport) {
       const lat = geometry.viewport.getCenter().lat();
       const lng = geometry.viewport.getCenter().lng();
       this.geoInstructionModel.location = {latitude: lat, longitude: lng, altitude: 0};
       this.geoInstructionModel.address = place['formatted_address'];
+
       const idTemp = this.applicationService.geoCounter.toString();
-      this.locationService.deleteLocationPointTemp(idTemp);
+      // this.locationService.deleteLocationPointTemp(idTemp);
       this.locationService.drawLocationFromServer({ lat: lat, lon: lng, alt: 0 }, idTemp);
-      // this.locationService.createOrUpdateLocationTemp({ lat: lat, lon: lng, alt: 0 });
       this.geoInstructionsService.flyToObject([lng, lat, 0]);
     }
   };

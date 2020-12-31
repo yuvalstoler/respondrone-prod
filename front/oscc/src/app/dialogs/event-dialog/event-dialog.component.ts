@@ -77,7 +77,7 @@ export class EventDialogComponent implements OnInit {
 
     // add location on panel
     this.locationService.locationPoint$.subscribe(latlon => {
-      if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
+      if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint  || this.applicationService.stateDraw === STATE_DRAW.editLocationPoint) {
         this.eventModel.location = {longitude: latlon.lon, latitude: latlon.lat, altitude: 0};
       }
     });

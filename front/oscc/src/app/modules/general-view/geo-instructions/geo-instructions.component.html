@@ -5,7 +5,7 @@
     <div class="DialogTask pointer"
          [matMenuTriggerFor]="menu"
          #triggerBtn="matMenuTrigger"
-         (click)="onClick()"
+         (click)="onAddInstruction()"
          [ngStyle]="{'color': (isSave) ? 'lightgray': '', 'borderBottom': (isSave) ? 'none' : ''}"
     >Add</div>
     <mat-menu #menu="matMenu">
@@ -36,18 +36,8 @@
       <div class="DialogTitle">
         Address
       </div>
-      <!--<div>-->
-        <!--<mat-form-field appearance="outline" class="LocationAddress">-->
-          <!--<label>-->
-            <!--<input [(ngModel)]="geoInstructionModel.address" class="Label" matInput-->
-                   <!--placeholder="E.g. Richard St."-->
-                   <!--type="text">-->
-          <!--</label>-->
-        <!--</mat-form-field>-->
-      <!--</div>-->
-      <!--Address-->
       <div>
-        <app-autocomplete-address (setAddress)="getAddress($event)" addressType="geocode" [address]="geoInstructionModel.address"></app-autocomplete-address>
+        <app-autocomplete-address (setAddress)="getAddress($event)" (click)="clearAddress($event)" addressType="geocode" [address]="geoInstructionModel.address"></app-autocomplete-address>
       </div>
     </div>
     <!--Point-->

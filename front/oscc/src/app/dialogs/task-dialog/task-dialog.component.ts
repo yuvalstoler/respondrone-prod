@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {
   COMMENT, FR_DATA_UI,
   GEOGRAPHIC_INSTRUCTION,

@@ -74,7 +74,7 @@ export class ReportDialogComponent {
 
     // add location on panel
     this.locationService.locationPoint$.subscribe(latlon => {
-      if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint) {
+      if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint || this.applicationService.stateDraw === STATE_DRAW.editLocationPoint) {
         this.reportModel.location = {longitude: latlon.lon, latitude: latlon.lat, altitude: 0};
       }
     });

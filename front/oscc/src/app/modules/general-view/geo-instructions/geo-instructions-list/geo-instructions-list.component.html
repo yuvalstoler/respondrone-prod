@@ -16,7 +16,7 @@
         <span mat-line class="expendTitleText">{{geoInstruction?.type}}</span>
       </div>
       <button class='DialogButtonGeoX'
-              (click)="removeGeoInstruction($event, i)"
+              (click)="removeGeoInstruction($event, geoInstruction, i)"
               *ngIf="isNotViewOnly"
         >X</button>
     </mat-expansion-panel-header>
