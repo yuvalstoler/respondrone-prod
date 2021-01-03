@@ -66,7 +66,8 @@ export class ReportsSituationPictureComponent implements OnInit {
 
   openConfirmDialog = (): void => {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      minWidth: '250px',
+      // minWidth: '250px',
+      width: '35em',
       disableClose: true,
       data: ' you want to permanently delete the selected report'
     });

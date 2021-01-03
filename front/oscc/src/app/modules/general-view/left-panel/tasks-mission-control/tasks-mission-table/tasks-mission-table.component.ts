@@ -92,7 +92,7 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
 
   private selectRow = (row: TASK_DATA_UI): void => {
     this.selection.clear();
-    this.applicationService.selectedTasks = []
+    this.applicationService.selectedTasks = [];
     this.onChangeCheckbox({checked: true}, row);
   };
 
@@ -170,7 +170,7 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
     return $event ? this.selection.toggle(row) : null;
   };
 
-  onExpandCollapse = (row: TASK_DATA_UI) => {
+  onExpandCollapse = (event, row: TASK_DATA_UI) => {
     event.stopPropagation();
     this.expandedElement[row.id] = this.expandedElement[row.id] ? undefined : row;
   };
@@ -211,7 +211,7 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
   resetTable = () => {
     this.selection.clear();
     this.applicationService.selectedTasks = [];
-  }
+  };
 
 
   ngOnDestroy() {
@@ -222,4 +222,5 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
       subscription.unsubscribe();
     });
   }
+
 }

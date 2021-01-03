@@ -14,6 +14,7 @@ export class CommentsPanelComponent implements OnInit {
   @Input() isShowTitle: boolean = true;
   @Output() changeComments = new EventEmitter<COMMENT[]>();
   comment = '';
+  openEmoji = false;
 
   constructor(public applicationService: ApplicationService) {
     console.log(this.isOpenDescription);
@@ -28,6 +29,11 @@ export class CommentsPanelComponent implements OnInit {
       this.changeComments.emit([...this.comments, ...[newComment]]);
       this.comment = '';
     }
+  };
+
+  addEmoji = (event) => {
+    console.log(event.emoji);
+    this.comment = this.comment + event.emoji.native;
   };
 
 }

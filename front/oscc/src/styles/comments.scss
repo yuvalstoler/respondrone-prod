@@ -4,7 +4,7 @@
   font-size: $fontSizeTitle14;
   color: $black;
   font-weight: 600;
-  //margin: 10px 0px 0px 0px;
+  //margin: 16px 0px 0px 0px
 }
 .CommentContainer{
   //margin-top: 10px;
@@ -75,4 +75,16 @@
 .CommentIconContainerArrow{
   margin: auto 0;
   text-align: right;
+}
+.CommentIconInner{
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: -2px 0 0px 0;
+}
+.CommentInput {
+  line-height: 0px;
+}
+::ng-deep.mat-menu-panel {
+  max-width: fit-content;
 }

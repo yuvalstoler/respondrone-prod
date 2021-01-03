@@ -65,7 +65,7 @@ import { DescriptionPanelComponent } from './description-panel/description-panel
 import { ResourcesPanelComponent } from './resources-panel/resources-panel.component';
 import {CursorPositionComponent} from './cursor-position/cursor-position.component';
 import {AutocompleteAddressComponent} from './autocomplete-address/autocomplete-address.component';
-
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 @NgModule({
   declarations: [
@@ -132,6 +132,7 @@ import {AutocompleteAddressComponent} from './autocomplete-address/autocomplete-
 
     AngularCesiumModule.forRoot(),
     AngularCesiumWidgetsModule,
+    PickerModule /*for Emoji*/
   ],
   exports: [
     HeaderPanelComponent,

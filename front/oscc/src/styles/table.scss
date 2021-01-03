@@ -8,7 +8,6 @@
   overflow: auto;
 }
 
-
 table {
   width: 100%;
   //border-collapse: collapse;
@@ -25,6 +24,11 @@ table {
 }
 .tableExpandIcon{
   margin-top: 5px;
+}
+
+.mat-column-priority {
+  flex: none;
+  width: 20px;
 }
 
 .mat-column-description {
@@ -172,8 +176,8 @@ tr.example-element-row:not(.example-expanded-row):active {
   text-transform: capitalize;
 }
 .tableImage {
-  height: 22px;
-  width: 22px;
+  height: 18px;
+  width: 18px;
 }
 .expendTitle {
   font-size: $fontSizeTitle14;

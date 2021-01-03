@@ -18,9 +18,13 @@
     </div>
     <mat-form-field appearance="outline" class="">
       <label>
-        <input [(ngModel)]="comment" class="Label" matInput
+        <input [(ngModel)]="comment" class="CommentInput" matInput
                placeholder="Add your comment..."
                type="text">
+        <button class="CommentIcon CommentIconInner" mat-icon-button [matMenuTriggerFor]="emoji" aria-label="emoji">
+          <mat-icon>sentiment_satisfied_alt</mat-icon>
+        </button>
+        <!--<mat-icon  (click)="openEmoji = !openEmoji;">sentiment_satisfied_alt</mat-icon>-->
       </label>
     </mat-form-field>
     <div (click)="onSendComment()"
@@ -30,4 +34,18 @@
       </mat-icon>
     </div>
   </div>
+  <!--<div class="CommentIconInner">-->
+  <!--</div>-->
+
 </div>
+<mat-menu #emoji="matMenu">
+  <!--<div *ngIf="openEmoji">-->
+    <emoji-mart
+      (emojiClick)="addEmoji($event)"
+      set="apple"
+      sheetSize="32"
+      showPreview="{{false}}"
+      enableSearch="{{false}}"
+    ></emoji-mart>
+  <!--</div>-->
+</mat-menu>

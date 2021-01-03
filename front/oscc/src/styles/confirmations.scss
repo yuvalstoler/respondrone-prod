@@ -1,15 +1,24 @@
 @import "./colors";
+@import "./variable";
 
 .ConfirmContainer {
-  padding: 20px;
+  padding: 20px !important;
+}
+
+::ng-deep.mat-dialog-container{
+  padding: 0;
+  overflow: hidden;
 }
 
 .ConfirmIcon {
   font-size: 55px;
+  height: 50px;
+  width: 50px;
 }
 
 .ConfirmContent {
   text-align: center;
+  font-size: $fontSizeTitleHeader19;
 }
 
 .ConfirmButtons {

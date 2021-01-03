@@ -15,7 +15,7 @@
           <mat-icon *ngIf="column === 'map'" class="HPRightSideIcon" matTooltip="Event location" matTooltipPosition="above">location_on</mat-icon>
         </th>
         <!-- icons message link map on rows-->
-        <td *matCellDef="let element" mat-cell>
+        <td *matCellDef="let element" mat-cell >
           <span *ngIf="element.modeDefine?.tableData[column]">
             <!--icon-->
             <mat-icon *ngIf="element.modeDefine?.tableData[column]?.type === 'matIcon'"
