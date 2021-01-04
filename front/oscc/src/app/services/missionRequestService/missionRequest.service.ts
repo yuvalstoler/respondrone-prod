@@ -8,7 +8,6 @@ import {
   COMM_RELAY_TYPE,
   DELIVERY_MISSION_REQUEST,
   FOLLOW_PATH_MISSION_REQUEST,
-  GEOPOINT3D_SHORT,
   ID_TYPE,
   LAST_ACTION,
   MISSION_MODEL_UI,
@@ -34,6 +33,7 @@ import {MapGeneralService} from '../mapGeneral/map-general.service';
 import {API_GENERAL, WS_API} from '../../../../../../classes/dataClasses/api/api_enums';
 import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE, POLYGON_DATA, POLYLINE_DATA} from '../../../types';
 import {ApplicationService} from '../applicationService/application.service';
+import {GeoCalculate} from '../classes/geoCalculate';
 
 
 @Injectable({
@@ -176,11 +176,11 @@ export class MissionRequestService {
             id: item.id,
             modeDefine: item.modeDefine,
             isShow: this.applicationService.screen.showMissionPlans,
-            location: this.applicationService.geopoint3d_short_to_point3d(item.observationMissionRequest.observationPoint),
+            location: GeoCalculate.geopoint3d_short_to_point3d(item.observationMissionRequest.observationPoint),
             optionsData: item,
             type: ITEM_TYPE.missionRequest
           };
-          this.mapGeneralService.createIcon(iconData)
+          this.mapGeneralService.createIcon(iconData);
           break;
         }
         case MISSION_TYPE.CommRelay : {
@@ -189,18 +189,18 @@ export class MissionRequestService {
               id: item.id,
               modeDefine: item.modeDefine,
               isShow: this.applicationService.screen.showMissionPlans,
-              location: this.applicationService.geopoint3d_short_to_point3d(item.commRelayMissionRequest.missionData.point),
+              location: GeoCalculate.geopoint3d_short_to_point3d(item.commRelayMissionRequest.missionData.point),
               optionsData: item,
               type: ITEM_TYPE.missionRequest
             };
-            this.mapGeneralService.createIcon(iconData)
+            this.mapGeneralService.createIcon(iconData);
           }
           else if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Area) {
             const polygonData: POLYGON_DATA = {
               id: item.id,
               modeDefine: item.modeDefine,
               isShow: this.applicationService.screen.showMissionPlans,
-              polygon: this.applicationService.geopoint3d_short_to_point3d_arr(item.commRelayMissionRequest.missionData.area.coordinates),
+              polygon: GeoCalculate.geopoint3d_short_to_point3d_arr(item.commRelayMissionRequest.missionData.area.coordinates),
               optionsData: item,
               type: ITEM_TYPE.missionRequest
             };
@@ -213,7 +213,7 @@ export class MissionRequestService {
             id: item.id,
             modeDefine: item.modeDefine,
             isShow: this.applicationService.screen.showMissionPlans,
-            polygon: this.applicationService.geopoint3d_short_to_point3d_arr(item.scanMissionRequest.polygon.coordinates),
+            polygon: GeoCalculate.geopoint3d_short_to_point3d_arr(item.scanMissionRequest.polygon.coordinates),
             optionsData: item,
             type: ITEM_TYPE.missionRequest
           };
@@ -225,7 +225,7 @@ export class MissionRequestService {
             id: item.id,
             modeDefine: item.modeDefine,
             isShow: this.applicationService.screen.showMissionPlans,
-            polyline: this.applicationService.geopoint3d_short_to_point3d_arr(item.followPathMissionRequest.polyline.coordinates),
+            polyline: GeoCalculate.geopoint3d_short_to_point3d_arr(item.followPathMissionRequest.polyline.coordinates),
             optionsData: item,
             type: ITEM_TYPE.missionRequest
           };
@@ -240,11 +240,11 @@ export class MissionRequestService {
             id: item.id,
             modeDefine: item.modeDefine,
             isShow: this.applicationService.screen.showMissionPlans,
-            location: this.applicationService.geopoint3d_short_to_point3d(item.deliveryMissionRequest.deliveryPoint),
+            location: GeoCalculate.geopoint3d_short_to_point3d(item.deliveryMissionRequest.deliveryPoint),
             optionsData: item,
             type: ITEM_TYPE.missionRequest
           };
-          this.mapGeneralService.createIcon(iconData)
+          this.mapGeneralService.createIcon(iconData);
           break;
         }
       }
@@ -277,13 +277,13 @@ export class MissionRequestService {
           this.mapGeneralService.flyToObject(coordinates);
         }
         else if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Area) {
-          coordinates = this.applicationService.geopoint3d_short_to_point3d_arr(item.commRelayMissionRequest.missionData.area.coordinates);
+          coordinates = GeoCalculate.geopoint3d_short_to_point3d_arr(item.commRelayMissionRequest.missionData.area.coordinates);
           this.mapGeneralService.flyToPolygon(coordinates);
         }
         break;
       }
       case MISSION_TYPE.Scan : {
-        coordinates = this.applicationService.geopoint3d_short_to_point3d_arr(item.scanMissionRequest.polygon.coordinates);
+        coordinates = GeoCalculate.geopoint3d_short_to_point3d_arr(item.scanMissionRequest.polygon.coordinates);
         this.mapGeneralService.flyToPolygon(coordinates);
         break;
       }
@@ -346,7 +346,7 @@ export class MissionRequestService {
       status: MISSION_STATUS.Pending,
       scanSpeed: missionModel.missionDetails.scan.speed,
       scanAngle: missionModel.missionDetails.azimuth,
-      polygon: {coordinates: this.applicationService.point3d_to_geoPoint3d_short_arr(missionModel.polygon)},
+      polygon: {coordinates: GeoCalculate.point3d_to_geoPoint3d_short_arr(missionModel.polygon)},
       overlapPercent: missionModel.missionDetails.scan.overlapPercent,
       cameraFOV: missionModel.missionDetails.scan.cameraFov,
     };
@@ -373,7 +373,7 @@ export class MissionRequestService {
       status: MISSION_STATUS.Pending,
       yawOrientation: YAW_ORIENTATION.North,                                  // TODO
       gimbalAzimuth: missionModel.missionDetails.azimuth,
-      polyline: {coordinates: this.applicationService.point3d_to_geoPoint3d_short_arr(missionModel.polyline)},
+      polyline: {coordinates: GeoCalculate.point3d_to_geoPoint3d_short_arr(missionModel.polyline)},
     };
     const missionRequest: MISSION_REQUEST_DATA = {
       id: undefined,
@@ -404,7 +404,7 @@ export class MissionRequestService {
       commRelayMissionRequest.missionData = {point: missionModel.location};
     }
     else if (missionModel.communicationType === COMM_RELAY_TYPE.Area) {
-      commRelayMissionRequest.missionData = {area: {coordinates: this.applicationService.point3d_to_geoPoint3d_short_arr(missionModel.polygon)}};
+      commRelayMissionRequest.missionData = {area: {coordinates: GeoCalculate.point3d_to_geoPoint3d_short_arr(missionModel.polygon)}};
     }
     if (missionModel.communicationType === COMM_RELAY_TYPE.Follow) {
       commRelayMissionRequest.missionData = {FRs: missionModel.frIds};
@@ -489,12 +489,12 @@ export class MissionRequestService {
       if (this.isDraw(item)) {
         switch (item.missionType) {
           case MISSION_TYPE.Observation : {
-            this.mapGeneralService.hideIcon(item.id)
+            this.mapGeneralService.hideIcon(item.id);
             break;
           }
           case MISSION_TYPE.CommRelay : {
             if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Fixed) {
-              this.mapGeneralService.hideIcon(item.id)
+              this.mapGeneralService.hideIcon(item.id);
             }
             else if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Area) {
               this.mapGeneralService.hidePolygon(item.id);
@@ -513,25 +513,25 @@ export class MissionRequestService {
             break;
           }
           case MISSION_TYPE.Delivery : {
-            this.mapGeneralService.hideIcon(item.id)
+            this.mapGeneralService.hideIcon(item.id);
             break;
           }
         }
       }
     });
-  }
+  };
   // -----------------------
   public showAll = () => {
     this.missionRequests.data.forEach((item: MISSION_REQUEST_DATA_UI) => {
       if (this.isDraw(item)) {
         switch (item.missionType) {
           case MISSION_TYPE.Observation : {
-            this.mapGeneralService.showIcon(item.id)
+            this.mapGeneralService.showIcon(item.id);
             break;
           }
           case MISSION_TYPE.CommRelay : {
             if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Fixed) {
-              this.mapGeneralService.showIcon(item.id)
+              this.mapGeneralService.showIcon(item.id);
             }
             else if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Area) {
               this.mapGeneralService.showPolygon(item.id);
@@ -550,17 +550,17 @@ export class MissionRequestService {
             break;
           }
           case MISSION_TYPE.Delivery : {
-            this.mapGeneralService.showIcon(item.id)
+            this.mapGeneralService.showIcon(item.id);
             break;
           }
         }
       }
     });
-  }
+  };
   // -----------------------
   private isDraw = (item: MISSION_REQUEST_DATA_UI) => {
-    return (item.missionStatus !== MISSION_STATUS_UI.Cancelled && item.missionStatus !== MISSION_STATUS_UI.Completed)
-  }
+    return (item.missionStatus !== MISSION_STATUS_UI.Cancelled && item.missionStatus !== MISSION_STATUS_UI.Completed);
+  };
 
   public goToMissionRequest = (missionRequestId: ID_TYPE) => {
     if (missionRequestId !== undefined) {
@@ -583,5 +583,6 @@ export class MissionRequestService {
       }, 500);
 
     }
-  }
+  };
+
 }

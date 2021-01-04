@@ -65,6 +65,7 @@
 .DialogHeaderX {
   float: right;
   margin: -5px 0 0 0;
+  cursor: pointer;
 }
 
 .DialogContent{
@@ -180,6 +181,10 @@
   float: right;
   background-color: $darkGray;
   color: $white;
+}
+
+.DialogMandatory{
+  flex: auto;
 }
 
 // material design

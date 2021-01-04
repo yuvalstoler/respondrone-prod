@@ -10,15 +10,15 @@
 }
 
 ::ng-deep .mat-tab-list .mat-tab-label {
-  font-size: $fontSizeTitleHeader19;
+  font-size: $fontSizeTitleHeader17;
   font-weight: bold;
 }
 
 /* Styles for the active tab label */
-::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
-  font-weight: bold !important;
-  color: $black;
-}
+//::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+//  font-weight: bold !important;
+//  color: $black;
+//}
 
 ::ng-deep.mat-tab-label.mat-tab-disabled {
   cursor: default;
@@ -26,4 +26,10 @@
   right: 0;
   min-width: 10px;
   padding: 0;
+}
+::ng-deep.mat-tab-label.mat-tab-label-active:not(.mat-tab-disabled) {
+  //background-color: #FCE500;
+  font-weight: bold !important;
+  color: $black;
+  opacity: 1;
 }

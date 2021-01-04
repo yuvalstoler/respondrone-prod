@@ -2,14 +2,15 @@ import {Injectable} from '@angular/core';
 import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
-import {MISSION_ROUTE_DATA_UI, POINT3D, PointOfRoute,} from '../../../../../../classes/typings/all.typings';
+import {MISSION_ROUTE_DATA_UI, POINT3D, PointOfRoute} from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {ITEM_TYPE, POLYLINE_DATA} from "../../../types";
-import {API_GENERAL, WS_API} from "../../../../../../classes/dataClasses/api/api_enums";
-import {MissionRequestService} from "../missionRequestService/missionRequest.service";
-import {ApplicationService} from "../applicationService/application.service";
+import {ITEM_TYPE, POLYLINE_DATA} from '../../../types';
+import {API_GENERAL, WS_API} from '../../../../../../classes/dataClasses/api/api_enums';
+import {MissionRequestService} from '../missionRequestService/missionRequest.service';
+import {ApplicationService} from '../applicationService/application.service';
+import {GeoCalculate} from '../classes/geoCalculate';
 
 
 @Injectable({
@@ -28,7 +29,7 @@ export class MissionRouteService {
               private applicationService: ApplicationService) {
     this.socketService.connected$.subscribe(this.init);
     this.socketService.connectToRoom('webServer_missionRoutes').subscribe(this.updateMissionRoutes);
-  };
+  }
   // ----------------------
   private init = (isConnected: boolean = true): void => {
     if (isConnected) {
@@ -102,7 +103,8 @@ export class MissionRouteService {
         // this.drawMission(newItem);
 
         if ((Date.now() - newItem.time) < 1000 * 60 * 5) {
-          this.toasterService.missionToaster({message: `New mission Request <span class="underline">${_.get(newItem, 'modeDefine.data.missionName')}</span> is waiting for approval`, title: ''} , () => {
+          this.toasterService.missionToaster({message: 
+              `New mission Request <span class="underline">${_.get(newItem, 'modeDefine.data.missionName')}</span> is waiting for approval`, title: ''} , () => {
             this.missionRequestService.goToMissionRequest(newItem.requestId);
             this.flyToObject(newItem);
           });
@@ -117,7 +119,7 @@ export class MissionRouteService {
     if (item.route) {
       this.mapGeneralService.deletePolylineFromMap(item.id);
     }
-  }
+  };
   // ----------------------
   private drawMission = (item: MISSION_ROUTE_DATA_UI) => {
     const polyline: POINT3D[] = [];
@@ -142,7 +144,7 @@ export class MissionRouteService {
   // -----------------------
   public flyToObject = (missionRouteData: MISSION_ROUTE_DATA_UI) => {
     if (missionRouteData.route[0] && missionRouteData.route[0].point) {
-      this.mapGeneralService.flyToObject(this.applicationService.geopoint3d_short_to_point3d( missionRouteData.route[0].point));
+      this.mapGeneralService.flyToObject(GeoCalculate.geopoint3d_short_to_point3d( missionRouteData.route[0].point));
     }
   };
 

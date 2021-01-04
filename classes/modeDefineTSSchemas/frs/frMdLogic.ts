@@ -38,7 +38,7 @@ export class FrMdLogic implements IModeDefine {
         if (data.type === FR_TYPE.fireFighter) {
             res = (missionsFollowingFR.length > 0) ? '../../../../../assets/firemanFollowed.png' : '../../../../../assets/fireman.png';
         } else if (data.type === FR_TYPE.paramedic) {
-            res = (missionsFollowingFR.length > 0) ? '../../../../../assets/medicinFollowed.png' : '../../../../../assets/medicin.png';
+            res = (missionsFollowingFR.length > 0) ? '../../../../../assets/medicinFollowed.png' : '../../../../../assets/medicin1.png';
         } else if (data.type === FR_TYPE.police) {
             res = (missionsFollowingFR.length > 0) ? '../../../../../assets/policeFollowed.png' : '../../../../../assets/police.png';
         }

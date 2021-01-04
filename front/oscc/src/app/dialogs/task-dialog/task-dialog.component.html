@@ -15,9 +15,7 @@
       <!--Title-->
       <div class="DialogContentItem">
         <div class="DialogTitle">Task Title
-          <mat-error *ngIf="taskModel.title === '' || taskModel.title === undefined">
-            *
-          </mat-error>
+          <mat-error *ngIf="taskModel.title === '' || taskModel.title === undefined">*</mat-error>
         </div>
         <mat-form-field appearance="outline" class="SPMatFormField">
           <label>
@@ -56,7 +54,9 @@
       </div>
       <!--Description-->
       <div class="DialogContentItem DialogDescription">
-        <div class="DialogTitle">Description</div>
+        <div class="DialogTitle">Description
+          <mat-error *ngIf="taskModel.description === '' || taskModel.description === undefined">*</mat-error>
+        </div>
         <mat-form-field appearance="outline" class="SPMatFormField">
           <label>
             <textarea [(ngModel)]="taskModel.description" [ngStyle]="{'resize': 'none'}"
@@ -104,22 +104,19 @@
   </mat-dialog-content>
   <!--Action-->
   <div class="DialogActions" mat-dialog-actions>
+    <mat-error class="DialogMandatory"
+               *ngIf="(taskModel.title === '' || taskModel.title === undefined) ||
+             (taskModel.description === '' || taskModel.description === undefined)">
+      *Mandatory fields
+    </mat-error>
     <button (click)="onNoClick()" class="DialogActionsDelete"
             mat-raised-button>Cancel
     </button>
-    <!--Create-->
-    <button *ngIf="data.title === 'Create new task'"
-            (click)="onCreateClick()"
+    <!--Create--><!--Edit-->
+    <button (click)="onCreateClick()"
             class="DialogActionsCreate"
-            [disabled]="(taskModel.title === '' || taskModel.title === undefined)"
-            mat-raised-button>
-      {{data.title}}
-    </button>
-    <!--Edit-->
-    <button *ngIf="data.title === 'Edit task'"
-            (click)="onEditClick()"
-            class="DialogActionsCreate"
-            [disabled]="(taskModel.title === '' || taskModel.title === undefined)"
+            [disabled]="(taskModel.title === '' || taskModel.title === undefined) ||
+             (taskModel.description === '' || taskModel.description === undefined)"
             mat-raised-button>
       {{data.title}}
     </button>

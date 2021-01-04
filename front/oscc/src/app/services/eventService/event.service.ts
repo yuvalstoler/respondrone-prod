@@ -17,6 +17,7 @@ import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
 import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE, POLYGON_DATA} from '../../../types';
 import {ApplicationService} from '../applicationService/application.service';
+import {GeoCalculate} from '../classes/geoCalculate';
 
 
 @Injectable({
@@ -149,7 +150,7 @@ export class EventService {
         id: event.id,
         modeDefine: event.modeDefine,
         isShow: this.applicationService.screen.showEvents,
-        location: this.applicationService.geopoint3d_to_point3d(event.location),
+        location: GeoCalculate.geopoint3d_to_point3d(event.location),
         optionsData: event,
         type: ITEM_TYPE.event
       };

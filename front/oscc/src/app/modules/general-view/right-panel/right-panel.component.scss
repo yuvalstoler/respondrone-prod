@@ -3,7 +3,7 @@
 
 .RightPanelHeader {
   display: inline-block;
-  font-size: $fontSizeTitle14;
+  font-size: $fontSizeTitleHeader17;
   color: $black;
   font-weight: 600;
 }
@@ -18,6 +18,13 @@
 .example-spacer {
   flex: 1 1 auto;
 }
+
+.sortIcon{
+  margin-right: 14px;
+}
+
+
+
 ::ng-deep.mat-toolbar-row, .mat-toolbar-single-row {
   height: $rightPanelResourceHeight;
 }

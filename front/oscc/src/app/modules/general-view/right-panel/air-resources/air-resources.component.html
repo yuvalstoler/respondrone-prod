@@ -2,7 +2,7 @@
   <div class="AirResourcesContainer scroll">
     <div *ngFor="let airVehicle of airVehicleService.airVehicles.data | sortByPriority: optionSelected">
       <div (click)="flyTo(airVehicle)"
-           [ngStyle]="{ 'grid-template-rows': isOpenMenu[airVehicle.id] ? '25px 25px 25px 7px 25px 25px' : '25px 25px 25px',
+           [ngStyle]="{ 'grid-template-rows': isOpenMenu[airVehicle.id] ? '29px 25px 25px 7px 25px 25px' : '29px 25px 25px',
       'border-bottom': '5px solid' + airVehicle?.modeDefine?.styles?.statusColor}" class="gridAirResources">
         <!--title-->
         <div class="item1 title">{{airVehicle.name}}</div>
@@ -70,8 +70,8 @@
         </div>
         <!--status-->
         <div class="item4">
-        <span [ngStyle]="{'color': airVehicle.modeDefine?.styles?.statusColor, 'font-size': '12px'}"
-              class="material-icons">stop_circle
+        <span [ngStyle]="{'color': airVehicle.modeDefine?.styles?.statusColor}"
+              class="material-icons iconStatus">stop_circle
         </span>{{airVehicle.operationalStatus}}
         </div>
         <!--TTL-->

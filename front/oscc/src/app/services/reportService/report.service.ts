@@ -16,6 +16,7 @@ import {BehaviorSubject} from 'rxjs';
 import {ApplicationService} from '../applicationService/application.service';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
 import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE} from '../../../types';
+import {GeoCalculate} from '../classes/geoCalculate';
 
 
 @Injectable({
@@ -147,7 +148,7 @@ export class ReportService {
         id: report.id,
         modeDefine: report.modeDefine,
         isShow: this.applicationService.screen.showReports,
-        location: this.applicationService.geopoint3d_to_point3d(report.location),
+        location: GeoCalculate.geopoint3d_to_point3d(report.location),
         optionsData: report,
         type: ITEM_TYPE.report
       };

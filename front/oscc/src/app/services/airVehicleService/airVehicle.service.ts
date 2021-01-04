@@ -1,25 +1,21 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
-import {
-  ASYNC_RESPONSE, AV_DATA_UI, FR_DATA_UI,
-  ID_OBJ,
-  POINT,
-  POINT3D,
-} from '../../../../../../classes/typings/all.typings';
+import {AV_DATA_UI, POINT3D} from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {ICON_DATA, ITEM_TYPE} from '../../../types';
-import {ApplicationService} from "../applicationService/application.service";
+import {ICON_DATA} from '../../../types';
+import {ApplicationService} from '../applicationService/application.service';
+import {GeoCalculate} from '../classes/geoCalculate';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AirVehicleService {
 
-  airVehicles: {data: AV_DATA_UI[]} = {data: []};
+  airVehicles: { data: AV_DATA_UI[] } = {data: []};
   airVehicles$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private connectionService: ConnectionService,
@@ -31,6 +27,7 @@ export class AirVehicleService {
     this.socketService.connectToRoom('webServer_airVehiclesData').subscribe(this.updateAVs);
 
   }
+
   // ----------------------
   private updateAVs = (data: AV_DATA_UI[]): void => {
     if (Array.isArray(data)) {
@@ -83,7 +80,7 @@ export class AirVehicleService {
       id: this.getId(av.id),
       modeDefine: av.modeDefine,
       isShow: this.applicationService.screen.showUAV,
-      location: this.applicationService.geopoint3d_to_point3d(av.location),
+      location: GeoCalculate.geopoint3d_to_point3d(av.location),
       heading: av.heading,
       optionsData: av,
       type: undefined
@@ -110,24 +107,25 @@ export class AirVehicleService {
   // -----------------------
   public flyToObject = (object: AV_DATA_UI) => {
     if (object.location) {
-      const coordinates: POINT3D = this.applicationService.geopoint3d_to_point3d(object.location);
+      const coordinates: POINT3D = GeoCalculate.geopoint3d_to_point3d(object.location);
       this.mapGeneralService.flyToObject(coordinates);
     }
   };
   // -----------------------
   private getId = (id: string) => { // to make sure the ID is unique
     return 'av' + id;
-  }
+  };
   // -----------------------
   public hideAll = () => {
     this.airVehicles.data.forEach((av: AV_DATA_UI) => {
       this.mapGeneralService.hideIcon(this.getId(av.id));
     });
-  }
+  };
   // -----------------------
   public showAll = () => {
     this.airVehicles.data.forEach((av: AV_DATA_UI) => {
       this.mapGeneralService.showIcon(this.getId(av.id));
     });
-  }
+  };
+
 }

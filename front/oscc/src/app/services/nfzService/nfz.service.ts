@@ -3,17 +3,17 @@ import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
-  ASYNC_RESPONSE, FR_DATA_UI, GEOPOINT3D_SHORT, NFZ_DATA_UI,
-  ID_OBJ,
+  NFZ_DATA_UI,
   POINT,
   POINT3D,
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {API_GENERAL, WS_API} from "../../../../../../classes/dataClasses/api/api_enums";
-import {ApplicationService} from "../applicationService/application.service";
-import {ICON_DATA, ITEM_TYPE, POLYGON_DATA} from "../../../types";
+import {API_GENERAL, WS_API} from '../../../../../../classes/dataClasses/api/api_enums';
+import {ApplicationService} from '../applicationService/application.service';
+import {POLYGON_DATA} from '../../../types';
+import {GeoCalculate} from '../classes/geoCalculate';
 
 
 @Injectable({
@@ -103,7 +103,7 @@ export class NFZService {
   // ----------------------
   private removeFromMap = (item: NFZ_DATA_UI) => {
     this.mapGeneralService.deletePolygonManually(item.id);
-  }
+  };
   // ----------------------
   private drawNFZ = (item: NFZ_DATA_UI) => {
 
@@ -111,7 +111,7 @@ export class NFZService {
       id: item.id,
       modeDefine: item.modeDefine,
       isShow: this.applicationService.screen.showNFZ,
-      polygon: this.applicationService.geopoint3d_short_to_point3d_arr(item.polygon.coordinates),
+      polygon: GeoCalculate.geopoint3d_short_to_point3d_arr(item.polygon.coordinates),
       optionsData: item,
       type: undefined
     };
@@ -137,12 +137,12 @@ export class NFZService {
     this.nfzs.data.forEach((item: NFZ_DATA_UI) => {
       this.mapGeneralService.hidePolygon(item.id);
     });
-  }
+  };
   // -----------------------
   public showAll = () => {
     this.nfzs.data.forEach((item: NFZ_DATA_UI) => {
       this.mapGeneralService.showPolygon(item.id);
     });
-  }
+  };
 
 }

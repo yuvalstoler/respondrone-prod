@@ -10,7 +10,7 @@
   display: grid;
   grid-template-columns: 45% auto 30%;
   //grid-template-rows: 25px 20px 20px 20px 25px;
-  padding: 0 10px;
+  padding: 10px 10px 2px 10px;
   font-size: $fontSizeText13;
   color: $black;
   border-radius: 8px;
@@ -21,6 +21,7 @@
 .item1{
   grid-column: 1 / span 2;
   grid-row: 1;
+  font-size: $fontSizeTitle15;
 }
 .item2{
   grid-column: 3;
@@ -107,4 +108,7 @@
 }
 .gpsIcon{
   height: 17px;
+}
+.iconStatus {
+  font-size: $fontSizeText9;
 }

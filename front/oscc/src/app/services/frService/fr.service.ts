@@ -11,7 +11,8 @@ import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
 import {ICON_DATA, ITEM_TYPE} from '../../../types';
-import {ApplicationService} from "../applicationService/application.service";
+import {ApplicationService} from '../applicationService/application.service';
+import {GeoCalculate} from "../classes/geoCalculate";
 
 
 @Injectable({
@@ -78,7 +79,7 @@ export class FRService {
       id: this.getId(fr.id),
       modeDefine: fr.modeDefine,
       isShow: this.applicationService.screen.showFRLocations,
-      location: this.applicationService.geopoint3d_to_point3d(fr.location),
+      location: GeoCalculate.geopoint3d_to_point3d(fr.location),
       optionsData: fr,
       type: undefined
     };
@@ -103,7 +104,7 @@ export class FRService {
 
   public flyToObject = (object: FR_DATA_UI) => {
     if (object.location) {
-      const coordinates: POINT3D = this.applicationService.geopoint3d_to_point3d(object.location);
+      const coordinates: POINT3D = GeoCalculate.geopoint3d_to_point3d(object.location);
       this.mapGeneralService.flyToObject(coordinates);
     }
   };
@@ -111,18 +112,18 @@ export class FRService {
   // -----------------------
   private getId = (id: string) => { // to make sure the ID is unique
     return 'fr' + id;
-  }
+  };
   // -----------------------
   public hideAll = () => {
     this.frs.data.forEach((fr: FR_DATA_UI) => {
       this.mapGeneralService.hideIcon(this.getId(fr.id));
     });
-  }
+  };
   // -----------------------
   public showAll = () => {
     this.frs.data.forEach((fr: FR_DATA_UI) => {
       this.mapGeneralService.showIcon(this.getId(fr.id));
     });
-  }
+  };
 
 }

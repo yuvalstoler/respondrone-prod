@@ -193,9 +193,17 @@ tr.example-element-row:not(.example-expanded-row):active {
   //float: right;
   margin: 3px 3px 3px 5px;
 }
+
+.iconStatus {
+  font-size: $fontSizeText9;
+}
+
+
+
 ::ng-deep.mat-expansion-panel:not([class*=mat-elevation-z]) {
  box-shadow: none !important;
 }
+
 .mat-expansion-panel-header {
   padding: 0 10px 0 0;
 }

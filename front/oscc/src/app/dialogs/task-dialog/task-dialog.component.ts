@@ -108,18 +108,7 @@ export class TaskDialogComponent implements OnInit {
   };
 
   onCreateClick = () => {
-    const taskModel = _.cloneDeep(this.taskModel);
-    taskModel.geographicInstructions.forEach((geoInstruction?: GEOGRAPHIC_INSTRUCTION) => {
-      if (geoInstruction.id.substring(0, 3) === 'tmp') {
-        geoInstruction.id = DataUtility.generateID();
-      }
-    });
-    this.dialogRef.close(taskModel);
-    this.clearPanel();
-  };
-
-  onEditClick = () => {
-    console.log(this.taskModel.geographicInstructions);
+    // console.log(this.taskModel.geographicInstructions);
     const taskModel = _.cloneDeep(this.taskModel);
     taskModel.geographicInstructions.forEach((geoInstruction?: GEOGRAPHIC_INSTRUCTION) => {
       if (geoInstruction.id.substring(0, 3) === 'tmp') {

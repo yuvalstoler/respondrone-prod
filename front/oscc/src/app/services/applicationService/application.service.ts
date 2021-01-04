@@ -90,31 +90,8 @@ export class ApplicationService {
     this._selectedAirVehicle = value;
   }
 
-
-  point3d_to_geoPoint3d_short_arr = (points: POINT3D[]): GEOPOINT3D_SHORT[] => {
-    const geopoints = points.map(point => this.point3d_to_geoPoint3d_short(point));
-    return geopoints;
-  };
-
-  point3d_to_geoPoint3d_short = (point: POINT3D): GEOPOINT3D_SHORT => {
-    return {lon: point[0], lat: point[1], alt: point[2] || 0};
-  };
-
-  geopoint3d_short_to_point3d_arr = (geopoints: GEOPOINT3D_SHORT[]): POINT3D[] => {
-    const points = geopoints.map(point => this.geopoint3d_short_to_point3d(point));
-    return points;
-  };
-
-  geopoint3d_short_to_point3d = (geopoint: GEOPOINT3D_SHORT): POINT3D => {
-    return [geopoint.lon, geopoint.lat, geopoint.alt];
-  };
-
-  geopoint3d_to_point3d = (geopoint: GEOPOINT3D): POINT3D => {
-    return [geopoint.longitude, geopoint.latitude, geopoint.altitude];
-  };
-
-
   getGeoCounter = () => {
     return 'tmp' + this.geoCounter;
-  }
+  };
+
 }

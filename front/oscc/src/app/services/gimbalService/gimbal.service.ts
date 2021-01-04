@@ -1,27 +1,23 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
-import {
-  ASYNC_RESPONSE, FR_DATA_UI, GEOPOINT3D_SHORT, GIMBAL_ACTION, GIMBAL_DATA_UI,
-  ID_OBJ, MAP, MISSION_DATA_UI,
-  POINT,
-  POINT3D,
-} from '../../../../../../classes/typings/all.typings';
+import {GIMBAL_ACTION, GIMBAL_DATA_UI, MAP} from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {ICON_DATA, ITEM_TYPE, POLYGON_DATA, POLYLINE_DATA} from '../../../types';
-import {ApplicationService} from "../applicationService/application.service";
-import {API_GENERAL, WS_API} from "../../../../../../classes/dataClasses/api/api_enums";
+import {ICON_DATA, POLYGON_DATA, POLYLINE_DATA} from '../../../types';
+import {ApplicationService} from '../applicationService/application.service';
+import {API_GENERAL, WS_API} from '../../../../../../classes/dataClasses/api/api_enums';
+import {GeoCalculate} from '../classes/geoCalculate';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GimbalService {
 
-  gimbals: {data: GIMBAL_DATA_UI[]} = {data: []};
-  gimbalsByDroneId: MAP<GIMBAL_DATA_UI> = {}
+  gimbals: { data: GIMBAL_DATA_UI[] } = {data: []};
+  gimbalsByDroneId: MAP<GIMBAL_DATA_UI> = {};
   gimbals$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private connectionService: ConnectionService,
@@ -33,6 +29,7 @@ export class GimbalService {
     this.socketService.connectToRoom('webServer_gimbalsData').subscribe(this.updateAVs);
 
   }
+
   // ----------------------
   private updateAVs = (data: GIMBAL_DATA_UI[]): void => {
     if (Array.isArray(data)) {
@@ -74,7 +71,7 @@ export class GimbalService {
       } else {
         this.gimbals.data.push(newItem);
       }
-      this.gimbalsByDroneId[newItem.droneId] = newItem
+      this.gimbalsByDroneId[newItem.droneId] = newItem;
 
       // this.removeFromMap(newItem);
       this.drawMission(newItem);
@@ -93,7 +90,7 @@ export class GimbalService {
     if (item.lineFromAirVehicle) {
       this.mapGeneralService.deletePolylineFromMap(this.getId(item.id));
     }
-  }
+  };
   // ----------------------
   private drawMission = (item: GIMBAL_DATA_UI) => {
     if (item.cameraLookAtPoint) {
@@ -102,10 +99,10 @@ export class GimbalService {
         id: this.getId(item.id),
         modeDefine: item.modeDefine,
         isShow: this.applicationService.screen.showUAV,
-        location: this.applicationService.geopoint3d_short_to_point3d(item.cameraLookAtPoint),
+        location: GeoCalculate.geopoint3d_short_to_point3d(item.cameraLookAtPoint),
         optionsData: item,
         type: undefined
-      }
+      };
       this.mapGeneralService.createIcon(iconData);
     }
     if (item.cameraFootprint) {
@@ -113,7 +110,7 @@ export class GimbalService {
         id: this.getId(item.id),
         modeDefine: item.modeDefine,
         isShow: this.applicationService.screen.showUAV,
-        polygon: this.applicationService.geopoint3d_short_to_point3d_arr(item.cameraFootprint.coordinates),
+        polygon: GeoCalculate.geopoint3d_short_to_point3d_arr(item.cameraFootprint.coordinates),
         optionsData: item,
         type: undefined
       };
@@ -124,7 +121,7 @@ export class GimbalService {
         id: this.getId(item.id),
         modeDefine: item.modeDefine,
         isShow: this.applicationService.screen.showUAV,
-        polyline: this.applicationService.geopoint3d_short_to_point3d_arr(item.lineFromAirVehicle),
+        polyline: GeoCalculate.geopoint3d_short_to_point3d_arr(item.lineFromAirVehicle),
         optionsData: item,
         type: undefined
       };
@@ -139,7 +136,7 @@ export class GimbalService {
       .catch(e => {
         console.log(e);
       });
-  }
+  };
   // -----------------------
   public getById = (id: string): GIMBAL_DATA_UI => {
     return this.gimbals.data.find(data => data.id === id);
@@ -147,7 +144,7 @@ export class GimbalService {
   // -----------------------
   private getId = (id: string) => { // to make sure the ID is unique
     return 'gimbal' + id;
-  }
+  };
 
   // -----------------------
   public hideAll = () => {
@@ -162,7 +159,7 @@ export class GimbalService {
         this.mapGeneralService.hidePolyline(this.getId(item.id));
       }
     });
-  }
+  };
   // -----------------------
   public showAll = () => {
     this.gimbals.data.forEach((item: GIMBAL_DATA_UI) => {
@@ -176,5 +173,6 @@ export class GimbalService {
         this.mapGeneralService.showPolyline(this.getId(item.id));
       }
     });
-  }
+  };
+
 }

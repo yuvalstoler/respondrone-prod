@@ -1,4 +1,4 @@
-import {POINT, POINT3D} from '../../../../../../classes/typings/all.typings';
+import {GEOPOINT3D, GEOPOINT3D_SHORT, POINT, POINT3D} from '../../../../../../classes/typings/all.typings';
 import * as turf from '@turf/turf';
 
 export class GeoCalculate {
@@ -75,6 +75,28 @@ export class GeoCalculate {
       res.push(false);
     }
     return !res.includes(false);
+  };
+
+  public static point3d_to_geoPoint3d_short_arr = (points: POINT3D[]): GEOPOINT3D_SHORT[] => {
+    const geopoints = points.map(point => GeoCalculate.point3d_to_geoPoint3d_short(point));
+    return geopoints;
+  };
+
+  public static point3d_to_geoPoint3d_short = (point: POINT3D): GEOPOINT3D_SHORT => {
+    return {lon: point[0], lat: point[1], alt: point[2] || 0};
+  };
+
+  public static geopoint3d_short_to_point3d_arr = (geopoints: GEOPOINT3D_SHORT[]): POINT3D[] => {
+    const points = geopoints.map(point => GeoCalculate.geopoint3d_short_to_point3d(point));
+    return points;
+  };
+
+  public static geopoint3d_short_to_point3d = (geopoint: GEOPOINT3D_SHORT): POINT3D => {
+    return [geopoint.lon, geopoint.lat, geopoint.alt];
+  };
+
+  public static geopoint3d_to_point3d = (geopoint: GEOPOINT3D): POINT3D => {
+    return [geopoint.longitude, geopoint.latitude, geopoint.altitude];
   };
 
 }

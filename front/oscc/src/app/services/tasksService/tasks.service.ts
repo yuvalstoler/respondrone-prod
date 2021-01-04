@@ -13,6 +13,7 @@ import {MapGeneralService} from '../mapGeneral/map-general.service';
 import * as _ from 'lodash';
 import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE, POLYGON_DATA, POLYLINE_DATA} from '../../../types';
 import {ApplicationService} from '../applicationService/application.service';
+import {GeoCalculate} from '../classes/geoCalculate';
 
 @Injectable({
   providedIn: 'root'
@@ -121,7 +122,7 @@ export class TasksService {
               id: geoInstruction.id,
               modeDefine: geoInstruction.modeDefine,
               isShow: this.applicationService.screen.showTasks,
-              location: this.applicationService.geopoint3d_to_point3d(geoInstruction.location),
+              location: GeoCalculate.geopoint3d_to_point3d(geoInstruction.location),
               optionsData: task,
               type: ITEM_TYPE.task
             };
@@ -132,7 +133,7 @@ export class TasksService {
               id: geoInstruction.id,
               modeDefine: geoInstruction.modeDefine,
               isShow: this.applicationService.screen.showTasks,
-              location: this.applicationService.geopoint3d_to_point3d(geoInstruction.location),
+              location: GeoCalculate.geopoint3d_to_point3d(geoInstruction.location),
               optionsData: task,
               type: ITEM_TYPE.task
             };
@@ -254,10 +255,10 @@ export class TasksService {
           coordinates = geoInstruction.arrow[0];
           break;
         case GEOGRAPHIC_INSTRUCTION_TYPE.address:
-          coordinates = this.applicationService.geopoint3d_to_point3d(geoInstruction.location);
+          coordinates = GeoCalculate.geopoint3d_to_point3d(geoInstruction.location);
           break;
         case GEOGRAPHIC_INSTRUCTION_TYPE.point:
-          coordinates = this.applicationService.geopoint3d_to_point3d(geoInstruction.location);
+          coordinates = GeoCalculate.geopoint3d_to_point3d(geoInstruction.location);
           break;
         case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
           coordinates = geoInstruction.polygon[0];

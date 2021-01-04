@@ -1,19 +1,20 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
-  ASYNC_RESPONSE, FR_DATA_UI, GEOPOINT3D_SHORT, GRAPHIC_OVERLAY_DATA_UI,
-  ID_OBJ,
+  GEOPOINT3D_SHORT,
+  GRAPHIC_OVERLAY_DATA_UI,
   POINT,
   POINT3D,
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {API_GENERAL, WS_API} from "../../../../../../classes/dataClasses/api/api_enums";
-import {ApplicationService} from "../applicationService/application.service";
-import {ICON_DATA, ITEM_TYPE, POLYGON_DATA} from "../../../types";
+import {API_GENERAL, WS_API} from '../../../../../../classes/dataClasses/api/api_enums';
+import {ApplicationService} from '../applicationService/application.service';
+import {ICON_DATA, POLYGON_DATA} from '../../../types';
+import {GeoCalculate} from '../classes/geoCalculate';
 
 
 @Injectable({
@@ -21,7 +22,7 @@ import {ICON_DATA, ITEM_TYPE, POLYGON_DATA} from "../../../types";
 })
 export class GraphicOverlayService {
 
-  graphicOverlays: {data: GRAPHIC_OVERLAY_DATA_UI[]} = {data: []};
+  graphicOverlays: { data: GRAPHIC_OVERLAY_DATA_UI[] } = {data: []};
   graphicOverlays$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private connectionService: ConnectionService,
@@ -32,6 +33,7 @@ export class GraphicOverlayService {
     this.socketService.connected$.subscribe(this.init);
     this.socketService.connectToRoom('webServer_graphicOverlays').subscribe(this.updateGraphicOverlays);
   }
+
   // ----------------------
   private init = (isConnected: boolean = true): void => {
     if (isConnected) {
@@ -113,7 +115,7 @@ export class GraphicOverlayService {
     if (this.getShapeType(item) === 'polygon') {
       this.mapGeneralService.deletePolygonManually(item.id);
     }
-  }
+  };
   // ----------------------
   private drawGraphicOverlay = (item: GRAPHIC_OVERLAY_DATA_UI) => {
     // icons
@@ -124,18 +126,17 @@ export class GraphicOverlayService {
         id: item.id,
         modeDefine: item.modeDefine,
         isShow: this.applicationService.screen.showGraphicOverlays,
-        location: this.applicationService.geopoint3d_short_to_point3d(item.shape as GEOPOINT3D_SHORT),
+        location: GeoCalculate.geopoint3d_short_to_point3d(item.shape as GEOPOINT3D_SHORT),
         optionsData: item,
         type: undefined
-      }
+      };
       this.mapGeneralService.createIcon(iconData);
-    }
-    else if (shapeType === 'polygon') {
+    } else if (shapeType === 'polygon') {
       const polygonData: POLYGON_DATA = {
         id: item.id,
         modeDefine: item.modeDefine,
         isShow: this.applicationService.screen.showGraphicOverlays,
-        polygon: this.applicationService.geopoint3d_short_to_point3d_arr(item.shape.coordinates),
+        polygon: GeoCalculate.geopoint3d_short_to_point3d_arr(item.shape.coordinates),
         optionsData: item,
         type: undefined
       };
@@ -161,13 +162,13 @@ export class GraphicOverlayService {
     let res: 'icon' | 'polygon';
     if (item.shape) {
       if (item.shape.coordinates) {
-        res = 'polygon'
+        res = 'polygon';
       } else if (item.shape.lat && item.shape.lon) {
-        res = 'icon'
+        res = 'icon';
       }
     }
     return res;
-  }
+  };
 
   // -----------------------
   public hideAll = () => {
@@ -175,20 +176,18 @@ export class GraphicOverlayService {
       const shapeType = this.getShapeType(item);
       if (shapeType === 'icon') {
         this.mapGeneralService.hideIcon(item.id);
-      }
-      else if (shapeType === 'polygon') {
+      } else if (shapeType === 'polygon') {
         this.mapGeneralService.hidePolygon(item.id);
       }
     });
-  }
+  };
   // -----------------------
   public showAll = () => {
     this.graphicOverlays.data.forEach((item: GRAPHIC_OVERLAY_DATA_UI) => {
       const shapeType = this.getShapeType(item);
       if (shapeType === 'icon') {
         this.mapGeneralService.showIcon(item.id);
-      }
-      else if (shapeType === 'polygon') {
+      } else if (shapeType === 'polygon') {
         this.mapGeneralService.showPolygon(item.id);
       }
     });

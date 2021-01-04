@@ -8,7 +8,7 @@ export class MDClass {
         lightBlue: '#59b1f1',
         blue: '#0d26fa',
         purple: '#6f30a0',
-        orange: '#f1bf10',
+        orange: '#F59A23',
         red: '#c12524',
         olive: '#485700',
         darkBlue: '#2d026f',

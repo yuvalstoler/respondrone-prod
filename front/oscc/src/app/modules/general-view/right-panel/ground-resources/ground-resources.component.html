@@ -5,7 +5,7 @@
     <img [src]="fr.modeDefine?.styles?.mapIcon" class='icon'>
   </div>
   <!--title-->
-  <div class="item2">{{fr.callSign}}</div>
+  <div class="item2 ">{{fr.callSign}}</div>
   <!--icon 3 dotes-->
   <div class="item3">
     <!-- 3 dotes-->
@@ -31,8 +31,8 @@
   <div class="item5">{{fr.lastUpdated.timestamp | lastSeenDate: applicationService.now }}</div>
   <!--status-->
   <div class="item6">
-    <span [ngStyle]="{'color': fr.modeDefine?.styles?.dotColor, 'font-size': '12px'}"
-          class="material-icons">stop_circle</span>
+    <span [ngStyle]="{'color': fr.modeDefine?.styles?.dotColor}"
+          class="material-icons iconStatus">stop_circle</span>
     {{fr.online ? 'Online' : 'Offline'}}
   </div>
 </div>

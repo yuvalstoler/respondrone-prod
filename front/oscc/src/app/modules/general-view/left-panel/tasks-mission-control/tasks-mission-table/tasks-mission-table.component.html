@@ -26,8 +26,8 @@
              </mat-icon>
             <!--image-->
             <img *ngIf="element.modeDefine?.tableData[column]?.type === 'image'"
-                 [src]="element.modeDefine?.tableData[column]?.data"
                  [matTooltip]="element?.priority"
+                 [src]="element.modeDefine?.tableData[column]?.data"
                  class="tableImage">
             <!--text-->
             <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'">
@@ -63,8 +63,7 @@
       </span>
       <!--Expand/Collapse-->
       <span *ngIf="column === 'expandCollapse'">
-      <th *matHeaderCellDef class="tableCheckbox" mat-header-cell>
-      </th>
+      <th *matHeaderCellDef class="tableCheckbox" mat-header-cell></th>
         <td *matCellDef="let row" mat-cell>
            <mat-icon (click)="onExpandCollapse($event, row)"
                      class="tableExpandIcon">
@@ -77,8 +76,8 @@
         <th *matHeaderCellDef class="Status" mat-header-cell>Status</th>
         <td *matCellDef="let element" mat-cell>
           <span>
-           <span [ngStyle]="{'color': element.modeDefine?.styles?.dotColor, 'font-size': '9px'}"
-                 class="material-icons">stop_circle</span>
+           <span [ngStyle]="{'color': element.modeDefine?.styles?.dotColor}"
+                 class="material-icons iconStatus">stop_circle</span>
             {{element[column]}}
           </span>
          </td>
@@ -98,8 +97,8 @@
           <!--Description & Comments-->
           <div class="example-element-description">
             <!--Description-->
-            <app-description-panel [description]="element.description" [descriptionId]="element.id"
-                                   (panelOpenState)="getOpenStateDescription($event)"></app-description-panel>
+            <app-description-panel (panelOpenState)="getOpenStateDescription($event)" [descriptionId]="element.id"
+                                   [description]="element.description"></app-description-panel>
             <!--Comments array-->
             <div class="example-element-comments">
               <app-comments-panel (changeComments)="onChangeComments($event, element)"
@@ -129,13 +128,13 @@
           <div class="example-element-assignees">
             <!--Task Resources-->
             <div class="example-element-resources">
-            <app-resources-panel [resources]="element.resources"></app-resources-panel>
+              <app-resources-panel [resources]="element.resources"></app-resources-panel>
             </div>
             <!--<div class="example-element-resources">-->
-              <!--<div class="expendTitle">-->
-                <!--Task Resources-->
-              <!--</div>-->
-              <!--<div class="description-content scroll">{{element.resources}}</div>-->
+            <!--<div class="expendTitle">-->
+            <!--Task Resources-->
+            <!--</div>-->
+            <!--<div class="description-content scroll">{{element.resources}}</div>-->
             <!--</div>-->
             <!--Task Assignees-->
             <div class="assignees">
@@ -152,8 +151,9 @@
     </ng-container>
 
 
-    <tr *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand) ? displayedColumns: displayedColumnsMinimize; sticky: true"
-        mat-header-row
+    <tr
+      *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand) ? displayedColumns: displayedColumnsMinimize; sticky: true"
+      mat-header-row
     ></tr>
     <tr (click)="selectRow(row)"
         *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;"

@@ -10,6 +10,7 @@
   </div>
   <!--Content-->
   <mat-dialog-content class="DialogContent">
+    <!--Left-->
     <div class="item1">
       <!--Title-->
       <div class="DialogContentItem">
@@ -71,13 +72,12 @@
                             [isOpenDescription]="true"></app-comments-panel>
       </div>
     </div>
+    <!--Right-->
     <div class="item2">
       <!--Location-->
       <div class="DialogContentItem">
         <div class="DialogTitle">Location
-          <!--<mat-error *ngIf="eventModel.location === '' || eventModel.location === undefined">-->
-            <!--*-->
-          <!--</mat-error>-->
+          <mat-error class="DialogMandatory" *ngIf="getLocationDisabled()">*</mat-error>
         </div>
         <mat-radio-group
           aria-labelledby="example-radio-group-label"
@@ -126,7 +126,6 @@
               </div>
             </div>
           </mat-radio-button>
-          <mat-error *ngIf="getLocationDisabled()">Location field is required</mat-error>
         </mat-radio-group>
       </div>
       <!--Linked Reports-->
@@ -140,12 +139,14 @@
   </mat-dialog-content>
   <!--Action-->
   <div class="DialogActions" mat-dialog-actions>
-    <button (click)="onNoClick()" class="DialogActionsDelete"
+    <mat-error class="DialogMandatory" *ngIf="getDisabled()">*Mandatory fields</mat-error>
+    <button class="DialogActionsDelete"
+            (click)="onNoClick()"
             mat-raised-button>Cancel
     </button>
-    <button (click)="onCreateClick()"
+    <button class="DialogActionsCreate"
+            (click)="onCreateClick()"
             [disabled]="getDisabled()"
-            class="DialogActionsCreate"
             mat-raised-button>
       {{data.title}}
     </button>

@@ -3,16 +3,16 @@ import {HEADER_BUTTONS, VIDEO_OR_MAP, VIEW_LIST} from 'src/types';
 import {ApplicationService} from 'src/app/services/applicationService/application.service';
 import {DefaultValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {animate, animateChild, group, query, state, style, transition, trigger} from '@angular/animations';
-import {FRService} from "../../../services/frService/fr.service";
-import {ReportService} from "../../../services/reportService/report.service";
-import {EventService} from "../../../services/eventService/event.service";
-import {TasksService} from "../../../services/tasksService/tasks.service";
-import {MissionService} from "../../../services/missionService/mission.service";
-import {MissionRequestService} from "../../../services/missionRequestService/missionRequest.service";
-import {AirVehicleService} from "../../../services/airVehicleService/airVehicle.service";
-import {GraphicOverlayService} from "../../../services/graphicOverlayService/graphicOverlay.service";
-import {GimbalService} from "../../../services/gimbalService/gimbal.service";
-import {NFZService} from "../../../services/nfzService/nfz.service";
+import {FRService} from '../../../services/frService/fr.service';
+import {ReportService} from '../../../services/reportService/report.service';
+import {EventService} from '../../../services/eventService/event.service';
+import {TasksService} from '../../../services/tasksService/tasks.service';
+import {MissionService} from '../../../services/missionService/mission.service';
+import {MissionRequestService} from '../../../services/missionRequestService/missionRequest.service';
+import {AirVehicleService} from '../../../services/airVehicleService/airVehicle.service';
+import {GraphicOverlayService} from '../../../services/graphicOverlayService/graphicOverlay.service';
+import {GimbalService} from '../../../services/gimbalService/gimbal.service';
+import {NFZService} from '../../../services/nfzService/nfz.service';
 
 @Component({
   selector: 'app-header-panel',
@@ -263,11 +263,12 @@ export class HeaderPanelComponent implements OnInit {
   };
 
   onSearchClicked = () => {
-    if (!this.expanded) {
-      this.expanded = true;
-    } else {
-      console.log('search');
-    }
+    this.expanded = !this.expanded;
+    // if (!this.expanded) {
+    //   this.expanded = true;
+    // } else {
+    //   console.log('search');
+    // }
   };
 
   onBlur = () => {
