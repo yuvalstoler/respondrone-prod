@@ -41,61 +41,61 @@ export class AirVehicleManager {
                         'alt': 0
                     },
                     'gpsQuality': 0,
-                    'energyLevel': 0,
+                    'energyLevel': 10,
                     'remainingTimeFlight': 0,
                     'heading': 0,
                     'altitudeAGL': 0,
                     'altitudeAsl': 0,
                     'velocity': 0,
                     'lastUpdateTimeFromDrone': {
-                        'timestamp': 0
+                        'timestamp': 12455451215
                     },
                     'capability': [CAPABILITY.Delivery],
                     'commStatus': COMM_STATUS.OK,
-                    'operationalStatus': OPERATIONAL_STATUS.OnMission,
+                    'operationalStatus': OPERATIONAL_STATUS.NotActive,
                     'routeId': 'zaqleqk',
                     'name': 'Alpha 1',
                 },
                 {
                     'id': '2',
-                    'type': AIR_VEHICLE_TYPE.Dji,
+                    'type': AIR_VEHICLE_TYPE.Pixhawk,
                     'location': {
                         'lat': 0,
                         'lon': 0,
                         'alt': 1000
                     },
                     'gpsQuality': 0,
-                    'energyLevel': 0,
+                    'energyLevel': 80,
                     'remainingTimeFlight': 0,
                     'heading': 30,
                     'altitudeAGL': 0,
                     'altitudeAsl': 0,
                     'velocity': 0,
                     'lastUpdateTimeFromDrone': {
-                        'timestamp': 0
+                        'timestamp': 66544545455
                     },
                     'capability': [ CAPABILITY.Surveillance, CAPABILITY.CommRelay],
                     'commStatus': COMM_STATUS.OK,
-                    'operationalStatus': OPERATIONAL_STATUS.Ready,
+                    'operationalStatus': OPERATIONAL_STATUS.Emergency,
                     'name': 'Alpha 2',
                 },
                 {
                     'id': '3',
-                    'type': AIR_VEHICLE_TYPE.Dji,
+                    'type': AIR_VEHICLE_TYPE.Alpha,
                     'location': {
                         'lat': 0,
                         'lon': 0,
                         'alt': 0
                     },
                     'gpsQuality': 0,
-                    'energyLevel': 0,
+                    'energyLevel': 44,
                     'remainingTimeFlight': 0,
                     'heading': 270,
                     'altitudeAGL': 0,
                     'altitudeAsl': 0,
                     'velocity': 0,
                     'lastUpdateTimeFromDrone': {
-                        'timestamp': 0
+                        'timestamp': 484452454
                     },
                     'capability': [CAPABILITY.CommRelay],
                     'commStatus': COMM_STATUS.OK,

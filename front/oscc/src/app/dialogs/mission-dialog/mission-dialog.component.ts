@@ -326,11 +326,11 @@ export class MissionDialogComponent implements OnInit {
           this.missionModel.location.hasOwnProperty('lat') &&
           (this.missionModel.location.lon === undefined || this.missionModel.location.lat === undefined)) {
         this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
-        this.locationService.deleteLocationPointTemp('0');
+        this.locationService.deleteLocationPointTemp('tmp' + '0');
         this.missionModel.polygon = [];
-        this.polygonService.deletePolygonManually('0');
+        this.polygonService.deletePolygonManually('tmp' + '0');
         this.missionModel.polyline = [];
-        this.polylineService.deletePolylineManually('0');
+        this.polylineService.deletePolylineManually('tmp' + '0');
         // toaster
         this.customToasterService.info({message: 'Click on map to set the event\'s location', title: 'location'});
         //draw
@@ -343,11 +343,11 @@ export class MissionDialogComponent implements OnInit {
         if (this.missionModel.polyline.length <= 0) {
           //Polyline
           this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
-          this.locationService.deleteLocationPointTemp('0');
+          this.locationService.deleteLocationPointTemp('tmp' + '0');
           this.missionModel.polygon = [];
-          this.polygonService.deletePolygonManually('0');
+          this.polygonService.deletePolygonManually('tmp' + '0');
           this.missionModel.polyline = [];
-          this.polylineService.deletePolylineManually('0');
+          this.polylineService.deletePolylineManually('tmp' + '0');
           // toaster
           this.customToasterService.info(
             {message: 'Click minimum 2 points to set a polyline. Click double click to finish', title: 'polyline'});
@@ -361,11 +361,11 @@ export class MissionDialogComponent implements OnInit {
         if (this.missionModel.polygon.length <= 0) {
           //Polygon
           this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
-          this.locationService.deleteLocationPointTemp('0');
+          this.locationService.deleteLocationPointTemp('tmp' + '0');
           this.missionModel.polygon = [];
-          this.polygonService.deletePolygonManually('0');
+          this.polygonService.deletePolygonManually('tmp' + '0');
           this.missionModel.polyline = [];
-          this.polylineService.deletePolylineManually('0');
+          this.polylineService.deletePolylineManually('tmp' + '0');
           // toaster
           this.customToasterService.info(
             {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
@@ -392,7 +392,7 @@ export class MissionDialogComponent implements OnInit {
           (this.missionModel.location.lon !== undefined || this.missionModel.location.lat !== undefined)) {
           //POINT
           this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
-          this.locationService.deleteLocationPointTemp('0');
+          this.locationService.deleteLocationPointTemp('tmp' + '0');
           // toaster
           this.customToasterService.info({message: 'Click on map to set the event\'s location', title: 'location'});
           //draw
@@ -405,7 +405,7 @@ export class MissionDialogComponent implements OnInit {
         if (this.missionModel.polyline.length > 0) {
           //Polyline
           this.missionModel.polyline = [];
-          this.polylineService.deletePolylineManually('0');
+          this.polylineService.deletePolylineManually('tmp' + '0');
           // toaster
           this.customToasterService.info(
             {message: 'Click minimum 2 points to set a polyline. Click double click to finish', title: 'polyline'});
@@ -419,7 +419,7 @@ export class MissionDialogComponent implements OnInit {
         if (this.missionModel.polygon.length > 0) {
           //Polygon
           this.missionModel.polygon = [];
-          this.polygonService.deletePolygonManually('0');
+          this.polygonService.deletePolygonManually('tmp' + '0');
           // toaster
           this.customToasterService.info(
             {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
@@ -441,9 +441,9 @@ export class MissionDialogComponent implements OnInit {
               (this.missionModel.location.lon !== undefined || this.missionModel.location.lat !== undefined)) {
               //POINT
               this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
-              this.locationService.deleteLocationPointTemp('0');
+              this.locationService.deleteLocationPointTemp('tmp' + '0');
               this.missionModel.polygon = [];
-              this.polygonService.deletePolygonManually('0');
+              this.polygonService.deletePolygonManually('tmp' + '0');
               // toaster
               this.customToasterService.info({
                 message: 'Click on map to set the comm mission location',
@@ -459,7 +459,7 @@ export class MissionDialogComponent implements OnInit {
             if (this.missionModel.polygon.length > 0) {
               //Polygon
               this.missionModel.polygon = [];
-              this.polygonService.deletePolygonManually('0');
+              this.polygonService.deletePolygonManually('tmp' + '0');
               // toaster
               this.customToasterService.info(
                 {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
@@ -488,9 +488,9 @@ export class MissionDialogComponent implements OnInit {
           (this.missionModel.location.lon === undefined || this.missionModel.location.lat === undefined)) {
           //POINT
           this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
-          this.locationService.deleteLocationPointTemp('0');
+          this.locationService.deleteLocationPointTemp('tmp' + '0');
           this.missionModel.polygon = [];
-          this.polygonService.deletePolygonManually('0');
+          this.polygonService.deletePolygonManually('tmp' + '0');
           // toaster
           this.customToasterService.info({message: 'Click on map to set the comm mission location', title: 'location'});
           //draw
@@ -503,9 +503,9 @@ export class MissionDialogComponent implements OnInit {
         if (this.missionModel.polygon.length <= 0) {
           //Polygon
           this.missionModel.location = {lon: undefined, lat: undefined, alt: 0};
-          this.locationService.deleteLocationPointTemp('0');
+          this.locationService.deleteLocationPointTemp('tmp' + '0');
           this.missionModel.polygon = [];
-          this.polygonService.deletePolygonManually('0');
+          this.polygonService.deletePolygonManually('tmp' + '0');
           // toaster
           this.customToasterService.info(
             {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
@@ -589,9 +589,9 @@ export class MissionDialogComponent implements OnInit {
   clearMap = () => {
     this.applicationService.stateDraw = STATE_DRAW.notDraw;
     this.mapGeneralService.changeCursor(false);
-    this.locationService.deleteLocationPointTemp('0');
-    this.polygonService.deletePolygonManually('0');
-    this.polylineService.deletePolylineManually('0');
+    this.locationService.deleteLocationPointTemp('tmp' + '0');
+    this.polygonService.deletePolygonManually('tmp' + '0');
+    this.polylineService.deletePolylineManually('tmp' + '0');
     this.applicationService.isDialogOpen = false;
   };
 

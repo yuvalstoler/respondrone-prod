@@ -114,7 +114,7 @@ export class ReportDialogComponent {
       this.reportModel.locationType = LOCATION_TYPE.none;
       this.reportModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
       this.reportModel.address = '';
-      this.locationService.deleteLocationPointTemp('0');
+      this.locationService.deleteLocationPointTemp('tmp' + '0');
 
     } else if (location === LOCATION_NAMES.address) {
       this.reportModel.address = '';
@@ -122,7 +122,7 @@ export class ReportDialogComponent {
       this.reportModel.locationType = LOCATION_TYPE.address;
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
       this.mapGeneralService.changeCursor(false);
-      this.locationService.deleteLocationPointTemp('0');
+      this.locationService.deleteLocationPointTemp('tmp' + '0');
 
     } else if (location === LOCATION_NAMES.locationPoint) {
       this.reportModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
@@ -188,7 +188,7 @@ export class ReportDialogComponent {
     this.reportModel = _.cloneDeep(this.defaultReport);
     this.applicationService.stateDraw = STATE_DRAW.notDraw;
     this.mapGeneralService.changeCursor(false);
-    this.locationService.deleteLocationPointTemp('0');
+    this.locationService.deleteLocationPointTemp('tmp' + '0');
     this.applicationService.isDialogOpen = false;
   };
 

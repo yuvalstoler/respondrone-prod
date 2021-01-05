@@ -11,8 +11,8 @@ export class RightPanelComponent implements OnInit {
 
   showAirResources: boolean = true;
   showGroundResources: boolean = true;
-  optionGroundSelected: string = 'id';
-  optionAirSelected: string = 'id';
+  optionGroundSelected: {type: string, field: string } = {type: 'SORT_GROUND_RESOURCES', field: 'id'};
+  optionAirSelected: {type: string, field: string } = {type: 'SORT_AIR_RESOURCES', field: 'id'};
   sortGroundList: SORT_GROUND_RESOURCES[] = Object.values(SORT_GROUND_RESOURCES);
   sortAirList: SORT_AIR_RESOURCES[] = Object.values(SORT_AIR_RESOURCES);
 
@@ -31,10 +31,10 @@ export class RightPanelComponent implements OnInit {
   };
 
   onSortAirList = (sortAir: SORT_AIR_RESOURCES) => {
-    this.optionAirSelected = sortAir;
+    this.optionAirSelected.field = sortAir;
   };
 
   onSortGroundList = (sortGround: SORT_GROUND_RESOURCES) => {
-    this.optionGroundSelected = sortGround;
+    this.optionGroundSelected.field = sortGround;
   };
 }

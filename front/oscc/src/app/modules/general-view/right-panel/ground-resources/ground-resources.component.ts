@@ -15,7 +15,7 @@ import {GeoInstructionsService} from '../../../../services/geoInstructionsServic
 })
 export class GroundResourcesComponent implements OnInit {
 
-  @Input() optionSelected: string;
+  @Input() optionSelected: {type: string, field: string };
 
   constructor(public frService: FRService,
               public applicationService: ApplicationService,

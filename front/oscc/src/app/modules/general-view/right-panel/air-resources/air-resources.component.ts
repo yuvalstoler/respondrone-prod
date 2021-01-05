@@ -20,7 +20,7 @@ import {MissionRequestService} from '../../../../services/missionRequestService/
 export class AirResourcesComponent implements OnInit {
 
 
-  @Input() optionSelected: string;
+  @Input() optionSelected: {type: string, field: string };
   isOpenMenu: MAP<any> = {};
   MISSION_TYPE = MISSION_TYPE;
   OPERATIONAL_STATUS = OPERATIONAL_STATUS;

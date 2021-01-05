@@ -41,11 +41,12 @@
     </div>
     <!--View-->
     <div (click)="onView()" class="LeftSideButton">
-      <button [matMenuTriggerFor]="menu" mat-button>
+      <button [matMenuTriggerFor]="menu" mat-button  #target="matMenuTrigger">
         <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.view,
         LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}"
               class="LeftSideLabel">View</span>
-        <mat-icon class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
+        <mat-icon class="HPLeftSideIcon" *ngIf="!target.menuOpen">keyboard_arrow_down</mat-icon>
+        <mat-icon class="HPLeftSideIcon" *ngIf="target.menuOpen">keyboard_arrow_up</mat-icon>
       </button>
       <mat-menu #menu="matMenu" role="menuitemcheckbox">
         <div *ngFor="let viewItem of viewItems; let i = index">
