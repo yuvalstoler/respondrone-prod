@@ -140,5 +140,10 @@ export class AirResourcesComponent implements OnInit {
   onClickMission = (airVehicle: AV_DATA_UI, $event) => {
     $event.stopPropagation();
     this.missionRequestService.goToMissionRequest(airVehicle.missionRequestId);
-  }
+  };
+
+  getSeparateString = (column) => {
+    return column.split(/(?=[A-Z])/).join(' ');
+  };
+
 }

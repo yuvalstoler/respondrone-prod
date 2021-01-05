@@ -72,7 +72,7 @@
         <div class="item4">
         <span [ngStyle]="{'color': airVehicle.modeDefine?.styles?.statusColor}"
               class="material-icons iconStatus">stop_circle
-        </span>{{airVehicle.operationalStatus}}
+        </span>{{getSeparateString(airVehicle.operationalStatus)}}
         </div>
         <!--TTL-->
         <div class="item5">
