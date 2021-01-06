@@ -1,18 +1,16 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {GeneralViewComponent} from './modules/general-view/general-view.component';
-import {LoginComponent} from './modules/login/login.component';
 
-const routes: Routes = [
-  {path: 'general-view', component: GeneralViewComponent },
-  {path: 'login', component: LoginComponent},
-  { path: '',   redirectTo: '/general-view', pathMatch: 'full' }, // redirect to `general-view`
-  { path: '**', component: GeneralViewComponent },  // Wildcard route for a 404 page
+import {Routes, RouterModule} from '@angular/router';
+import {ModuleWithProviders} from '@angular/core';
+import {AuthGuard} from './AuthGuard/auth.guard';
+
+export const appRoutes: Routes = [
+
+  {path: 'login', loadChildren: () => import('../app/modules/login/login.module').then(m => m.LoginModule)},
+  {path: 'general-view', loadChildren: () => import('./modules/general-view/general-view.module').then(m => m.GeneralViewModule)
+    , canActivate: [AuthGuard]},
+
+  {path: '', redirectTo: 'login', pathMatch: 'full'},
+  {path: '**', redirectTo: 'login', pathMatch: 'full'}
 ];
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule {
-}
+export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

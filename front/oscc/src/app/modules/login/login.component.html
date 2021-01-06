@@ -1,1 +1,25 @@
-<p>login works!</p>
+<div class="LoginContainer">
+  <div class="LoginContainerDiv">
+    <div>
+      <img src="../../../assets/ResponDrone-Logo-white.png" alt="">
+    </div>
+    <!--<label>Respondrone</label>-->
+    <mat-error class="LCError" *ngIf="isChecked">Incorrect login or password</mat-error>
+    <p class="LoginInput">
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput placeholder="" [(ngModel)]="credentials.name" required>
+      </mat-form-field>
+    </p>
+    <p class="LoginInput">
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" [(ngModel)]="credentials.password" required>
+      </mat-form-field>
+    </p>
+    <div class="example-button-row LoginInput">
+      <button mat-raised-button (click)="validate(credentials)">Login</button>
+    </div>
+  </div>
+</div>
+<app-spinner></app-spinner>

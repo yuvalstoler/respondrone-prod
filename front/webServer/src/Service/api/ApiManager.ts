@@ -22,7 +22,7 @@ import {
     MISSION_ROUTE_DATA,
     GIMBAL_ACTION,
     MISSION_REQUEST_ACTION_OBJ,
-    GRAPHIC_OVERLAY_DATA_UI, GRAPHIC_OVERLAY_DATA, NFZ_DATA_UI, NFZ_DATA,
+    GRAPHIC_OVERLAY_DATA_UI, GRAPHIC_OVERLAY_DATA, NFZ_DATA_UI, NFZ_DATA, CREDENTIALS,
 } from '../../../../../classes/typings/all.typings';
 
 
@@ -41,6 +41,7 @@ import {MissionRouteManager} from '../missionRoute/missionRouteManager';
 import {GimbalManager} from '../gimbal/gimbalManager';
 import {GraphicOverlayManager} from "../graphicOverlay/graphicOverlayManager";
 import {NFZManager} from "../NFZ/NFZManager";
+import {LoginManager} from '../../auth/loginManager';
 
 
 export class ApiManager implements IRest {
@@ -676,6 +677,23 @@ export class ApiManager implements IRest {
             });
     };
 
+    // ========================================================================
+    private login = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody: CREDENTIALS = request.body;
+        LoginManager.validateLogin(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
 
     // ========================================================================
     routers: {} = {
@@ -721,6 +739,8 @@ export class ApiManager implements IRest {
         [WS_API.updateAllMissionRoutes]: this.updateAllMissionRoutes,
         [WS_API.updateAllGraphicOverlays]: this.updateAllGraphicOverlays,
         [WS_API.updateAllNFZs]: this.updateAllNFZs,
+
+        [WS_API.login]: this.login,
 
         [WS_API.missionRequestAction]: this.missionRequestAction,
         [WS_API.gimbalAction]: this.gimbalAction,

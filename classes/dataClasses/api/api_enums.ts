@@ -98,6 +98,12 @@ export enum DBS_API {
     saveRepCollectionVersions = '/saveRepCollectionVersions',
     getRepCollectionVersions = '/getRepCollectionVersions',
 
+    createUser = '/createUser',
+    readUser = '/readUser',
+    readAllUser = '/readAllUser',
+    deleteUser = '/deleteUser',
+    deleteAllUser = '/deleteAllUser',
+
 }
 
 // export enum REPORT_API {
@@ -241,6 +247,7 @@ export enum WS_API {
 
     gimbalAction = '/gimbalAction',
 
+    login = '/login'
 }
 
 export enum CCGW_API {
@@ -275,7 +282,13 @@ export enum MG_API {
 
 }
 
+export enum AUTH_API {
+    login = '/login',
+    update = '/update',
+    check = '/check',
 
+    createUser = '/createUser',
+}
 
 export enum SOCKET_ROOM { // TODO change
     FRs_Tel_room ='FRS_Tel_room',

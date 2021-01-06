@@ -99,6 +99,11 @@
     "protocol": "http"
   },
 
+  "AuthService": {
+    "port": "6950",
+    "host": "localhost",
+    "protocol": "http"
+  },
 
 
   "FRTelemetryReceiverRep": {

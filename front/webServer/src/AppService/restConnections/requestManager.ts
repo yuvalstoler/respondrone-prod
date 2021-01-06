@@ -21,6 +21,8 @@ const url_TS = services.TS.protocol + '://' + services.TS.host + ':' + services.
 const url_MS = services.MS.protocol + '://' + services.MS.host + ':' + services.MS.port;
 const url_GS = services.GS.protocol + '://' + services.GS.host + ':' + services.GS.port;
 
+const url_AuthService = services.AuthService.protocol + '://' + services.AuthService.host + ':' + services.AuthService.port;
+
 const timeout_AV = projConf.timeOutREST;
 const timeout_File = 10 * 60 * 1000; // TODO ??
 
@@ -53,6 +55,10 @@ export class RequestManager {
 
     public static requestToGS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_GS, API_GENERAL.general + path, bodyObj, timeout_AV);
+    };
+
+    public static requestToAuthService = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_AuthService, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
 
 

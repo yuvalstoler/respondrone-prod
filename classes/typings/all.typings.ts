@@ -3,12 +3,6 @@ import {IRest} from "../dataClasses/interfaces/IRest";
 
 export type MAP<T> = { [key: string]: T };
 
-export type LOGIN_UI = {
-    name: string;
-    password: string;
-    token?: string;
-};
-
 export type TOASTER_OPTIONS = Partial<{ timeOut: number, extendedTimeOut: number, positionClass: string, preventDuplicates: boolean, closeButton: boolean }>;
 
 export type ID_TYPE = string;
@@ -1067,3 +1061,23 @@ export type BLOB_DATA = {
     bb: BLOB[],
     droneGPS: GEOPOINT3D_SHORT
 }
+
+// =========== LOGIN ==============
+
+export type CREDENTIALS = {
+    name: string,
+    password: string
+};
+
+export type USER_DATA = {
+    id: ID_TYPE,
+    name: string,
+    password: string
+};
+
+export type LOGIN_RESPONSE = {
+    isAuth: boolean,
+    success: boolean,
+    message: string,
+    token: string,
+};

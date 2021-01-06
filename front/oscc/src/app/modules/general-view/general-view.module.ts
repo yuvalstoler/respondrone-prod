@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HeaderPanelComponent} from './header-panel/header-panel.component';
-import {GeneralViewRouting} from './general-view.routing';
+// import {GeneralViewRouting} from './general-view.routing';
 import {RouterModule} from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import {MapComponent} from './map/map.component';
@@ -10,7 +10,7 @@ import {
   AngularCesiumModule,
   AngularCesiumWidgetsModule,
   PolygonsEditorService,
-  ViewerConfiguration
+  // ViewerConfiguration
 } from 'angular-cesium';
 import {LeftPanelComponent} from './left-panel/left-panel.component';
 
@@ -66,9 +66,28 @@ import { ResourcesPanelComponent } from './resources-panel/resources-panel.compo
 import {CursorPositionComponent} from './cursor-position/cursor-position.component';
 import {AutocompleteAddressComponent} from './autocomplete-address/autocomplete-address.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import {routing} from './general-view.routing';
+import {GeneralViewComponent} from './general-view.component';
+import {LinkedReportDialogComponent} from '../../dialogs/linked-report-dialog/linked-report-dialog.component';
+import {LinkedReportContainerComponent} from '../../dialogs/linked-report-dialog/linked-report-container/linked-report-container.component';
+import {LinkedReportTableComponent} from '../../dialogs/linked-report-dialog/linked-report-table/linked-report-table.component';
+import {LinkedEventDialogComponent} from '../../dialogs/linked-event-dialog/linked-event-dialog.component';
+import {LinkedEventContainerComponent} from '../../dialogs/linked-event-dialog/linked-event-container/linked-event-container.component';
+import {LinkedEventTableComponent} from '../../dialogs/linked-event-dialog/linked-event-table/linked-event-table.component';
+import {EventDialogComponent} from '../../dialogs/event-dialog/event-dialog.component';
+import {ReportDialogComponent} from '../../dialogs/report-dialog/report-dialog.component';
+import {TaskDialogComponent} from '../../dialogs/task-dialog/task-dialog.component';
+import {TaskAssigneesDialogComponent} from '../../dialogs/task-assignees-dialog/task-assignees-dialog.component';
+import {TaskAssigneesTableComponent} from '../../dialogs/task-assignees-dialog/task-assignees-table/task-assignees-table.component';
+import {TaskAssigneesContainerComponent} from '../../dialogs/task-assignees-dialog/task-assignees-container/task-assignees-container.component';
+import {MissionDialogComponent} from '../../dialogs/mission-dialog/mission-dialog.component';
+import {MissionUavDialogComponent} from '../../dialogs/mission-uav-dialog/mission-uav-dialog.component';
+import {ContextMenuComponent} from '../../dialogs/context-menu/context-menu.component';
+import {HoverTextDialogComponent} from '../../dialogs/hover-text-dialog/hover-text-dialog.component';
 
 @NgModule({
   declarations: [
+    GeneralViewComponent,
     HeaderPanelComponent,
     MapComponent,
     LeftPanelComponent,
@@ -100,11 +119,29 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     DescriptionPanelComponent,
     ResourcesPanelComponent,
     CursorPositionComponent,
-    AutocompleteAddressComponent
+    AutocompleteAddressComponent,
+
+    LinkedReportDialogComponent,
+    LinkedReportContainerComponent,
+    LinkedReportTableComponent,
+    LinkedEventDialogComponent,
+    LinkedEventContainerComponent,
+    LinkedEventTableComponent,
+    EventDialogComponent,
+    ReportDialogComponent,
+    TaskDialogComponent,
+    TaskAssigneesDialogComponent,
+    TaskAssigneesTableComponent,
+    TaskAssigneesContainerComponent,
+    MissionDialogComponent,
+    MissionUavDialogComponent,
+    ContextMenuComponent,
+    HoverTextDialogComponent,
   ],
   imports: [
+    routing,
     CommonModule,
-    GeneralViewRouting,
+    // GeneralViewRouting,
     RouterModule,
     FormsModule,
     MatIconModule,
@@ -165,10 +202,18 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
   ],
   providers: [
     PolygonsEditorService,
-    ViewerConfiguration
+    // ViewerConfiguration,
   ],
   entryComponents: [
-    ViewMediaComponent
+    ViewMediaComponent,
+    LinkedReportDialogComponent,
+    LinkedEventDialogComponent,
+    EventDialogComponent,
+    ReportDialogComponent,
+    TaskDialogComponent,
+    TaskAssigneesDialogComponent,
+    MissionDialogComponent,
+    MissionUavDialogComponent,
   ]
 })
 export class GeneralViewModule {
