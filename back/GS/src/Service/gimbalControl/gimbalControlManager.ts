@@ -111,7 +111,7 @@ export class GimbalControlManager {
                 const gimbalControl: GIMBAL_CONTROL_OBJ = this.gimbalControls[gimbalControlRequest.airVehicleId][gimbalControlRequest.videoUrlKey];
                 switch (gimbalControlRequest.action) {
                     case GIMBAL_CONTROL_ACTION.takeControl:
-                        this.passControlToOSCC(gimbalControl);
+                        this.passControlToOSCC(gimbalControl, gimbalControlRequest);
                         if (!(gimbalControl.request && gimbalControl.request.status === GIMBAL_REQUEST_STATUS.InProgress)) {
                             gimbalControl.request = undefined;
                         }
@@ -125,7 +125,7 @@ export class GimbalControlManager {
                         }
                         break;
                     case GIMBAL_CONTROL_ACTION.lockControl:
-                        this.passControlToOSCC(gimbalControl);
+                        this.passControlToOSCC(gimbalControl, gimbalControlRequest);
                         gimbalControl.isLocked = true;
                         break;
                     case GIMBAL_CONTROL_ACTION.unlockControl:
@@ -133,7 +133,7 @@ export class GimbalControlManager {
                             this.passControlToUser(gimbalControl, gimbalControlRequest.airVehicleId, gimbalControlRequest.videoUrlKey);
                         }
                         else {
-                            this.passControlToOSCC(gimbalControl);
+                            this.passControlToOSCC(gimbalControl, gimbalControlRequest);
                         }
                         break;
                     case GIMBAL_CONTROL_ACTION.acceptRequestForControl:
@@ -161,16 +161,16 @@ export class GimbalControlManager {
     // -----------------
     private passControlToUser = (gimbalControl: GIMBAL_CONTROL_OBJ, airVehicleId: ID_TYPE, videoUrlKey: string) => {
         gimbalControl.userId = gimbalControl.request.userId;
-        gimbalControl.userText = FrManager.getFRNameById(gimbalControl.request.userId);
+        gimbalControl.userText = gimbalControl.request.userText;
         gimbalControl.request.status = GIMBAL_REQUEST_STATUS.Accept;
         gimbalControl.isLocked = false;
 
         this.clearControlTimeout(airVehicleId, videoUrlKey);
     }
     // -----------------
-    private passControlToOSCC = (gimbalControl: GIMBAL_CONTROL_OBJ) => {
-        gimbalControl.userId = gimbalControl.userId;
-        gimbalControl.userText = GIMBAL_CONTROL_USER.OSCC;
+    private passControlToOSCC = (gimbalControl: GIMBAL_CONTROL_OBJ, gimbalControlRequest: GIMBAL_CONTROL_REQUEST_OSCC) => {
+        gimbalControl.userId = gimbalControlRequest.userId;
+        gimbalControl.userText = gimbalControlRequest.userName;
         gimbalControl.isLocked = false;
     }
     // -----------------
@@ -222,6 +222,14 @@ export class GimbalControlManager {
             });
     }
     // ------------------
+    private getGimbalControlData = (body): Promise<ASYNC_RESPONSE<GIMBAL_CONTROL_DATA_FOR_MGW>> => {
+        return new Promise((resolve, reject) => {
+            const dataForMobile = this.getGimbalControlDataForMobile();
+            const res = {success: true, data: dataForMobile};
+            resolve(res);
+        });
+    }
+    // ------------------
     private startSendGimbalControlInterval = () => {
         if (!this.sendGimbalControlInterval) {
             this.sendGimbalControlInterval = setInterval(() => {
@@ -246,6 +254,7 @@ export class GimbalControlManager {
     public static getGimbalControlDataByDroneId = GimbalControlManager.instance.getGimbalControlDataByDroneId;
     public static requestGimbalControlFromMGW = GimbalControlManager.instance.requestGimbalControlFromMGW;
     public static requestGimbalControlFromOSCC = GimbalControlManager.instance.requestGimbalControlFromOSCC;
+    public static getGimbalControlData = GimbalControlManager.instance.getGimbalControlData;
     public static isAllowAction = GimbalControlManager.instance.isAllowAction;
 
 

@@ -3,11 +3,11 @@ import {
     PRIORITY,
     GIMBAL_DATA_MD,
     GIMBAL_DATA_UI,
-    TABLE_DATA_MD, EVENT_DATA_UI, MISSION_REQUEST_DATA, GRAPHIC_OVERLAY_DATA_UI
+    TABLE_DATA_MD, EVENT_DATA_UI, MISSION_REQUEST_DATA, GRAPHIC_OVERLAY_DATA_UI, MAP, GIMBAL_CONTROL_USER
 } from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
-import {MDClass} from "../mdClass";
+import {MDClass} from '../mdClass';
 
 export class GimbalMdLogic implements IModeDefine {
 
@@ -28,7 +28,9 @@ export class GimbalMdLogic implements IModeDefine {
                 color: GimbalMdLogic.getColor(data),
                 fillColor: GimbalMdLogic.getFillColor(data),
                 // polyline
-                isDotted: undefined
+                isDotted: undefined,
+                //other
+                gimbalControlColor: GimbalMdLogic.getGimbalControlColor(data),
             }
         };
         return obj;
@@ -36,7 +38,7 @@ export class GimbalMdLogic implements IModeDefine {
 
 
     private static getIcon = (data: GIMBAL_DATA_UI): string => {
-        let res: string = '../../../../../assets/gimbal.png';
+        const res: string = '../../../../../assets/gimbal.png';
         return res;
     };
 
@@ -46,12 +48,28 @@ export class GimbalMdLogic implements IModeDefine {
     };
 
     private static getColor = (data: GIMBAL_DATA_UI): string => {
-        let res: string = MDClass.colors.red;
+        const res: string = MDClass.colors.red;
         return res;
     };
 
     private static getFillColor = (data: GIMBAL_DATA_UI): string => {
-        let res: string = MDClass.colors.transparent;
+        const res: string = MDClass.colors.transparent;
+        return res;
+    };
+
+    private static getGimbalControlColor = (data: GIMBAL_DATA_UI): MAP<string> => {
+        const res = {};
+        for (const videoUrlKey in data.controlData) {
+            if (data.controlData.hasOwnProperty(videoUrlKey)) {
+                res[videoUrlKey] = MDClass.colors.white;
+                if (data.controlData[videoUrlKey].isLocked) {
+                    res[videoUrlKey] = MDClass.colors.red;
+                }
+                else if (data.controlData[videoUrlKey].userText === GIMBAL_CONTROL_USER.Available) {
+                    res[videoUrlKey] = MDClass.colors.green;
+                }
+            }
+        }
         return res;
     };
 }

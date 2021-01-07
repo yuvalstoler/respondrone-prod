@@ -27,6 +27,9 @@ npm i;
 cd $home/back/MS;
 npm i;
 
+cd $home/back/Auth;
+npm i;
+
 cd $home/back/TMM;
 npm i;
 

@@ -1,5 +1,5 @@
 {
-  "timeOutREST": 1000000,
+  "timeOutREST": 5000,
   "rateOfClimb": 2,
   "secret": "4sekgq3sns4l0dj9kmgukn",
   "expireIn": 86400,

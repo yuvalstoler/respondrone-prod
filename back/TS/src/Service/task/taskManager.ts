@@ -352,7 +352,7 @@ export class TaskManager {
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.data = data.data;
                     res.success = data.success;
-                    if ( data.success ) {
+                    if ( data.success && data.data) {
                         const index = this.tasks.findIndex(element => element.id === data.data.id);
                         if (index !== -1) {
                             this.tasks.splice(index, 1);

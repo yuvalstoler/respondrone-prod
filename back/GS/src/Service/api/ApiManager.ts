@@ -11,7 +11,12 @@ import {
 import {
     ASYNC_RESPONSE,
     ID_OBJ,
-    FR_DATA, GIMBAL_CONTROL_REQUEST_MGW, GIMBAL_CONTROL_REQUEST_OSCC, GIMBAL_ACTION_MGW, GIMBAL_ACTION_OSCC,
+    FR_DATA,
+    GIMBAL_CONTROL_REQUEST_MGW,
+    GIMBAL_CONTROL_REQUEST_OSCC,
+    GIMBAL_ACTION_MGW,
+    GIMBAL_ACTION_OSCC,
+    GIMBAL_CONTROL_DATA_FOR_MGW,
 } from '../../../../../classes/typings/all.typings';
 
 
@@ -107,11 +112,29 @@ export class ApiManager implements IRest {
             });
     };
 
+    private getGimbalControlData = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody = request.body;
+        GimbalControlManager.getGimbalControlData(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
     routers: {} = {
         [GS_API.gimbalActionFromOSCC]: this.gimbalActionFromOSCC,
         [GS_API.gimbalActionFromMGW]: this.gimbalActionFromMGW,
         [GS_API.requestGimbalControlFromMGW]: this.requestGimbalControlFromMGW,
-        [GS_API.requestGimbalControlFromOSCC]: this.requestGimbalControlFromOSCC
+        [GS_API.requestGimbalControlFromOSCC]: this.requestGimbalControlFromOSCC,
+        [GS_API.getGimbalControlData]: this.getGimbalControlData
     };
 
     // region API uncions

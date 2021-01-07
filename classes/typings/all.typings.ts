@@ -54,8 +54,8 @@ export type GEOPOINT3D_SHORT = { lat: number, lon: number, alt: number };
 export type ADDRESS = string;
 
  export type GEOPOINT = { latitude: number, longitude: number };
-// export type GEOPOINT3D = GEOPOINT & { altitude: number };
-// export type POLYGON_GEOPOINT = GEOPOINT3D_SHORT[];
+export type GEOPOINT3D = GEOPOINT & { altitude: number };
+export type POLYGON_GEOPOINT = GEOPOINT3D_SHORT[];
 
 
 export enum REPORT_TYPE {
@@ -348,8 +348,10 @@ export type GIMBAL_DATA_UI = GIMBAL_DATA & {
     lineFromAirVehicle: GEOPOINT3D_SHORT[]
 };
 export type GIMBAL_DATA_MD = {
-    styles: ICON_STYLES & POLYGON_STYLES & POLYLINE_STYLES
-}
+    styles: ICON_STYLES & POLYGON_STYLES & POLYLINE_STYLES & {
+        gimbalControlColor: MAP<string>
+    }
+};
 
 export type MISSION_MODEL_UI = {
     missionType: MISSION_TYPE,
@@ -394,7 +396,7 @@ export type AV_OPTIONS = {
 }
 
 export enum MISSION_TYPE_TEXT {
-    CommRelay = 'Communications relay mission request',
+    CommRelay = 'Comm relay mission request',
     Patrol = 'Patrol mission request',
     Observation = 'Observation mission request',
     Scan = 'Scan mission request',

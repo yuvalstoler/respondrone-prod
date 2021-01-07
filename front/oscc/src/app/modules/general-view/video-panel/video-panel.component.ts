@@ -70,7 +70,7 @@ export class VideoPanelComponent implements OnInit {
     return {
       droneId: this.gimbal ? this.gimbal.droneId : undefined,
       videoUrlKey: this.videoUrlKey,
-      userId: GIMBAL_CONTROL_USER.OSCC,
+      userId: this.loginService.getUserId(),
       parameters: undefined
     };
   }

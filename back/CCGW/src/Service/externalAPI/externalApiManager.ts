@@ -3,7 +3,7 @@ import { RequestManager } from '../../AppService/restConnections/requestManager'
 const _ = require('lodash');
 
 import {
-    ASYNC_RESPONSE, GIMBAL_ACTION_MGW,
+    ASYNC_RESPONSE, GIMBAL_ACTION_MGW, GIMBAL_CONTROL_DATA_FOR_MGW,
     ID_OBJ, MISSION_REQUEST_DATA,
     REPORT_DATA,
     TASK_DATA, USER_TASK_ACTION,
@@ -38,9 +38,6 @@ export class ExternalApiManager {
                 .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                     reject(data);
                 });
-
-            // resolve(res);
-
         });
     }
 
@@ -69,10 +66,10 @@ export class ExternalApiManager {
         });
     }
 
-    private userTaskAction = (data: USER_TASK_ACTION) => {
+    private userTaskAction = (body: USER_TASK_ACTION) => {
         return new Promise((resolve, reject) => {
             //     send REST to OSCC
-            RequestManager.requestToTS(TS_API.userTaskAction, data)
+            RequestManager.requestToTS(TS_API.userTaskAction, body)
                 .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
                     resolve(data);
                 })
@@ -93,9 +90,6 @@ export class ExternalApiManager {
                 .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
                     reject(data);
                 });
-
-            // resolve(res);
-
         });
     }
 
@@ -109,8 +103,6 @@ export class ExternalApiManager {
                 .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
                     reject(data);
                 });
-            resolve(res);
-
         });
     }
 
@@ -124,10 +116,21 @@ export class ExternalApiManager {
                 .catch((data: ASYNC_RESPONSE<GIMBAL_ACTION_MGW>) => {
                     reject(data);
                 });
-            resolve(res);
-
         });
-    }//
+    }
+
+    private getGimbalControlData = (body): Promise<ASYNC_RESPONSE<GIMBAL_CONTROL_DATA_FOR_MGW>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
+            RequestManager.requestToGS(GS_API.getGimbalControlData, {})
+                .then((data: ASYNC_RESPONSE<GIMBAL_CONTROL_DATA_FOR_MGW>) => {
+                    resolve(data);
+                })
+                .catch((data: ASYNC_RESPONSE<GIMBAL_CONTROL_DATA_FOR_MGW>) => {
+                    reject(data);
+                });
+        });
+    }
 
 
     // region API uncions
@@ -139,6 +142,7 @@ export class ExternalApiManager {
     public static createMissionRequestFromMGW = ExternalApiManager.instance.createMissionRequestFromMGW;
     public static requestGimbalControlFromMGW = ExternalApiManager.instance.requestGimbalControlFromMGW;
     public static gimbalActionFromMGW = ExternalApiManager.instance.gimbalActionFromMGW;
+    public static getGimbalControlData = ExternalApiManager.instance.getGimbalControlData;
 
 
     // endregion API uncions

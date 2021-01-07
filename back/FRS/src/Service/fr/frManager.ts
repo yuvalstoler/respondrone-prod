@@ -10,7 +10,14 @@ import {
     ID_OBJ,
     FR_DATA,
     FR_TYPE,
-    SOCKET_IO_CLIENT_TYPES, FR_DATA_TELEMETRY, FR_STATUS, SOCKET_CLIENT_TYPES, FR_DATA_TELEMETRY_REP
+    SOCKET_IO_CLIENT_TYPES,
+    FR_DATA_TELEMETRY,
+    FR_STATUS,
+    SOCKET_CLIENT_TYPES,
+    FR_DATA_TELEMETRY_REP,
+    MAP,
+    GEOPOINT3D,
+    FR_DATA_REP
 } from '../../../../../classes/typings/all.typings';
 import {FR} from '../../../../../classes/dataClasses/fr/FR';
 import {DataUtility} from '../../../../../classes/applicationClasses/utility/dataUtility';
@@ -25,11 +32,11 @@ export class FrManager {
     private static instance: FrManager = new FrManager();
 
 
-    frs: FR[] = [];
+    frs: MAP<FR> = {};
     timestamp: number;
 
     private constructor() {
-        const date = Date.now();
+/*        const date = Date.now();
         const data: FR_DATA_TELEMETRY = {
             'timestamp': {
                 'timestamp': 0
@@ -99,7 +106,7 @@ export class FrManager {
             });
 
             this.onGetFRs(data);
-        }, 1000);
+        }, 1000);*/
     }
 
     private startGetSocket = () => {
@@ -107,7 +114,17 @@ export class FrManager {
     }
 
     private onGetFRs = (data: FR_DATA_TELEMETRY) => {
-        this.frs = Converting.Arr_FR_DATA_to_Arr_FR(data.FRs);
+        // this.frs = Converting.Arr_FR_DATA_to_Arr_FR(data.FRs);
+        this.frs = {};
+        data.FRs.forEach((item: FR_DATA) => {
+            // TODO remove
+            if (item.location && item.location.hasOwnProperty('longitude')) {
+                const location: GEOPOINT3D = item.location as any;
+                item.location = {lat: location.latitude, lon: location.latitude, alt: location.altitude};
+            }
+
+            this.frs[item.id] = new FR(item);
+        });
         if (data.timestamp) {
             this.timestamp = data.timestamp.timestamp;
         }
@@ -122,9 +139,19 @@ export class FrManager {
             timestamp: {
                 timestamp: this.timestamp
             },
-            FRs: this.frs.map((fr: FR) => fr.toJsonForRepository())
+            FRs: this.getFRDataForRepository()
         };
         return data;
+    }
+
+    private getFRDataForRepository = (): FR_DATA_REP[] => {
+        const res: FR_DATA_REP[] = [];
+        for (const frId in this.frs) {
+            if (this.frs.hasOwnProperty(frId)) {
+                res.push(this.frs[frId].toJsonForRepository());
+            }
+        }
+        return res;
     }
 
 

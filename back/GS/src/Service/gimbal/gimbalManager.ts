@@ -171,7 +171,10 @@ export class GimbalManager {
                         resolve(data);
                     });
             }
-
+            else {
+                res.description = 'Control is required for camera actions';
+                resolve(res);
+            }
         });
     };
     // ------------------

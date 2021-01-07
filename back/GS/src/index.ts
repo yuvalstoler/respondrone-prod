@@ -20,7 +20,8 @@ import {
     API_GENERAL,
 } from '../../../classes/dataClasses/api/api_enums';
 import { REST_ROUTER_CONFIG } from '../../../classes/typings/all.typings';
-import {GimbalManager} from "./Service/gimbal/gimbalManager";
+import {GimbalManager} from './Service/gimbal/gimbalManager';
+import {FrManager} from './Service/fr/frManager';
 
 
 
@@ -74,6 +75,7 @@ export class Server {
 
 
         GimbalManager.startGetSocket();
+        FrManager.startGetSocket();
         // AlgorithmManager.listen(restManager.routers['/missionAction']);
         // AltitudeSlotManager.listen(restManager.routers['/altitudeSlot']);
         // AirVehicleManagerWS.listen(restManager.routers['/droneServiceWS']);
