@@ -1,0 +1,46 @@
+<div [@searchExpand]="expanded" class="RightSideButton">
+  <div [ngClass]="{'search__container': expanded}">
+    <!--<input #myInput-->
+           <!--(blur)="onBlur()"-->
+           <!--(ngModelChange)="onChangeValue(_value)"-->
+           <!--[(ngModel)]="_value" [@inputExpand]="expanded"-->
+           <!--class="search__input" matInput-->
+           <!--placeholder="Search"-->
+           <!--type="text">-->
+    <!--<form [formGroup]="stateForm">-->
+      <!--<mat-form-field>-->
+        <input type="text"
+               #myInput
+               (blur)="onBlur()"
+               [(ngModel)]="_value" [@inputExpand]="expanded"
+               (ngModelChange)="doFilter(_value)"
+               class="search__input" matInput
+               placeholder="Search"
+               required
+               [matAutocomplete]="autoGroup">
+        <mat-autocomplete #autoGroup="matAutocomplete">
+          <mat-optgroup *ngFor="let group of stateGroupOptions" [label]="group.letter">
+            <mat-option [ngStyle]="{'color': 'black'}"><!--*ngFor="let name of group.names" [value]="name"-->
+              {{group.letter}}
+            </mat-option>
+          </mat-optgroup>
+        </mat-autocomplete>
+        <!--<input class="input"-->
+               <!--[(ngModel)]="address"-->
+               <!--#addresstext >-->
+        <button (click)="close()"
+                *ngIf="expanded"
+                [@clearExpand]="{value: _value.length > 0 && expanded, params: {finalOpacity: _value.length > 0 ? 1 : 0}}"
+                mat-icon-button>
+          <!--<mat-icon (click)="close(); myInput.focus()">close</mat-icon>-->
+        </button>
+      <!--</mat-form-field>-->
+  </div>
+  <!-- search icon-->
+  <button (click)="onSearchClicked(); myInput.focus()"
+          [ngStyle]="{'margin-left': '5px'}"
+          disableRipple="true"
+          mat-icon-button>
+    <mat-icon>search</mat-icon>
+  </button>
+</div>

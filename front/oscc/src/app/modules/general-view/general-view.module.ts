@@ -5,7 +5,7 @@ import {GeneralViewRouting} from './general-view.routing';
 import {RouterModule} from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import {MapComponent} from './map/map.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   AngularCesiumModule,
   AngularCesiumWidgetsModule,
@@ -66,6 +66,8 @@ import { ResourcesPanelComponent } from './resources-panel/resources-panel.compo
 import {CursorPositionComponent} from './cursor-position/cursor-position.component';
 import {AutocompleteAddressComponent} from './autocomplete-address/autocomplete-address.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { SearchPanelComponent } from './search-panel/search-panel.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
   declarations: [
@@ -100,13 +102,15 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     DescriptionPanelComponent,
     ResourcesPanelComponent,
     CursorPositionComponent,
-    AutocompleteAddressComponent
+    AutocompleteAddressComponent,
+    SearchPanelComponent
   ],
   imports: [
     CommonModule,
     GeneralViewRouting,
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
     MatIconModule,
     MatSidenavModule,
     MatCheckboxModule,
@@ -129,6 +133,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     MatSliderModule,
     MatRippleModule,
     MatSlideToggleModule,
+    MatAutocompleteModule,
 
     AngularCesiumModule.forRoot(),
     AngularCesiumWidgetsModule,

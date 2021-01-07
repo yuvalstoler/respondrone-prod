@@ -94,24 +94,8 @@
     </div>
     <div class="RightLine"></div>
     <!--Entity Search-->
-    <div class="RightSideButton" [@searchExpand]="expanded">
-     <div [ngClass]="{'search__container': expanded}">
-      <input (blur)="onBlur()"
-             [@inputExpand]="expanded"
-             class="search__input"
-             #myInput placeholder="Search"
-             type="text" matInput
-             [(ngModel)]="_value">
-      <button *ngIf="expanded"
-              [@clearExpand]="{value: _value.length > 0 && expanded, params: {finalOpacity: _value.length > 0 ? 1 : 0}}"
-              mat-icon-button
-              (click)="close()">
-        <mat-icon (click)="close(); myInput.focus()">close</mat-icon>
-      </button>
-     </div>
-      <button disableRipple="true" mat-icon-button (click)="onSearchClicked(); myInput.focus()">
-        <mat-icon>search</mat-icon>
-      </button>
+    <div class="RightSideButton">
+      <app-search-panel></app-search-panel>
     </div>
     <!--Account Management-->
     <div class="RightSideButton">

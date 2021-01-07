@@ -228,11 +228,6 @@ export class GeoInstructionsComponent implements OnInit {
   };
 
   getAddress = (place: any) => {
-    // if (this.geoInstructionsService.tempGeoInstructionObjectCE !== undefined) {
-    //   this.geoInstructionsService.hideObjectOnMap(this.geoInstructionsService.tempGeoInstructionObjectCE);
-    // }
-    // const idTemp = this.applicationService.getGeoCounter();
-    // this.locationService.deleteLocationPointTemp(idTemp);
     const geometry = place.geometry;
     if (geometry.viewport) {
       const lat = geometry.viewport.getCenter().lat();

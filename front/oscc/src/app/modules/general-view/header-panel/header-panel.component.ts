@@ -18,94 +18,93 @@ import {NFZService} from '../../../services/nfzService/nfz.service';
   selector: 'app-header-panel',
   templateUrl: './header-panel.component.html',
   styleUrls: ['./header-panel.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      multi: true,
-      useExisting: forwardRef(() => HeaderPanelComponent),
-    }
-  ],
-  animations: [
-    trigger('clearExpand', [
-      transition(':enter', [
-        style({width: '0', opacity: 0}),
-        group([
-          animate(200, style({width: '*'})),
-          animate('100ms 100ms', style({opacity: '{{finalOpacity}}'}))
-        ])
-      ], {params: {finalOpacity: 1}}),
-      transition(':leave', [
-        group([
-          animate(200, style({width: '0px'})),
-          animate('100ms', style({opacity: 0}))
-        ])
-      ]),
-      // TODO: opacity is not good enough. When hidden, button should also be disabled and aria-hidden (or removed completely)
-      state('1', style({opacity: '*'})),
-      state('0', style({opacity: '0'})),
-      transition('1<=>0', animate(200)),
-    ]),
-    trigger('searchExpand', [
-      state('1', style({width: '*', backgroundColor: '*', margin: '*'})),
-      state('0', style({width: '60px', backgroundColor: 'transparent', color: 'white', margin: '0'})),
-      transition('0=>1', [
-        group([
-          style({width: '60px', backgroundColor: 'transparent'}),
-          animate(200, style({width: '*', backgroundColor: '*', color: '*'})),
-          query('@inputExpand', [
-            style({width: '0'}),
-            animate(200, style({
-              width: '*',
-              margin: '*',
-            })),
-          ]),
-          query('@clearExpand', [
-            animateChild(),
-          ])
-        ])
-      ]),
-      transition('1=>0', [
-        group([
-          style({width: '*'}),
-          animate(200, style({
-            backgroundColor: 'transparent',
-            width: '40px',
-            color: 'white',
-          })),
-          query('@clearExpand', [
-            animateChild(),
-          ]),
-          query('@inputExpand', [
-            animate(200, style({
-              width: '0',
-              backgroundColor: 'transparent',
-              opacity: '0',
-              margin: '0',
-            }))
-          ]),
-        ])
-      ]),
-    ]),
-    trigger('inputExpand', [
-      state('0', style({width: '0', margin: '0'})),
-      // Without this transition, the input animates to an incorrect width
-      transition('0=>1', []),
-    ]),
-  ],
+  // providers: [
+  //   {
+  //     provide: NG_VALUE_ACCESSOR,
+  //     multi: true,
+  //     useExisting: forwardRef(() => HeaderPanelComponent),
+  //   }
+  // ],
+  // animations: [
+  //   trigger('clearExpand', [
+  //     transition(':enter', [
+  //       style({width: '0', opacity: 0}),
+  //       group([
+  //         animate(200, style({width: '*'})),
+  //         animate('100ms 100ms', style({opacity: '{{finalOpacity}}'}))
+  //       ])
+  //     ], {params: {finalOpacity: 1}}),
+  //     transition(':leave', [
+  //       group([
+  //         animate(200, style({width: '0px'})),
+  //         animate('100ms', style({opacity: 0}))
+  //       ])
+  //     ]),
+  //     // TODO: opacity is not good enough. When hidden, button should also be disabled and aria-hidden (or removed completely)
+  //     state('1', style({opacity: '*'})),
+  //     state('0', style({opacity: '0'})),
+  //     transition('1<=>0', animate(200)),
+  //   ]),
+  //   trigger('searchExpand', [
+  //     state('1', style({width: '*', backgroundColor: '*', margin: '*'})),
+  //     state('0', style({width: '60px', backgroundColor: 'transparent', color: 'white', margin: '0'})),
+  //     transition('0=>1', [
+  //       group([
+  //         style({width: '60px', backgroundColor: 'transparent'}),
+  //         animate(200, style({width: '*', backgroundColor: '*', color: '*'})),
+  //         query('@inputExpand', [
+  //           style({width: '0'}),
+  //           animate(200, style({
+  //             width: '*',
+  //             margin: '*',
+  //           })),
+  //         ]),
+  //         query('@clearExpand', [
+  //           animateChild(),
+  //         ])
+  //       ])
+  //     ]),
+  //     transition('1=>0', [
+  //       group([
+  //         style({width: '*'}),
+  //         animate(200, style({
+  //           backgroundColor: 'transparent',
+  //           width: '40px',
+  //           color: 'white',
+  //         })),
+  //         query('@clearExpand', [
+  //           animateChild(),
+  //         ]),
+  //         query('@inputExpand', [
+  //           animate(200, style({
+  //             width: '0',
+  //             backgroundColor: 'transparent',
+  //             opacity: '0',
+  //             margin: '0',
+  //           }))
+  //         ]),
+  //       ])
+  //     ]),
+  //   ]),
+  //   trigger('inputExpand', [
+  //     state('0', style({width: '0', margin: '0'})),
+  //     // Without this transition, the input animates to an incorrect width
+  //     transition('0=>1', []),
+  //   ]),
+  // ],
 })
 export class HeaderPanelComponent implements OnInit {
 
   @ViewChildren('checkboxes') checkboxes: QueryList<ElementRef>;
-  @ViewChild(DefaultValueAccessor)
-  inputModel: DefaultValueAccessor;
+  @ViewChild(DefaultValueAccessor) inputModel: DefaultValueAccessor;
 
   Header_Buttons = HEADER_BUTTONS;
 
   viewItems: string[] = Object.keys(VIEW_LIST);
   viewItemModel: string[] = [];
 
-  _value = '';
-  expanded = false;
+  // _value = '';
+  // expanded = false;
   VIEW_LIST = VIEW_LIST;
 
   constructor(public applicationService: ApplicationService,
@@ -257,25 +256,25 @@ export class HeaderPanelComponent implements OnInit {
   };
 
 
-  // Search bar
-  close = () => {
-    this._value = '';
-  };
-
-  onSearchClicked = () => {
-    this.expanded = !this.expanded;
-    // if (!this.expanded) {
-    //   this.expanded = true;
-    // } else {
-    //   console.log('search');
-    // }
-  };
-
-  onBlur = () => {
-    if (!(this._value && this._value.length > 0)) {
-      this.expanded = false;
-    }
-  }
+  // // Search bar
+  // close = () => {
+  //   this._value = '';
+  // };
+  //
+  // onSearchClicked = () => {
+  //   this.expanded = !this.expanded;
+  //   // if (!this.expanded) {
+  //   //   this.expanded = true;
+  //   // } else {
+  //   //   console.log('search');
+  //   // }
+  // };
+  //
+  // onBlur = () => {
+  //   if (!(this._value && this._value.length > 0)) {
+  //     this.expanded = false;
+  //   }
+  // }
 
 
 

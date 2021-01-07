@@ -11,6 +11,7 @@ import {
   TASK_DATA_UI
 } from '../../../../../../classes/typings/all.typings';
 import {ConnectionService} from '../connectionService/connection.service';
+import {StateGroup} from '../../modules/general-view/search-panel/search-panel.component';
 
 
 @Injectable({
@@ -30,6 +31,76 @@ export class ApplicationService {
   panelIcon: LEFT_PANEL_ICON = LEFT_PANEL_ICON.expand;
   stateDraw: STATE_DRAW = STATE_DRAW.notDraw;
   private _selectedAirVehicle: AV_DATA_UI;
+
+  stateGroups: StateGroup[] =
+    [
+      {
+        letter: 'A',
+        names: ['Alabama', 'Alaska', 'Arizona', 'Arkansas']
+      },
+      {
+        letter: 'C',
+        names: ['California', 'Colorado', 'Connecticut']
+      },
+      {
+      letter: 'D',
+      names: ['Delaware']
+    },
+      {
+      letter: 'F',
+      names: ['Florida']
+    },
+      {
+      letter: 'G',
+      names: ['Georgia']
+    },
+      {
+      letter: 'H',
+      names: ['Hawaii']
+    },
+      {
+      letter: 'I',
+      names: ['Idaho', 'Illinois', 'Indiana', 'Iowa']
+    },
+      {
+      letter: 'K',
+      names: ['Kansas', 'Kentucky']
+    }, {
+      letter: 'L',
+      names: ['Louisiana']
+    }, {
+      letter: 'M',
+      names: ['Maine', 'Maryland', 'Massachusetts', 'Michigan',
+        'Minnesota', 'Mississippi', 'Missouri', 'Montana']
+    }, {
+      letter: 'N',
+      names: ['Nebraska', 'Nevada', 'New Hampshire', 'New Jersey',
+        'New Mexico', 'New York', 'North Carolina', 'North Dakota']
+    }, {
+      letter: 'O',
+      names: ['Ohio', 'Oklahoma', 'Oregon']
+    }, {
+      letter: 'P',
+      names: ['Pennsylvania']
+    }, {
+      letter: 'R',
+      names: ['Rhode Island']
+    }, {
+      letter: 'S',
+      names: ['South Carolina', 'South Dakota']
+    }, {
+      letter: 'T',
+      names: ['Tennessee', 'Texas']
+    }, {
+      letter: 'U',
+      names: ['Utah']
+    }, {
+      letter: 'V',
+      names: ['Vermont', 'Virginia']
+    }, {
+      letter: 'W',
+      names: ['Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
+    }];
 
 
   now = Date.now();
@@ -92,6 +163,13 @@ export class ApplicationService {
 
   getGeoCounter = () => {
     return 'tmp' + this.geoCounter;
+  };
+
+  public getStateGroups = (): StateGroup[] => {
+    // setTimeout(() => {
+    //   return this.stateGroups;
+    // }, 1000);
+    return this.stateGroups;
   };
 
 }
