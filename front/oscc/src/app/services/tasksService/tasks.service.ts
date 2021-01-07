@@ -122,7 +122,7 @@ export class TasksService {
               id: geoInstruction.id,
               modeDefine: geoInstruction.modeDefine,
               isShow: this.applicationService.screen.showTasks,
-              location: GeoCalculate.geopoint3d_to_point3d(geoInstruction.location),
+              location: GeoCalculate.geopoint3d_short_to_point3d(geoInstruction.location),
               optionsData: task,
               type: ITEM_TYPE.task
             };
@@ -133,7 +133,7 @@ export class TasksService {
               id: geoInstruction.id,
               modeDefine: geoInstruction.modeDefine,
               isShow: this.applicationService.screen.showTasks,
-              location: GeoCalculate.geopoint3d_to_point3d(geoInstruction.location),
+              location: GeoCalculate.geopoint3d_short_to_point3d(geoInstruction.location),
               optionsData: task,
               type: ITEM_TYPE.task
             };
@@ -255,10 +255,10 @@ export class TasksService {
           coordinates = geoInstruction.arrow[0];
           break;
         case GEOGRAPHIC_INSTRUCTION_TYPE.address:
-          coordinates = GeoCalculate.geopoint3d_to_point3d(geoInstruction.location);
+          coordinates = GeoCalculate.geopoint3d_short_to_point3d(geoInstruction.location);
           break;
         case GEOGRAPHIC_INSTRUCTION_TYPE.point:
-          coordinates = GeoCalculate.geopoint3d_to_point3d(geoInstruction.location);
+          coordinates = GeoCalculate.geopoint3d_short_to_point3d(geoInstruction.location);
           break;
         case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
           coordinates = geoInstruction.polygon[0];

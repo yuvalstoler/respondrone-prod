@@ -79,7 +79,7 @@ export class FRService {
       id: this.getId(fr.id),
       modeDefine: fr.modeDefine,
       isShow: this.applicationService.screen.showFRLocations,
-      location: GeoCalculate.geopoint3d_to_point3d(fr.location),
+      location: GeoCalculate.geopoint3d_short_to_point3d(fr.location),
       optionsData: fr,
       type: undefined
     };
@@ -104,7 +104,7 @@ export class FRService {
 
   public flyToObject = (object: FR_DATA_UI) => {
     if (object.location) {
-      const coordinates: POINT3D = GeoCalculate.geopoint3d_to_point3d(object.location);
+      const coordinates: POINT3D = GeoCalculate.geopoint3d_short_to_point3d(object.location);
       this.mapGeneralService.flyToObject(coordinates);
     }
   };

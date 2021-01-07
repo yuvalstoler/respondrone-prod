@@ -135,20 +135,20 @@ export class ReportService {
   };
   // ----------------------
   public showReportOnMap = (report: REPORT_DATA_UI) => {
-    if (report.locationType === LOCATION_TYPE.locationPoint && report.location && report.location.latitude && report.location.longitude) {
+    if (report.locationType === LOCATION_TYPE.locationPoint && report.location && report.location.lat && report.location.lon) {
       this.mapGeneralService.showIcon(report.id);
-    } else if (report.locationType === LOCATION_TYPE.address && report.location && report.location.latitude && report.location.longitude) {
+    } else if (report.locationType === LOCATION_TYPE.address && report.location && report.location.lat && report.location.lon) {
       this.mapGeneralService.showIcon(report.id);
     }
   };
   // ----------------------
   private createReportOnMap = (report: REPORT_DATA_UI) => {
-    if ((report.locationType === LOCATION_TYPE.locationPoint || report.locationType === LOCATION_TYPE.address) && report.location.latitude && report.location.longitude) {
+    if ((report.locationType === LOCATION_TYPE.locationPoint || report.locationType === LOCATION_TYPE.address) && report.location.lat && report.location.lon) {
       const iconData: ICON_DATA = {
         id: report.id,
         modeDefine: report.modeDefine,
         isShow: this.applicationService.screen.showReports,
-        location: GeoCalculate.geopoint3d_to_point3d(report.location),
+        location: GeoCalculate.geopoint3d_short_to_point3d(report.location),
         optionsData: report,
         type: ITEM_TYPE.report
       };

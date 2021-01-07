@@ -55,9 +55,10 @@
           <!--Lat-->
           <mat-form-field appearance="outline" class="">
             <label>
-              <input (change)="locationChanged($event, 'latitude')"
-                     (click)="$event.stopPropagation()" (keyup)="locationChanged($event, 'latitude')"
-                     [(ngModel)]="geoInstructionModel.location.latitude"
+              <input (change)="locationChanged($event)"
+                     (click)="$event.stopPropagation()"
+                     (keyup)="locationChanged($event)"
+                     [(ngModel)]="geoInstructionModel.location.lat"
                      class="Label"
                      matInput
                      min="0"
@@ -68,10 +69,10 @@
           <!--Long-->
           <mat-form-field appearance="outline" class="">
             <label>
-              <input (change)="locationChanged($event, 'longitude')"
+              <input (change)="locationChanged($event)"
                      (click)="$event.stopPropagation()"
-                     (keyup)="locationChanged($event, 'longitude')"
-                     [(ngModel)]="geoInstructionModel.location.longitude"
+                     (keyup)="locationChanged($event)"
+                     [(ngModel)]="geoInstructionModel.location.lon"
                      class="Label"
                      matInput
                      min="0"

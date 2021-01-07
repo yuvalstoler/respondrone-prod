@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {
   COMMENT, EVENT_DATA_UI,
   FILE_FS_DATA,
-  GEOPOINT3D, GEOPOINT3D_SHORT, LINKED_EVENT_DATA, LOCATION_NAMES,
+  GEOPOINT3D_SHORT, LINKED_EVENT_DATA, LOCATION_NAMES,
   LOCATION_TYPE,
   PRIORITY,
   REPORT_DATA_UI,
@@ -18,7 +18,7 @@ import {HEADER_BUTTONS, STATE_DRAW} from '../../../types';
 import * as _ from 'lodash';
 import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
 import {MediaService} from '../../services/mediaService/media.service';
-import {LoginService} from "../../services/login/login.service";
+import {LoginService} from '../../services/login/login.service';
 
 @Component({
   selector: 'app-report-dialog',
@@ -41,7 +41,7 @@ export class ReportDialogComponent {
     priority: this.priorities[0],
     description: '',
     locationType: LOCATION_TYPE.none,
-    location: {longitude: undefined, latitude: undefined, altitude: 0},
+    location: {lon: undefined, lat: undefined, alt: 0},
     address: '',
     eventIds: [],
     comments: [],
@@ -77,7 +77,7 @@ export class ReportDialogComponent {
     // add location on panel
     this.locationService.locationPoint$.subscribe(latlon => {
       if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint || this.applicationService.stateDraw === STATE_DRAW.editLocationPoint) {
-        this.reportModel.location = {longitude: latlon.lon, latitude: latlon.lat, altitude: 0};
+        this.reportModel.location = {lon: latlon.lon, lat: latlon.lat, alt: 0};
       }
     });
   }
@@ -114,23 +114,23 @@ export class ReportDialogComponent {
     }
     if (location === LOCATION_NAMES.noLocation) {
       this.reportModel.locationType = LOCATION_TYPE.none;
-      this.reportModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
+      this.reportModel.location = {lon: undefined, lat: undefined, alt: 0};
       this.reportModel.address = '';
       this.locationService.deleteLocationPointTemp('tmp' + '0');
 
     } else if (location === LOCATION_NAMES.address) {
       this.reportModel.address = '';
-      // this.reportModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
+      // this.reportModel.location = {lon: undefined, lat: undefined, alt: 0};
       this.reportModel.locationType = LOCATION_TYPE.address;
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
       this.mapGeneralService.changeCursor(false);
       this.locationService.deleteLocationPointTemp('tmp' + '0');
 
     } else if (location === LOCATION_NAMES.locationPoint) {
-      this.reportModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
+      this.reportModel.location = {lon: undefined, lat: undefined, alt: 0};
       this.customToasterService.info({message: 'Click on map to set the report\'s location', title: 'location'});
       this.reportModel.address = '';
-      // if (this.reportModel.location.latitude === undefined && this.reportModel.location.longitude === undefined) {
+      // if (this.reportModel.location.lat === undefined && this.reportModel.location.lon === undefined) {
         this.reportModel.locationType = LOCATION_TYPE.locationPoint;
         this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
       this.mapGeneralService.changeCursor(true);
@@ -143,10 +143,10 @@ export class ReportDialogComponent {
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
       this.mapGeneralService.changeCursor(false);
       // this.locationService.removeBillboard();
-      if (this.reportModel.location.latitude !== undefined && this.reportModel.location.longitude !== undefined) {
+      if (this.reportModel.location.lat !== undefined && this.reportModel.location.lon !== undefined) {
         const locationPoint: GEOPOINT3D_SHORT = {
-          lon: this.reportModel.location.longitude,
-          lat: this.reportModel.location.latitude,
+          lon: this.reportModel.location.lon,
+          lat: this.reportModel.location.lat,
           alt: 0
         };
         this.locationService.createOrUpdateLocationTemp(locationPoint);
@@ -213,8 +213,8 @@ export class ReportDialogComponent {
   getLocationDisabled = (): boolean => {
     let res = false;
     if (this.reportModel.locationType === LOCATION_TYPE.locationPoint &&
-      (this.reportModel.location.latitude === undefined ||
-        this.reportModel.location.longitude === undefined)) {
+      (this.reportModel.location.lat === undefined ||
+        this.reportModel.location.lon === undefined)) {
       res = true;
     }
     if (this.reportModel.locationType === LOCATION_TYPE.address &&
@@ -233,7 +233,7 @@ export class ReportDialogComponent {
     if (geometry.viewport) {
       const lat = geometry.viewport.getCenter().lat();
       const lng = geometry.viewport.getCenter().lng();
-      this.reportModel.location = {latitude: lat, longitude: lng, altitude: 0};
+      this.reportModel.location = {lat: lat, lon: lng, alt: 0};
       this.reportModel.address = place['formatted_address'];
       this.locationService.createOrUpdateLocationTemp({ lat: lat, lon: lng, alt: 0 });
       this.eventService.flyToObject([lng, lat, 0]);

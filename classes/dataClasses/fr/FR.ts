@@ -1,7 +1,7 @@
 import {
     FR_STATUS,
     EVENT_DATA,
-    GEOPOINT3D, FR_DATA, FR_DATA_UI, FR_TYPE,
+    GEOPOINT3D_SHORT, FR_DATA, FR_DATA_UI, FR_TYPE,
     ID_TYPE, TIMESTAMP, FR_DATA_MD, FR_DATA_REP,
 } from '../../typings/all.typings';
 import {DataUtility} from '../../applicationClasses/utility/dataUtility';
@@ -11,7 +11,7 @@ export class FR {
     id: ID_TYPE;
     callSign: string;
     type: FR_TYPE;
-    location: GEOPOINT3D;
+    location: GEOPOINT3D_SHORT;
     lastUpdated: TIMESTAMP;
     online: boolean;
     status: FR_STATUS;
@@ -51,8 +51,8 @@ export class FR {
     private setCallsign = (data: string) => {
         this.callSign = data;
     };
-    private setLocation = (data: GEOPOINT3D) => {
-        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
+    private setLocation = (data: GEOPOINT3D_SHORT) => {
+        const res: boolean = true; // todo validate GEOPOINT3D_SHORT | ADDRESS
         if ( res ) {
             this.location = data;
         }
@@ -82,7 +82,7 @@ export class FR {
             id: this.id,
             callSign: this.callSign,
             type: this.type,
-            location: this.location ? {lat: this.location.latitude, lon: this.location.longitude, alt: this.location.altitude} : undefined,
+            location: this.location,
             lastUpdated: this.lastUpdated,
             online: this.online,
             status: this.status,

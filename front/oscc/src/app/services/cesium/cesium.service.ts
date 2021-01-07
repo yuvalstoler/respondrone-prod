@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {MAP} from 'src/types';
 import {ViewerConfiguration} from 'angular-cesium';
-import {CARTESIAN2, CARTESIAN3, GEOPOINT3D, POINT, POINT3D} from '../../../../../../classes/typings/all.typings';
+import {CARTESIAN2, CARTESIAN3, POINT, POINT3D} from '../../../../../../classes/typings/all.typings';
 import * as turf from '@turf/turf';
-import {mapDefaultPosition} from "../../../environments/environment";
+import {mapDefaultPosition} from '../../../environments/environment';
 
 
 @Injectable({

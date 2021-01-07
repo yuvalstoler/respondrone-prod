@@ -40,9 +40,9 @@ export class FrManager {
                     'callSign': 'PO-001',
                     'type': FR_TYPE.police,
                     'location': {
-                        'latitude': 0,
-                        'longitude': 0,
-                        'altitude': 0
+                        'lat': 0,
+                        'lon': 0,
+                        'alt': 0
                     },
                     'lastUpdated': {
                         'timestamp': date
@@ -55,9 +55,9 @@ export class FrManager {
                     'callSign': 'PARA-001',
                     'type': FR_TYPE.paramedic,
                     'location': {
-                        'latitude': 0,
-                        'longitude': 0,
-                        'altitude': 0
+                        'lat': 0,
+                        'lon': 0,
+                        'alt': 0
                     },
                     'lastUpdated': {
                         'timestamp': date - 3600000
@@ -70,9 +70,9 @@ export class FrManager {
                     'callSign': 'FF-007',
                     'type': FR_TYPE.fireFighter,
                     'location': {
-                        'latitude': 0,
-                        'longitude': 0,
-                        'altitude': 0
+                        'lat': 0,
+                        'lon': 0,
+                        'alt': 0
                     },
                     'lastUpdated': {
                         'timestamp': date - 5000
@@ -83,7 +83,7 @@ export class FrManager {
             ]
         };
 
-        let lat = 42.2332, lon = 9.1061, diff = 0.00005, sign = 0, key1 = 'latitude', key2 = 'longitude';
+        let lat = 42.2332, lon = 9.1061, diff = 0.00005, sign = 0, key1 = 'lat', key2 = 'lon';
         setInterval(() => {
             const tmp = lat; lat = lon; lon = tmp;
             const tmpKey = key1; key1 = key2; key2 = tmpKey;

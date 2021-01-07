@@ -1,7 +1,6 @@
 import {
     FR_STATUS,
     EVENT_DATA,
-    GEOPOINT3D,
     FR_DATA,
     FR_DATA_UI,
     FR_TYPE,
@@ -57,7 +56,7 @@ export class AirVehicle {
         this.type = data;
     };
     private setLocation = (data: GEOPOINT3D_SHORT) => {
-        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
+        const res: boolean = true; // todo validate GEOPOINT3D_SHORT | ADDRESS
         if ( res ) {
             this.location = data;
         }
@@ -129,7 +128,7 @@ export class AirVehicle {
         return {
             id: this.id,
             type: this.type,
-            location: this.location ? {latitude: this.location.lat, longitude: this.location.lon, altitude: this.location.alt} : undefined,
+            location: this.location,
             gpsQuality: this.gpsQuality,
             energyLevel: this.energyLevel,
             remainingTimeFlight: this.remainingTimeFlight,

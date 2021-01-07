@@ -1,6 +1,6 @@
 import {
     COMMENT,
-    GEOPOINT3D,
+    GEOPOINT3D_SHORT,
     ID_TYPE,
     LINKED_REPORT_DATA,
     LOCATION_TYPE,
@@ -24,7 +24,7 @@ export class Report {
     priority: PRIORITY;
     description: string = '';
     locationType: LOCATION_TYPE = LOCATION_TYPE.none;
-    location: GEOPOINT3D = {latitude: undefined, longitude: undefined, altitude: undefined};
+    location: GEOPOINT3D_SHORT = {lat: undefined, lon: undefined, alt: undefined};
     address: ADDRESS;
     media: FILE_FS_DATA[] = [];
     mediaFileIds: MAP<boolean> = {};
@@ -71,15 +71,15 @@ export class Report {
             this.description = data;
         }
     };
-    private setLocation = (data: GEOPOINT3D) => {
-        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
+    private setLocation = (data: GEOPOINT3D_SHORT) => {
+        const res: boolean = true; // todo validate GEOPOINT3D_SHORT | ADDRESS
         if ( res ) {
             this.location = data;
         }
     };
 
     private setAddress = (data: ADDRESS) => {
-        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
+        const res: boolean = true; // todo validate GEOPOINT3D_SHORT | ADDRESS
         if ( res ) {
             this.address = data;
         }

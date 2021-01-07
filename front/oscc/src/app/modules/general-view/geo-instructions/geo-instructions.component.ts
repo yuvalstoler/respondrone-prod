@@ -38,7 +38,7 @@ export class GeoInstructionsComponent implements OnInit {
     id: undefined,
     type: undefined,
     description: '',
-    location: {longitude: undefined, latitude: undefined, altitude: 0},
+    location: {lon: undefined, lat: undefined, alt: 0},
     modeDefine: {
       styles:
         {
@@ -67,7 +67,7 @@ export class GeoInstructionsComponent implements OnInit {
 
     // add location to model
     this.locationService.locationPoint$.subscribe(latlon => {
-      this.geoInstructionModel.location = {longitude: latlon.lon, latitude: latlon.lat, altitude: 0};
+      this.geoInstructionModel.location = {lon: latlon.lon, lat: latlon.lat, alt: 0};
     });
 
     // add polygon to model
@@ -206,10 +206,10 @@ export class GeoInstructionsComponent implements OnInit {
     if (event.target.value !== '') {
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
       this.mapGeneralService.changeCursor(false);
-      if (this.geoInstructionModel.location.latitude !== undefined && this.geoInstructionModel.location.longitude !== undefined) {
+      if (this.geoInstructionModel.location.lat !== undefined && this.geoInstructionModel.location.lon !== undefined) {
         const locationPoint: GEOPOINT3D_SHORT = {
-          lon: this.geoInstructionModel.location.longitude,
-          lat: this.geoInstructionModel.location.latitude,
+          lon: this.geoInstructionModel.location.lon,
+          lat: this.geoInstructionModel.location.lat,
           alt: 0
         };
         this.locationService.createOrUpdateLocationTemp(locationPoint);
@@ -232,7 +232,7 @@ export class GeoInstructionsComponent implements OnInit {
     if (geometry.viewport) {
       const lat = geometry.viewport.getCenter().lat();
       const lng = geometry.viewport.getCenter().lng();
-      this.geoInstructionModel.location = {latitude: lat, longitude: lng, altitude: 0};
+      this.geoInstructionModel.location = {lat: lat, lon: lng, alt: 0};
       this.geoInstructionModel.address = place['formatted_address'];
 
       const idTemp = this.applicationService.getGeoCounter();

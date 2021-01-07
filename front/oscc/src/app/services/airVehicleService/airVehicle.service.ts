@@ -80,7 +80,7 @@ export class AirVehicleService {
       id: this.getId(av.id),
       modeDefine: av.modeDefine,
       isShow: this.applicationService.screen.showUAV,
-      location: GeoCalculate.geopoint3d_to_point3d(av.location),
+      location: GeoCalculate.geopoint3d_short_to_point3d(av.location),
       heading: av.heading,
       optionsData: av,
       type: undefined
@@ -107,7 +107,7 @@ export class AirVehicleService {
   // -----------------------
   public flyToObject = (object: AV_DATA_UI) => {
     if (object.location) {
-      const coordinates: POINT3D = GeoCalculate.geopoint3d_to_point3d(object.location);
+      const coordinates: POINT3D = GeoCalculate.geopoint3d_short_to_point3d(object.location);
       this.mapGeneralService.flyToObject(coordinates);
     }
   };

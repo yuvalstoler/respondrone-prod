@@ -150,7 +150,7 @@ export class EventService {
         id: event.id,
         modeDefine: event.modeDefine,
         isShow: this.applicationService.screen.showEvents,
-        location: GeoCalculate.geopoint3d_to_point3d(event.location),
+        location: GeoCalculate.geopoint3d_short_to_point3d(event.location),
         optionsData: event,
         type: ITEM_TYPE.event
       };
@@ -186,7 +186,7 @@ export class EventService {
     //
     //   // this.events.data[index].type = LOCATION_TYPE.none;
     //   // this.events.data[index].polygon = [];
-    //   // this.events.data[index].location = {longitude: undefined, latitude: undefined};
+    //   // this.events.data[index].location = {lon: undefined, lat: undefined};
     //   // this.events.data[index].address = '';
     //
     //   this.events$.next(true);
@@ -294,8 +294,8 @@ export class EventService {
   };
 
   public getType = (event: EVENT_DATA_UI): 'icon' | 'polygon' => {
-    if ((event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.latitude && event.location.longitude) ||
-      (event.locationType === LOCATION_TYPE.address && event.location && event.location.latitude && event.location.longitude)) {
+    if ((event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.lat && event.location.lon) ||
+      (event.locationType === LOCATION_TYPE.address && event.location && event.location.lat && event.location.lon)) {
       return 'icon';
     } else if (event.locationType === LOCATION_TYPE.polygon && event.polygon && event.polygon.length > 0) {
       return 'polygon';

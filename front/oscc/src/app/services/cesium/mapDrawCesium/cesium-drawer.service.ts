@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {
   AV_DATA_UI,
   CARTESIAN3,
-  EVENT_DATA_UI, FR_DATA_UI, GEOGRAPHIC_INSTRUCTION,
-  GEOPOINT3D, GEOPOINT3D_SHORT, ICON_STYLES,
+  EVENT_DATA_UI, FR_DATA_UI, GEOGRAPHIC_INSTRUCTION, GEOPOINT,
+  GEOPOINT3D_SHORT, ICON_STYLES,
   MAP,
   POINT,
   POINT3D, POLYGON_STYLES, POLYLINE_STYLES, REPORT_DATA_UI
@@ -125,7 +125,7 @@ export class CesiumDrawerService {
 
   // ==================BILLBOARD========================================================================================
 
-  // public createBillboardObject = (domId: string, locationPoint: GEOPOINT3D, billboardId: string, options: OPTIONS_ENTITY): boolean => {
+  // public createBillboardObject = (domId: string, locationPoint: GEOPOINT3D_SHORT, billboardId: string, options: OPTIONS_ENTITY): boolean => {
   //   let res = false;
   //   const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
   //   for (const mapDomId in mapsCE) {
@@ -147,11 +147,11 @@ export class CesiumDrawerService {
   //   return res;
   // };
   //
-  // private createBillboardEntity = (mapDomId: string, mapCE: any, locationPoint: GEOPOINT3D, options: OPTIONS_ENTITY) => {
+  // private createBillboardEntity = (mapDomId: string, mapCE: any, locationPoint: GEOPOINT3D_SHORT, options: OPTIONS_ENTITY) => {
   //   const text = options.description;
   //   const billboard = this.cesiumService.cesiumViewer[mapDomId].entities.add({
   //     name: 'billboard',
-  //     position: Cesium.Cartesian3.fromDegrees(locationPoint.longitude, locationPoint.latitude),
+  //     position: Cesium.Cartesian3.fromDegrees(locationPoint.lon, locationPoint.lat),
   //     label: {
   //       text: text,
   //       font: '14pt monospace',
@@ -250,7 +250,7 @@ export class CesiumDrawerService {
   //   const size = object.modeDefine.styles.iconSize || 30;
   //   const description = (object.hasOwnProperty('description')) ? object['description'] : '';
   //   const options = {
-  //     position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude, object.location.altitude),
+  //     position: Cesium.Cartesian3.fromDegrees(object.location.lon, object.location.lat, object.location.alt),
   //     heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
   //     billboard: {
   //       image: object.modeDefine.styles.mapIcon,
@@ -270,7 +270,7 @@ export class CesiumDrawerService {
   // private updateIconLabelOnMap = (mapDomId: string, entityCE, object: DRAW_OBJECT, label: DRAW_LABEL) => {
   //   const size = object.modeDefine.styles.iconSize || 30;
   //   const options = {
-  //     position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude, object.location.altitude),
+  //     position: Cesium.Cartesian3.fromDegrees(object.location.lon, object.location.lat, object.location.alt),
   //     heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
   //     label: {
   //       text: label.text,
@@ -333,7 +333,7 @@ export class CesiumDrawerService {
   //   const size = object.modeDefine.styles.iconSize || 30;
   //
   //   const iconLabel = this.cesiumService.cesiumViewer[mapDomId].entities.add({
-  //     position: Cesium.Cartesian3.fromDegrees(object.location.longitude, object.location.latitude, object.location.altitude),
+  //     position: Cesium.Cartesian3.fromDegrees(object.location.lon, object.location.lat, object.location.alt),
   //     heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
   //     label: {
   //       text: label.text,
@@ -1373,10 +1373,10 @@ export class CesiumDrawerService {
       const cartesian = this.cesiumService.cesiumViewer[mapDomId].camera.pickEllipsoid(clickPositionMap,
         this.cesiumService.cesiumViewer[mapDomId].scene.globe.ellipsoid);
       if (cartesian) {
-        const cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+        const cartographic: GEOPOINT = Cesium.Cartographic.fromCartesian(cartesian);
         const longitudeString = Cesium.Math.toDegrees(cartographic.longitude)/*.toFixed(2)*/;
-        const latitudeString = Cesium.Math.toDegrees(cartographic.latitude)/*.toFixed(2)*/;
-        clickPosition = [+longitudeString, +latitudeString, 0];
+        const latString = Cesium.Math.toDegrees(cartographic.latitude)/*.toFixed(2)*/;
+        clickPosition = [+longitudeString, +latString, 0];
       }
     }
     return clickPosition;
