@@ -8,15 +8,15 @@ import { RequestManager } from '../../AppService/restConnections/requestManager'
 import {
     ASYNC_RESPONSE,
     ID_OBJ,
-    FR_DATA, FR_DATA_UI, SOCKET_IO_CLIENT_TYPES, FR_DATA_TELEMETRY, ID_TYPE, MISSION_REQUEST_DATA
+    FR_DATA, FR_DATA_UI, SOCKET_IO_CLIENT_TYPES, FR_DATA_TELEMETRY, ID_TYPE, MISSION_REQUEST_DATA, MAP
 } from '../../../../../classes/typings/all.typings';
 import {SocketIO} from '../../websocket/socket.io';
 import {ReportManager} from '../report/reportManager';
 import {FR} from '../../../../../classes/dataClasses/fr/FR';
-import {FrMdLogic} from "../../../../../classes/modeDefineTSSchemas/frs/frMdLogic";
-import {SOCKET_ROOM} from "../../../../../classes/dataClasses/api/api_enums";
-import {SocketIOClient} from "../../websocket/socketIOClient";
-import {MissionRequestManager} from "../missionRequest/missionRequestManager";
+import {FrMdLogic} from '../../../../../classes/modeDefineTSSchemas/frs/frMdLogic';
+import {SOCKET_ROOM} from '../../../../../classes/dataClasses/api/api_enums';
+import {SocketIOClient} from '../../websocket/socketIOClient';
+import {MissionRequestManager} from '../missionRequest/missionRequestManager';
 
 
 export class FrManager {
@@ -25,7 +25,7 @@ export class FrManager {
     private static instance: FrManager = new FrManager();
 
 
-    frs: FR[] = [];
+    frs: MAP<FR> = {};
 
     private constructor() {
 
@@ -36,20 +36,30 @@ export class FrManager {
     }
 
     private onGetFRs = (data: FR_DATA_TELEMETRY) => {
-        this.frs = Converting.Arr_FR_DATA_to_Arr_FR(data.FRs);
+        this.frs = {};
+        data.FRs.forEach((item: FR_DATA) => {
+            this.frs[item.id] = new FR(item);
+        });
 
-        this.sendDataToUI()
+        this.sendDataToUI();
     };
 
     private getFRsByIds = (ids: ID_TYPE[]): FR_DATA_UI[] => {
         const res: FR_DATA_UI[] = [];
-        this.frs.forEach((fr: FR) => {
-            if (ids.indexOf(fr.id) !== -1) {
-                const data = fr.toJsonForUI();
-                res.push(data);
+        for (const frId in this.frs) {
+            if (this.frs[frId]) {
+                if (ids.indexOf(frId) !== -1) {
+                    const data = this.frs[frId].toJsonForUI();
+                    res.push(data);
+                }
             }
-        });
+        }
+
         return res;
+    }
+
+    private getFRById = (id: ID_TYPE): FR => {
+        return this.frs[id];
     }
 
 
@@ -59,13 +69,15 @@ export class FrManager {
 
     private getDataForUI = (): FR_DATA_UI[] => {
         const res: FR_DATA_UI[] = [];
-        this.frs.forEach((user: FR) => {
-            const userDataUI: FR_DATA_UI = user.toJsonForUI();
-            const missionsFollowingFR: MISSION_REQUEST_DATA[] = MissionRequestManager.getMissionsFollowingFR(user.id);
-            userDataUI.modeDefine = FrMdLogic.validate(userDataUI, missionsFollowingFR);
+        for (const frId in this.frs) {
+            if (this.frs[frId]) {
+                const userDataUI: FR_DATA_UI = this.frs[frId].toJsonForUI();
+                const missionsFollowingFR: MISSION_REQUEST_DATA[] = MissionRequestManager.getMissionsFollowingFR(frId);
+                userDataUI.modeDefine = this.frs[frId].modeDefine = FrMdLogic.validate(userDataUI, missionsFollowingFR);
+                res.push(userDataUI);
+            }
+        }
 
-            res.push(userDataUI);
-        });
         return res;
     };
 
@@ -78,6 +90,7 @@ export class FrManager {
 
     public static startGetSocket = FrManager.instance.startGetSocket;
     public static getFRsByIds = FrManager.instance.getFRsByIds;
+    public static getFRById = FrManager.instance.getFRById;
 
 
 

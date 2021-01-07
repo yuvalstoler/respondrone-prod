@@ -8,13 +8,13 @@ import {
 } from 'express';
 
 import {
-    ASYNC_RESPONSE, COLLECTION_VERSIONS,
+    ASYNC_RESPONSE, COLLECTION_VERSIONS, CREDENTIALS,
     EVENT_DATA,
     FILE_DB_DATA, GRAPHIC_OVERLAY_DATA,
     ID_OBJ,
     ID_TYPE, MISSION_DATA, MISSION_REQUEST_DATA, MISSION_ROUTE_DATA, NFZ_DATA,
     REPORT_DATA,
-    TASK_DATA,
+    TASK_DATA, USER_DATA,
 } from '../../../../../classes/typings/all.typings';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
 import {
@@ -941,6 +941,106 @@ export class ApiManager implements IRest {
     };
     // endregion ----------------------
 
+    // region user ----------------------
+
+    private createUser = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<USER_DATA> = {success: false};
+        const requestBody: USER_DATA = request.body;
+        if ( requestBody ) {
+            DbManager.createUser(requestBody)
+                .then((data: ASYNC_RESPONSE<USER_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE<USER_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing requestBody';
+            response.send(res);
+        }
+    };
+
+    private readUser = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<USER_DATA> = {success: false};
+        const requestBody: CREDENTIALS = request.body;
+        if ( requestBody && requestBody.name !== undefined && requestBody.password !== undefined ) {
+            DbManager.readUser(requestBody)
+                .then((data: ASYNC_RESPONSE<USER_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE<USER_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private readAllUser = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<USER_DATA[]> = {success: false};
+        DbManager.readAllUser({})
+            .then((data: ASYNC_RESPONSE<USER_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE<USER_DATA[]>) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+
+    };
+
+    private deleteUser = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.deleteUser(requestBody)
+                .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private deleteAllUser = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
+        const requestBody = request.body;
+        DbManager.deleteAllUser({})
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            });
+    };
+    // endregion ----------------------
 
     private saveRepCollectionVersions = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<COLLECTION_VERSIONS> = {success: false};
@@ -1041,7 +1141,11 @@ export class ApiManager implements IRest {
         [DBS_API.saveRepCollectionVersions]: this.saveRepCollectionVersions,
         [DBS_API.getRepCollectionVersions]: this.getRepCollectionVersions,
 
-
+        [DBS_API.createUser]: this.createUser,
+        [DBS_API.readUser]: this.readUser,
+        [DBS_API.readAllUser]: this.readAllUser,
+        [DBS_API.deleteUser]: this.deleteUser,
+        [DBS_API.deleteAllUser]: this.deleteAllUser,
 
     };
 

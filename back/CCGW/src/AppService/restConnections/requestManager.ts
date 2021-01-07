@@ -19,6 +19,7 @@ const url_RS = services.RS.protocol + '://' + services.RS.host + ':' + services.
 const url_TS = services.TS.protocol + '://' + services.TS.host + ':' + services.TS.port;
 const url_MG = services.MG.protocol + '://' + services.MG.host + ':' + services.MG.port;
 const url_MS = services.MS.protocol + '://' + services.MS.host + ':' + services.MS.port;
+const url_GS = services.GS.protocol + '://' + services.GS.host + ':' + services.GS.port;
 
 export class RequestManager {
 
@@ -34,6 +35,9 @@ export class RequestManager {
     }
     public static requestToMS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_MS, API_GENERAL.general + path, bodyObj, timeout_AV);
+    }
+    public static requestToGS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_GS, API_GENERAL.general + path, bodyObj, timeout_AV);
     }
 
 

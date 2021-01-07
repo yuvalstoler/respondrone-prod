@@ -6,6 +6,7 @@ import {ApplicationService} from '../../services/applicationService/application.
 import {HEADER_BUTTONS} from '../../../types';
 import {MatDialog} from '@angular/material/dialog';
 import {MissionRequestService} from '../../services/missionRequestService/missionRequest.service';
+import {LiveVideoService} from '../../services/liveVideoService/live-video.service';
 
 @Component({
   selector: 'app-context-menu',
@@ -17,12 +18,16 @@ export class ContextMenuComponent implements OnInit {
   constructor(public contextMenuService: ContextMenuService,
               public applicationService: ApplicationService,
               public missionRequestService: MissionRequestService,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog,
+              public liveVideoService: LiveVideoService) { }
 
   ngOnInit(): void {
   }
 
   onClick = () => {
+    this.liveVideoService.stopGetBlobs();
+    this.liveVideoService.startDrawingOnCanvas();
+
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;
     // open panel
     this.applicationService.screen.showLeftPanel = true;
@@ -31,6 +36,7 @@ export class ContextMenuComponent implements OnInit {
     this.applicationService.currentTabIndex = 1; /*(0 = TaskTab, 1 = MissionTab)*/
     //close others
     this.applicationService.screen.showSituationPicture = false;
+    this.applicationService.screen.showVideoCanvas = false;
     this.applicationService.screen.showVideo = false;
     const airVehicle = this.contextMenuService.selectedBlob.airVehicle;
     const options = this.contextMenuService.selectedBlob.options;

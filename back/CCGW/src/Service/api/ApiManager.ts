@@ -1,4 +1,4 @@
-import { InternalApiManager } from "../internalAPI/internalApiManager";
+import { InternalApiManager } from '../internalAPI/internalApiManager';
 
 const _ = require('lodash');
 
@@ -12,7 +12,7 @@ import {
 import {
     ASYNC_RESPONSE,
     FILE_DB_DATA,
-    FILE_GW_DATA,
+    FILE_GW_DATA, GIMBAL_ACTION_MGW, GIMBAL_CONTROL_DATA_FOR_MGW,
     ID_OBJ, MISSION_REQUEST_DATA,
     REPORT_DATA,
     TASK_DATA,
@@ -178,6 +178,41 @@ export class ApiManager implements IRest {
             });
     };
 
+    // -------------------------------
+    private requestGimbalControlFromMGW = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<boolean> = {success: true};
+        const requestBody: MISSION_REQUEST_DATA = request.body;
+        ExternalApiManager.requestGimbalControlFromMGW(requestBody)
+            .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(data);
+            });
+    };
+    // -------------------------------
+    private gimbalActionFromMGW = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<boolean> = {success: true};
+        const requestBody: GIMBAL_ACTION_MGW = request.body;
+        ExternalApiManager.gimbalActionFromMGW(requestBody)
+            .then((data: ASYNC_RESPONSE<GIMBAL_ACTION_MGW>) => {
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(data);
+            });
+    };
+    // -------------------------------
+    private updateGimbalControlData = (request: Request, response: Response) => {
+        const requestBody: GIMBAL_CONTROL_DATA_FOR_MGW = request.body;
+        InternalApiManager.updateGimbalControlData(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(data);
+            });
+    };
     //--------------------------------
 
     routersExternal: {} = {
@@ -189,6 +224,8 @@ export class ApiManager implements IRest {
         [CCGW_API.userTaskAction]: this.userTaskAction,
 
         [CCGW_API.createMissionRequestFromMGW]: this.createMissionRequestFromMGW,
+        [CCGW_API.requestGimbalControlFromMGW]: this.requestGimbalControlFromMGW,
+        [CCGW_API.gimbalActionFromMGW]: this.gimbalActionFromMGW,
     };
 
     routersInternal: {} = {
@@ -196,6 +233,7 @@ export class ApiManager implements IRest {
         [CCGW_API.updateFileStatus]: this.updateFileStatus,
         [CCGW_API.createTask]: this.createTask,
         [CCGW_API.setAllTasks]: this.setAllTasks,
+        [CCGW_API.updateGimbalControlData]: this.updateGimbalControlData,
     };
 
     // region API uncions

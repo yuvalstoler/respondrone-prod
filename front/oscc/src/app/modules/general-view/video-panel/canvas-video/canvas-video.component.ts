@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {LiveVideoService} from '../../../../services/liveVideoService/live-video.service';
 import {ApplicationService} from '../../../../services/applicationService/application.service';
 import {VIDEO_OR_MAP} from '../../../../../types';
@@ -13,6 +13,7 @@ import {BehaviorSubject, Subscription} from 'rxjs';
 })
 export class CanvasVideoComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  @Input() url;
   // @ViewChild('streaming', {static: true}) streamingcanvas: ElementRef;
   canvasBlobsDomID = 'canvasBlobsDomID';
   canvasContainerDomID = 'canvasContainerDomID';
@@ -39,19 +40,29 @@ export class CanvasVideoComponent implements OnInit, AfterViewInit, OnDestroy {
     //     this.liveVideoService.createCanvas(this.canvasDomID, this.canvasContainerDomID, {width: this.width, height: this.height});
     //   });
 
+    if (this.applicationService.selectedAirVehicle) {
+      const videoUrl = this.liveVideoService.getVideoUrl(this.url, this.applicationService.selectedAirVehicle.id);
+      if (videoUrl) {
+        this.liveVideoService.startDrawingOnCanvas();
 
-    const url = 'ws://20.71.141.60:9092/';
-    const canvas = <HTMLCanvasElement>document.getElementById('canvasVideoDomID'); /*this.streamingcanvas.nativeElement;*/
-    // console.log(canvas.clientWidth, canvas.clientHeight);
+        // const url = 'ws://20.71.141.60:9092/';
+        const canvas = <HTMLCanvasElement>document.getElementById('canvasVideoDomID'); /*this.streamingcanvas.nativeElement;*/
+        // console.log(canvas.clientWidth, canvas.clientHeight);
 
-    const player = new JSMpeg.Player(url,
-      { canvas: canvas, autoplay: true, audio: false, loop: true , disableGl: true}
-      );
+        const player = new JSMpeg.Player(videoUrl,
+          { canvas: canvas, autoplay: true, audio: false, loop: true , disableGl: true}
+        );
 
-    this.liveVideoService.createCanvas(this.canvasBlobsDomID, this.canvasVideoDomID, this.canvasContainerDomID);
+        this.liveVideoService.createCanvas(this.canvasBlobsDomID, this.canvasVideoDomID, this.canvasContainerDomID);
 
-    // const image = {image: {path: 'http://localhost:6100/api/file/1601798987270.jpg', id: '1'}};
-    // this.liveVideoService.createImageMain({success: true, data: player});
+        const blobsUrl = this.liveVideoService.getBlobUrl(this.url, this.applicationService.selectedAirVehicle.id);
+        if (blobsUrl) {
+          this.liveVideoService.startGetBlobs(blobsUrl);
+          // const image = {image: {path: 'http://localhost:6100/api/file/1601798987270.jpg', id: '1'}};
+          // this.liveVideoService.createImageMain({success: true, data: player});
+        }
+      }
+    }
   }
 
   ngAfterViewInit(): void {
@@ -74,6 +85,8 @@ export class CanvasVideoComponent implements OnInit, AfterViewInit, OnDestroy {
     // if (this.resizeSubscription) {
     //   this.resizeSubscription.unsubscribe();
     // }
+    this.liveVideoService.stopGetBlobs();
+    this.liveVideoService.stopDrawingOnCanvas();
   }
 
 

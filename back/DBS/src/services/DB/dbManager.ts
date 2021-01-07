@@ -1,26 +1,27 @@
-import {MissionRequestModel} from "../mongo/models/missionRequestModel";
+import {MissionRequestModel} from '../mongo/models/missionRequestModel';
 
 const _ = require('lodash');
 
 import {
-    ASYNC_RESPONSE, COLLECTION_VERSIONS,
+    ASYNC_RESPONSE, COLLECTION_VERSIONS, CREDENTIALS,
     EVENT_DATA,
     FILE_DB_DATA, GRAPHIC_OVERLAY_DATA,
     ID_OBJ, MISSION_DATA, MISSION_REQUEST_DATA, MISSION_ROUTE_DATA, NFZ_DATA,
     REPORT_DATA,
-    TASK_DATA,
+    TASK_DATA, USER_DATA,
 } from '../../../../../classes/typings/all.typings';
 import { ReportModel } from '../mongo/models/reportModel';
 import { TaskModel } from '../mongo/models/taskModel';
-import { LogsModel } from "../mongo/models/LogsModel";
-import { EventModel } from "../mongo/models/eventModel";
+import { LogsModel } from '../mongo/models/LogsModel';
+import { EventModel } from '../mongo/models/eventModel';
 
-import { FileDataModel } from "../mongo/models/fileDataModel";
-import {CollectionVersionModel} from "../mongo/models/collectionVersionModel";
-import {MissionModel} from "../mongo/models/MissionModel";
-import {MissionRouteModel} from "../mongo/models/MissionRouteModel";
-import {GraphicOverlayModel} from "../mongo/models/GraphicOverlayModel";
-import {NFZModel} from "../mongo/models/NFZModel";
+import { FileDataModel } from '../mongo/models/fileDataModel';
+import {CollectionVersionModel} from '../mongo/models/collectionVersionModel';
+import {MissionModel} from '../mongo/models/MissionModel';
+import {MissionRouteModel} from '../mongo/models/MissionRouteModel';
+import {GraphicOverlayModel} from '../mongo/models/GraphicOverlayModel';
+import {NFZModel} from '../mongo/models/NFZModel';
+import {UserModel} from '../mongo/models/userModel';
 
 
 export class DbManager {
@@ -38,6 +39,7 @@ export class DbManager {
     graphicOverlayModel = new GraphicOverlayModel().getSchema();
     nfzModel = new NFZModel().getSchema();
     collectionVersionModel = new CollectionVersionModel().getSchema();
+    userModel = new UserModel().getSchema();
 
     private constructor() {
 
@@ -735,6 +737,84 @@ export class DbManager {
 
     //endregion -----------------------
 
+    // region user----------------------
+
+    private createUser = (data: USER_DATA): Promise<ASYNC_RESPONSE<USER_DATA>> => {
+        return new Promise((resolve, reject) => {
+            this.userModel
+                .findOneAndUpdate({id: data.id}, data, {new: true, upsert: true})
+                .exec()
+                .then((result: USER_DATA) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private readUser = (data: CREDENTIALS): Promise<ASYNC_RESPONSE<USER_DATA>> => {
+        return new Promise((resolve, reject) => {
+            this.userModel.find(data)
+                .exec()
+                .then((result: USER_DATA) => {
+                    const obj = result[0];
+                    resolve({success: (obj !== undefined), data: obj || null} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private readAllUser = (data = {}): Promise<ASYNC_RESPONSE<USER_DATA[]>> => {
+        return new Promise((resolve, reject) => {
+            this.userModel.find(data)
+                .exec()
+                .then((result: USER_DATA[]) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private deleteUser = (data: ID_OBJ): Promise<ASYNC_RESPONSE<ID_OBJ>> => {
+        return new Promise((resolve, reject) => {
+            this.userModel
+                .findOneAndDelete(data)
+                .exec()
+                .then((result: ID_OBJ) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    private deleteAllUser = (data = {}): Promise<ASYNC_RESPONSE<USER_DATA[]>> => {
+        return new Promise((resolve, reject) => {
+            this.userModel
+                .deleteMany(data)
+                .exec()
+                .then((result: USER_DATA[]) => {
+                    resolve({success: true, data: result} as ASYNC_RESPONSE);
+                })
+                .catch(error => {
+                    console.log(error);
+                    reject({success: false, data: error} as ASYNC_RESPONSE);
+                });
+        });
+    };
+
+    //endregion -----------------------
+
     private saveRepCollectionVersions = (data: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE<COLLECTION_VERSIONS>> => {
         return new Promise((resolve, reject) => {
             this.collectionVersionModel
@@ -826,6 +906,11 @@ export class DbManager {
     public static saveRepCollectionVersions = DbManager.instance.saveRepCollectionVersions;
     public static getRepCollectionVersions = DbManager.instance.getRepCollectionVersions;
 
+    public static createUser = DbManager.instance.createUser;
+    public static readUser = DbManager.instance.readUser;
+    public static readAllUser = DbManager.instance.readAllUser;
+    public static deleteUser = DbManager.instance.deleteUser;
+    public static deleteAllUser = DbManager.instance.deleteAllUser;
 
 
     // endregion API uncions

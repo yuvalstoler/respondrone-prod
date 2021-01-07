@@ -10,7 +10,7 @@ import {
     GIMBAL_PARAMS,
     VISIBLE_CAMERA_PARAMS,
     INFRARED_CAMERA_PARAMS,
-    GIMBAL_DATA, GEOPOINT3D_SHORT, GIMBAL_DATA_UI,
+    GIMBAL_DATA, GEOPOINT3D_SHORT, GIMBAL_DATA_UI, GIMBAL_CONTROL,
 } from '../../typings/all.typings';
 import {DataUtility} from '../../applicationClasses/utility/dataUtility';
 
@@ -27,6 +27,8 @@ export class Gimbal {
     cameraFootprint: {coordinates: GEOPOINT3D_SHORT[]}
     opticalVideoURL: string;
     infraredVideoURL: string;
+
+    controlData?: GIMBAL_CONTROL;
 
 
     constructor(data: GIMBAL_DATA) {
@@ -77,7 +79,9 @@ export class Gimbal {
     private setInfraredVideoURL = (data: any) => {
         this.infraredVideoURL = data;
     };
-
+    private setControlData = (data: any) => {
+        this.controlData = data;
+    };
 
 
 
@@ -114,6 +118,7 @@ export class Gimbal {
             opticalVideoURL: this.opticalVideoURL,
             infraredVideoURL: this.infraredVideoURL,
 
+            controlData: this.controlData,
             modeDefine: undefined,
             lineFromAirVehicle: undefined,
         };
@@ -131,6 +136,8 @@ export class Gimbal {
         cameraFootprint: this.setCameraFootprint,
         opticalVideoURL: this.setOpticalVideoURL,
         infraredVideoURL: this.setInfraredVideoURL,
+
+        controlData: this.setControlData,
     };
 
 

@@ -6,7 +6,7 @@ const _ = require('lodash');
 import {
     ASYNC_RESPONSE,
     FILE_DB_DATA,
-    FILE_GW_DATA,
+    FILE_GW_DATA, GIMBAL_CONTROL_DATA_FOR_MGW,
     ID_OBJ,
     REPORT_DATA, TASK_DATA,
     UPDATE_FILE_STATUS,
@@ -40,6 +40,10 @@ export class InternalApiManager {
         return RequestManager.requestToMG(MG_API.setAllTasks, tasks);
     }
 
+    private updateGimbalControlData = (data: GIMBAL_CONTROL_DATA_FOR_MGW): Promise<ASYNC_RESPONSE<FILE_DB_DATA>> => {
+        return RequestManager.requestToMG(MG_API.updateGimbalControlData, data);
+    }
+
     private constructor() {
 
     }
@@ -52,6 +56,7 @@ export class InternalApiManager {
     public static updateFileStatus = InternalApiManager.instance.updateFileStatus;
     public static createTask = InternalApiManager.instance.createTask;
     public static setAllTasks = InternalApiManager.instance.setAllTasks;
+    public static updateGimbalControlData = InternalApiManager.instance.updateGimbalControlData;
 
     // endregion API uncions
 

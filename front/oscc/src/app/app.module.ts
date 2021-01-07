@@ -1,13 +1,13 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 import 'hammerjs';
-import {AppRoutingModule} from './app-routing.module';
+// import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {GeneralViewModule} from './modules/general-view/general-view.module';
-import {GeneralViewComponent} from './modules/general-view/general-view.component';
-import {LoginComponent} from './modules/login/login.component';
-import {AngularCesiumModule} from 'angular-cesium';
+// import {GeneralViewComponent} from './modules/general-view/general-view.component';
+// import {LoginComponent} from './modules/login/login.component';
+import {AngularCesiumModule, ViewerConfiguration} from 'angular-cesium';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
@@ -53,6 +53,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MissionUavDialogComponent } from './dialogs/mission-uav-dialog/mission-uav-dialog.component';
 import { ContextMenuComponent } from './dialogs/context-menu/context-menu.component';
 import { HoverTextDialogComponent } from './dialogs/hover-text-dialog/hover-text-dialog.component';
+import {routing} from './app-routing.module';
+import {AuthGuard} from './AuthGuard/auth.guard';
 // import {AutocompleteAddressComponent} from './dialogs/autocomplete-address/autocomplete-address.component';
 
 const config: SocketIoConfig = SOCKET_CONFIG;
@@ -60,32 +62,33 @@ const config: SocketIoConfig = SOCKET_CONFIG;
 @NgModule({
   declarations: [
     AppComponent,
-    GeneralViewComponent,
-    LoginComponent,
+    // GeneralViewComponent,
+    // LoginComponent,
     ConfirmDialogComponent,
-    LinkedReportDialogComponent,
-    LinkedReportContainerComponent,
-    LinkedReportTableComponent,
-    LinkedEventDialogComponent,
-    LinkedEventContainerComponent,
-    LinkedEventTableComponent,
-    EventDialogComponent,
-    ReportDialogComponent,
-    TaskDialogComponent,
-    TaskAssigneesDialogComponent,
-    TaskAssigneesTableComponent,
-    TaskAssigneesContainerComponent,
-    MissionDialogComponent,
-    MissionUavDialogComponent,
-    ContextMenuComponent,
-    HoverTextDialogComponent,
+    // LinkedReportDialogComponent,
+    // LinkedReportContainerComponent,
+    // LinkedReportTableComponent,
+    // LinkedEventDialogComponent,
+    // LinkedEventContainerComponent,
+    // LinkedEventTableComponent,
+    // EventDialogComponent,
+    // ReportDialogComponent,
+    // TaskDialogComponent,
+    // TaskAssigneesDialogComponent,
+    // TaskAssigneesTableComponent,
+    // TaskAssigneesContainerComponent,
+    // MissionDialogComponent,
+    // MissionUavDialogComponent,
+    // ContextMenuComponent,
+    // HoverTextDialogComponent,
     // AutocompleteAddressComponent
   ],
   imports: [
+    routing,
     BrowserModule,
-    AppRoutingModule,
+    // AppRoutingModule,
     BrowserAnimationsModule,
-    GeneralViewModule,
+    // GeneralViewModule,
     HttpClientModule,
     AngularCesiumModule.forRoot(),
     SocketIoModule.forRoot(config),
@@ -117,19 +120,21 @@ const config: SocketIoConfig = SOCKET_CONFIG;
     MatSlideToggleModule
   ],
   providers: [
+    ViewerConfiguration,
+    AuthGuard,
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
   ],
   bootstrap: [AppComponent],
   entryComponents: [
     ConfirmDialogComponent,
-    LinkedReportDialogComponent,
-    LinkedEventDialogComponent,
-    EventDialogComponent,
-    ReportDialogComponent,
-    TaskDialogComponent,
-    TaskAssigneesDialogComponent,
-    MissionDialogComponent,
-    MissionUavDialogComponent,
+    // LinkedReportDialogComponent,
+    // LinkedEventDialogComponent,
+    // EventDialogComponent,
+    // ReportDialogComponent,
+    // TaskDialogComponent,
+    // TaskAssigneesDialogComponent,
+    // MissionDialogComponent,
+    // MissionUavDialogComponent,
     // AutocompleteAddressComponent
   ]
 })

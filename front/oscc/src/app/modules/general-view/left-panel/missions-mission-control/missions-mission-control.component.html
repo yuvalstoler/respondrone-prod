@@ -28,27 +28,27 @@
     <mat-menu #menu="matMenu">
       <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Accept)" *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Accept]"
               mat-menu-item>
-        <span [ngStyle]="{'color': '#fff746', 'font-size': '12px'}" class="material-icons">stop_circle</span>
+        <span [ngStyle]="{'color': '#fff746', 'font-size': '12px'}" class="material-icons">fiber_manual_record</span>
         Accept
       </button>
       <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Approve)" *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Approve]"
               mat-menu-item>
-        <span [ngStyle]="{'color': '#0c249c', 'font-size': '12px'}" class="material-icons">stop_circle</span>
+        <span [ngStyle]="{'color': '#0c249c', 'font-size': '12px'}" class="material-icons">fiber_manual_record</span>
         Approve
       </button>
       <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Reject)" *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Reject]"
               mat-menu-item>
-        <span [ngStyle]="{'color': '#ff0000', 'font-size': '12px'}" class="material-icons">stop_circle</span>
+        <span [ngStyle]="{'color': '#ff0000', 'font-size': '12px'}" class="material-icons">fiber_manual_record</span>
         Reject
       </button>
       <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Cancel)" *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Cancel]"
               mat-menu-item>
-        <span [ngStyle]="{'color': '#6f30a0', 'font-size': '12px'}" class="material-icons">stop_circle</span>
+        <span [ngStyle]="{'color': '#6f30a0', 'font-size': '12px'}" class="material-icons">fiber_manual_record</span>
         Cancel
       </button>
       <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Complete)" *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Complete]"
               mat-menu-item>
-        <span [ngStyle]="{'color': '#92d150', 'font-size': '12px'}" class="material-icons">stop_circle</span>
+        <span [ngStyle]="{'color': '#92d150', 'font-size': '12px'}" class="material-icons">fiber_manual_record</span>
         Complete
       </button>
     </mat-menu>

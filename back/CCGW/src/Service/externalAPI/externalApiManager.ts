@@ -1,19 +1,20 @@
-import { RequestManager } from "../../AppService/restConnections/requestManager";
+import { RequestManager } from '../../AppService/restConnections/requestManager';
 
 const _ = require('lodash');
 
 import {
-    ASYNC_RESPONSE,
+    ASYNC_RESPONSE, GIMBAL_ACTION_MGW,
     ID_OBJ, MISSION_REQUEST_DATA,
     REPORT_DATA,
     TASK_DATA, USER_TASK_ACTION,
 
 } from '../../../../../classes/typings/all.typings';
 import {
+    GS_API,
     MS_API,
     RS_API,
     TS_API
-} from "../../../../../classes/dataClasses/api/api_enums";
+} from '../../../../../classes/dataClasses/api/api_enums';
 
 
 export class ExternalApiManager {
@@ -98,6 +99,36 @@ export class ExternalApiManager {
         });
     }
 
+    private requestGimbalControlFromMGW = (missionRequestData: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE<MISSION_REQUEST_DATA>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
+            RequestManager.requestToGS(GS_API.requestGimbalControlFromMGW, missionRequestData)
+                .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                    resolve(data);
+                })
+                .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                    reject(data);
+                });
+            resolve(res);
+
+        });
+    }
+
+    private gimbalActionFromMGW = (gimbalAction: GIMBAL_ACTION_MGW): Promise<ASYNC_RESPONSE<GIMBAL_ACTION_MGW>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
+            RequestManager.requestToGS(GS_API.gimbalActionFromMGW, gimbalAction)
+                .then((data: ASYNC_RESPONSE<GIMBAL_ACTION_MGW>) => {
+                    resolve(data);
+                })
+                .catch((data: ASYNC_RESPONSE<GIMBAL_ACTION_MGW>) => {
+                    reject(data);
+                });
+            resolve(res);
+
+        });
+    }//
+
 
     // region API uncions
 
@@ -106,6 +137,8 @@ export class ExternalApiManager {
     public static getTaskById = ExternalApiManager.instance.getTaskById;
     public static userTaskAction = ExternalApiManager.instance.userTaskAction;
     public static createMissionRequestFromMGW = ExternalApiManager.instance.createMissionRequestFromMGW;
+    public static requestGimbalControlFromMGW = ExternalApiManager.instance.requestGimbalControlFromMGW;
+    public static gimbalActionFromMGW = ExternalApiManager.instance.gimbalActionFromMGW;
 
 
     // endregion API uncions

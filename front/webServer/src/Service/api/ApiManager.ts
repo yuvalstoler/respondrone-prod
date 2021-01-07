@@ -20,9 +20,14 @@ import {
     TASK_DATA,
     MISSION_DATA,
     MISSION_ROUTE_DATA,
-    GIMBAL_ACTION,
     MISSION_REQUEST_ACTION_OBJ,
-    GRAPHIC_OVERLAY_DATA_UI, GRAPHIC_OVERLAY_DATA, NFZ_DATA_UI, NFZ_DATA,
+    GRAPHIC_OVERLAY_DATA_UI,
+    GRAPHIC_OVERLAY_DATA,
+    NFZ_DATA_UI,
+    NFZ_DATA,
+    CREDENTIALS,
+    GIMBAL_CONTROL_REQUEST_OSCC,
+    GIMBAL_ACTION_OSCC,
 } from '../../../../../classes/typings/all.typings';
 
 
@@ -39,8 +44,9 @@ import {MissionRequestManager} from '../missionRequest/missionRequestManager';
 import {MissionManager} from '../mission/missionManager';
 import {MissionRouteManager} from '../missionRoute/missionRouteManager';
 import {GimbalManager} from '../gimbal/gimbalManager';
-import {GraphicOverlayManager} from "../graphicOverlay/graphicOverlayManager";
-import {NFZManager} from "../NFZ/NFZManager";
+import {GraphicOverlayManager} from '../graphicOverlay/graphicOverlayManager';
+import {NFZManager} from '../NFZ/NFZManager';
+import {LoginManager} from '../../auth/loginManager';
 
 
 export class ApiManager implements IRest {
@@ -661,8 +667,26 @@ export class ApiManager implements IRest {
 
     private gimbalAction = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE = {success: false};
-        const requestBody: GIMBAL_ACTION = request.body;
+        const requestBody: GIMBAL_ACTION_OSCC = request.body;
         GimbalManager.gimbalAction(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.description = data.description;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+
+    private requestGimbalControlFromOSCC = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody: GIMBAL_CONTROL_REQUEST_OSCC = request.body;
+        GimbalManager.requestGimbalControlFromOSCC(requestBody)
             .then((data: ASYNC_RESPONSE) => {
                 res.success = data.success;
                 res.data = data.data;
@@ -676,6 +700,23 @@ export class ApiManager implements IRest {
             });
     };
 
+    // ========================================================================
+    private login = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody: CREDENTIALS = request.body;
+        LoginManager.validateLogin(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
 
     // ========================================================================
     routers: {} = {
@@ -722,8 +763,11 @@ export class ApiManager implements IRest {
         [WS_API.updateAllGraphicOverlays]: this.updateAllGraphicOverlays,
         [WS_API.updateAllNFZs]: this.updateAllNFZs,
 
+        [WS_API.login]: this.login,
+
         [WS_API.missionRequestAction]: this.missionRequestAction,
-        [WS_API.gimbalAction]: this.gimbalAction,
+        [WS_API.gimbalActionFromOSCC]: this.gimbalAction,
+        [WS_API.requestGimbalControlFromOSCC]: this.requestGimbalControlFromOSCC,
 
     };
 

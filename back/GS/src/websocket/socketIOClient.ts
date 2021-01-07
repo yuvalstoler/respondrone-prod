@@ -1,10 +1,12 @@
 import * as io from 'socket.io-client';
 import {Logger} from '../logger/Logger';
-import {MAP, SOCKET_IO_CLIENT_TYPES} from "../../../../classes/typings/all.typings";
+import {MAP, SOCKET_IO_CLIENT_TYPES} from '../../../../classes/typings/all.typings';
 
 const servicesConf = require('./../../../../../../../config/services.json');
 
 const CCGServiceURL = servicesConf.CCG.protocol + '://' + servicesConf.CCG.host + ':' + servicesConf.CCG.port;
+const FRSServiceURL = servicesConf.FRS.protocol + '://' + servicesConf.FRS.host + ':' + servicesConf.FRS.port;
+const MServiceURL = servicesConf.MS.protocol + '://' + servicesConf.MS.host + ':' + servicesConf.MS.port;
 
 export class SocketIOClient {
     private static instance: SocketIOClient = new SocketIOClient();
@@ -14,18 +16,10 @@ export class SocketIOClient {
     externalSortConfig: { [type: string]: { [room: string]: Function } } = {};
 
     constructor() {
-        // this.initSocket(SOCKET_IO_CLIENT_TYPES.CCG, CCGServiceURL);
+        this.sockets[SOCKET_IO_CLIENT_TYPES.FRS] = io(FRSServiceURL, {autoConnect: true});
+        // this.sockets[SOCKET_IO_CLIENT_TYPES.MS] = io(MServiceURL, {autoConnect: true});
     }
 
-    private initSocket = (type: SOCKET_IO_CLIENT_TYPES, url: string) => {
-        this.sockets[type] = io(url, {autoConnect: true});
-        this.sockets[type].on('connect', (socket) => {
-            console.log("client | connect", type);
-        });
-        this.sockets[type].on('disconnect', (socket) => {
-            console.log("client | disconnect", type);
-        });
-    }
 
     public addToSortConfig = (type, callbacksConfig: MAP<Function>) => {
         this.externalSortConfig[type] = {...this.externalSortConfig[type], ...callbacksConfig};

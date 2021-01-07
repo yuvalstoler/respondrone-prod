@@ -1,4 +1,4 @@
-<div>
+<div oncontextmenu="return false;">
   <!--Header-->
   <div *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"
        class="LiveVideoHeader">
@@ -24,16 +24,22 @@
     <!--Camera-->
     <div class="camera-container container">
       <div class="itemCameraDiv">Camera Control:
-        <div class="CameraText"><span>Test Me</span><mat-icon>lock</mat-icon></div>
+        <div class="CameraText"><span>{{gimbal?.controlData[videoUrlKey]?.userText}}</span><mat-icon *ngIf="gimbal?.controlData[videoUrlKey]?.isLocked">lock</mat-icon></div>
       </div>
-      <button mat-raised-button>Release Control</button>
-      <button mat-raised-button>Un-Lock Control</button>
+      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userText !== GIMBAL_CONTROL_USER.OSCC"
+              (click)="onControlAction(GIMBAL_CONTROL_ACTION.takeControl)" mat-raised-button>Take Control</button>
+      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userText === GIMBAL_CONTROL_USER.OSCC"
+              (click)="onControlAction(GIMBAL_CONTROL_ACTION.releaseControl) "mat-raised-button>Release Control</button>
+      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userText == GIMBAL_CONTROL_USER.OSCC && !gimbal?.controlData[videoUrlKey]?.isLocked"
+              (click)="onControlAction(GIMBAL_CONTROL_ACTION.lockControl)" mat-raised-button>Lock Control</button>
+      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userText == GIMBAL_CONTROL_USER.OSCC && gimbal?.controlData[videoUrlKey]?.isLocked"
+              (click)="onControlAction(GIMBAL_CONTROL_ACTION.unlockControl)" mat-raised-button>Un-Lock Control</button>
     </div>
     <!--Zoom-->
     <div class="zoom-container container">
       <div>Camera zoom:
-        <span *ngIf="!isNight">{{gimbalService.gimbalsByDroneId[applicationService?.selectedAirVehicle?.id]?.visibleCameraParameters?.zoomVisibleCamera}}x</span>
-        <span *ngIf="isNight">{{gimbalService.gimbalsByDroneId[applicationService?.selectedAirVehicle?.id]?.infraredCameraParameters?.zoomInfraredCamera}}x</span>
+        <span *ngIf="!isNight">{{gimbal?.visibleCameraParameters?.zoomVisibleCamera}}x</span>
+        <span *ngIf="isNight">{{gimbal?.infraredCameraParameters?.zoomInfraredCamera}}x</span>
       </div>
       <div class="zoom-slider">
         <span>0</span>
@@ -62,7 +68,6 @@
           [min]="minSpeed"
           [max]="maxSpeed"
           [(ngModel)]="speedModel"
-          (change)="onChangeSpeed(speedModel)"
         >
         </mat-slider>
         <img src="../../../../assets/fast.png" class="speedFastImg" alt="fast">
@@ -71,8 +76,8 @@
 
     <!--Telemetry-->
     <div class="zoom-container container">
-      <div>Pitch: <span>{{gimbalService.gimbalsByDroneId[applicationService?.selectedAirVehicle?.id]?.gimbalParameters?.pitch}}°</span></div>
-      <div>Yaw: <span>{{gimbalService.gimbalsByDroneId[applicationService?.selectedAirVehicle?.id]?.gimbalParameters?.yaw}}°</span></div>
+      <div>Pitch: <span>{{gimbal?.gimbalParameters?.pitch}}°</span></div>
+      <div>Yaw: <span>{{gimbal?.gimbalParameters?.yaw}}°</span></div>
     </div>
   </div>
   <!--Arrows-->
@@ -87,6 +92,22 @@
               (click)="onExpendVideo()">zoom_out_map
     </mat-icon>
     <!--Video-canvas-->
-    <app-canvas-video></app-canvas-video>
+    <app-canvas-video *ngIf="applicationService?.screen?.showVideoCanvas && gimbal && gimbal[videoUrlKey]"
+                      [url]="gimbal[videoUrlKey]">
+    </app-canvas-video>
+  </div>
+  <!--Control Request-->
+  <div *ngIf="gimbal?.controlData[videoUrlKey]?.request?.status === GIMBAL_REQUEST_STATUS.InProgress" class="controlRequestContainer">
+    <div class="text">
+      {{gimbal?.controlData[videoUrlKey]?.request?.userText}} is requesting for control
+    </div>
+    <div class="buttons">
+      <button mat-raised-button class="ConfirmButtonDecline"
+              (click)="onControlAction(GIMBAL_CONTROL_ACTION.rejectRequestForControl)">Decline
+      </button>
+      <button mat-raised-button class="ConfirmButtonAccept"
+              (click)="onControlAction(GIMBAL_CONTROL_ACTION.acceptRequestForControl)">Accept
+      </button>
+    </div>
   </div>
 </div>

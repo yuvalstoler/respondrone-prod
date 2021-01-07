@@ -34,6 +34,7 @@ import {API_GENERAL, WS_API} from '../../../../../../classes/dataClasses/api/api
 import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE, POLYGON_DATA, POLYLINE_DATA} from '../../../types';
 import {ApplicationService} from '../applicationService/application.service';
 import {GeoCalculate} from '../classes/geoCalculate';
+import {LoginService} from "../login/login.service";
 
 
 @Injectable({
@@ -50,7 +51,8 @@ export class MissionRequestService {
               public applicationService: ApplicationService,
               private socketService: SocketService,
               private toasterService: CustomToasterService,
-              private mapGeneralService: MapGeneralService) {
+              private mapGeneralService: MapGeneralService,
+              private loginService: LoginService) {
     this.socketService.connected$.subscribe(this.init);
     this.socketService.connectToRoom('webServer_missionRequests').subscribe(this.updateMissionRequests);
   }
@@ -333,7 +335,7 @@ export class MissionRequestService {
       observationMissionRequest: observationMissionRequest,
       idView: undefined,
       time: undefined,
-      createdBy: '',
+      createdBy: this.loginService.getUserName(),
       source: SOURCE_TYPE.OSCC,
       missionStatus: MISSION_STATUS_UI.Pending
     };
@@ -360,7 +362,7 @@ export class MissionRequestService {
       scanMissionRequest: scanMissionRequest,
       idView: undefined,
       time: undefined,
-      createdBy: '',
+      createdBy: this.loginService.getUserName(),
       source: SOURCE_TYPE.OSCC,
       missionStatus: MISSION_STATUS_UI.Pending
     };
@@ -385,7 +387,7 @@ export class MissionRequestService {
       followPathMissionRequest: patrolMissionRequest,
       idView: undefined,
       time: undefined,
-      createdBy: '',
+      createdBy: this.loginService.getUserName(),
       source: SOURCE_TYPE.OSCC,
       missionStatus: MISSION_STATUS_UI.Pending
     };
@@ -419,7 +421,7 @@ export class MissionRequestService {
       commRelayMissionRequest: commRelayMissionRequest,
       idView: undefined,
       time: undefined,
-      createdBy: '',
+      createdBy: this.loginService.getUserName(),
       source: SOURCE_TYPE.OSCC,
       missionStatus: MISSION_STATUS_UI.Pending
     };
@@ -444,7 +446,7 @@ export class MissionRequestService {
       servoingMissionRequest: servoingMissionRequest,
       idView: undefined,
       time: undefined,
-      createdBy: '',
+      createdBy: this.loginService.getUserName(),
       source: SOURCE_TYPE.OSCC,
       missionStatus: MISSION_STATUS_UI.Pending
     };
@@ -467,7 +469,7 @@ export class MissionRequestService {
       deliveryMissionRequest: deliveryMissionRequest,
       idView: undefined,
       time: undefined,
-      createdBy: '',
+      createdBy: this.loginService.getUserName(),
       source: SOURCE_TYPE.OSCC,
       missionStatus: MISSION_STATUS_UI.Pending
     };

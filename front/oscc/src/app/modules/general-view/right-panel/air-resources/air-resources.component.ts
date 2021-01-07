@@ -122,6 +122,11 @@ export class AirResourcesComponent implements OnInit {
   };
 
   onViewLiveVideo = (airVehicle: AV_DATA_UI) => {
+    this.applicationService.screen.showVideoCanvas = false; // to reset canvas
+    setTimeout(() => {
+      this.applicationService.screen.showVideoCanvas = true;
+    }, 500);
+
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.liveVideo;
     // open panel
     this.applicationService.screen.showVideo = true;

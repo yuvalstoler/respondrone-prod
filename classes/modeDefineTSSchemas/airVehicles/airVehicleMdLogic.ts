@@ -54,6 +54,7 @@ export class AirVehicleMdLogic implements IModeDefine {
     private static getMissionOptions = (data: AV_DATA_UI): AV_OPTIONS => {
         const res: AV_OPTIONS = {};
         if (data.operationalStatus === OPERATIONAL_STATUS.Ready || data.operationalStatus === OPERATIONAL_STATUS.OnMission) {
+            res.isViewLiveVideo = true;
             data.capability.forEach((item: CAPABILITY) => {
                 switch (item) {
                     case CAPABILITY.Surveillance:

@@ -140,6 +140,7 @@ export class ApplicationService {
       showMissionControl: false,
       showViewMedia: false,
       showVideo: false,
+      showVideoCanvas: false,
 
       showFRLocations: true,
       showReports: true,

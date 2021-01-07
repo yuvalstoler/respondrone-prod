@@ -6,12 +6,13 @@ import {ListenerMapService} from '../../services/cesium/listenerMap/listener-map
 import {TasksService} from '../../services/tasksService/tasks.service';
 import {FRService} from '../../services/frService/fr.service';
 import {AirVehicleService} from '../../services/airVehicleService/airVehicle.service';
-import {MissionRequestService} from "../../services/missionRequestService/missionRequest.service";
-import {MissionService} from "../../services/missionService/mission.service";
-import {MissionRouteService} from "../../services/missionRouteService/missionRoute.service";
-import {GimbalService} from "../../services/gimbalService/gimbal.service";
-import {GraphicOverlayService} from "../../services/graphicOverlayService/graphicOverlay.service";
-import {NFZService} from "../../services/nfzService/nfz.service";
+import {MissionRequestService} from '../../services/missionRequestService/missionRequest.service';
+import {MissionService} from '../../services/missionService/mission.service';
+import {MissionRouteService} from '../../services/missionRouteService/missionRoute.service';
+import {GimbalService} from '../../services/gimbalService/gimbal.service';
+import {GraphicOverlayService} from '../../services/graphicOverlayService/graphicOverlay.service';
+import {NFZService} from '../../services/nfzService/nfz.service';
+import {LiveVideoService} from '../../services/liveVideoService/live-video.service';
 
 @Component({
   selector: 'app-general-view',
@@ -35,7 +36,8 @@ export class GeneralViewComponent implements OnInit {
               public airVehicleService: AirVehicleService,
               public listenerMapService: ListenerMapService,
               public gimbalService: GimbalService,
-              public NFZService: NFZService) { }
+              public nfzService: NFZService,
+              public liveVideoService: LiveVideoService) { }
 
   ngOnInit(): void {
   }

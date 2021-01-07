@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ApplicationService} from '../../../services/applicationService/application.service';
 import {VIDEO_OR_MAP} from '../../../../types';
 import {GimbalService} from '../../../services/gimbalService/gimbal.service';
 import {
+  AV_DATA_UI,
   COLOR_PALETTE_INFRARED_CAMERA,
-  GIMBAL_ACTION
+  GIMBAL_ACTION_OSCC, GIMBAL_CONTROL_ACTION, GIMBAL_CONTROL_REQUEST_OSCC, GIMBAL_CONTROL_USER,
+  GIMBAL_DATA_UI, GIMBAL_REQUEST_STATUS,
+  VIDEO_URL_KEY
 } from '../../../../../../../classes/typings/all.typings';
+import {LoginService} from "../../../services/login/login.service";
 
 @Component({
   selector: 'app-video-panel',
@@ -31,8 +35,17 @@ export class VideoPanelComponent implements OnInit {
   minSpeed: number = 0;
   maxSpeed: number = 20;
 
+  videoUrlKey: VIDEO_URL_KEY;
+
+  GIMBAL_CONTROL_USER = GIMBAL_CONTROL_USER;
+  GIMBAL_CONTROL_ACTION = GIMBAL_CONTROL_ACTION;
+  GIMBAL_REQUEST_STATUS = GIMBAL_REQUEST_STATUS;
+
   constructor(public applicationService: ApplicationService,
-              public gimbalService: GimbalService) { }
+              public gimbalService: GimbalService,
+              private loginService: LoginService) {
+    this.videoUrlKey = this.isNight ? VIDEO_URL_KEY.infraredVideoURL : VIDEO_URL_KEY.opticalVideoURL;
+  }
 
   ngOnInit(): void {
   }
@@ -53,21 +66,27 @@ export class VideoPanelComponent implements OnInit {
     }
   };
 
+  getDefaultGimbalAction = (): GIMBAL_ACTION_OSCC => {
+    return {
+      droneId: this.gimbal ? this.gimbal.droneId : undefined,
+      videoUrlKey: this.videoUrlKey,
+      userId: GIMBAL_CONTROL_USER.OSCC,
+      parameters: undefined
+    };
+  }
+
   changeSlide = ($event) => {
     this.isNight = !!$event.checked;
+    this.videoUrlKey = this.isNight ? VIDEO_URL_KEY.infraredVideoURL : VIDEO_URL_KEY.opticalVideoURL;
   };
 
   checkColorPalette = ($event) => {
-    if (this.applicationService.selectedAirVehicle) {
-      const gimbal = this.gimbalService.gimbalsByDroneId[this.applicationService.selectedAirVehicle.id];
+    if (this.gimbal) {
 
-      const gimbalAction: GIMBAL_ACTION = {
-        droneId: gimbal.droneId,
-        requestorID: 'test',
-        parameters: {
-          zoomInfraredCamera: gimbal.infraredCameraParameters.zoomInfraredCamera,
-          colorPaletteInfraredCamera: $event
-        }
+      const gimbalAction: GIMBAL_ACTION_OSCC = this.getDefaultGimbalAction();
+      gimbalAction.parameters = {
+        zoomInfraredCamera: this.gimbal.infraredCameraParameters.zoomInfraredCamera,
+        colorPaletteInfraredCamera: $event
       };
 
       this.gimbalService.sendGimbalAction(gimbalAction);
@@ -75,19 +94,13 @@ export class VideoPanelComponent implements OnInit {
   };
 
   onChangeZoom = (zoom) => {
-    if (this.applicationService.selectedAirVehicle) {
-      const gimbal = this.gimbalService.gimbalsByDroneId[this.applicationService.selectedAirVehicle.id];
-
-      const gimbalAction: GIMBAL_ACTION = {
-        droneId: gimbal.droneId,
-        requestorID: 'test',
-        parameters: undefined
-      };
+    if (this.gimbal) {
+      const gimbalAction: GIMBAL_ACTION_OSCC = this.getDefaultGimbalAction();
 
       if (this.isNight) {
         gimbalAction.parameters =  {
           zoomInfraredCamera: zoom,
-          colorPaletteInfraredCamera: gimbal.infraredCameraParameters.colorPaletteInfraredCamera
+          colorPaletteInfraredCamera: this.gimbal.infraredCameraParameters.colorPaletteInfraredCamera
         };
       }
       else {
@@ -99,19 +112,13 @@ export class VideoPanelComponent implements OnInit {
     }
   };
 
-  onChangeSpeed = (speed) => {
-    console.log(speed);
-  };
+  // onChangeSpeed = (speed) => {
+  //   console.log(speed);
+  // };
 
   onClickDirection = (direction: 'left' | 'right' | 'up' | 'down') => {
-    if (this.applicationService.selectedAirVehicle) {
-      const gimbal = this.gimbalService.gimbalsByDroneId[this.applicationService.selectedAirVehicle.id];
-
-      const gimbalAction: GIMBAL_ACTION = {
-        droneId: gimbal.droneId,
-        requestorID: 'test',
-        parameters: undefined
-      };
+    if (this.gimbal) {
+      const gimbalAction: GIMBAL_ACTION_OSCC = this.getDefaultGimbalAction();
 
       switch (direction) {
         case 'left':
@@ -144,6 +151,22 @@ export class VideoPanelComponent implements OnInit {
     }
   };
 
+  onControlAction(controlAction: GIMBAL_CONTROL_ACTION) {
+    if (this.applicationService.selectedAirVehicle) {
+      const gimbalControlRequest: GIMBAL_CONTROL_REQUEST_OSCC = {
+        userId: this.loginService.getUserId(),
+        userName: this.loginService.getUserName(),
+        action: controlAction,
+        airVehicleId: this.applicationService.selectedAirVehicle.id,
+        videoUrlKey: this.videoUrlKey
+      };
+      this.gimbalService.sendGimbalControlRequest(gimbalControlRequest);
+    }
+  }
 
+  get gimbal () {
+    return this.applicationService.selectedAirVehicle ?
+      this.gimbalService.getGimbalByDroneId(this.applicationService.selectedAirVehicle.id) : undefined;
+  }
 
 }

@@ -209,7 +209,7 @@
         </div>
         <!--idBlob-->
         <div *ngIf="missionModel?.missionType === MISSION_TYPE.Servoing && data?.idBlob">
-          idBlob = {{data?.idBlob}}
+          Blob id: {{data?.idBlob}}
         </div>
         <mat-action-row>
           <button (click)="nextStep(MISSION_FIELDS.location)"

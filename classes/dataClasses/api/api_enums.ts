@@ -20,7 +20,10 @@ export enum MS_API {
 }
 
 export enum GS_API {
-    gimbalAction = '/gimbalAction'
+    gimbalActionFromOSCC = '/gimbalActionFromOSCC',
+    gimbalActionFromMGW = '/gimbalActionFromMGW',
+    requestGimbalControlFromOSCC = '/requestGimbalControlFromOSCC',
+    requestGimbalControlFromMGW = '/requestGimbalControlFromMGW'
 }
 
 export enum TMM_API {
@@ -97,6 +100,12 @@ export enum DBS_API {
 
     saveRepCollectionVersions = '/saveRepCollectionVersions',
     getRepCollectionVersions = '/getRepCollectionVersions',
+
+    createUser = '/createUser',
+    readUser = '/readUser',
+    readAllUser = '/readAllUser',
+    deleteUser = '/deleteUser',
+    deleteAllUser = '/deleteAllUser',
 
 }
 
@@ -239,8 +248,10 @@ export enum WS_API {
     updateAllGraphicOverlays = '/updateAllGraphicOverlays',
     updateAllNFZs = '/updateAllNFZs',
 
-    gimbalAction = '/gimbalAction',
+    gimbalActionFromOSCC = '/gimbalActionFromOSCC',
+    requestGimbalControlFromOSCC = '/requestGimbalControlFromOSCC',
 
+    login = '/login'
 }
 
 export enum CCGW_API {
@@ -255,6 +266,9 @@ export enum CCGW_API {
     userTaskAction = '/userTaskAction',
 
     createMissionRequestFromMGW = '/createMissionRequestFromMGW',
+    requestGimbalControlFromMGW = '/requestGimbalControlFromMGW',
+    gimbalActionFromMGW = '/gimbalActionFromMGW',
+    updateGimbalControlData = '/updateGimbalControlData',
 
 }
 
@@ -273,14 +287,21 @@ export enum MG_API {
     setTaskById = '/setTaskById',
     setAllTasks = '/setAllTasks',
 
+    updateGimbalControlData = '/updateGimbalControlData',
 }
 
+export enum AUTH_API {
+    login = '/login',
+    update = '/update',
+    check = '/check',
 
+    createUser = '/createUser',
+}
 
 export enum SOCKET_ROOM { // TODO change
-    FRs_Tel_room ='FRS_Tel_room',
-    AVs_Tel_room ='AVs_Tel_room',
-    Gimbals_Tel_room ='Gimbals_Tel_room',
+    FRs_Tel_room = 'FRS_Tel_room',
+    AVs_Tel_room = 'AVs_Tel_room',
+    Gimbals_Tel_room = 'Gimbals_Tel_room',
 }
 
 export enum CommRelayMissionRep_API {

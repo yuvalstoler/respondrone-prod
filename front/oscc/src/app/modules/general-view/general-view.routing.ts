@@ -1,6 +1,7 @@
-import {ModuleWithProviders, NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {Routes, RouterModule} from '@angular/router';
+import {ModuleWithProviders} from '@angular/core';
 import {GeneralViewComponent} from './general-view.component';
+
 
 const routes: Routes = [
   {
@@ -9,9 +10,4 @@ const routes: Routes = [
   }
 ];
 
-// export const routing: ModuleWithProviders<any> = RouterModule.forChild(routes);
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
-})
-export class GeneralViewRouting { }
+export const routing: ModuleWithProviders = RouterModule.forChild(routes);

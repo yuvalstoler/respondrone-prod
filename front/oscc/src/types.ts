@@ -34,6 +34,7 @@ export type DISPLAY_ON_SCREEN = {
   showMissionControl: boolean;
   showViewMedia: boolean;
   showVideo: boolean,
+  showVideoCanvas: boolean,
 
   showFRLocations: boolean,
   showReports: boolean,

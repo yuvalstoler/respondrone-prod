@@ -3,12 +3,6 @@ import {IRest} from "../dataClasses/interfaces/IRest";
 
 export type MAP<T> = { [key: string]: T };
 
-export type LOGIN_UI = {
-    name: string;
-    password: string;
-    token?: string;
-};
-
 export type TOASTER_OPTIONS = Partial<{ timeOut: number, extendedTimeOut: number, positionClass: string, preventDuplicates: boolean, closeButton: boolean }>;
 
 export type ID_TYPE = string;
@@ -345,7 +339,9 @@ export type GIMBAL_DATA = {
     cameraFootprint: { coordinates: GEOPOINT3D_SHORT[] };
     opticalVideoURL: string;
     infraredVideoURL: string;
-}
+
+    controlData?: GIMBAL_CONTROL
+};
 export type GIMBAL_DATA_UI = GIMBAL_DATA & {
     modeDefine: GIMBAL_DATA_MD,
     lineFromAirVehicle: GEOPOINT3D_SHORT[]
@@ -393,6 +389,7 @@ export type AV_OPTIONS = {
     [MISSION_TYPE.Scan]?: boolean,
     [MISSION_TYPE.Servoing]?: boolean,
     [MISSION_TYPE.Delivery]?: boolean
+    isViewLiveVideo?: boolean
 }
 
 export enum MISSION_TYPE_TEXT {
@@ -851,12 +848,6 @@ export enum COLOR_PALETTE_INFRARED_CAMERA {
     Hottest = 'Hottest',
 }
 
-export type GIMBAL_ACTION = {
-    droneId: string,
-    requestorID: string,
-    parameters: GIMBAL_PARAMS | VISIBLE_CAMERA_PARAMS | INFRARED_CAMERA_PARAMS
-}
-
 export enum FR_STATUS {
     busy = 'Busy',
     available = 'Available',
@@ -1049,21 +1040,131 @@ export enum SOCKET_CLIENT_TYPES {
     GimbalTelemetrySenderRep = 'GimbalTelemetrySenderRep',
 }
 
+// =========== video ============
+
 export type BLOB = {
-    trackId: string,
-    trackBB: {
-        xMin: number,
-        xMax: number,
-        yMin: number,
-        yMax: number
+    id: string,
+    rectangleData: {
+        minX: number,
+        maxX: number,
+        minY: number,
+        maxY: number
     }
-}
+};
 
 export type BLOB_DATA = {
     time: string,
     unixtimestamp: string,
     width: number,
     height: number,
-    bb: BLOB[],
-    droneGPS: GEOPOINT3D_SHORT
+    blubMetaData: BLOB[],
+    location: GEOPOINT3D_SHORT
 }
+
+// =========== LOGIN ==============
+
+export type CREDENTIALS = {
+    name: string,
+    password: string
+};
+
+export type USER_DATA = {
+    id: ID_TYPE,
+    name: string,
+    password: string
+};
+
+export type USER_DATA_UI = {
+    id: ID_TYPE,
+    name: string,
+}
+
+export type LOGIN_RESPONSE = {
+    isAuth: boolean,
+    success: boolean,
+    message: string,
+    token: string,
+    userData: USER_DATA_UI
+};
+
+
+// ======== gimbal ============
+export type GIMBAL_CONTROL_REQUEST_MGW = {
+    userId: ID_TYPE,
+    videoSource: string
+};
+
+export type GIMBAL_CONTROL_REQUEST_OSCC = {
+    userId: string,
+    userName: string,
+    action: GIMBAL_CONTROL_ACTION;
+    airVehicleId: ID_TYPE;
+    videoUrlKey: VIDEO_URL_KEY;
+};
+
+
+export type GIMBAL_CONTROL_DATA_FOR_MGW_OBJ = {
+    videoSource: string,
+    status: GIMBAL_REQUEST_STATUS,
+    isLocked: boolean
+};
+export type GIMBAL_CONTROL_DATA_FOR_MGW = MAP<GIMBAL_CONTROL_DATA_FOR_MGW_OBJ>; // key - userId
+export enum GIMBAL_REQUEST_STATUS {
+    Accept= 'Accept',
+    Reject= 'Reject',
+    InProgress= 'InProgress'
+}
+
+export enum GIMBAL_CONTROL_ACTION {
+    takeControl = 'takeControl',
+    releaseControl = 'releaseControl',
+    lockControl = 'lockControl',
+    unlockControl = 'unlockControl',
+    acceptRequestForControl = 'acceptRequestForControl',
+    rejectRequestForControl = 'rejectRequestForControl',
+}
+
+
+export enum GIMBAL_CONTROL_USER {
+    Available = 'Available',
+    OSCC = 'OSCC'
+}
+
+export enum VIDEO_URL_KEY {
+    infraredVideoURL = 'infraredVideoURL',
+    opticalVideoURL = 'opticalVideoURL'
+}
+export type GIMBAL_CONTROL_OBJ = {
+    userId: ID_TYPE,
+    userText: string | GIMBAL_CONTROL_USER,
+    isLocked: boolean,
+
+    request?: {
+        userId: ID_TYPE,
+        status: GIMBAL_REQUEST_STATUS,
+        userText: string
+    }
+};
+export type GIMBAL_CONTROL = {
+    [VIDEO_URL_KEY.infraredVideoURL]: GIMBAL_CONTROL_OBJ,
+    [VIDEO_URL_KEY.opticalVideoURL]: GIMBAL_CONTROL_OBJ
+};
+
+export type GIMBAL_ACTION_FOR_TMM = {
+    droneId: string,
+    requestorID: string,
+    parameters: GIMBAL_PARAMS | VISIBLE_CAMERA_PARAMS | INFRARED_CAMERA_PARAMS
+};
+
+export type GIMBAL_ACTION_OSCC = {
+    userId: string,
+    droneId: string,
+    videoUrlKey: VIDEO_URL_KEY,
+    parameters: GIMBAL_PARAMS | VISIBLE_CAMERA_PARAMS | INFRARED_CAMERA_PARAMS
+};
+
+export type GIMBAL_ACTION_MGW = {
+    userId: string,
+    videoSource: string,
+    parameters: GIMBAL_PARAMS | VISIBLE_CAMERA_PARAMS | INFRARED_CAMERA_PARAMS
+};

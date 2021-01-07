@@ -6,7 +6,7 @@
     <mat-list-item *ngFor="let comment of comments">
       <div class="CommentsGrid" mat-line>
         <mat-icon class="CommentsGrid1" mat-list-icon>account_circle</mat-icon>
-        <div class="CommentsGrid2"> {{comment.source}} TEST1</div>
+        <div class="CommentsGrid2"> {{comment.source}} {{name}}</div>
         <div class="CommentsGrid3">{{comment.time | date:'hh:mm'}}</div>
         <div class="CommentsGrid4"> {{comment.text}}</div>
       </div>
@@ -22,7 +22,8 @@
                placeholder="Add your comment..."
                type="text">
         <button class="CommentIcon CommentIconInner" mat-icon-button [matMenuTriggerFor]="emoji" aria-label="emoji">
-          <mat-icon>sentiment_satisfied_alt</mat-icon>
+          <!--<mat-icon>sentiment_satisfied_alt</mat-icon>-->
+          <img src="../../../assets/sentiment_satisfied_alt.png">
         </button>
         <!--<mat-icon  (click)="openEmoji = !openEmoji;">sentiment_satisfied_alt</mat-icon>-->
       </label>
