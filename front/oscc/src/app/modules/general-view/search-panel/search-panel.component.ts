@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {animate, animateChild, group, query, state, style, transition, trigger} from '@angular/animations';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
-import {ApplicationService} from '../../../services/applicationService/application.service';
+import {SearchService} from '../../../services/searchService/search.service';
 
 export interface StateGroup {
   letter: string;
@@ -110,29 +110,36 @@ export class SearchPanelComponent implements OnInit {
   isOpenSearchPanel = false;
 
 
-  constructor(public applicationService: ApplicationService,
+  constructor(public searchService: SearchService,
               private _formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
-    this.stateGroupOptions = this.stateForm.get('stateGroup')!.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filterGroup(value))
-      );
+    if (this.stateForm.get('stateGroup')) {
+      this.stateGroupOptions = this.stateForm.get('stateGroup').valueChanges
+        .pipe(
+          startWith(''),
+          map(value => this._filterGroup(value))
+        );
+    }
   }
+
   private _filterGroup(value: string): StateGroup[] {
     if (value) {
-      return this.applicationService.stateGroups
+      return this.searchService.stateGroups
         .map(stateGroup => ({letter: stateGroup.letter, names: _filter(stateGroup.names, value)}))
         .filter(stateGroup => stateGroup.names.length > 0);
     }
 
-    return this.applicationService.stateGroups;
+    return this.searchService.stateGroups;
   }
 
   toggleSearchPanel = () => {
     this.isOpenSearchPanel = !this.isOpenSearchPanel;
+    if (!this.isOpenSearchPanel) {
+    // clear input field
+      this.stateForm.get('stateGroup').setValue('');
+    }
   };
 
 }

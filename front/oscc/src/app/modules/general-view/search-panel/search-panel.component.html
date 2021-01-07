@@ -4,7 +4,7 @@
       <input [matAutocomplete]="autoGroup"
              formControlName="stateGroup"
              matInput
-             placeholder="States Group"
+             placeholder="Search"
              type="text">
       <mat-autocomplete #autoGroup="matAutocomplete">
         <mat-optgroup *ngFor="let group of stateGroupOptions | async" [label]="group.letter">
