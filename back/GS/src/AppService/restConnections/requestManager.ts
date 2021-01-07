@@ -19,6 +19,7 @@ const projConf = require('./../../../../../../../../config/projConf.json');
 const url_DBS = services.DBS.protocol + '://' + services.DBS.host + ':' + services.DBS.port;
 const url_WS = services.webServer.protocol + '://' + services.webServer.host + ':' + services.webServer.port;
 const url_THALES = services.THALES.protocol + '://' + services.THALES.host + ':' + services.THALES.port;
+const url_CCG = services.CCG.protocol + '://' + services.CCG.host + ':' + services.CCG.port;
 // const url_TMM = services.TMM.protocol + '://' + services.TMM.host + ':' + services.TMM.port;
 // const url_MWS = services.MWS.protocol + '://' + services.MWS.host + ':' + services.MWS.port;
 
@@ -39,6 +40,9 @@ export class RequestManager {
     // };
     public static requestToTHALES = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_THALES, path, bodyObj, timeout_AV);
+    };
+    public static requestToCCG = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_CCG, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
 
 

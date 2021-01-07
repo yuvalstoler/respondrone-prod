@@ -4,5 +4,7 @@
   "secret": "4sekgq3sns4l0dj9kmgukn",
   "expireIn": 86400,
   "name": "ResponDrone",
-  "password": "simplex"
+  "password": "simplex",
+
+  "gimbalControlRequestTimeoutSec": 15
 }

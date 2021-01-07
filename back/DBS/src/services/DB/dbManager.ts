@@ -760,7 +760,7 @@ export class DbManager {
                 .exec()
                 .then((result: USER_DATA) => {
                     const obj = result[0];
-                    resolve({success: (obj !== undefined), data: obj} as ASYNC_RESPONSE);
+                    resolve({success: (obj !== undefined), data: obj || null} as ASYNC_RESPONSE);
                 })
                 .catch(error => {
                     console.log(error);

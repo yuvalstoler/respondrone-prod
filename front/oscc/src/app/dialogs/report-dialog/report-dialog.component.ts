@@ -18,6 +18,7 @@ import {HEADER_BUTTONS, STATE_DRAW} from '../../../types';
 import * as _ from 'lodash';
 import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
 import {MediaService} from '../../services/mediaService/media.service';
+import {LoginService} from "../../services/login/login.service";
 
 @Component({
   selector: 'app-report-dialog',
@@ -34,7 +35,7 @@ export class ReportDialogComponent {
 
   defaultReport: REPORT_DATA_UI = {
     source: SOURCE_TYPE.OSCC,
-    createdBy: undefined,
+    createdBy: this.loginService.getUserName(),
     time: undefined,
     type: this.types[0],
     priority: this.priorities[0],
@@ -69,6 +70,7 @@ export class ReportDialogComponent {
               public mediaService: MediaService,
               public mapGeneralService: MapGeneralService,
               public dialogRef: MatDialogRef<ReportDialogComponent>,
+              private loginService: LoginService,
               @Inject(MAT_DIALOG_DATA) public data: {title: string}) {
     this.initReportModel();
 

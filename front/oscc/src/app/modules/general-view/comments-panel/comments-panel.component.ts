@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {COMMENT} from '../../../../../../../classes/typings/all.typings';
 import {ApplicationService} from '../../../services/applicationService/application.service';
+import {LoginService} from "../../../services/login/login.service";
 //https://github.com/scttcper/ngx-emoji-mart#i18n - Emoji
 
 @Component({
@@ -15,8 +16,11 @@ export class CommentsPanelComponent implements OnInit {
   @Input() isShowTitle: boolean = true;
   @Output() changeComments = new EventEmitter<COMMENT[]>();
   comment = '';
+  name = '';
 
-  constructor(public applicationService: ApplicationService) {
+  constructor(public applicationService: ApplicationService,
+              private loginService: LoginService) {
+    this.name = this.loginService.getUserName();
     console.log(this.isOpenDescription);
   }
 

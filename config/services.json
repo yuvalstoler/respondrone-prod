@@ -98,6 +98,11 @@
     "host": "localhost",
     "protocol": "http"
   },
+  "RTSPServer": {
+    "port": "9900",
+    "host": "localhost",
+    "protocol": "http"
+  },
 
   "AuthService": {
     "port": "6950",

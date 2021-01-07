@@ -59,6 +59,7 @@ export class CanvasClass {
 
     if (isEventListen) {
       this.canvasBlob.addEventListener('contextmenu', this.contextClickHandler);
+      this.canvasBlob.addEventListener('mouseup', this.mouseUpHandler);
       // this.canvas.addEventListener('mousewheel', this.onWheel);
       // this.canvas.addEventListener('mousemove', this.mouseMoveHandler);
       // this.canvas.addEventListener('mouseup', this.mouseUpHandler);
@@ -162,8 +163,8 @@ export class CanvasClass {
       this.allDataBlobs = allData;
 
       //  - draw blobs
-      if (allData.hasOwnProperty('mark')) {
-        allData.mark.bb.forEach(blob => {
+      if (allData.mark && allData.mark.blubMetaData) {
+        allData.mark.blubMetaData.forEach(blob => {
           this.drawBlob(this.ctxBlob, blob, resolution);
         });
       }
@@ -176,12 +177,12 @@ export class CanvasClass {
     ctx.strokeOpacity = 1;
     ctx.lineWidth = 3;
 
-    if (blob.trackBB) {
+    if (blob.rectangleData) {
 
-      const xMin = blob.trackBB.xMin * resolution.width;
-      const xMax = blob.trackBB.xMax * resolution.width;
-      const yMin = blob.trackBB.yMin * resolution.height;
-      const yMax = blob.trackBB.yMax * resolution.height;
+      const xMin = blob.rectangleData.minX * resolution.width;
+      const xMax = blob.rectangleData.maxX * resolution.width;
+      const yMin = blob.rectangleData.minY * resolution.height;
+      const yMax = blob.rectangleData.maxY * resolution.height;
 
       // console.log('xMin: ', xMin, ', xMax: ', xMax, ', yMin: ', yMin, ', yMax: ', yMax);
 
@@ -219,6 +220,12 @@ export class CanvasClass {
       }
     }
   };
+
+  private mouseUpHandler = (e) => {
+    if (e.button !== 2) {
+      this.callEventHandler(this.eventHandlerEmitter, 'unselectBlob', {});
+    }
+  }
 
   private callEventHandler = (handler: EventHandler, _value: string | number, params?: any) => {
     if (!handler) {

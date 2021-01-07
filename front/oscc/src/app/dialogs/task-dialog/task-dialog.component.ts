@@ -21,6 +21,7 @@ import {ArrowService} from '../../services/arrowService/arrow.service';
 import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
 import {DataUtility} from '../../../../../../classes/applicationClasses/utility/dataUtility';
 import {TasksService} from '../../services/tasksService/tasks.service';
+import {LoginService} from "../../services/login/login.service";
 
 @Component({
   selector: 'app-task-dialog',
@@ -39,7 +40,7 @@ export class TaskDialogComponent implements OnInit {
 
   defaultTask: TASK_DATA_UI = {
     assigneeIds: [],
-    createdBy: undefined,
+    createdBy: this.loginService.getUserName(),
     time: undefined,
     type: this.types[0],
     priority: this.priorities[1],
@@ -69,6 +70,7 @@ export class TaskDialogComponent implements OnInit {
               public mapGeneralService: MapGeneralService,
               public tasksService: TasksService,
               public frService: FRService,
+              private loginService: LoginService,
               @Inject(MAT_DIALOG_DATA) public data: { title: string, fr?: FR_DATA_UI }) {
     this.initTaskModel();
   }

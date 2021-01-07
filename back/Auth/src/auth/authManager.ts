@@ -14,7 +14,8 @@ const secret = services.webServer.secret;
 const expireIn = services.webServer.expireIn;
 const User = {
     name: services.webServer.name,
-    password: services.webServer.password
+    password: services.webServer.password,
+    id: '1234'
 };
 const tokens: MAP<string> = {};
 const t = jwt.sign({
@@ -38,7 +39,8 @@ export class AuthManager {
                 success: false,
                 isAuth: false,
                 message: '',
-                token: undefined
+                token: undefined,
+                userData: undefined,
             }
         };
         if (req.method === 'POST') {
@@ -60,6 +62,10 @@ export class AuthManager {
                                 success: true,
                                 message: 'Authentication success',
                                 token: token,
+                                userData: {
+                                    id: userRes.data ? userRes.data.id : User.id,
+                                    name: userRes.data ? userRes.data.name : User.name,
+                                }
                                 // until: new Date(decoded.exp * 1000).toISOString()
                             };
                             res.json(resp);

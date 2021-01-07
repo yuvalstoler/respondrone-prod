@@ -19,6 +19,7 @@ import {CustomToasterService} from '../../services/toasterService/custom-toaster
 import {ReportService} from '../../services/reportService/report.service';
 import * as _ from 'lodash';
 import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
+import {LoginService} from "../../services/login/login.service";
 
 @Component({
   selector: 'app-event-dialog',
@@ -36,7 +37,7 @@ export class EventDialogComponent implements OnInit {
   comment = '';
 
   defaultEvent: EVENT_DATA_UI = {
-    createdBy: undefined,
+    createdBy: this.loginService.getUserName(),
     time: undefined,
     title: '',
     type: this.types[0],
@@ -72,6 +73,7 @@ export class EventDialogComponent implements OnInit {
               public mapGeneralService: MapGeneralService,
               public zone: NgZone,
               public dialogRef: MatDialogRef<EventDialogComponent>,
+              private loginService: LoginService,
               @Inject(MAT_DIALOG_DATA) public data: { title: string }) {
     this.initEventModel();
 

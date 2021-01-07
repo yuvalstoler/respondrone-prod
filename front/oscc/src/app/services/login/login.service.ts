@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   ASYNC_RESPONSE,
   CREDENTIALS,
-  LOGIN_RESPONSE
+  LOGIN_RESPONSE, USER_DATA_UI
 } from '../../../../../../classes/typings/all.typings';
 import {ConnectionService} from '../connectionService/connection.service';
 import * as _ from 'lodash';
@@ -18,11 +18,19 @@ export class LoginService {
 
   // sessionStorage = (window).sessionStorage;
   isSpinner: boolean = false;
+  userData: USER_DATA_UI = {name: undefined, id: undefined};
 
   constructor(private connectionService: ConnectionService,
               private router: Router,
               private applicationService: ApplicationService,
-              private customToasterService: CustomToasterService) { }
+              private customToasterService: CustomToasterService) {
+
+    if (this.isLoggedIn()) {
+      this.userData.name = localStorage.getItem('name');
+      this.userData.id = localStorage.getItem('id');
+    }
+
+  }
 
   public login = (credentials?: CREDENTIALS, headers?): Promise<ASYNC_RESPONSE<LOGIN_RESPONSE>> => {
     return new Promise((resolve, reject) => {
@@ -32,6 +40,11 @@ export class LoginService {
           if (loginRes.success && loginRes.data.token) {
             localStorage.setItem('token', loginRes.data.token);
             this.isSpinner = false;
+
+            this.userData = loginRes.data.userData || {name: undefined, id: undefined};
+            localStorage.setItem('name', this.userData.name);
+            localStorage.setItem('id', this.userData.id);
+
             this.router.navigateByUrl('/general-view');
             resolve(loginRes);
           } else {
@@ -53,5 +66,13 @@ export class LoginService {
   public logout = (): void => {
     localStorage.clear();
     this.router.navigateByUrl('/login');
+  }
+
+  public getUserName = () => {
+    return this.userData.name;
+  }
+
+  public getUserId = () => {
+    return this.userData.id;
   }
 }

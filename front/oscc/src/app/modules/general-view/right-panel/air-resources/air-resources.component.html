@@ -56,7 +56,9 @@
                     mat-menu-item>
               <span>Follow an entity mission</span>
             </button>
-            <button (click)="onViewLiveVideo(airVehicle)" mat-menu-item>
+            <button (click)="onViewLiveVideo(airVehicle)"
+                    *ngIf="airVehicle.modeDefine?.data?.missionOptions.isViewLiveVideo === true"
+                    mat-menu-item>
               <span>View live video</span>
             </button>
           </mat-menu>
@@ -65,13 +67,12 @@
         <div class="item3">
           <span class="title">Mission: &nbsp;</span>
           <span (click)="onClickMission(airVehicle, $event)" *ngIf="airVehicle.modeDefine?.data?.missionName"
-                class="underline pointer"
-                class="underline">{{airVehicle.modeDefine?.data?.missionName}}</span>
+                class="underline pointer">{{airVehicle.modeDefine?.data?.missionName}}</span>
         </div>
         <!--status-->
         <div class="item4">
         <span [ngStyle]="{'color': airVehicle.modeDefine?.styles?.statusColor}"
-              class="material-icons iconStatus">stop_circle
+              class="material-icons iconStatus">fiber_manual_record
         </span>{{getSeparateString(airVehicle.operationalStatus)}}
         </div>
         <!--TTL-->

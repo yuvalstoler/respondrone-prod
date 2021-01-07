@@ -25,7 +25,7 @@ export class LiveVideoService {
   allDataForCanvas: { mark: BLOB_DATA } = undefined;
   resizeVideoSize$: BehaviorSubject<{ width: number, height: number }> = new BehaviorSubject<{ width: number, height: number }>(undefined);
 
-  videoData: BLOB_DATA = {
+  videoData: BLOB_DATA/* = {
     // id: 1,
     width: 1598,
     height: 899,
@@ -61,6 +61,19 @@ export class LiveVideoService {
         }
       }
     ]
+  }*/;
+  interval;
+
+  websocket = null;
+  videoUrls: MAP<MAP<{video: string, blobs: string}>> = { // key - airVehicleId
+    '1': {
+      'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov': {video: 'ws://20.71.141.60:9092/', blobs: 'ws://20.71.141.60:4000/'},
+      'ws://20.71.141.60:9091/': {video: 'ws://20.71.141.60:9092/', blobs: 'ws://20.71.141.60:4000/'}
+    },
+    '2': {
+      'ws://20.71.141.60:9093/': {video: 'ws://20.71.141.60:9092/', blobs: 'ws://20.71.141.60:4000/'},
+      'ws://20.71.141.60:9094/': {video: 'ws://20.71.141.60:9092/', blobs: 'ws://20.71.141.60:4000/'}
+    }
   };
 
   constructor(public applicationService: ApplicationService,
@@ -70,28 +83,70 @@ export class LiveVideoService {
               public missionRequestService: MissionRequestService) {
     const primaryEventHandler = new EventHandler(this.primaryDomID, this.mouseEventHandler);
     this.canvases[this.primaryDomID] = new CanvasClass(primaryEventHandler);
-    setInterval(() => {
-      this.createImageMain({success: true, data: this.videoData});
-    }, 1000);
 
-
-    // this.startGetBlobs();
+    this.socketService.connectToRoom('webServer_getVideoUrls').subscribe(this.onGetVideoUrls);
   }
 
-  startGetBlobs = () => {
-    const url = 'ws://20.71.141.60:4000/';
-    let ws = new WebSocket(url);
-    ws.onopen = () => {
+  startDrawingOnCanvas = () => {
+    this.interval = setInterval(() => {
+      this.createImageMain({success: true, data: this.videoData});
+    }, 1000);
+  }
+
+  stopDrawingOnCanvas = () => {
+    clearInterval(this.interval);
+    this.interval = undefined;
+  }
+
+  startGetBlobs = (wsUrl: string) => {
+    this.connectToWS(wsUrl);
+  };
+
+  stopGetBlobs = () => {
+    if (this.websocket) {
+      this.websocket.close();
+    }
+  }
+
+  connectToWS = (wsUrl: string) => {
+    if (this.websocket !== null) {
+      this.websocket.close();
+    }
+
+    this.websocket = new WebSocket(wsUrl);
+    this.websocket.onopen = () => {
       console.log('Connection opened!');
     };
-    ws.onmessage = ({ data }) => this.showMessage(data);
-    ws.onclose = () => {
-      ws = null;
-      setTimeout(() => {
-        this.startGetBlobs();
-      }, 1000);
+    this.websocket.onmessage = ({ data }) => this.showMessage(data);
+    this.websocket.onclose = () => {
+      this.websocket = null;
+
+      // setTimeout(() => {
+      //   this.connectToWS(wsUrl);
+      // }, 1000);
     };
-  };
+  }
+
+
+  private onGetVideoUrls = (data: MAP<MAP<{video: string, blobs: string}>>) => {
+    if (data) {
+      this.videoUrls = data;
+    }
+  }
+
+  public getVideoUrl = (url: string, airVehicleId) => {
+    if (this.videoUrls[airVehicleId] && this.videoUrls[airVehicleId][url]) {
+      return this.videoUrls[airVehicleId][url].video;
+    }
+    return undefined;
+  }
+
+  public getBlobUrl = (url: string, airVehicleId) => {
+    if (this.videoUrls[airVehicleId] && this.videoUrls[airVehicleId][url]) {
+      return this.videoUrls[airVehicleId][url].blobs;
+    }
+    return undefined;
+  }
 
   private showMessage(message) {
     this.videoData = (JSON.parse(message));
@@ -128,17 +183,25 @@ export class LiveVideoService {
         // this.applicationService.newDataForMainImage$.next(true);
       }
     }
+    else {
+      this.onUnselectBlob({});
+    }
+  };
+  public onUnselectBlob = (data) => {
+    this.contextMenuService.isOpenBlob = false;
+    this.contextMenuService.selectedBlob = undefined;
   };
 
   onMissionOptions = (missionType: MISSION_TYPE, airVehicle: AV_DATA_UI, options: {selectedId: number, point: POINT}) => {
     // Todo: add context menu and click on menu open =>
     this.contextMenuService.isOpenBlob = true;
-    this.contextMenuService.singleTooltip.top = options.point[1] + 40 + 'px';
-    this.contextMenuService.singleTooltip.left = options.point[0] + 85 + 'px';
+    this.contextMenuService.singleTooltip.top = options.point[1] + 70 + 'px';
+    this.contextMenuService.singleTooltip.left = options.point[0] + 150 + 'px';
     this.contextMenuService.selectedBlob = {missionType, airVehicle, options};
   };
 
   mouseEventHandler = {
-    'selectedBlob': this.onSelectBlob
+    'selectedBlob': this.onSelectBlob,
+    'unselectBlob': this.onUnselectBlob
   };
 }

@@ -25,12 +25,12 @@ export class CanvasTools {
   public findObjectToSelect = (ctx, clickPoint: POINT, marks: BLOB_DATA, resolution: SIZE): string => {
     let res: string;
     // todo: not work with new data
-    if (marks.hasOwnProperty('bb') && Array.isArray(marks.bb) && marks.bb.length > 0) {
-      marks.bb.forEach(blob => {
-        if (blob.hasOwnProperty('trackBB')) {
-          const isExist: boolean = this.compareIfPointExictOnObject(blob.trackBB, clickPoint, resolution);
+    if (marks.blubMetaData && Array.isArray(marks.blubMetaData) && marks.blubMetaData.length > 0) {
+      marks.blubMetaData.forEach(blob => {
+        if (blob.rectangleData) {
+          const isExist: boolean = this.compareIfPointExictOnObject(blob.rectangleData, clickPoint, resolution);
           if (isExist) {
-            res = blob.trackId;
+            res = blob.id;
             console.log(blob, res);
             // break;
           }
@@ -40,15 +40,15 @@ export class CanvasTools {
     return res;
   };
 
-  private compareIfPointExictOnObject = (minmaxPoints: { xMin: number, xMax: number, yMin: number, yMax: number }, clickPoint: POINT, resolution: SIZE): boolean => {
+  private compareIfPointExictOnObject = (minmaxPoints: { minX: number, maxX: number, minY: number, maxY: number }, clickPoint: POINT, resolution: SIZE): boolean => {
     let res = false;
     // console.log('clickPoint: ', clickPoint);
     // console.log('clickBlob: ', ' xMin: ', minmaxPoints.xMin * resolution.width,
     //   ', xMax: ', minmaxPoints.xMax * resolution.width,
     //   ', yMin: ', minmaxPoints.yMin * resolution.height, ',' +
     //   ' yMax: ', minmaxPoints.yMax * resolution.height);
-    if (clickPoint[0] > minmaxPoints.xMin * resolution.width && clickPoint[0] < minmaxPoints.xMax * resolution.width &&
-      clickPoint[1] > minmaxPoints.yMin * resolution.height && clickPoint[1] < minmaxPoints.yMax * resolution.height) {
+    if (clickPoint[0] > minmaxPoints.minX * resolution.width && clickPoint[0] < minmaxPoints.maxX * resolution.width &&
+      clickPoint[1] > minmaxPoints.minY * resolution.height && clickPoint[1] < minmaxPoints.maxY * resolution.height) {
       res = true;
     }
 

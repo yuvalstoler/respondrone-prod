@@ -2,11 +2,23 @@ import {Injectable} from '@angular/core';
 import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
-import {GIMBAL_ACTION, GIMBAL_DATA_UI, MAP} from '../../../../../../classes/typings/all.typings';
+import {
+  ASYNC_RESPONSE,
+  FR_DATA_UI,
+  GEOPOINT3D_SHORT, GIMBAL_ACTION_OSCC,
+  GIMBAL_CONTROL_ACTION,
+  GIMBAL_CONTROL_REQUEST_OSCC,
+  GIMBAL_DATA_UI,
+  ID_OBJ,
+  MAP,
+  MISSION_DATA_UI,
+  POINT,
+  POINT3D,
+} from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
-import {ICON_DATA, POLYGON_DATA, POLYLINE_DATA} from '../../../types';
+import {ICON_DATA, ITEM_TYPE, POLYGON_DATA, POLYLINE_DATA} from '../../../types';
 import {ApplicationService} from '../applicationService/application.service';
 import {API_GENERAL, WS_API} from '../../../../../../classes/dataClasses/api/api_enums';
 import {GeoCalculate} from '../classes/geoCalculate';
@@ -16,7 +28,7 @@ import {GeoCalculate} from '../classes/geoCalculate';
 })
 export class GimbalService {
 
-  gimbals: { data: GIMBAL_DATA_UI[] } = {data: []};
+  gimbals: {data: GIMBAL_DATA_UI[]} = {data: []};
   gimbalsByDroneId: MAP<GIMBAL_DATA_UI> = {};
   gimbals$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -129,17 +141,33 @@ export class GimbalService {
     }
   };
   // -----------------------
-  public sendGimbalAction = (gimbalAction: GIMBAL_ACTION) => {
-    this.connectionService.post('/' + API_GENERAL.general + WS_API.gimbalAction, gimbalAction)
-      .then((data) => {
+  public sendGimbalAction = (gimbalAction: GIMBAL_ACTION_OSCC) => {
+    this.connectionService.post('/' + API_GENERAL.general + WS_API.gimbalActionFromOSCC, gimbalAction)
+      .then((data: ASYNC_RESPONSE) => {
+        if (data.description) {
+          this.toasterService.error({title: '', message: data.description, options: {positionClass: 'toast-top-right', timeOut: 5000}});
+        }
       })
       .catch(e => {
         console.log(e);
       });
   };
   // -----------------------
+  public sendGimbalControlRequest = (controlRequest: GIMBAL_CONTROL_REQUEST_OSCC) => {
+    this.connectionService.post('/' + API_GENERAL.general + WS_API.requestGimbalControlFromOSCC, controlRequest)
+      .then((data) => {
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+  // -----------------------
   public getById = (id: string): GIMBAL_DATA_UI => {
     return this.gimbals.data.find(data => data.id === id);
+  };
+  // -----------------------
+  public getGimbalByDroneId = (id: string): GIMBAL_DATA_UI => {
+    return this.gimbalsByDroneId[id];
   };
   // -----------------------
   private getId = (id: string) => { // to make sure the ID is unique
