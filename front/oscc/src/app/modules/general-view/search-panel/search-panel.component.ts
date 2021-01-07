@@ -1,104 +1,37 @@
-import {Component, forwardRef, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {animate, animateChild, group, query, state, style, transition, trigger} from '@angular/animations';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {SearchService} from '../../../services/searchService/search.service';
+import {ALL_STATES} from '../../../../types';
 
 export interface StateGroup {
-  letter: string;
-  names: string[];
+  letter: ALL_STATES;
+  names: any[];
 }
 
 export const _filter = (names: string[], value: string): string[] => {
   const res = [];
   const filterValue = value.toLowerCase();
-  names.forEach((name) => {
-    if (name.toLowerCase().includes(filterValue)) {
-      res.push(name);
-    }
-  });
+  // names.forEach((name) => {
+    // if (name.toLowerCase().includes(filterValue)) {
+    //   res.push(name);
+    // }
+// });
+  const a = names.filter(name =>
+    Object.keys(name).some((k) =>
+      name[k].toString().toLowerCase().includes(filterValue))
+  );
+  if (Array.isArray(a) && a.length > 0) {
+    res.push(...a);
+  }
   return res;
 };
 
 @Component({
   selector: 'app-search-panel',
   templateUrl: './search-panel.component.html',
-  styleUrls: ['./search-panel.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      multi: true,
-      useExisting: forwardRef(() => SearchPanelComponent),
-    }
-  ],
-  animations: [
-    trigger('clearExpand', [
-      transition(':enter', [
-        style({width: '12em', opacity: 0}),
-        group([
-          animate(200, style({width: '10em'})),
-          animate('100ms 100ms', style({opacity: '{{finalOpacity}}'}))
-        ])
-      ], {params: {finalOpacity: 1}}),
-      transition(':leave', [
-        group([
-          animate(200, style({width: '12em'})),
-          animate('100ms', style({opacity: 0}))
-        ])
-      ]),
-      // TODO: opacity is not good enough. When hidden, button should also be disabled and aria-hidden (or removed completely)
-      state('1', style({opacity: '*'})),
-      state('0', style({opacity: '0'})),
-      transition('1<=>0', animate(200)),
-    ]),
-    trigger('searchExpand', [
-      state('1', style({width: '10em', backgroundColor: '*', margin: '*'})),
-      state('0', style({width: '40px', backgroundColor: 'transparent', color: 'white', margin: '0'})),
-      transition('0=>1', [
-        group([
-          style({width: '40px', backgroundColor: 'transparent'}),
-          animate(200, style({width: '10em', backgroundColor: '*', color: '*'})),
-          query('@inputExpand', [
-            style({width: '12em'}),
-            animate(200, style({
-              width: '10em',
-              margin: '*',
-            })),
-          ]),
-          query('@clearExpand', [
-            animateChild(),
-          ])
-        ])
-      ]),
-      transition('1=>0', [
-        group([
-          style({width: '10em'}),
-          animate(200, style({
-            backgroundColor: 'transparent',
-            width: '40px',
-            color: 'white',
-          })),
-          query('@clearExpand', [
-            animateChild(),
-          ]),
-          query('@inputExpand', [
-            animate(200, style({
-              width: '12em',
-              backgroundColor: 'transparent',
-              opacity: '0',
-              margin: '0',
-            }))
-          ]),
-        ])
-      ]),
-    ]),
-    trigger('inputExpand', [
-      state('0', style({width: '12em', margin: '0'})),
-      // Without this transition, the input animates to an incorrect width
-      transition('0=>1', []),
-    ]),
-  ],
+  styleUrls: ['./search-panel.component.scss']
 })
 export class SearchPanelComponent implements OnInit {
 
@@ -125,10 +58,13 @@ export class SearchPanelComponent implements OnInit {
   }
 
   private _filterGroup(value: string): StateGroup[] {
-    if (value) {
-      return this.searchService.stateGroups
-        .map(stateGroup => ({letter: stateGroup.letter, names: _filter(stateGroup.names, value)}))
-        .filter(stateGroup => stateGroup.names.length > 0);
+    if (value ) {
+      if (typeof value === 'string') {
+        this.searchService.getAllGroups();
+        return this.searchService.stateGroups
+          .map(stateGroup => ({letter: stateGroup.letter, names: _filter(stateGroup.names, value)}))
+          .filter(stateGroup => stateGroup.names.length > 0);
+      }
     }
 
     return this.searchService.stateGroups;
@@ -139,6 +75,20 @@ export class SearchPanelComponent implements OnInit {
     if (!this.isOpenSearchPanel) {
     // clear input field
       this.stateForm.get('stateGroup').setValue('');
+    } else {
+      this.searchService.getAllGroups();
+    }
+  };
+
+  getValue = (value) => {
+    this.searchService.goToElement(value.option.group.label, value.option.value);
+  };
+
+  displayFn = (value) => {
+    if (typeof value === 'string') {
+      return value;
+    } else {
+      return 'ID - ' + value['idView'];
     }
   };
 

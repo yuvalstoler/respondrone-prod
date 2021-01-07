@@ -172,3 +172,11 @@ export enum MISSION_FIELDS {
   description = 'description',
   comments = 'comments'
 }
+export enum ALL_STATES {
+  events = 'Events',
+  reports = 'Reports',
+  tasks = 'Tasks',
+  missions = 'Missions',
+  frs = 'GroundResources',
+  avs = 'AirResources'
+}

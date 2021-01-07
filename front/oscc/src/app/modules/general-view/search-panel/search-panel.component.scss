@@ -13,7 +13,13 @@
 }
 
 // Search Bar =======================================================
-
+::ng-deep.mat-optgroup-label{
+  font-weight: bold;
+  font-size: $fontSizeVideoText16;
+}
+::ng-deep.mat-optgroup-label {
+  color: $black;
+}
 
 ::ng-deep .mat-form-field {
   display: block !important;
