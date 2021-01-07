@@ -1,6 +1,6 @@
 import {
     ADDRESS, COMMENT, EVENT_DATA, EVENT_DATA_UI,
-    GEOPOINT3D, ID_TYPE, LINKED_EVENT_DATA, LOCATION_TYPE, POINT3D, POLYGON_GEOPOINT,
+    GEOPOINT3D_SHORT, ID_TYPE, LINKED_EVENT_DATA, LOCATION_TYPE, POINT3D,
     PRIORITY,
 } from '../../typings/all.typings';
 import { DataUtility } from '../../applicationClasses/utility/dataUtility';
@@ -15,7 +15,7 @@ export class Event {
     priority: PRIORITY;
     description: string = '';
     locationType: LOCATION_TYPE = LOCATION_TYPE.none;
-    location: GEOPOINT3D = {latitude: undefined, longitude: undefined, altitude: undefined};
+    location: GEOPOINT3D_SHORT = {lat: undefined, lon: undefined, alt: undefined};
     address: ADDRESS;
     polygon: POINT3D[];
     reportIds: string[] = [];
@@ -69,22 +69,22 @@ export class Event {
             this.locationType = data;
         }
     };
-    private setLocation = (data: GEOPOINT3D) => {
-        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
+    private setLocation = (data: GEOPOINT3D_SHORT) => {
+        const res: boolean = true; // todo validate GEOPOINT3D_SHORT | ADDRESS
         if ( res ) {
             this.location = data;
         }
     };
 
     private setAddress = (data: ADDRESS) => {
-        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
+        const res: boolean = true; // todo validate GEOPOINT3D_SHORT | ADDRESS
         if ( res ) {
             this.address = data;
         }
     };
 
     private setPolygon = (data: POINT3D[]) => {
-        const res: boolean = true;// todo validate GEOPOINT3D | ADDRESS
+        const res: boolean = true; // todo validate GEOPOINT3D_SHORT | ADDRESS
         if ( res ) {
             this.polygon = data;
         }

@@ -3,7 +3,8 @@ import {DISPLAY_ON_SCREEN, HEADER_BUTTONS, LEFT_PANEL_ICON, STATE_DRAW, VIDEO_OR
 import {
   AV_DATA_UI,
   EVENT_DATA_UI,
-  FILE_FS_DATA, GEOPOINT3D,
+  FILE_FS_DATA,
+  GEOPOINT3D_SHORT,
   MISSION_REQUEST_DATA_UI,
   REPORT_DATA_UI,
   TASK_DATA_UI
@@ -37,7 +38,7 @@ export class ApplicationService {
 
   public currentTabIndex = 0;  //default tab index is 0
   isDialogOpen = false;
-  cursorPosition: GEOPOINT3D = {longitude: undefined, latitude: undefined, altitude: undefined};
+  cursorPosition: GEOPOINT3D_SHORT = {lon: undefined, lat: undefined, alt: undefined};
   hoverTextData: { top: string, left: string, text: string };
 
   // mapDisplay: DISPLAY_ON_MAP;

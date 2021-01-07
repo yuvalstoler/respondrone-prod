@@ -44,7 +44,7 @@ export class EventDialogComponent implements OnInit {
     priority: this.priorities[0],
     description: '',
     locationType: LOCATION_TYPE.none,
-    location: {longitude: undefined, latitude: undefined, altitude: 0},
+    location: {lon: undefined, lat: undefined, alt: 0},
     address: '',
     polygon: [],
     reportIds: [],
@@ -80,7 +80,7 @@ export class EventDialogComponent implements OnInit {
     // add location on panel
     this.locationService.locationPoint$.subscribe(latlon => {
       if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint  || this.applicationService.stateDraw === STATE_DRAW.editLocationPoint) {
-        this.eventModel.location = {longitude: latlon.lon, latitude: latlon.lat, altitude: 0};
+        this.eventModel.location = {lon: latlon.lon, lat: latlon.lat, alt: 0};
       }
     });
 
@@ -132,7 +132,7 @@ export class EventDialogComponent implements OnInit {
     }
     if (location === LOCATION_NAMES.noLocation) {
       this.eventModel.locationType = LOCATION_TYPE.none;
-      this.eventModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
+      this.eventModel.location = {lon: undefined, lat: undefined, alt: 0};
       this.eventModel.address =  '';
       this.eventModel.polygon = [];
       this.locationService.deleteLocationPointTemp('tmp' + '0');
@@ -149,7 +149,7 @@ export class EventDialogComponent implements OnInit {
       this.polygonService.deletePolygonManually('tmp' + '0');
     }
     else if (location === LOCATION_NAMES.locationPoint) {
-      this.eventModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
+      this.eventModel.location = {lon: undefined, lat: undefined, alt: 0};
       // toaster
       this.customToasterService.info({message: 'Click on map to set the event\'s location', title: 'location'});
       this.eventModel.address =  '';
@@ -158,7 +158,7 @@ export class EventDialogComponent implements OnInit {
       this.polygonService.deletePolygonManually('tmp' + '0');
       this.locationService.deleteLocationPointTemp('tmp' + '0');
 
-      // if (this.eventModel.location.latitude === undefined && this.eventModel.location.longitude === undefined) {
+      // if (this.eventModel.location.lat === undefined && this.eventModel.location.lon === undefined) {
       this.eventModel.locationType = LOCATION_TYPE.locationPoint;
       this.applicationService.stateDraw = STATE_DRAW.drawLocationPoint;
       this.mapGeneralService.changeCursor(true);
@@ -170,7 +170,7 @@ export class EventDialogComponent implements OnInit {
       this.customToasterService.info(
         {message: 'Click minimum 3 points to set a polygon. Click double click to finish', title: 'polygon'});
       this.locationService.deleteLocationPointTemp('tmp' + '0');
-      this.eventModel.location = {longitude: undefined, latitude: undefined, altitude: 0};
+      this.eventModel.location = {lon: undefined, lat: undefined, alt: 0};
       this.eventModel.address =  '';
       this.eventModel.locationType = LOCATION_TYPE.polygon;
       this.applicationService.stateDraw = STATE_DRAW.drawPolygon;
@@ -182,10 +182,10 @@ export class EventDialogComponent implements OnInit {
     if (event.target.value !== '') {
       this.applicationService.stateDraw = STATE_DRAW.notDraw;
       this.mapGeneralService.changeCursor(false);
-      if (this.eventModel.location.latitude !== undefined && this.eventModel.location.longitude !== undefined) {
+      if (this.eventModel.location.lat !== undefined && this.eventModel.location.lon !== undefined) {
         const locationPoint: GEOPOINT3D_SHORT = {
-          lon: this.eventModel.location.longitude,
-          lat: this.eventModel.location.latitude,
+          lon: this.eventModel.location.lon,
+          lat: this.eventModel.location.lat,
           alt: 0
         };
         this.locationService.createOrUpdateLocationTemp(locationPoint);
@@ -251,8 +251,8 @@ export class EventDialogComponent implements OnInit {
   getLocationDisabled = (): boolean => {
     let res = false;
     if (this.eventModel.locationType === LOCATION_TYPE.locationPoint &&
-      (this.eventModel.location.latitude === undefined ||
-        this.eventModel.location.longitude === undefined)) {
+      (this.eventModel.location.lat === undefined ||
+        this.eventModel.location.lon === undefined)) {
       res = true;
     }
     if (this.eventModel.locationType === LOCATION_TYPE.address && this.eventModel.address === '' ) {
@@ -274,7 +274,7 @@ export class EventDialogComponent implements OnInit {
     if (geometry.viewport) {
       const lat = geometry.viewport.getCenter().lat();
       const lng = geometry.viewport.getCenter().lng();
-      this.eventModel.location = {latitude: lat, longitude: lng, altitude: 0};
+      this.eventModel.location = {lat: lat, lon: lng, alt: 0};
       this.eventModel.address = place['formatted_address'];
       this.locationService.createOrUpdateLocationTemp({ lat: lat, lon: lng, alt: 0 });
       this.eventService.flyToObject([lng, lat, 0]);

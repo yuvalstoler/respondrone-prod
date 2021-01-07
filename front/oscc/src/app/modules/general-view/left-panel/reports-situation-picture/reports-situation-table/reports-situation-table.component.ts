@@ -9,7 +9,7 @@ import {ReportService} from '../../../../../services/reportService/report.servic
 import {
   COMMENT,
   EVENT_DATA_UI,
-  FILE_FS_DATA, ID_TYPE, LOCATION_TYPE, MISSION_REQUEST_DATA_UI, POINT,
+  FILE_FS_DATA, ID_TYPE, LOCATION_TYPE, MISSION_REQUEST_DATA_UI, POINT, POINT3D,
   REPORT_DATA_UI
 } from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
@@ -261,7 +261,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
     if (column === 'map') {
 
       if (element.locationType === LOCATION_TYPE.locationPoint || element.locationType === LOCATION_TYPE.address) {
-        const coordinates: POINT = [element.location.longitude, element.location.latitude];
+        const coordinates: POINT3D = [element.location.lon, element.location.lat, 0];
         this.eventService.flyToObject(coordinates);
       }
     } else if (column === 'link') {

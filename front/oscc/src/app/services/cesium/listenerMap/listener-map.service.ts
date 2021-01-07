@@ -66,7 +66,7 @@ export class ListenerMapService {
 
   // public showBillboard = (event: EVENT_LISTENER_DATA) => {
   //   // if (this.applicationService.stateDraw === STATE_DRAW.drawBillboard) {
-  //     const locationPoint: GEOPOINT3D = {longitude: event.pointLatLng[0], latitude: event.pointLatLng[1], altitude: 0};
+  //     const locationPoint: GEOPOINT3D_SHORT = {lon: event.pointLatLng[0], lat: event.pointLatLng[1], alt: 0};
   //     const options: OPTIONS_ENTITY = event.object;
   //     if (event.type === 'mouseOver') {
   //       this.removeBillboard();
@@ -77,7 +77,7 @@ export class ListenerMapService {
   // };
 
   public showCursorPosition = (event: EVENT_LISTENER_DATA) => {
-    this.applicationService.cursorPosition = {longitude: event.pointLatLng[0], latitude: event.pointLatLng[1], altitude: 0};
+    this.applicationService.cursorPosition = {lon: event.pointLatLng[0], lat: event.pointLatLng[1], alt: 0};
   };
 
   // removeBillboard = () => {
@@ -85,7 +85,7 @@ export class ListenerMapService {
   //   this.mapGeneralService.removeBillboard(billboardId);
   // };
   //
-  // drawBillboard = (locationPoint: GEOPOINT3D, options: OPTIONS_ENTITY) => {
+  // drawBillboard = (locationPoint: GEOPOINT3D_SHORT, options: OPTIONS_ENTITY) => {
   //   const billboardId = 'temp';
   //   this.mapGeneralService.createBillboard(locationPoint, billboardId, options);
   // };

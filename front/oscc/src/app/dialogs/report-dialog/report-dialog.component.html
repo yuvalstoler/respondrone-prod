@@ -82,8 +82,9 @@
                 <mat-form-field appearance="outline" class="">
                   <label>
                     <input (click)="$event.stopPropagation()"
-                           (change)="locationChanged($event, 'latitude')" (keyup)="locationChanged($event, 'latitude')"
-                           [(ngModel)]="reportModel.location.latitude"
+                           (change)="locationChanged($event)"
+                           (keyup)="locationChanged($event)"
+                           [(ngModel)]="reportModel.location.lat"
                            class="Label"
                            matInput
                            min="0"
@@ -95,8 +96,9 @@
                 <mat-form-field appearance="outline" class="">
                   <label>
                     <input (click)="$event.stopPropagation()"
-                           (change)="locationChanged($event, 'longitude')"
-                           (keyup)="locationChanged($event, 'longitude')" [(ngModel)]="reportModel.location.longitude"
+                           (change)="locationChanged($event)"
+                           (keyup)="locationChanged($event)"
+                           [(ngModel)]="reportModel.location.lon"
                            class="Label"
                            matInput
                            min="0"

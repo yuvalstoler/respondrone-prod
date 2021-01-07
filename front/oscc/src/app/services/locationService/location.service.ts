@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {EVENT_LISTENER_DATA, STATE_DRAW} from '../../../types';
 import {
-  GEOPOINT3D,
   GEOPOINT3D_SHORT,
   NOTIFICATION_UI,
   POINT,
@@ -94,7 +93,7 @@ export class LocationService {
     }
   };
 
-  // private drawBillboard = (locationPoint: GEOPOINT3D) => {
+  // private drawBillboard = (locationPoint: GEOPOINT3D_SHORT) => {
   //   this.mapGeneralService.createBillboard(locationPoint, 'temp');
   // };
   //

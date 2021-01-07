@@ -71,10 +71,10 @@ export class GeoInstructionsListComponent implements OnInit {
         coordinate = geoInstruction.arrow[geoInstruction.arrow.length - 1];
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.address:
-        coordinate = [geoInstruction.location.longitude, geoInstruction.location.latitude];
+        coordinate = [geoInstruction.location.lon, geoInstruction.location.lat, 0];
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.point:
-        coordinate = [geoInstruction.location.longitude, geoInstruction.location.latitude];
+        coordinate = [geoInstruction.location.lon, geoInstruction.location.lat, 0];
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
         coordinate = geoInstruction.polygon[0];

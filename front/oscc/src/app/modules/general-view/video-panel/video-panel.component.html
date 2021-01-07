@@ -24,7 +24,10 @@
     <!--Camera-->
     <div class="camera-container container">
       <div class="itemCameraDiv">Camera Control:
-        <div class="CameraText"><span>{{gimbal?.controlData[videoUrlKey]?.userText}}</span><mat-icon *ngIf="gimbal?.controlData[videoUrlKey]?.isLocked">lock</mat-icon></div>
+        <div class="CameraText" [ngStyle]="{'color': gimbal?.modeDefine?.styles?.gimbalControlColor[videoUrlKey]}">
+          <span>{{gimbal?.controlData[videoUrlKey]?.userText}}</span>
+          <mat-icon *ngIf="gimbal?.controlData[videoUrlKey]?.isLocked">lock</mat-icon>
+        </div>
       </div>
       <button *ngIf="gimbal?.controlData[videoUrlKey]?.userText !== GIMBAL_CONTROL_USER.OSCC"
               (click)="onControlAction(GIMBAL_CONTROL_ACTION.takeControl)" mat-raised-button>Take Control</button>

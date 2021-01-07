@@ -50,11 +50,12 @@ export enum BOOLEAN_NUMBER {
     false = 0,
 }
 
-export type GEOPOINT = { latitude: number, longitude: number };
 export type GEOPOINT3D_SHORT = { lat: number, lon: number, alt: number };
-export type GEOPOINT3D = GEOPOINT & { altitude: number };
 export type ADDRESS = string;
-export type POLYGON_GEOPOINT = GEOPOINT3D[];
+
+ export type GEOPOINT = { latitude: number, longitude: number };
+export type GEOPOINT3D = GEOPOINT & { altitude: number };
+export type POLYGON_GEOPOINT = GEOPOINT3D_SHORT[];
 
 
 export enum REPORT_TYPE {
@@ -118,7 +119,7 @@ export type REPORT_DATA = {
     priority: PRIORITY,
     description: string,
     locationType: LOCATION_TYPE;
-    location?: GEOPOINT3D,
+    location?: GEOPOINT3D_SHORT,
     address?: ADDRESS,
     media: FILE_FS_DATA[],
     mediaFileIds: MAP<boolean>,
@@ -171,7 +172,7 @@ export type EVENT_DATA = { // TODO - change data fields
     priority: PRIORITY,
     description: string,
     locationType: LOCATION_TYPE,
-    location: GEOPOINT3D,
+    location: GEOPOINT3D_SHORT,
     address: ADDRESS,
     polygon: POINT3D[],
     reportIds: string[],
@@ -242,7 +243,7 @@ export type FR_DATA = {
     id: ID_TYPE;
     callSign: string;
     type: FR_TYPE;
-    location: GEOPOINT3D;
+    location: GEOPOINT3D_SHORT;
     lastUpdated: TIMESTAMP;
     online: boolean;
     status: FR_STATUS;
@@ -290,7 +291,7 @@ export type AV_DATA_TELEMETRY = {
 export type AV_DATA = {
     id: ID_TYPE;
     type: AIR_VEHICLE_TYPE;
-    location: GEOPOINT3D;
+    location: GEOPOINT3D_SHORT;
     gpsQuality: number;
     energyLevel: number;
     remainingTimeFlight: number;
@@ -347,8 +348,10 @@ export type GIMBAL_DATA_UI = GIMBAL_DATA & {
     lineFromAirVehicle: GEOPOINT3D_SHORT[]
 };
 export type GIMBAL_DATA_MD = {
-    styles: ICON_STYLES & POLYGON_STYLES & POLYLINE_STYLES
-}
+    styles: ICON_STYLES & POLYGON_STYLES & POLYLINE_STYLES & {
+        gimbalControlColor: MAP<string>
+    }
+};
 
 export type MISSION_MODEL_UI = {
     missionType: MISSION_TYPE,
@@ -393,7 +396,7 @@ export type AV_OPTIONS = {
 }
 
 export enum MISSION_TYPE_TEXT {
-    CommRelay = 'Communications relay mission request',
+    CommRelay = 'Comm relay mission request',
     Patrol = 'Patrol mission request',
     Observation = 'Observation mission request',
     Scan = 'Scan mission request',
@@ -927,7 +930,7 @@ export enum GEOGRAPHIC_INSTRUCTION_TYPE {
 export type GEOGRAPHIC_INSTRUCTION = {
     id: string,
     type: GEOGRAPHIC_INSTRUCTION_TYPE,
-    location: GEOPOINT3D,
+    location: GEOPOINT3D_SHORT,
     description: string,
     address: ADDRESS,
     arrow: POINT3D[],

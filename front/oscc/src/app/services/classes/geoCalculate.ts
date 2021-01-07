@@ -1,4 +1,4 @@
-import {GEOPOINT3D, GEOPOINT3D_SHORT, POINT, POINT3D} from '../../../../../../classes/typings/all.typings';
+import {GEOPOINT3D_SHORT, POINT, POINT3D} from '../../../../../../classes/typings/all.typings';
 import * as turf from '@turf/turf';
 
 export class GeoCalculate {
@@ -92,11 +92,7 @@ export class GeoCalculate {
   };
 
   public static geopoint3d_short_to_point3d = (geopoint: GEOPOINT3D_SHORT): POINT3D => {
-    return [geopoint.lon, geopoint.lat, geopoint.alt];
-  };
-
-  public static geopoint3d_to_point3d = (geopoint: GEOPOINT3D): POINT3D => {
-    return [geopoint.longitude, geopoint.latitude, geopoint.altitude];
+    return [geopoint.lon, geopoint.lat, geopoint.alt || 0];
   };
 
 }

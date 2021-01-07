@@ -23,7 +23,8 @@ export enum GS_API {
     gimbalActionFromOSCC = '/gimbalActionFromOSCC',
     gimbalActionFromMGW = '/gimbalActionFromMGW',
     requestGimbalControlFromOSCC = '/requestGimbalControlFromOSCC',
-    requestGimbalControlFromMGW = '/requestGimbalControlFromMGW'
+    requestGimbalControlFromMGW = '/requestGimbalControlFromMGW',
+    getGimbalControlData = '/getGimbalControlData',
 }
 
 export enum TMM_API {
@@ -269,6 +270,7 @@ export enum CCGW_API {
     requestGimbalControlFromMGW = '/requestGimbalControlFromMGW',
     gimbalActionFromMGW = '/gimbalActionFromMGW',
     updateGimbalControlData = '/updateGimbalControlData',
+    getGimbalControlData = '/getGimbalControlData',
 
 }
 

@@ -61,7 +61,7 @@ export class ApiManager implements IRest {
 
         ExternalApiManager.createReportFromMGW(requestBody)
             .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
-                response.send(res);
+                response.send(data);
             })
             .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                 response.send(data);
@@ -171,7 +171,7 @@ export class ApiManager implements IRest {
 
         ExternalApiManager.createMissionRequestFromMGW(requestBody)
             .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
-                response.send(res);
+                response.send(data);
             })
             .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                 response.send(data);
@@ -184,7 +184,7 @@ export class ApiManager implements IRest {
         const requestBody: MISSION_REQUEST_DATA = request.body;
         ExternalApiManager.requestGimbalControlFromMGW(requestBody)
             .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
-                response.send(res);
+                response.send(data);
             })
             .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                 response.send(data);
@@ -196,7 +196,19 @@ export class ApiManager implements IRest {
         const requestBody: GIMBAL_ACTION_MGW = request.body;
         ExternalApiManager.gimbalActionFromMGW(requestBody)
             .then((data: ASYNC_RESPONSE<GIMBAL_ACTION_MGW>) => {
-                response.send(res);
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                response.send(data);
+            });
+    };
+    // -------------------------------
+    private getGimbalControlData = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<boolean> = {success: true};
+        const requestBody = request.body;
+        ExternalApiManager.getGimbalControlData(requestBody)
+            .then((data: ASYNC_RESPONSE<GIMBAL_CONTROL_DATA_FOR_MGW>) => {
+                response.send(data);
             })
             .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                 response.send(data);
@@ -226,6 +238,7 @@ export class ApiManager implements IRest {
         [CCGW_API.createMissionRequestFromMGW]: this.createMissionRequestFromMGW,
         [CCGW_API.requestGimbalControlFromMGW]: this.requestGimbalControlFromMGW,
         [CCGW_API.gimbalActionFromMGW]: this.gimbalActionFromMGW,
+        [CCGW_API.getGimbalControlData]: this.getGimbalControlData,
     };
 
     routersInternal: {} = {

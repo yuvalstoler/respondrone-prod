@@ -1,7 +1,6 @@
 import {
     FR_STATUS,
     EVENT_DATA,
-    GEOPOINT3D,
     FR_TYPE,
     ID_TYPE,
     TIMESTAMP,
@@ -24,7 +23,7 @@ export class Gimbal {
     infraredCameraParameters: INFRARED_CAMERA_PARAMS;
     trackedEntity: number;
     cameraLookAtPoint: GEOPOINT3D_SHORT;
-    cameraFootprint: {coordinates: GEOPOINT3D_SHORT[]}
+    cameraFootprint: {coordinates: GEOPOINT3D_SHORT[]};
     opticalVideoURL: string;
     infraredVideoURL: string;
 

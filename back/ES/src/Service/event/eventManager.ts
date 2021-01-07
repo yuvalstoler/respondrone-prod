@@ -164,7 +164,7 @@ export class EventManager {
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.data = data.data;
                     res.success = data.success;
-                    if ( data.success ) {
+                    if ( data.success && data.data) {
                         const index = this.events.findIndex(element => element.id === data.data.id);
                         if (index !== -1) {
                             this.events.splice(index, 1);

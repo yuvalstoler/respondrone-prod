@@ -3,7 +3,7 @@ import {CesiumService} from '../cesium/cesium.service';
 import {
   AV_DATA_UI,
   EVENT_DATA_UI, FR_DATA_UI, GEOGRAPHIC_INSTRUCTION,
-  GEOPOINT3D, GEOPOINT3D_SHORT,
+  GEOPOINT3D_SHORT,
   MAP,
   POINT,
   POINT3D,
@@ -125,7 +125,7 @@ export class MapGeneralService {
   };
 
   // Billboard =====================================================================================================
-  // public createBillboard = (locationPoint: GEOPOINT3D, billboardId: string, options: OPTIONS_ENTITY): boolean => {
+  // public createBillboard = (locationPoint: GEOPOINT3D_SHORT, billboardId: string, options: OPTIONS_ENTITY): boolean => {
   //   const domId = undefined;
   //   let res = false;
   //   res = this.cesiumDrawerService.createBillboardObject(domId, locationPoint, billboardId, options);

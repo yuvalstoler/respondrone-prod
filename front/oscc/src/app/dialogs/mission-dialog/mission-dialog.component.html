@@ -124,9 +124,9 @@
               <!--Lat-->
               <mat-form-field appearance="outline" class="">
                 <label>
-                  <input (change)="locationChanged($event, 'latitude')"
+                  <input (change)="locationChanged($event)"
                          (click)="$event.stopPropagation()"
-                         (keyup)="locationChanged($event, 'latitude')"
+                         (keyup)="locationChanged($event)"
                          [(ngModel)]="missionModel.location.lat"
                          class="Label"
                          matInput
@@ -138,9 +138,9 @@
               <!--Long-->
               <mat-form-field appearance="outline" class="">
                 <label>
-                  <input (change)="locationChanged($event, 'longitude')"
+                  <input (change)="locationChanged($event)"
                          (click)="$event.stopPropagation()"
-                         (keyup)="locationChanged($event, 'longitude')"
+                         (keyup)="locationChanged($event)"
                          [(ngModel)]="missionModel.location.lon"
                          class="Label"
                          matInput
@@ -290,9 +290,9 @@
               <!--Lat-->
               <mat-form-field appearance="outline" class="">
                 <label>
-                  <input (change)="locationChanged($event, 'latitude')"
+                  <input (change)="locationChanged($event)"
                          (click)="$event.stopPropagation()"
-                         (keyup)="locationChanged($event, 'latitude')"
+                         (keyup)="locationChanged($event)"
                          [(ngModel)]="missionModel.location.lat"
                          class="Label"
                          matInput
@@ -304,9 +304,9 @@
               <!--Long-->
               <mat-form-field appearance="outline" class="">
                 <label>
-                  <input (change)="locationChanged($event, 'longitude')"
+                  <input (change)="locationChanged($event)"
                          (click)="$event.stopPropagation()"
-                         (keyup)="locationChanged($event, 'longitude')"
+                         (keyup)="locationChanged($event)"
                          [(ngModel)]="missionModel.location.lon"
                          class="Label"
                          matInput

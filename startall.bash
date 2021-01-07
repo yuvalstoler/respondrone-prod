@@ -10,6 +10,7 @@ pm2 delete FS;
 pm2 delete TS;
 pm2 delete FRS;
 pm2 delete MS;
+pm2 delete Auth;
 pm2 delete TMM;
 pm2 delete CCGW;
 pm2 delete DBS;
@@ -58,6 +59,11 @@ cd $home/back/MS;
 tsc;
 cd dist/back/MS/src
 pm2 start index.js -n MS
+
+cd $home/back/Auth;
+tsc;
+cd dist/back/Auth/src
+pm2 start index.js -n Auth
 
 cd $home/back/TMM;
 tsc;

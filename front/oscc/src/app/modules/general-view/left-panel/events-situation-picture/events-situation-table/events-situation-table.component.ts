@@ -9,7 +9,7 @@ import {
   COMMENT,
   EVENT_DATA_UI, ID_TYPE,
   LOCATION_TYPE,
-  POINT
+  POINT, POINT3D
 } from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
 import {ReportService} from '../../../../../services/reportService/report.service';
@@ -221,7 +221,7 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
     event.stopPropagation();
     if (column === 'map') {
       if (element.locationType === LOCATION_TYPE.locationPoint || element.locationType === LOCATION_TYPE.address) {
-        const coordinates: POINT = [element.location.longitude, element.location.latitude];
+        const coordinates: POINT3D = [element.location.lon, element.location.lat, 0];
         this.eventService.flyToObject(coordinates);
       }
       else if (element.locationType === LOCATION_TYPE.polygon && element.polygon.length > 0) {
