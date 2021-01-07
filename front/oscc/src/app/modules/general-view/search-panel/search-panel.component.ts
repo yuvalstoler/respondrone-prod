@@ -10,6 +10,17 @@ export interface StateGroup {
   names: string[];
 }
 
+export const _filter = (names: string[], value: string): string[] => {
+  const res = [];
+  const filterValue = value.toLowerCase();
+  names.forEach((name) => {
+    if (name.toLowerCase().includes(filterValue)) {
+      res.push(name);
+    }
+  });
+  return res;
+};
+
 @Component({
   selector: 'app-search-panel',
   templateUrl: './search-panel.component.html',
@@ -90,16 +101,13 @@ export interface StateGroup {
   ],
 })
 export class SearchPanelComponent implements OnInit {
-  // for search animate
-  _value = '';
-  expanded = false;
-  // for autocomplete
-  // stateForm: FormGroup = this._formBuilder.group({
-  //   stateGroups: '';
-  // });
 
-  stateGroupOptions: any /*Observable<StateGroup[]>*/;
-  private stateGroup: string = '';
+  stateForm: FormGroup = this._formBuilder.group({
+    stateGroup: '',
+  });
+  stateGroupOptions: Observable<StateGroup[]>;
+
+  isOpenSearchPanel = false;
 
 
   constructor(public applicationService: ApplicationService,
@@ -107,90 +115,24 @@ export class SearchPanelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  //   this.stateGroupOptions = this.stateGroups/*this.applicationService.getStateGroups('stateGroup')!*/
-  //   .valueChanges
-  // //     .pipe(
-  //   .startWith('')
-  //   .map(value => this._filterGroup(value));
-  // //     );
+    this.stateGroupOptions = this.stateForm.get('stateGroup')!.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterGroup(value))
+      );
   }
-
-  doFilter(searchText) {
-    this.stateGroupOptions = this.applicationService.stateGroups
-      // .valueChanges
-      // .pipe(
-      // .startWith('')
-       .map(value => this._filterGroup(searchText));
-        // );
-  }
-
-  private _filterGroup(value: any): any[] {
-    let c = [];
-    const a = [];
+  private _filterGroup(value: string): StateGroup[] {
     if (value) {
-      // const a = this.applicationService.stateGroups
-      //   .map(stateGroup => ({letter: stateGroup.letter, names: _filter(stateGroup.names, value)}))
-      //   .filter(groupb => groupb.names.length > 0);
-      // console.log(a);
-      // // if (b[0].hasOwnProperty('names') && Array.isArray(b[0].names) && b[0].names.length > 0 ) {
-      // //   c = b[0].names;
-      // // }
-      // return a;
-      this.applicationService.stateGroups.forEach((stateGroup, index) => {
-        const res = this.filter(stateGroup.names, value);
-        const data = res.filter(names => names.length > 0);
-        if (Array.isArray(data) && data.length > 0) {
-          if (a.findIndex((letter) => letter.letter === value) !== -1 /* && a[index].hasOwnProprty('letter')*/) {
-            // a[index].names = [];
-            // a[index].names.push(...res);
-          } else {
-            // a[index] = a[index] || [];
-            // a[index].names = [];
-            // a[index].names.push(...res);
-            a.push({letter: stateGroup.letter, names: res});
-          }
-
-          // a[stateGroup.letter].push(names: ''});
-        }
-      });
-      console.log(a);
-return a;
+      return this.applicationService.stateGroups
+        .map(stateGroup => ({letter: stateGroup.letter, names: _filter(stateGroup.names, value)}))
+        .filter(stateGroup => stateGroup.names.length > 0);
     }
 
     return this.applicationService.stateGroups;
   }
 
-  private filter = (names: string[], value: string): string[] => {
-    const res = [];
-    const filterValue = value.toLowerCase();
-    names.forEach((name) => {
-      if (name.toLowerCase().includes(filterValue)) {
-        res.push(name);
-      }
-    });
-    // .filter(item => item.toLowerCase().indexOf(filterValue) === 0);
-
-    return res;
-  };
-
-
-  // Search bar ====================================================================================================
-  close = () => {
-    this._value = '';
-  };
-
-  onSearchClicked = () => {
-    this.expanded = !this.expanded;
-  };
-
-  onBlur = () => {
-    if (!(this._value && this._value.length > 0)) {
-      this.expanded = false;
-    }
-  };
-
-  onChangeValue = (value) => {
-    console.log(value);
+  toggleSearchPanel = () => {
+    this.isOpenSearchPanel = !this.isOpenSearchPanel;
   };
 
 }
