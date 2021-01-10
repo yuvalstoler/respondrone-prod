@@ -1,13 +1,14 @@
-@import "../../../styles/override";
+//@import "../../../styles/override";
 @import "../../../styles/colors";
+
 .LoginContainer{
+  position: absolute;
+  top: 0;
+  left: 0;
   background: $darkGray;
   text-align: center;
   width: 100vw;
   height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 .LoginContainerDiv{
   margin: 5%;
@@ -31,6 +32,9 @@
 }
 .LoginInput{
   color: $white;
+  text-align: justify;
+  justify-content: center;
+  display: flex;
 }
 .LCError{
   font-size: 20px;
@@ -38,49 +42,56 @@
 }
 // -----Inputs override----------
 .LoginContainer {
-  ::ng-deep.mat-input-element {
-    caret-color: $white;
-    line-height: 0px;
-  }
 
-  ::ng-deep.mat-form-field {
-    width: 24em;
-  }
-
-  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
-    margin: 0 !important;
-  }
-
-  ::ng-deep.mat-form-field-wrapper {
-    padding-bottom: 0 !important;
-  }
-
-  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-outline {
-    color: $white !important;
-  }
-
-  ::ng-deep.mat-form-field-label {
-    color: $white !important;
-  }
-
-  ::ng-deep.mat-form-field-hide-placeholder .mat-form-field-label-wrapper {
-    /* text-align: center; */
-    top: -23px;
-    line-height: 1.2;
-    padding: 12px 0;
-    text-align: left;
-  }
-
-
-
-
-  ::ng-deep.mat-input-element {
-    font-size: 18px;
-  }
-  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
-    padding: 0 0 0.5em 0;
-  }
-  ::ng-deep.mat-form-field label {
-    font-size: 16px;
-  }
 }
+
+//::ng-deep.mat-input-element {
+//  caret-color: $white;
+//  line-height: 0px;
+//}
+//
+::ng-deep.mat-form-field {
+  width: 24em;
+}
+
+::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0 !important;
+}
+
+::ng-deep.mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+
+::ng-deep.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: $white !important;
+}
+
+::ng-deep.mat-form-field-label {
+  color: $white !important;
+}
+
+::ng-deep.mat-form-field {
+  font-size: inherit;
+  font-weight: 400;
+  line-height: 1.125;
+  letter-spacing: normal;
+  background: transparent;
+}
+
+//::ng-deep.mat-form-field-hide-placeholder .mat-form-field-label-wrapper {
+//  /* text-align: center; */
+//  top: -23px;
+//  line-height: 1.2;
+//  padding: 12px 0;
+//  text-align: left;
+//}
+//
+::ng-deep.mat-input-element {
+  font-size: 18px;
+}
+//::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
+//  padding: 0 0 0.5em 0;
+//}
+//::ng-deep.mat-form-field label {
+//  font-size: 16px;
+//}
