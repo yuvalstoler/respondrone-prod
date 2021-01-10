@@ -8,6 +8,14 @@ import {MissionService} from '../missionService/mission.service';
 import {AirVehicleService} from '../airVehicleService/airVehicle.service';
 import * as _ from 'lodash';
 import {ALL_STATES} from '../../../types';
+import {MissionRequestService} from "../missionRequestService/missionRequest.service";
+import {
+  AV_DATA_UI,
+  EVENT_DATA_UI, FR_DATA_UI,
+  MISSION_REQUEST_DATA_UI,
+  REPORT_DATA_UI,
+  TASK_DATA_UI
+} from "../../../../../../classes/typings/all.typings";
 
 
 @Injectable({
@@ -98,7 +106,7 @@ export class SearchService {
   constructor(private eventService: EventService,
               private reportService: ReportService,
               private tasksService: TasksService,
-              private missionService: MissionService,
+              private missionRequestService: MissionRequestService,
               private frService: FRService,
               private airVehicleService: AirVehicleService,
               ) {
@@ -107,12 +115,12 @@ export class SearchService {
   }
 
   getAllGroups = () => {
-    const events = this.eventService.events.data;
-    const reports = this.reportService.reports.data;
-    const tasks = this.tasksService.tasks.data;
-    const missions = this.missionService.missions.data;
-    const frs = this.frService.frs.data;
-    const avs = this.airVehicleService.airVehicles.data;
+    const events: EVENT_DATA_UI[] = this.eventService.events.data;
+    const reports: REPORT_DATA_UI[] = this.reportService.reports.data;
+    const tasks: TASK_DATA_UI[] = this.tasksService.tasks.data;
+    const missions: MISSION_REQUEST_DATA_UI[] = this.missionRequestService.missionRequests.data;
+    const frs: FR_DATA_UI[] = this.frService.frs.data;
+    const avs: AV_DATA_UI[] = this.airVehicleService.airVehicles.data;
     this.stateGroups.forEach((stateGroup) => {
       switch (stateGroup.letter) {
         case ALL_STATES.events : {

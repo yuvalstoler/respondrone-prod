@@ -12,6 +12,12 @@
   font-size: $fontSizeTitleHeader17;
 }
 
+.buttonX{
+  position: fixed;
+  color: $black;
+  margin: 5px 0 0 146px;
+}
+
 // Search Bar =======================================================
 ::ng-deep.mat-optgroup-label{
   font-weight: bold;
@@ -40,4 +46,13 @@
 }
 ::ng-deep.cdk-text-field-autofill-monitored:not(:-webkit-autofill) {
   color: black;
+}
+::ng-deep.mat-optgroup.sticky{
+  label{
+    position: sticky;
+    z-index: 1; // appear above mat-option
+    top: 0; // fix at the top
+    background-color: white; // don't see mat-option when scrolling
+    box-shadow: 1px -2px 10px 0px grey; // shadow at the bottom
+  }
 }

@@ -6,15 +6,27 @@
              matInput
              placeholder="Search"
              type="text">
-      <mat-autocomplete #autoGroup="matAutocomplete" (optionSelected)="getValue($event)" [displayWith]="displayFn.bind(this)">
-        <mat-optgroup *ngFor="let group of stateGroupOptions | async" [label]="group.letter">
+      <mat-autocomplete #autoGroup="matAutocomplete" (optionSelected)="getValue($event)" [displayWith]="displayFn">
+        <mat-optgroup class="sticky" *ngFor="let group of stateGroupOptions | async" [label]="group.letter">
           <mat-option *ngFor="let name of group.names" [value]="name">
-            ID - {{name.idView}}
+            <span *ngIf="group.letter === ALL_STATES.events">ID - {{name.idView}}</span>
+            <span *ngIf="group.letter === ALL_STATES.reports">ID - {{name.idView}}</span>
+            <span *ngIf="group.letter === ALL_STATES.tasks">ID - {{name.idView}}</span>
+            <span *ngIf="group.letter === ALL_STATES.missions">ID - {{name.idView}}</span>
+            <span *ngIf="group.letter === ALL_STATES.frs">{{name.callSign}}</span>
+            <span *ngIf="group.letter === ALL_STATES.avs">{{name.name}}</span>
+          <!-- {{group.letter}} -  ID - {{name.idView}}-->
           </mat-option>
         </mat-optgroup>
       </mat-autocomplete>
     </mat-form-field>
   </form>
+  <button *ngIf="isOpenSearchPanel"
+          class="buttonX"
+          (click)="clearPanel()"
+          disableRipple="true"
+          mat-icon-button>X
+  </button>
   <button (click)="toggleSearchPanel()"
     [ngStyle]="{'margin-left': '5px'}"
     disableRipple="true"

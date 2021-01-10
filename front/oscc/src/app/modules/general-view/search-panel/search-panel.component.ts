@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {SearchService} from '../../../services/searchService/search.service';
 import {ALL_STATES} from '../../../../types';
+import {AIR_VEHICLE_TYPE} from '../../../../../../../classes/typings/all.typings';
 
 export interface StateGroup {
   letter: ALL_STATES;
@@ -41,6 +42,8 @@ export class SearchPanelComponent implements OnInit {
   stateGroupOptions: Observable<StateGroup[]>;
 
   isOpenSearchPanel = false;
+
+  ALL_STATES = ALL_STATES;
 
 
   constructor(public searchService: SearchService,
@@ -88,8 +91,20 @@ export class SearchPanelComponent implements OnInit {
     if (typeof value === 'string') {
       return value;
     } else {
-      return 'ID - ' + value['idView'];
+      if (value.callSign && value.callSign !== undefined) {
+        return value.callSign;
+      } else if (value.type === AIR_VEHICLE_TYPE.Alpha || value.type === AIR_VEHICLE_TYPE.Dji || value.type === AIR_VEHICLE_TYPE.Pixhawk) {
+        return value.name;
+      } else {
+        return 'ID - ' + value['idView'];
+      }
+      // console.log(value);
+
     }
+  };
+
+  clearPanel = () => {
+    this.stateForm.get('stateGroup').setValue('');
   };
 
 }
