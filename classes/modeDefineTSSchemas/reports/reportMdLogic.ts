@@ -1,7 +1,7 @@
 import {LOCATION_TYPE, PRIORITY, REPORT_DATA_MD, REPORT_DATA_UI, TABLE_DATA_MD} from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
-import {MDClass} from "../mdClass";
+import {MDClass} from '../mdClass';
 
 export class ReportMdLogic implements IModeDefine {
 
@@ -29,31 +29,31 @@ export class ReportMdLogic implements IModeDefine {
 
 
     private static getMapIcon = (data: REPORT_DATA_UI): TABLE_DATA_MD => {
-        let res: TABLE_DATA_MD = {type: 'image', data: '', color: ''};
+        const res: TABLE_DATA_MD = {type: 'image', data: '', color: ''};
         if (data.priority === PRIORITY.high) {
-            res.data = '../../../../../assets/mapPriorityHigh.png';
+            res.data = '../../../../../assets/reportPriorityHigh.png';
         } else if (data.priority === PRIORITY.middle) {
-            res.data = '../../../../../assets/mapPriorityMiddle.png';
+            res.data = '../../../../../assets/reportPriorityMiddle.png';
         } else if (data.priority === PRIORITY.low) {
-            res.data = '../../../../../assets/mapPriorityLow.png';
+            res.data = '../../../../../assets/reportPriorityLow.png';
         }
         return res;
     };
 
     private static getMapIconSelected = (data: REPORT_DATA_UI): TABLE_DATA_MD => {
-        let res: TABLE_DATA_MD = {type: 'image', data: '', color: ''};
+        const res: TABLE_DATA_MD = {type: 'image', data: '', color: ''};
         if (data.priority === PRIORITY.high) {
-            res.data = '../../../../../assets/mapPriorityHighSelected.png';
+            res.data = '../../../../../assets/reportPriorityHighSelected.png';
         } else if (data.priority === PRIORITY.middle) {
-            res.data = '../../../../../assets/mapPriorityMiddleSelected.png';
+            res.data = '../../../../../assets/reportPriorityMiddleSelected.png';
         } else if (data.priority === PRIORITY.low) {
-            res.data = '../../../../../assets/mapPriorityLowSelected.png';
+            res.data = '../../../../../assets/reportPriorityLowSelected.png';
         }
         return res;
     };
 
     private static getPriorityIcon = (data: REPORT_DATA_UI): TABLE_DATA_MD => {
-        let res: TABLE_DATA_MD = {type: 'image', data: '', color: ''};
+        const res: TABLE_DATA_MD = {type: 'image', data: '', color: ''};
         if (data.priority === PRIORITY.high) {
             res.data = '../../../../../assets/priorityHigh.png';
         } else if (data.priority === PRIORITY.middle) {
@@ -66,7 +66,7 @@ export class ReportMdLogic implements IModeDefine {
 
 
     private static tableData = (data: REPORT_DATA_UI) => {
-        let res = {
+        const res = {
             id: {
                 type: 'text',
                 data: data.idView

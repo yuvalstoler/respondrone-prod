@@ -1,7 +1,7 @@
 import {EVENT_DATA_MD, EVENT_DATA_UI, LOCATION_TYPE, PRIORITY, TABLE_DATA_MD} from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
-import {MDClass} from "../mdClass";
+import {MDClass} from '../mdClass';
 
 export class EventMdLogic implements IModeDefine {
 
@@ -32,31 +32,31 @@ export class EventMdLogic implements IModeDefine {
     }
 
     private static getMapIcon = (data: EVENT_DATA_UI): TABLE_DATA_MD => {
-        let res: TABLE_DATA_MD = {type: 'image', data: '', color: ''};
+        const res: TABLE_DATA_MD = {type: 'image', data: '', color: ''};
         if (data.priority === PRIORITY.high) {
-            res.data = '../../../../../assets/mapPriorityHigh.png';
+            res.data = '../../../../../assets/eventPriorityHigh.png';
         } else if (data.priority === PRIORITY.middle) {
-            res.data = '../../../../../assets/mapPriorityMiddle.png';
+            res.data = '../../../../../assets/eventPriorityMiddle.png';
         } else if (data.priority === PRIORITY.low) {
-            res.data = '../../../../../assets/mapPriorityLow.png';
+            res.data = '../../../../../assets/eventPriorityLow.png';
         }
         return res;
     };
 
     private static getMapIconSelected = (data: EVENT_DATA_UI): TABLE_DATA_MD => {
-        let res: TABLE_DATA_MD = {type: 'image', data: '', color: ''};
+        const res: TABLE_DATA_MD = {type: 'image', data: '', color: ''};
         if (data.priority === PRIORITY.high) {
-            res.data = '../../../../../assets/mapPriorityHighSelected.png';
+            res.data = '../../../../../assets/eventPriorityHighSelected.png';
         } else if (data.priority === PRIORITY.middle) {
-            res.data = '../../../../../assets/mapPriorityMiddleSelected.png';
+            res.data = '../../../../../assets/eventPriorityMiddleSelected.png';
         } else if (data.priority === PRIORITY.low) {
-            res.data = '../../../../../assets/mapPriorityLowSelected.png';
+            res.data = '../../../../../assets/eventPriorityLowSelected.png';
         }
         return res;
     };
 
     private static getPriorityIcon = (data: EVENT_DATA_UI): TABLE_DATA_MD => {
-        let res: TABLE_DATA_MD = {type: 'image', data: '', color: ''};
+        const res: TABLE_DATA_MD = {type: 'image', data: '', color: ''};
         if (data.priority === PRIORITY.high) {
             res.data = '../../../../../assets/priorityHigh.png';
         } else if (data.priority === PRIORITY.middle) {
@@ -69,7 +69,7 @@ export class EventMdLogic implements IModeDefine {
 
 
     private static tableData = (data: EVENT_DATA_UI) => {
-        let res = {
+        const res = {
             id: {
                 type: 'text',
                 data: data.idView
@@ -98,12 +98,12 @@ export class EventMdLogic implements IModeDefine {
     };
 
     private static getColor = (data: EVENT_DATA_UI): string => {
-        let res: string = MDClass.colors.yellow;
+        const res: string = MDClass.colors.yellow;
         return res;
     };
 
     private static getFillColor = (data: EVENT_DATA_UI): string => {
-        let res: string = MDClass.colors.yellowOpacity;
+        const res: string = MDClass.colors.yellowOpacity;
         return res;
     };
 
@@ -114,7 +114,7 @@ export class EventMdLogic implements IModeDefine {
     private static getLabelText = (data: EVENT_DATA_UI): string => {
         let res;
         if (data.locationType === LOCATION_TYPE.polygon) {
-            res = data.title
+            res = data.title;
         }
         return res;
     };

@@ -10,8 +10,8 @@ import {
 } from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
-import {MDClass} from "../mdClass";
-import {MissionRequest} from "../../dataClasses/missionRequest/missionRequest";
+import {MDClass} from '../mdClass';
+import {MissionRequest} from '../../dataClasses/missionRequest/missionRequest';
 
 export class AirVehicleMdLogic implements IModeDefine {
 
@@ -32,7 +32,8 @@ export class AirVehicleMdLogic implements IModeDefine {
                 statusColor: AirVehicleMdLogic.getStatusColor(data),
                 gpsIcon: this.getGPSIcon(data),
                 gpsDescription: this.getGPSDescription(data),
-                isDisabled: this.isDisabled(data)
+                isDisabled: this.isDisabled(data),
+                mapIconSelected: AirVehicleMdLogic.getMapIconSelected(data)
             },
             data: {
                 missionName: AirVehicleMdLogic.getMissionName(data, missionRequest),
@@ -82,7 +83,12 @@ export class AirVehicleMdLogic implements IModeDefine {
     };
 
     private static getIcon = (data: AV_DATA_UI): string => {
-        let res: string = '../../../../../assets/droneBlack.png';
+        const res: string = '../../../../../assets/droneBlack.png';
+        return res;
+    };
+
+    private static getMapIconSelected = (data: AV_DATA_UI): string => {
+        const res: string = '../../../../../assets/droneBlackSelected.png';
         return res;
     };
 

@@ -103,9 +103,9 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
   };
 
   private changeSelected = (row: EVENT_DATA_UI) => {
-    this.eventService.unselectEvent(this.eventService.selectedElement);
+    this.eventService.unselectIcon(this.eventService.selectedElement);
     this.eventService.selectedElement = this.eventService.selectedElement && this.eventService.selectedElement.id === row.id ? undefined : row;
-    this.eventService.selectEvent(this.eventService.selectedElement);
+    this.eventService.selectIcon(this.eventService.selectedElement);
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -241,7 +241,7 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
   };
 
   resetTable = () => {
-    this.eventService.unselectEvent(this.eventService.selectedElement);
+    this.eventService.unselectIcon(this.eventService.selectedElement);
     this.eventService.selectedElement = undefined;
 
     this.selection.clear();

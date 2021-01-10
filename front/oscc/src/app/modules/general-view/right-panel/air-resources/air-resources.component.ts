@@ -44,9 +44,14 @@ export class AirResourcesComponent implements OnInit {
     this.isOpenMenu[id] = false;
   };
 
-  flyTo = (airVehicle: AV_DATA_UI) => {
-    this.airVehicleService.flyToObject(airVehicle);
-  };
+  onSelect = (item: AV_DATA_UI) => {
+    this.airVehicleService.unselectIcon(this.airVehicleService.selectedElement);
+    this.airVehicleService.selectedElement = (this.airVehicleService.selectedElement && this.airVehicleService.selectedElement.id === item.id) ? undefined : item;
+    if (this.airVehicleService.selectedElement) {
+      this.airVehicleService.selectIcon(this.airVehicleService.selectedElement);
+      this.airVehicleService.flyToObject(item);
+    }
+  }
 
   onMissionOptions = (missionType: MISSION_TYPE, airVehicle: AV_DATA_UI) => {
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;

@@ -1,38 +1,41 @@
-<div *ngFor="let fr of frService.frs.data | sortByPriority: optionSelected "
-     class="gridResources" (click)="flyTo(fr)">
-  <!--icon resource-->
-  <div class="item1">
-    <img [src]="fr.modeDefine?.styles?.mapIcon" class='icon'>
-  </div>
-  <!--title-->
-  <div class="item2 ">{{fr.callSign}}</div>
-  <!--icon 3 dotes-->
-  <div class="item3">
-    <!-- 3 dotes-->
-    <mat-icon matRipple *ngIf="!this.applicationService.isDialogOpen"
-              (click)="$event.stopPropagation();"
-              [ngStyle]="{'cursor': 'pointer'}"
-              [matMenuTriggerFor]="sendMenu"
-    >more_vert</mat-icon>
-    <mat-icon matRipple *ngIf="this.applicationService.isDialogOpen" [ngStyle]="{'cursor': 'no-drop'}">more_vert</mat-icon>
-    <!-- Send Menu -->
-    <mat-menu #sendMenu="matMenu">
-      <button mat-menu-item (click)="onSendMenu('task', fr)">
-        <span>Send a task</span>
-      </button>
-      <button mat-menu-item (click)="onSendMenu('message', fr)">
-        <span>Send a message</span>
-      </button>
-    </mat-menu>
-  </div>
-  <!--type-->
-  <div class="item4">{{fr.type}}</div>
-  <!--last update-->
-  <div class="item5">{{fr.lastUpdated.timestamp | lastSeenDate: applicationService.now }}</div>
-  <!--status-->
-  <div class="item6">
+<div class="frContainer scroll">
+  <div *ngFor="let fr of frService.frs.data | sortByPriority: optionSelected "
+       class="gridResources" (click)="onSelect(fr)"
+       [ngClass]="{'selectedFr': frService.selectedElement?.id === fr.id}">
+    <!--icon resource-->
+    <div class="item1">
+      <img [src]="fr.modeDefine?.styles?.icon" class='icon'>
+    </div>
+    <!--title-->
+    <div class="item2 ">{{fr.callSign}}</div>
+    <!--icon 3 dotes-->
+    <div class="item3">
+      <!-- 3 dotes-->
+      <mat-icon matRipple *ngIf="!this.applicationService.isDialogOpen"
+                (click)="$event.stopPropagation();"
+                [ngStyle]="{'cursor': 'pointer'}"
+                [matMenuTriggerFor]="sendMenu"
+      >more_vert</mat-icon>
+      <mat-icon matRipple *ngIf="this.applicationService.isDialogOpen" [ngStyle]="{'cursor': 'no-drop'}">more_vert</mat-icon>
+      <!-- Send Menu -->
+      <mat-menu #sendMenu="matMenu">
+        <button mat-menu-item (click)="onSendMenu('task', fr)">
+          <span>Send a task</span>
+        </button>
+        <button mat-menu-item (click)="onSendMenu('message', fr)">
+          <span>Send a message</span>
+        </button>
+      </mat-menu>
+    </div>
+    <!--type-->
+    <div class="item4">{{fr.type}}</div>
+    <!--last update-->
+    <div class="item5">{{fr.lastUpdated.timestamp | lastSeenDate: applicationService.now }}</div>
+    <!--status-->
+    <div class="item6">
     <span [ngStyle]="{'color': fr.modeDefine?.styles?.dotColor}"
           class="material-icons iconStatus">fiber_manual_record</span>
-    {{fr.online ? 'Online' : 'Offline'}}
+      {{fr.online ? 'Online' : 'Offline'}}
+    </div>
   </div>
 </div>

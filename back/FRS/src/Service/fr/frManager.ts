@@ -36,7 +36,7 @@ export class FrManager {
     timestamp: number;
 
     private constructor() {
-/*        const date = Date.now();
+        const date = Date.now();
         const data: FR_DATA_TELEMETRY = {
             'timestamp': {
                 'timestamp': 0
@@ -106,7 +106,7 @@ export class FrManager {
             });
 
             this.onGetFRs(data);
-        }, 1000);*/
+        }, 1000);
     }
 
     private startGetSocket = () => {

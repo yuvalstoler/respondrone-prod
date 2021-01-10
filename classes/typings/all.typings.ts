@@ -254,6 +254,8 @@ export type FR_DATA_UI = FR_DATA & {
 export type FR_DATA_MD = {
     styles: ICON_STYLES & {
         dotColor: string,
+        mapIconSelected: string,
+        icon: string,
     },
     tableData: {
         id: TABLE_DATA_MD,
@@ -316,6 +318,7 @@ export type AV_DATA_MD = {
         gpsIcon: string,
         gpsDescription: string,
         isDisabled: boolean,
+        mapIconSelected: string,
     },
     data: {
         missionName: string,

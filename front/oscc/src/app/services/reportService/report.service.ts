@@ -154,6 +154,10 @@ export class ReportService {
       };
       this.mapGeneralService.createIcon(iconData);
     }
+
+    if (this.selectedElement && this.selectedElement.id === report.id) {
+      this.selectIcon(report);
+    }
   };
   // ----------------------
   private updateReportOnMap = (report: REPORT_DATA_UI, prevLocationType: LOCATION_TYPE) => {
@@ -232,14 +236,14 @@ export class ReportService {
     return this.reports.data.find(data => data.id === eventId);
   };
   // ------------------------
-  public selectReport = (report: REPORT_DATA_UI) => {
+  public selectIcon = (report: REPORT_DATA_UI) => {
     if (report && report.modeDefine.styles.iconSize) {
       const size = {width: report.modeDefine.styles.iconSize.width + 10, height: report.modeDefine.styles.iconSize.height + 10};
       this.mapGeneralService.editIcon(report.id, report.modeDefine.styles.mapIconSelected, size);
     }
   };
   // ------------------------
-  public unselectReport = (report: REPORT_DATA_UI) => {
+  public unselectIcon = (report: REPORT_DATA_UI) => {
     if (report) {
       this.mapGeneralService.editIcon(report.id, report.modeDefine.styles.mapIcon, report.modeDefine.styles.iconSize);
     }

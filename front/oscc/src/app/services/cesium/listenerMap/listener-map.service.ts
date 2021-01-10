@@ -3,10 +3,12 @@ import {ApplicationService} from '../../applicationService/application.service';
 import {MapGeneralService} from '../../mapGeneral/map-general.service';
 import {EVENT_LISTENER_DATA, ITEM_TYPE} from '../../../../types';
 import {CesiumService} from '../cesium.service';
-import {MissionRequestService} from "../../missionRequestService/missionRequest.service";
-import {ReportService} from "../../reportService/report.service";
-import {EventService} from "../../eventService/event.service";
-import {TasksService} from "../../tasksService/tasks.service";
+import {MissionRequestService} from '../../missionRequestService/missionRequest.service';
+import {ReportService} from '../../reportService/report.service';
+import {EventService} from '../../eventService/event.service';
+import {TasksService} from '../../tasksService/tasks.service';
+import {AirVehicleService} from '../../airVehicleService/airVehicle.service';
+import {FRService} from '../../frService/fr.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +21,9 @@ export class ListenerMapService {
               public missionRequestService: MissionRequestService,
               public reportService: ReportService,
               public eventService: EventService,
-              public taskService: TasksService) {
+              public taskService: TasksService,
+              public airVehicleService: AirVehicleService,
+              public frService: FRService) {
     this.setEventCallbacks();
   }
 
@@ -37,7 +41,7 @@ export class ListenerMapService {
         top: (screenPosition.y + 90) + 'px',
         left: `calc(50vw + ${screenPosition.x}px)`,
         text: event.object.hoverText
-      }
+      };
     }
     else {
       this.applicationService.hoverTextData = undefined;
@@ -60,6 +64,12 @@ export class ListenerMapService {
       }
       else if (event.object.type === ITEM_TYPE.missionRoute || event.object.type === ITEM_TYPE.mission) {
         this.missionRequestService.goToMissionRequest(event.object.data.requestId);
+      }
+      if (event.object.type === ITEM_TYPE.fr) {
+        this.frService.goToFR(event.object.data.id);
+      }
+      if (event.object.type === ITEM_TYPE.av) {
+        this.airVehicleService.goToAV(event.object.data.id);
       }
     }
   };

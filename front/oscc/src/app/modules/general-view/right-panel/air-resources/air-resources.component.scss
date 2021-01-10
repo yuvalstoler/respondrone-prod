@@ -3,7 +3,7 @@
 @import '../../../../../styles/scrollbar';
 
 .AirResourcesContainer{
-  max-height: calc(50vh - #{$headerHeight} );
+  max-height: calc(40vh - #{$headerHeight} );
 }
 
 .gridAirResources {
@@ -111,4 +111,8 @@
 }
 .iconStatus {
   font-size: $fontSizeText9;
+}
+
+.selectedAv {
+  background-color: $gray;
 }

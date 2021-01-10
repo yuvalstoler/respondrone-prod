@@ -104,9 +104,9 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
   };
 
   private changeSelected = (row: REPORT_DATA_UI) => {
-    this.reportService.unselectReport(this.reportService.selectedElement);
+    this.reportService.unselectIcon(this.reportService.selectedElement);
     this.reportService.selectedElement = this.reportService.selectedElement && this.reportService.selectedElement.id === row.id ? undefined : row;
-    this.reportService.selectReport(this.reportService.selectedElement);
+    this.reportService.selectIcon(this.reportService.selectedElement);
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -277,7 +277,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
   };
 
   resetTable = () => {
-    this.reportService.unselectReport(this.reportService.selectedElement);
+    this.reportService.unselectIcon(this.reportService.selectedElement);
     this.reportService.selectedElement = undefined;
 
     this.selection.clear();

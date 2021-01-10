@@ -52,8 +52,8 @@ export class LeftPanelComponent implements OnInit {
   };
 
   resetSelected = () => {
-    this.reportService.unselectReport(this.reportService.selectedElement);
-    this.eventService.unselectEvent(this.eventService.selectedElement);
+    this.reportService.unselectIcon(this.reportService.selectedElement);
+    this.eventService.unselectIcon(this.eventService.selectedElement);
     this.reportService.selectedElement = this.eventService.selectedElement = undefined;
   }
 }

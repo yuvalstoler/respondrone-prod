@@ -167,6 +167,10 @@ export class EventService {
       this.mapGeneralService.drawPolygonFromServer(polygonData);
     }
 
+    if (this.selectedElement && this.selectedElement.id === event.id) {
+      this.selectIcon(event);
+    }
+
   };
   // ----------------------
   private updateEventOnMap = (event: EVENT_DATA_UI, prevLocationType: LOCATION_TYPE) => {
@@ -260,7 +264,7 @@ export class EventService {
     return this.events.data.find(data => data.id === eventId);
   };
   // ------------------------
-  public selectEvent = (event: EVENT_DATA_UI) => {
+  public selectIcon = (event: EVENT_DATA_UI) => {
     if (event) {
       if (this.getType(event) === 'icon' && event.modeDefine.styles.iconSize) {
         const size = {width: event.modeDefine.styles.iconSize.width + 10, height: event.modeDefine.styles.iconSize.height + 10};
@@ -273,7 +277,7 @@ export class EventService {
     }
   };
   // ------------------------
-  public unselectEvent = (event: EVENT_DATA_UI) => {
+  public unselectIcon = (event: EVENT_DATA_UI) => {
     if (event) {
       if (this.getType(event) === 'icon') {
         this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.mapIcon, event.modeDefine.styles.iconSize);
@@ -284,7 +288,7 @@ export class EventService {
       }
     }
   };
-
+  // ---------------------------
   public flyToObject = (coordinates: POINT | POINT3D) => {
     this.mapGeneralService.flyToObject(coordinates);
   };

@@ -100,7 +100,9 @@ export enum ITEM_TYPE {
   event = 'event',
   task = 'task',
   mission = 'mission',
-  missionRoute = 'missionRoute'
+  missionRoute = 'missionRoute',
+  fr = 'fr',
+  av = 'av',
 }
 
 export type OPTIONS_ENTITY = {

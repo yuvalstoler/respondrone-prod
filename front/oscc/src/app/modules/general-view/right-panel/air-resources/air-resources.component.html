@@ -1,9 +1,10 @@
 <mat-accordion>
   <div class="AirResourcesContainer scroll">
     <div *ngFor="let airVehicle of airVehicleService.airVehicles.data | sortByPriority: optionSelected">
-      <div (click)="flyTo(airVehicle)"
+      <div (click)="onSelect(airVehicle)"
            [ngStyle]="{ 'grid-template-rows': isOpenMenu[airVehicle.id] ? '29px 25px 25px 7px 25px 25px' : '29px 25px 25px',
-      'border-bottom': '5px solid' + airVehicle?.modeDefine?.styles?.statusColor}" class="gridAirResources">
+      'border-bottom': '5px solid' + airVehicle?.modeDefine?.styles?.statusColor}" class="gridAirResources"
+           [ngClass]="{'selectedAv': airVehicleService.selectedElement?.id === airVehicle.id}">
         <!--title-->
         <div class="item1 title">{{airVehicle.name}}</div>
         <!--icons expend & 3 dotes-->

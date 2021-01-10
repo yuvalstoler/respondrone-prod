@@ -1,5 +1,6 @@
 @import "../../../../../styles/colors";
 @import "../../../../../styles/variable";
+@import '../../../../../styles/scrollbar';
 
 .gridResources {
   display: grid;
@@ -59,4 +60,12 @@
 .mat-menu-item {
   line-height: 30px;
   height: 30px;
+}
+
+.selectedFr {
+  background-color: $gray;
+}
+
+.frContainer {
+  max-height: 28em;
 }

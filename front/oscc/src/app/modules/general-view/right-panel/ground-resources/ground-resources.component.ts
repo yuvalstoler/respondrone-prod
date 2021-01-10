@@ -65,8 +65,13 @@ export class GroundResourcesComponent implements OnInit {
     });
   };
 
-  flyTo = (fr: FR_DATA_UI) => {
-    this.frService.flyToObject(fr);
+  onSelect = (item: FR_DATA_UI) => {
+    this.frService.unselectIcon(this.frService.selectedElement);
+    this.frService.selectedElement = (this.frService.selectedElement && this.frService.selectedElement.id === item.id) ? undefined : item;
+    if (this.frService.selectedElement) {
+      this.frService.selectIcon(this.frService.selectedElement);
+      this.frService.flyToObject(item);
+    }
   }
 
 }
