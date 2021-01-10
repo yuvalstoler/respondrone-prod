@@ -1,0 +1,16 @@
+<!-- Send Menu -->
+<div *ngIf="contextMenuService.isOpenFRContextMenu"
+     class="ContextSingleMenu pointer"
+     [style.left]="contextMenuService?.singleTooltip?.left"
+     [style.top]="contextMenuService?.singleTooltip?.top">
+  <div class="item">
+    <mat-dialog-content (click)="onSendTask()">
+      Send a task
+    </mat-dialog-content>
+  </div>
+  <div class="item">
+    <mat-dialog-content (click)="onSendMessage()">
+      Send a message
+    </mat-dialog-content>
+  </div>
+</div>

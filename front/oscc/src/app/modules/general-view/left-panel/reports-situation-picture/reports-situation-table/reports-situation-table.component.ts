@@ -257,7 +257,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
   };
 
   clickOnIcon = (event, element: REPORT_DATA_UI, column: string) => {
-    event.stopPropagation();
+    // event.stopPropagation();
     if (column === 'map') {
 
       if (element.locationType === LOCATION_TYPE.locationPoint || element.locationType === LOCATION_TYPE.address) {

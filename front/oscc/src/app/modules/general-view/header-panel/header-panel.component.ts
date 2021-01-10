@@ -13,6 +13,7 @@ import {AirVehicleService} from '../../../services/airVehicleService/airVehicle.
 import {GraphicOverlayService} from '../../../services/graphicOverlayService/graphicOverlay.service';
 import {GimbalService} from '../../../services/gimbalService/gimbal.service';
 import {NFZService} from '../../../services/nfzService/nfz.service';
+import {ContextMenuService} from "../../../services/contextMenuService/context-menu.service";
 
 @Component({
   selector: 'app-header-panel',
@@ -108,6 +109,7 @@ export class HeaderPanelComponent implements OnInit {
   VIEW_LIST = VIEW_LIST;
 
   constructor(public applicationService: ApplicationService,
+              public contextMenuService: ContextMenuService,
               private frService: FRService,
               private reportService: ReportService,
               private eventService: EventService,
@@ -137,6 +139,7 @@ export class HeaderPanelComponent implements OnInit {
       this.applicationService.screen.showMissionControl = false;
       this.applicationService.screen.showVideo = false;
 
+      this.contextMenuService.closeContextMenu();
     }
   };
 
@@ -152,6 +155,7 @@ export class HeaderPanelComponent implements OnInit {
       this.applicationService.screen.showSituationPicture = false;
       this.applicationService.screen.showVideo = false;
 
+      this.contextMenuService.closeContextMenu();
     }
   };
 
@@ -169,6 +173,8 @@ export class HeaderPanelComponent implements OnInit {
         this.applicationService.screen.showLeftPanel = false;
         this.applicationService.screen.showMissionControl = false;
         this.applicationService.screen.showSituationPicture = false;
+
+        this.contextMenuService.closeContextMenu();
       }
     }
   };

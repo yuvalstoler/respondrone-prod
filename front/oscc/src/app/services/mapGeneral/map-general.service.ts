@@ -45,6 +45,12 @@ export class MapGeneralService {
         this.setLeftClickCallback(mapDomId, listenerName, this.leftClickListeners[listenerName]);
       }
     }
+    // rightClick
+    for (const listenerName in this.rightClickListeners) {
+      if (this.rightClickListeners.hasOwnProperty(listenerName)) {
+        this.setRightClickCallback(mapDomId, listenerName, this.rightClickListeners[listenerName]);
+      }
+    }
     // MouseOver
     for (const listenerName in this.mouseOverListeners) {
       if (this.mouseOverListeners.hasOwnProperty(listenerName)) {
@@ -78,6 +84,11 @@ export class MapGeneralService {
   public setLeftClickCallback = (mapDomId: string, listenerName: string, callback) => {
     this.leftClickListeners[listenerName] = callback;
     this.cesiumDrawerService.setLeftClickCallback(mapDomId, listenerName, callback);
+  };
+  // -------Right Click ---------------------
+  public setRightClickCallback = (mapDomId: string, listenerName: string, callback) => {
+    this.rightClickListeners[listenerName] = callback;
+    this.cesiumDrawerService.setRightClickCallback(mapDomId, listenerName, callback);
   };
   // -------Mouse Over ---------------------
   public setMouseOverCallback = (mapDomId: string, listenerName: string, callback) => {

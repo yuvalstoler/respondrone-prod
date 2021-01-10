@@ -9,6 +9,7 @@ import {EventService} from '../../eventService/event.service';
 import {TasksService} from '../../tasksService/tasks.service';
 import {AirVehicleService} from '../../airVehicleService/airVehicle.service';
 import {FRService} from '../../frService/fr.service';
+import {ContextMenuService} from '../../contextMenuService/context-menu.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,8 @@ export class ListenerMapService {
               public eventService: EventService,
               public taskService: TasksService,
               public airVehicleService: AirVehicleService,
-              public frService: FRService) {
+              public frService: FRService,
+              public contextMenuService: ContextMenuService) {
     this.setEventCallbacks();
   }
 
@@ -32,6 +34,7 @@ export class ListenerMapService {
     this.mapGeneralService.setMouseOverCallback(undefined, 'hoverTextDraw', this.showHoverText);
     this.mapGeneralService.setMouseOverCallback(undefined, 'cursorPosition', this.showCursorPosition);
     this.mapGeneralService.setMouseDownCallback(undefined, 'showItemOnTable', this.showItemOnTable);
+    this.mapGeneralService.setRightClickCallback(undefined, 'showContextMenu', this.showContextMenu);
     };
 
   public showHoverText = (event: EVENT_LISTENER_DATA) => {
@@ -49,6 +52,8 @@ export class ListenerMapService {
   };
 
   public showItemOnTable = (event: EVENT_LISTENER_DATA) => {
+    this.contextMenuService.closeContextMenu();
+
     if (event.object && event.object.data) {
       if (event.object.type === ITEM_TYPE.report) {
         this.reportService.goToReport(event.object.data.id);
@@ -73,6 +78,24 @@ export class ListenerMapService {
       }
     }
   };
+
+  public showContextMenu = (event: EVENT_LISTENER_DATA) => {
+    this.contextMenuService.closeContextMenu();
+
+    if (event.object && event.object.data) {
+      if (event.object.type === ITEM_TYPE.fr) {
+        if (event.pointPX) {
+          const fr = this.frService.getFRById(event.object.data.id);
+          if (fr) {
+            this.frService.selectedElement = fr;
+            this.contextMenuService.singleTooltip.top = event.pointPX.y  + 70  + 'px';
+            this.contextMenuService.singleTooltip.left = `calc(50vw + ${event.pointPX.x}px)`;
+            this.contextMenuService.openFRContextMenu();
+          }
+        }
+      }
+    }
+  }
 
   // public showBillboard = (event: EVENT_LISTENER_DATA) => {
   //   // if (this.applicationService.stateDraw === STATE_DRAW.drawBillboard) {
