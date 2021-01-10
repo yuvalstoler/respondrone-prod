@@ -85,6 +85,7 @@
     height: 55px;
     text-align: center;
   }
+
 }
 
 .HeaderButtons{
@@ -94,14 +95,32 @@
   background-color: $gray;
 }
 
-.mat-menu-item {
-  line-height: 25px;
-  height: 25px;
+.UserName{
+  line-height: 35px;
+  height: 35px;
+  cursor: default;
+  outline: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  padding: 0 16px;
+  text-align: left;
+  text-decoration: none;
+  max-width: 100%;
+  position: relative;
+  border-bottom: 1px solid $gray;
+  font-weight: 600;
 }
 
 .Disabled{
   color: $darkGray;
   cursor: no-drop !important;
+}
+
+.mat-menu-item {
+  line-height: 25px;
+  height: 25px;
 }
 
 ::ng-deep.mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button {

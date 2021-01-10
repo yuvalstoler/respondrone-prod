@@ -14,6 +14,7 @@ import {GraphicOverlayService} from '../../../services/graphicOverlayService/gra
 import {GimbalService} from '../../../services/gimbalService/gimbal.service';
 import {NFZService} from '../../../services/nfzService/nfz.service';
 import {ContextMenuService} from "../../../services/contextMenuService/context-menu.service";
+import {LoginService} from "../../../services/login/login.service";
 
 @Component({
   selector: 'app-header-panel',
@@ -119,6 +120,7 @@ export class HeaderPanelComponent implements OnInit {
               private airVehicleService: AirVehicleService,
               private graphicOverlayService: GraphicOverlayService,
               private gimbalService: GimbalService,
+              public loginService: LoginService,
               private nfzService: NFZService) { }
 
   ngOnInit(): void {
@@ -235,52 +237,11 @@ export class HeaderPanelComponent implements OnInit {
         this.applicationService.screen[item] ? this.graphicOverlayService.showAll() : this.graphicOverlayService.hideAll();
         break;
     }
-    // if (!event.checked) {
-    //   const selectedIndex = this.viewItemModel.findIndex(data => data === item);
-    //   if (selectedIndex === -1 && event) {
-    //     this.viewItemModel.push(item);
-    //     if (item === VIEW_LIST.groundResourcesPanel) {
-    //       this.applicationService.screen.showGrandResources = false;
-    //     } else if (item === VIEW_LIST.airResourcesPanel) {
-    //       this.applicationService.screen.showAirResources = false;
-    //     }
-    //   }
-    //
-    // } else {
-    //   const selectedIndex = this.viewItemModel.findIndex(data => data === item);
-    //   if (selectedIndex !== -1) {
-    //     this.viewItemModel.splice(selectedIndex, 1);
-    //     if (item === VIEW_LIST.groundResourcesPanel) {
-    //       this.applicationService.screen.showGrandResources = true;
-    //     } else if (item === VIEW_LIST.airResourcesPanel) {
-    //       this.applicationService.screen.showAirResources = true;
-    //     }
-    //   }
-    // }
-  //   TODO: this.viewItemModel show or hide
-
   };
 
-
-  // // Search bar
-  // close = () => {
-  //   this._value = '';
-  // };
-  //
-  // onSearchClicked = () => {
-  //   this.expanded = !this.expanded;
-  //   // if (!this.expanded) {
-  //   //   this.expanded = true;
-  //   // } else {
-  //   //   console.log('search');
-  //   // }
-  // };
-  //
-  // onBlur = () => {
-  //   if (!(this._value && this._value.length > 0)) {
-  //     this.expanded = false;
-  //   }
-  // }
+  onLogout = () => {
+    this.loginService.logout();
+  };
 
 
 
