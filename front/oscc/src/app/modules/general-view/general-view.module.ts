@@ -86,6 +86,8 @@ import {ContextMenuComponent} from '../../dialogs/context-menu/context-menu.comp
 import {HoverTextDialogComponent} from '../../dialogs/hover-text-dialog/hover-text-dialog.component';
 import { SearchPanelComponent } from './search-panel/search-panel.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {ServoingContextMenuComponent} from '../../dialogs/context-menu/servoing-context-menu/servoing-context-menu.component';
+import {FrContextMenuComponent} from '../../dialogs/context-menu/fr-context-menu/fr-context-menu.component';
 
 @NgModule({
   declarations: [
@@ -123,6 +125,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     CursorPositionComponent,
     AutocompleteAddressComponent,
     SearchPanelComponent,
+    ServoingContextMenuComponent,
+    FrContextMenuComponent,
 
     LinkedReportDialogComponent,
     LinkedReportContainerComponent,
@@ -203,7 +207,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     VideoPanelComponent,
     MissionsTableComponent,
     CursorPositionComponent,
-    AutocompleteAddressComponent
+    AutocompleteAddressComponent,
+    ServoingContextMenuComponent,
+    FrContextMenuComponent,
   ],
   providers: [
     PolygonsEditorService,

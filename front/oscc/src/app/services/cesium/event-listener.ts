@@ -24,7 +24,7 @@ export class EventListener {
   };
 
   public sendRightClickToService = (click) => {
-    this.callback['rightClick'](this.domElID, click.position, this.rightClickListeners, 'rightClick');
+    this.callback['rightClick'](this.domElID, click, this.rightClickListeners, 'rightClick');
   };
 
   public sendMouseDownToService = (click) => {

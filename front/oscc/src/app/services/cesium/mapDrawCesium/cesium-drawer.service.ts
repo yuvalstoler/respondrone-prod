@@ -1174,6 +1174,53 @@ export class CesiumDrawerService {
     return distance / 10;
   };
 
+  // ---------------right Click--------------------
+  public setRightClickCallback = (domId: string, listenerName: string, callback) => {
+    const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        if (mapsCE[mapDomId] && mapsCE[mapDomId] !== {}) {
+          if (!this.eventListenersObj[mapDomId]) {
+            this.eventListenersObj[mapDomId] = new EventListener(mapDomId);
+          }
+          this.eventListenersObj[mapDomId].setCallback('rightClick', this.sendRightClickEventToListeners);
+          this.eventListenersObj[mapDomId].rightClickListeners[listenerName] = callback;
+          this.setInputEventAction(mapDomId, this.eventListenersObj[mapDomId].sendRightClickToService, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+        }
+      }
+    }
+  };
+
+  private sendRightClickEventToListeners = (mapDomId: string, clickPositionMap, leftClickListeners, type: string) => {
+    let clickPosition: POINT3D;
+    clickPosition = this.pixelsToLatlong(mapDomId, clickPositionMap.position);
+    const distance = this.calculatePixelToMeter(mapDomId, clickPositionMap.position);
+    if (clickPosition) {
+      const pickedObjects = this.cesiumService.cesiumViewer[mapDomId].scene.drillPick(clickPositionMap.position);
+      let item = {};
+      pickedObjects.forEach((pickedObject) => {
+        if (Cesium.defined(pickedObject) && pickedObject.id) {
+          item = _.get(pickedObject, 'id.options') || {};
+        }
+      });
+      for (const listenerName in leftClickListeners) {
+        if (leftClickListeners.hasOwnProperty(listenerName)) {
+          try {
+            leftClickListeners[listenerName]({
+              type: type,
+              pointPX: clickPositionMap.position,
+              pointLatLng: clickPosition,
+              distance: distance,
+              object: item
+              // stopPropagation: leftClickListeners.preventDefault
+            });
+          } catch (e) {
+          }
+        }
+      }
+    }
+  };
+
   // ---------------Mouse Move--------------------
   public setMouseOverCallback = (domId: string, listenerName: string, callback) => {
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);

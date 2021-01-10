@@ -1,0 +1,19 @@
+<div *ngIf="contextMenuService?.isOpenBlob"
+     class="ContextSingleMenu pointer"
+     [style.left]="contextMenuService?.singleTooltip?.left"
+     [style.top]="contextMenuService?.singleTooltip?.top">
+  <!--Header-->
+  <div class="ContextHeader" >
+    <!--<span class="ContextHeaderTitle">This {{contextMenuService?.type}} is linked to</span>-->
+    <!--<span class="ContextHeaderX" (click)="onNoClick()"> X-->
+    <!--</span>-->
+  </div>
+  <!--Content-->
+  <div class="item">
+    <mat-dialog-content (click)="onClick()">
+      Create Follow Entity mission
+    </mat-dialog-content>
+  </div>
+
+</div>
+

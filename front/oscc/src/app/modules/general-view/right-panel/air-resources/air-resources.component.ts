@@ -11,6 +11,7 @@ import {ApplicationService} from '../../../../services/applicationService/applic
 import {MissionDialogComponent} from '../../../../dialogs/mission-dialog/mission-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {MissionRequestService} from '../../../../services/missionRequestService/missionRequest.service';
+import {ContextMenuService} from '../../../../services/contextMenuService/context-menu.service';
 
 @Component({
   selector: 'app-air-resources',
@@ -28,6 +29,7 @@ export class AirResourcesComponent implements OnInit {
   constructor(public airVehicleService: AirVehicleService,
               public applicationService: ApplicationService,
               public missionRequestService: MissionRequestService,
+              public contextMenuService: ContextMenuService,
               public dialog: MatDialog) {
   }
 
@@ -139,9 +141,11 @@ export class AirResourcesComponent implements OnInit {
     //close others
     this.applicationService.screen.showLeftPanel = false;
     this.applicationService.screen.showMissionControl = false;
-    this.applicationService.screen.showSituationPicture = false;
-    this.dialog.closeAll();
+    if (this.dialog) {
+      this.dialog.closeAll();
+    }
 
+    this.contextMenuService.closeContextMenu();
     this.applicationService.selectedAirVehicle = airVehicle;
     // const av = this.applicationService.selectedAirVehicle;
 

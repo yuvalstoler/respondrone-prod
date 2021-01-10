@@ -21,6 +21,8 @@ export class ContextMenuService {
   isOpenBlob = false;
   selectedBlob: {missionType: MISSION_TYPE, airVehicle: AV_DATA_UI, options: {selectedId: number, point: POINT}};
 
+  isOpenFRContextMenu = false;
+
   singleTooltip: { top: string, left: string } = {top: '-100em', left: '-100em'};
 
 
@@ -45,7 +47,14 @@ export class ContextMenuService {
     this._isOpenLinkToMenu = false;
   };
 
+  public openFRContextMenu = () => {
+    this.isOpenFRContextMenu = true;
+  }
 
+  public closeContextMenu = () => {
+    this.isOpenFRContextMenu = false;
+    this.isOpenBlob = false;
+  }
 
 
 }
