@@ -90,7 +90,7 @@ export class MissionsMissionControlComponent implements OnInit {
     const dialogRef = this.dialog.open(MissionUavDialogComponent, {
       width: 'auto',
       disableClose: true,
-      data: {title: 'Add mission’s UAV'}
+      data: {title: 'Add mission’s UAV', missionType: selectedMissionRequest.missionType}
     });
     this.applicationService.isDialogOpen = true;
     dialogRef.afterClosed().subscribe((result: any) => {

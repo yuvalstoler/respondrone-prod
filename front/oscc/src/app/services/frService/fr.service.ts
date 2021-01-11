@@ -126,7 +126,7 @@ export class FRService {
     const item = this.getFRById(id);
     if (item) {
       this.unselectIcon(this.selectedElement);
-      this.selectedElement = item;
+      this.selectedElement = (this.selectedElement && this.selectedElement.id === id) ? undefined : item;
       this.selectIcon(item);
     }
   }

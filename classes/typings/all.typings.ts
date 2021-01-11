@@ -372,7 +372,8 @@ export type MISSION_MODEL_UI = {
             speed: SCAN_SPEED,
             overlapPercent: number,
             cameraFov: number
-        }
+        },
+        yawOrientation: YAW_ORIENTATION
     }
     description: string,
     comments: COMMENT[]
@@ -1133,7 +1134,6 @@ export enum GIMBAL_CONTROL_ACTION {
 
 export enum GIMBAL_CONTROL_USER {
     Available = 'Available',
-    OSCC = 'OSCC'
 }
 
 export enum VIDEO_URL_KEY {

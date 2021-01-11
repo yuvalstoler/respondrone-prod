@@ -277,7 +277,7 @@ export class EventDialogComponent implements OnInit {
       this.eventModel.location = {lat: lat, lon: lng, alt: 0};
       this.eventModel.address = place['formatted_address'];
       this.locationService.createOrUpdateLocationTemp({ lat: lat, lon: lng, alt: 0 });
-      this.eventService.flyToObject([lng, lat, 0]);
+      this.mapGeneralService.flyToObject([lng, lat, 0]);
     }
   };
 

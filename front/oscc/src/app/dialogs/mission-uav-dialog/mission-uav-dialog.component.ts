@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {AirVehicleService} from '../../services/airVehicleService/airVehicle.service';
-import {AV_DATA_UI, MISSION_TYPE} from '../../../../../../classes/typings/all.typings';
+import {AV_DATA_UI, MISSION_TYPE, OPERATIONAL_STATUS} from '../../../../../../classes/typings/all.typings';
 import {ApplicationService} from '../../services/applicationService/application.service';
 
 @Component({
@@ -14,30 +14,36 @@ export class MissionUavDialogComponent implements OnInit {
   uavModel: string[] = [];
   selectedAirVehicles: AV_DATA_UI[] = [];
 
+  OPERATIONAL_STATUS = OPERATIONAL_STATUS;
+
   constructor(public airVehicleService: AirVehicleService,
               public applicationService: ApplicationService,
               public dialogRef: MatDialogRef<MissionUavDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: {title: string}) {
+              @Inject(MAT_DIALOG_DATA) public data: {title: string, missionType: string}) {
   }
 
   ngOnInit(): void {
   }
 
   onChooseAirVehicle = (airVehicle: AV_DATA_UI) => {
-      const index = this.uavModel.findIndex(d => d === airVehicle.id);
+      /*const index = this.uavModel.findIndex(d => d === airVehicle.id);
       if (index !== -1) {
         this.uavModel.splice(index, 1);
         this.selectedAirVehicles.splice(index, 1);
       } else {
         this.uavModel.push(airVehicle.id);
         this.selectedAirVehicles.push(airVehicle);
-      }
+      }*/
     /* } else {
        this.uavModel.airResources = [];
        this.selectedAirVehicles = [];
        this.uavModel.airResources.push(airVehicle.id);
        this.selectedAirVehicles.push(airVehicle);
      }*/
+    this.uavModel = [];
+    this.uavModel.push(airVehicle.id);
+    this.selectedAirVehicles = [];
+    this.selectedAirVehicles.push(airVehicle);
   };
 
   getSelectedAV = (airVehicleId): boolean => {

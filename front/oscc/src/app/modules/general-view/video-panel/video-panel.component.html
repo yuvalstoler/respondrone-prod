@@ -29,13 +29,13 @@
           <mat-icon *ngIf="gimbal?.controlData[videoUrlKey]?.isLocked">lock</mat-icon>
         </div>
       </div>
-      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userText !== GIMBAL_CONTROL_USER.OSCC"
+      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId !== loginService.getUserId()"
               (click)="onControlAction(GIMBAL_CONTROL_ACTION.takeControl)" mat-raised-button>Take Control</button>
-      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userText === GIMBAL_CONTROL_USER.OSCC"
+      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId === loginService.getUserId()"
               (click)="onControlAction(GIMBAL_CONTROL_ACTION.releaseControl) "mat-raised-button>Release Control</button>
-      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userText == GIMBAL_CONTROL_USER.OSCC && !gimbal?.controlData[videoUrlKey]?.isLocked"
+      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId == loginService.getUserId() && !gimbal?.controlData[videoUrlKey]?.isLocked"
               (click)="onControlAction(GIMBAL_CONTROL_ACTION.lockControl)" mat-raised-button>Lock Control</button>
-      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userText == GIMBAL_CONTROL_USER.OSCC && gimbal?.controlData[videoUrlKey]?.isLocked"
+      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId == loginService.getUserId() && gimbal?.controlData[videoUrlKey]?.isLocked"
               (click)="onControlAction(GIMBAL_CONTROL_ACTION.unlockControl)" mat-raised-button>Un-Lock Control</button>
     </div>
     <!--Zoom-->

@@ -213,11 +213,11 @@ export class TasksService {
     this.connectionService.post('/api/deleteTask', idObj)
       .then((data: ASYNC_RESPONSE) => {
         if (!data.success) {
-          this.toasterService.error({message: 'error creating task', title: ''});
+          this.toasterService.error({message: 'error deleting task', title: ''});
         }
       })
       .catch(e => {
-        this.toasterService.error({message: 'error creating task', title: ''});
+        this.toasterService.error({message: 'error deleting task', title: ''});
       });
   };
   // ----------------------

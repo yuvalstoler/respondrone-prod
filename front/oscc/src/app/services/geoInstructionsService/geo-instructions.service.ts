@@ -45,9 +45,9 @@ export class GeoInstructionsService {
   };
 
 
-  public flyToObject = (coordinates: POINT | POINT3D) => {
-    this.mapGeneralService.flyToObject(coordinates);
-  };
+  // public flyToObject = (coordinates: POINT | POINT3D) => {
+  //   this.mapGeneralService.flyToObject(coordinates);
+  // };
 
   public hideObjectOnMap = (tempObjectCE) => {
     switch (tempObjectCE.type) {

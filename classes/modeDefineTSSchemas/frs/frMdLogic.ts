@@ -121,7 +121,7 @@ export class FrMdLogic implements IModeDefine {
     };
 
     private static getLabelOffset = (data: FR_DATA_UI): {x: number, y: number} => {
-        return {x: 0, y: 27};
+        return {x: 0, y: 29};
     };
 
 }

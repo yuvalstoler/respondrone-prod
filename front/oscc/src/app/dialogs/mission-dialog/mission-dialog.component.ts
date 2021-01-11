@@ -1,15 +1,18 @@
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {
-  AV_DATA_UI, COMM_RELAY_TYPE,
+  AV_DATA_UI,
+  COMM_RELAY_TYPE,
   COMM_RELAY_TYPE_TEXT,
   COMMENT,
   FR_DATA_UI,
   GEOPOINT3D_SHORT,
   MISSION_MODEL_UI,
   MISSION_TYPE,
-  MISSION_TYPE_TEXT, OPERATIONAL_STATUS,
+  MISSION_TYPE_TEXT,
+  OPERATIONAL_STATUS,
   POINT3D,
-  SCAN_SPEED
+  SCAN_SPEED,
+  YAW_ORIENTATION
 } from '../../../../../../classes/typings/all.typings';
 import {AirVehicleService} from '../../services/airVehicleService/airVehicle.service';
 import {HEADER_BUTTONS, MISSION_FIELDS, STATE_DRAW, VIDEO_OR_MAP} from '../../../types';
@@ -36,6 +39,7 @@ export class MissionDialogComponent implements OnInit {
   MISSION_TYPE_TEXT = MISSION_TYPE_TEXT;
   missionTypes = Object.values(MISSION_TYPE);
   commRelayTypes = Object.values(COMM_RELAY_TYPE);
+  yawOrientationTypes = Object.values(YAW_ORIENTATION);
   COMM_RELAY_TYPE_TEXT = COMM_RELAY_TYPE_TEXT;
   COMM_RELAY_TYPE = COMM_RELAY_TYPE;
   OPERATIONAL_STATUS = OPERATIONAL_STATUS;
@@ -72,7 +76,8 @@ export class MissionDialogComponent implements OnInit {
         speed: undefined,
         overlapPercent: null,
         cameraFov: null
-      }
+      },
+      yawOrientation: this.yawOrientationTypes[0],
     },
     description: '',
     comments: []
@@ -196,21 +201,21 @@ export class MissionDialogComponent implements OnInit {
   };
 
   onChooseAirVehicle = (airVehicle: AV_DATA_UI) => {
-    if (this.missionModel.missionType === MISSION_TYPE.CommRelay) {
-      const index = this.missionModel.airResources.findIndex(d => d === airVehicle.id);
-      if (index !== -1) {
-        this.missionModel.airResources.splice(index, 1);
-        this.selectedAirVehicles.splice(index, 1);
-      } else {
-        this.missionModel.airResources.push(airVehicle.id);
-        this.selectedAirVehicles.push(airVehicle);
-      }
-    } else {
+    // if (this.missionModel.missionType === MISSION_TYPE.CommRelay) {
+    //   const index = this.missionModel.airResources.findIndex(d => d === airVehicle.id);
+    //   if (index !== -1) {
+    //     this.missionModel.airResources.splice(index, 1);
+    //     this.selectedAirVehicles.splice(index, 1);
+    //   } else {
+    //     this.missionModel.airResources.push(airVehicle.id);
+    //     this.selectedAirVehicles.push(airVehicle);
+    //   }
+    // } else {
       this.missionModel.airResources = [];
       this.selectedAirVehicles = [];
       this.missionModel.airResources.push(airVehicle.id);
       this.selectedAirVehicles.push(airVehicle);
-    }
+    // }
   };
 
   getSelectedAV = (airVehicleId): boolean => {
@@ -309,7 +314,7 @@ export class MissionDialogComponent implements OnInit {
         this.missionModel.missionDetails.scan.speed === undefined) {
         res = true;
       }
-    } else {
+    } else if (missionType !== MISSION_TYPE.Patrol) {
       if (this.missionModel.missionDetails.distance === null || this.missionModel.missionDetails.azimuth === null) {
         res = true;
       }

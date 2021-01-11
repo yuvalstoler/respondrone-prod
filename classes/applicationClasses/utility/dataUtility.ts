@@ -44,7 +44,7 @@ export class DataUtility {
     }
 
     public static generateIDForView(): string {
-        return '' + Math.floor(Math.random() * Math.floor(99999));
+        return Math.random().toString().slice(2, 7);
     }
 
     public static checkIsNumber = (num) => {

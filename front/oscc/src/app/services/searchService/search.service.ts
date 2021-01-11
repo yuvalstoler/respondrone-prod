@@ -155,31 +155,33 @@ export class SearchService {
 
     switch (label) {
       case ALL_STATES.events : {
+        this.eventService.flyToObject(element);
         this.eventService.goToEvent(element.id);
         break;
       }
       case ALL_STATES.reports : {
+        this.reportService.flyToObject(element);
         this.reportService.goToReport(element.id);
         break;
       }
       case ALL_STATES.tasks : {
-        // TODO: add goTo function
-        // this.tasksService.tasks.goToTask(element.id);
+        this.tasksService.flyToObject(element);
+        this.tasksService.goToTask(element.id);
         break;
       }
       case ALL_STATES.missions : {
-        // TODO: add goTo function
-        // this.missionService.goToMission(element.id);
+        this.missionRequestService.flyToObject(element);
+        this.missionRequestService.goToMissionRequest(element.id);
         break;
       }
       case ALL_STATES.frs : {
-        // TODO: add goTo function
-        // this.frService.goToFrs(element.id);
+        this.frService.flyToObject(element);
+        this.frService.goToFR(element.id);
         break;
       }
       case ALL_STATES.avs : {
-        // TODO: add goTo function
-        // this.airVehicleService.goToAVs(element.id);
+        this.airVehicleService.flyToObject(element);
+        this.airVehicleService.goToAV(element.id);
         break;
       }
     }

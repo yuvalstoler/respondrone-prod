@@ -120,7 +120,7 @@ export class FrManager {
             // TODO remove
             if (item.location && item.location.hasOwnProperty('longitude')) {
                 const location: GEOPOINT3D = item.location as any;
-                item.location = {lat: location.latitude, lon: location.latitude, alt: location.altitude};
+                item.location = {lat: location.latitude, lon: location.longitude, alt: location.altitude};
             }
 
             this.frs[item.id] = new FR(item);
