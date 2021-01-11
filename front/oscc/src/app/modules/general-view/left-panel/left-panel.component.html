@@ -2,20 +2,20 @@
 <div *ngIf="applicationService.screen.showSituationPicture">
   <!--Header-->
   <div>
-    <mat-tab-group animationDuration="0ms" [selectedIndex]="getSelectedSituationPictureIndex()"
+    <mat-tab-group animationDuration="0ms"
                    (selectedTabChange)="onSituationPictureTabChange($event)">
       <!--Events-->
-      <mat-tab label="Events" [ngStyle]="{'color': applicationService.currentTabIndex === 0? 'black !important': ''}">
+      <mat-tab label="Events">
         <app-events-situation-picture></app-events-situation-picture>
       </mat-tab>
       <!--Reports-->
-      <mat-tab label="Reports" [ngStyle]="{'color': applicationService.currentTabIndex === 1? 'black !important': ''}">
+      <mat-tab label="Reports">
         <app-reports-situation-picture></app-reports-situation-picture>
       </mat-tab>
       <!--Button-->
       <mat-tab disabled>
         <ng-template mat-tab-label>
-          <button mat-icon-button (click)="minimizationPanel()">
+          <button mat-icon-button [ngStyle]="{'margin-right': '15px'}" (click)="minimizationPanel()">
             <mat-icon>{{applicationService.panelIcon}}</mat-icon>
           </button>
         </ng-template>
@@ -27,7 +27,7 @@
 <div *ngIf="applicationService.screen.showMissionControl">
   <!--Header-->
   <div>
-    <mat-tab-group animationDuration="0ms" [selectedIndex]="getSelectedMissionControlIndex()"
+    <mat-tab-group animationDuration="0ms"
                    (selectedTabChange)="onMissionControlTabChange($event)">
       <!--Tasks-->
       <mat-tab label="Tasks">
@@ -40,7 +40,7 @@
       <!--Button-->
       <mat-tab disabled>
         <ng-template mat-tab-label>
-          <button mat-icon-button (click)="minimizationPanel()">
+          <button mat-icon-button [ngStyle]="{'margin-right': '15px'}" (click)="minimizationPanel()">
             <mat-icon>{{applicationService.panelIcon}}</mat-icon>
           </button>
         </ng-template>

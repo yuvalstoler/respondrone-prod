@@ -52,8 +52,8 @@ export class AirVehicleManager {
                     },
                     'capability': [CAPABILITY.Delivery],
                     'commStatus': COMM_STATUS.OK,
-                    'operationalStatus': OPERATIONAL_STATUS.Ready,
-                    'routeId': 'pwxhjbb',
+                    'operationalStatus': OPERATIONAL_STATUS.OnMission,
+                    'routeId': 'iefsgwr',
                     'name': 'Alpha 1',
                 },
                 {
@@ -76,7 +76,7 @@ export class AirVehicleManager {
                     },
                     'capability': [ CAPABILITY.Surveillance, CAPABILITY.CommRelay],
                     'commStatus': COMM_STATUS.OK,
-                    'operationalStatus': OPERATIONAL_STATUS.Ready,
+                    'operationalStatus': OPERATIONAL_STATUS.NotActive,
                     'name': 'Alpha 2',
                 },
                 {

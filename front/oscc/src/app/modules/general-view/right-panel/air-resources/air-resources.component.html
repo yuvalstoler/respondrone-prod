@@ -72,9 +72,10 @@
         </div>
         <!--status-->
         <div class="item4">
-        <span [ngStyle]="{'color': airVehicle.modeDefine?.styles?.statusColor}"
+        <span [ngStyle]="{'color': airVehicle?.modeDefine?.styles?.statusColor}"
               class="material-icons iconStatus">fiber_manual_record
-        </span>{{getSeparateString(airVehicle.operationalStatus)}}
+        </span>{{airVehicle?.operationalStatus | separatorString: airVehicle.operationalStatus}}
+          <!--{{getSeparateString(airVehicle.operationalStatus)}}-->
         </div>
         <!--TTL-->
         <div class="item5">
