@@ -36,6 +36,38 @@
   mat-radio-button {
     display: block;
   }
+
+  // mat-angular =========================================================================================================
+  .mat-expansion-panel-spacing {
+    margin: 0px 0;
+  }
+
+  .mat-action-row {
+    border-bottom: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 3px 8px 5px 24px;
+    border-top-color: transparent;
+  }
+
+  .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+    width: 3%;
+  }
+  .mat-expansion-panel-header-description {
+    flex-grow: 3;
+    font-size: 14px;
+    color: black;
+  }
+  ::ng-deep.mat-expansion-panel-body {
+    padding: 0 24px 0px;
+  }
+  .mat-expansion-panel:not([class*=mat-elevation-z]) {
+    //box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.12) !important;
+    border-bottom: 1px solid $gray !important;
+  }
+
+
 }
 
 .DetailsContainer{
@@ -89,37 +121,6 @@
 .MissionEntitiesContainer{
   margin-top: 10px;
 }
-
-// mat-angular =========================================================================================================
-.mat-expansion-panel-spacing {
-  margin: 0px 0;
-}
-
-.mat-action-row {
-  border-bottom: none;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  padding: 3px 8px 5px 24px;
-  border-top-color: transparent;
-}
-
-.mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
-  width: 3%;
-}
-.mat-expansion-panel-header-description {
-  flex-grow: 3;
-  font-size: 14px;
-  color: black;
-}
-::ng-deep.mat-expansion-panel-body {
-  padding: 0 24px 0px;
-}
-.mat-expansion-panel:not([class*=mat-elevation-z]) {
-  //box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.12) !important;
-  border-bottom: 1px solid $gray !important;
-}
-
 .SPMatFormField {
   width: fit-content;
 }
