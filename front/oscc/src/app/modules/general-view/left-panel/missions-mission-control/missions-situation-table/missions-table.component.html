@@ -26,7 +26,7 @@
                  [src]="element.modeDefine?.tableData[column]?.data"
                  class="tableImage">
             <!--text-->
-            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'">
+            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'" class="row-message">
                {{element.modeDefine?.tableData[column]?.data}}
             </span>
             <!--data-->
@@ -34,11 +34,6 @@
                {{element.modeDefine?.tableData[column]?.data | customDate: applicationService.now}}
             </span>
           </span>
-
-          <!--          <span *ngIf="!element.modeDefine?.tableData[column]">-->
-          <!--            {{element[column]}}-->
-          <!--          </span>-->
-
           <span *ngIf="!element.modeDefine?.tableData[column] && column !== 'missionStatus'">
             {{element[column]}}
           </span>

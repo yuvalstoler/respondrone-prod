@@ -59,11 +59,6 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
     this.subscriptions.push(subscription);
   }
 
-  setDataByDate = (data): any[] => {
-    const arraySortedByDate = data.sort((a, b) => (a.createdBy < b.createdBy ? -1 : 1));
-    return arraySortedByDate;
-  };
-
   ngOnInit(): void {
     const subscription = this.eventService.changeSelected$.subscribe((selectedId: ID_TYPE) => {
       if (selectedId !== undefined) {
@@ -94,6 +89,12 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
       }
     });
   }
+
+  private setDataByDate = (data: EVENT_DATA_UI[]): EVENT_DATA_UI[] => {
+    const arraySortedByDate: EVENT_DATA_UI[] = data.sort((a, b) => (a.time < b.time ? 1 : -1));
+    return arraySortedByDate;
+  };
+
 
   getOpenStateDescription = ($event) => {
     this.panelOpenState = $event;

@@ -55,7 +55,7 @@ export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
     const subscription = this.missionRequestService.missionRequests$.subscribe((isNewData: boolean) => {
       if (isNewData) {
-        this.dataSource.data = [...this.missionRequestService.missionRequests.data];
+        this.dataSource.data = this.setDataByDate(this.missionRequestService.missionRequests.data);
       }
     });
     this.subscriptions.push(subscription);
@@ -91,6 +91,11 @@ export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy 
       }
     });
   }
+
+  private setDataByDate = (data: MISSION_REQUEST_DATA_UI[]): MISSION_REQUEST_DATA_UI[] => {
+    const arraySortedByDate: MISSION_REQUEST_DATA_UI[] = data.sort((a, b) => (a.time < b.time ? 1 : -1));
+    return arraySortedByDate;
+  };
 
   getOpenStateDescription = ($event) => {
     this.panelOpenState = $event;

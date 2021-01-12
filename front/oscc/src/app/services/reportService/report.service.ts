@@ -282,7 +282,7 @@ export class ReportService {
       }, 500);
 
     }
-  }
+  };
   // -------------------
   public flyToObject = (report: REPORT_DATA_UI) => {
     if (report) {

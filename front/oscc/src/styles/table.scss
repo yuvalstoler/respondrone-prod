@@ -27,8 +27,8 @@ table {
 }
 
 .mat-column-priority {
-  flex: none;
-  width: 20px;
+  //flex: none;
+  //width: 20px;
 }
 
 .mat-column-description {
@@ -168,6 +168,11 @@ tr.example-element-row:not(.example-expanded-row):active {
   color: $black;
   font-weight: 200;
 }
+
+.row-message{
+  margin-left: 8px;
+}
+
 .right{
   float: right;
 }
@@ -178,6 +183,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 .tableImage {
   height: 18px;
   width: 18px;
+  margin-left: 10px;
 }
 .expendTitle {
   font-size: $fontSizeTitle14;

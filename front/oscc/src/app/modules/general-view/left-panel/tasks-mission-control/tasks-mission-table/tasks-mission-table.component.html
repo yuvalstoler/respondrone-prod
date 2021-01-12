@@ -30,7 +30,7 @@
                  [src]="element.modeDefine?.tableData[column]?.data"
                  class="tableImage">
             <!--text-->
-            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'">
+            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'" class="row-message">
                {{element.modeDefine?.tableData[column]?.data}}
             </span>
             <!--date-->

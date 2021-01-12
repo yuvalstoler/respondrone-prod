@@ -9,7 +9,10 @@
   <span (click)="inputForChooseFile.click()"
         class="DialogLink pointer">Add Media</span>
 </div>
-
+<!--if no data-->
+<div *ngIf="media.length <= 0" class="DialogNotElement">
+  Add media by clicking on the “Add media” button
+</div>
 <div class="imagesContainer">
   <div *ngIf="currentPage > 0" (click)="prev()" class="pointer">
     <mat-icon class="MediaIcon revert">double_arrow</mat-icon>

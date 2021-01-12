@@ -54,7 +54,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
 
     const subscription = this.reportService.reports$.subscribe((isNewData: boolean) => {
       if (isNewData) {
-        this.dataSource.data = [...this.reportService.reports.data];
+        this.dataSource.data = this.setDataByDate(this.reportService.reports.data);
       }
     });
     this.subscriptions.push(subscription);
@@ -90,6 +90,11 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
       }
     });
   }
+
+  private setDataByDate = (data: REPORT_DATA_UI[]): REPORT_DATA_UI[] => {
+    const arraySortedByDate: REPORT_DATA_UI[] = data.sort((a, b) => (a.time < b.time ? 1 : -1));
+    return arraySortedByDate;
+  };
 
   getOpenStateDescription = ($event) => {
     this.panelOpenState = $event;

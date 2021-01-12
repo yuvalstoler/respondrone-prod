@@ -3,8 +3,6 @@ import {MatTableDataSource} from '@angular/material/table';
 import {
   COMMENT,
   EVENT_DATA_UI, ID_TYPE,
-  MISSION_REQUEST_DATA_UI,
-  POINT,
   TASK_DATA_UI
 } from '../../../../../../../../../classes/typings/all.typings';
 import {LEFT_PANEL_ICON, MAP} from '../../../../../../types';
@@ -14,7 +12,6 @@ import {ApplicationService} from '../../../../../services/applicationService/app
 import {TasksService} from '../../../../../services/tasksService/tasks.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import * as _ from 'lodash';
-import {DescriptionPanelComponent} from '../../../description-panel/description-panel.component';
 
 
 @Component({
@@ -49,7 +46,7 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
               public tasksService: TasksService) {
     const subscription = this.tasksService.tasks$.subscribe((isNewData: boolean) => {
       if (isNewData) {
-        this.dataSource.data = [...this.tasksService.tasks.data];
+        this.dataSource.data = this.setDataByDate(this.tasksService.tasks.data);
       }
     });
     this.subscriptions.push(subscription);
@@ -85,6 +82,11 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
       }
     });
   }
+
+  private setDataByDate = (data: TASK_DATA_UI[]): TASK_DATA_UI[] => {
+    const arraySortedByDate: TASK_DATA_UI[] = data.sort((a, b) => (a.time < b.time ? 1 : -1));
+    return arraySortedByDate;
+  };
 
   getOpenStateDescription = ($event) => {
     this.panelOpenState = $event;

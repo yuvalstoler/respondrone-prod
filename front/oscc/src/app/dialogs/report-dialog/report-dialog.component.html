@@ -3,7 +3,7 @@
   <div class="DialogHeader" mat-dialog-title>
     <span class="DialogHeaderTitle">{{data.title}}</span>
     <span class="DialogHeaderX">
-      <button  mat-icon-button (click)="onNoClick()">
+      <button (click)="onNoClick()" mat-icon-button>
       <mat-icon>close</mat-icon>
     </button>
   </span>
@@ -17,7 +17,7 @@
         <div class="DialogContentItem ">
           <div class="DialogTitle">Type</div>
           <mat-form-field appearance="outline" class="SPMatFormField">
-            <mat-select [(ngModel)]="reportModel.type"  [placeholder]="'Choose type'">
+            <mat-select [(ngModel)]="reportModel.type" [placeholder]="'Choose type'">
               <mat-option *ngFor="let type of types" [value]="type">
                 {{type}}
               </mat-option>
@@ -71,18 +71,21 @@
             {{location}}
             <!--Address-->
             <div *ngIf="location === LOCATION_NAMES.address && reportModel.locationType === LOCATION_TYPE.address">
-              <app-autocomplete-address (setAddress)="getAddress($event)" addressType="geocode" [address]="reportModel.address"></app-autocomplete-address>
+              <app-autocomplete-address (setAddress)="getAddress($event)" [address]="reportModel.address"
+                                        addressType="geocode"></app-autocomplete-address>
             </div>
             <!--Location-->
-            <div *ngIf="location === LOCATION_NAMES.locationPoint && reportModel.locationType === LOCATION_TYPE.locationPoint">
+            <div
+              *ngIf="location === LOCATION_NAMES.locationPoint && reportModel.locationType === LOCATION_TYPE.locationPoint">
               <small>Choose location point from the map or write
-                Lat/Long</small>
+                Lat/Long
+              </small>
               <div class="DialogGrid22">
                 <!--Lat-->
                 <mat-form-field appearance="outline" class="">
                   <label>
-                    <input (click)="$event.stopPropagation()"
-                           (change)="locationChanged($event)"
+                    <input (change)="locationChanged($event)"
+                           (click)="$event.stopPropagation()"
                            (keyup)="locationChanged($event)"
                            [(ngModel)]="reportModel.location.lat"
                            class="Label"
@@ -95,8 +98,8 @@
                 <!--Long-->
                 <mat-form-field appearance="outline" class="">
                   <label>
-                    <input (click)="$event.stopPropagation()"
-                           (change)="locationChanged($event)"
+                    <input (change)="locationChanged($event)"
+                           (click)="$event.stopPropagation()"
                            (keyup)="locationChanged($event)"
                            [(ngModel)]="reportModel.location.lon"
                            class="Label"
@@ -113,17 +116,16 @@
       </div>
       <!--Report media-->
       <div class="DialogContentItem">
-        <app-report-media
-          [media]="reportModel.media"
-          (onAddMedia)="onAddMedia($event)"
-          (onDeleteMedia)="onDeleteMedia($event)">
+        <app-report-media (onAddMedia)="onAddMedia($event)"
+                          (onDeleteMedia)="onDeleteMedia($event)"
+                          [media]="reportModel.media">
         </app-report-media>
       </div>
       <!--Linked Reports-->
       <div class="DialogContentItem">
-        <app-linked-events-table [element]="reportModel"
-                                 [isAllColumns]="false"
-                                 (updateLinkedEvents)="onUpdateLinkedEvents($event)">
+        <app-linked-events-table (updateLinkedEvents)="onUpdateLinkedEvents($event)"
+                                 [element]="reportModel"
+                                 [isAllColumns]="false">
         </app-linked-events-table>
       </div>
 
@@ -131,13 +133,13 @@
   </mat-dialog-content>
   <!--Action-->
   <div class="DialogActions" mat-dialog-actions>
-    <mat-error class="DialogMandatory" *ngIf="getLocationDisabled()">*Mandatory fields</mat-error>
+    <mat-error *ngIf="getLocationDisabled()" class="DialogMandatory">*Mandatory fields</mat-error>
     <button (click)="onNoClick()" class="DialogActionsDelete"
             mat-raised-button>Cancel
     </button>
     <button (click)="onCreateClick()"
-            class="DialogActionsCreate"
             [disabled]="getLocationDisabled()"
+            class="DialogActionsCreate"
             mat-raised-button>
       {{data.title}}
     </button>

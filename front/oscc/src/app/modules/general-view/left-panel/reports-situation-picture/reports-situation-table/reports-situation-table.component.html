@@ -27,7 +27,7 @@
                  [matTooltip]="element?.priority"
                  class="tableImage">
             <!--text-->
-            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'">
+            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'" class="row-message">
                {{element.modeDefine?.tableData[column]?.data}}
             </span>
             <!--data-->
