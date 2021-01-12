@@ -1,4 +1,4 @@
-import {NFZManager} from "../nfz/nfzManager";
+import {NFZManager} from '../nfz/nfzManager';
 
 const _ = require('lodash');
 import * as core from 'express-serve-static-core';
@@ -27,10 +27,10 @@ import {
     MS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
 import { IRest } from '../../../../../classes/dataClasses/interfaces/IRest';
-import {MissionRequestManager} from "../missionRequest/missionRequestManager";
-import {MissionManager} from "../mission/missionManager";
-import {MissionRouteManager} from "../missionRoute/missionRouteManager";
-import {GraphicOverlayManager} from "../graphicOverlay/graphicOverlayManager";
+import {MissionRequestManager} from '../missionRequest/missionRequestManager';
+import {MissionManager} from '../mission/missionManager';
+import {MissionRouteManager} from '../missionRoute/missionRouteManager';
+import {GraphicOverlayManager} from '../graphicOverlay/graphicOverlayManager';
 
 
 export class ApiManager implements IRest {
@@ -66,18 +66,13 @@ export class ApiManager implements IRest {
 
     private createMissionRequestFromMGW = (request: Request, response: Response) => {
         const requestBody: MISSION_REQUEST_DATA = request.body;
-        if (requestBody.missionType in MISSION_TYPE) {
-            MissionRequestManager.createMissionRequestFromMGW(requestBody)
-                .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
-                    response.send(data);
-                })
-                .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
-                    response.send(data);
-                });
-        }
-        else {
-            response.send({success: false, data: 'missionType is not ' + Object.values(MISSION_TYPE)})
-        }
+        MissionRequestManager.createMissionRequestFromMGW(requestBody)
+            .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                response.send(data);
+            })
+            .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                response.send(data);
+            });
     };
 
     private readAllMissionRequest = (request: Request, response: Response) => {

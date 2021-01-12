@@ -58,8 +58,7 @@
           <small>You can choose more then one</small>
         </div>
         <div *ngFor="let airVehicle of airVehicleService.airVehicles.data; let i = index;" class="imageDivContainer">
-          <div
-            *ngIf="airVehicle.modeDefine?.data?.missionOptions[missionModel?.missionType] && (airVehicle.operationalStatus === OPERATIONAL_STATUS.Ready || airVehicle.operationalStatus === OPERATIONAL_STATUS.OnMission)">
+          <div *ngIf="airVehicle.modeDefine?.data?.missionOptions[missionModel?.missionType] && (airVehicle.operationalStatus === OPERATIONAL_STATUS.Ready || airVehicle.operationalStatus === OPERATIONAL_STATUS.OnMission)">
             <div (click)="onChooseAirVehicle(airVehicle)"
                  [ngClass]="{'SelectedImageAV': getSelectedAV(airVehicle?.id)}"
                  class="airVehicleImageContainer">
@@ -67,10 +66,10 @@
             </div>
             {{airVehicle.name}}
           </div>
-          <div
-            *ngIf="!airVehicle.modeDefine?.data?.missionOptions[missionModel?.missionType] || !(airVehicle.operationalStatus === OPERATIONAL_STATUS.Ready || airVehicle.operationalStatus === OPERATIONAL_STATUS.OnMission)">
+          <div *ngIf="!airVehicle.modeDefine?.data?.missionOptions[missionModel?.missionType] || !(airVehicle.operationalStatus === OPERATIONAL_STATUS.Ready || airVehicle.operationalStatus === OPERATIONAL_STATUS.OnMission)">
             <div (click)="onChooseAirVehicle(airVehicle)"
                  [ngStyle]="{'opacity': 0.3}"
+                 [ngClass]="{'SelectedImageAV': getSelectedAV(airVehicle?.id)}"
                  class="airVehicleImageContainer">
               <img [src]="'../../../../../assets/helicopter.png'">
             </div>
@@ -421,7 +420,7 @@
             {{missionModel?.missionDetails?.azimuth}}°
           </div>
           <!--Details-->
-          <div *ngIf="missionModel?.missionType !== MISSION_TYPE.Scan" class="DetailsContainer">
+          <div *ngIf="missionModel?.missionType !== MISSION_TYPE.Scan && missionModel?.missionType !== MISSION_TYPE.Patrol" class="DetailsContainer">
             <small>Define distance of flying from the Observation point <span
               *ngIf="missionModel.missionDetails.distance === null" class="Error">*</span></small>
             <div class="Grid3">
@@ -442,6 +441,19 @@
               <div class="item3">m</div>
             </div>
             <!--<mat-error *ngIf="missionModel.missionDetails.distance === null">Distance field is mandatory</mat-error>-->
+          </div>
+          <div *ngIf="missionModel?.missionType === MISSION_TYPE.Patrol" class="DetailsContainer">
+            <div class="ScanSelect">
+              <small>Yaw orientation</small>
+              <mat-form-field appearance="outline" class="SPMatFormField">
+                <mat-select [(ngModel)]="missionModel.missionDetails.yawOrientation"
+                            required>
+                  <mat-option *ngFor="let yawOrientation of yawOrientationTypes" [value]="yawOrientation">
+                    {{yawOrientation}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
           <div *ngIf="missionModel?.missionType === MISSION_TYPE.Scan" class="DetailsContainer">
             <div class="Grid2">
@@ -508,7 +520,7 @@
               <!--</mat-error>-->
             </div>
           </div>
-          <div *ngIf="(missionModel?.missionType !== MISSION_TYPE.Scan && missionModel.missionDetails.distance === null) ||
+          <div *ngIf="(missionModel?.missionType !== MISSION_TYPE.Scan && missionModel?.missionType !== MISSION_TYPE.Patrol && missionModel.missionDetails.distance === null) ||
                 (missionModel?.missionType === MISSION_TYPE.Scan && missionModel.missionDetails.scan.speed === undefined ||
                  missionModel?.missionType === MISSION_TYPE.Scan && missionModel.missionDetails.scan.overlapPercent === null ||
                  missionModel?.missionType === MISSION_TYPE.Scan && missionModel.missionDetails.scan.cameraFov === null)">

@@ -236,7 +236,7 @@ export class ReportDialogComponent {
       this.reportModel.location = {lat: lat, lon: lng, alt: 0};
       this.reportModel.address = place['formatted_address'];
       this.locationService.createOrUpdateLocationTemp({ lat: lat, lon: lng, alt: 0 });
-      this.eventService.flyToObject([lng, lat, 0]);
+      this.mapGeneralService.flyToObject([lng, lat, 0]);
     }
   };
 

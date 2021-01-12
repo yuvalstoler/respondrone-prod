@@ -238,7 +238,7 @@ export class GeoInstructionsComponent implements OnInit {
       const idTemp = this.applicationService.getGeoCounter();
       // this.locationService.deleteLocationPointTemp(idTemp);
       this.locationService.drawLocationFromServer({ lat: lat, lon: lng, alt: 0 }, idTemp);
-      this.geoInstructionsService.flyToObject([lng, lat, 0]);
+      this.mapGeneralService.flyToObject([lng, lat, 0]);
     }
   };
 

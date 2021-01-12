@@ -289,14 +289,18 @@ export class EventService {
     }
   };
   // ---------------------------
-  public flyToObject = (coordinates: POINT | POINT3D) => {
-    this.mapGeneralService.flyToObject(coordinates);
+  public flyToObject = (event: EVENT_DATA_UI) => {
+    if (event) {
+      if (this.getType(event) === 'icon') {
+        const coordinates = GeoCalculate.geopoint3d_short_to_point3d(event.location);
+        this.mapGeneralService.flyToObject(coordinates);
+      }
+      else if (this.getType(event) === 'polygon') {
+        this.mapGeneralService.flyToPolygon(event.polygon);
+      }
+    }
   };
-
-  public flyToPolygon = (coordinates: POINT3D[]) => {
-    this.mapGeneralService.flyToPolygon(coordinates);
-  };
-
+  // ---------------------------
   public getType = (event: EVENT_DATA_UI): 'icon' | 'polygon' => {
     if ((event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.lat && event.location.lon) ||
       (event.locationType === LOCATION_TYPE.address && event.location && event.location.lat && event.location.lon)) {

@@ -12,12 +12,23 @@
     <h3>Select a UAV from the list below before approving the mission.</h3>
       <!-- Air resources -->
       <div *ngFor="let airVehicle of airVehicleService.airVehicles.data; let i = index;" class="imageDivContainer">
-        <div (click)="onChooseAirVehicle(airVehicle)"
-             [ngClass]="{'SelectedImageAV': getSelectedAV(airVehicle?.id)}"
-             class="airVehicleImageContainer">
-          <img [src]="'../../../../../assets/helicopter.png'">
+        <div *ngIf="airVehicle.modeDefine?.data?.missionOptions[data?.missionType] && (airVehicle.operationalStatus === OPERATIONAL_STATUS.Ready || airVehicle.operationalStatus === OPERATIONAL_STATUS.OnMission)">
+          <div (click)="onChooseAirVehicle(airVehicle)"
+               [ngClass]="{'SelectedImageAV': getSelectedAV(airVehicle?.id)}"
+               class="airVehicleImageContainer">
+            <img [src]="'../../../../../assets/helicopter.png'">
+          </div>
+          {{airVehicle.name}}
         </div>
-        {{airVehicle.name}}
+        <div *ngIf="!airVehicle.modeDefine?.data?.missionOptions[data?.missionType] || !(airVehicle.operationalStatus === OPERATIONAL_STATUS.Ready || airVehicle.operationalStatus === OPERATIONAL_STATUS.OnMission)">
+          <div (click)="onChooseAirVehicle(airVehicle)"
+               [ngStyle]="{'opacity': 0.3}"
+               [ngClass]="{'SelectedImageAV': getSelectedAV(airVehicle?.id)}"
+               class="airVehicleImageContainer">
+            <img [src]="'../../../../../assets/helicopter.png'">
+          </div>
+          {{airVehicle.name}}
+        </div>
       </div>
   </div>
   <!--Action-->

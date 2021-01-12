@@ -261,8 +261,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
     if (column === 'map') {
 
       if (element.locationType === LOCATION_TYPE.locationPoint || element.locationType === LOCATION_TYPE.address) {
-        const coordinates: POINT3D = [element.location.lon, element.location.lat, 0];
-        this.eventService.flyToObject(coordinates);
+        this.reportService.flyToObject(element);
       }
     } else if (column === 'link') {
       const top = event.clientY - 10;

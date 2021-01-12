@@ -130,59 +130,59 @@
 
   "CommRelayMissionRep": {
     "port": "4600",
-    "host": "192.168.1.31",
+    "host": "localhost",
     "protocol": "http"
   },
   "PatrolMissionRep": {
     "port": "4601",
-    "host": "192.168.1.31",
+    "host": "localhost",
     "protocol": "http"
   },
   "GraphicOverlayRep": {
     "port": "4602",
-    "host": "192.168.1.31",
+    "host": "localhost",
     "protocol": "http"
   },
   "MissionRouteRep": {
     "port": "4603",
-    "host": "192.168.1.31",
+    "host": "localhost",
     "protocol": "http"
   },
   "MissionRep": {
     "port": "4604",
-    "host": "192.168.1.31",
+    "host": "localhost",
     "protocol": "http"
   },
   "NFZRep": {
     "port": "4605",
-    "host": "192.168.1.31",
+    "host": "localhost",
     "protocol": "http"
   },
   "ObservationMissionRep": {
     "port": "4606",
-    "host": "192.168.1.31",
+    "host": "localhost",
     "protocol": "http"
   },
   "ScanMissionRep": {
     "port": "4607",
-    "host": "192.168.1.31",
+    "host": "localhost",
     "protocol": "http"
   },
   "ServoingMissionRep": {
     "port": "4608",
-    "host": "192.168.1.31",
+    "host": "localhost",
     "protocol": "http"
   },
   "DeliveryMissionRep": {
     "port": "4609",
-    "host": "192.168.1.31",
+    "host": "localhost",
     "protocol": "http"
   },
 
 
   "TMM": {
     "port": "3000",
-    "host": "192.168.1.31",
+    "host": "localhost",
     "protocol": "http"
   },
   "TMM2": {

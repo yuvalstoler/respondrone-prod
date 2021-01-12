@@ -34,7 +34,8 @@ import {API_GENERAL, WS_API} from '../../../../../../classes/dataClasses/api/api
 import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE, POLYGON_DATA, POLYLINE_DATA} from '../../../types';
 import {ApplicationService} from '../applicationService/application.service';
 import {GeoCalculate} from '../classes/geoCalculate';
-import {LoginService} from "../login/login.service";
+import {LoginService} from '../login/login.service';
+import {FRService} from '../frService/fr.service';
 
 
 @Injectable({
@@ -52,7 +53,8 @@ export class MissionRequestService {
               private socketService: SocketService,
               private toasterService: CustomToasterService,
               private mapGeneralService: MapGeneralService,
-              private loginService: LoginService) {
+              private loginService: LoginService,
+              private frService: FRService) {
     this.socketService.connected$.subscribe(this.init);
     this.socketService.connectToRoom('webServer_missionRequests').subscribe(this.updateMissionRequests);
   }
@@ -83,11 +85,11 @@ export class MissionRequestService {
     this.connectionService.post('/' + API_GENERAL.general + WS_API.missionRequestAction, data)
       .then((res: ASYNC_RESPONSE) => {
         if (!res.success) {
-          this.toasterService.error({message: 'error changing task status', title: ''});
+          this.toasterService.error({message: 'error changing mission status', title: ''});
         }
       })
       .catch(e => {
-        this.toasterService.error({message: 'error changing task status', title: ''});
+        this.toasterService.error({message: 'error changing mission status', title: ''});
       });
   };
   // ----------------------
@@ -258,63 +260,66 @@ export class MissionRequestService {
   };
   // -----------------------
   public flyToObject = (item: MISSION_REQUEST_DATA_UI) => {
-    let coordinates: POINT | POINT3D | POINT3D[];
-    switch (item.missionType) {
-      case MISSION_TYPE.Observation : {
-        coordinates = [
-          item.observationMissionRequest.observationPoint.lon,
-          item.observationMissionRequest.observationPoint.lat,
-          item.observationMissionRequest.observationPoint.alt
-        ];
-        this.mapGeneralService.flyToObject(coordinates);
-        break;
-      }
-      case MISSION_TYPE.CommRelay : {
-        if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Fixed) {
+    if (item) {
+      let coordinates: POINT | POINT3D | POINT3D[];
+      switch (item.missionType) {
+        case MISSION_TYPE.Observation : {
           coordinates = [
-            item.commRelayMissionRequest.missionData.point.lon,
-            item.commRelayMissionRequest.missionData.point.lat,
-            item.commRelayMissionRequest.missionData.point.alt
+            item.observationMissionRequest.observationPoint.lon,
+            item.observationMissionRequest.observationPoint.lat,
+            item.observationMissionRequest.observationPoint.alt
           ];
           this.mapGeneralService.flyToObject(coordinates);
+          break;
         }
-        else if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Area) {
-          coordinates = GeoCalculate.geopoint3d_short_to_point3d_arr(item.commRelayMissionRequest.missionData.area.coordinates);
+        case MISSION_TYPE.CommRelay : {
+          if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Fixed) {
+            coordinates = [
+              item.commRelayMissionRequest.missionData.point.lon,
+              item.commRelayMissionRequest.missionData.point.lat,
+              item.commRelayMissionRequest.missionData.point.alt
+            ];
+            this.mapGeneralService.flyToObject(coordinates);
+          }
+          else if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Area) {
+            coordinates = GeoCalculate.geopoint3d_short_to_point3d_arr(item.commRelayMissionRequest.missionData.area.coordinates);
+            this.mapGeneralService.flyToPolygon(coordinates);
+          }
+          break;
+        }
+        case MISSION_TYPE.Scan : {
+          coordinates = GeoCalculate.geopoint3d_short_to_point3d_arr(item.scanMissionRequest.polygon.coordinates);
           this.mapGeneralService.flyToPolygon(coordinates);
+          break;
         }
-        break;
-      }
-      case MISSION_TYPE.Scan : {
-        coordinates = GeoCalculate.geopoint3d_short_to_point3d_arr(item.scanMissionRequest.polygon.coordinates);
-        this.mapGeneralService.flyToPolygon(coordinates);
-        break;
-      }
-      case MISSION_TYPE.Servoing : {
-        // todo: fr table
-        // item.servoingMissionRequest
-        break;
-      }
-      case MISSION_TYPE.Delivery : {
-        // todo: point
-        // coordinates = [
-        //   item.deliveryMissionRequest.deliveryPoint.lon,
-        //   item.deliveryMissionRequest.deliveryPoint.lat,
-        //   item.deliveryMissionRequest.deliveryPoint.alt
-        // ];
-        // this.mapGeneralService.flyToObject(coordinates);
-        break;
-      }
-      case MISSION_TYPE.Patrol : {
-        coordinates = [
-          item.followPathMissionRequest.polyline.coordinates[0].lon,
-          item.followPathMissionRequest.polyline.coordinates[0].lat,
-          item.followPathMissionRequest.polyline.coordinates[0].alt,
-        ];
-        this.mapGeneralService.flyToObject(coordinates);
-        break;
+        case MISSION_TYPE.Servoing : {
+          if (item.servoingMissionRequest.targetType === TARGET_TYPE.FR) {
+            const fr = this.frService.getFRById(item.servoingMissionRequest.targetId);
+            this.frService.flyToObject(fr);
+          }
+          break;
+        }
+        case MISSION_TYPE.Delivery : {
+          // todo: point
+          // coordinates = [
+          //   item.deliveryMissionRequest.deliveryPoint.lon,
+          //   item.deliveryMissionRequest.deliveryPoint.lat,
+          //   item.deliveryMissionRequest.deliveryPoint.alt
+          // ];
+          // this.mapGeneralService.flyToObject(coordinates);
+          break;
+        }
+        case MISSION_TYPE.Patrol : {
+          coordinates = [
+            item.followPathMissionRequest.polyline.coordinates[0].lon,
+            item.followPathMissionRequest.polyline.coordinates[0].lat,
+            item.followPathMissionRequest.polyline.coordinates[0].alt,
+          ];
+          this.mapGeneralService.flyToObject(coordinates);
+          break;
+        }
       }
     }
-
   };
   // ----------------------
   createObservationMission = (missionModel: MISSION_MODEL_UI) => {
@@ -373,7 +378,7 @@ export class MissionRequestService {
     const patrolMissionRequest: FOLLOW_PATH_MISSION_REQUEST = {
       droneId: missionModel.airResources[0],
       status: MISSION_STATUS.Pending,
-      yawOrientation: YAW_ORIENTATION.North,                                  // TODO
+      yawOrientation: missionModel.missionDetails.yawOrientation,                                  // TODO
       gimbalAzimuth: missionModel.missionDetails.azimuth,
       polyline: {coordinates: GeoCalculate.point3d_to_geoPoint3d_short_arr(missionModel.polyline)},
     };
