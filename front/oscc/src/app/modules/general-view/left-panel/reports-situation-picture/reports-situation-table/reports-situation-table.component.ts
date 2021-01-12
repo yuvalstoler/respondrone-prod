@@ -272,10 +272,6 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
     }
   };
 
-  getSeparateString = (column) => {
-    return column.split(/(?=[A-Z])/).join(' ');
-  };
-
   resetTable = () => {
     this.reportService.unselectIcon(this.reportService.selectedElement);
     this.reportService.selectedElement = undefined;

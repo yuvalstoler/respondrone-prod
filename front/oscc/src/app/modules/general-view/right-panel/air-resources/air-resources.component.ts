@@ -156,8 +156,8 @@ export class AirResourcesComponent implements OnInit {
     this.missionRequestService.goToMissionRequest(airVehicle.missionRequestId);
   };
 
-  getSeparateString = (column) => {
-    return column.split(/(?=[A-Z])/).join(' ');
-  };
+  // getSeparateString = (column) => {
+  //   return column.split(/(?=[A-Z])/).join(' ');
+  // };
 
 }

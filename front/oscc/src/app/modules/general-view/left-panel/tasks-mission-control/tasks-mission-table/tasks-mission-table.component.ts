@@ -204,10 +204,6 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
     }
   };
 
-  getSeparateString = (column) => {
-    return column.split(/(?=[A-Z])/).join(' ');
-  };
-
   resetTable = () => {
     this.selection.clear();
     this.applicationService.selectedTasks = [];

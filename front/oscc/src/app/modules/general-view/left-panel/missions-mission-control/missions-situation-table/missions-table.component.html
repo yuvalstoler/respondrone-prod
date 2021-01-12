@@ -7,7 +7,7 @@
         <th *matHeaderCellDef [disabled]="isSortingDisabled(column)"
             mat-header-cell mat-sort-header>
           <span *ngIf="column !== 'message' && column !== 'link' && column !== 'map' && column !== 'attachment'"
-                class="capitalize">{{(column !== 'id') ? getSeparateString(column) : 'ID'}}</span>
+                class="capitalize">{{(column !== 'id') ? (column | separatorString) : 'ID'}}</span>
           <mat-icon *ngIf="column === 'message'" class="HPRightSideIcon" matTooltip="Comments" matTooltipPosition="above">comment</mat-icon>
           <mat-icon *ngIf="column === 'link'" class="HPRightSideIcon" matTooltip="Linked events" matTooltipPosition="above">link</mat-icon>
           <mat-icon *ngIf="column === 'map'" class="HPRightSideIcon" matTooltip="Mission location" matTooltipPosition="above">location_on</mat-icon>

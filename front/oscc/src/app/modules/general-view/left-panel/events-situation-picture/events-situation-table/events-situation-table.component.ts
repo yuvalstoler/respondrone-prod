@@ -53,11 +53,16 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
 
     const subscription = this.eventService.events$.subscribe((isNewData: boolean) => {
       if (isNewData) {
-        this.dataSource.data = [...this.eventService.events.data];
+        this.dataSource.data = this.setDataByDate(this.eventService.events.data);
       }
     });
     this.subscriptions.push(subscription);
   }
+
+  setDataByDate = (data): any[] => {
+    const arraySortedByDate = data.sort((a, b) => (a.createdBy < b.createdBy ? -1 : 1));
+    return arraySortedByDate;
+  };
 
   ngOnInit(): void {
     const subscription = this.eventService.changeSelected$.subscribe((selectedId: ID_TYPE) => {
@@ -236,17 +241,13 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
 
   };
 
-  getSeparateString = (column) => {
-    return column.split(/(?=[A-Z])/).join(' ');
-  };
-
   resetTable = () => {
     this.eventService.unselectIcon(this.eventService.selectedElement);
     this.eventService.selectedElement = undefined;
 
     this.selection.clear();
     this.applicationService.selectedEvents = [];
-  }
+  };
 
   ngOnDestroy() {
     this.resetTable();

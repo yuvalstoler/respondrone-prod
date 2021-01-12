@@ -33,52 +33,7 @@ import {MissionRequestService} from '../../../../../services/missionRequestServi
 
 export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  // // Table columns
-  // initColumns: any[] = [
-  //   {
-  //     name: 'expandCollapse',
-  //     display: 'expandCollapse'
-  //   },
-  //   {
-  //     name: 'select',
-  //     display: 'Select'
-  //   },
-  //   {
-  //     name: 'id',
-  //     display: 'ID'
-  //   },
-  //   {
-  //     name: 'missionStatus',
-  //     display: 'Mission Status'
-  //   },
-  //   {
-  //     name: 'missionType',
-  //     display: 'Mission Type'
-  //   },
-  //   {
-  //     name: 'description',
-  //     display: 'Description'
-  //   },
-  //   {
-  //     name: 'createdBy',
-  //     display: 'Created By'
-  //   },
-  //   {
-  //     name: 'time',
-  //     display: 'Time'
-  //   },
-  //   {
-  //     name: 'message',
-  //     display: 'Message'
-  //   },
-  //   {
-  //     name: 'map',
-  //     display: 'Map'
-  //   }
-  // ];
-
   displayedColumns: string[] = ['expandCollapse', 'select', 'id', 'missionStatus', 'missionType', 'description', 'createdBy', 'time', 'message', 'map'];
-  // displayedColumns: any[] = this.initColumns.map(col => col.name);
 
   displayedColumnsMinimize: string[] = [ 'id', 'missionStatus', 'missionType', 'createdBy', 'map'];
   dataSource = new MatTableDataSource<MISSION_REQUEST_DATA_UI>();
@@ -143,7 +98,7 @@ export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   private selectRow = (row: MISSION_REQUEST_DATA_UI): void => {
     this.selection.clear();
-    this.applicationService.selectedMissionRequests = []
+    this.applicationService.selectedMissionRequests = [];
     this.onChangeCheckbox({checked: true}, row);
   };
 
@@ -259,14 +214,10 @@ export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   };
 
-  getSeparateString = (column) => {
-   return column.split(/(?=[A-Z])/).join(' ');
-  };
-
   resetTable = () => {
     this.selection.clear();
     this.applicationService.selectedMissionRequests = [];
-  }
+  };
 
   ngOnDestroy() {
     this.resetTable();

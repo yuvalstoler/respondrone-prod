@@ -19,7 +19,7 @@ import {CustomToasterService} from '../../services/toasterService/custom-toaster
 import {ReportService} from '../../services/reportService/report.service';
 import * as _ from 'lodash';
 import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
-import {LoginService} from "../../services/login/login.service";
+import {LoginService} from '../../services/login/login.service';
 
 @Component({
   selector: 'app-event-dialog',
@@ -206,7 +206,7 @@ export class EventDialogComponent implements OnInit {
 
   onCreateClick(): void {
     this.dialogRef.close(this.eventModel);
-    console.log(this.eventModel);
+    // console.log(this.eventModel);
     this.clearPanel();
   }
 
