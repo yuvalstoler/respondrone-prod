@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {AfterContentInit, Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {
   COMMENT, FR_DATA_UI,
   GEOGRAPHIC_INSTRUCTION,
@@ -21,16 +21,19 @@ import {ArrowService} from '../../services/arrowService/arrow.service';
 import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
 import {DataUtility} from '../../../../../../classes/applicationClasses/utility/dataUtility';
 import {TasksService} from '../../services/tasksService/tasks.service';
-import {LoginService} from "../../services/login/login.service";
+import {LoginService} from '../../services/login/login.service';
+import {GeoInstructionsComponent} from '../../modules/general-view/geo-instructions/geo-instructions.component';
 
 @Component({
   selector: 'app-task-dialog',
   templateUrl: './task-dialog.component.html',
   styleUrls: ['./task-dialog.component.scss']
 })
-export class TaskDialogComponent implements OnInit {
+export class TaskDialogComponent implements OnInit, AfterContentInit {
 
   // @ViewChild('title', {static: true}) firstItem: ElementRef;
+  @ViewChild(GeoInstructionsComponent) childComponent: GeoInstructionsComponent ;
+  isNotSaveGeoInstructions: boolean = false;
 
   taskModel: TASK_DATA_UI;
   types = this.applicationService.typesConfig.taskTypes;
@@ -77,6 +80,10 @@ export class TaskDialogComponent implements OnInit {
 
   ngOnInit() {
     // this.firstItem.nativeElement.focus();
+  }
+
+  ngAfterContentInit() {
+    // this.isNotSaveGeoInstructions = this.childComponent.isNotSaveGeoInstructions;
   }
 
   onNoClick(): void {

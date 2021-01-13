@@ -2,12 +2,13 @@
   <!--Title geoInstruction-->
   <div class="TaskHeader">
     <span class="DialogTitle">Geographic instructions</span>
-    <div class="DialogTask pointer"
-         [matMenuTriggerFor]="menu"
-         #triggerBtn="matMenuTrigger"
+    <div #triggerBtn="matMenuTrigger"
          (click)="onAddInstruction()"
-         [ngStyle]="{'color': (isSave) ? 'lightgray': '', 'borderBottom': (isSave) ? 'none' : ''}"
-    >Add</div>
+         [matMenuTriggerFor]="menu"
+         [ngStyle]="{'color': (isNotSaveGeoInstructions) ? 'lightgray': '', 'borderBottom': (isNotSaveGeoInstructions) ? 'none' : ''}"
+         class="DialogTask pointer"
+    >Add
+    </div>
     <mat-menu #menu="matMenu">
       <button (click)="setSelectedInstruction(item)" *ngFor="let item of geoInstructions" mat-menu-item>
         {{ item }}
@@ -15,91 +16,101 @@
     </mat-menu>
   </div>
 
-  <!--List All geoInstructions-->
-  <div class="">
-    <app-geo-instructions-list
-      [geographicInstructionsModel]="geographicInstructionsModel"
-      (changeGeographicInstructionsModel)="saveGIM(geographicInstructionsModel)"
-      [isNotViewOnly]="true">
-    </app-geo-instructions-list>
-  </div>
+  <div class="GeoInstructContainer scroll">
+    <!--List All geoInstructions-->
+    <div class="">
+      <app-geo-instructions-list
+        (changeGeographicInstructionsModel)="saveGIM(geographicInstructionsModel)"
+        [geographicInstructionsModel]="geographicInstructionsModel"
+        [isNotViewOnly]="true">
+      </app-geo-instructions-list>
+    </div>
 
-  <!--add New GeoInstruction-->
-  <div class="">
-    <!--Arrow-->
-    <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.arrow">
-      <div class="DialogTitle">
-        Arrow
-      </div>
-    </div>
-    <!--Address-->
-    <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.address">
-      <div class="DialogTitle">
-        Address
-      </div>
-      <div>
-        <app-autocomplete-address (setAddress)="getAddress($event)" (click)="clearAddress($event)" addressType="geocode" [address]="geoInstructionModel.address"></app-autocomplete-address>
-      </div>
-    </div>
-    <!--Point-->
-    <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.point">
-      <div class="DialogTitle">
-        Point
-      </div>
-      <!--Location-->
-      <div>
-        <small>Choose location point from the map or write
-          Lat/Long
-        </small>
-        <div class="DialogGrid22">
-          <!--Lat-->
-          <mat-form-field appearance="outline" class="">
-            <label>
-              <input (change)="locationChanged($event)"
-                     (click)="$event.stopPropagation()"
-                     (keyup)="locationChanged($event)"
-                     [(ngModel)]="geoInstructionModel.location.lat"
-                     class="Label"
-                     matInput
-                     min="0"
-                     placeholder="Lat"
-                     type="number">
-            </label>
-          </mat-form-field>
-          <!--Long-->
-          <mat-form-field appearance="outline" class="">
-            <label>
-              <input (change)="locationChanged($event)"
-                     (click)="$event.stopPropagation()"
-                     (keyup)="locationChanged($event)"
-                     [(ngModel)]="geoInstructionModel.location.lon"
-                     class="Label"
-                     matInput
-                     min="0"
-                     placeholder="Long"
-                     type="number">
-            </label>
-          </mat-form-field>
+    <!--add New GeoInstruction-->
+    <div class="">
+      <!--Arrow-->
+      <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.arrow">
+        <div class="DialogTitle">
+          Arrow
+          <mat-error *ngIf="geoInstructionModel.arrow.length <= 0">*</mat-error>
         </div>
       </div>
-    </div>
-    <!--Polygon-->
-    <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.polygon">
-      <div  class="DialogTitle">
-        Polygon
+      <!--Address-->
+      <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.address">
+        <div class="DialogTitle">
+          Address
+          <mat-error *ngIf="geoInstructionModel.location.lat === undefined || geoInstructionModel.location.lon === undefined">*</mat-error>
+        </div>
+        <div>
+          <app-autocomplete-address (click)="clearAddress($event)" (setAddress)="getAddress($event)"
+                                    [address]="geoInstructionModel.address"
+                                    addressType="geocode"></app-autocomplete-address>
+        </div>
       </div>
-    </div>
-    <!--Polyline-->
-    <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.polyline">
-      <div class="DialogTitle">
-        Polyline
+      <!--Point-->
+      <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.point">
+        <div class="DialogTitle">
+          Point
+          <mat-error *ngIf="geoInstructionModel.location.lat === undefined || geoInstructionModel.location.lon === undefined">*</mat-error>
+        </div>
+        <!--Location-->
+        <div>
+          <small>Choose location point from the map or write
+            Lat/Long
+          </small>
+          <div class="DialogGrid22">
+            <!--Lat-->
+            <mat-form-field appearance="outline" class="">
+              <label>
+                <input (change)="locationChanged($event)"
+                       (click)="$event.stopPropagation()"
+                       (keyup)="locationChanged($event)"
+                       [(ngModel)]="geoInstructionModel.location.lat"
+                       class="Label"
+                       matInput
+                       min="0"
+                       placeholder="Lat"
+                       type="number">
+              </label>
+            </mat-form-field>
+            <!--Long-->
+            <mat-form-field appearance="outline" class="">
+              <label>
+                <input (change)="locationChanged($event)"
+                       (click)="$event.stopPropagation()"
+                       (keyup)="locationChanged($event)"
+                       [(ngModel)]="geoInstructionModel.location.lon"
+                       class="Label"
+                       matInput
+                       min="0"
+                       placeholder="Long"
+                       type="number">
+              </label>
+            </mat-form-field>
+          </div>
+        </div>
       </div>
-    </div>
-    <!--Description-->
-    <div *ngIf="selectedGeoInstruction !== undefined" class="DialogContentItem">
-      <div [ngClass]="{required: geoInstructionModel.description === ''}" class="DialogTitle">Description</div>
-      <mat-form-field appearance="outline" class="SPMatFormField">
-        <label>
+      <!--Polygon-->
+      <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.polygon">
+        <div class="DialogTitle">
+          Polygon
+          <mat-error *ngIf="geoInstructionModel.polygon.length <= 0">*</mat-error>
+        </div>
+      </div>
+      <!--Polyline-->
+      <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.polyline">
+        <div class="DialogTitle">
+          Polyline
+          <mat-error *ngIf="geoInstructionModel.arrow.length <= 0">*</mat-error>
+        </div>
+      </div>
+      <!--Description-->
+      <div *ngIf="selectedGeoInstruction !== undefined" class="DialogContentItem">
+        <div class="DialogTitle">Description
+          <mat-error *ngIf="geoInstructionModel.description === ''">*</mat-error>
+        </div>
+        <mat-form-field appearance="outline" class="SPMatFormField">
+          <label>
             <textarea [(ngModel)]="geoInstructionModel.description"
                       [ngStyle]="{'resize': 'none'}" class="Label"
                       matInput
@@ -107,23 +118,31 @@
                       rows="2">
 
             </textarea>
-        </label>
-      </mat-form-field>
-      <mat-error *ngIf="geoInstructionModel.description === ''">Description field is mandatory</mat-error>
-    </div>
-    <!--Action Buttons-->
-    <div *ngIf="selectedGeoInstruction !== undefined" class="DialogCenter">
-      <button (click)="cancelInstruction(selectedGeoInstruction)"
-               class="DialogActionsSave">
-        Cancel
-      </button>
-      <button (click)="saveInstruction(selectedGeoInstruction)"
-              [disabled]="geoInstructionModel.description === ''"
-              [ngClass]="{'disabled': geoInstructionModel.description === ''}"
-              class="DialogActionsSave">
-        Save
-      </button>
+          </label>
+        </mat-form-field>
+        <!--<mat-error *ngIf="geoInstructionModel.description === ''">Description field is mandatory</mat-error>-->
+      </div>
+      <!--Action Buttons-->
+      <div *ngIf="selectedGeoInstruction !== undefined" class="DialogCenter">
+        <button (click)="cancelInstruction(selectedGeoInstruction)"
+                class="DialogActionsCancel"
+                mat-raised-button>
+          Cancel
+        </button>
+        <button (click)="saveInstruction(selectedGeoInstruction)"
+                [disabled]="geoInstructionModel.description === '' ||
+ ((selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.address || selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.point) &&
+(geoInstructionModel.location.lat === undefined || geoInstructionModel.location.lon === undefined)) ||
+(selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.arrow && geoInstructionModel.arrow.length <= 0) ||
+(selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.polyline && geoInstructionModel.polyline.length <= 0) ||
+(selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.polygon && geoInstructionModel.polygon.length <= 0)"
+                class="DialogActionsSave"
+                mat-raised-button>
+          Save
+        </button>
+      </div>
     </div>
   </div>
+
 </div>
 

@@ -106,7 +106,8 @@
   <div class="DialogActions" mat-dialog-actions>
     <mat-error class="DialogMandatory"
                *ngIf="(taskModel.title === '' || taskModel.title === undefined) ||
-             (taskModel.description === '' || taskModel.description === undefined)">
+             (taskModel.description === '' || taskModel.description === undefined) ||
+childComponent?.isNotSaveGeoInstructions === true">
       *Mandatory fields
     </mat-error>
     <button (click)="onNoClick()" class="DialogActionsDelete"
@@ -116,7 +117,8 @@
     <button (click)="onCreateClick()"
             class="DialogActionsCreate"
             [disabled]="(taskModel.title === '' || taskModel.title === undefined) ||
-             (taskModel.description === '' || taskModel.description === undefined)"
+             (taskModel.description === '' || taskModel.description === undefined) ||
+childComponent?.isNotSaveGeoInstructions === true"
             mat-raised-button>
       {{data.title}}
     </button>

@@ -1,7 +1,9 @@
 @import "../../../../styles/dialogs";
 @import "../../../../styles/disabled";
 
-
+.GeoInstructContainer{
+  max-height: 25vh;
+}
 .TaskHeader{
   margin-top: 15px;
 }

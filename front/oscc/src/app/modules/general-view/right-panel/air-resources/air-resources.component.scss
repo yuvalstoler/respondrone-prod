@@ -8,9 +8,9 @@
 
 .gridAirResources {
   display: grid;
-  grid-template-columns: 45% auto 25%;
+  grid-template-columns: 36% 30% 34%;
+  padding: 10px 7px 2px 7px;
   //grid-template-rows: 25px 20px 20px 20px 25px;
-  padding: 10px 10px 2px 10px;
   font-size: $fontSizeText13;
   color: $black;
   border-radius: 8px;
@@ -32,6 +32,7 @@
   mat-icon{
     cursor: pointer;
   }
+
 }
 .item3{
   grid-column: 1 / span 2;
@@ -63,7 +64,7 @@
 .item8{
   grid-column: 1/ span 3;
   grid-row: 4;
-  border-top: 1px solid $gray;
+  border-top: 1px solid $Disabled;
 }
 .item9{
   grid-column: 1;

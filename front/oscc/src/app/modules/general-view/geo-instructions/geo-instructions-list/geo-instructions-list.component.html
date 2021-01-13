@@ -26,6 +26,9 @@
   </mat-expansion-panel>
 </mat-accordion>
 
-<div *ngIf="geographicInstructionsModel.length <= 0" class="DialogNotElement">
-  No geographic instructions
+<div *ngIf="geographicInstructionsModel.length <= 0 && isNotViewOnly" class="DialogNotElement">
+  Add geographic instructions by clicking on the "Add" button.
+</div>
+<div *ngIf="geographicInstructionsModel.length <= 0 && !isNotViewOnly" class="DialogNotElement">
+  No geographic instructions.
 </div>

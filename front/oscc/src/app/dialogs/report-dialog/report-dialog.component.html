@@ -2,7 +2,7 @@
   <!--Header-->
   <div class="DialogHeader" mat-dialog-title>
     <span class="DialogHeaderTitle">{{data.title}}</span>
-    <span class="DialogHeaderX">
+    <span class="DialogHeaderX" >
       <button (click)="onNoClick()" mat-icon-button>
       <mat-icon>close</mat-icon>
     </button>
@@ -58,7 +58,7 @@
     </div>
     <div class="item2">
       <!--Location-->
-      <div class="DialogContentItem">
+      <div class="DialogContentItem containerLocation">
         <div class="DialogTitle">Location
           <mat-error *ngIf="getLocationDisabled()">*</mat-error>
         </div>

@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {
   GEOGRAPHIC_INSTRUCTION,
   GEOGRAPHIC_INSTRUCTION_TYPE,
-  GEOPOINT3D_SHORT, LOCATION_TYPE,
+  GEOPOINT3D_SHORT,
   POINT3D,
   TASK_DATA_UI
 } from '../../../../../../../classes/typings/all.typings';
@@ -51,7 +51,7 @@ export class GeoInstructionsComponent implements OnInit {
     arrow: [],
     polyline: []
   };
-  isSave: boolean = false;
+  isNotSaveGeoInstructions: boolean = false;
 
 
   constructor(public applicationService: ApplicationService,
@@ -91,7 +91,7 @@ export class GeoInstructionsComponent implements OnInit {
   }
 
   onAddInstruction = () => {
-    if (this.isSave) {
+    if (this.isNotSaveGeoInstructions) {
       this.triggerBtn.closeMenu();
     } else {
       this.triggerBtn.openMenu();
@@ -100,7 +100,7 @@ export class GeoInstructionsComponent implements OnInit {
 
   setSelectedInstruction = (type: GEOGRAPHIC_INSTRUCTION_TYPE) => {
     this.selectedGeoInstruction = type;
-    this.isSave = true;
+    this.isNotSaveGeoInstructions = true;
     switch (type) {
       case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
         this.applicationService.stateDraw = STATE_DRAW.drawArrow;
@@ -155,7 +155,7 @@ export class GeoInstructionsComponent implements OnInit {
   };
 
   saveInstruction = (type: GEOGRAPHIC_INSTRUCTION_TYPE) => {
-    // this.isSave = false;
+    // this.isNotSaveGeoInstructions = false;
     this.geoInstructionModel.type = type;
     // this.geoInstructionModel.modeDefine.styles.mapIcon = this.setIcon(type);
     this.geoInstructionModel.id = this.applicationService.getGeoCounter();
@@ -166,7 +166,7 @@ export class GeoInstructionsComponent implements OnInit {
   };
 
   clearInstruction = () => {
-    this.isSave = false;
+    this.isNotSaveGeoInstructions = false;
     this.selectedGeoInstruction = undefined;
     this.geoInstructionModel = _.cloneDeep(this.defaultModel);
     this.element.geographicInstructions = this.geographicInstructionsModel;
@@ -179,28 +179,6 @@ export class GeoInstructionsComponent implements OnInit {
     this.element.geographicInstructions = this.geographicInstructionsModel;
     console.log(this.geographicInstructionsModel);
   };
-
-  // setIcon = (type: GEOGRAPHIC_INSTRUCTION_TYPE): string => {
-  //   let res: string;
-  //   switch (type) {
-  //     case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
-  //       res = 'arrow_forward';
-  //       break;
-  //     case GEOGRAPHIC_INSTRUCTION_TYPE.address:
-  //       res = 'location_on';
-  //       break;
-  //     case GEOGRAPHIC_INSTRUCTION_TYPE.point:
-  //       res = 'location_on';
-  //       break;
-  //     case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
-  //       res = 'crop_5_4';
-  //       break;
-  //     case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
-  //       res = 'timeline';
-  //       break;
-  //   }
-  //   return res;
-  // };
 
   locationChanged = (event) => {
     if (event.target.value !== '') {

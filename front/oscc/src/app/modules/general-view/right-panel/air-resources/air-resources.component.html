@@ -16,13 +16,13 @@
           <!-- 3 dotes-->
           <mat-icon (click)="$event.stopPropagation();" *ngIf="!this.applicationService.isDialogOpen"
                     [matMenuTriggerFor]="missionOptions"
-                    [ngStyle]="{'cursor': 'pointer'}"
+                    [ngStyle]="{'cursor': 'pointer', 'margin': '0 -6px 0 8px;'}"
                     matRipple
           >more_vert
           </mat-icon>
           <mat-icon
             *ngIf="this.applicationService.isDialogOpen && (airVehicle.operationalStatus === OPERATIONAL_STATUS.Ready || airVehicle.operationalStatus === OPERATIONAL_STATUS.OnMission)"
-            [ngStyle]="{'cursor': 'no-drop'}"
+            [ngStyle]="{'cursor': 'no-drop', 'margin': '0 -12px 0 8px;'}"
             matRipple>more_vert
           </mat-icon>
           <!--Menu mission Options-->
@@ -75,7 +75,6 @@
         <span [ngStyle]="{'color': airVehicle?.modeDefine?.styles?.statusColor}"
               class="material-icons iconStatus">fiber_manual_record
         </span>{{airVehicle?.operationalStatus | separatorString}}
-          <!--{{getSeparateString(airVehicle.operationalStatus)}}-->
         </div>
         <!--TTL-->
         <div class="item5">

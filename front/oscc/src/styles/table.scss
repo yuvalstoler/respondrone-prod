@@ -15,8 +15,9 @@ table {
 
 .table-scroll {
   max-height: calc(100vh - #{$headerHeight} - 100px);
-  overflow-y: auto;
-  overflow-x: hidden;
+  //overflow-y: auto;
+  //overflow-x: hidden;
+  overflow: auto;
 }
 
 .tableCheckbox {
