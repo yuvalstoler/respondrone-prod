@@ -219,76 +219,6 @@ export class CesiumDrawerService {
     return res;
   };
 
-  // public updateIconFromMap = (domId: string, billboardId: string, object: DRAW_OBJECT, label?: DRAW_LABEL): boolean => {
-  //   let res = false;
-  //   const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
-  //   for (const mapDomId in mapsCE) {
-  //     if (mapsCE.hasOwnProperty(mapDomId)) {
-  //       if (this.cesiumService.cesiumMapObjects.hasOwnProperty(mapDomId) && this.cesiumService.cesiumMapObjects[mapDomId] !== undefined) {
-  //         // delete locationPoint
-  //         if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.iconCE)) {
-  //           if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE].hasOwnProperty(billboardId) &&
-  //             (Object.keys(this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId]).length > 0)) {
-  //             this.updateIconOnMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconCE][billboardId], object);
-  //             res = true;
-  //           }
-  //         }
-  //         if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.iconLabelCE) && label) {
-  //           if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE].hasOwnProperty(billboardId) &&
-  //             (Object.keys(this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][billboardId]).length > 0)) {
-  //             this.updateIconLabelOnMap(mapDomId, this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.iconLabelCE][billboardId], object, label);
-  //             res = true;
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  //   return res;
-  // };
-
-  // private updateIconOnMap = (mapDomId: string, entityCE, object: DRAW_OBJECT) => {
-  //   const size = object.modeDefine.styles.iconSize || 30;
-  //   const description = (object.hasOwnProperty('description')) ? object['description'] : '';
-  //   const options = {
-  //     position: Cesium.Cartesian3.fromDegrees(object.location.lon, object.location.lat, object.location.alt),
-  //     heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
-  //     billboard: {
-  //       image: object.modeDefine.styles.mapIcon,
-  //       width: size,
-  //       height: size,
-  //       rotation: Cesium.Math.toRadians(-(object['heading'] || 0))
-  //     },
-  //     label: undefined,
-  //     options: {
-  //       description: description,
-  //     },
-  //     show: true
-  //   };
-  //   this.cesiumService.updateItemCEOnMap(mapDomId, entityCE, options);
-  // };
-
-  // private updateIconLabelOnMap = (mapDomId: string, entityCE, object: DRAW_OBJECT, label: DRAW_LABEL) => {
-  //   const size = object.modeDefine.styles.iconSize || 30;
-  //   const options = {
-  //     position: Cesium.Cartesian3.fromDegrees(object.location.lon, object.location.lat, object.location.alt),
-  //     heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
-  //     label: {
-  //       text: label.text,
-  //       font: '10pt monospace',
-  //       showBackground: true,
-  //       eyeOffset: new Cesium.Cartesian3(0, 0, 0), // to prevent labels mixing
-  //       pixelOffset: new Cesium.Cartesian2(0, size / 2),
-  //       style: Cesium.LabelStyle.FILL,
-  //       fillColor: Cesium.Color.BLACK,
-  //       backgroundColor: Cesium.Color.fromCssColorString(label.color || 'rgba(255, 255 ,255 ,1)'),
-  //       // textShadow: '2px 2px 4px ' + Cesium.Color.BLACK.withAlpha(0.9),
-  //       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-  //       verticalOrigin: Cesium.VerticalOrigin.TOP,
-  //     }
-  //   };
-  //   this.cesiumService.updateItemCEOnMap(mapDomId, entityCE, options);
-  // };
-
   private createIconEntity = (mapDomId: string, entityCE: any, iconData: ICON_DATA) => {
     const positionCartesian = this.pointDegreesToCartesian3(iconData.location);
 
@@ -328,31 +258,6 @@ export class CesiumDrawerService {
       return this.cesiumService.cesiumViewer[mapDomId].entities.add(options);
     }
   };
-
-  // private createIconLabelEntity = (mapDomId: string, object: DRAW_OBJECT, label: DRAW_LABEL) => {
-  //   const size = object.modeDefine.styles.iconSize || 30;
-  //
-  //   const iconLabel = this.cesiumService.cesiumViewer[mapDomId].entities.add({
-  //     position: Cesium.Cartesian3.fromDegrees(object.location.lon, object.location.lat, object.location.alt),
-  //     heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
-  //     label: {
-  //       text: label.text,
-  //       font: '10pt monospace',
-  //       showBackground: true,
-  //       eyeOffset: new Cesium.Cartesian3(0, 0, 0), // to prevent labels mixing
-  //       pixelOffset: new Cesium.Cartesian2(0, size / 2),
-  //       style: Cesium.LabelStyle.FILL,
-  //       fillColor: Cesium.Color.BLACK,
-  //       backgroundColor: Cesium.Color.fromCssColorString(label.color || 'rgba(255, 255 ,255 ,1)'),
-  //       // textShadow: '2px 2px 4px ' + Cesium.Color.BLACK.withAlpha(0.9),
-  //       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-  //       verticalOrigin: Cesium.VerticalOrigin.TOP,
-  //     }
-  //   });
-  //
-  //   this.cesiumService.scene[mapDomId].globe.depthTestAgainstTerrain = false;
-  //   return iconLabel;
-  // };
 
   private getIconLabelOptions = (object: ICON_DATA): {} => {
     let iconLabel;
@@ -663,84 +568,6 @@ export class CesiumDrawerService {
     return polygonLabel;
   };
 
-  // private getPolygonLabelOptions = (positions: POINT3D[], title: string): {position: CARTESIAN3, label: any} => {
-  //   const posHeight: POINT = this.getPolygonCentroid(positions);
-  //   const position = this.arrayPointsToCartesian3(positions);
-  //
-  //
-  //   const center = Cesium.BoundingSphere.fromPoints(position).center;
-  //   // Cesium.Ellipsoid.WGS84.scaleToGeodeticSurface(center, center);
-  //   const positionCenter = new Cesium.ConstantPositionProperty(center);
-  //
-  //   const label = {
-  //     // position: positionCenter,
-  //     text: title,
-  //     font: '14pt monospace',
-  //     showBackground: false,
-  //     eyeOffset: new Cesium.Cartesian3(0, 0, -100), // to prevent labels mixing
-  //     pixelOffset: new Cesium.Cartesian2(0, 0),
-  //     style: Cesium.LabelStyle.FILL,
-  //     // outline: true,
-  //     fillColor: Cesium.Color.BLACK,
-  //     // textShadow: '2px 2px 4px ' + Cesium.Color.BLACK.withAlpha(0.9),
-  //     outlineColor: Cesium.Color.BLACK,
-  //     //outlineWidth: 2,
-  //     horizontalOrigin: Cesium.HorizontalOrigin.END,
-  //     verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-  //     // heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
-  //   };
-  //
-  //   return {
-  //     label: label,
-  //     position: positionCenter,
-  //   };
-  // };
-
-  // private createLabel = (mapDomId: string, mapCE: any, positions: POINT3D[], title: string): Array<{}> => {
-  //   const posHeight: POINT = this.getPolygonCentroid(positions);
-  //   const position = this.arrayPointsToCartesian3(positions);
-  //
-  //
-  //   const center = Cesium.BoundingSphere.fromPoints(position).center;
-  //   // Cesium.Ellipsoid.WGS84.scaleToGeodeticSurface(center, center);
-  //    const positionCenter = new Cesium.ConstantPositionProperty(center);
-  //
-  //   const label = {
-  //     // position: positionCenter,
-  //     text: title,
-  //     font: '10pt monospace',
-  //     showBackground: false,
-  //     eyeOffset: new Cesium.Cartesian3(0, 0, 0), // to prevent labels mixing
-  //     pixelOffset: new Cesium.Cartesian2(-20, 0),
-  //     style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-  //     outline: true,
-  //     fillColor: Cesium.Color.BLACK,
-  //     // textShadow: '2px 2px 4px ' + Cesium.Color.BLACK.withAlpha(0.9),
-  //     outlineColor: Cesium.Color.BLACK,
-  //     outlineWidth: 2,
-  //     horizontalOrigin: Cesium.HorizontalOrigin.END,
-  //     verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-  //     heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND
-  //   };
-  //
-  //   return this.cesiumService.cesiumViewer[mapDomId].entities.add({
-  //     label: label,
-  //     position: positionCenter
-  //   });
-  // };
-
-  // private getPolygonCentroid = (points): POINT => {
-  //   const centroid = {x: 0, y: 0};
-  //   for (let i = 0; i < points.length; i++) {
-  //     const point = points[i];
-  //     centroid.x += point[0];
-  //     centroid.y += point[1];
-  //   }
-  //   centroid.x /= points.length;
-  //   centroid.y /= points.length;
-  //   return [centroid.x, centroid.y];
-  // };
-
   public removePolygonManually = (domId: string, idPolygon: string): boolean => {
     let res = false;
     const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
@@ -989,6 +816,29 @@ export class CesiumDrawerService {
     return res;
   };
 
+  public editPolyline = (domId: string, idPolygon: string, options: {outlineColor: string}): boolean => {
+    let res = false;
+    const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        if (this.cesiumService.cesiumMapObjects.hasOwnProperty(mapDomId) && this.cesiumService.cesiumMapObjects[mapDomId] !== undefined) {
+          // delete locationPoint
+          if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.polylineCE)) {
+            if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE].hasOwnProperty(idPolygon) &&
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][idPolygon] !== {} &&
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][idPolygon].polyline) {
+
+              const outlineMaterial = this.rgbaToCesiumColor(options.outlineColor || this.cesiumService.colors.polyline);
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polylineCE][idPolygon].polyline.material = outlineMaterial;
+              res = true;
+            }
+          }
+        }
+      }
+    }
+    return res;
+  };
+
   // ==================ARROW POLYLINE==========================================================================================
   public createArrowPolylineFromServer = (domId: string, arrowData: POLYLINE_DATA) => {
     let res = false;
@@ -1107,6 +957,31 @@ export class CesiumDrawerService {
               this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE][idPolyline].polyline) {
 
               this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE][idPolyline].show = true;
+              res = true;
+            }
+          }
+        }
+      }
+    }
+    return res;
+  };
+
+  public editArrowPolyline = (domId: string, idPolygon: string, options: {outlineColor: string}): boolean => {
+    let res = false;
+    const mapsCE: MAP<any> = this.cesiumService.getMapByDomId(domId);
+    for (const mapDomId in mapsCE) {
+      if (mapsCE.hasOwnProperty(mapDomId)) {
+        if (this.cesiumService.cesiumMapObjects.hasOwnProperty(mapDomId) && this.cesiumService.cesiumMapObjects[mapDomId] !== undefined) {
+          // delete locationPoint
+          if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.arrowPolylineCE)) {
+            if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE].hasOwnProperty(idPolygon) &&
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE][idPolygon] !== {} &&
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE][idPolygon].polyline) {
+
+              const outlineMaterial = this.rgbaToCesiumColor(options.outlineColor || this.cesiumService.colors.polyline);
+              const ArrowMaterial = new Cesium.PolylineArrowMaterialProperty(outlineMaterial);
+
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.arrowPolylineCE][idPolygon].polyline.material = ArrowMaterial;
               res = true;
             }
           }

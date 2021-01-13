@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {
   ASYNC_RESPONSE,
   AV_DATA_UI, BLOB_DATA,
-  MISSION_TYPE, POINT
+  MISSION_TYPE, POINT, VIDEO_URLS_DATA
 } from '../../../../../../classes/typings/all.typings';
 import {CanvasClass} from '../tagsService/CanvasClass';
 import {MAP} from '../../../types';
@@ -65,14 +65,26 @@ export class LiveVideoService {
   interval;
 
   websocket = null;
-  videoUrls: MAP<MAP<{video: string, blobs: string}>> = { // key - airVehicleId
+  videoUrls: VIDEO_URLS_DATA = {
     '1': {
-      'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov': {video: 'ws://20.71.141.60:9092/', blobs: 'ws://20.71.141.60:4000/'},
-      'ws://20.71.141.60:9091/': {video: 'ws://20.71.141.60:9092/', blobs: 'ws://20.71.141.60:4000/'}
+      'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov': {
+        videoJSMPEG: 'ws://20.71.141.60:9092/',
+        blobsSocket: 'ws://20.71.141.60:4000/'
+      },
+      'ws://20.71.141.60:9091/': {
+        videoJSMPEG: 'ws://20.71.141.60:9092/',
+        blobsSocket: 'ws://20.71.141.60:4000/'
+      }
     },
     '2': {
-      'ws://20.71.141.60:9093/': {video: 'ws://20.71.141.60:9092/', blobs: 'ws://20.71.141.60:4000/'},
-      'ws://20.71.141.60:9094/': {video: 'ws://20.71.141.60:9092/', blobs: 'ws://20.71.141.60:4000/'}
+      'ws://20.71.141.60:9093/': {
+        videoJSMPEG: 'ws://20.71.141.60:9092/',
+        blobsSocket: 'ws://20.71.141.60:4000/'
+      },
+      'ws://20.71.141.60:9094/': {
+        videoJSMPEG: 'ws://20.71.141.60:9092/',
+        blobsSocket: 'ws://20.71.141.60:4000/'
+      }
     }
   };
 
@@ -128,7 +140,7 @@ export class LiveVideoService {
   }
 
 
-  private onGetVideoUrls = (data: MAP<MAP<{video: string, blobs: string}>>) => {
+  private onGetVideoUrls = (data: VIDEO_URLS_DATA) => {
     if (data) {
       this.videoUrls = data;
     }
@@ -136,14 +148,14 @@ export class LiveVideoService {
 
   public getVideoUrl = (url: string, airVehicleId) => {
     if (this.videoUrls[airVehicleId] && this.videoUrls[airVehicleId][url]) {
-      return this.videoUrls[airVehicleId][url].video;
+      return this.videoUrls[airVehicleId][url].videoJSMPEG;
     }
     return undefined;
   }
 
   public getBlobUrl = (url: string, airVehicleId) => {
     if (this.videoUrls[airVehicleId] && this.videoUrls[airVehicleId][url]) {
-      return this.videoUrls[airVehicleId][url].blobs;
+      return this.videoUrls[airVehicleId][url].blobsSocket;
     }
     return undefined;
   }

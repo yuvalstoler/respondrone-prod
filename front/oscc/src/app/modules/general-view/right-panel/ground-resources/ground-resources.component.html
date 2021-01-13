@@ -30,7 +30,7 @@
     <!--type-->
     <div class="item4">{{fr.type}}</div>
     <!--last update-->
-    <div class="item5">{{fr.lastUpdated.timestamp | lastSeenDate: applicationService.now }}</div>
+    <div class="item5">{{fr.lastUpdated?.timestamp | lastSeenDate: applicationService.now}}</div>
     <!--status-->
     <div class="item6">
     <span [ngStyle]="{'color': fr.modeDefine?.styles?.dotColor}"

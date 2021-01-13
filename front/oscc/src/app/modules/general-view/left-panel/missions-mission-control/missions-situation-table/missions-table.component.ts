@@ -10,7 +10,6 @@ import {
   EVENT_DATA_UI,
   MISSION_REQUEST_DATA_UI, ID_TYPE
 } from '../../../../../../../../../classes/typings/all.typings';
-import {EventService} from '../../../../../services/eventService/event.service';
 import * as _ from 'lodash';
 import {ContextMenuService} from '../../../../../services/contextMenuService/context-menu.service';
 import {MissionRequestService} from '../../../../../services/missionRequestService/missionRequest.service';
@@ -40,7 +39,6 @@ export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   expandedElement: MAP<MISSION_REQUEST_DATA_UI> = {};
   selection = new SelectionModel<MISSION_REQUEST_DATA_UI>(true, []);
-  selectedElement: MISSION_REQUEST_DATA_UI;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   panelOpenState: MAP<boolean> = {};
@@ -50,7 +48,6 @@ export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   constructor(public applicationService: ApplicationService,
               public missionRequestService: MissionRequestService,
-              public eventService: EventService,
               public contextMenuService: ContextMenuService) {
 
     const subscription = this.missionRequestService.missionRequests$.subscribe((isNewData: boolean) => {
@@ -105,6 +102,12 @@ export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy 
     this.selection.clear();
     this.applicationService.selectedMissionRequests = [];
     this.onChangeCheckbox({checked: true}, row);
+  };
+
+  private changeSelected = (row: MISSION_REQUEST_DATA_UI, isToggleSelected = true) => {
+    this.missionRequestService.unselectIcon(this.missionRequestService.selectedElement);
+    this.missionRequestService.selectedElement = isToggleSelected && this.missionRequestService.selectedElement && this.missionRequestService.selectedElement.id === row.id ? undefined : row;
+    this.missionRequestService.selectIcon(this.missionRequestService.selectedElement);
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -188,6 +191,7 @@ export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy 
       const item = this.missionRequestService.getById(row.id);
       if (selectedIndex === -1 && item) {
         this.applicationService.selectedMissionRequests.push(item);
+        this.changeSelected(item);
       }
     } else {
       const selectedIndex = this.applicationService.selectedMissionRequests.findIndex(data => data.id === row.id);
@@ -215,11 +219,15 @@ export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy 
   clickOnIcon = (event, element: MISSION_REQUEST_DATA_UI, column: string) => {
     event.stopPropagation();
     if (column === 'map') {
+      this.changeSelected(element, false);
       this.missionRequestService.flyToObject(element);
     }
   };
 
   resetTable = () => {
+    this.missionRequestService.unselectIcon(this.missionRequestService.selectedElement);
+    this.missionRequestService.selectedElement = undefined;
+
     this.selection.clear();
     this.applicationService.selectedMissionRequests = [];
   };

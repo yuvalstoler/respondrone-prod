@@ -285,7 +285,7 @@ export class ReportService {
   };
   // -------------------
   public flyToObject = (report: REPORT_DATA_UI) => {
-    if (report) {
+    if (report && report.locationType !== LOCATION_TYPE.none && report.location) {
       const coordinates = GeoCalculate.geopoint3d_short_to_point3d(report.location);
       this.mapGeneralService.flyToObject(coordinates);
     }

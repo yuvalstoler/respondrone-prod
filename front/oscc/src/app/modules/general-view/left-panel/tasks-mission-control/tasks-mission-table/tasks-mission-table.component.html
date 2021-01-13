@@ -157,7 +157,7 @@
     ></tr>
     <tr (click)="selectRow(row)"
         *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;"
-        [ngClass]="(selectedElement?.id === row?.id) ? 'selected-row-color' : ''" class="example-element-row pointer"
+        [ngClass]="(tasksService.selectedElement?.id === row?.id) ? 'selected-row-color' : ''" class="example-element-row pointer"
         mat-row>
       <!-- [class.selected]="applicationService.selectedEvent === row"-->
       <!--&lt;&ndash;&gt; [ngStyle]="{'background-color': (selectedData === row)? '#7f7f7f' : '' }"-->

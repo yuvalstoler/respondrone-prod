@@ -26,6 +26,7 @@ export class GraphicOverlayMdLogic implements IModeDefine {
                 // icon
                 mapIcon: GraphicOverlayMdLogic.getIcon(data),
                 iconSize: GraphicOverlayMdLogic.getIconSize(data),
+                mapIconSelected: undefined,
                 // polygon
                 color: GraphicOverlayMdLogic.getColor(data),
                 fillColor: GraphicOverlayMdLogic.getFillColor(data),

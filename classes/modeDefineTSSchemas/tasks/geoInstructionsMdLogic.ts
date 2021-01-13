@@ -9,7 +9,7 @@ import {
 } from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
-import {MDClass} from "../mdClass";
+import {MDClass} from '../mdClass';
 
 export class GeoInstructionsMdLogic implements IModeDefine {
 
@@ -22,6 +22,7 @@ export class GeoInstructionsMdLogic implements IModeDefine {
                 // icon
                 mapIcon: GeoInstructionsMdLogic.getIcon(data),
                 iconSize: GeoInstructionsMdLogic.getIconSize(data),
+                mapIconSelected: GeoInstructionsMdLogic.getIconSelected(data),
                 // polygon/polyline/arrow
                 color: GeoInstructionsMdLogic.getColor(data),
                 fillColor: GeoInstructionsMdLogic.getFillColor(data),
@@ -42,17 +43,23 @@ export class GeoInstructionsMdLogic implements IModeDefine {
         return res;
     };
 
+    private static getIconSelected = (data: GEOGRAPHIC_INSTRUCTION): string => {
+        let res;
+        res = '../../../../../assets/markerBlueSelected.png';
+        return res;
+    };
+
     private static getTextOnHover = (data: GEOGRAPHIC_INSTRUCTION): string => {
         return data.description;
     };
 
     private static getColor = (data: GEOGRAPHIC_INSTRUCTION): string => {
-        let res: string = MDClass.colors.blue;
+        const res: string = MDClass.colors.blue;
         return res;
     };
 
     private static getFillColor = (data: GEOGRAPHIC_INSTRUCTION): string => {
-        let res: string = MDClass.colors.transparent;
+        const res: string = MDClass.colors.transparent;
         return res;
     };
 

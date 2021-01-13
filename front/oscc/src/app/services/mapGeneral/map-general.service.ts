@@ -26,6 +26,9 @@ export class MapGeneralService {
   public mouseUpListeners: MAP<any> = {};
   public doubleClickListener: MAP<any> = {};
 
+  public selectedPolylineColor = '#ffffff';
+
+
   constructor(private cesiumService: CesiumService,
               private cesiumDrawerService: CesiumDrawerService) {
   }
@@ -210,6 +213,13 @@ export class MapGeneralService {
     return res;
   };
 
+  public editPolyline = (id: string, options: {outlineColor: string}) => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.editPolyline(domId, id, options);
+    return res;
+  };
+
   public deletePolylineFromMap = (polylineId: string) => {
     const domId = undefined;
     let res = false;
@@ -237,6 +247,13 @@ export class MapGeneralService {
     const domId = undefined;
     let res = false;
     res = this.cesiumDrawerService.createArrowPolylineFromServer(domId, arrowData);
+    return res;
+  };
+
+  public editArrowPolyline = (id: string, options: {outlineColor: string}) => {
+    const domId = undefined;
+    let res = false;
+    res = this.cesiumDrawerService.editArrowPolyline(domId, id, options);
     return res;
   };
 
@@ -315,16 +332,19 @@ export class MapGeneralService {
   public flyToObject = (coordinates: POINT | POINT3D): boolean => {
     const domId = undefined;
     let res = false;
-    res = this.cesiumService.flyToObject(domId, coordinates);
+    if (coordinates.length >= 2) {
+      res = this.cesiumService.flyToObject(domId, coordinates);
+    }
     return res;
   };
 
   public flyToPolygon = (coordinates: POINT3D[]): boolean => {
     const domId = undefined;
     let res = false;
-
-    const center = this.cesiumService.getPolygonCenter(coordinates);
-    res = this.cesiumService.flyToObject(domId, center);
+    if (coordinates.length >= 2) {
+      const center = this.cesiumService.getPolygonCenter(coordinates);
+      res = this.cesiumService.flyToObject(domId, center);
+    }
     return res;
   };
 

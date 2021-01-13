@@ -30,7 +30,7 @@ export class ReportsSituationPictureComponent implements OnInit {
   }
 
   onCreateNewReport = () => {
-    this.applicationService.selectedReports = [];
+    this.childComponent.resetTable();
     const title = 'Create new report';
     this.openReportPanel(title);
   };

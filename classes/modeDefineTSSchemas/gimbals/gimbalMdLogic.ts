@@ -20,6 +20,7 @@ export class GimbalMdLogic implements IModeDefine {
                 // icon
                 mapIcon: GimbalMdLogic.getIcon(data),
                 iconSize: GimbalMdLogic.getIconSize(data),
+                mapIconSelected: undefined,
                 hoverText: undefined,
                 labelText: undefined,
                 labelBackground: undefined,
