@@ -7,7 +7,7 @@ import {
 } from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
-import {MDClass} from "../mdClass";
+import {MDClass} from '../mdClass';
 
 export class MissionMdLogic implements IModeDefine {
 
@@ -20,6 +20,7 @@ export class MissionMdLogic implements IModeDefine {
                 // icon
                 mapIcon: MissionMdLogic.getIcon(data),
                 iconSize: MissionMdLogic.getIconSize(data),
+                mapIconSelected: undefined,
                 // polygon
                 color: MissionMdLogic.getColor(data),
                 fillColor: MissionMdLogic.getFillColor(data),
@@ -40,12 +41,12 @@ export class MissionMdLogic implements IModeDefine {
     };
 
     private static getColor = (data: MISSION_DATA_UI): string => {
-        let res: string = MDClass.colors.blue;
+        const res: string = MDClass.colors.blue;
         return res;
     };
 
     private static getFillColor = (data: MISSION_DATA_UI): string => {
-        let res: string = MDClass.colors.transparent;
+        const res: string = MDClass.colors.transparent;
         return res;
     };
 

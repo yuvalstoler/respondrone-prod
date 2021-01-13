@@ -1,6 +1,7 @@
-import {AfterContentInit, Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {
-  COMMENT, FR_DATA_UI,
+  COMMENT,
+  FR_DATA_UI,
   GEOGRAPHIC_INSTRUCTION,
   GEOGRAPHIC_INSTRUCTION_TYPE,
   LOCATION_NAMES,
@@ -21,15 +22,16 @@ import {ArrowService} from '../../services/arrowService/arrow.service';
 import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
 import {DataUtility} from '../../../../../../classes/applicationClasses/utility/dataUtility';
 import {TasksService} from '../../services/tasksService/tasks.service';
-import {LoginService} from '../../services/login/login.service';
 import {GeoInstructionsComponent} from '../../modules/general-view/geo-instructions/geo-instructions.component';
+import {LoginService} from '../../services/login/login.service';
+import {GeoCalculate} from '../../services/classes/geoCalculate';
 
 @Component({
   selector: 'app-task-dialog',
   templateUrl: './task-dialog.component.html',
   styleUrls: ['./task-dialog.component.scss']
 })
-export class TaskDialogComponent implements OnInit, AfterContentInit {
+export class TaskDialogComponent implements OnInit {
 
   // @ViewChild('title', {static: true}) firstItem: ElementRef;
   @ViewChild(GeoInstructionsComponent) childComponent: GeoInstructionsComponent ;
@@ -82,10 +84,6 @@ export class TaskDialogComponent implements OnInit, AfterContentInit {
     // this.firstItem.nativeElement.focus();
   }
 
-  ngAfterContentInit() {
-    // this.isNotSaveGeoInstructions = this.childComponent.isNotSaveGeoInstructions;
-  }
-
   onNoClick(): void {
     this.tasksService.showAll();
     this.clearPanel();
@@ -122,6 +120,38 @@ export class TaskDialogComponent implements OnInit, AfterContentInit {
     taskModel.geographicInstructions.forEach((geoInstruction?: GEOGRAPHIC_INSTRUCTION) => {
       if (geoInstruction.id.substring(0, 3) === 'tmp') {
         geoInstruction.id = DataUtility.generateID();
+      }
+
+      switch (geoInstruction.type) {
+        case GEOGRAPHIC_INSTRUCTION_TYPE.point:
+          delete geoInstruction.polyline;
+          delete geoInstruction.polygon;
+          delete geoInstruction.address;
+          delete geoInstruction.arrow;
+          break;
+        case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+          delete geoInstruction.polyline;
+          delete geoInstruction.polygon;
+          delete geoInstruction.arrow;
+          break;
+        case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
+          delete geoInstruction.polyline;
+          delete geoInstruction.polygon;
+          delete geoInstruction.address;
+          geoInstruction.location = geoInstruction.arrow.length > 0 ? GeoCalculate.point3d_to_geoPoint3d_short(geoInstruction.arrow[0]) : undefined;
+          break;
+        case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
+          delete geoInstruction.arrow;
+          delete geoInstruction.polygon;
+          delete geoInstruction.address;
+          geoInstruction.location = geoInstruction.polyline.length > 0 ? GeoCalculate.point3d_to_geoPoint3d_short(geoInstruction.polyline[0]) : undefined;
+          break;
+        case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
+          delete geoInstruction.arrow;
+          delete geoInstruction.polyline;
+          delete geoInstruction.address;
+          geoInstruction.location = geoInstruction.polygon.length > 0 ? GeoCalculate.point3d_to_geoPoint3d_short(geoInstruction.polygon[0]) : undefined;
+          break;
       }
     });
     this.dialogRef.close(taskModel);

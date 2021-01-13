@@ -144,7 +144,6 @@ export type LINKED_REPORT_DATA = {
 export type REPORT_DATA_MD = {
     styles: ICON_STYLES & {
         icon: string,
-        mapIconSelected: string,
     },
     tableData: {
         id: TABLE_DATA_MD,
@@ -196,7 +195,6 @@ export type LINKED_EVENT_DATA = {
 export type EVENT_DATA_MD = {
     styles: ICON_STYLES & POLYGON_STYLES & {
         icon: string,
-        mapIconSelected: string,
     },
     tableData: {
         id: TABLE_DATA_MD,
@@ -254,7 +252,6 @@ export type FR_DATA_UI = FR_DATA & {
 export type FR_DATA_MD = {
     styles: ICON_STYLES & {
         dotColor: string,
-        mapIconSelected: string,
         icon: string,
     },
     tableData: {
@@ -318,7 +315,6 @@ export type AV_DATA_MD = {
         gpsIcon: string,
         gpsDescription: string,
         isDisabled: boolean,
-        mapIconSelected: string,
     },
     data: {
         missionName: string,
@@ -953,6 +949,7 @@ export enum TASK_STATUS {
 
 export type ICON_STYLES = COMMON_STYLES & {
     mapIcon: string,
+    mapIconSelected: string,
     iconSize: {width: number, height: number},
 }
 export type POLYGON_STYLES = COMMON_STYLES & {
@@ -1174,3 +1171,14 @@ export type GIMBAL_ACTION_MGW = {
     videoSource: string,
     parameters: GIMBAL_PARAMS | VISIBLE_CAMERA_PARAMS | INFRARED_CAMERA_PARAMS
 };
+
+export type VIDEO_URLS_OBJ = {
+    videoJSMPEG: string,
+    blobsSocket: string,
+
+    videoRSTP?: string,
+    blobsSocketIO?: string,
+    room?: string
+};
+
+export type VIDEO_URLS_DATA = MAP<MAP<VIDEO_URLS_OBJ>>; // {[droneId]: {[visibleCameraUrl]: VIDEO_URLS_OBJ, [infraredCameraUrl]: VIDEO_URLS_OBJ}}

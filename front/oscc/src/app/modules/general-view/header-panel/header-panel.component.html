@@ -25,20 +25,20 @@
         Live Video</span>
     </div>
     <!--Media-->
-    <div (click)="onMedia()" class="LeftSideButton">
+    <!--<div (click)="onMedia()" class="LeftSideButton">
       <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.media,
              LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}"
             class="LeftSideLabel">
         Media</span>
-    </div>
+    </div>-->
     <!--Toolbox-->
-    <div (click)="onToolbox()" class="LeftSideButton">
+    <!--<div (click)="onToolbox()" class="LeftSideButton">
       <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.toolbox,
              LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}"
             class="LeftSideLabel">
         Toolbox</span>
       <mat-icon class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
-    </div>
+    </div>-->
     <!--View-->
     <div (click)="onView()" class="LeftSideButton">
       <button [matMenuTriggerFor]="menu" mat-button  #target="matMenuTrigger">

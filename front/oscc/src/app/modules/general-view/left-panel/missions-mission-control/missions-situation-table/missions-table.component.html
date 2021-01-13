@@ -110,7 +110,7 @@
     ></tr>
     <tr [id]="row.id" (click)="selectRow(row)"
         *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)? displayedColumns: displayedColumnsMinimize;"
-        class="example-element-row pointer" [ngClass]="(selectedElement?.id === row?.id) ? 'selected-row-color' : ''"
+        class="example-element-row pointer" [ngClass]="(missionRequestService.selectedElement?.id === row?.id) ? 'selected-row-color' : ''"
         mat-row>
       <!--      [class.selected]="applicationService.selectedReport === row"-->
       <!--&lt;&ndash;&gt; [ngStyle]="{'background-color': (selectedData === row)? '#7f7f7f' : '' }"-->

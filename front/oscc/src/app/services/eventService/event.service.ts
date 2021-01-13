@@ -271,7 +271,7 @@ export class EventService {
         this.mapGeneralService.editIcon(event.id, event.modeDefine.styles.mapIconSelected, size);
       }
       else if (this.getType(event) === 'polygon') {
-        const options = {outlineColor: '#ffffff', fillColor: event.modeDefine.styles.fillColor};
+        const options = {outlineColor: this.mapGeneralService.selectedPolylineColor, fillColor: event.modeDefine.styles.fillColor};
         this.mapGeneralService.editPolygonFromServer(event.id, options);
       }
     }

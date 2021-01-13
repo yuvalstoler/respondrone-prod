@@ -108,9 +108,9 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
     // this.changeSelected(row);
   };
 
-  private changeSelected = (row: REPORT_DATA_UI) => {
+  private changeSelected = (row: REPORT_DATA_UI, isToggleSelected = true) => {
     this.reportService.unselectIcon(this.reportService.selectedElement);
-    this.reportService.selectedElement = this.reportService.selectedElement && this.reportService.selectedElement.id === row.id ? undefined : row;
+    this.reportService.selectedElement = isToggleSelected && this.reportService.selectedElement && this.reportService.selectedElement.id === row.id ? undefined : row;
     this.reportService.selectIcon(this.reportService.selectedElement);
   };
 
@@ -262,12 +262,10 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
   };
 
   clickOnIcon = (event, element: REPORT_DATA_UI, column: string) => {
-    // event.stopPropagation();
+    event.stopPropagation();
     if (column === 'map') {
-
-      if (element.locationType === LOCATION_TYPE.locationPoint || element.locationType === LOCATION_TYPE.address) {
-        this.reportService.flyToObject(element);
-      }
+      this.changeSelected(element, false);
+      this.reportService.flyToObject(element);
     } else if (column === 'link') {
       const top = event.clientY - 10;
       const left = event.clientX + 20;

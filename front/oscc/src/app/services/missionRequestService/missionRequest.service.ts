@@ -25,7 +25,6 @@ import {
   SERVOING_MISSION_REQUEST,
   SOURCE_TYPE,
   TARGET_TYPE,
-  YAW_ORIENTATION,
 } from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
@@ -45,6 +44,7 @@ export class MissionRequestService {
 
   missionRequests: { data: MISSION_REQUEST_DATA_UI[] } = {data: []};
   missionRequests$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  selectedElement: MISSION_REQUEST_DATA_UI;
   changeSelected$: BehaviorSubject<ID_TYPE> = new BehaviorSubject(undefined);
 
 
@@ -253,10 +253,93 @@ export class MissionRequestService {
         }
       }
     }
+
+    if (this.selectedElement && this.selectedElement.id === item.id) {
+      this.selectIcon(item);
+    }
   };
   // -----------------------
   public getById = (id: string): MISSION_REQUEST_DATA_UI => {
     return this.missionRequests.data.find(data => data.id === id);
+  };
+  // ------------------------
+  public selectIcon = (item: MISSION_REQUEST_DATA_UI) => {
+    if (item) {
+      switch (item.missionType) {
+        case MISSION_TYPE.Observation : {
+          const size = {width: item.modeDefine.styles.iconSize.width + 10, height: item.modeDefine.styles.iconSize.height + 10};
+          this.mapGeneralService.editIcon(item.id, item.modeDefine.styles.mapIconSelected, size);
+          break;
+        }
+        case MISSION_TYPE.CommRelay : {
+          if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Fixed) {
+            const size = {width: item.modeDefine.styles.iconSize.width + 10, height: item.modeDefine.styles.iconSize.height + 10};
+            this.mapGeneralService.editIcon(item.id, item.modeDefine.styles.mapIconSelected, size);
+          }
+          else if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Area) {
+            const options = {outlineColor: this.mapGeneralService.selectedPolylineColor, fillColor: item.modeDefine.styles.fillColor};
+            this.mapGeneralService.editPolygonFromServer(item.id, options);
+          }
+          break;
+        }
+        case MISSION_TYPE.Scan : {
+          const options = {outlineColor: this.mapGeneralService.selectedPolylineColor, fillColor: item.modeDefine.styles.fillColor};
+          this.mapGeneralService.editPolygonFromServer(item.id, options);
+          break;
+        }
+        case MISSION_TYPE.Patrol : {
+          const options = {outlineColor: this.mapGeneralService.selectedPolylineColor};
+          this.mapGeneralService.editPolyline(item.id, options);
+          break;
+        }
+        case MISSION_TYPE.Servoing : {
+          break;
+        }
+        case MISSION_TYPE.Delivery : {
+          const size = {width: item.modeDefine.styles.iconSize.width + 10, height: item.modeDefine.styles.iconSize.height + 10};
+          this.mapGeneralService.editIcon(item.id, item.modeDefine.styles.mapIconSelected, size);
+          break;
+        }
+      }
+    }
+  };
+  // ------------------------
+  public unselectIcon = (item: MISSION_REQUEST_DATA_UI) => {
+    if (item) {
+      switch (item.missionType) {
+        case MISSION_TYPE.Observation : {
+          this.mapGeneralService.editIcon(item.id, item.modeDefine.styles.mapIcon, item.modeDefine.styles.iconSize);
+          break;
+        }
+        case MISSION_TYPE.CommRelay : {
+          if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Fixed) {
+            this.mapGeneralService.editIcon(item.id, item.modeDefine.styles.mapIcon, item.modeDefine.styles.iconSize);
+          }
+          else if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Area) {
+            const options = {outlineColor: item.modeDefine.styles.color, fillColor: item.modeDefine.styles.fillColor};
+            this.mapGeneralService.editPolygonFromServer(item.id, options);
+          }
+          break;
+        }
+        case MISSION_TYPE.Scan : {
+          const options = {outlineColor: item.modeDefine.styles.color, fillColor: item.modeDefine.styles.fillColor};
+          this.mapGeneralService.editPolygonFromServer(item.id, options);
+          break;
+        }
+        case MISSION_TYPE.Patrol : {
+          const options = {outlineColor: item.modeDefine.styles.color};
+          this.mapGeneralService.editPolyline(item.id, options);
+          break;
+        }
+        case MISSION_TYPE.Servoing : {
+          break;
+        }
+        case MISSION_TYPE.Delivery : {
+          this.mapGeneralService.editIcon(item.id, item.modeDefine.styles.mapIcon, item.modeDefine.styles.iconSize);
+          break;
+        }
+      }
+    }
   };
   // -----------------------
   public flyToObject = (item: MISSION_REQUEST_DATA_UI) => {
@@ -285,6 +368,12 @@ export class MissionRequestService {
             coordinates = GeoCalculate.geopoint3d_short_to_point3d_arr(item.commRelayMissionRequest.missionData.area.coordinates);
             this.mapGeneralService.flyToPolygon(coordinates);
           }
+          else if (item.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Follow) {
+            if (item.commRelayMissionRequest.missionData.FRs && item.commRelayMissionRequest.missionData.FRs.length > 0) {
+              const fr = this.frService.getFRById(item.commRelayMissionRequest.missionData.FRs[0]);
+              this.frService.flyToObject(fr);
+            }
+          }
           break;
         }
         case MISSION_TYPE.Scan : {
@@ -299,16 +388,6 @@ export class MissionRequestService {
           }
           break;
         }
-        case MISSION_TYPE.Delivery : {
-          // todo: point
-          // coordinates = [
-          //   item.deliveryMissionRequest.deliveryPoint.lon,
-          //   item.deliveryMissionRequest.deliveryPoint.lat,
-          //   item.deliveryMissionRequest.deliveryPoint.alt
-          // ];
-          // this.mapGeneralService.flyToObject(coordinates);
-          break;
-        }
         case MISSION_TYPE.Patrol : {
           coordinates = [
             item.followPathMissionRequest.polyline.coordinates[0].lon,
@@ -318,6 +397,15 @@ export class MissionRequestService {
           this.mapGeneralService.flyToObject(coordinates);
           break;
         }
+        // case MISSION_TYPE.Delivery : {
+        //   coordinates = [
+        //     item.deliveryMissionRequest.deliveryPoint.lon,
+        //     item.deliveryMissionRequest.deliveryPoint.lat,
+        //     item.deliveryMissionRequest.deliveryPoint.alt
+        //   ];
+        //   this.mapGeneralService.flyToObject(coordinates);
+        //   break;
+        // }
       }
     }
   };

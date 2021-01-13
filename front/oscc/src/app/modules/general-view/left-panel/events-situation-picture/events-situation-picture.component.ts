@@ -29,7 +29,7 @@ export class EventsSituationPictureComponent implements OnInit {
   }
 
   onCreateNewEvent = () => {
-    this.applicationService.selectedEvents = [];
+    this.childComponent.resetTable();
     const title = 'Create new event';
     this.openEventPanel(title);
   };

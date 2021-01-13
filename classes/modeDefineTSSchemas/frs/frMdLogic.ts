@@ -1,9 +1,10 @@
 import {
-    LOCATION_TYPE,
-    PRIORITY,
     FR_DATA_MD,
     FR_DATA_UI,
-    TABLE_DATA_MD, FR_TYPE, EVENT_DATA_UI, MISSION_REQUEST_DATA, AV_DATA_UI
+    FR_TYPE,
+    MISSION_REQUEST_DATA,
+    MISSION_TYPE,
+    TABLE_DATA_MD
 } from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
@@ -50,11 +51,27 @@ export class FrMdLogic implements IModeDefine {
     private static getMapIcon = (data: FR_DATA_UI, missionsFollowingFR: MISSION_REQUEST_DATA[]): string => {
         let res: string;
         if (data.type === FR_TYPE.fireFighter) {
-            res = (missionsFollowingFR.length > 0) ? '../../../../../assets/firemanFollowed.png' : '../../../../../assets/fireman.png';
+            if (missionsFollowingFR.length > 0) {
+                res = (missionsFollowingFR[0].missionType === MISSION_TYPE.CommRelay) ? '../../../../../assets/firemanCommRelay.png' : '../../../../../assets/firemanServoing.png';
+            }
+            else {
+                res = '../../../../../assets/fireman.png';
+            }
+
         } else if (data.type === FR_TYPE.paramedic) {
-            res = (missionsFollowingFR.length > 0) ? '../../../../../assets/medicinFollowed.png' : '../../../../../assets/medicin.png';
+            if (missionsFollowingFR.length > 0) {
+                res = (missionsFollowingFR[0].missionType === MISSION_TYPE.CommRelay) ? '../../../../../assets/medicinCommRelay.png' : '../../../../../assets/medicinServoing.png';
+            }
+            else {
+                res = '../../../../../assets/medicin.png';
+            }
         } else if (data.type === FR_TYPE.police) {
-            res = (missionsFollowingFR.length > 0) ? '../../../../../assets/policeFollowed.png' : '../../../../../assets/police.png';
+            if (missionsFollowingFR.length > 0) {
+                res = (missionsFollowingFR[0].missionType === MISSION_TYPE.CommRelay) ? '../../../../../assets/policeCommRelay.png' : '../../../../../assets/policeServoing.png';
+            }
+            else {
+                res =  '../../../../../assets/police.png';
+            }
         }
         return res;
     };
@@ -62,11 +79,11 @@ export class FrMdLogic implements IModeDefine {
     private static getMapIconSelected = (data: FR_DATA_UI, missionsFollowingFR: MISSION_REQUEST_DATA[]): string => {
         let res: string;
         if (data.type === FR_TYPE.fireFighter) {
-            res = (missionsFollowingFR.length > 0) ? '../../../../../assets/firemanFollowed.png' : '../../../../../assets/firemanSelected.png';
+            res = '../../../../../assets/firemanSelected.png';
         } else if (data.type === FR_TYPE.paramedic) {
-            res = (missionsFollowingFR.length > 0) ? '../../../../../assets/medicinFollowed.png' : '../../../../../assets/medicinSelected.png';
+            res = '../../../../../assets/medicinSelected.png';
         } else if (data.type === FR_TYPE.police) {
-            res = (missionsFollowingFR.length > 0) ? '../../../../../assets/policeFollowed.png' : '../../../../../assets/policeSelected.png';
+            res = '../../../../../assets/policeSelected.png';
         }
         return res;
     };
@@ -112,16 +129,11 @@ export class FrMdLogic implements IModeDefine {
     };
 
     private static getIconSize = (data: FR_DATA_UI, missionsFollowingFR: MISSION_REQUEST_DATA[]): {width: number, height: number} => {
-        if (missionsFollowingFR.length > 0) {
-            return {width: 60, height: 60};
-        }
-        else {
-            return {width: 45, height: 45};
-        }
+        return {width: 45, height: 45};
     };
 
     private static getLabelOffset = (data: FR_DATA_UI): {x: number, y: number} => {
-        return {x: 0, y: 29};
+        return {x: 0, y: 30};
     };
 
 }

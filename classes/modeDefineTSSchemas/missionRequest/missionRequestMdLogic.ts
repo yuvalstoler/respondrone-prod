@@ -6,13 +6,12 @@ import {
     MISSION_STATUS_UI,
     MISSION_TYPE,
     MISSION_TYPE_TEXT,
-    TABLE_DATA_MD,
-    TARGET_TYPE
+    TABLE_DATA_MD
 } from '../../typings/all.typings';
 
 import {IModeDefine} from '../IModeDefine';
-import {MDClass} from "../mdClass";
-import {AirVehicle} from "../../dataClasses/airVehicle/airVehicle";
+import {MDClass} from '../mdClass';
+import {AirVehicle} from '../../dataClasses/airVehicle/airVehicle';
 
 export class MissionRequestMdLogic implements IModeDefine {
 
@@ -25,6 +24,7 @@ export class MissionRequestMdLogic implements IModeDefine {
                 // icon
                 mapIcon: MissionRequestMdLogic.getIcon(data),
                 iconSize: MissionRequestMdLogic.getIconSize(data),
+                mapIconSelected: MissionRequestMdLogic.getIconSelected(data),
                 // polygon/polyline
                 color: MissionRequestMdLogic.getColor(data),
                 fillColor: MissionRequestMdLogic.getFillColor(data),
@@ -57,8 +57,12 @@ export class MissionRequestMdLogic implements IModeDefine {
                     {
                         title: 'Air resources',
                         value: airVehicleName
+                    },
+                    {
+                        title: 'Communication type',
+                        value: data.commRelayMissionRequest.commRelayType
                     }
-                ]
+                ];
                 break;
             case MISSION_TYPE.Scan:
                 res = [
@@ -83,7 +87,7 @@ export class MissionRequestMdLogic implements IModeDefine {
                         value: data.scanMissionRequest.cameraFOV + '%'
                     }
 
-                ]
+                ];
                 break;
             case MISSION_TYPE.Observation:
                 res = [
@@ -99,7 +103,7 @@ export class MissionRequestMdLogic implements IModeDefine {
                         title: 'Altitude offset',
                         value: data.observationMissionRequest.altitudeOffset + 'm'
                     }
-                ]
+                ];
                 break;
             case MISSION_TYPE.Patrol:
                 res = [
@@ -115,15 +119,19 @@ export class MissionRequestMdLogic implements IModeDefine {
                         title: 'Gimbal azimuth',
                         value: data.followPathMissionRequest.gimbalAzimuth + '°'
                     }
-                ]
+                ];
                 break;
             case MISSION_TYPE.Servoing:
                 res = [
                     {
                         title: 'Air resource',
                         value: airVehicleName
+                    },
+                    {
+                        title: 'Target type',
+                        value: data.servoingMissionRequest.targetType
                     }
-                ]
+                ];
                 break;
             case MISSION_TYPE.Delivery:
                 res = [
@@ -131,7 +139,7 @@ export class MissionRequestMdLogic implements IModeDefine {
                         title: 'Air resource',
                         value: airVehicleName
                     }
-                ]
+                ];
                 break;
         }
         return res;
@@ -163,21 +171,35 @@ export class MissionRequestMdLogic implements IModeDefine {
     }
 
     private static getIcon = (data: MISSION_REQUEST_DATA_UI): string => {
-        let res = '../../../../../assets/markerGreen.png';
+        let res = '../../../../../assets/markerDarkGreen.png';
         if (data.missionType === MISSION_TYPE.Observation) {
-            res = '../../../../../assets/markerYellow.png';
+            res = '../../../../../assets/markerDarkGreen.png';
         } else if (data.missionType === MISSION_TYPE.CommRelay) {
             res = '../../../../../assets/markerPurple.png';
+        } else if (data.missionType === MISSION_TYPE.Delivery) {
+            res = '../../../../../assets/markerRed.png';
+        }
+        return res;
+    };
+
+    private static getIconSelected = (data: MISSION_REQUEST_DATA_UI): string => {
+        let res = '../../../../../assets/markerDarkGreenSelected.png';
+        if (data.missionType === MISSION_TYPE.Observation) {
+            res = '../../../../../assets/markerDarkGreenSelected.png';
+        } else if (data.missionType === MISSION_TYPE.CommRelay) {
+            res = '../../../../../assets/markerPurpleSelected.png';
+        } else if (data.missionType === MISSION_TYPE.Delivery) {
+            res = '../../../../../assets/markerRedSelected.png';
         }
         return res;
     };
 
     private static getColor = (data: MISSION_REQUEST_DATA_UI): string => {
-        let res: string = MDClass.colors.darkGray;
+        let res: string = MDClass.colors.darkGreen;
         if (data.missionType === MISSION_TYPE.Scan) {
-            res = MDClass.colors.white;
+            res = MDClass.colors.darkGreen;
         } else if (data.missionType === MISSION_TYPE.Patrol) {
-            res = MDClass.colors.green;
+            res = MDClass.colors.darkGreen;
         } else if (data.missionType === MISSION_TYPE.CommRelay) {
             res = MDClass.colors.purple;
         }
@@ -185,7 +207,7 @@ export class MissionRequestMdLogic implements IModeDefine {
     };
 
     private static getFillColor = (data: MISSION_REQUEST_DATA_UI): string => {
-        let res: string = MDClass.colors.transparent;
+        const res: string = MDClass.colors.transparent;
         return res;
     };
 
@@ -222,7 +244,7 @@ export class MissionRequestMdLogic implements IModeDefine {
     };
 
     private static tableData = (data: MISSION_REQUEST_DATA_UI) => {
-        let res = {
+        const res = {
             id: {
                 type: 'text',
                 data: data.idView

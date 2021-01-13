@@ -5,6 +5,8 @@ import {ContextMenuService} from '../../../services/contextMenuService/context-m
 import {MatTabChangeEvent} from '@angular/material/tabs';
 import {ReportService} from '../../../services/reportService/report.service';
 import {EventService} from '../../../services/eventService/event.service';
+import {MissionRequestService} from '../../../services/missionRequestService/missionRequest.service';
+import {TasksService} from '../../../services/tasksService/tasks.service';
 
 @Component({
   selector: 'app-left-panel',
@@ -18,7 +20,9 @@ export class LeftPanelComponent implements OnInit {
   constructor(public applicationService: ApplicationService,
               public contextMenuService: ContextMenuService,
               private reportService: ReportService,
-              private eventService: EventService) {
+              private eventService: EventService,
+              private taskService: TasksService,
+              private missionRequestService: MissionRequestService) {
   }
 
   ngOnInit(): void {
@@ -54,6 +58,8 @@ export class LeftPanelComponent implements OnInit {
   resetSelected = () => {
     this.reportService.unselectIcon(this.reportService.selectedElement);
     this.eventService.unselectIcon(this.eventService.selectedElement);
-    this.reportService.selectedElement = this.eventService.selectedElement = undefined;
+    this.taskService.unselectIcon(this.taskService.selectedElement);
+    this.missionRequestService.unselectIcon(this.missionRequestService.selectedElement);
+    this.reportService.selectedElement = this.eventService.selectedElement = this.taskService.selectedElement = this.missionRequestService.selectedElement = undefined;
   }
 }

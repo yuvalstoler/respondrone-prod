@@ -32,7 +32,7 @@ export class TasksMissionControlComponent implements OnInit {
   }
 
   onCreateNewTask = () => {
-    this.applicationService.selectedTasks = [];
+    this.childComponent.resetTable();
     const title = 'Create new task';
     this.openTaskPanel(title);
   };
@@ -92,6 +92,7 @@ export class TasksMissionControlComponent implements OnInit {
             this.tasksService.deleteTask({id: taskData.id});
           }, index * 500);
         });
+        this.childComponent.resetTable();
       }
     });
   };

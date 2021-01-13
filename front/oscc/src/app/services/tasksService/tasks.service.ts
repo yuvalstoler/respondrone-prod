@@ -22,6 +22,7 @@ export class TasksService {
 
   tasks: {data: TASK_DATA_UI[]} = {data: []};
   tasks$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  selectedElement: TASK_DATA_UI;
   changeSelected$: BehaviorSubject<ID_TYPE> = new BehaviorSubject(undefined);
 
   constructor(private connectionService: ConnectionService,
@@ -93,15 +94,6 @@ export class TasksService {
   };
   // ----------------------
   private drawTask = (task: TASK_DATA_UI) => {
-    // if (event.locationType === LOCATION_TYPE.locationPoint && event.location && event.location.latitude && event.location.longitude) {
-    //   this.mapGeneralService.createIcon(event.location, event.id, event.modeDefine.styles.icon);
-    // } else if (event.locationType === LOCATION_TYPE.polygon && event.polygon && event.polygon.length > 0) {
-    //   this.mapGeneralService.drawPolygonFromServer(event.polygon, event.id, event.title);
-    // }
-    // else {
-    //   this.mapGeneralService.deleteIcon(event.id);
-    //   this.mapGeneralService.deletePolygonManually(event.id);
-    // }
     let iconData: ICON_DATA;
     if (Array.isArray(task.geographicInstructions) && task.geographicInstructions.length > 0) {
       task.geographicInstructions.forEach((geoInstruction, i) => {
@@ -163,6 +155,10 @@ export class TasksService {
             break;
         }
       });
+    }
+
+    if (this.selectedElement && this.selectedElement.id === task.id) {
+      this.selectIcon(task);
     }
   };
   // ----------------------
@@ -238,11 +234,62 @@ export class TasksService {
   };
   // ------------------------
   public selectIcon = (task: TASK_DATA_UI) => {
-    // this.mapGeneralService.editIcon(task.id, task.modeDefine.styles.selectedIcon, 40);
+    if (task && Array.isArray(task.geographicInstructions) && task.geographicInstructions.length > 0) {
+      task.geographicInstructions.forEach((item, i) => {
+        switch (item.type) {
+          case GEOGRAPHIC_INSTRUCTION_TYPE.arrow: {
+            const options = {outlineColor: this.mapGeneralService.selectedPolylineColor};
+            this.mapGeneralService.editArrowPolyline(item.id, options);
+            break;
+          }
+          case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+          case GEOGRAPHIC_INSTRUCTION_TYPE.point: {
+            const size = {width: item.modeDefine.styles.iconSize.width + 10, height: item.modeDefine.styles.iconSize.height + 10};
+            this.mapGeneralService.editIcon(item.id, item.modeDefine.styles.mapIconSelected, size);
+            break;
+          }
+          case GEOGRAPHIC_INSTRUCTION_TYPE.polyline: {
+            const options = {outlineColor: this.mapGeneralService.selectedPolylineColor};
+            this.mapGeneralService.editPolyline(item.id, options);
+            break;
+          }
+          case GEOGRAPHIC_INSTRUCTION_TYPE.polygon: {
+            const options = {outlineColor: this.mapGeneralService.selectedPolylineColor, fillColor: item.modeDefine.styles.fillColor};
+            this.mapGeneralService.editPolygonFromServer(item.id, options);
+            break;
+          }
+        }
+      });
+    }
   };
   // ------------------------
   public unselectIcon = (task: TASK_DATA_UI) => {
-    // this.mapGeneralService.editIcon(task.id, task.modeDefine.styles.icon, 30);
+    if (task && Array.isArray(task.geographicInstructions) && task.geographicInstructions.length > 0) {
+      task.geographicInstructions.forEach((item, i) => {
+        switch (item.type) {
+          case GEOGRAPHIC_INSTRUCTION_TYPE.arrow: {
+            const options = {outlineColor: item.modeDefine.styles.color};
+            this.mapGeneralService.editArrowPolyline(item.id, options);
+            break;
+          }
+          case GEOGRAPHIC_INSTRUCTION_TYPE.address:
+          case GEOGRAPHIC_INSTRUCTION_TYPE.point: {
+            this.mapGeneralService.editIcon(item.id, item.modeDefine.styles.mapIcon, item.modeDefine.styles.iconSize);
+            break;
+          }
+          case GEOGRAPHIC_INSTRUCTION_TYPE.polyline: {
+            const options = {outlineColor: item.modeDefine.styles.color};
+            this.mapGeneralService.editPolyline(item.id, options);
+            break;
+          }
+          case GEOGRAPHIC_INSTRUCTION_TYPE.polygon: {
+            const options = {outlineColor: item.modeDefine.styles.color, fillColor: item.modeDefine.styles.fillColor};
+            this.mapGeneralService.editPolygonFromServer(item.id, options);
+            break;
+          }
+        }
+      });
+    }
   };
   // -----------------------
   public flyToObject = (task: TASK_DATA_UI) => {

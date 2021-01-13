@@ -35,7 +35,6 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
 
   expandedElement: MAP<TASK_DATA_UI> = {};
   selection = new SelectionModel<TASK_DATA_UI>(true, []);
-  selectedElement: TASK_DATA_UI;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   panelOpenState: MAP<boolean> = {};
   subscriptions = [];
@@ -96,6 +95,12 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
     this.selection.clear();
     this.applicationService.selectedTasks = [];
     this.onChangeCheckbox({checked: true}, row);
+  };
+
+  private changeSelected = (row: TASK_DATA_UI, isToggleSelected = true) => {
+    this.tasksService.unselectIcon(this.tasksService.selectedElement);
+    this.tasksService.selectedElement = isToggleSelected && this.tasksService.selectedElement && this.tasksService.selectedElement.id === row.id ? undefined : row;
+    this.tasksService.selectIcon(this.tasksService.selectedElement);
   };
 
   private isSortingDisabled = (columnText: string): boolean => {
@@ -162,6 +167,7 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
       const task = this.tasksService.getTaskById(row.id);
       if (selectedIndex === -1 && task) {
         this.applicationService.selectedTasks.push(task);
+        this.changeSelected(task);
       }
     } else {
       const selectedIndex = this.applicationService.selectedTasks.findIndex(data => data.id === row.id);
@@ -189,11 +195,9 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
   clickOnIcon = ($event, element: TASK_DATA_UI, column: string) => {
     $event.stopPropagation();
     if (column === 'map') {
+      this.changeSelected(element, false);
       this.tasksService.flyToObject(element);
-    } else if (column === 'assignees') {
-
     }
-
   };
 
   onUpdateAssignees = (result: string[], element: TASK_DATA_UI) => {
@@ -207,10 +211,12 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
   };
 
   resetTable = () => {
+    this.tasksService.unselectIcon(this.tasksService.selectedElement);
+    this.tasksService.selectedElement = undefined;
+
     this.selection.clear();
     this.applicationService.selectedTasks = [];
   };
-
 
   ngOnDestroy() {
     this.resetTable();

@@ -40,7 +40,6 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
   expandedElement: MAP<EVENT_DATA_UI> = {};
   selection = new SelectionModel<EVENT_DATA_UI>(true, []);
   @ViewChild(MatSort, {static: false}) sort: MatSort;
-
   panelOpenState: MAP<boolean> = {};
   subscriptions = [];
 
@@ -104,13 +103,11 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
     this.selection.clear();
     this.applicationService.selectedEvents = [];
     this.onChangeCheckbox({checked: true}, row);
-
-    // this.changeSelected(row);
   };
 
-  private changeSelected = (row: EVENT_DATA_UI) => {
+  private changeSelected = (row: EVENT_DATA_UI, isToggleSelected = true) => {
     this.eventService.unselectIcon(this.eventService.selectedElement);
-    this.eventService.selectedElement = this.eventService.selectedElement && this.eventService.selectedElement.id === row.id ? undefined : row;
+    this.eventService.selectedElement = isToggleSelected && this.eventService.selectedElement && this.eventService.selectedElement.id === row.id ? undefined : row;
     this.eventService.selectIcon(this.eventService.selectedElement);
   };
 
@@ -224,8 +221,9 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
   };
 
   clickOnIcon = (event, element: EVENT_DATA_UI, column: string) => {
-    // event.stopPropagation();
+    event.stopPropagation();
     if (column === 'map') {
+      this.changeSelected(element, false);
       this.eventService.flyToObject(element);
     } else if (column === 'link') {
         const top = event.clientY - 10;

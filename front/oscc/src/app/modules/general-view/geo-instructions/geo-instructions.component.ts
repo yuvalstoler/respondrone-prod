@@ -40,11 +40,7 @@ export class GeoInstructionsComponent implements OnInit {
     description: '',
     location: {lon: undefined, lat: undefined, alt: 0},
     modeDefine: {
-      styles:
-        {
-          mapIcon: '', iconSize: undefined, labelText: undefined, labelOffset: undefined, labelBackground: undefined,
-          hoverText: undefined, color: undefined, isDotted: undefined, fillColor: undefined
-        }
+      styles: {} as any
     },
     address: '',
     polygon: [],
@@ -67,7 +63,7 @@ export class GeoInstructionsComponent implements OnInit {
 
     // add location to model
     this.locationService.locationPoint$.subscribe(latlon => {
-      this.geoInstructionModel.location = {lon: latlon.lon, lat: latlon.lat, alt: 0};
+      this.geoInstructionModel.location = {lon: latlon.lon, lat: latlon.lat, alt: latlon.alt};
     });
 
     // add polygon to model

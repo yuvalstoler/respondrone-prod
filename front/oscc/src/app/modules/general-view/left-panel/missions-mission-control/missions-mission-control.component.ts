@@ -34,6 +34,7 @@ export class MissionsMissionControlComponent implements OnInit {
   }
 
   onCreateNewMission = () => {
+    this.childComponent.resetTable();
     this.openPanel('Create new mission request');
   };
 
@@ -73,7 +74,16 @@ export class MissionsMissionControlComponent implements OnInit {
   onMissionRequestAction = (action: MISSION_REQUEST_ACTION) => {
     if (this.applicationService.selectedMissionRequests[0]) {
       if (this.applicationService.selectedMissionRequests[0].missionStatus === MISSION_STATUS_UI.New) {
-        this.openPanelAddAV(this.applicationService.selectedMissionRequests[0], action);
+        if (action === MISSION_REQUEST_ACTION.Accept) {
+          this.openPanelAddAV(this.applicationService.selectedMissionRequests[0], action);
+        } else if (action === MISSION_REQUEST_ACTION.Reject) {
+          const data: MISSION_REQUEST_ACTION_OBJ = {
+            missionRequestId: this.applicationService.selectedMissionRequests[0].id,
+            action: action
+          };
+          this.missionRequestService.sendMissionRequestAction(data);
+          this.childComponent.resetTable();
+        }
       }
       else {
         const data: MISSION_REQUEST_ACTION_OBJ = {
