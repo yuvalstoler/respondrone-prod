@@ -341,7 +341,7 @@ export class EventService {
       this.applicationService.screen.showLeftPanel = true;
       this.applicationService.screen.showSituationPicture = true;
       // choose missionTab on MissionControl
-      this.applicationService.currentTabIndex = 0; /*(0 = Events, 1 = Reports)*/
+      this.applicationService.currentTabIndexSituationPicture = 0; /*(0 = Events, 1 = Reports)*/
       //close others
       this.applicationService.screen.showMissionControl = false;
       this.applicationService.screen.showVideo = false;

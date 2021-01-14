@@ -36,7 +36,8 @@ export class ApplicationService {
   typesConfig = {reportTypes: [], eventTypes: [], taskTypes: []};
   geoCounter: number = 0;
 
-  public currentTabIndex = 0;  //default tab index is 0
+  public currentTabIndexSituationPicture = 0;  //default tab index is 0
+  public currentTabIndexMissionControl = 0;  //default tab index is 0
   isDialogOpen = false;
   cursorPosition: GEOPOINT3D_SHORT = {lon: undefined, lat: undefined, alt: undefined};
   hoverTextData: { top: string, left: string, text: string };
