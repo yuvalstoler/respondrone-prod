@@ -2,9 +2,9 @@
   <div class="AirResourcesContainer scroll">
     <div *ngFor="let airVehicle of airVehicleService.airVehicles.data | sortByPriority: optionSelected">
       <div (click)="onSelect(airVehicle)"
-           [ngStyle]="{ 'grid-template-rows': isOpenMenu[airVehicle.id] ? '29px 25px 25px 7px 25px 25px' : '29px 25px 25px',
-      'border-bottom': '5px solid' + airVehicle?.modeDefine?.styles?.statusColor}" class="gridAirResources"
-           [ngClass]="{'selectedAv': airVehicleService.selectedElement?.id === airVehicle.id}">
+           [ngClass]="{'selectedAv': airVehicleService.selectedElement?.id === airVehicle.id}" [ngStyle]="{ 'grid-template-rows': isOpenMenu[airVehicle.id] ? '29px 25px 25px 7px 25px 25px' : '29px 25px 25px',
+      'border-bottom': '5px solid' + airVehicle?.modeDefine?.styles?.statusColor}"
+           class="gridAirResources">
         <!--title-->
         <div class="item1 title">{{airVehicle.name}}</div>
         <!--icons expend & 3 dotes-->
@@ -14,16 +14,21 @@
           <mat-icon (click)="onOpenMenu($event, airVehicle.id)" *ngIf="!isOpenMenu[airVehicle.id]">keyboard_arrow_down
           </mat-icon>
           <!-- 3 dotes-->
-          <mat-icon (click)="$event.stopPropagation();" *ngIf="!this.applicationService.isDialogOpen"
+          <mat-icon (click)="$event.stopPropagation();"
+                    *ngIf="
+                     (!this.applicationService.isDialogOpen && airVehicle.operationalStatus === OPERATIONAL_STATUS.Ready) ||
+                     (!this.applicationService.isDialogOpen && airVehicle.operationalStatus === OPERATIONAL_STATUS.OnMission)"
                     [matMenuTriggerFor]="missionOptions"
-                    [ngStyle]="{'cursor': 'pointer', 'margin': '0 -6px 0 8px;'}"
                     matRipple
           >more_vert
           </mat-icon>
-          <mat-icon
-            *ngIf="this.applicationService.isDialogOpen && (airVehicle.operationalStatus === OPERATIONAL_STATUS.Ready || airVehicle.operationalStatus === OPERATIONAL_STATUS.OnMission)"
-            [ngStyle]="{'cursor': 'no-drop', 'margin': '0 -12px 0 8px;'}"
-            matRipple>more_vert
+          <mat-icon (click)="$event.stopPropagation();"
+                    [ngStyle]="{'color': '#a6a6a6', 'cursor': 'no-drop' }"
+                    *ngIf="this.applicationService.isDialogOpen ||
+             (!this.applicationService.isDialogOpen &&
+             (airVehicle.operationalStatus !== OPERATIONAL_STATUS.Ready &&
+              airVehicle.operationalStatus !== OPERATIONAL_STATUS.OnMission))"
+          >more_vert
           </mat-icon>
           <!--Menu mission Options-->
           <mat-menu #missionOptions="matMenu">

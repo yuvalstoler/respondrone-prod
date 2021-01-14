@@ -53,7 +53,7 @@ export class AirResourcesComponent implements OnInit {
       this.airVehicleService.selectIcon(this.airVehicleService.selectedElement);
       this.airVehicleService.flyToObject(item);
     }
-  }
+  };
 
   onMissionOptions = (missionType: MISSION_TYPE, airVehicle: AV_DATA_UI) => {
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;

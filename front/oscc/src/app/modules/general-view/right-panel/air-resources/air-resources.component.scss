@@ -1,6 +1,7 @@
 @import '../../../../../styles/colors';
 @import '../../../../../styles/variable';
 @import '../../../../../styles/scrollbar';
+@import '../../../../../styles/disabled';
 
 .AirResourcesContainer{
   max-height: calc(40vh - #{$headerHeight} );
@@ -31,6 +32,7 @@
 
   mat-icon{
     cursor: pointer;
+    margin-right: -7px;
   }
 
 }
@@ -112,6 +114,7 @@
 }
 .iconStatus {
   font-size: $fontSizeText9;
+  margin-right: 3px;
 }
 
 .selectedAv {
