@@ -35,7 +35,7 @@ export class FrContextMenuComponent implements OnInit {
       this.applicationService.screen.showLeftPanel = true;
       this.applicationService.screen.showMissionControl = true;
       // choose missionTab on MissionControl
-      this.applicationService.currentTabIndex = 0; /*(0 = TaskTab, 1 = MissionTab)*/
+      this.applicationService.currentTabIndexMissionControl = 0; /*(0 = TaskTab, 1 = MissionTab)*/
       //close others
       this.applicationService.screen.showSituationPicture = false;
       this.applicationService.screen.showVideo = false;

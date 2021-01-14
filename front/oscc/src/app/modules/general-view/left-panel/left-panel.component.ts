@@ -37,21 +37,13 @@ export class LeftPanelComponent implements OnInit {
   };
 
   onSituationPictureTabChange = (event: MatTabChangeEvent) => {
-    this.applicationService.currentTabIndex = event.index;
+    this.applicationService.currentTabIndexSituationPicture = event.index;
     this.contextMenuService.closeLinkToMenu();
     this.resetSelected();
   };
 
-  getSelectedMissionControlIndex(): number {
-    return this.applicationService.currentTabIndex;
-  }
-
-  getSelectedSituationPictureIndex(): number {
-    return this.applicationService.currentTabIndex;
-  }
-
   onMissionControlTabChange = (event: MatTabChangeEvent) => {
-    this.applicationService.currentTabIndex = event.index;
+    this.applicationService.currentTabIndexMissionControl = event.index;
     this.resetSelected();
   };
 

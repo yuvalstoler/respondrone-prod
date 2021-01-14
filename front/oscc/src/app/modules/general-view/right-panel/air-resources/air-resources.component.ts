@@ -61,7 +61,7 @@ export class AirResourcesComponent implements OnInit {
     this.applicationService.screen.showLeftPanel = true;
     this.applicationService.screen.showMissionControl = true;
     // choose missionTab on MissionControl
-    this.applicationService.currentTabIndex = 1; /*(0 = TaskTab, 1 = MissionTab)*/
+    this.applicationService.currentTabIndexMissionControl = 1; /*(0 = TaskTab, 1 = MissionTab)*/
     //close others
     this.applicationService.screen.showSituationPicture = false;
     this.applicationService.screen.showVideo = false;

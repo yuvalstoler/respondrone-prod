@@ -72,14 +72,12 @@ export class MissionRequestManager {
         const res = [];
         this.missionRequests.forEach((mission: MissionRequest) => {
             const missionData: MISSION_REQUEST_DATA = mission.toJsonForSave();
-            if (missionData.missionStatus === MISSION_STATUS_UI.InProgress && missionData.missionType === MISSION_TYPE.Servoing && missionData.servoingMissionRequest
+            if (missionData.missionType === MISSION_TYPE.Servoing && missionData.servoingMissionRequest
                 && missionData.servoingMissionRequest.targetType === TARGET_TYPE.FR && missionData.servoingMissionRequest.targetId === frId) {
-                console.log("--- mission following FR", frId, 'Servoing', missionData.id)
                 res.push(missionData);
-            } else if (missionData.missionStatus === MISSION_STATUS_UI.InProgress && missionData.missionType === MISSION_TYPE.CommRelay && missionData.commRelayMissionRequest
+            } else if (missionData.missionType === MISSION_TYPE.CommRelay && missionData.commRelayMissionRequest
                 && missionData.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Follow && missionData.commRelayMissionRequest.missionData.FRs
                 && missionData.commRelayMissionRequest.missionData.FRs.indexOf(frId) !== -1) {
-                console.log("--- mission following FR", frId, 'CommRelayFollow', missionData.id)
                 res.push(missionData);
             }
         });
