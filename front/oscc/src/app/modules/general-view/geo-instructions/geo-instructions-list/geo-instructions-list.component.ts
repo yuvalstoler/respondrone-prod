@@ -97,6 +97,7 @@ export class GeoInstructionsListComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
     }
+    this.changeGeographicInstructionsModel.emit(this.geographicInstructionsModel);
   };
 
   getIcon = (geoInstruction: GEOGRAPHIC_INSTRUCTION): string => {

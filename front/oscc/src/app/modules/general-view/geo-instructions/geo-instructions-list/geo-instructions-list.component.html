@@ -2,23 +2,28 @@
   #geoInstructionList="cdkDropList"
   (cdkDropListDropped)="drop($event)"
   [cdkDropListData]="geographicInstructionsModel"
-  [cdkDropListDisabled] = 'true'
+  [cdkDropListDisabled]="!isNotViewOnly"
   cdkDropList
+  class="example-list"
 >
+  <!--[cdkDropListData]="geographicInstructionsModel"-->
+  <!--#geoInstructionList="cdkDropList"-->
   <mat-expansion-panel (click)="flyToInstruction(geoInstruction)"
                        *ngFor="let geoInstruction of geographicInstructionsModel; let i = index"
                        [expanded]="false"
                        [togglePosition]="'after'"
-                       cdkDrag>
-    <mat-expansion-panel-header [ngStyle]="{'cursor': 'grabbing'}">
+                       cdkDrag
+                       class="example-box">
+    <mat-expansion-panel-header [ngStyle]="{'cursor': (isNotViewOnly) ? 'move': 'pointer'}">
       <div class="expendTitle">
         <mat-icon mat-list-icon>{{getIcon(geoInstruction)}}</mat-icon>
-        <span mat-line class="expendTitleText">{{geoInstruction?.type}}</span>
+        <span class="expendTitleText" mat-line>{{geoInstruction?.type}}</span>
       </div>
-      <button class='DialogButtonGeoX'
-              (click)="removeGeoInstruction($event, geoInstruction, i)"
+      <button (click)="removeGeoInstruction($event, geoInstruction, i)"
               *ngIf="isNotViewOnly"
-        >X</button>
+              class='DialogButtonGeoX'
+      >X
+      </button>
     </mat-expansion-panel-header>
     <div class="">
       <pre class="">{{geoInstruction?.description}}</pre>

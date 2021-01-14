@@ -13,9 +13,10 @@
 }
 
 .HPRightSideIcon{
-  width: $iconWidth;
+  width: $iconSize;
   font-size: $iconFontSize;
-  margin: 5px;
+  //margin: 5px;
+  margin: 2px 0 5px 5px;
   cursor: pointer;
 }
 

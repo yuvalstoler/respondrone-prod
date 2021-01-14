@@ -141,7 +141,8 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 .geo-instructions-container{
   overflow: auto;
-  max-height: 15em;
+  max-height: 11em;
+  margin-top: 2px;
 }
 //task-assignees
 .example-element-assignees{
@@ -160,9 +161,10 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 .example-element-createdBy{
   position: absolute;
-  bottom: 11px;
+  bottom: 10px;
   width: 100%;
-  display: contents;
+  background: $lightGray;
+  height: auto;
 }
 .expendContent{
   font-size: $fontSizeText13;
