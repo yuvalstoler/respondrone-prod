@@ -70,10 +70,10 @@ export class ListenerMapService {
       else if (event.object.type === ITEM_TYPE.missionRoute || event.object.type === ITEM_TYPE.mission) {
         this.missionRequestService.goToMissionRequest(event.object.data.requestId);
       }
-      if (event.object.type === ITEM_TYPE.fr) {
+      else if (event.object.type === ITEM_TYPE.fr) {
         this.frService.goToFR(event.object.data.id);
       }
-      if (event.object.type === ITEM_TYPE.av) {
+      else if (event.object.type === ITEM_TYPE.av) {
         this.airVehicleService.goToAV(event.object.data.id);
       }
     }

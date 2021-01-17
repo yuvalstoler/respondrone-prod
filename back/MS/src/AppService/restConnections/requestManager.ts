@@ -18,6 +18,7 @@ const projConf = require('./../../../../../../../../config/projConf.json');
 const url_DBS = services.DBS.protocol + '://' + services.DBS.host + ':' + services.DBS.port;
 const url_WS = services.webServer.protocol + '://' + services.webServer.host + ':' + services.webServer.port;
 const url_TMM = services.TMM.protocol + '://' + services.TMM.host + (services.TMM.port ? ':' + services.TMM.port : '');
+const url_FRS = services.FRS.protocol + '://' + services.FRS.host + ':' + services.FRS.port;
 
 const url_CommRelayMissionRep = services.CommRelayMissionRep.protocol + '://' + services.CommRelayMissionRep.host + ':' + services.CommRelayMissionRep.port;
 const url_PatrolMissionRep = services.PatrolMissionRep.protocol + '://' + services.PatrolMissionRep.host + ':' + services.PatrolMissionRep.port;
@@ -38,10 +39,13 @@ export class RequestManager {
     public static requestToDBS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_DBS, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
-
     public static requestToWS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_WS, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
+    public static requestToFRS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_FRS, API_GENERAL.general + path, bodyObj, timeout_AV);
+    };
+
     public static requestToTMM = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_TMM, path, bodyObj, timeout_AV);
     };

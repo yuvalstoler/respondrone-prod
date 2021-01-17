@@ -46,46 +46,21 @@ export class ScanMissionRequest extends MissionRequest {
 
     public toJsonForSave = (): MISSION_REQUEST_DATA => {
         return {
-            id: this.id,
-            version: this.version,
-            lastAction: this.lastAction,
+            ...this.toJsonForSaveCommon(),
             scanMissionRequest: this.scanMissionRequest,
-
-            missionType: this.missionType,
-            description: this.description,
-            comments: this.comments,
-            time: this.time,
-            idView: this.idView,
-            createdBy: this.createdBy,
-            source: this.source,
-            missionStatus: this.missionStatus,
         };
     };
 
     public toJsonForUI = (): MISSION_REQUEST_DATA_UI => {
         return {
-            id: this.id,
-            version: this.version,
-            lastAction: this.lastAction,
+            ...this.toJsonForUICommon(),
             scanMissionRequest: this.scanMissionRequest,
-
-            missionType: this.missionType,
-            description: this.description,
-            comments: this.comments,
-            time: this.time,
-            idView: this.idView,
-            createdBy: this.createdBy,
-            source: this.source,
-            missionStatus: this.missionStatus,
-            modeDefine: undefined,
         };
     };
 
     public toJsonForRep = (): SCAN_MISSION_REQUEST_REP => {
         return {
-            id: this.id,
-            version: this.version,
-            lastAction: this.lastAction,
+            ...this.toJsonForRepCommon(),
             scanMissionRequest: this.scanMissionRequest,
         };
     };
@@ -96,18 +71,8 @@ export class ScanMissionRequest extends MissionRequest {
 
 
     saveConfig = {
-        id: this.setId,
-        version: this.setVersion,
-        lastAction: this.setLastAction,
+        ...this.saveConfigCommon,
         scanMissionRequest: this.setMissionRequest,
-
-        description: this.setDescription,
-        comments: this.setComments,
-        time: this.setTime,
-        idView: this.setIdView,
-        createdBy: this.setCreatedBy,
-        source: this.setSource,
-        missionStatus: this.setMissionStatus,
     };
 
 

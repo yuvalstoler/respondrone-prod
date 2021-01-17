@@ -81,11 +81,11 @@ export class VideoPanelComponent implements OnInit {
   };
 
   checkColorPalette = ($event) => {
-    if (this.gimbal) {
+    if (this.gimbal && $event.value && Number.isFinite(this.gimbal.infraredCameraParameters.zoomInfraredCamera)) {
 
       const gimbalAction: GIMBAL_ACTION_OSCC = this.getDefaultGimbalAction();
       gimbalAction.parameters = {
-        zoomInfraredCamera: this.gimbal.infraredCameraParameters.zoomInfraredCamera,
+        zoomInfraredCamera: this.gimbal.infraredCameraParameters.zoomInfraredCamera * 10,
         colorPaletteInfraredCamera: $event
       };
 

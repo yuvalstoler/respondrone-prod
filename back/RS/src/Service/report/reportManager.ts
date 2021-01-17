@@ -4,7 +4,7 @@ import {Converting} from '../../../../../classes/applicationClasses/utility/conv
 
 import {Report} from '../../../../../classes/dataClasses/report/report';
 
-import {DBS_API, FS_API} from '../../../../../classes/dataClasses/api/api_enums';
+import {DBS_API, FRS_API, FS_API} from '../../../../../classes/dataClasses/api/api_enums';
 
 import {RequestManager} from '../../AppService/restConnections/requestManager';
 
@@ -12,7 +12,7 @@ import {
     ASYNC_RESPONSE,
     FILE_DB_FS_DATA,
     FILE_FS_DATA,
-    FILE_STATUS,
+    FILE_STATUS, FR_DATA,
     ID_OBJ,
     ID_TYPE,
     IDs_OBJ, MISSION_REQUEST_DATA, MISSION_TYPE, REP_OBJ_KEY,
@@ -160,36 +160,33 @@ export class ReportManager {
     // ------------------------
     private createReportFromMGW = (reportData: REPORT_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
         return new Promise((resolve, reject) => {
-            const res: ASYNC_RESPONSE = {success: false};
             // TODO VALIDATE
             const valid: ASYNC_RESPONSE = this.isValid(reportData);
             if (valid.success) {
-                reportData.id = reportData.id || DataUtility.generateID();
-                reportData.time = reportData.time || Date.now();
-                reportData.idView = reportData.idView || DataUtility.generateIDForView();
-                reportData.source = SOURCE_TYPE.MRF;
-                const newReport: Report = new Report(reportData);
+                reportData.createdById = reportData.createdBy;
 
-
-                RequestManager.requestToDBS(DBS_API.createReport, newReport.toJsonForSave())
-                    .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
-                        res.data = data.data;
-                        res.success = data.success;
-                        res.description = data.description;
-                        if ( data.success ) {
-                            const newReportCreated: Report = new Report(data.data);
-                            this.reports.push(newReportCreated);
-                            UpdateListenersManager.updateReportListeners();
-
-                            const mediaIds: ID_TYPE[] = Object.keys(newReportCreated.mediaFileIds);
-                            this.requestToDownloadFiles({ids: mediaIds});
-
+                this.getFR(reportData.createdById)
+                    .then((frRes: ASYNC_RESPONSE<FR_DATA>) => {
+                        if (frRes.success && frRes.data && frRes.data.callSign !== undefined) {
+                            delete reportData.createdById;
+                            reportData.createdBy = frRes.data.callSign;
                         }
-                        resolve(res);
+                        this.createReportMGW(reportData)
+                            .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                                resolve(data);
+                            })
+                            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                                reject(data);
+                            });
                     })
-                    .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
-                        console.log(data);
-                        reject(data);
+                    .catch((frRes: ASYNC_RESPONSE<FR_DATA>) => {
+                        this.createReportMGW(reportData)
+                            .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                                resolve(data);
+                            })
+                            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                                reject(data);
+                            });
                     });
             }
             else {
@@ -197,7 +194,54 @@ export class ReportManager {
             }
         });
     }
+    // ------------------------
+    private createReportMGW = (reportData: REPORT_DATA) => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
 
+            reportData.id = reportData.id || DataUtility.generateID();
+            reportData.time = reportData.time || Date.now();
+            reportData.idView = reportData.idView || DataUtility.generateIDForView();
+            reportData.source = SOURCE_TYPE.MRF;
+            const newReport: Report = new Report(reportData);
+
+
+            RequestManager.requestToDBS(DBS_API.createReport, newReport.toJsonForSave())
+                .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                    res.data = data.data;
+                    res.success = data.success;
+                    res.description = data.description;
+                    if ( data.success ) {
+                        const newReportCreated: Report = new Report(data.data);
+                        this.reports.push(newReportCreated);
+                        UpdateListenersManager.updateReportListeners();
+
+                        const mediaIds: ID_TYPE[] = Object.keys(newReportCreated.mediaFileIds);
+                        this.requestToDownloadFiles({ids: mediaIds});
+
+                    }
+                    resolve(res);
+                })
+                .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                    console.log(data);
+                    reject(data);
+                });
+        });
+    }
+
+    // ------------------------
+    private getFR = (frId: ID_TYPE) => {
+        if (frId !== undefined) {
+            const idObj: ID_OBJ = {id: frId};
+            return RequestManager.requestToFRS(FRS_API.getFRById, idObj);
+        }
+        else {
+            return new Promise((resolve, reject) => {
+                reject({success: false});
+            });
+        }
+    }
+    // -----------------------
     private requestToDownloadFiles = (fileIds: IDs_OBJ) => {
         RequestManager.requestToFS(FS_API.requestToDownloadFiles, fileIds)
             .then((data: ASYNC_RESPONSE) => {

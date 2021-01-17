@@ -17,7 +17,7 @@ import {
     FR_DATA_TELEMETRY_REP,
     MAP,
     GEOPOINT3D,
-    FR_DATA_REP
+    FR_DATA_REP, ID_TYPE
 } from '../../../../../classes/typings/all.typings';
 import {FR} from '../../../../../classes/dataClasses/fr/FR';
 import {DataUtility} from '../../../../../classes/applicationClasses/utility/dataUtility';
@@ -110,21 +110,36 @@ export class FrManager {
     }
 
     private startGetSocket = () => {
-        SocketIOClient.addToSortConfig(SOCKET_IO_CLIENT_TYPES.CCG, this.frsSocketConfig);
+        // SocketIOClient.addToSortConfig(SOCKET_IO_CLIENT_TYPES.CCG, this.frsSocketConfig);
+    }
+
+    private isValid = (item: FR_DATA): ASYNC_RESPONSE => {
+        // TODO change
+        const res: ASYNC_RESPONSE = {success: true};
+        if (!item || !item.id || item.lastUpdated === undefined || !item.status) {
+            res.success = false;
+            res.description = 'not valid';
+        }
+        return res;
     }
 
     private onGetFRs = (data: FR_DATA_TELEMETRY) => {
         // this.frs = Converting.Arr_FR_DATA_to_Arr_FR(data.FRs);
         this.frs = {};
-        data.FRs.forEach((item: FR_DATA) => {
-            // TODO remove
-            if (item.location && item.location.hasOwnProperty('longitude')) {
-                const location: GEOPOINT3D = item.location as any;
-                item.location = {lat: location.latitude, lon: location.longitude, alt: location.altitude};
-            }
 
-            this.frs[item.id] = new FR(item);
-        });
+        for (let i = 0; i < data.FRs.length; i++) {
+            const item = data.FRs[i];
+            if (this.isValid(item).success) {
+                if (item.location && item.location.hasOwnProperty('longitude')) {
+                    const location: GEOPOINT3D = item.location as any;
+                    item.location = {lat: location.latitude, lon: location.longitude, alt: location.altitude};
+                }
+                this.frs[item.id] = new FR(item);
+            }
+            else {
+                data.FRs.splice(i--);
+            }
+        }
         if (data.timestamp) {
             this.timestamp = data.timestamp.timestamp;
         }
@@ -154,6 +169,17 @@ export class FrManager {
         return res;
     }
 
+    private getFRById = (idObj: ID_OBJ): Promise<ASYNC_RESPONSE<FR_DATA>> => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE<FR_DATA> = {success: false};
+            if (idObj && idObj.id) {
+                res.success = (this.frs[idObj.id] !== undefined);
+                res.data = this.frs[idObj.id];
+            }
+            resolve(res);
+        });
+    }
+
 
     private frsSocketConfig: {} = {
         [SOCKET_ROOM.FRs_Tel_room]: this.onGetFRs,
@@ -161,6 +187,7 @@ export class FrManager {
 
     // region API uncions
     public static startGetSocket = FrManager.instance.startGetSocket;
+    public static getFRById = FrManager.instance.getFRById;
 
 
     // endregion API uncions

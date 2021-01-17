@@ -69,21 +69,21 @@ export class LiveVideoService {
     '1': {
       'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov': {
         videoJSMPEG: 'ws://20.71.141.60:9092/',
-        blobsSocket: 'ws://20.71.141.60:4000/'
+        blobsSocket: 'ws://20.71.141.60:4002/'
       },
       'ws://20.71.141.60:9091/': {
-        videoJSMPEG: 'ws://20.71.141.60:9092/',
-        blobsSocket: 'ws://20.71.141.60:4000/'
+        videoJSMPEG: 'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov',
+        blobsSocket: 'ws://20.71.141.60:4002/'
       }
     },
     '2': {
       'ws://20.71.141.60:9093/': {
         videoJSMPEG: 'ws://20.71.141.60:9092/',
-        blobsSocket: 'ws://20.71.141.60:4000/'
+        blobsSocket: 'ws://20.71.141.60:4002/'
       },
       'ws://20.71.141.60:9094/': {
         videoJSMPEG: 'ws://20.71.141.60:9092/',
-        blobsSocket: 'ws://20.71.141.60:4000/'
+        blobsSocket: 'ws://20.71.141.60:4002/'
       }
     }
   };

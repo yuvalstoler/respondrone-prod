@@ -1,6 +1,14 @@
 import {
-    COMMENT, MISSION_ACTION_OPTIONS,
-    ID_TYPE, LAST_ACTION, MISSION_REQUEST_DATA, MISSION_STATUS_UI, MISSION_TYPE, SOURCE_TYPE
+    COMMENT,
+    MISSION_ACTION_OPTIONS,
+    ID_TYPE,
+    LAST_ACTION,
+    MISSION_REQUEST_DATA,
+    MISSION_STATUS_UI,
+    MISSION_TYPE,
+    SOURCE_TYPE,
+    MISSION_REQUEST_DATA_UI,
+    REP_ENTITY
 } from '../../typings/all.typings';
 import { DataUtility } from '../../applicationClasses/utility/dataUtility';
 
@@ -17,6 +25,8 @@ export class MissionRequest {
     time: number;
     idView: string;
     missionStatus: MISSION_STATUS_UI;
+
+    createdById: ID_TYPE;
 
     constructor() {
     }
@@ -72,6 +82,72 @@ export class MissionRequest {
     protected setSource = (data: SOURCE_TYPE) => {
         this.source = data;
     };
+
+    protected setCreatedById = (data: ID_TYPE) => {
+        this.createdById = data;
+    };
+
+    public toJsonForSaveCommon = (): MISSION_REQUEST_DATA => {
+        return {
+            id: this.id,
+            version: this.version,
+            lastAction: this.lastAction,
+
+            missionType: this.missionType,
+            description: this.description,
+            comments: this.comments,
+            time: this.time,
+            idView: this.idView,
+            createdBy: this.createdBy,
+            source: this.source,
+            missionStatus: this.missionStatus,
+
+            createdById: this.createdById,
+        };
+    };
+
+    public toJsonForUICommon = (): MISSION_REQUEST_DATA_UI => {
+        return {
+            id: this.id,
+            version: this.version,
+            lastAction: this.lastAction,
+
+            missionType: this.missionType,
+            description: this.description,
+            comments: this.comments,
+            time: this.time,
+            idView: this.idView,
+            createdBy: this.createdBy,
+            source: this.source,
+            missionStatus: this.missionStatus,
+            modeDefine: undefined,
+        };
+    }
+
+    public toJsonForRepCommon = (): REP_ENTITY => {
+        return {
+            id: this.id,
+            version: this.version,
+            lastAction: this.lastAction,
+        };
+    };
+
+    saveConfigCommon = {
+        id: this.setId,
+        version: this.setVersion,
+        lastAction: this.setLastAction,
+
+        description: this.setDescription,
+        comments: this.setComments,
+        time: this.setTime,
+        idView: this.setIdView,
+        createdBy: this.setCreatedBy,
+        source: this.setSource,
+        missionStatus: this.setMissionStatus,
+
+        createdById: this.setCreatedById
+    };
+
 
     public toJsonForSave;
     public toJsonForUI;

@@ -18,6 +18,7 @@ const projConf = require('./../../../../../../../../config/projConf.json');
 const url_DBS = services.DBS.protocol + '://' + services.DBS.host + ':' + services.DBS.port;
 const url_WS = services.webServer.protocol + '://' + services.webServer.host + ':' + services.webServer.port;
 const url_FS = services.FS.protocol + '://' + services.FS.host + ':' + services.FS.port;
+const url_FRS = services.FRS.protocol + '://' + services.FRS.host + ':' + services.FRS.port;
 
 const timeout_AV = projConf.timeOutREST;
 
@@ -32,6 +33,9 @@ export class RequestManager {
     };
     public static requestToFS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
         return RequestManager.sendRestRequest(url_FS, API_GENERAL.general + path, bodyObj, timeout_AV);
+    };
+    public static requestToFRS = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_FRS, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
 
 

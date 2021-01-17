@@ -14,6 +14,7 @@ import {LEFT_PANEL_ICON} from '../../../../../types';
 import {MissionsTableComponent} from './missions-situation-table/missions-table.component';
 import {MissionRequestService} from '../../../../services/missionRequestService/missionRequest.service';
 import {MissionUavDialogComponent} from '../../../../dialogs/mission-uav-dialog/mission-uav-dialog.component';
+import {ConfirmDialogComponent} from '../../../../dialogs/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-missions-mission-control',
@@ -77,12 +78,7 @@ export class MissionsMissionControlComponent implements OnInit {
         if (action === MISSION_REQUEST_ACTION.Accept) {
           this.openPanelAddAV(this.applicationService.selectedMissionRequests[0], action);
         } else if (action === MISSION_REQUEST_ACTION.Reject) {
-          const data: MISSION_REQUEST_ACTION_OBJ = {
-            missionRequestId: this.applicationService.selectedMissionRequests[0].id,
-            action: action
-          };
-          this.missionRequestService.sendMissionRequestAction(data);
-          this.childComponent.resetTable();
+          this.openConfirmationDialog(action);
         }
       }
       else {
@@ -95,6 +91,26 @@ export class MissionsMissionControlComponent implements OnInit {
 
     }
   };
+
+  openConfirmationDialog = (action: MISSION_REQUEST_ACTION) => {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '35em',
+      disableClose: true,
+      data: ' you want to permanently delete the selected mission request'
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const data: MISSION_REQUEST_ACTION_OBJ = {
+          missionRequestId: this.applicationService.selectedMissionRequests[0].id,
+          action: action
+        };
+        this.missionRequestService.sendMissionRequestAction(data);
+        this.childComponent.resetTable();
+      }
+    });
+
+  }
 
   private openPanelAddAV = (selectedMissionRequest: MISSION_REQUEST_DATA_UI, action: MISSION_REQUEST_ACTION) => {
     const dialogRef = this.dialog.open(MissionUavDialogComponent, {
