@@ -124,6 +124,10 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
     this.dataSource.filter = filterValue.trim().toLowerCase();
   };
 
+  clearFilter = () => {
+    this.dataSource.filter = '';
+  };
+
   getSelectedEvents = (): EVENT_DATA_UI[] => {
     try {
       return this.selection.selected;

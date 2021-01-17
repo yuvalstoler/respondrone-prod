@@ -123,6 +123,10 @@ export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy 
     this.dataSource.filter = filterValue.trim().toLowerCase();
   };
 
+  clearFilter = () => {
+    this.dataSource.filter = '';
+  };
+
   getSelectedReports = (): MISSION_REQUEST_DATA_UI[] => {
     try {
       return this.selection.selected;

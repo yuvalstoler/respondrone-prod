@@ -9,6 +9,7 @@ import {TaskAssigneesTableComponent} from '../task-assignees-table/task-assignee
 export class TaskAssigneesContainerComponent implements OnInit {
 
   @ViewChild(TaskAssigneesTableComponent ) childComponent: TaskAssigneesTableComponent ;
+  @ViewChild('inputSearch') inputSearch;
 
   constructor() { }
 
@@ -18,6 +19,11 @@ export class TaskAssigneesContainerComponent implements OnInit {
   getFilter = (event) => {
     //todo:
     this.childComponent.applyFilter(event);
+  };
+
+  clearPanel = () => {
+    this.inputSearch.nativeElement.value = ' ';
+    this.childComponent.clearFilter();
   };
 
   onCreateNewReport = () => {

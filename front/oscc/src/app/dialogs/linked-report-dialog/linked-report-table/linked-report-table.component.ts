@@ -74,6 +74,10 @@ export class LinkedReportTableComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   };
 
+  clearFilter = () => {
+    this.dataSource.filter = '';
+  };
+
   getSelectedReports = () => {
     try {
       return this.selection.selected.map(data => data.id);

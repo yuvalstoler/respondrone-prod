@@ -18,6 +18,7 @@ import {MediaService} from '../../../../services/mediaService/media.service';
 export class ReportsSituationPictureComponent implements OnInit {
 
   @ViewChild(ReportsSituationTableComponent ) childComponent: ReportsSituationTableComponent ;
+  @ViewChild('inputSearch') inputSearch;
   LEFT_PANEL_ICON =  LEFT_PANEL_ICON;
 
   constructor(public applicationService: ApplicationService,
@@ -94,4 +95,8 @@ export class ReportsSituationPictureComponent implements OnInit {
     this.childComponent.applyFilter(event);
   };
 
+  clearPanel = () => {
+    this.inputSearch.nativeElement.value = ' ';
+    this.childComponent.clearFilter();
+  };
 }

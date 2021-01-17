@@ -17,6 +17,7 @@ import {EventDialogComponent} from '../../../../dialogs/event-dialog/event-dialo
 export class EventsSituationPictureComponent implements OnInit {
 
   @ViewChild(EventsSituationTableComponent) childComponent: EventsSituationTableComponent;
+  @ViewChild('inputSearch') inputSearch;
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
 
   constructor(public applicationService: ApplicationService,
@@ -87,9 +88,13 @@ export class EventsSituationPictureComponent implements OnInit {
     });
   };
 
-  getFilter = (event) => {
+  getFilter = (event: Event) => {
     this.childComponent.applyFilter(event);
   };
 
-
+  clearPanel = () => {
+    this.inputSearch.nativeElement.value = ' ';
+    this.childComponent.clearFilter();
+  };
 }
+

@@ -3,7 +3,11 @@
   <div class="HeaderLeftPanel">
     <div class="LeftSideSearchButton">
       <mat-icon>search</mat-icon>
-      <input (keyup)="getFilter($event)" matInput type="text">
+      <input (keyup)="getFilter($event)" matInput type="text" #inputSearch>
+      <button (click)="clearPanel()"
+              disableRipple="true"
+              mat-icon-button>X
+      </button>
     </div>
   </div>
 

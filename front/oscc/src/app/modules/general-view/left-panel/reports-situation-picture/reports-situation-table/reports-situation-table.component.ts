@@ -127,6 +127,10 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
     this.dataSource.filter = filterValue.trim().toLowerCase();
   };
 
+  clearFilter = () => {
+    this.dataSource.filter = '';
+  };
+
   getSelectedReports = (): REPORT_DATA_UI[] => {
     try {
       return this.selection.selected;

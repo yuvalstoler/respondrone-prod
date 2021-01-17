@@ -10,6 +10,7 @@ import {ApplicationService} from '../../../services/applicationService/applicati
 export class LinkedEventContainerComponent implements OnInit {
 
   @ViewChild(LinkedEventTableComponent ) childComponent: LinkedEventTableComponent ;
+  @ViewChild('inputSearch') inputSearch;
   @Input() createEvent;
 
   constructor() { }
@@ -19,6 +20,11 @@ export class LinkedEventContainerComponent implements OnInit {
 
   getFilter = (event) => {
     this.childComponent.applyFilter(event);
+  };
+
+  clearPanel = () => {
+    this.inputSearch.nativeElement.value = ' ';
+    this.childComponent.clearFilter();
   };
 
   onCreateNewEvent = () => {

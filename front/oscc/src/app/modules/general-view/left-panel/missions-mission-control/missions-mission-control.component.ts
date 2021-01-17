@@ -24,6 +24,7 @@ import {ConfirmDialogComponent} from '../../../../dialogs/confirm-dialog/confirm
 export class MissionsMissionControlComponent implements OnInit {
 
   @ViewChild(MissionsTableComponent ) childComponent: MissionsTableComponent ;
+  @ViewChild('inputSearch') inputSearch;
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
   MISSION_REQUEST_ACTION = MISSION_REQUEST_ACTION;
 
@@ -136,6 +137,11 @@ export class MissionsMissionControlComponent implements OnInit {
 
   getFilter = (event) => {
     this.childComponent.applyFilter(event);
+  };
+
+  clearPanel = () => {
+    this.inputSearch.nativeElement.value = ' ';
+    this.childComponent.clearFilter();
   };
 
 }

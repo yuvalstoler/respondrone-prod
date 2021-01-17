@@ -116,6 +116,10 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
     this.dataSource.filter = filterValue.trim().toLowerCase();
   };
 
+  clearFilter = () => {
+    this.dataSource.filter = '';
+  };
+
   getSelectedTasks = (): TASK_DATA_UI[] => {
     try {
       return this.selection.selected;

@@ -17,7 +17,7 @@ import {GeoInstructionsService} from '../../../../services/geoInstructionsServic
 export class TasksMissionControlComponent implements OnInit {
 
   @ViewChild(TasksMissionTableComponent) childComponent: TasksMissionTableComponent;
-
+  @ViewChild('inputSearch') inputSearch;
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
   TASK_ACTION = TASK_ACTION;
 
@@ -99,6 +99,11 @@ export class TasksMissionControlComponent implements OnInit {
 
   getFilter = (event) => {
     this.childComponent.applyFilter(event);
+  };
+
+  clearPanel = () => {
+    this.inputSearch.nativeElement.value = ' ';
+    this.childComponent.clearFilter();
   };
 
 }

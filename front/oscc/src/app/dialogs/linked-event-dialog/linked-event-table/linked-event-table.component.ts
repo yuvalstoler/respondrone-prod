@@ -74,6 +74,10 @@ export class LinkedEventTableComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   };
 
+  clearFilter = () => {
+    this.dataSource.filter = '';
+  };
+
   getSelectedEvents = () => {
     try {
       return this.selection.selected.map(data => data.id);

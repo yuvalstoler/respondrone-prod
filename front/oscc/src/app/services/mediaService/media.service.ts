@@ -27,7 +27,7 @@ export class MediaService {
         .catch((err) => {
           reject(err);
         });
-    })
+    });
   }
 
 }

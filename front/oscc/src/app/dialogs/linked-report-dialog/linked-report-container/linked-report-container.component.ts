@@ -9,6 +9,7 @@ import {LinkedReportTableComponent} from '../linked-report-table/linked-report-t
 export class LinkedReportContainerComponent implements OnInit {
 
   @ViewChild(LinkedReportTableComponent ) childComponent: LinkedReportTableComponent ;
+  @ViewChild('inputSearch') inputSearch;
 
   constructor() { }
 
@@ -18,6 +19,11 @@ export class LinkedReportContainerComponent implements OnInit {
   getFilter = (event) => {
     //todo:
     this.childComponent.applyFilter(event);
+  };
+
+  clearPanel = () => {
+    this.inputSearch.nativeElement.value = ' ';
+    this.childComponent.clearFilter();
   };
 
   onCreateNewReport = () => {
