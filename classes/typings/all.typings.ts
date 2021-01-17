@@ -126,6 +126,8 @@ export type REPORT_DATA = {
     eventIds: string[],
     comments: COMMENT[],
     idView: string
+
+    createdById?: ID_TYPE
 };
 export type REPORT_DATA_UI = REPORT_DATA & {
     events: LINKED_EVENT_DATA[],
@@ -494,7 +496,9 @@ export type MISSION_REQUEST_DATA = REP_ENTITY & {
     scanMissionRequest?: SCAN_MISSION_REQUEST;
     servoingMissionRequest?: SERVOING_MISSION_REQUEST;
     deliveryMissionRequest?: DELIVERY_MISSION_REQUEST;
-}
+
+    createdById?: ID_TYPE;
+};
 
 export type MISSION_REQUEST_ACTION_OBJ = {
     missionRequestId: ID_TYPE,
@@ -1169,7 +1173,7 @@ export type GIMBAL_ACTION_OSCC = {
 export type GIMBAL_ACTION_MGW = {
     userId: string,
     videoSource: string,
-    parameters: GIMBAL_PARAMS | VISIBLE_CAMERA_PARAMS | INFRARED_CAMERA_PARAMS
+    parameters: GIMBAL_PARAMS & { zoom?: number } // 0 - 100
 };
 
 export type VIDEO_URLS_OBJ = {

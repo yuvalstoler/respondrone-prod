@@ -8,10 +8,10 @@
   </div>
 
   <div *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand" class="HeaderRightPanel">
-    <div (click)="onArchiveEvent()"
-         *ngIf="applicationService.selectedEvents.length > 0"
-         class="RightSideButton pointer">Archive
-    </div>
+<!--    <div (click)="onArchiveEvent()"-->
+<!--         *ngIf="applicationService.selectedEvents.length > 0"-->
+<!--         class="RightSideButton pointer">Archive-->
+<!--    </div>-->
     <div (click)="onEditEvent()"
          *ngIf="applicationService.selectedEvents.length === 1"
          class="RightSideButton pointer">Edit

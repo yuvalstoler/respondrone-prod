@@ -8,7 +8,7 @@ import {
 
 } from '../../typings/all.typings';
 import { DataUtility } from '../../applicationClasses/utility/dataUtility';
-import {MissionRequest} from "./missionRequest";
+import {MissionRequest} from './missionRequest';
 
 export class DeliveryMissionRequest extends MissionRequest {
 
@@ -44,46 +44,21 @@ export class DeliveryMissionRequest extends MissionRequest {
 
     public toJsonForSave = (): MISSION_REQUEST_DATA => {
         return {
-            id: this.id,
-            version: this.version,
-            lastAction: this.lastAction,
+            ...this.toJsonForSaveCommon(),
             deliveryMissionRequest: this.deliveryMissionRequest,
-
-            missionType: this.missionType,
-            description: this.description,
-            comments: this.comments,
-            time: this.time,
-            idView: this.idView,
-            createdBy: this.createdBy,
-            source: this.source,
-            missionStatus: this.missionStatus,
         };
     };
 
     public toJsonForUI = (): MISSION_REQUEST_DATA_UI => {
         return {
-            id: this.id,
-            version: this.version,
-            lastAction: this.lastAction,
+            ...this.toJsonForUICommon(),
             deliveryMissionRequest: this.deliveryMissionRequest,
-
-            missionType: this.missionType,
-            description: this.description,
-            comments: this.comments,
-            time: this.time,
-            idView: this.idView,
-            createdBy: this.createdBy,
-            source: this.source,
-            missionStatus: this.missionStatus,
-            modeDefine: undefined,
         };
     };
 
     public toJsonForRep = (): DELIVERY_MISSION_REQUEST_REP => {
         return {
-            id: this.id,
-            version: this.version,
-            lastAction: this.lastAction,
+            ...this.toJsonForRepCommon(),
             deliveryMissionRequest: this.deliveryMissionRequest,
         };
     };
@@ -94,18 +69,8 @@ export class DeliveryMissionRequest extends MissionRequest {
 
 
     saveConfig = {
-        id: this.setId,
-        version: this.setVersion,
-        lastAction: this.setLastAction,
+        ...this.saveConfigCommon,
         deliveryMissionRequest: this.setMissionRequest,
-
-        description: this.setDescription,
-        comments: this.setComments,
-        time: this.setTime,
-        idView: this.setIdView,
-        createdBy: this.setCreatedBy,
-        source: this.setSource,
-        missionStatus: this.setMissionStatus,
     };
 
 

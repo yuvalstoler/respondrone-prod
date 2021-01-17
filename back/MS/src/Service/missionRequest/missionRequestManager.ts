@@ -1,6 +1,6 @@
 import {MissionRequest} from '../../../../../classes/dataClasses/missionRequest/missionRequest';
 import {
-    ASYNC_RESPONSE,
+    ASYNC_RESPONSE, FR_DATA,
     ID_OBJ,
     ID_TYPE,
     LAST_ACTION,
@@ -20,7 +20,7 @@ import {
 import {
     CommRelayMissionRep_API,
     DBS_API,
-    DeliveryMissionRep_API,
+    DeliveryMissionRep_API, FRS_API,
     ObservationMissionRep_API,
     PatrolMissionRep_API,
     ScanMissionRep_API,
@@ -246,36 +246,67 @@ export class MissionRequestManager {
     // ------------------
     private createMissionRequestFromMGW = (missionRequestData: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE<MISSION_REQUEST_DATA>> => {
         return new Promise((resolve, reject) => {
-            const res: ASYNC_RESPONSE = {success: false};
 
             const valid: ASYNC_RESPONSE = this.isValid(missionRequestData);
             if (valid.success) {
-                missionRequestData.missionStatus = MISSION_STATUS_UI.New;
-                missionRequestData.source = SOURCE_TYPE.MRF;
-                missionRequestData.id = DataUtility.generateID();
-                missionRequestData.time = missionRequestData.time || Date.now();
-                missionRequestData.idView = missionRequestData.idView || DataUtility.generateIDForView();
+                missionRequestData.createdById = missionRequestData.createdBy;
 
-                missionRequestData.version = 0;
-                missionRequestData.lastAction = LAST_ACTION.Insert;
-                missionRequestData[REP_OBJ_KEY[missionRequestData.missionType]].status = MISSION_STATUS.Pending;
-
-                const newMissionRequest: MissionRequest = this.newMissionRequestClass(missionRequestData.missionType, missionRequestData);
-                this.saveMissionInDB(newMissionRequest.toJsonForSave())
-                    .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
-                        res.data = data.data;
-                        res.success = data.success;
-                        res.description = data.description;
-                        resolve(res);
+                this.getFR(missionRequestData.createdById)
+                    .then((frRes: ASYNC_RESPONSE<FR_DATA>) => {
+                        if (frRes.success && frRes.data && frRes.data.callSign !== undefined) {
+                            delete missionRequestData.createdById;
+                            missionRequestData.createdBy = frRes.data.callSign;
+                        }
+                        this.createMissionMGW(missionRequestData)
+                            .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                                resolve(data);
+                            })
+                            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                                reject(data);
+                            });
                     })
-                    .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
-                        console.log(data);
-                        reject(data);
+                    .catch((frRes: ASYNC_RESPONSE<FR_DATA>) => {
+                        this.createMissionMGW(missionRequestData)
+                            .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                                resolve(data);
+                            })
+                            .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                                reject(data);
+                            });
                     });
             }
             else {
                 reject(valid);
             }
+        });
+    }
+    // ------------------
+    private createMissionMGW = (missionRequestData: MISSION_REQUEST_DATA) => {
+        return new Promise((resolve, reject) => {
+            const res: ASYNC_RESPONSE = {success: false};
+
+            missionRequestData.missionStatus = MISSION_STATUS_UI.New;
+            missionRequestData.source = SOURCE_TYPE.MRF;
+            missionRequestData.id = DataUtility.generateID();
+            missionRequestData.time = missionRequestData.time || Date.now();
+            missionRequestData.idView = missionRequestData.idView || DataUtility.generateIDForView();
+
+            missionRequestData.version = 0;
+            missionRequestData.lastAction = LAST_ACTION.Insert;
+            missionRequestData[REP_OBJ_KEY[missionRequestData.missionType]].status = MISSION_STATUS.Pending;
+
+            const newMissionRequest: MissionRequest = this.newMissionRequestClass(missionRequestData.missionType, missionRequestData);
+            this.saveMissionInDB(newMissionRequest.toJsonForSave())
+                .then((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                    res.data = data.data;
+                    res.success = data.success;
+                    res.description = data.description;
+                    resolve(res);
+                })
+                .catch((data: ASYNC_RESPONSE<MISSION_REQUEST_DATA>) => {
+                    console.log(data);
+                    reject(data);
+                });
         });
     }
     // ------------------
@@ -646,6 +677,18 @@ export class MissionRequestManager {
                 RepositoryManager.updateCollectionVersion(missionType, 0);
             })
             .catch((data) => {});
+    }
+    // --------------------------
+    private getFR = (frId: ID_TYPE): Promise<ASYNC_RESPONSE<FR_DATA>> => {
+        if (frId !== undefined) {
+            const idObj: ID_OBJ = {id: frId};
+            return RequestManager.requestToFRS(FRS_API.getFRById, idObj);
+        }
+        else {
+            return new Promise((resolve, reject) => {
+                reject({success: false});
+            });
+        }
     }
 
 

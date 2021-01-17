@@ -78,7 +78,7 @@
           <span>
            <span [ngStyle]="{'color': element.modeDefine?.styles?.dotColor}"
                  class="material-icons iconStatus">fiber_manual_record</span>
-            {{element[column]}}
+            {{element[column] | separatorString}}
           </span>
          </td>
       </span>

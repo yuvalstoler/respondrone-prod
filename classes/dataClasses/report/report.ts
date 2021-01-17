@@ -32,6 +32,8 @@ export class Report {
     comments: COMMENT[] = [];
     idView: string = '';
 
+    createdById: ID_TYPE;
+
     constructor(data: REPORT_DATA) {
         if ( data ) {
             this.setValues(data, this.saveConfig);
@@ -117,6 +119,10 @@ export class Report {
         this.idView = data;
     };
 
+    protected setCreatedById = (data: ID_TYPE) => {
+        this.createdById = data;
+    };
+
     public setValues = (data: Partial<REPORT_DATA>, saveConfig: Object = this.saveConfig) => {
         for ( const key in saveConfig ) {
             if ( saveConfig.hasOwnProperty(key) ) {
@@ -152,6 +158,8 @@ export class Report {
             eventIds: this.eventIds,
             comments: this.comments,
             idView: this.idView,
+
+            createdById: this.createdById,
         };
     };
 
@@ -206,6 +214,8 @@ export class Report {
         eventIds: this.setEvents,
         comments: this.setComments,
         idView: this.setIdView,
+
+        createdById: this.setCreatedById
     };
 
 

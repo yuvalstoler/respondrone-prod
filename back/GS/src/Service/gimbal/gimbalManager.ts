@@ -1,18 +1,20 @@
-import {Converting} from '../../../../../classes/applicationClasses/utility/converting';
-
-
-import {GS_API, SOCKET_ROOM, THALES_API, TMM_API} from '../../../../../classes/dataClasses/api/api_enums';
+import {SOCKET_ROOM, THALES_API} from '../../../../../classes/dataClasses/api/api_enums';
 
 import {
     ASYNC_RESPONSE,
     COLOR_PALETTE_INFRARED_CAMERA,
-    FR_DATA_TELEMETRY,
-    FR_DATA_TELEMETRY_REP, GIMBAL_ACTION_FOR_TMM, GIMBAL_ACTION_MGW, GIMBAL_ACTION_OSCC,
-    GIMBAL_DATA, GIMBAL_DATA_TELEMETRY, ID_TYPE, MAP, REPORT_DATA,
+    GIMBAL_ACTION_FOR_TMM,
+    GIMBAL_ACTION_MGW,
+    GIMBAL_ACTION_OSCC,
+    GIMBAL_DATA,
+    GIMBAL_DATA_TELEMETRY,
+    GIMBAL_PARAMS,
+    ID_TYPE,
+    MAP,
+    REPORT_DATA,
     SOCKET_CLIENT_TYPES,
-    SOCKET_IO_CLIENT_TYPES, VIDEO_URL_KEY
+    VIDEO_URL_KEY, VISIBLE_CAMERA_PARAMS
 } from '../../../../../classes/typings/all.typings';
-import {SocketIOClient} from '../../websocket/socketIOClient';
 import {SocketIO} from '../../websocket/socket.io';
 import {SocketClient} from '../../websocket/socketClient';
 import {Gimbal} from '../../../../../classes/dataClasses/gimbal/Gimbal';
@@ -156,20 +158,50 @@ export class GimbalManager {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
 
-            const gimbalByVideoSource = this.getGimbalByVideoSource(gimbalAction.videoSource);
+            const gimbalByVideoSource: {gimbal: Gimbal, videoUrlKey: VIDEO_URL_KEY} = this.getGimbalByVideoSource(gimbalAction.videoSource);
             if (gimbalByVideoSource && GimbalControlManager.isAllowAction(gimbalAction.userId, gimbalByVideoSource.gimbal.droneId, gimbalByVideoSource.videoUrlKey)) {
-                const gimbalActionForTMM: GIMBAL_ACTION_FOR_TMM = {
-                    droneId: gimbalByVideoSource.gimbal.droneId,
-                    requestorID: '',
-                    parameters: gimbalAction.parameters
-                };
-                RequestManager.requestToTHALES(THALES_API.gimbalAction, gimbalActionForTMM)
-                    .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
-                        resolve(data);
-                    })
-                    .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
-                        resolve(data);
-                    });
+                if (gimbalAction.parameters) {
+                    const gimbalActionForTMM: GIMBAL_ACTION_FOR_TMM = {
+                        droneId: gimbalByVideoSource.gimbal.droneId,
+                        requestorID: '',
+                        parameters: undefined
+                    };
+                    if (gimbalAction.parameters.hasOwnProperty('zoom')) {
+                        if (gimbalByVideoSource.videoUrlKey === VIDEO_URL_KEY.opticalVideoURL) {
+                            gimbalActionForTMM.parameters = {
+                                zoomVisibleCamera: gimbalAction.parameters.zoom,
+                            };
+                        }
+                        else if (gimbalByVideoSource.videoUrlKey === VIDEO_URL_KEY.infraredVideoURL) {
+                            gimbalActionForTMM.parameters = {
+                                zoomInfraredCamera: gimbalAction.parameters.zoom || 0,
+                                colorPaletteInfraredCamera: gimbalByVideoSource.gimbal.infraredCameraParameters.colorPaletteInfraredCamera
+                            };
+                        }
+                    }
+                    else if (gimbalAction.parameters.hasOwnProperty('pitch') && gimbalAction.parameters.hasOwnProperty('yaw')) {
+                        gimbalActionForTMM.parameters = {
+                            pitch: gimbalAction.parameters.pitch || 0,
+                            yaw: gimbalAction.parameters.yaw || 0
+                        };
+                    }
+
+
+                    if (gimbalActionForTMM.parameters) {
+                        RequestManager.requestToTHALES(THALES_API.gimbalAction, gimbalActionForTMM)
+                            .then((data: ASYNC_RESPONSE) => {
+                                resolve(data);
+                            })
+                            .catch((data: ASYNC_RESPONSE) => {
+                                resolve(data);
+                            });
+                    }
+                    else {
+                        res.description = 'Incorrect gimbal parameters';
+                        resolve(res);
+                    }
+                }
+
             }
             else {
                 res.description = 'Control is required for camera actions';

@@ -50,6 +50,7 @@ export class ApiManager implements IRest {
             .then((data: ASYNC_RESPONSE) => {
                 res.success = data.success;
                 res.data = data.data;
+                res.description = data.description;
                 response.send(res);
             })
             .catch((data: ASYNC_RESPONSE) => {

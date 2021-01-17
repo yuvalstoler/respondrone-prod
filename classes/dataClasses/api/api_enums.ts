@@ -300,6 +300,10 @@ export enum AUTH_API {
     createUser = '/createUser',
 }
 
+export enum FRS_API {
+    getFRById = '/getFRById',
+}
+
 export enum SOCKET_ROOM { // TODO change
     FRs_Tel_room = 'FRS_Tel_room',
     AVs_Tel_room = 'AVs_Tel_room',
