@@ -27,9 +27,9 @@ export class LastSeenDatePipe extends
         return super.transform(value, 'HH:mm');
       }
     }
-    else if (diffDay === 1) {
-      return 'yesterday';
-    }
+    // else if (diffDay === 1) {
+    //   return 'yesterday';
+    // }
     else {
       return super.transform(value, 'dd/MM/yy');
     }

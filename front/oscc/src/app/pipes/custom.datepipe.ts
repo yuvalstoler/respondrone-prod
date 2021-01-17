@@ -13,9 +13,9 @@ export class CustomDatePipe extends
     if (diffDay < 1) {
       return super.transform(value, 'HH:mm');
     }
-    else if (diffDay === 1) {
-      return 'yesterday';
-    }
+    // else if (diffDay === 1) {
+    //   return 'yesterday';
+    // }
     else {
       return super.transform(value, 'dd/MM/yy');
     }
