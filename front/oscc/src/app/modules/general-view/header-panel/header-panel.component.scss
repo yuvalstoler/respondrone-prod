@@ -6,7 +6,7 @@
   color: $white;
 }
 
-.HeaderLogo{
+.HeaderLogo {
   width: 160px;
 }
 
@@ -25,7 +25,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: $fontSizeTitleHeader17;
+    //font-size: $fontSizeTitleHeader17;
     cursor: pointer;
   }
 
@@ -34,7 +34,7 @@
   }
 
   .LeftSideLabel {
-    font-size: $fontSizeTitleHeader17;
+    //font-size: $fontSizeTitleHeader17;
   }
 
   .LPSelected {
@@ -47,6 +47,43 @@
   }
 }
 
+@media screen and (max-width: 1280px) and (min-width: 1221px) {
+  .HeaderLeftSide {
+    .LeftSideLabel {
+      font-size: $fontSizeTitle15;
+    }
+
+    ::ng-deep.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
+      font-size: $fontSizeTitle15;
+    }
+  }
+}
+
+@media screen and (max-width: 1320px) and (min-width: 1281px) {
+  /* CSS that should be displayed if width is equal to or less than 1280px goes here */
+  .HeaderLeftSide {
+    .LeftSideLabel {
+      font-size: $fontSizeTitleHeader16;
+    }
+
+    ::ng-deep.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
+      font-size: $fontSizeTitleHeader16;
+    }
+  }
+}
+
+@media screen and (min-width: 1321px) {
+  /* CSS that should be displayed if width is equal to or less than 1280px goes here */
+  .HeaderLeftSide {
+    .LeftSideLabel {
+      font-size: $fontSizeTitleHeader17;
+    }
+
+    ::ng-deep.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
+      font-size: $fontSizeTitleHeader17;
+    }
+  }
+}
 
 .HeaderRightSide {
   position: absolute;
@@ -64,7 +101,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: $fontSizeTitleHeader17;
+    //font-size: $fontSizeTitleHeader17;
   }
 
   .HPRightSideIcon {
@@ -90,14 +127,15 @@
 
 }
 
-.HeaderButtons{
+.HeaderButtons {
   text-align: center;
 }
-.HeaderButtonApply{
+
+.HeaderButtonApply {
   background-color: $gray;
 }
 
-.UserName{
+.UserName {
   line-height: 35px;
   height: 35px;
   cursor: default;
@@ -115,7 +153,7 @@
   font-weight: 600;
 }
 
-.Disabled{
+.Disabled {
   color: $darkGray;
   cursor: no-drop !important;
 }
@@ -126,7 +164,7 @@
 }
 
 ::ng-deep.mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button {
-   padding: 0 5px !important;
+  padding: 0 5px !important;
 }
 
 //// Search Bar =======================================================
