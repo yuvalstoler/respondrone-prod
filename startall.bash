@@ -16,6 +16,7 @@ pm2 delete TMM;
 pm2 delete CCGW;
 pm2 delete DBS;
 pm2 delete videoStream;
+pm2 delete UI7777;
 
 
 cd $home/back/FS;
