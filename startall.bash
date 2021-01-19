@@ -9,12 +9,14 @@ pm2 delete ES;
 pm2 delete FS;
 pm2 delete TS;
 pm2 delete FRS;
+pm2 delete GS;
 pm2 delete MS;
 pm2 delete Auth;
 pm2 delete TMM;
 pm2 delete CCGW;
 pm2 delete DBS;
 pm2 delete videoStream;
+pm2 delete UI7777;
 
 
 cd $home/back/FS;
@@ -54,6 +56,11 @@ cd $home/back/FRS;
 tsc;
 cd dist/back/FRS/src
 pm2 start index.js -n FRS
+
+cd $home/back/GS;
+tsc;
+cd dist/back/GS/src
+pm2 start index.js -n GS
 
 cd $home/back/MS;
 tsc;

@@ -1,0 +1,47 @@
+{
+  "title": "repEntGenResponse",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The entity ID in the repository"
+        },
+        "entVersion": {
+          "type": "integer",
+          "description": "The entity version at the repository",
+          "minimum": 0
+        },
+        "collectionVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The latest collection repository version . Use for queries "
+        }
+      },
+      "required": [
+        "id",
+        "entVersion",
+        "collectionVersion"
+      ]
+    },
+    {
+      "title": "generalResponse",
+      "type": "object",
+      "description": "A general response to Rest Actions that means that the serviec will excecute the requested action ",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "success",
+        "description"
+      ]
+    }
+  ],
+  "description": "If the repository transcation succeeded - return first option else return success \"false\" and description"
+}

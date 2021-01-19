@@ -1,4 +1,10 @@
 {
+  "UI": {
+    "port": "7777",
+    "host": "localhost",
+    "protocol": "http"
+  },
+
   "FS": {
     "port": "6100",
     "host": "localhost",
@@ -73,7 +79,7 @@
   },
   "MG": {
     "port": "9700",
-    "host": "localhost",
+    "host": "192.168.1.52",
     "protocol": "http"
   },
   "CCG": {
@@ -98,14 +104,13 @@
     "host": "localhost",
     "protocol": "http"
   },
-  "RTSPServer": {
-    "port": "9900",
+  "AuthService": {
+    "port": "6950",
     "host": "localhost",
     "protocol": "http"
   },
-
-  "AuthService": {
-    "port": "6950",
+  "RTSPServer": {
+    "port": "9900",
     "host": "localhost",
     "protocol": "http"
   },

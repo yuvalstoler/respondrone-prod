@@ -3,7 +3,7 @@ var fs = require('fs');
 var express = require('express');
 var app = express();
 //var logger = require('./logger');
-//var projConf = require('../../projConf')
+var services = require('../../config/services.json')
 
 //require('./../webServer/dist/index');
 app.use(express.static(path.join(__dirname, '../oscc/dist/oscc')));
@@ -15,7 +15,7 @@ app.get('*', function (req, res) {
 var http = require('http');
 
 
-let port = 7777;
+let port = services.UI.port;
 
 
 app.set('port', port);

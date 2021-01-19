@@ -37,7 +37,7 @@ export class MissionDialogComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   MISSION_TYPE = MISSION_TYPE;
   MISSION_TYPE_TEXT = MISSION_TYPE_TEXT;
-  missionTypes = Object.values(MISSION_TYPE);
+  missionTypes = [MISSION_TYPE.CommRelay, MISSION_TYPE.Patrol, MISSION_TYPE.Scan, MISSION_TYPE.Observation, MISSION_TYPE.Servoing]; // Object.values(MISSION_TYPE);
   commRelayTypes = Object.values(COMM_RELAY_TYPE);
   yawOrientationTypes = Object.values(YAW_ORIENTATION);
   COMM_RELAY_TYPE_TEXT = COMM_RELAY_TYPE_TEXT;

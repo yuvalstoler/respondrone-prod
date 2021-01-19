@@ -119,6 +119,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   overflow: auto;
   max-height: 4.5em;
   font-size: $fontSizeText13;
+  white-space: pre-line;
 }
 // comments
 .example-element-comments {
