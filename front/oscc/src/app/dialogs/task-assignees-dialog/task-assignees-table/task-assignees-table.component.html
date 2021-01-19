@@ -5,22 +5,18 @@
       <!--Rows-->
       <span *ngIf="column !== 'select'">
         <th *matHeaderCellDef [disabled]="isSortingDisabled(column)" mat-header-cell mat-sort-header>
-          <span class="capitalize">{{column}}</span>
-          <!--<mat-icon *ngIf="column === 'message'" class="HPRightSideIcon">comment</mat-icon>-->
-          <!--<mat-icon *ngIf="column === 'link'" class="HPRightSideIcon">link</mat-icon>-->
-          <!--<mat-icon *ngIf="column === 'map'" class="HPRightSideIcon">location_on</mat-icon>-->
-          <!--<mat-icon *ngIf="column === 'attachment'" class="HPRightSideIcon">attach_file</mat-icon>-->
+          <span class="capitalize">{{(column !== 'id') ? (column | separatorString) : 'ID'}}</span>
         </th>
         <td *matCellDef="let element" mat-cell>
           <span *ngIf="element.modeDefine?.tableData[column]">
-            <mat-icon class="HPRightSideIcon"
-                      *ngIf="element.modeDefine?.tableData[column]?.type === 'matIcon'"
-                      [ngStyle]="{'color': element.modeDefine?.tableData[column]?.color}">
+            <mat-icon *ngIf="element.modeDefine?.tableData[column]?.type === 'matIcon'"
+                      [ngStyle]="{'color': element.modeDefine?.tableData[column]?.color}"
+                      class="HPRightSideIcon">
                {{element.modeDefine?.tableData[column]?.data}}
              </mat-icon>
-            <img class="tableImage"
-                 *ngIf="element.modeDefine?.tableData[column]?.type === 'image'"
-                 [src]="element.modeDefine?.tableData[column]?.data">
+            <img *ngIf="element.modeDefine?.tableData[column]?.type === 'image'"
+                 [src]="element.modeDefine?.tableData[column]?.data"
+                 class="tableImage">
             <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'">
                {{element.modeDefine?.tableData[column]?.data}}
             </span>

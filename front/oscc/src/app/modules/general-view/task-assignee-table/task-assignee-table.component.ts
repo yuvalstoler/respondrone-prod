@@ -61,7 +61,7 @@ export class TaskAssigneeTableComponent implements OnInit {
       ids: this.ids
     };
     const dialogRef = this.dialog.open(TaskAssigneesDialogComponent, {
-      width: '700px',
+      width: 'auto',
       disableClose: true,
       data: data
     });

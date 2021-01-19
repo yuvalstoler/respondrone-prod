@@ -39,9 +39,24 @@
   padding: 0px 5px !important;
 }
 
-// footer table
-::ng-deep.mat-cell, .mat-footer-cell {
-  font-size: $fontSizeText13;
+@media screen and (min-width: 1400px) {
+  .mat-header-cell {
+    font-size: $fontSizeText13;
+    font-weight: 900;
+  }
+  .mat-cell, .mat-footer-cell {
+    font-size: $fontSizeText13;
+  }
+}
+
+@media screen and (max-width: 1399px) {
+  .mat-header-cell {
+    font-size: $fontSizeText12;
+    font-weight: 900;
+  }
+  .mat-cell, .mat-footer-cell {
+    font-size: $fontSizeText12;
+  }
 }
 
 //
