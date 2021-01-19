@@ -50,7 +50,7 @@ export class AirVehicleManager {
                     'lastUpdateTimeFromDrone': {
                         'timestamp': 12455451215
                     },
-                    'capability': [CAPABILITY.Delivery],
+                    'capability': [CAPABILITY.Surveillance, CAPABILITY.CommRelay],
                     'commStatus': COMM_STATUS.OK,
                     'operationalStatus': OPERATIONAL_STATUS.OnMission,
                     'routeId': 'iefsgwr',
@@ -76,7 +76,7 @@ export class AirVehicleManager {
                     },
                     'capability': [ CAPABILITY.Surveillance, CAPABILITY.CommRelay],
                     'commStatus': COMM_STATUS.OK,
-                    'operationalStatus': OPERATIONAL_STATUS.NotActive,
+                    'operationalStatus': OPERATIONAL_STATUS.Ready,
                     'name': 'Alpha 2',
                 },
                 {

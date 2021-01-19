@@ -1,0 +1,13 @@
+{
+  "title": "timestamp",
+  "type": "object",
+  "properties": {
+    "timestamp": {
+      "type": "number",
+      "description": "Mili sec from 1970"
+    }
+  },
+  "required": [
+    "timestamp"
+  ]
+}

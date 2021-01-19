@@ -1,0 +1,103 @@
+{
+  "title": "repObservationMissionRequests",
+  "type": "object",
+  "description": "Array of Observation Mission Requests",
+  "properties": {
+    "observationMissionRequests": {
+      "type": "array",
+      "items": {
+        "title": "repObservationMissionRequest",
+        "type": "object",
+        "description": "The model for the observation mission request in the repository",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The DB ID"
+          },
+          "version": {
+            "type": "number",
+            "description": "The enetity version in the repository"
+          },
+          "observationMissionRequest": {
+            "title": "requestObservationMission",
+            "type": "object",
+            "description": "Request for Observation Mission done by camera sensors",
+            "properties": {
+              "droneId": {
+                "type": "string",
+                "description": "The selected drone ID to perform the task"
+              },
+              "observationPoint": {
+                "title": "GeoPoint",
+                "type": "object",
+                "description": "",
+                "properties": {
+                  "lat": {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90,
+                    "description": "Decimal degrees"
+                  },
+                  "lon": {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180,
+                    "description": "Decimal degrees"
+                  },
+                  "alt": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "lat",
+                  "lon"
+                ]
+              },
+              "altitudeOffset": {
+                "type": "number",
+                "description": "Altitude above ground level of observation point in meters (for example - building roof)"
+              },
+              "observationAzimuth": {
+                "type": "number",
+                "description": "Azimuth (Degrees) from which to look at point. Azimuth refferenced to the true North\nIf the field is not sent the system will choose the azimuth",
+                "minimum": 0,
+                "maximum": 360
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "Pending",
+                  "InProgress",
+                  "Completed",
+                  "Cancelled"
+                ],
+                "description": "The request ststus that will enable all system participients to manage an operational process -\nPending - after the request was sent to the responsible service responded by Succes response\nInProgress - When the responsible service started to take care of the Request\nCancelled - When the Request will not be handled any more\nCompleted - When the Request was finished"
+              }
+            },
+            "required": [
+              "droneId",
+              "observationPoint",
+              "status"
+            ]
+          },
+          "lastAction": {
+            "type": "string",
+            "enum": [
+              "Insert",
+              "Update",
+              "Delete"
+            ],
+            "description": "Last action on entity"
+          }
+        },
+        "required": [
+          "id",
+          "version"
+        ]
+      }
+    }
+  },
+  "required": [
+    "observationMissionRequests"
+  ]
+}

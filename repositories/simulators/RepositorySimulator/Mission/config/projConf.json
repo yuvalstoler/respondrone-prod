@@ -1,0 +1,30 @@
+{
+  "serviceName": "mission",
+
+  "EntityService": {
+    "port": "4604",
+    "host": "localhost",
+    "protocol": "http",
+
+    "schemas": {
+      "entity": "../../../schemas/Repository Ent/Missions/repMission.v1.json"
+    },
+    "routes": {
+      "insert": "/insertNewMission",
+      "update": "/updateMission",
+      "getLast": "/getLastMissions/:currentVersion",
+      "delete": "/deleteMission/:id"
+    },
+    "entityArrKey": "missions"
+  },
+  "Mongo": {
+    "db": "repository",
+    "url": "mongodb://localhost:27017/",
+    "col": "mission"
+  },
+  "LogsMongo": {
+    "db": "repositoryLogs",
+    "url": "mongodb://localhost:27017/",
+    "col": "log"
+  }
+}

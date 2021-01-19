@@ -1,0 +1,112 @@
+{
+  "title": "repMission",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The Mission Id"
+    },
+    "requestId": {
+      "type": "string",
+      "description": "The Request that the Mission attach to. If no Request then Blank \"\""
+    },
+    "missionType": {
+      "type": "string",
+      "enum": [
+        "Scan",
+        "Patrol",
+        "Observation",
+        "CommRelay",
+        "Servoing",
+        "Delivery"
+      ],
+      "description": "The Mission type"
+    },
+    "missionMapOverlay": {
+      "type": "object",
+      "properties": {
+        "areas": {
+          "type": "array",
+          "items": {
+            "title": "Polygon",
+            "type": "object",
+            "x-examples": {
+              "example-1": {}
+            },
+            "properties": {
+              "coordinates": {
+                "type": "array",
+                "minItems": 3,
+                "items": {
+                  "$ref": "#/properties/missionMapOverlay/properties/point"
+                }
+              }
+            },
+            "required": [
+              "coordinates"
+            ]
+          }
+        },
+        "point": {
+          "title": "GeoPoint",
+          "type": "object",
+          "description": "",
+          "properties": {
+            "lat": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90,
+              "description": "Decimal degrees"
+            },
+            "lon": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180,
+              "description": "Decimal degrees"
+            },
+            "alt": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "lat",
+            "lon"
+          ]
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pending",
+        "InProgress",
+        "Cancelled",
+        "Completed"
+      ],
+      "description": "The Mission status"
+    },
+    "description": {
+      "type": "string",
+      "description": "Free text description about the Mission"
+    },
+    "lastAction": {
+      "type": "string",
+      "description": "Last action on entity",
+      "enum": [
+        "Insert",
+        "Update",
+        "Delete"
+      ]
+    },
+    "version": {
+      "type": "number",
+      "description": "The entity version in repository"
+    }
+  },
+  "required": [
+    "id",
+    "requestId",
+    "missionType",
+    "status"
+  ]
+}

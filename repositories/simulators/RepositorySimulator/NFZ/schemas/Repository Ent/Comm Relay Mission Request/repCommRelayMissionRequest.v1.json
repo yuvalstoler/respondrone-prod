@@ -1,0 +1,144 @@
+{
+  "title": "repCommRelayMissionRequest",
+  "type": "object",
+  "description": "The Comm Relay Mission Request Entity Json Schema",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The comm relay mission request repository id\nPut blank \"\" is using New"
+    },
+    "version": {
+      "type": "number",
+      "description": "The entity version in repository"
+    },
+    "commRelayMissionRequest": {
+      "title": "requestCommRelayMission",
+      "type": "object",
+      "properties": {
+        "droneId": {
+          "type": "string",
+          "description": "The drone that need to execute the requested mission"
+        },
+        "commRelayType": {
+          "type": "string",
+          "description": "Type of comm relay fixed or dynamic\nDynamic - folow FRs\nArea - Cover area",
+          "enum": [
+            "Fixed",
+            "Area",
+            "Follow"
+          ]
+        },
+        "missionData": {
+          "oneOf": [
+            {
+              "properties": {
+                "point": {
+                  "title": "GeoPoint",
+                  "type": "object",
+                  "description": "",
+                  "properties": {
+                    "lat": {
+                      "type": "number",
+                      "minimum": -90,
+                      "maximum": 90,
+                      "description": "Decimal degrees"
+                    },
+                    "lon": {
+                      "type": "number",
+                      "minimum": -180,
+                      "maximum": 180,
+                      "description": "Decimal degrees"
+                    },
+                    "alt": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "lat",
+                    "lon"
+                  ]
+                }
+              },
+              "required": [
+                "point"
+              ],
+              "type": "object"
+            },
+            {
+              "properties": {
+                "area": {
+                  "title": "Polygon",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {}
+                  },
+                  "properties": {
+                    "coordinates": {
+                      "type": "array",
+                      "minItems": 3,
+                      "items": {
+                        "$ref": "#/properties/commRelayMissionRequest/properties/missionData/oneOf/0/properties/point"
+                      }
+                    }
+                  },
+                  "required": [
+                    "coordinates"
+                  ]
+                }
+              },
+              "required": [
+                "area"
+              ],
+              "type": "object"
+            },
+            {
+              "properties": {
+                "FRs": {
+                  "type": "array",
+                  "description": "Array of FR IDs to track",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "FRs"
+              ],
+              "type": "object"
+            }
+          ],
+          "description": "area - incase type is area\nFRs - in case type is dynamic",
+          "type": "object"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Pending",
+            "InProgress",
+            "Completed",
+            "Cancelled"
+          ]
+        }
+      },
+      "required": [
+        "droneId",
+        "commRelayType",
+        "status"
+      ]
+    },
+    "lastAction": {
+      "type": "string",
+      "enum": [
+        "Insert",
+        "Update",
+        "Delete"
+      ],
+      "description": "Last action on entity"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "commRelayMissionRequest"
+  ]
+}

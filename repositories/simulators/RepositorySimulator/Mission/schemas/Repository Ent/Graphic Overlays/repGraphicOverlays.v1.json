@@ -1,0 +1,272 @@
+{
+  "title": "repGrhphicOverlays",
+  "type": "object",
+  "properties": {
+    "graphicOverlays": {
+      "type": "array",
+      "description": "If the response is success false don't send the object",
+      "items": {
+        "title": "repGraphicOverlay",
+        "type": "object",
+        "description": "A graphic shape that can be geo located",
+        "x-examples": {
+          "example-person-detected": {
+            "id": 1,
+            "name": "Person",
+            "shape": {
+              "lat": 49.657604,
+              "lon": 4.357463,
+              "alt": 0
+            },
+            "color": "Yellow",
+            "Type": "Person",
+            "creationTime": {
+              "timestamp": 1599640724
+            },
+            "lastUpdateTime": {
+              "timestamp": 1599640724
+            },
+            "lastAction": "insert",
+            "version": 1
+          },
+          "example-vehicle-detected": {
+            "id": 2,
+            "name": "Vehicle",
+            "shape": {
+              "lat": 49.657604,
+              "lon": 4.457463,
+              "alt": 0
+            },
+            "color": "Green",
+            "Type": "Vehicle",
+            "creationTime": {
+              "timestamp": 1599640724
+            },
+            "lastUpdateTime": {
+              "timestamp": 1599640724
+            },
+            "lastAction": "update",
+            "version": 3
+          },
+          "example-fire-detected": {
+            "id": 3,
+            "name": "Fire",
+            "shape": [
+              {
+                "lat": 49.657604,
+                "lon": 4.357463,
+                "alt": 0
+              },
+              {
+                "lat": 49.657462,
+                "lon": 4.3587,
+                "alt": 0
+              },
+              {
+                "lat": 49.658477,
+                "lon": 4.359089,
+                "alt": 0
+              },
+              {
+                "lat": 49.659178,
+                "lon": 4.357393,
+                "alt": 0
+              }
+            ],
+            "color": "Red",
+            "Type": "Fireline",
+            "creationTime": {
+              "timestamp": 1599640724
+            },
+            "lastUpdateTime": {
+              "timestamp": 1599640724
+            },
+            "lastAction": "update",
+            "version": 3
+          },
+          "example-network-coverage": {
+            "id": 4,
+            "name": "NetworkCoverage",
+            "shape": [
+              {
+                "lat": 41.182288,
+                "lon": -8.595428,
+                "alt": 0
+              },
+              {
+                "lat": 41.180955,
+                "lon": -8.592317,
+                "alt": 0
+              },
+              {
+                "lat": 41.178234,
+                "lon": -8.592317,
+                "alt": 0
+              },
+              {
+                "lat": 41.176885,
+                "lon": -8.595428,
+                "alt": 0
+              },
+              {
+                "lat": 41.178234,
+                "lon": -8.598559,
+                "alt": 0
+              },
+              {
+                "lat": 41.180955,
+                "lon": -8.598559,
+                "alt": 0
+              }
+            ],
+            "color": "Blue",
+            "Type": "NetworkCoverage",
+            "creationTime": {
+              "timestamp": 1599640724
+            },
+            "lastUpdateTime": {
+              "timestamp": 1599640724
+            },
+            "lastAction": "insert",
+            "version": 3
+          }
+        },
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The entiry Id.\nPut Blank \"\" if New"
+          },
+          "name": {
+            "type": "string",
+            "description": "Overlay name"
+          },
+          "shape": {
+            "oneOf": [
+              {
+                "title": "GeoPoint",
+                "type": "object",
+                "description": "",
+                "properties": {
+                  "lat": {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90,
+                    "description": "Decimal degrees"
+                  },
+                  "lon": {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180,
+                    "description": "Decimal degrees"
+                  },
+                  "alt": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "lat",
+                  "lon"
+                ]
+              },
+              {
+                "title": "Polygon",
+                "type": "object",
+                "x-examples": {
+                  "example-1": {}
+                },
+                "properties": {
+                  "coordinates": {
+                    "type": "array",
+                    "minItems": 3,
+                    "items": {
+                      "$ref": "#/properties/graphicOverlays/items/properties/shape/oneOf/0"
+                    }
+                  }
+                },
+                "required": [
+                  "coordinates"
+                ]
+              }
+            ],
+            "description": "The shape of the overlay"
+          },
+          "color": {
+            "type": "string",
+            "enum": [
+              "Red",
+              "Green",
+              "Blue",
+              "Black",
+              "White",
+              "Yellow",
+              "Grey",
+              "Default"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "FireLine",
+              "Person",
+              "Vehicle",
+              "NetworkCoverage",
+              "Building",
+              "General"
+            ]
+          },
+          "creationTime": {
+            "title": "timestamp",
+            "type": "object",
+            "properties": {
+              "timestamp": {
+                "type": "number",
+                "description": "Mili sec from 1970"
+              }
+            },
+            "required": [
+              "timestamp"
+            ]
+          },
+          "lastUpdateTime": {
+            "$ref": "#/properties/graphicOverlays/items/properties/creationTime"
+          },
+          "lastAction": {
+            "type": "string",
+            "description": "Last action on entity",
+            "enum": [
+              "Insert",
+              "Update",
+              "Delete"
+            ]
+          },
+          "version": {
+            "type": "number",
+            "description": "The entity version in repository"
+          },
+          "metadata": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "value"
+              ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "shape"
+        ]
+      }
+    }
+  }
+}

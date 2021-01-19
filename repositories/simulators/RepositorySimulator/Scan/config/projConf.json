@@ -1,0 +1,30 @@
+{
+  "serviceName": "scanMissionRequest",
+
+  "EntityService": {
+    "port": "4607",
+    "host": "localhost",
+    "protocol": "http",
+
+    "schemas": {
+      "entity": "../../../schemas/Repository Ent/Scan Mission Request/repScanMissionRequest.v1.json"
+    },
+    "routes": {
+      "insert": "/insertNewScanMissionRequest",
+      "update": "/updateScanMissionRequest",
+      "getLast": "/getLastScanMissionRequests/:currentVersion",
+      "delete": "/deleteScanMissionRequest/:id"
+    },
+    "entityArrKey": "scanMissionRequests"
+  },
+  "Mongo": {
+    "db": "repository",
+    "url": "mongodb://localhost:27017/",
+    "col": "scanMissionRequest"
+  },
+  "LogsMongo": {
+    "db": "repositoryLogs",
+    "url": "mongodb://localhost:27017/",
+    "col": "log"
+  }
+}
