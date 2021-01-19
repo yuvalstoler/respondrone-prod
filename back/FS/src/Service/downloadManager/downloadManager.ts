@@ -26,6 +26,10 @@ const url_FS = services.FS.protocol + '://' + services.FS.host + ':' + services.
 
 
 const uploadsPath = path.join(__dirname, '../../../../../../uploads');
+if ( !fs.existsSync(uploadsPath) ) {
+    fs.mkdirSync(uploadsPath);
+}
+
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
