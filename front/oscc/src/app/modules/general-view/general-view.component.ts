@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {DISPLAY_ON_SCREEN, HEADER_BUTTONS, LEFT_PANEL_ICON, VIDEO_OR_MAP} from 'src/types';
+import {HEADER_BUTTONS, LEFT_PANEL_ICON, VIDEO_OR_MAP} from 'src/types';
 import {ApplicationService} from 'src/app/services/applicationService/application.service';
 import {CesiumService} from '../../services/cesium/cesium.service';
 import {ListenerMapService} from '../../services/cesium/listenerMap/listener-map.service';

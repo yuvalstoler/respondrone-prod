@@ -1,11 +1,10 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatSort} from '@angular/material/sort';
 import {ApplicationService} from '../../../services/applicationService/application.service';
 import {FR_DATA_UI} from '../../../../../../../classes/typings/all.typings';
-import {ReportService} from '../../../services/reportService/report.service';
-import {FRService} from "../../../services/frService/fr.service";
+import {FRService} from '../../../services/frService/fr.service';
 
 
 
