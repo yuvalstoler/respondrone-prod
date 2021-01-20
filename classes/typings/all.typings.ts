@@ -159,7 +159,7 @@ export type REPORT_DATA_MD = {
 }
 
 export type TABLE_DATA_MD = {
-    type: 'image' | 'matIcon' | 'text' | 'date',
+    type: 'image' | 'matIcon' | 'text' | 'date' | 'textWithDot',
     data: any,
     color?: string
 }

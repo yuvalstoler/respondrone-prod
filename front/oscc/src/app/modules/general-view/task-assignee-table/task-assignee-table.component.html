@@ -35,7 +35,12 @@
       <!-- Status Column -->
       <ng-container matColumnDef="Status">
         <th *matHeaderCellDef mat-header-cell mat-sort-header>Status</th>
-        <td *matCellDef="let row" mat-cell>{{row.modeDefine?.tableData?.status?.data}}</td>
+        <td *matCellDef="let row" mat-cell>
+          <span>
+            <span [ngStyle]="{'color':row.modeDefine?.tableData?.status?.color}" class="material-icons iconStatus">fiber_manual_record</span>
+            {{row.modeDefine?.tableData?.status?.data}}
+          </span>
+        </td>
       </ng-container>
 
       <!--Delete Row-->

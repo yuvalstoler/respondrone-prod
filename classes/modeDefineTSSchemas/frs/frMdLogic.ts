@@ -121,8 +121,9 @@ export class FrMdLogic implements IModeDefine {
                 data: data.callSign
             } as TABLE_DATA_MD,
             status: {
-                type: 'text',
-                data: data.online ? 'Online' : 'Offline'
+                type: 'textWithDot',
+                data: data.online ? 'Online' : 'Offline',
+                color: FrMdLogic.getDotColor(data)
             } as TABLE_DATA_MD
         };
         return res;

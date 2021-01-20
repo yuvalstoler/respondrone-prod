@@ -20,8 +20,12 @@
             <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'">
                {{element.modeDefine?.tableData[column]?.data}}
             </span>
+            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'textWithDot'">
+              <span [ngStyle]="{'color': element.modeDefine?.tableData[column]?.color}" class="material-icons iconStatus">fiber_manual_record</span>
+              {{element.modeDefine?.tableData[column]?.data}}
+            </span>
             <span *ngIf="element.modeDefine?.tableData[column]?.type === 'date'">
-               {{element.modeDefine?.tableData[column]?.data | customDate: applicationService.now}}
+              {{element.modeDefine?.tableData[column]?.data | customDate: applicationService.now}}
             </span>
           </span>
           <span *ngIf="!element.modeDefine?.tableData[column]">
