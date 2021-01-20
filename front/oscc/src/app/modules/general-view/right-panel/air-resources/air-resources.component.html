@@ -1,5 +1,6 @@
 <mat-accordion>
-  <div class="AirResourcesContainer scroll">
+  <!-- width more then 1200px-------------------------------------------------------------------------------------------->
+  <div class="AirResourcesContainer scroll" *ngIf="screenWidth > 1200">
     <div *ngFor="let airVehicle of airVehicleService.airVehicles.data | sortByPriority: optionSelected">
       <div (click)="onSelect(airVehicle)"
            [ngClass]="{'selectedAv': airVehicleService.selectedElement?.id === airVehicle.id}" [ngStyle]="{ 'grid-template-rows': isOpenMenu[airVehicle.id] ? '29px 25px 25px 7px 25px 25px' : '29px 25px 25px',
@@ -115,6 +116,127 @@
         </div>
         <!--&lt;!&ndash;Status line&ndash;&gt;-->
         <!--<div class="colorDiv" [ngStyle]="{'background-color': airVehicle?.modeDefine?.styles?.statusColor}"></div>-->
+
+      </div>
+    </div>
+  </div>
+  <!-- width less then 1200px-------------------------------------------------------------------------------------------->
+  <div class="AirResourcesContainer scroll" *ngIf="screenWidth <= 1200">
+    <div *ngFor="let airVehicle of airVehicleService.airVehicles.data | sortByPriority: optionSelected">
+      <div (click)="onSelect(airVehicle)"
+           [ngClass]="{'selectedAv': airVehicleService.selectedElement?.id === airVehicle.id}" [ngStyle]="{ 'grid-template-rows': isOpenMenu[airVehicle.id] ? '29px 25px 25px 7px 25px 25px' : '29px 25px 25px',
+      'border-bottom': '5px solid' + airVehicle?.modeDefine?.styles?.statusColor}"
+           class="gridAirResources">
+        <!--title-->
+        <div class="item1 title">{{airVehicle.name}}</div>
+        <!--icons expend & 3 dotes-->
+        <div class="item2">
+          <mat-icon (click)="onCloseMenu($event, airVehicle.id)" *ngIf="isOpenMenu[airVehicle.id]">keyboard_arrow_up
+          </mat-icon>
+          <mat-icon (click)="onOpenMenu($event, airVehicle.id)" *ngIf="!isOpenMenu[airVehicle.id]">keyboard_arrow_down
+          </mat-icon>
+          <!-- 3 dotes-->
+          <mat-icon (click)="$event.stopPropagation();"
+                    *ngIf="
+                     (!this.applicationService.isDialogOpen && airVehicle.operationalStatus === OPERATIONAL_STATUS.Ready) ||
+                     (!this.applicationService.isDialogOpen && airVehicle.operationalStatus === OPERATIONAL_STATUS.OnMission)"
+                    [matMenuTriggerFor]="missionOptions"
+                    matRipple
+          >more_vert
+          </mat-icon>
+          <mat-icon (click)="$event.stopPropagation();"
+                    [ngStyle]="{'color': '#a6a6a6', 'cursor': 'no-drop' }"
+                    *ngIf="this.applicationService.isDialogOpen ||
+             (!this.applicationService.isDialogOpen &&
+             (airVehicle.operationalStatus !== OPERATIONAL_STATUS.Ready &&
+              airVehicle.operationalStatus !== OPERATIONAL_STATUS.OnMission))"
+          >more_vert
+          </mat-icon>
+          <!--Menu mission Options-->
+          <mat-menu #missionOptions="matMenu">
+            <button (click)="onMissionOptions(MISSION_TYPE.CommRelay, airVehicle)"
+                    *ngIf="airVehicle.modeDefine?.data?.missionOptions.CommRelay === true"
+                    mat-menu-item>
+              <span>Create comm mission</span>
+            </button>
+            <button (click)="onMissionOptions(MISSION_TYPE.Patrol, airVehicle)"
+                    *ngIf="airVehicle.modeDefine?.data?.missionOptions.Patrol === true"
+                    mat-menu-item>
+              <span>Create patrol mission</span>
+            </button>
+            <button (click)="onMissionOptions(MISSION_TYPE.Observation, airVehicle)"
+                    *ngIf="airVehicle.modeDefine?.data?.missionOptions.Observation === true"
+                    mat-menu-item>
+              <span>Create observation mission</span>
+            </button>
+            <button (click)="onMissionOptions(MISSION_TYPE.Scan, airVehicle)"
+                    *ngIf="airVehicle.modeDefine?.data?.missionOptions.Scan === true"
+                    mat-menu-item>
+              <span>Create scan mission</span>
+            </button>
+            <button (click)="onMissionOptions(MISSION_TYPE.Delivery, airVehicle)"
+                    *ngIf="airVehicle.modeDefine?.data?.missionOptions.Delivery === true"
+                    mat-menu-item>
+              <span>Cargo drop mission</span>
+            </button>
+            <button (click)="onMissionOptions(MISSION_TYPE.Servoing, airVehicle)"
+                    *ngIf="airVehicle.modeDefine?.data?.missionOptions.Servoing === true"
+                    mat-menu-item>
+              <span>Follow an entity mission</span>
+            </button>
+            <button (click)="onViewLiveVideo(airVehicle)"
+                    *ngIf="airVehicle.modeDefine?.data?.missionOptions.isViewLiveVideo === true"
+                    mat-menu-item>
+              <span>View live video</span>
+            </button>
+          </mat-menu>
+        </div>
+        <!--&lt;!&ndash;mission&ndash;&gt;-->
+        <!--<div class="item3">-->
+          <!--<span class="title">Mission: &nbsp;</span>-->
+          <!--<span (click)="onClickMission(airVehicle, $event)" *ngIf="airVehicle.modeDefine?.data?.missionName"-->
+                <!--class="underline pointer">{{airVehicle.modeDefine?.data?.missionName}}</span>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;status&ndash;&gt;-->
+        <!--<div class="item4">-->
+        <!--<span [ngStyle]="{'color': airVehicle?.modeDefine?.styles?.statusColor}"-->
+              <!--class="material-icons iconStatus">fiber_manual_record-->
+        <!--</span>{{airVehicle?.operationalStatus | separatorString}}-->
+        <!--</div>-->
+        <!--&lt;!&ndash;TTL&ndash;&gt;-->
+        <!--<div class="item5">-->
+          <!--<span class="title">TTL: </span> {{airVehicle.remainingTimeFlight}}-->
+        <!--</div>-->
+        <!--&lt;!&ndash;Alt&ndash;&gt;-->
+        <!--<div class="item6">-->
+          <!--<span class="title">Alt: </span> {{airVehicle.altitudeAGL | number: '1.0-2'}}-->
+        <!--</div>-->
+        <!--&lt;!&ndash;Speed&ndash;&gt;-->
+        <!--<div class="item7">-->
+          <!--<span class="title">Speed: </span> {{airVehicle.velocity | number: '1.0-0'}} m/s-->
+        <!--</div>-->
+        <!--<div *ngIf="isOpenMenu[airVehicle.id]" class="item8"></div>-->
+        <!--&lt;!&ndash;-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; Expend Panel -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+        <!--&lt;!&ndash;Alt ASL&ndash;&gt;-->
+        <!--<div *ngIf="isOpenMenu[airVehicle.id]" class="item9">-->
+          <!--<span class="title">Alt ASL: </span> {{airVehicle.altitudeAsl | number: '1.0-2'}}-->
+        <!--</div>-->
+        <!--&lt;!&ndash;Energy&ndash;&gt;-->
+        <!--<div *ngIf="isOpenMenu[airVehicle.id]" class="item10">-->
+          <!--<span class="title">Energy: </span> {{airVehicle.energyLevel}}-->
+        <!--</div>-->
+        <!--&lt;!&ndash;GPS&ndash;&gt;-->
+        <!--<div *ngIf="isOpenMenu[airVehicle.id]" class="item11">-->
+          <!--<img [matTooltip]="airVehicle?.modeDefine?.styles?.gpsDescription"-->
+               <!--[src]="airVehicle?.modeDefine?.styles?.gpsIcon" alt="gps"-->
+               <!--class="gpsIcon">-->
+        <!--</div>-->
+        <!--&lt;!&ndash;Azimuth&ndash;&gt;-->
+        <!--<div *ngIf="isOpenMenu[airVehicle.id]" class="item12">-->
+          <!--<span class="title">Azimuth: </span> {{airVehicle.heading | number: '1.0-2'}}°-->
+        <!--</div>-->
+        <!--&lt;!&ndash;&lt;!&ndash;Status line&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="colorDiv" [ngStyle]="{'background-color': airVehicle?.modeDefine?.styles?.statusColor}"></div>&ndash;&gt;-->
 
       </div>
     </div>

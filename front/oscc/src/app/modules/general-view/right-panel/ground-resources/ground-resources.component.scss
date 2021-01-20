@@ -2,76 +2,125 @@
 @import "../../../../../styles/variable";
 @import '../../../../../styles/scrollbar';
 
-.gridResources {
+.gridResourcesRegular {
   display: grid;
   //grid-template-columns: 4.5em 30% 30% auto 2em;
   grid-template-columns: 4.5em 30% 25% 24%;
   padding: 5px;
   border-bottom: 1px solid $gray;
   grid-template-rows: 26px auto;
-}
 
-.item1 {
-  grid-column: 1;
-  grid-row: 1/ span 2;
-  margin: 5px auto 0 5px;
-}
-
-.item2 {
-  grid-column: 2/ span 2;
-  grid-row: 1;
-  font-weight: 600;
-  color: black;
-  font-size: $fontSizeTitle15;
-}
-
-.item3 {
-  grid-column: 4;
-  grid-row: 1;
-  text-align: end;
-
-  mat-icon {
-    //margin: 8px 0 0 0;
-    color: $black;
+  .item1 {
+    grid-column: 1;
+    grid-row: 1/ span 2;
+    margin: 5px auto 0 5px;
   }
+
+  .item2 {
+    grid-column: 2/ span 2;
+    grid-row: 1;
+    font-weight: 600;
+    color: black;
+    font-size: $fontSizeTitle15;
+  }
+
+  .item3 {
+    grid-column: 4;
+    grid-row: 1;
+    text-align: end;
+
+    mat-icon {
+      //margin: 8px 0 0 0;
+      color: $black;
+    }
+  }
+
+  .item4 {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .item5 {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  .item6 {
+    grid-column: 4;
+    grid-row: 2;
+    white-space: nowrap;
+    text-align: end;
+    margin-right: 10px;
+  }
+
+  .iconStatus {
+    font-size: $fontSizeText9;
+  }
+  .icon {
+    height: 3em;
+    width: auto;
+    //margin: 5px 0 0 1px;
+  }
+
+  .mat-menu-item {
+    line-height: 30px;
+    height: 30px;
+  }
+
+  .selectedFr {
+    background-color: $gray;
+  }
+
+  .frContainer {
+    max-height: 28em;
+  }
+
 }
 
-.item4 {
-  grid-column: 2;
-  grid-row: 2;
-}
 
-.item5 {
-  grid-column: 3;
-  grid-row: 2;
-}
+.gridResourcesMiddle {
+  display: grid;
+  //grid-template-columns: 4.5em 30% 30% auto 2em;
+  grid-template-columns: 50% 50%;
+  padding: 5px;
+  border-bottom: 1px solid $gray;
+  //grid-template-rows: 26px auto;
 
-.item6 {
-  grid-column: 4;
-  grid-row: 2;
-  white-space: nowrap;
-  text-align: end;
-  margin-right: 10px;
-}
 
-.iconStatus {
-  font-size: $fontSizeText9;
-}
-.icon {
-  height: 3em;
-  width: auto;
-  //margin: 5px 0 0 1px;
-}
+  .item1 {
+    text-align: center;
+    padding-top: 5px;
+  }
 
+  .item2 {
+    font-weight: 600;
+    color: black;
+    font-size: $fontSizeText9;
+    text-align: center;
+  }
+
+  .iconStatus {
+    font-size: $fontSizeText9;
+  }
+  .icon {
+    height: 2.5em;
+    width: auto;
+    //margin: 5px 0 0 1px;
+  }
+
+  .selectedFr {
+    background-color: $gray;
+  }
+
+  .frContainer {
+    max-height: 28em;
+  }
+
+
+}
+// for all sizes ========================================================================
 .mat-menu-item {
   line-height: 30px;
   height: 30px;
-}
-
-.selectedFr {
-  background-color: $gray;
-}
-
-.frContainer {
-  max-height: 28em;
+  padding: 0 10px;
 }

@@ -18,6 +18,7 @@
     <app-air-resources
       *ngIf="showAirResources && applicationService.screen.showAirResources"
       [optionSelected]="optionAirSelected"
+      [screenWidth]="screenWidth"
     ></app-air-resources>
   </div>
 
@@ -40,6 +41,7 @@
     <app-ground-resources
       *ngIf="showGroundResources && applicationService.screen.showGrandResources"
       [optionSelected]="optionGroundSelected"
+      [screenWidth]="screenWidth"
     ></app-ground-resources>
   </div>
 </div>

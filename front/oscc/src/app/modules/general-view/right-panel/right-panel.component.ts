@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ApplicationService} from '../../../services/applicationService/application.service';
 import {SORT_AIR_RESOURCES, SORT_GROUND_RESOURCES} from '../../../../types';
+import {ResponsiveService} from '../../../services/responsiveService/responsive.service';
 
 @Component({
   selector: 'app-right-panel',
@@ -15,8 +16,13 @@ export class RightPanelComponent implements OnInit {
   optionAirSelected: {type: string, field: string } = {type: 'SORT_AIR_RESOURCES', field: 'id'};
   sortGroundList: SORT_GROUND_RESOURCES[] = Object.values(SORT_GROUND_RESOURCES);
   sortAirList: SORT_AIR_RESOURCES[] = Object.values(SORT_AIR_RESOURCES);
+  screenWidth: number;
 
-  constructor(public applicationService: ApplicationService) {
+  constructor(public applicationService: ApplicationService,
+              public responsiveService: ResponsiveService) {
+    this.responsiveService.screenWidth$.subscribe(res => {
+      this.screenWidth = res;
+    });
   }
 
   ngOnInit(): void {

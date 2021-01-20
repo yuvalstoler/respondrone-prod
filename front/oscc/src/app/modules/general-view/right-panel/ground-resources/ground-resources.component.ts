@@ -7,6 +7,7 @@ import {TaskDialogComponent} from '../../../../dialogs/task-dialog/task-dialog.c
 import {MatDialog} from '@angular/material/dialog';
 import {TasksService} from '../../../../services/tasksService/tasks.service';
 import {GeoInstructionsService} from '../../../../services/geoInstructionsService/geo-instructions.service';
+import {ResponsiveService} from '../../../../services/responsiveService/responsive.service';
 
 @Component({
   selector: 'app-ground-resources',
@@ -16,12 +17,15 @@ import {GeoInstructionsService} from '../../../../services/geoInstructionsServic
 export class GroundResourcesComponent implements OnInit {
 
   @Input() optionSelected: {type: string, field: string };
+  @Input() screenWidth: number;
 
   constructor(public frService: FRService,
               public applicationService: ApplicationService,
               public dialog: MatDialog,
               public geoInstructionsService: GeoInstructionsService,
+              public responsiveService: ResponsiveService,
               public tasksService: TasksService) {
+
   }
 
   ngOnInit(): void {

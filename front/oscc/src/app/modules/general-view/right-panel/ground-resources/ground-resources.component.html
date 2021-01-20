@@ -1,7 +1,9 @@
-<div class="frContainer scroll">
-  <div *ngFor="let fr of frService.frs.data | sortByPriority: optionSelected "
-       class="gridResources" (click)="onSelect(fr)"
-       [ngClass]="{'selectedFr': frService.selectedElement?.id === fr.id}">
+<!-- width more then 1200px-------------------------------------------------------------------------------------------->
+<div *ngIf="screenWidth > 1200" class="frContainer scroll">
+  <div (click)="onSelect(fr)"
+       *ngFor="let fr of frService.frs.data | sortByPriority: optionSelected "
+       [ngClass]="{'selectedFr': frService.selectedElement?.id === fr.id}"
+       class="gridResourcesRegular">
     <!--icon resource-->
     <div class="item1">
       <img [src]="fr.modeDefine?.styles?.icon" class='icon'>
@@ -11,18 +13,20 @@
     <!--icon 3 dotes-->
     <div class="item3">
       <!-- 3 dotes-->
-      <mat-icon matRipple *ngIf="!this.applicationService.isDialogOpen"
-                (click)="$event.stopPropagation();"
-                [ngStyle]="{'cursor': 'pointer'}"
+      <mat-icon (click)="$event.stopPropagation();" *ngIf="!this.applicationService.isDialogOpen"
                 [matMenuTriggerFor]="sendMenu"
-      >more_vert</mat-icon>
-      <mat-icon matRipple *ngIf="this.applicationService.isDialogOpen" [ngStyle]="{'cursor': 'no-drop'}">more_vert</mat-icon>
+                [ngStyle]="{'cursor': 'pointer'}"
+                matRipple
+      >more_vert
+      </mat-icon>
+      <mat-icon *ngIf="this.applicationService.isDialogOpen" [ngStyle]="{'cursor': 'no-drop'}" matRipple>more_vert
+      </mat-icon>
       <!-- Send Menu -->
       <mat-menu #sendMenu="matMenu">
-        <button mat-menu-item (click)="onSendMenu('task', fr)">
+        <button (click)="onSendMenu('task', fr)" mat-menu-item>
           <span>Send a task</span>
         </button>
-        <button mat-menu-item (click)="onSendMenu('message', fr)">
+        <button (click)="onSendMenu('message', fr)" mat-menu-item>
           <span>Send a message</span>
         </button>
       </mat-menu>
@@ -39,3 +43,33 @@
     </div>
   </div>
 </div>
+
+<!-- width less then 1200px-------------------------------------------------------------------------------------------->
+<div class="frContainer scroll" *ngIf="screenWidth <= 1200">
+  <div class="gridResourcesMiddle">
+    <div *ngFor="let fr of frService.frs.data | sortByPriority: optionSelected "
+         (click)="onSelect(fr)"
+         [matMenuTriggerFor]="sendMenu"
+         [ngClass]="{'selectedFr': frService.selectedElement?.id === fr.id}">
+      <!--icon resource-->
+      <div class="item1">
+        <img [src]="fr.modeDefine?.styles?.icon" class='icon'>
+      </div>
+      <!--title-->
+      <div class="item2 ">
+      <span [ngStyle]="{'color': fr.modeDefine?.styles?.dotColor}"
+            class="material-icons iconStatus">fiber_manual_record</span>
+        {{fr.callSign}}</div>
+      <!-- Send Menu -->
+      <mat-menu #sendMenu="matMenu">
+        <button (click)="onSendMenu('task', fr)" mat-menu-item>
+          <span>Send a task</span>
+        </button>
+        <button (click)="onSendMenu('message', fr)" mat-menu-item>
+          <span>Send a message</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</div>
+

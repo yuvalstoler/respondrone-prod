@@ -22,6 +22,7 @@ export class AirResourcesComponent implements OnInit {
 
 
   @Input() optionSelected: {type: string, field: string };
+  @Input() screenWidth: number;
   isOpenMenu: MAP<any> = {};
   MISSION_TYPE = MISSION_TYPE;
   OPERATIONAL_STATUS = OPERATIONAL_STATUS;
