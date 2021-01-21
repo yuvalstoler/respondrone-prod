@@ -1,28 +1,55 @@
 @import "../../../../styles/colors";
 @import "../../../../styles/variable";
 
-.RightPanelHeader {
-  display: inline-block;
-  font-size: $fontSizeTitleHeader17;
-  color: $black;
-  font-weight: 600;
+// screen less then 1200px ===============================================================
+@media screen and (max-width: 1200px) {
+  .RightPanelHeader {
+    display: inline-block;
+    font-size: $fontSizeText11;
+    color: $black;
+    font-weight: 600;
+  }
+  .mat-toolbar-row, .mat-toolbar-single-row {
+    padding: 0 5px;
+  }
+  .example-spacer {
+    flex: auto 1;
+    margin-left: -4px;
+  }
+  .sortIcon{
+    mat-icon{
+      font-size: larger;
+    }
+  }
 }
-.RightPanelContainer{
-  padding: 5px;
-  border: 1px solid $gray;
-  background: $white;
-}
-.RightPanelIcon{
-  float: right;
-}
-.example-spacer {
-  flex: 1 1 auto;
-}
+// screen more then 1201px ===============================================================
+@media screen and (min-width: 1201px){
+  .RightPanelHeader {
+    display: inline-block;
+    font-size: $fontSizeTitleHeader17;
+    color: $black;
+    font-weight: 600;
+  }
+  .RightPanelContainer {
+    padding: 5px;
+    border: 1px solid $gray;
+    background: $white;
+  }
+  .RightPanelIcon {
+    float: right;
+  }
+  .example-spacer {
+    flex: 1 1 auto;
+  }
 
-.sortIcon{
-  margin-right: 14px;
-}
+  .sortIcon {
+    margin-right: 14px;
+  }
 
+  .mat-toolbar-row, .mat-toolbar-single-row {
+    padding: 0 16px;
+  }
+}
 
 
 ::ng-deep.mat-toolbar-row, .mat-toolbar-single-row {

@@ -1,5 +1,5 @@
 import {AirVehicleService} from '../../../../services/airVehicleService/airVehicle.service';
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {HEADER_BUTTONS, MAP, VIDEO_OR_MAP} from '../../../../../types';
 import {
   AV_DATA_UI,
@@ -12,6 +12,7 @@ import {MissionDialogComponent} from '../../../../dialogs/mission-dialog/mission
 import {MatDialog} from '@angular/material/dialog';
 import {MissionRequestService} from '../../../../services/missionRequestService/missionRequest.service';
 import {ContextMenuService} from '../../../../services/contextMenuService/context-menu.service';
+import {MatMenuTrigger} from '@angular/material/menu';
 
 @Component({
   selector: 'app-air-resources',
@@ -23,6 +24,10 @@ export class AirResourcesComponent implements OnInit {
 
   @Input() optionSelected: {type: string, field: string };
   @Input() screenWidth: number;
+  @ViewChild(MatMenuTrigger, {static: false}) matMenuTrigger: MatMenuTrigger;
+  menuTopLeftPosition =  {x: '0', y: '0'};
+  selectedElement: string;
+  
   isOpenMenu: MAP<any> = {};
   MISSION_TYPE = MISSION_TYPE;
   OPERATIONAL_STATUS = OPERATIONAL_STATUS;
@@ -48,6 +53,7 @@ export class AirResourcesComponent implements OnInit {
   };
 
   onSelect = (item: AV_DATA_UI) => {
+    this.matMenuTrigger.closeMenu();
     this.airVehicleService.unselectIcon(this.airVehicleService.selectedElement);
     this.airVehicleService.selectedElement = (this.airVehicleService.selectedElement && this.airVehicleService.selectedElement.id === item.id) ? undefined : item;
     if (this.airVehicleService.selectedElement) {
@@ -157,8 +163,24 @@ export class AirResourcesComponent implements OnInit {
     this.missionRequestService.goToMissionRequest(airVehicle.missionRequestId);
   };
 
-  // getSeparateString = (column) => {
-  //   return column.split(/(?=[A-Z])/).join(' ');
-  // };
+  onRightClick = (event: any, id: string) => {
+    if (this.selectedElement === undefined) {
+      this.selectedElement = id;
+    }
+    event.preventDefault();
+    this.menuTopLeftPosition.x = event.clientX + 'px';
+    this.menuTopLeftPosition.y = event.clientY + 'px';
+    this.matMenuTrigger.menu.focusFirstItem('mouse');
+
+    if (this.matMenuTrigger['_menuOpen']) {
+      this.matMenuTrigger.closeMenu();
+      if (this.selectedElement !== id) {
+        this.selectedElement = id;
+        this.matMenuTrigger.openMenu();
+      }
+    } else {
+      this.matMenuTrigger.openMenu();
+    }
+  };
 
 }

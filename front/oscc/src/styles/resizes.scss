@@ -7,16 +7,28 @@
     width: $leftPanelWidthMiddle !important;
   }
   .RightPanel {
-    width: 15vw;
+    width: $rightPanelResourceWidth;
   }
   .HeaderPanel{
     font-size: $fontSizeTitle14;
+  }
+ ::ng-deep.mat-menu-item {
+    line-height: 25px !important;
+    height: 25px !important;
+    padding: 0 10px !important;
+    font-size: $fontSizeText12 !important;
   }
 }
 @media screen and (min-width: 1201px){
   /* CSS that should be displayed if width is equal to or less than 1280px goes here */
   .LeftPanel {
     width: $leftPanelWidth !important;
+  }
+  ::ng-deep.mat-menu-item {
+    line-height: 30px !important;
+    height: 30px !important;
+    padding: 0 10px !important;
+    font-size: $fontSizeTitle15 !important;
   }
 }
 

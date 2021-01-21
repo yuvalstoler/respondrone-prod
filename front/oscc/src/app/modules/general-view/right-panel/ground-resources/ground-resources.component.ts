@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FRService} from '../../../../services/frService/fr.service';
 import {ApplicationService} from '../../../../services/applicationService/application.service';
 import {FR_DATA_UI, TASK_DATA_UI} from '../../../../../../../../classes/typings/all.typings';
@@ -8,6 +8,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {TasksService} from '../../../../services/tasksService/tasks.service';
 import {GeoInstructionsService} from '../../../../services/geoInstructionsService/geo-instructions.service';
 import {ResponsiveService} from '../../../../services/responsiveService/responsive.service';
+import {MatMenuTrigger} from '@angular/material/menu';
 
 @Component({
   selector: 'app-ground-resources',
@@ -18,6 +19,9 @@ export class GroundResourcesComponent implements OnInit {
 
   @Input() optionSelected: {type: string, field: string };
   @Input() screenWidth: number;
+  @ViewChild(MatMenuTrigger, {static: false}) matMenuTrigger: MatMenuTrigger;
+  menuTopLeftPosition =  {x: '0', y: '0'};
+  selectedElement: string;
 
   constructor(public frService: FRService,
               public applicationService: ApplicationService,
@@ -70,12 +74,33 @@ export class GroundResourcesComponent implements OnInit {
   };
 
   onSelect = (item: FR_DATA_UI) => {
+    this.matMenuTrigger.closeMenu();
     this.frService.unselectIcon(this.frService.selectedElement);
     this.frService.selectedElement = (this.frService.selectedElement && this.frService.selectedElement.id === item.id) ? undefined : item;
     if (this.frService.selectedElement) {
       this.frService.selectIcon(this.frService.selectedElement);
       this.frService.flyToObject(item);
     }
-  }
+  };
+
+  onRightClick = (event: any, id: string) => {
+   if (this.selectedElement === undefined) {
+     this.selectedElement = id;
+   }
+    event.preventDefault();
+    this.menuTopLeftPosition.x = event.clientX + 'px';
+    this.menuTopLeftPosition.y = event.clientY + 'px';
+    this.matMenuTrigger.menu.focusFirstItem('mouse');
+
+   if (this.matMenuTrigger['_menuOpen']) {
+     this.matMenuTrigger.closeMenu();
+     if (this.selectedElement !== id) {
+       this.selectedElement = id;
+       this.matMenuTrigger.openMenu();
+     }
+   } else {
+     this.matMenuTrigger.openMenu();
+   }
+  };
 
 }

@@ -317,9 +317,11 @@ export type AV_DATA_MD = {
         gpsIcon: string,
         gpsDescription: string,
         isDisabled: boolean,
+        icon: string
     },
     data: {
         missionName: string,
+        missionId: string,
         missionOptions: AV_OPTIONS
     }
 }

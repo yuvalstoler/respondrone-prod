@@ -5,11 +5,11 @@
       <div class="RightPanelHeader">Air Resources</div>
       <span class="example-spacer"></span>
       <!--sort-->
-      <button mat-icon-button class="example-icon sortIcon" mat-button [matMenuTriggerFor]="sortAir">
+      <button mat-icon-button class="example-icon-air sortIcon" mat-button [matMenuTriggerFor]="sortAir">
         <mat-icon>unfold_more</mat-icon>
       </button>
       <!-- plus / minus-->
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+      <button *ngIf="screenWidth > 1200" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
       (click)="onShowAirResources()">
         <mat-icon *ngIf="!showAirResources">add</mat-icon>
         <mat-icon *ngIf="showAirResources">remove</mat-icon>
@@ -28,11 +28,11 @@
       <div class="RightPanelHeader">Ground Resources</div>
       <span class="example-spacer"></span>
       <!--sort-->
-      <button mat-icon-button class="example-icon sortIcon" mat-button [matMenuTriggerFor]="sortGround">
+      <button mat-icon-button class="example-icon-ground sortIcon" mat-button [matMenuTriggerFor]="sortGround">
         <mat-icon>unfold_more</mat-icon>
       </button>
       <!-- plus / minus-->
-      <button mat-icon-button class="example-icon"
+      <button *ngIf="screenWidth > 1200" mat-icon-button class="example-icon"
               (click)="onShowGroundResources()">
         <mat-icon *ngIf="!showGroundResources">add</mat-icon>
         <mat-icon *ngIf="showGroundResources">remove</mat-icon>

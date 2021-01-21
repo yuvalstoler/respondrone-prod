@@ -49,19 +49,23 @@
   <div class="gridResourcesMiddle">
     <div *ngFor="let fr of frService.frs.data | sortByPriority: optionSelected "
          (click)="onSelect(fr)"
-         [matMenuTriggerFor]="sendMenu"
+         (contextmenu)="onRightClick($event, fr.id)"
          [ngClass]="{'selectedFr': frService.selectedElement?.id === fr.id}">
+      <div style="visibility: hidden; position: fixed;"
+           [style.left]="menuTopLeftPosition.x"
+           [style.top]="menuTopLeftPosition.y"
+           [matMenuTriggerFor]="sendMenu"></div>
       <!--icon resource-->
       <div class="item1">
         <img [src]="fr.modeDefine?.styles?.icon" class='icon'>
       </div>
       <!--title-->
-      <div class="item2 ">
+      <div class="item2" [matTooltip]="(fr.online)? 'online': 'offline'">
       <span [ngStyle]="{'color': fr.modeDefine?.styles?.dotColor}"
             class="material-icons iconStatus">fiber_manual_record</span>
         {{fr.callSign}}</div>
       <!-- Send Menu -->
-      <mat-menu #sendMenu="matMenu">
+      <mat-menu #sendMenu="matMenu" [hasBackdrop]="false">
         <button (click)="onSendMenu('task', fr)" mat-menu-item>
           <span>Send a task</span>
         </button>

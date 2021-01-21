@@ -5,118 +5,161 @@
 
 .AirResourcesContainer{
   max-height: calc(40vh - #{$headerHeight} );
-}
 
-.gridAirResources {
-  display: grid;
-  grid-template-columns: 36% 30% 34%;
-  padding: 10px 7px 2px 7px;
-  //grid-template-rows: 25px 20px 20px 20px 25px;
-  font-size: $fontSizeText13;
-  color: $black;
-  border-radius: 8px;
-  background: $lightGray;
-  margin: 5px 5px;
-  //border-radius: 15px;
-}
-.item1{
-  grid-column: 1 / span 2;
-  grid-row: 1;
-  font-size: $fontSizeTitle15;
-}
-.item2{
-  grid-column: 3;
-  grid-row: 1;
-  text-align: right;
-  white-space: nowrap;
+  .gridAirResources {
+    display: grid;
+    grid-template-columns: 36% 30% 34%;
+    padding: 10px 7px 2px 7px;
+    //grid-template-rows: 25px 20px 20px 20px 25px;
+    font-size: $fontSizeText13;
+    color: $black;
+    border-radius: 8px;
+    background: $lightGray;
+    margin: 5px 5px;
+    //border-radius: 15px;
+  }
+  .item1{
+    grid-column: 1 / span 2;
+    grid-row: 1;
+    font-size: $fontSizeTitle15;
+  }
+  .item2{
+    grid-column: 3;
+    grid-row: 1;
+    text-align: right;
+    white-space: nowrap;
 
-  mat-icon{
-    cursor: pointer;
-    margin-right: -7px;
+    mat-icon{
+      cursor: pointer;
+      margin-right: -7px;
+    }
+
+  }
+  .item3{
+    grid-column: 1 / span 2;
+    grid-row: 2;
+    white-space: nowrap;
+  }
+  .item4{
+    grid-column: 3;
+    grid-row: 2;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .item5{
+    grid-column: 1;
+    grid-row: 3;
+    white-space: nowrap;
+  }
+  .item6{
+    grid-column: 2;
+    grid-row: 3;
+    white-space: nowrap;
+  }
+  .item7{
+    grid-column: 3;
+    grid-row: 3;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .item8{
+    grid-column: 1/ span 3;
+    grid-row: 4;
+    border-top: 1px solid $Disabled;
+  }
+  .item9{
+    grid-column: 1;
+    grid-row: 5;
+    white-space: nowrap;
+  }
+  .item10{
+    grid-column: 2;
+    grid-row: 5;
+    white-space: nowrap;
+  }
+  .item11{
+    grid-column: 3;
+    grid-row: 5;
+    text-align: right;
+  }
+  .item12{
+    grid-column: 1;
+    grid-row: 6;
+    white-space: nowrap;
+  }
+  .item13{
+    grid-column: 3;
+    grid-row: 6;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .title {
+    font-weight: bold;
+  }
+
+  .colorDiv {
+    height: 4px;
+    grid-row: 7;
+    grid-column: 1 / span 3;
+    border-radius: 5px;
+  }
+
+  .mat-menu-item {
+    line-height: 30px;
+    height: 30px;
+  }
+  .gpsIcon{
+    height: 17px;
+  }
+  .iconStatus {
+    font-size: $fontSizeText9;
+    margin-right: 3px;
+  }
+
+  .selectedAv {
+    background-color: $gray;
   }
 
 }
-.item3{
-  grid-column: 1 / span 2;
-  grid-row: 2;
-  white-space: nowrap;
-}
-.item4{
-  grid-column: 3;
-  grid-row: 2;
-  text-align: right;
-  white-space: nowrap;
-}
-.item5{
-  grid-column: 1;
-  grid-row: 3;
-  white-space: nowrap;
-}
-.item6{
-  grid-column: 2;
-  grid-row: 3;
-  white-space: nowrap;
-}
-.item7{
-  grid-column: 3;
-  grid-row: 3;
-  text-align: right;
-  white-space: nowrap;
-}
-.item8{
-  grid-column: 1/ span 3;
-  grid-row: 4;
-  border-top: 1px solid $Disabled;
-}
-.item9{
-  grid-column: 1;
-  grid-row: 5;
-  white-space: nowrap;
-}
-.item10{
-  grid-column: 2;
-  grid-row: 5;
-  white-space: nowrap;
-}
-.item11{
-  grid-column: 3;
-  grid-row: 5;
-  text-align: right;
-}
-.item12{
-  grid-column: 1;
-  grid-row: 6;
-  white-space: nowrap;
-}
-.item13{
-  grid-column: 3;
-  grid-row: 6;
-  text-align: right;
-  white-space: nowrap;
-}
-.title {
-  font-weight: bold;
-}
 
-.colorDiv {
-  height: 4px;
-  grid-row: 7;
-  grid-column: 1 / span 3;
-  border-radius: 5px;
-}
+.AirResourcesContainerMiddle{
+  text-align: center;
+  color: black;
+  font-size: $fontSizeText11;
 
-.mat-menu-item {
-  line-height: 30px;
-  height: 30px;
-}
-.gpsIcon{
-  height: 17px;
-}
-.iconStatus {
-  font-size: $fontSizeText9;
-  margin-right: 3px;
-}
+  .divAirResources{
+    margin: 5px 10px;
+    border-bottom: 1px solid;
+    padding-top: 10px;
+  }
+  .item1{
 
-.selectedAv {
-  background-color: $gray;
+  }
+  .item2 {
+    margin-bottom: 5px;
+  }
+  .item6 {
+    margin-bottom: 5px;
+  }
+
+  img.icon {
+    width: 40px;
+    height: auto;
+  }
+  mat-icon {
+    width: 18px;
+    font-size: 18px;
+    height: 20px;
+    vertical-align: middle;
+  }
+  .iconStatus {
+    font-size: $fontSizeText9;
+    margin-right: 3px;
+  }
+  .title {
+    font-weight: bold;
+  }
+  .selectedAv {
+    background-color: $gray;
+  }
 }

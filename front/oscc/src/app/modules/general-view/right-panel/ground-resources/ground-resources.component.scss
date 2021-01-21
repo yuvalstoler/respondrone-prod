@@ -93,15 +93,16 @@
   }
 
   .item2 {
-    font-weight: 600;
+    font-weight: bold;
     color: black;
-    font-size: $fontSizeText9;
+    font-size: $fontSizeText8;
     text-align: center;
   }
 
   .iconStatus {
     font-size: $fontSizeText9;
   }
+
   .icon {
     height: 2.5em;
     width: auto;
@@ -116,11 +117,4 @@
     max-height: 28em;
   }
 
-
-}
-// for all sizes ========================================================================
-.mat-menu-item {
-  line-height: 30px;
-  height: 30px;
-  padding: 0 10px;
 }

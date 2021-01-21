@@ -3,7 +3,7 @@ import {
     AV_DATA_UI,
     AV_OPTIONS,
     CAPABILITY,
-    COMM_STATUS,
+    COMM_STATUS, FR_DATA_UI, FR_TYPE,
     MISSION_TYPE,
     MISSION_TYPE_TEXT,
     OPERATIONAL_STATUS
@@ -22,7 +22,7 @@ export class AirVehicleMdLogic implements IModeDefine {
         const obj: AV_DATA_MD = {
             styles: {
                 // icon
-                mapIcon: AirVehicleMdLogic.getIcon(data),
+                mapIcon: AirVehicleMdLogic.getIconMap(data),
                 iconSize: AirVehicleMdLogic.getIconSize(data),
                 hoverText: undefined,
                 labelText: AirVehicleMdLogic.getLabelText(data),
@@ -33,21 +33,37 @@ export class AirVehicleMdLogic implements IModeDefine {
                 gpsIcon: this.getGPSIcon(data),
                 gpsDescription: this.getGPSDescription(data),
                 isDisabled: this.isDisabled(data),
-                mapIconSelected: AirVehicleMdLogic.getMapIconSelected(data)
+                mapIconSelected: AirVehicleMdLogic.getMapIconSelected(data),
+                icon: AirVehicleMdLogic.getIcon(data), /*Right Panel*/
             },
             data: {
                 missionName: AirVehicleMdLogic.getMissionName(data, missionRequest),
+                missionId: AirVehicleMdLogic.getMissionId(data, missionRequest),
                 missionOptions: AirVehicleMdLogic.getMissionOptions(data)
             }
         };
         return obj;
     }
 
+    private static getIcon = (data: AV_DATA_UI): string => {
+        let res: string;
+            res = '../../../../../assets/helicopter.png';
+        return res;
+    };
+
 
     private static getMissionName = (data: AV_DATA_UI, missionRequest: MissionRequest): string => {
         let res: string;
         if (missionRequest) {
             res = MISSION_TYPE_TEXT[missionRequest.missionType] + ' - ' + missionRequest.idView;
+        }
+        return res;
+    };
+
+    private static getMissionId = (data: AV_DATA_UI, missionRequest: MissionRequest): string => {
+        let res: string;
+        if (missionRequest) {
+            res = missionRequest.idView;
         }
         return res;
     };
@@ -82,7 +98,7 @@ export class AirVehicleMdLogic implements IModeDefine {
         return (data.operationalStatus === OPERATIONAL_STATUS.NotActive || data.commStatus === COMM_STATUS.NoComm);
     };
 
-    private static getIcon = (data: AV_DATA_UI): string => {
+    private static getIconMap = (data: AV_DATA_UI): string => {
         const res: string = '../../../../../assets/droneBlack.png';
         return res;
     };
