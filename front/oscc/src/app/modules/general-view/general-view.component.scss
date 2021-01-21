@@ -10,7 +10,7 @@
   left: 0px;
   width: 100vw;
   height: $headerHeight;
-  font-size: $fontSizeTitleHeader17;
+  //font-size: $fontSizeTitleHeader17;
 }
 .LiveVideoPanel{
   position: absolute;
@@ -36,7 +36,7 @@
   top: $headerHeight;
   right: 0px;
   height: calc(100vh - #{$headerHeight});
-  width: calc(100vw - #{$leftPanelWidth});
+  width: calc(100vw - #{$sidePanelWidth50});
   z-index: 1;
 }
 .MapAll{
@@ -48,7 +48,7 @@
   z-index: 1;
 }
 .MapRegular{
-  width: calc(100vw - #{$leftPanelWidth});
+  width: calc(100vw - #{$sidePanelWidth50});
   position: absolute;
   top: $headerHeight;
   right: 0px;

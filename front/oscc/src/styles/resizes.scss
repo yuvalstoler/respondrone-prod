@@ -1,16 +1,28 @@
 @import "variable";
 
-// Right panel media screen ======================================================================================
 @media screen and (max-width: 1200px) {
-  /* CSS that should be displayed if width is equal to or less than 1280px goes here */
-  .LeftPanel {
-    width: $leftPanelWidthMiddle !important;
-  }
-  .RightPanel {
-    width: $rightPanelResourceWidth;
-  }
+  /* CSS that should be displayed if width is equal to or less than 1200px goes here */
   .HeaderPanel{
     font-size: $fontSizeTitle14;
+
+    ::ng-deep.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
+      font-size: $fontSizeTitle14;
+    }
+  }
+  .HeaderLogo {
+    width: 130px;
+  }
+  .HeaderLeftSide {
+    width: $sidePanelWidth60 !important;
+  }
+  .HeaderRightSide{
+    width: $sidePanelWidth40 !important;
+  }
+  .LeftPanel {
+    width: $sidePanelWidth60 !important;
+  }
+  .RightPanel {
+    width: $rightPanelMiddleWidth;
   }
  ::ng-deep.mat-menu-item {
     line-height: 25px !important;
@@ -19,10 +31,30 @@
     font-size: $fontSizeText12 !important;
   }
 }
+
 @media screen and (min-width: 1201px){
   /* CSS that should be displayed if width is equal to or less than 1280px goes here */
+  .HeaderPanel{
+    font-size: $fontSizeTitleHeader18;
+
+    ::ng-deep.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
+      font-size: $fontSizeTitleHeader18;
+    }
+  }
+  .HeaderLogo {
+    width: 160px;
+  }
+  .HeaderLeftSide {
+    width: $sidePanelWidth50 !important;
+  }
+  .HeaderRightSide{
+    width: $sidePanelWidth50 !important;
+  }
   .LeftPanel {
-    width: $leftPanelWidth !important;
+    width: $sidePanelWidth50 !important;
+  }
+  .RightPanel {
+    width: $rightPanelWidth;
   }
   ::ng-deep.mat-menu-item {
     line-height: 30px !important;
@@ -32,95 +64,28 @@
   }
 }
 
-@media screen and (max-width: 1230px)  and (min-width: 1201px){
-  /* CSS that should be displayed if width is equal to or less than 1280px goes here */
-  .RightPanel {
-    width: 23.5vw;
-  }
-  .HeaderPanel{
-    font-size: $fontSizeTitle15;
-  }
-}
-@media screen and (max-width: 1280px) and (min-width: 1231px){
-  .RightPanel{
-    width: 23vw;
-  }
-  .HeaderPanel{
-    font-size: $fontSizeTitle15;
-  }
-}
+// todo: .HeaderPanel{
+//    font-size: $fontSizeTitle14;
+//    ::ng-deep.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
+//      font-size: $fontSizeTitle14;
+//    }
+//        .HeaderLogo {
+//  width: 130px;
+//    another sizes
 
-@media screen and (max-width: 1320px) and (min-width: 1281px) {
-  .RightPanel {
-    width: 22.5vw;
-  }
-  .HeaderPanel{
-    font-size: $fontSizeTitleHeader16;
-  }
-}
-@media screen and (max-width: 1340px) and (min-width: 1321px) {
-  .RightPanel {
-    width: 22vw;
-  }
-}
 
-@media screen and (max-width: 1380px) and (min-width: 1341px) {
-  .RightPanel {
-    width: 21.5vw;
-  }
-}
-@media screen and (max-width: 1400px) and (min-width: 1381px) {
-  .RightPanel {
-    width: 21vw;
-  }
-}
-@media screen and (max-width: 1440px) and (min-width: 1401px) {
-  .RightPanel {
-    width: 20.5vw;
-  }
-}
-@media screen and (max-width: 1470px) and (min-width: 1441px) {
-  .RightPanel {
-    width: 20vw;
-  }
-}
-@media screen and (max-width: 1520px) and (min-width: 1471px) {
-  .RightPanel {
-    width: 19.5vw;
-  }
-}
-@media screen and (max-width: 1550px) and (min-width: 1521px) {
-  .RightPanel {
-    width: 19vw;
-  }
-}
-@media screen and (max-width: 1580px) and (min-width: 1551px) {
-  .RightPanel {
-    width: 18.5vw;
-  }
-}
-@media screen and (max-width: 1620px) and (min-width: 1581px) {
-  .RightPanel {
-    width: 18vw;
-  }
-}
-@media screen and (max-width: 1680px) and (min-width: 1621px) {
-  .RightPanel {
-    width: 17.5vw;
-  }
-}
-@media screen and (max-width: 1720px) and (min-width: 1681px) {
-  .RightPanel {
-    width: 17vw;
-  }
-}
-@media screen and (max-width: 1770px) and (min-width: 1721px) {
-  .RightPanel {
-    width: 16.5vw;
-  }
-}
-@media screen and (min-width: 1771px) {
-  .RightPanel {
-    width: 16vw;
-  }
-}
+//    ::ng-deep.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
+//      font-size: $fontSizeTitle14;
+//    }
+//  }
+
+//@media screen and (min-width: 1200px) and (max-width: 1350px){
+//  /* CSS that should be displayed if width is equal to or less than 1280px goes here */
+//  .HeaderPanel {
+//      font-size: $fontSizeTitleHeader16;
+//    }
+//
+//    ::ng-deep.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
+//      font-size: $fontSizeTitleHeader16;
+//    }
+//}

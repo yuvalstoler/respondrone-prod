@@ -17,7 +17,8 @@ export enum HEADER_BUTTONS {
   liveVideo = 'liveVideo',
   media = 'media',
   toolbox = 'toolbox',
-  view = 'view'
+  view = 'view',
+  more = 'more'
 }
 
 export enum VIDEO_OR_MAP {

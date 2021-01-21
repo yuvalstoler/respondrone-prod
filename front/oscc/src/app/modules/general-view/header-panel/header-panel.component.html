@@ -18,7 +18,8 @@
         Mission Control</span>
     </div>
     <!--Live Video-->
-    <div (click)="onLiveVideo()" class="LeftSideButton"  [ngClass]="applicationService?.selectedAirVehicle ? '' : 'Disabled'">
+    <div *ngIf="screenWidth > 1200" (click)="onLiveVideo()" [ngClass]="applicationService?.selectedAirVehicle ? '' : 'Disabled'"
+         class="LeftSideButton">
       <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.liveVideo,
              LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}"
             class="LeftSideLabel">
@@ -40,66 +41,88 @@
       <mat-icon class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
     </div>-->
     <!--View-->
-    <div (click)="onView()" class="LeftSideButton">
-      <button [matMenuTriggerFor]="menu" mat-button  #target="matMenuTrigger">
-        <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.view,
+    <div (click)="onView()" *ngIf="screenWidth > 1200" class="LeftSideButton">
+      <button #target="matMenuTrigger" [matMenuTriggerFor]="menuView" mat-button>
+        <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.more,
         LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}"
               class="LeftSideLabel">View</span>
-        <mat-icon class="HPLeftSideIcon" *ngIf="!target.menuOpen">keyboard_arrow_down</mat-icon>
-        <mat-icon class="HPLeftSideIcon" *ngIf="target.menuOpen">keyboard_arrow_up</mat-icon>
+        <mat-icon *ngIf="!target.menuOpen" class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="target.menuOpen" class="HPLeftSideIcon">keyboard_arrow_up</mat-icon>
       </button>
-      <mat-menu #menu="matMenu" role="menuitemcheckbox">
-        <div *ngFor="let viewItem of viewItems; let i = index">
-          <mat-checkbox class="mat-menu-item"
-                        #checkboxes
-                        [checked]="viewItem"
-                        (change)="onChangeCheckbox($event, viewItem)"
-                        (click)="$event.stopPropagation();"
-                       >{{VIEW_LIST[viewItem]}}</mat-checkbox>
-        </div>
-        <!--<div class="HeaderButtons">-->
-          <!--<button mat-flat-button (click)="onCancel()">Cancel</button>-->
-          <!--<button class="HeaderButtonApply" mat-flat-button-->
-                  <!--(click)="onApply($event)"-->
-                  <!--[disabled]="viewItemModel.length === 0">-->
-            <!--Apply</button>-->
-        <!--</div>-->
-      </mat-menu>
     </div>
+
+    <!--More-->
+    <div (click)="onMore()" *ngIf="screenWidth <= 1200" class="LeftSideButton">
+      <button #target="matMenuTrigger" [matMenuTriggerFor]="menu" mat-button>
+      <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.more,
+             LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}"
+            class="LeftSideLabel">
+        More</span>
+        <mat-icon *ngIf="!target.menuOpen" class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="target.menuOpen" class="HPLeftSideIcon">keyboard_arrow_up</mat-icon>
+      </button>
+    </div>
+    <mat-menu #menu="matMenu" role="">
+      <button mat-menu-item (click)="onLiveVideo()">Live video</button>
+      <button mat-menu-item [matMenuTriggerFor]="menuView">View</button>
+    </mat-menu>
+    <mat-menu #menuView="matMenu" role="menuitemcheckbox">
+      <div *ngFor="let viewItem of viewItems; let i = index">
+        <mat-checkbox #checkboxes
+                      (change)="onChangeCheckbox($event, viewItem)"
+                      (click)="$event.stopPropagation();"
+                      [checked]="viewItem"
+                      class="mat-menu-item"
+        >{{VIEW_LIST[viewItem]}}</mat-checkbox>
+      </div>
+    </mat-menu>
 
 
   </div>
-
   <!--Right Side-->
   <div class="HeaderRightSide">
     <!--Cursor position LAT LNG panel-->
+    <div *ngIf="screenWidth > 1200" class="RightSideButton">
+      <app-cursor-position></app-cursor-position>
+    </div>
+    <!--&lt;!&ndash;SubSystemStatus&ndash;&gt;-->
+    <!--<div *ngIf="screenWidth > 1200" class="RightSideButton">-->
+      <!--<mat-icon class="HPRightSideIcon">-->
+        <!--wifi-->
+      <!--</mat-icon>-->
+    <!--</div>-->
+    <!--<div *ngIf="screenWidth > 1200" class="RightSideButton">-->
+      <!--<mat-icon class="HPRightSideIcon">-->
+        <!--settings-->
+      <!--</mat-icon>-->
+    <!--</div>-->
+    <!--<div *ngIf="screenWidth > 1200" class="RightSideButton ">-->
+      <!--<mat-icon class="HPRightSideIcon">-->
+        <!--cloud-->
+      <!--</mat-icon>-->
+    <!--</div>-->
+    <!--<div *ngIf="screenWidth > 1200" class="RightLine"></div>-->
+<!---->
     <div class="RightSideButton">
-    <app-cursor-position></app-cursor-position>
+      <button #target="matMenuTrigger" [matMenuTriggerFor]="statuses" mat-button>
+        <mat-icon class="HPRightSideIcon">
+          wifi
+        </mat-icon>
+      </button>
     </div>
-    <!--SubSystemStatus-->
-    <div class="RightSideButton">
-      <mat-icon class="HPRightSideIcon">
-        wifi
-      </mat-icon>
-    </div>
-    <div class="RightSideButton">
-      <mat-icon class="HPRightSideIcon">
-        settings
-      </mat-icon>
-    </div>
-    <div class="RightSideButton ">
-      <mat-icon class="HPRightSideIcon">
-        cloud
-      </mat-icon>
-    </div>
-    <div class="RightLine"></div>
+    <mat-menu #statuses="matMenu" role="">
+      <div>ServersConnections</div>
+      <div>
+       <span>WebServers</span> <span>Connected</span>
+      </div>
+    </mat-menu>
     <!--Entity Search-->
     <div class="RightSideButton">
       <app-search-panel></app-search-panel>
     </div>
     <!--Account Management-->
     <div class="RightSideButton pointer">
-      <mat-icon class="HPRightSideIcon" [matMenuTriggerFor]="login">
+      <mat-icon [matMenuTriggerFor]="login" class="HPRightSideIcon">
         account_circle
       </mat-icon>
     </div>
@@ -107,7 +130,7 @@
       <div class="UserName">
         <span>{{loginService.getUserName()}}</span>
       </div>
-      <button mat-menu-item (click)="onLogout()">
+      <button (click)="onLogout()" mat-menu-item>
         <span>Log Out</span>
       </button>
     </mat-menu>

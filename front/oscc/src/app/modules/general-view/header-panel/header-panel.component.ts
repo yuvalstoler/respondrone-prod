@@ -14,6 +14,7 @@ import {GimbalService} from '../../../services/gimbalService/gimbal.service';
 import {NFZService} from '../../../services/nfzService/nfz.service';
 import {ContextMenuService} from '../../../services/contextMenuService/context-menu.service';
 import {LoginService} from '../../../services/login/login.service';
+import {ResponsiveService} from "../../../services/responsiveService/responsive.service";
 
 @Component({
   selector: 'app-header-panel',
@@ -29,6 +30,7 @@ export class HeaderPanelComponent implements OnInit {
 
   viewItems: string[] = Object.keys(VIEW_LIST);
   viewItemModel: string[] = [];
+  screenWidth: number;
 
   // _value = '';
   // expanded = false;
@@ -46,8 +48,13 @@ export class HeaderPanelComponent implements OnInit {
               private graphicOverlayService: GraphicOverlayService,
               private gimbalService: GimbalService,
               public loginService: LoginService,
+              public responsiveService: ResponsiveService,
               private nfzService: NFZService) {
+    this.responsiveService.screenWidth$.subscribe(res => {
+      this.screenWidth = res;
+    });
   }
+
 
   ngOnInit(): void {
 
@@ -128,6 +135,14 @@ export class HeaderPanelComponent implements OnInit {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
     } else {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.view;
+    }
+  };
+
+  onMore = () => {
+    if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.more) {
+      this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
+    } else {
+      this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.more;
     }
   };
 

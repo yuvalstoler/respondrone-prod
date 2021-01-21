@@ -1,10 +1,12 @@
 
 $headerHeight: 70px;
-$leftPanelWidth: calc(100vw - 50%);
-$leftPanelWidthMiddle: calc(100vw - 40%);
+$sidePanelWidth50: calc(100vw - 50%);
+$sidePanelWidth60: calc(100vw - 40%);
+$sidePanelWidth40: calc(100vw - 60%);
 
 $rightPanelResourceHeight: 50px;
-$rightPanelResourceWidth: 120px;
+$rightPanelMiddleWidth: 110px;
+$rightPanelWidth: 285px;
 
 $leftPanelNarrowWidth: 400px;
 
@@ -14,6 +16,7 @@ $headerVideoHeight: 90px;
 
 //font-size
 $fontSizeTitleHeader19: 19px;
+$fontSizeTitleHeader18: 18px;
 $fontSizeTitleHeader17: 17px;
 $fontSizeTitleHeader16: 16px;
 $fontSizeTitle15: 15px;
