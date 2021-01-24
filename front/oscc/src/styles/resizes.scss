@@ -1,4 +1,6 @@
 @import "variable";
+@import "colors";
+
 // Middle
 @media screen and (max-width: 1200px) {
   /* CSS that should be displayed if width is equal to or less than 1200px goes here */
@@ -28,6 +30,12 @@
     ::ng-deep.mat-form-field-infix {
       width: 95px;
     }
+    .buttonX{
+      position: fixed;
+      color: $black;
+      //margin: 0px 0 0 90px;
+      margin: 3px 0 0 70px;
+    }
   }
   .LeftPanel {
     width: $sidePanelWidth60 !important;
@@ -35,11 +43,69 @@
   .RightPanel {
     width: $rightPanelMiddleWidth;
   }
+
+
  ::ng-deep.mat-menu-item {
     line-height: 25px !important;
     height: 25px !important;
     padding: 0 10px !important;
     font-size: $fontSizeText12 !important;
+  }
+
+  // ==========
+
+  ::ng-deep.mat-optgroup-label {
+    font-weight: bold;
+    font-size: $fontSizeText12;
+    color: $black;
+  }
+
+  ::ng-deep .mat-form-field {
+    display: block;
+    //width: 14em;
+  }
+
+  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
+    margin: .25em 0;
+    background: $white;
+    border-radius: 5px;
+  }
+
+  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0.25em 0 0.85em 0;
+  }
+
+  ::ng-deep.mat-form-field-wrapper {
+    padding-bottom: 0em;
+  }
+
+  ::ng-deep.cdk-text-field-autofill-monitored:not(:-webkit-autofill) {
+    color: $black;
+    font-size: $fontSizeTitle14;
+  }
+
+  ::ng-deep.mat-optgroup.sticky {
+    label {
+      position: sticky;
+      z-index: 1; // appear above mat-option
+      top: 0; // fix at the top
+      background-color: $white; // don't see mat-option when scrolling
+      box-shadow: 1px -2px 10px 0px $gray; // shadow at the bottom
+    }
+  }
+
+  ::ng-deep.mat-icon-button {
+    width: 30px;
+    height: 26px;
+    line-height: 30px;
+  }
+
+  ::ng-deep.mat-option {
+    font-size: $fontSizeText12;
+  }
+
+  .mat-input-element::-webkit-input-placeholder {
+    font-size: $fontSizeText12;
   }
 }
 //Regular
@@ -71,6 +137,12 @@
     ::ng-deep.mat-form-field-infix {
       width: 120px;
     }
+    .buttonX{
+      position: fixed;
+      color: $black;
+      margin: 3px 0 0 90px;
+      //margin: 0px 0 0 70px;
+    }
   }
   .LeftPanel {
     width: $sidePanelWidth50 !important;
@@ -86,6 +158,53 @@
     padding: 0 10px !important;
     font-size: $fontSizeTitle15 !important;
   }
+
+  // ==========
+
+  ::ng-deep.mat-optgroup-label {
+    font-weight: bold;
+    font-size: $fontSizeVideoText16;
+    color: $black;
+  }
+
+  ::ng-deep .mat-form-field {
+    display: block;
+    //width: 14em;
+  }
+
+  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
+    margin: .25em 0;
+    background: $white;
+    border-radius: 5px;
+  }
+
+  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0.25em 0 0.65em 0;
+  }
+
+  ::ng-deep.mat-form-field-wrapper {
+    padding-bottom: 0em;
+  }
+
+  ::ng-deep.cdk-text-field-autofill-monitored:not(:-webkit-autofill) {
+    color: $black;
+  }
+
+  ::ng-deep.mat-optgroup.sticky {
+    label {
+      position: sticky;
+      z-index: 1; // appear above mat-option
+      top: 0; // fix at the top
+      background-color: $white; // don't see mat-option when scrolling
+      box-shadow: 1px -2px 10px 0px $gray; // shadow at the bottom
+    }
+  }
+
+  //::ng-deep.mat-icon-button {
+  //  width: 30px;
+  //  height: 26px;
+  //  line-height: 30px;
+  //}
 }
 
 // todo: .HeaderPanel{
