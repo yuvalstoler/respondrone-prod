@@ -1,8 +1,9 @@
 @import "../../../../styles/colors";
 @import "../../../../styles/variable";
+@import "../../../../styles/resizes";
 
 
-.RightSideButton {
+.RightSideSearchButton {
   //margin: auto 5px;
   text-align: center;
   height: $headerHeight;
@@ -12,13 +13,11 @@
   font-size: $fontSizeTitleHeader17;
 }
 
-.HPRightSideIcon{
-  width: $iconSize;
-  font-size: $iconFontSize;
-  //margin: 5px;
-  margin: 2px 0 5px 5px;
-  cursor: pointer;
-}
+//.HPRightSideIcon{
+//  width: $iconSize;
+//  font-size: $iconSize;
+//  cursor: pointer;
+//}
 
 .buttonX{
   position: fixed;
@@ -27,7 +26,7 @@
 }
 
 // Search Bar =======================================================
-.RightSideButton {
+.RightSideSearchButton {
   ::ng-deep.mat-optgroup-label {
     font-weight: bold;
     font-size: $fontSizeVideoText16;
@@ -52,11 +51,6 @@
     padding: 0.25em 0 0.5em 0;
   }
 
-  //
-  //::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
-  //  margin: 0.5em 0 ;
-  //}
-
   ::ng-deep.mat-form-field-wrapper {
     padding-bottom: 0em;
   }
@@ -65,19 +59,20 @@
     color: black;
   }
 
-  ::ng-deep.mat-optgroup.sticky {
-    label {
-      position: sticky;
-      z-index: 1; // appear above mat-option
-      top: 0; // fix at the top
-      background-color: $white; // don't see mat-option when scrolling
-      box-shadow: 1px -2px 10px 0px $gray; // shadow at the bottom
-    }
-  }
 
   ::ng-deep.mat-icon-button {
     width: 30px;
     height: 26px;
     line-height: 30px;
+  }
+}
+
+::ng-deep.mat-optgroup.sticky {
+  label {
+    position: sticky;
+    z-index: 1; // appear above mat-option
+    top: 0; // fix at the top
+    background-color: $white; // don't see mat-option when scrolling
+    box-shadow: 1px -2px 10px 0px $gray; // shadow at the bottom
   }
 }

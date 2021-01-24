@@ -1,5 +1,5 @@
 @import "variable";
-
+// Middle
 @media screen and (max-width: 1200px) {
   /* CSS that should be displayed if width is equal to or less than 1200px goes here */
   .HeaderPanel{
@@ -18,6 +18,17 @@
   .HeaderRightSide{
     width: $sidePanelWidth40 !important;
   }
+  .HPRightSideIcon{
+    width: $iconSizeMiddle;
+    height: $iconSizeMiddle;
+    font-size: $iconSizeMiddle;
+    margin: 0px;
+  }
+  .RightSideSearchButton {
+    ::ng-deep.mat-form-field-infix {
+      width: 95px;
+    }
+  }
   .LeftPanel {
     width: $sidePanelWidth60 !important;
   }
@@ -31,7 +42,7 @@
     font-size: $fontSizeText12 !important;
   }
 }
-
+//Regular
 @media screen and (min-width: 1201px){
   /* CSS that should be displayed if width is equal to or less than 1280px goes here */
   .HeaderPanel{
@@ -50,12 +61,25 @@
   .HeaderRightSide{
     width: $sidePanelWidth50 !important;
   }
+  .HPRightSideIcon {
+    width: $iconSize;
+    height: $iconSize;
+    font-size: $iconFontSize;
+    margin: 2px;
+  }
+  .RightSideSearchButton {
+    ::ng-deep.mat-form-field-infix {
+      width: 120px;
+    }
+  }
   .LeftPanel {
     width: $sidePanelWidth50 !important;
   }
   .RightPanel {
     width: $rightPanelWidth;
   }
+
+
   ::ng-deep.mat-menu-item {
     line-height: 30px !important;
     height: 30px !important;

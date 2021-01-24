@@ -94,14 +94,6 @@
     //font-size: $fontSizeTitleHeader17;
   }
 
-  .HPRightSideIcon {
-    width: $iconSize;
-    height: $iconSize;
-    font-size: $iconFontSize;
-    margin: 5px;
-    cursor: default;
-  }
-
   .RightSideDiv {
     display: inline-block;
     margin: auto 10px;
@@ -142,6 +134,23 @@
   border-bottom: 1px solid $gray;
   font-weight: 600;
   font-size: 15px;
+}
+.gridStatus{
+  grid-template-columns: 50% 50%;
+  display: grid;
+  margin: 5px 10px;
+
+  .title{
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+
+  .value{
+    font-size: 12px;
+    text-align: right;
+    margin-top: 5px;
+  }
 }
 
 .Disabled {

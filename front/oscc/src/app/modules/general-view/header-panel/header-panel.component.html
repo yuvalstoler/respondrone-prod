@@ -18,7 +18,8 @@
         Mission Control</span>
     </div>
     <!--Live Video-->
-    <div *ngIf="screenWidth > 1200" (click)="onLiveVideo()" [ngClass]="applicationService?.selectedAirVehicle ? '' : 'Disabled'"
+    <div (click)="onLiveVideo()" *ngIf="screenWidth > 1200"
+         [ngClass]="applicationService?.selectedAirVehicle ? '' : 'Disabled'"
          class="LeftSideButton">
       <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.liveVideo,
              LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}"
@@ -63,8 +64,8 @@
       </button>
     </div>
     <mat-menu #menu="matMenu" role="">
-      <button mat-menu-item (click)="onLiveVideo()">Live video</button>
-      <button mat-menu-item [matMenuTriggerFor]="menuView">View</button>
+      <button (click)="onLiveVideo()" mat-menu-item>Live video</button>
+      <button [matMenuTriggerFor]="menuView" mat-menu-item>View</button>
     </mat-menu>
     <mat-menu #menuView="matMenu" role="menuitemcheckbox">
       <div *ngFor="let viewItem of viewItems; let i = index">
@@ -87,33 +88,35 @@
     </div>
     <!--&lt;!&ndash;SubSystemStatus&ndash;&gt;-->
     <!--<div *ngIf="screenWidth > 1200" class="RightSideButton">-->
-      <!--<mat-icon class="HPRightSideIcon">-->
-        <!--wifi-->
-      <!--</mat-icon>-->
+    <!--<mat-icon class="HPRightSideIcon">-->
+    <!--wifi-->
+    <!--</mat-icon>-->
     <!--</div>-->
     <!--<div *ngIf="screenWidth > 1200" class="RightSideButton">-->
-      <!--<mat-icon class="HPRightSideIcon">-->
-        <!--settings-->
-      <!--</mat-icon>-->
+    <!--<mat-icon class="HPRightSideIcon">-->
+    <!--settings-->
+    <!--</mat-icon>-->
     <!--</div>-->
     <!--<div *ngIf="screenWidth > 1200" class="RightSideButton ">-->
-      <!--<mat-icon class="HPRightSideIcon">-->
-        <!--cloud-->
-      <!--</mat-icon>-->
+    <!--<mat-icon class="HPRightSideIcon">-->
+    <!--cloud-->
+    <!--</mat-icon>-->
     <!--</div>-->
     <!--<div *ngIf="screenWidth > 1200" class="RightLine"></div>-->
-<!---->
+    <!--Status Indicator-->
     <div class="RightSideButton">
-      <button #target="matMenuTrigger" [matMenuTriggerFor]="statuses" mat-button>
-        <mat-icon class="HPRightSideIcon">
-          wifi
-        </mat-icon>
-      </button>
+      <mat-icon [matMenuTriggerFor]="statuses" class="HPRightSideIcon pointer" >wifi</mat-icon>
     </div>
-    <mat-menu #statuses="matMenu" role="">
-      <div>ServersConnections</div>
-      <div>
-       <span>WebServers</span> <span>Connected</span>
+    <mat-menu #statuses="matMenu" >
+      <div class="UserName">
+        <span>Servers Connections</span>
+      </div>
+      <div class="gridStatus">
+        <span class="title">WebServers: </span><span class="value" [ngStyle]="{'color': 'green'}">Connected</span>
+        <span class="title">TMM: </span><span class="value" [ngStyle]="{'color': 'red'}">Shut down</span>
+        <span class="title">Thales: </span><span class="value" [ngStyle]="{'color': 'green'}">Connected</span>
+        <span class="title">Data server: </span><span class="value" [ngStyle]="{'color': 'green'}">Connected</span>
+        <span class="title">Internet: </span><span class="value" [ngStyle]="{'color': 'green'}">Connected</span>
       </div>
     </mat-menu>
     <!--Entity Search-->
@@ -121,8 +124,8 @@
       <app-search-panel></app-search-panel>
     </div>
     <!--Account Management-->
-    <div class="RightSideButton pointer">
-      <mat-icon [matMenuTriggerFor]="login" class="HPRightSideIcon">
+    <div class="RightSideButton">
+      <mat-icon [matMenuTriggerFor]="login" class="HPRightSideIcon pointer">
         account_circle
       </mat-icon>
     </div>

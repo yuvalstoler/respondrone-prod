@@ -1,4 +1,4 @@
-<div class="RightSideButton">
+<div class="RightSideSearchButton">
   <form [formGroup]="stateForm" *ngIf="isOpenSearchPanel">
     <mat-form-field appearance="outline">
       <input [matAutocomplete]="autoGroup"
@@ -30,6 +30,6 @@
   <button (click)="toggleSearchPanel()"
     disableRipple="true"
     mat-icon-button>
-    <mat-icon class="HPRightSideIcon">search</mat-icon>
+    <mat-icon class="HPRightSideIcon pointer">search</mat-icon>
   </button>
 </div>
