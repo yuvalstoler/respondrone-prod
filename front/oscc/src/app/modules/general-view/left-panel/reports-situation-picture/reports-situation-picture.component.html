@@ -2,11 +2,13 @@
   <!--Header-->
   <div class="HeaderLeftPanel">
     <div class="LeftSideSearchButton">
-      <mat-icon>search</mat-icon>
-      <input (keyup)="getFilter($event)" matInput type="text" #inputSearch>
+      <mat-icon matPrefix>search</mat-icon>
+      <label class="LeftSideInputSearch">
+        <input (keyup)="getFilter($event)" matInput type="text" #inputSearch>
+      </label>
       <button (click)="clearPanel()"
               disableRipple="true"
-              mat-icon-button>X
+              mat-icon-button matSuffix>X
       </button>
     </div>
   </div>
@@ -16,16 +18,35 @@
 <!--         *ngIf="applicationService.selectedReports.length > 0"-->
 <!--         class="RightSideButton pointer">Archive-->
 <!--    </div>-->
+    <!--Actions-->
+    <div *ngIf="applicationService.selectedReports.length > 0 && screenWidth <= 1200"
+         class="RightSideButton pointer" [matMenuTriggerFor]="Actions"
+         #target="matMenuTrigger">
+      <span>Actions</span>
+      <mat-icon *ngIf="!target.menuOpen" class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
+      <mat-icon *ngIf="target.menuOpen" class="HPLeftSideIcon">keyboard_arrow_up</mat-icon>
+    </div>
+    <mat-menu #Actions="matMenu">
+      <button mat-menu-item (click)="onEditReport()" [disabled]="applicationService.selectedReports.length !== 1">
+        <span>Edit</span>
+      </button>
+      <button mat-menu-item (click)="onDeleteReport()">
+        <span>Delete</span>
+      </button>
+    </mat-menu>
+    <!--Edit-->
     <div (click)="onEditReport()"
-         *ngIf="applicationService.selectedReports.length === 1"
+         *ngIf="applicationService.selectedReports.length === 1 && screenWidth > 1200"
          class="RightSideButton pointer">Edit
     </div>
+    <!--Delete-->
     <div (click)="onDeleteReport()"
-         *ngIf="applicationService.selectedReports.length > 0"
+         *ngIf="applicationService.selectedReports.length > 0 && screenWidth > 1200"
          class="RightSideButton pointer">Delete
     </div>
+    <!--Create-->
     <div (click)="onCreateNewReport()"
-         class="RightSideButton pointer">Create New Report
+         class="RightSideButton pointer">{{(screenWidth > 1200)? 'Create ' : ''}}New Report
     </div>
   </div>
   <div class="HeaderRightPanel" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.collapse"></div>

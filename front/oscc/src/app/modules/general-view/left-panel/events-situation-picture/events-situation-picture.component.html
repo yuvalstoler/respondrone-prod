@@ -2,11 +2,13 @@
   <!--Header-->
   <div class="HeaderLeftPanel">
     <div class="LeftSideSearchButton">
-      <mat-icon>search</mat-icon>
+      <mat-icon matPrefix>search</mat-icon>
+      <label class="LeftSideInputSearch">
       <input (keyup)="getFilter($event)" matInput type="text" #inputSearch>
+      </label>
       <button (click)="clearPanel()"
               disableRipple="true"
-              mat-icon-button>X
+              mat-icon-button matSuffix>X
       </button>
     </div>
   </div>
@@ -16,21 +18,40 @@
 <!--         *ngIf="applicationService.selectedEvents.length > 0"-->
 <!--         class="RightSideButton pointer">Archive-->
 <!--    </div>-->
+    <!--Actions-->
+    <div *ngIf="applicationService.selectedEvents.length > 0 && screenWidth <= 1200"
+         class="RightSideButton pointer" [matMenuTriggerFor]="Actions"
+         #target="matMenuTrigger">
+      <span>Actions</span>
+      <mat-icon *ngIf="!target.menuOpen" class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
+      <mat-icon *ngIf="target.menuOpen" class="HPLeftSideIcon">keyboard_arrow_up</mat-icon>
+    </div>
+    <mat-menu #Actions="matMenu">
+      <button mat-menu-item (click)="onEditEvent()" [disabled]="applicationService.selectedEvents.length !== 1">
+        <span>Edit</span>
+      </button>
+      <button mat-menu-item (click)="onDeleteEvent()">
+        <span>Delete</span>
+      </button>
+    </mat-menu>
+    <!--Edit-->
     <div (click)="onEditEvent()"
-         *ngIf="applicationService.selectedEvents.length === 1"
+         *ngIf="applicationService.selectedEvents.length === 1 && screenWidth > 1200"
          class="RightSideButton pointer">Edit
     </div>
+    <!--Delete-->
     <div (click)="onDeleteEvent()"
-         *ngIf="applicationService.selectedEvents.length > 0"
+         *ngIf="applicationService.selectedEvents.length > 0  && screenWidth > 1200"
          class="RightSideButton pointer">Delete
     </div>
-    <div (click)="onCreateNewEvent()"
-         class="RightSideButton pointer">Create New Event
+    <!--Create-->
+    <div  (click)="onCreateNewEvent()"
+         class="RightSideButton pointer">{{(screenWidth > 1200)? 'Create ' : ''}} New Event
     </div>
   </div>
   <div *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.collapse" class="HeaderRightPanel"></div>
   <!--Table-->
   <div>
-    <app-events-situation-table></app-events-situation-table>
+    <app-events-situation-table [screenWidth]="screenWidth"></app-events-situation-table>
   </div>
 </div>

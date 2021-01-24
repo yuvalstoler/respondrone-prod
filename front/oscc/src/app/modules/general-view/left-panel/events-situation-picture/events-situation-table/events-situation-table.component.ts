@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
@@ -7,9 +7,7 @@ import {LEFT_PANEL_ICON, MAP} from '../../../../../../types';
 import {ApplicationService} from '../../../../../services/applicationService/application.service';
 import {
   COMMENT,
-  EVENT_DATA_UI, ID_TYPE,
-  LOCATION_TYPE,
-  POINT, POINT3D
+  EVENT_DATA_UI, ID_TYPE
 } from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
 import {ReportService} from '../../../../../services/reportService/report.service';
@@ -40,6 +38,7 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
   expandedElement: MAP<EVENT_DATA_UI> = {};
   selection = new SelectionModel<EVENT_DATA_UI>(true, []);
   @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @Input() screenWidth: number;
   panelOpenState: MAP<boolean> = {};
   subscriptions = [];
 
@@ -49,6 +48,9 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
               public eventService: EventService,
               public reportService: ReportService,
               public contextMenuService: ContextMenuService) {
+   if (this.screenWidth <= 1200) {
+     this.displayedColumns = ['expandCollapse', 'select', 'id', 'title', 'priority', 'type', 'description', 'time', 'link', 'map'];
+   }
 
     const subscription = this.eventService.events$.subscribe((isNewData: boolean) => {
       if (isNewData) {

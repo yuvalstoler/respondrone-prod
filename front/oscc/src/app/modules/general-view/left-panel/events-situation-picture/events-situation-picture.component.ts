@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ApplicationService} from 'src/app/services/applicationService/application.service';
 import {LEFT_PANEL_ICON} from '../../../../../types';
 import {MatDialog} from '@angular/material/dialog';
@@ -18,12 +18,15 @@ export class EventsSituationPictureComponent implements OnInit {
 
   @ViewChild(EventsSituationTableComponent) childComponent: EventsSituationTableComponent;
   @ViewChild('inputSearch') inputSearch;
+  @Input() screenWidth: number;
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
+
 
   constructor(public applicationService: ApplicationService,
               public eventService: EventService,
               public reportService: ReportService,
               public dialog: MatDialog) {
+
   }
 
   ngOnInit(): void {

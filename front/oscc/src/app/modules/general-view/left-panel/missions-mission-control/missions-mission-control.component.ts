@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {
   MISSION_MODEL_UI,
   MISSION_REQUEST_ACTION,
@@ -25,6 +25,7 @@ export class MissionsMissionControlComponent implements OnInit {
 
   @ViewChild(MissionsTableComponent ) childComponent: MissionsTableComponent ;
   @ViewChild('inputSearch') inputSearch;
+  @Input() screenWidth: number;
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
   MISSION_REQUEST_ACTION = MISSION_REQUEST_ACTION;
 

@@ -2,49 +2,77 @@
   <!--Header-->
   <div class="HeaderLeftPanel">
     <div class="LeftSideSearchButton">
-      <mat-icon>search</mat-icon>
-      <input (keyup)="getFilter($event)" matInput type="text" #inputSearch>
+      <mat-icon matPrefix>search</mat-icon>
+      <label class="LeftSideInputSearch">
+        <input #inputSearch (keyup)="getFilter($event)" matInput type="text">
+      </label>
       <button (click)="clearPanel()"
               disableRipple="true"
-              mat-icon-button>X
+              mat-icon-button matSuffix>X
       </button>
     </div>
   </div>
 
-  <div class="HeaderRightPanel" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand">
-<!--    <div (click)="onArchiveTask()"-->
-<!--         *ngIf="applicationService.selectedTasks.length > 0"-->
-<!--         class="RightSideButton pointer">Archive-->
-<!--    </div>-->
-
-
-    <button mat-button *ngIf="applicationService.selectedTasks.length === 1"
-            [matMenuTriggerFor]="menu" class="RightSideButton">Update status</button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item *ngIf="applicationService.selectedTasks[0]?.modeDefine?.data?.actionOptions[TASK_ACTION.cancel]" (click)="onTaskAction(TASK_ACTION.cancel)">
-        <span class="material-icons" [ngStyle]="{'color': '#6f30a0', 'font-size': '12px'}">fiber_manual_record</span>
+  <div *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand" class="HeaderRightPanel">
+    <!--    <div (click)="onArchiveTask()"-->
+    <!--         *ngIf="applicationService.selectedTasks.length > 0"-->
+    <!--         class="RightSideButton pointer">Archive-->
+    <!--    </div>-->
+    <!--Actions-->
+    <div #target="matMenuTrigger"
+         *ngIf="applicationService.selectedTasks.length > 0 && screenWidth <= 1200"
+         [matMenuTriggerFor]="Actions"
+         class="RightSideButton pointer">
+      <span>Actions</span>
+      <mat-icon *ngIf="!target.menuOpen" class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
+      <mat-icon *ngIf="target.menuOpen" class="HPLeftSideIcon">keyboard_arrow_up</mat-icon>
+    </div>
+    <mat-menu #Actions="matMenu">
+      <button (click)="onEditTask()" [disabled]="applicationService.selectedTasks.length !== 1" mat-menu-item>
+        <span>Edit</span>
+      </button>
+      <button (click)="onDeleteTask()" mat-menu-item>
+        <span>Delete</span>
+      </button>
+      <button [matMenuTriggerFor]="Statuses" mat-menu-item>
+        <span>Update Status</span>
+      </button>
+    </mat-menu>
+    <!--Update-->
+    <div *ngIf="applicationService.selectedTasks.length === 1 && screenWidth > 1200"
+         [matMenuTriggerFor]="Statuses"
+         class="RightSideButton pointer">Update status
+    </div>
+    <mat-menu #Statuses="matMenu">
+      <button (click)="onTaskAction(TASK_ACTION.cancel)"
+              *ngIf="applicationService.selectedTasks[0]?.modeDefine?.data?.actionOptions[TASK_ACTION.cancel]"
+              mat-menu-item>
+        <span [ngStyle]="{'color': '#6f30a0', 'font-size': '12px'}" class="material-icons">fiber_manual_record</span>
         Canceled
       </button>
-      <button mat-menu-item *ngIf="applicationService.selectedTasks[0]?.modeDefine?.data?.actionOptions[TASK_ACTION.complete]" (click)="onTaskAction(TASK_ACTION.complete)">
-        <span class="material-icons" [ngStyle]="{'color': '#92d150', 'font-size': '12px'}">fiber_manual_record</span>
+      <button (click)="onTaskAction(TASK_ACTION.complete)"
+              *ngIf="applicationService.selectedTasks[0]?.modeDefine?.data?.actionOptions[TASK_ACTION.complete]"
+              mat-menu-item>
+        <span [ngStyle]="{'color': '#92d150', 'font-size': '12px'}" class="material-icons">fiber_manual_record</span>
         Completed
       </button>
     </mat-menu>
-
-
+    <!--Edit-->
     <div (click)="onEditTask()"
-         *ngIf="applicationService.selectedTasks.length === 1"
+         *ngIf="applicationService.selectedTasks.length === 1 && screenWidth > 1200"
          class="RightSideButton pointer">Edit
     </div>
+    <!--Delete-->
     <div (click)="onDeleteTask()"
-         *ngIf="applicationService.selectedTasks.length > 0"
+         *ngIf="applicationService.selectedTasks.length > 0 && screenWidth > 1200"
          class="RightSideButton pointer">Delete
     </div>
+    <!--Create-->
     <div (click)="onCreateNewTask()"
-         class="RightSideButton pointer">Create New Task
+         class="RightSideButton pointer">{{(screenWidth > 1200) ? 'Create ' : ''}} New Task
     </div>
   </div>
-  <div class="HeaderRightPanel" *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.collapse"></div>
+  <div *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.collapse" class="HeaderRightPanel"></div>
   <!--Table-->
   <div>
     <app-tasks-mission-table></app-tasks-mission-table>

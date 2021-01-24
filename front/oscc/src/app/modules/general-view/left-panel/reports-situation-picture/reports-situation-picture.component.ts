@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ApplicationService} from '../../../../services/applicationService/application.service';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../../../../dialogs/confirm-dialog/confirm-dialog.component';
@@ -19,6 +19,7 @@ export class ReportsSituationPictureComponent implements OnInit {
 
   @ViewChild(ReportsSituationTableComponent ) childComponent: ReportsSituationTableComponent ;
   @ViewChild('inputSearch') inputSearch;
+  @Input() screenWidth: number;
   LEFT_PANEL_ICON =  LEFT_PANEL_ICON;
 
   constructor(public applicationService: ApplicationService,

@@ -7,6 +7,7 @@ import {ReportService} from '../../../services/reportService/report.service';
 import {EventService} from '../../../services/eventService/event.service';
 import {MissionRequestService} from '../../../services/missionRequestService/missionRequest.service';
 import {TasksService} from '../../../services/tasksService/tasks.service';
+import {ResponsiveService} from '../../../services/responsiveService/responsive.service';
 
 @Component({
   selector: 'app-left-panel',
@@ -16,13 +17,18 @@ import {TasksService} from '../../../services/tasksService/tasks.service';
 export class LeftPanelComponent implements OnInit {
 
   Header_Buttons = HEADER_BUTTONS;
+  screenWidth: number;
 
   constructor(public applicationService: ApplicationService,
               public contextMenuService: ContextMenuService,
               private reportService: ReportService,
               private eventService: EventService,
               private taskService: TasksService,
+              public responsiveService: ResponsiveService,
               private missionRequestService: MissionRequestService) {
+    this.responsiveService.screenWidth$.subscribe(res => {
+      this.screenWidth = res;
+    });
   }
 
   ngOnInit(): void {

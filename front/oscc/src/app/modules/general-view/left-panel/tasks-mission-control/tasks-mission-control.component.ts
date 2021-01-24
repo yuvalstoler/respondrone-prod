@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ApplicationService} from '../../../../services/applicationService/application.service';
 import {LEFT_PANEL_ICON} from '../../../../../types';
 import {TasksMissionTableComponent} from './tasks-mission-table/tasks-mission-table.component';
@@ -18,6 +18,7 @@ export class TasksMissionControlComponent implements OnInit {
 
   @ViewChild(TasksMissionTableComponent) childComponent: TasksMissionTableComponent;
   @ViewChild('inputSearch') inputSearch;
+  @Input() screenWidth: number;
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
   TASK_ACTION = TASK_ACTION;
 

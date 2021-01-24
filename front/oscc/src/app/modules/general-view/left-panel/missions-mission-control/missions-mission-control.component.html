@@ -2,11 +2,13 @@
   <!--Header-->
   <div class="HeaderLeftPanel">
     <div class="LeftSideSearchButton">
-      <mat-icon>search</mat-icon>
-      <input (keyup)="getFilter($event)" matInput type="text" #inputSearch>
+      <mat-icon matPrefix>search</mat-icon>
+      <label class="LeftSideInputSearch">
+        <input (keyup)="getFilter($event)" matInput type="text" #inputSearch>
+      </label>
       <button (click)="clearPanel()"
               disableRipple="true"
-              mat-icon-button>X
+              mat-icon-button matSuffix>X
       </button>
     </div>
   </div>
@@ -26,9 +28,9 @@
     <!--         class="RightSideButton pointer">Delete-->
     <!--    </div>-->
 
-    <button *ngIf="applicationService?.selectedMissionRequests?.length === 1" [matMenuTriggerFor]="menu"
-            class="RightSideButton" mat-button>Update status
-    </button>
+    <div *ngIf="applicationService?.selectedMissionRequests?.length === 1" [matMenuTriggerFor]="menu"
+            class="RightSideButton">Update status
+    </div>
     <mat-menu #menu="matMenu">
       <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Accept)" *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Accept]"
               mat-menu-item>
@@ -58,7 +60,7 @@
     </mat-menu>
 
     <div (click)="onCreateNewMission()"
-         class="RightSideButton pointer">Create New Mission
+         class="RightSideButton pointer">{{(screenWidth > 1200)? 'Create ' : ''}} New Mission
     </div>
   </div>
   <div *ngIf="applicationService?.panelIcon === LEFT_PANEL_ICON.collapse" class="HeaderRightPanel"></div>

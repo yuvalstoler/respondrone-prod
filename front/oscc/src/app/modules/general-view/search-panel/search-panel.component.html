@@ -1,5 +1,5 @@
 <div class="RightSideSearchButton">
-  <form [formGroup]="stateForm" *ngIf="isOpenSearchPanel">
+  <form [formGroup]="stateForm" *ngIf="isOpenSearchPanel" [ngStyle]="{'margin-right': '5px'}">
     <mat-form-field appearance="outline">
       <input [matAutocomplete]="autoGroup"
              formControlName="stateGroup"

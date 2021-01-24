@@ -6,11 +6,11 @@
                    (selectedTabChange)="onSituationPictureTabChange($event)">
       <!--Events-->
       <mat-tab label="Events">
-        <app-events-situation-picture></app-events-situation-picture>
+        <app-events-situation-picture [screenWidth]="screenWidth"></app-events-situation-picture>
       </mat-tab>
       <!--Reports-->
       <mat-tab label="Reports">
-        <app-reports-situation-picture></app-reports-situation-picture>
+        <app-reports-situation-picture [screenWidth]="screenWidth"></app-reports-situation-picture>
       </mat-tab>
       <!--Button-->
       <mat-tab disabled>
@@ -31,11 +31,11 @@
                    (selectedTabChange)="onMissionControlTabChange($event)">
       <!--Tasks-->
       <mat-tab label="Tasks">
-        <app-tasks-mission-control></app-tasks-mission-control>
+        <app-tasks-mission-control [screenWidth]="screenWidth"></app-tasks-mission-control>
       </mat-tab>
       <!--Missions-->
       <mat-tab label="Missions">
-        <app-missions-mission-control></app-missions-mission-control>
+        <app-missions-mission-control [screenWidth]="screenWidth"></app-missions-mission-control>
       </mat-tab>
       <!--Button-->
       <mat-tab disabled>

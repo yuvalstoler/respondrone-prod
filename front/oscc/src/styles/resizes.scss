@@ -40,6 +40,9 @@
   .LeftPanel {
     width: $sidePanelWidth60 !important;
   }
+  .LeftSideInputSearch{
+    width: 7em;
+  }
   .RightPanel {
     width: $rightPanelMiddleWidth;
   }
@@ -72,7 +75,9 @@
   }
 
   ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
-    padding: 0.25em 0 0.85em 0;
+    padding: 6px 0;
+    border-top: 4px transparent solid;
+    margin: 0px;
   }
 
   ::ng-deep.mat-form-field-wrapper {
@@ -82,6 +87,7 @@
   ::ng-deep.cdk-text-field-autofill-monitored:not(:-webkit-autofill) {
     color: $black;
     font-size: $fontSizeTitle14;
+    width: 84px;
   }
 
   ::ng-deep.mat-optgroup.sticky {
@@ -108,6 +114,8 @@
     font-size: $fontSizeText12;
   }
 }
+
+
 //Regular
 @media screen and (min-width: 1201px){
   /* CSS that should be displayed if width is equal to or less than 1280px goes here */
@@ -147,6 +155,9 @@
   .LeftPanel {
     width: $sidePanelWidth50 !important;
   }
+  .LeftSideInputSearch{
+    width: 10em;
+  }
   .RightPanel {
     width: $rightPanelWidth;
   }
@@ -179,7 +190,9 @@
   }
 
   ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
-    padding: 0.25em 0 0.65em 0;
+    padding: 6px 0;
+    border-top: 8px transparent solid;
+    margin: 0px;
   }
 
   ::ng-deep.mat-form-field-wrapper {
@@ -188,6 +201,7 @@
 
   ::ng-deep.cdk-text-field-autofill-monitored:not(:-webkit-autofill) {
     color: $black;
+    width: 105px;
   }
 
   ::ng-deep.mat-optgroup.sticky {
@@ -206,6 +220,21 @@
   //  line-height: 30px;
   //}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // todo: .HeaderPanel{
 //    font-size: $fontSizeTitle14;
