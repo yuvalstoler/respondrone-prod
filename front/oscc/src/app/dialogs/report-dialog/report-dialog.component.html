@@ -15,7 +15,11 @@
       <div class="DialogGrid2">
         <!--Type-->
         <div class="DialogContentItem ">
-          <div class="DialogTitle">Type</div>
+          <div class="DialogTitle">Type
+            <mat-error *ngIf="reportModel.type === '' || reportModel.type === undefined">
+              *
+            </mat-error>
+          </div>
           <mat-form-field appearance="outline" class="SPMatFormField">
             <mat-select [(ngModel)]="reportModel.type" [placeholder]="'Choose type'">
               <mat-option *ngFor="let type of types" [value]="type">
@@ -133,15 +137,15 @@
   </mat-dialog-content>
   <!--Action-->
   <div class="DialogActions" mat-dialog-actions>
-    <mat-error *ngIf="getLocationDisabled()" class="DialogMandatory">*Mandatory fields</mat-error>
+    <mat-error class="DialogMandatory" *ngIf="getDisabled()">*Mandatory fields</mat-error>
     <button (click)="onNoClick()" class="DialogActionsDelete"
             mat-raised-button>Cancel
     </button>
     <button (click)="onCreateClick()"
-            [disabled]="getLocationDisabled()"
+            [disabled]="getDisabled()"
             class="DialogActionsCreate"
             mat-raised-button>
-      {{data.title}}
+      {{(screenWidth > 1200) ? data.title : 'Create'}}
     </button>
   </div>
 </div>

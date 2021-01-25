@@ -103,7 +103,7 @@ export class AirResourcesComponent implements OnInit {
 
   private openPanel = (title: string, missionType: MISSION_TYPE, airVehicle: AV_DATA_UI) => {
     const dialogRef = this.dialog.open(MissionDialogComponent, {
-      width: '45vw',
+      width: 'auto',
       disableClose: true,
       data: {title: title, missionType: missionType, airVehicle: airVehicle}
     });

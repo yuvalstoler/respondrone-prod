@@ -6,7 +6,7 @@
          (click)="onAddInstruction()"
          [matMenuTriggerFor]="menu"
          [ngStyle]="{'color': (isNotSaveGeoInstructions) ? 'lightgray': '', 'borderBottom': (isNotSaveGeoInstructions) ? 'none' : ''}"
-         class="DialogTask pointer"
+         class="DialogLink pointer"
     >Add
     </div>
     <mat-menu #menu="matMenu">
@@ -39,7 +39,9 @@
       <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.address">
         <div class="DialogTitle">
           Address
-          <mat-error *ngIf="geoInstructionModel.location.lat === undefined || geoInstructionModel.location.lon === undefined">*</mat-error>
+          <mat-error
+            *ngIf="geoInstructionModel.location.lat === undefined || geoInstructionModel.location.lon === undefined">*
+          </mat-error>
         </div>
         <div>
           <app-autocomplete-address (click)="clearAddress($event)" (setAddress)="getAddress($event)"
@@ -51,7 +53,9 @@
       <div *ngIf="selectedGeoInstruction === GEOGRAPHIC_INSTRUCTION_TYPE.point">
         <div class="DialogTitle">
           Point
-          <mat-error *ngIf="geoInstructionModel.location.lat === undefined || geoInstructionModel.location.lon === undefined">*</mat-error>
+          <mat-error
+            *ngIf="geoInstructionModel.location.lat === undefined || geoInstructionModel.location.lon === undefined">*
+          </mat-error>
         </div>
         <!--Location-->
         <div>
@@ -143,6 +147,5 @@
       </div>
     </div>
   </div>
-
 </div>
 

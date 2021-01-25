@@ -2,17 +2,22 @@
   <mat-accordion>
   <mat-expansion-panel expanded>
     <mat-expansion-panel-header>
-      <mat-panel-title>
-          <div class="expendTitle">
-            Linked event
-          </div>
-      </mat-panel-title>
-      <mat-panel-description>
-         <span (click)="onAddEvent($event)"
-               [ngStyle]="{'color': (eventService.events.data.length <= 0) ? 'lightgray': '',
-                      'border-bottom': (eventService.events.data.length <= 0) ? 'none' : ''}"
-               class="DialogLink pointer">Add Event</span>
-      </mat-panel-description>
+      <div class="LinkedHeader">
+        <span class="DialogTitle">Linked event</span>
+        <span (click)="onAddEvent($event)"
+              class="DialogLink pointer">Add Event</span>
+      </div>
+      <!--<mat-panel-title>-->
+          <!--<div class="DialogTitle">-->
+            <!--Linked event-->
+          <!--</div>-->
+      <!--</mat-panel-title>-->
+      <!--<mat-panel-description>-->
+         <!--<span (click)="onAddEvent($event)"-->
+               <!--[ngStyle]="{'color': (eventService.events.data.length <= 0) ? 'lightgray': '',-->
+                      <!--'border-bottom': (eventService.events.data.length <= 0) ? 'none' : ''}"-->
+               <!--class="DialogLink pointer">Add Event</span>-->
+      <!--</mat-panel-description>-->
     </mat-expansion-panel-header>
     <!--if no data-->
     <div *ngIf="eventService.events.data.length <= 0 || element.events.length <= 0" class="DialogNotElement">

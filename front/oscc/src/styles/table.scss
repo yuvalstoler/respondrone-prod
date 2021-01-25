@@ -3,6 +3,32 @@
 @import "variable";
 @import "override";
 
+
+// Middle
+@media screen and (max-width: 1200px) {
+  //Table ==============================================================================================================
+  .mat-header-cell {
+    font-size: $fontSizeText10;
+    font-weight: 900;
+  }
+  .mat-cell, .mat-footer-cell {
+    font-size: $fontSizeText10;
+  }
+}
+//Regular
+@media screen and (min-width: 1201px) {
+  //Table ==============================================================================================================
+  .mat-header-cell {
+    font-size: $fontSizeText13;
+    font-weight: 900;
+  }
+  .mat-cell, .mat-footer-cell {
+    font-size: $fontSizeText13;
+  }
+
+}
+
+
 .table-container{
   max-height: 40vh;
   overflow: auto;
@@ -195,12 +221,6 @@ tr.example-element-row:not(.example-expanded-row):active {
   font-weight: 600;
 }
 .expendTitleText{
-  //max-width: 14em;
-  //white-space: nowrap;
-  //overflow: hidden;
-  //text-overflow: ellipsis;
-  //display: block;
-  //float: right;
   margin: 3px 3px 3px 5px;
 }
 

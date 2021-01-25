@@ -25,6 +25,7 @@ import {TasksService} from '../../services/tasksService/tasks.service';
 import {GeoInstructionsComponent} from '../../modules/general-view/geo-instructions/geo-instructions.component';
 import {LoginService} from '../../services/login/login.service';
 import {GeoCalculate} from '../../services/classes/geoCalculate';
+import {ResponsiveService} from '../../services/responsiveService/responsive.service';
 
 @Component({
   selector: 'app-task-dialog',
@@ -47,7 +48,7 @@ export class TaskDialogComponent implements OnInit {
     assigneeIds: [],
     createdBy: this.loginService.getUserName(),
     time: undefined,
-    type: this.types[0],
+    type: '',
     priority: this.priorities[1],
     description: '',
     comments: [],
@@ -65,6 +66,7 @@ export class TaskDialogComponent implements OnInit {
 
   LOCATION_TYPE = LOCATION_TYPE;
   LOCATION_NAMES = LOCATION_NAMES;
+  screenWidth: number;
 
   constructor(public applicationService: ApplicationService,
               public locationService: LocationService,
@@ -76,8 +78,12 @@ export class TaskDialogComponent implements OnInit {
               public tasksService: TasksService,
               public frService: FRService,
               private loginService: LoginService,
+              private responsiveService: ResponsiveService,
               @Inject(MAT_DIALOG_DATA) public data: { title: string, fr?: FR_DATA_UI }) {
     this.initTaskModel();
+    this.responsiveService.screenWidth$.subscribe(res => {
+      this.screenWidth = res;
+    });
   }
 
   ngOnInit() {
@@ -204,4 +210,16 @@ export class TaskDialogComponent implements OnInit {
 
   };
 
+  getDisabled = (): boolean => {
+    let res = false;
+    if (this.taskModel.title === '' || this.taskModel.title === undefined ||
+      this.taskModel.type === '' || this.taskModel.type === undefined ||
+      this.taskModel.description === '' || this.taskModel.description === undefined) {
+      res = true;
+    }
+    if (this.childComponent && this.childComponent.isNotSaveGeoInstructions && this.childComponent.isNotSaveGeoInstructions === true) {
+      res = true;
+    }
+    return res;
+  };
 }

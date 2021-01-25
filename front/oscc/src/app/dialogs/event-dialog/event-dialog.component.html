@@ -32,7 +32,11 @@
       <div class="DialogGrid2">
         <!--Type-->
         <div class="DialogContentItem ">
-          <div class="DialogTitle">Type</div>
+          <div class="DialogTitle">Type
+            <mat-error *ngIf="eventModel.type === '' || eventModel.type === undefined">
+              *
+            </mat-error>
+          </div>
           <mat-form-field appearance="outline" class="SPMatFormField">
             <mat-select [(ngModel)]="eventModel.type" [placeholder]="'Choose type'">
               <mat-option *ngFor="let type of types" [value]="type">
@@ -149,7 +153,7 @@
             (click)="onCreateClick()"
             [disabled]="getDisabled()"
             mat-raised-button>
-      {{data.title}}
+      {{(screenWidth > 1200) ? data.title : 'Create'}}
     </button>
   </div>
 </div>

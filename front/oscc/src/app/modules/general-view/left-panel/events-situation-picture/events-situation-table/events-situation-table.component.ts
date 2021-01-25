@@ -13,6 +13,7 @@ import {EventService} from '../../../../../services/eventService/event.service';
 import {ReportService} from '../../../../../services/reportService/report.service';
 import * as _ from 'lodash';
 import {ContextMenuService} from '../../../../../services/contextMenuService/context-menu.service';
+import {ResponsiveService} from "../../../../../services/responsiveService/responsive.service";
 
 
 @Component({
@@ -30,27 +31,33 @@ import {ContextMenuService} from '../../../../../services/contextMenuService/con
 })
 
 export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnDestroy {
-
-  displayedColumns: string[] = ['expandCollapse', 'select', 'id', 'title', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map'];
+  displayedColumns: string[] = [];
   displayedColumnsMinimize: string[] = ['id', 'title', 'priority', 'type'];
   dataSource = new MatTableDataSource<EVENT_DATA_UI>();
 
   expandedElement: MAP<EVENT_DATA_UI> = {};
   selection = new SelectionModel<EVENT_DATA_UI>(true, []);
   @ViewChild(MatSort, {static: false}) sort: MatSort;
-  @Input() screenWidth: number;
   panelOpenState: MAP<boolean> = {};
   subscriptions = [];
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
+  screenWidth: number;
 
   constructor(public applicationService: ApplicationService,
               public eventService: EventService,
               public reportService: ReportService,
+              public responsiveService: ResponsiveService,
               public contextMenuService: ContextMenuService) {
-   if (this.screenWidth <= 1200) {
-     this.displayedColumns = ['expandCollapse', 'select', 'id', 'title', 'priority', 'type', 'description', 'time', 'link', 'map'];
-   }
+    this.responsiveService.screenWidth$.subscribe(res => {
+      this.screenWidth = res;
+      if (this.screenWidth <= 1200) {
+        this.displayedColumns = ['expandCollapse', 'select', 'id', 'title', 'priority', 'type', 'description', 'time', 'link', 'map'];
+      } else {
+        this.displayedColumns = ['expandCollapse', 'select', 'id', 'title', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map'];
+      }
+    });
+
 
     const subscription = this.eventService.events$.subscribe((isNewData: boolean) => {
       if (isNewData) {

@@ -48,7 +48,7 @@ export class ReportsSituationPictureComponent implements OnInit {
 
   private openReportPanel = (title) => {
     const dialogRef = this.dialog.open(ReportDialogComponent, {
-      width: '45vw',
+      width: 'auto',
       disableClose: true,
       data: {title: title}
     });

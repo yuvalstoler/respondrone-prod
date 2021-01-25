@@ -20,6 +20,7 @@ import {ReportService} from '../../services/reportService/report.service';
 import * as _ from 'lodash';
 import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
 import {LoginService} from '../../services/login/login.service';
+import {ResponsiveService} from '../../services/responsiveService/responsive.service';
 
 @Component({
   selector: 'app-event-dialog',
@@ -40,7 +41,7 @@ export class EventDialogComponent implements OnInit {
     createdBy: this.loginService.getUserName(),
     time: undefined,
     title: '',
-    type: this.types[0],
+    type: '',
     priority: this.priorities[0],
     description: '',
     locationType: LOCATION_TYPE.none,
@@ -64,6 +65,8 @@ export class EventDialogComponent implements OnInit {
     [LOCATION_NAMES.polygon]: LOCATION_TYPE.polygon,
   };
 
+  screenWidth: number;
+
   constructor(public applicationService: ApplicationService,
               public eventService: EventService,
               public locationService: LocationService,
@@ -74,6 +77,7 @@ export class EventDialogComponent implements OnInit {
               public zone: NgZone,
               public dialogRef: MatDialogRef<EventDialogComponent>,
               private loginService: LoginService,
+              private responsiveService: ResponsiveService,
               @Inject(MAT_DIALOG_DATA) public data: { title: string }) {
     this.initEventModel();
 
@@ -88,6 +92,9 @@ export class EventDialogComponent implements OnInit {
       if (this.applicationService.stateDraw === STATE_DRAW.drawPolygon) {
         this.eventModel.polygon = positions;
       }
+    });
+    this.responsiveService.screenWidth$.subscribe(res => {
+      this.screenWidth = res;
     });
   }
 
@@ -239,7 +246,8 @@ export class EventDialogComponent implements OnInit {
 
   getDisabled = (): boolean => {
     let res = false;
-    if (this.eventModel.title === '' || this.eventModel.title === undefined) {
+    if (this.eventModel.title === '' || this.eventModel.title === undefined ||
+      this.eventModel.type === '' || this.eventModel.type === undefined) {
       res = true;
     }
     if (this.getLocationDisabled()) {

@@ -43,7 +43,7 @@ export class MissionsMissionControlComponent implements OnInit {
 
   private openPanel = (title: string) => {
     const dialogRef = this.dialog.open(MissionDialogComponent, {
-      width: '45vw',
+      width: 'auto',
       disableClose: true,
       data: {title: title}
     });
@@ -96,7 +96,7 @@ export class MissionsMissionControlComponent implements OnInit {
 
   openConfirmationDialog = (action: MISSION_REQUEST_ACTION) => {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '35em',
+      width: 'auto',
       disableClose: true,
       data: ' you want to permanently delete the selected mission request'
     });
@@ -112,7 +112,7 @@ export class MissionsMissionControlComponent implements OnInit {
       }
     });
 
-  }
+  };
 
   private openPanelAddAV = (selectedMissionRequest: MISSION_REQUEST_DATA_UI, action: MISSION_REQUEST_ACTION) => {
     const dialogRef = this.dialog.open(MissionUavDialogComponent, {

@@ -58,7 +58,7 @@ export class GroundResourcesComponent implements OnInit {
 
   private openTaskPanel = (title: string, fr: FR_DATA_UI) => {
     const dialogRef = this.dialog.open(TaskDialogComponent, {
-      width: '45vw',
+      width: 'auto',
       disableClose: true,
       data: {title: title, fr: fr}
     });

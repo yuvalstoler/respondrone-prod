@@ -4,16 +4,86 @@
 @import '../styles/scrollbar';
 @import '../styles/comments';
 
+// Middle
+@media screen and (max-width: 1200px) {
+    // dialog on 50% screen
+    ::ng-deep.cdk-overlay-container, .cdk-global-overlay-wrapper {
+      width: 60% !important;
+    }
+
+  .DialogContainer {
+    ::ng-deep.mat-radio-label {
+      align-items: start !important;
+      font-size: $fontSizeText12;
+    }
+  }
+  .DialogHeader {
+    font-size: 16px;
+  }
+  .DialogContent {
+    display: block;
+    overflow: auto;
+    max-height: 50vh;
+    margin: 0 5px;
+    padding: 0 10px;
+  }
+  .DialogTitle {
+    font-size: $fontSizeText12;
+  }
+  .DialogLink{
+    font-size: $fontSizeText11;
+  }
+  .DialogNotElement {
+    font-size: $fontSizeText10;
+  }
+  .DialogMandatory{
+    font-size: $fontSizeText10;
+  }
+}
+//Regular
+@media screen and (min-width: 1201px) {
+    // dialog on 50% screen
+    ::ng-deep.cdk-overlay-container, .cdk-global-overlay-wrapper {
+      width: 50% !important;
+    }
+  .DialogContainer{
+    ::ng-deep.mat-radio-label {
+      align-items: start !important;
+      font-size: $fontSizeText13;
+    }
+  }
+  .DialogHeader {
+    font-size: 17px;
+  }
+
+  .DialogContent {
+    display: grid;
+    grid-template-columns: 45% 54%;
+    gap: 1%;
+    overflow: hidden;
+    margin: 0 10px;
+    padding: 0;
+  }
+  .DialogTitle {
+    font-size: $fontSizeTitle14;
+  }
+  .DialogLink{
+    font-size: $fontSizeText13;
+  }
+  .DialogNotElement {
+    font-size: $fontSizeText12;
+  }
+  .DialogMandatory{
+    font-size: $fontSizeText12;
+  }
+}
+
+
+
 ::ng-deep.mat-dialog-container{
   padding: 0;
   overflow: hidden;
 }
-
-// dialog on 50% screen
-::ng-deep.cdk-overlay-container, .cdk-global-overlay-wrapper {
-  width: 50% !important;
-}
-
 
 .DialogContainer {
 
@@ -57,25 +127,16 @@
 }
 
 .DialogHeader {
-  font-size: $fontSizeTitleHeader17;
   text-align: left;
   background-color: $darkGray;
   color: $white;
 }
 .DialogHeaderX {
   float: right;
-  margin: -5px 0 0 0;
   cursor: pointer;
 }
 
 .DialogContent{
-  display: grid;
-  grid-template-columns: 45% 54%;
-  gap: 1%;
-  margin: 0 10px;
-  padding: 0;
-  overflow: hidden;
-
   .item1{
     grid-row: 1;
     grid-column: 1;
@@ -89,14 +150,12 @@
 }
 
 .DialogTitle {
-  font-size: $fontSizeTitle14;
   color: $black;
   font-weight: 600;
   margin: 10px 0px 0px 0px;
 }
 
 .DialogNotElement{
-  font-size: $fontSizeTitle14;
   color: $black;
   margin: 10px 10px 0;
 }

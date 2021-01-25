@@ -19,6 +19,7 @@ import * as _ from 'lodash';
 import {MapGeneralService} from '../../services/mapGeneral/map-general.service';
 import {MediaService} from '../../services/mediaService/media.service';
 import {LoginService} from '../../services/login/login.service';
+import {ResponsiveService} from '../../services/responsiveService/responsive.service';
 
 @Component({
   selector: 'app-report-dialog',
@@ -37,7 +38,7 @@ export class ReportDialogComponent {
     source: SOURCE_TYPE.OSCC,
     createdBy: this.loginService.getUserName(),
     time: undefined,
-    type: this.types[0],
+    type: '',
     priority: this.priorities[0],
     description: '',
     locationType: LOCATION_TYPE.none,
@@ -61,6 +62,7 @@ export class ReportDialogComponent {
     [LOCATION_NAMES.locationPoint]: LOCATION_TYPE.locationPoint,
     [LOCATION_NAMES.polygon]: LOCATION_TYPE.polygon,
   };
+  screenWidth: number;
 
   constructor(public applicationService: ApplicationService,
               public locationService: LocationService,
@@ -71,6 +73,7 @@ export class ReportDialogComponent {
               public mapGeneralService: MapGeneralService,
               public dialogRef: MatDialogRef<ReportDialogComponent>,
               private loginService: LoginService,
+              private responsiveService: ResponsiveService,
               @Inject(MAT_DIALOG_DATA) public data: {title: string}) {
     this.initReportModel();
 
@@ -79,6 +82,10 @@ export class ReportDialogComponent {
       if (this.applicationService.stateDraw === STATE_DRAW.drawLocationPoint || this.applicationService.stateDraw === STATE_DRAW.editLocationPoint) {
         this.reportModel.location = {lon: latlon.lon, lat: latlon.lat, alt: 0};
       }
+    });
+
+    this.responsiveService.screenWidth$.subscribe(res => {
+      this.screenWidth = res;
     });
   }
 
@@ -209,6 +216,18 @@ export class ReportDialogComponent {
   onChangeComments = (comments: COMMENT[]) => {
     this.reportModel.comments = comments;
   };
+
+  getDisabled = (): boolean => {
+    let res = false;
+    if (this.reportModel.type === '' || this.reportModel.type === undefined) {
+      res = true;
+    }
+    if (this.getLocationDisabled()) {
+      res = true;
+    }
+    return res;
+  };
+
 
   getLocationDisabled = (): boolean => {
     let res = false;

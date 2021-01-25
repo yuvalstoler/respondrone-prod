@@ -31,7 +31,11 @@
       <div class="DialogGrid2">
         <!--Type-->
         <div class="DialogContentItem ">
-          <div class="DialogTitle">Type</div>
+          <div class="DialogTitle">Type
+            <mat-error *ngIf="taskModel.type === '' || taskModel.type === undefined">
+              *
+            </mat-error>
+          </div>
           <mat-form-field appearance="outline" class="SPMatFormField">
             <mat-select [(ngModel)]="taskModel.type" [placeholder]="'Choose type'">
               <mat-option *ngFor="let type of types" [value]="type">
@@ -105,9 +109,7 @@
   <!--Action-->
   <div class="DialogActions" mat-dialog-actions>
     <mat-error class="DialogMandatory"
-               *ngIf="(taskModel.title === '' || taskModel.title === undefined) ||
-             (taskModel.description === '' || taskModel.description === undefined) ||
-childComponent?.isNotSaveGeoInstructions === true">
+               *ngIf="getDisabled()">
       *Mandatory fields
     </mat-error>
     <button (click)="onNoClick()" class="DialogActionsDelete"
@@ -116,11 +118,9 @@ childComponent?.isNotSaveGeoInstructions === true">
     <!--Create--><!--Edit-->
     <button (click)="onCreateClick()"
             class="DialogActionsCreate"
-            [disabled]="(taskModel.title === '' || taskModel.title === undefined) ||
-             (taskModel.description === '' || taskModel.description === undefined) ||
-childComponent?.isNotSaveGeoInstructions === true"
+            [disabled]="getDisabled()"
             mat-raised-button>
-      {{data.title}}
+      {{(screenWidth > 1200) ? data.title : 'Create'}}
     </button>
   </div>
 </div>

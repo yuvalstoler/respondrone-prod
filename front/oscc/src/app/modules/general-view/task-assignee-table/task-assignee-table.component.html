@@ -4,7 +4,7 @@
     <span (click)="onAddAssignee()"
           [ngStyle]="{'color': (frService.frs.data.length <= 0) ? 'lightgray': '',
                       'border-bottom': (frService.frs.data.length <= 0) ? 'none' : ''}"
-          class="DialogAssignee pointer">Add {{(title === 'Task assignees') ? 'assignees' : 'entities'}}</span>
+          class="DialogLink pointer">Add {{(title === 'Task assignees') ? 'assignees' : 'entities'}}</span>
   </div>
   <!--<div *ngIf="isFRs">filter test</div>-->
   <div *ngIf="frService?.frs?.data?.length === 0" class="DialogNotElement">
