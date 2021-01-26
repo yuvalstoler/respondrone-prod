@@ -104,9 +104,12 @@
     ::ng-deep.mat-tab-label {
       min-width: 100px;
     }
-    ::ng-deep #mat-tab-label-0-2 {
+    ::ng-deep [aria-label='Arrow'] {
       min-width: 50px;
     }
+  }
+  .MapWide {
+    width: $sidePanelWidth65;
   }
   .LeftPanel {
     width: $sidePanelWidth60 !important;
@@ -118,7 +121,13 @@
     ::ng-deep.mat-tab-label {
       min-width: 120px;
     }
-    ::ng-deep #mat-tab-label-0-2 {
+    //::ng-deep #mat-tab-label-0-2{
+    //  min-width: 50px;
+    //}
+    //::ng-deep #mat-tab-label-1-2{
+    //  min-width: 50px;
+    //}
+    ::ng-deep [aria-label='Arrow'] {
       min-width: 50px;
     }
 
@@ -218,8 +227,11 @@
       }
     }
   }
+  .MapWide {
+    width: $sidePanelWidth80;
+  }
   .LeftNarrowPanel{
-    width: $sidePanelWidth35;
+    width: $sidePanelWidth20;
     //Tabs
     ::ng-deep .mat-tab-list .mat-tab-label {
       font-size: $fontSizeTitleHeader16;
@@ -228,9 +240,10 @@
     ::ng-deep.mat-tab-label {
       min-width: 140px;
     }
-    ::ng-deep #mat-tab-label-0-2 {
+    ::ng-deep [aria-label='Arrow'] {
       min-width: 50px;
     }
+
   }
   .LeftPanel {
     width: $sidePanelWidth50 !important;
@@ -242,9 +255,12 @@
     ::ng-deep.mat-tab-label {
       min-width: 160px;
     }
-    ::ng-deep #mat-tab-label-0-2 {
+    ::ng-deep [aria-label='Arrow'] {
       min-width: 50px;
     }
+    //::ng-deep #mat-tab-label-1-2{
+    //  min-width: 50px;
+    //}
   }
   .LeftSideInputSearch{
     width: 10em;
