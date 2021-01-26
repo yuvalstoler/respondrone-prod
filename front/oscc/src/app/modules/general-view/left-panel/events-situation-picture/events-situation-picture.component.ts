@@ -49,7 +49,7 @@ export class EventsSituationPictureComponent implements OnInit {
 
   private openEventPanel = (title: string) => {
     const dialogRef = this.dialog.open(EventDialogComponent, {
-      width: 'auto',
+      maxWidth: '90%',
       disableClose: true,
       data: {title: title}
     });

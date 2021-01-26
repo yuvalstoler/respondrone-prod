@@ -41,8 +41,6 @@ table {
 
 .table-scroll {
   max-height: calc(100vh - #{$headerHeight} - 100px);
-  //overflow-y: auto;
-  //overflow-x: hidden;
   overflow: auto;
 }
 
@@ -109,7 +107,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 .example-element-detail-event {
   overflow: hidden;
   display: grid;
-  grid-template-columns: 45% 52%; //41% 52%;
+  grid-template-columns: 45% 52%;
   max-height: 20em;
   column-gap: 2%;
 }

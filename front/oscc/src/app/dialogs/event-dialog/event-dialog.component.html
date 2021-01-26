@@ -58,7 +58,7 @@
         </div>
       </div>
       <!--Description-->
-      <div class="DialogContentItem DialogDescription">
+      <div class="DialogContentItem">
         <div class="DialogTitle">Description</div>
         <mat-form-field appearance="outline" class="SPMatFormField">
           <label>
@@ -70,7 +70,7 @@
         </mat-form-field>
       </div>
       <!--Comments-->
-      <div class="DialogContentItem">
+      <div class="DialogContentItem DialogComments" *ngIf="screenWidth > 1200">
         <app-comments-panel (changeComments)="onChangeComments($event)"
                             [comments]="eventModel.comments"
                             [isOpenDescription]="true"></app-comments-panel>
@@ -139,6 +139,12 @@
                                   [element]="eventModel"
                                   [isAllColumns]="false">
         </app-linked-reports-table>
+      </div>
+      <!--Comments-->
+      <div class="DialogContentItem DialogComments" *ngIf="screenWidth <= 1200">
+        <app-comments-panel (changeComments)="onChangeComments($event)"
+                            [comments]="eventModel.comments"
+                            [isOpenDescription]="true"></app-comments-panel>
       </div>
     </div>
   </mat-dialog-content>

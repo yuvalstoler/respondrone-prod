@@ -13,6 +13,7 @@ import {
 import * as _ from 'lodash';
 import {ContextMenuService} from '../../../../../services/contextMenuService/context-menu.service';
 import {MissionRequestService} from '../../../../../services/missionRequestService/missionRequest.service';
+import {ResponsiveService} from "../../../../../services/responsiveService/responsive.service";
 
 
 
@@ -32,7 +33,7 @@ import {MissionRequestService} from '../../../../../services/missionRequestServi
 
 export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  displayedColumns: string[] = ['expandCollapse', 'select', 'id', 'missionStatus', 'missionType', 'description', 'createdBy', 'time', 'message', 'map'];
+  displayedColumns: string[] = [];
 
   displayedColumnsMinimize: string[] = [ 'id', 'missionStatus', 'missionType', 'createdBy', 'map'];
   dataSource = new MatTableDataSource<MISSION_REQUEST_DATA_UI>();
@@ -45,10 +46,21 @@ export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy 
   subscriptions = [];
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
+  screenWidth: number;
 
   constructor(public applicationService: ApplicationService,
               public missionRequestService: MissionRequestService,
+              public responsiveService: ResponsiveService,
               public contextMenuService: ContextMenuService) {
+
+    this.responsiveService.screenWidth$.subscribe(res => {
+      this.screenWidth = res;
+      if (this.screenWidth <= 1200) {
+        this.displayedColumns = ['expandCollapse', 'select', 'id', 'missionStatus', 'missionType', 'description', 'time', 'map'];
+      } else {
+        this.displayedColumns = ['expandCollapse', 'select', 'id', 'missionStatus', 'missionType', 'description', 'createdBy', 'time', 'message', 'map'];
+      }
+    });
 
     const subscription = this.missionRequestService.missionRequests$.subscribe((isNewData: boolean) => {
       if (isNewData) {

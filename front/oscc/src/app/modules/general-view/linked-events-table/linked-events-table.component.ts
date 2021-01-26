@@ -66,7 +66,7 @@ export class LinkedEventsTableComponent implements OnInit, AfterViewInit {
 
   openAddLinkedEventDialog = (): void => {
     const dialogRef = this.dialog.open(LinkedEventDialogComponent, {
-      width: 'auto',
+      maxWidth: '90%',
       disableClose: true,
       data: this.element.eventIds
     });

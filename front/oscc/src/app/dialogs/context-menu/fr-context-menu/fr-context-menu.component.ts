@@ -49,7 +49,7 @@ export class FrContextMenuComponent implements OnInit {
 
   private openTaskPanel = (title: string, fr: FR_DATA_UI) => {
     const dialogRef = this.dialog.open(TaskDialogComponent, {
-      width: 'auto',
+      maxWidth: '90%',
       disableClose: true,
       data: {title: title, fr: fr}
     });

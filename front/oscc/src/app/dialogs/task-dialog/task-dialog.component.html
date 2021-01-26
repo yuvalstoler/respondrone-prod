@@ -57,7 +57,7 @@
         </div>
       </div>
       <!--Description-->
-      <div class="DialogContentItem DialogDescription">
+      <div class="DialogContentItem">
         <div class="DialogTitle">Description
           <mat-error *ngIf="taskModel.description === '' || taskModel.description === undefined">*</mat-error>
         </div>
@@ -70,9 +70,8 @@
           </label>
         </mat-form-field>
       </div>
-
       <!--Comments-->
-      <div class="DialogContentItem">
+      <div class="DialogContentItem DialogComments" *ngIf="screenWidth > 1200">
         <app-comments-panel (changeComments)="onChangeComments($event)"
                             [comments]="taskModel.comments"
                             [isOpenDescription]="true"></app-comments-panel>
@@ -103,7 +102,12 @@
       <div class="DialogContentItem">
         <app-geo-instructions [element]="taskModel"></app-geo-instructions>
       </div>
-
+      <!--Comments-->
+      <div class="DialogContentItem DialogComments" *ngIf="screenWidth <= 1200">
+        <app-comments-panel (changeComments)="onChangeComments($event)"
+                            [comments]="taskModel.comments"
+                            [isOpenDescription]="true"></app-comments-panel>
+      </div>
     </div>
   </mat-dialog-content>
   <!--Action-->

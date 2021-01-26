@@ -49,7 +49,7 @@ export class TasksMissionControlComponent implements OnInit {
 
   private openTaskPanel = (title: string) => {
     const dialogRef = this.dialog.open(TaskDialogComponent, {
-      width: 'auto',
+      maxWidth: '90%',
       disableClose: true,
       data: {title: title}
     });

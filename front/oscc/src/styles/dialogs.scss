@@ -6,10 +6,10 @@
 
 // Middle
 @media screen and (max-width: 1200px) {
-    // dialog on 50% screen
-    ::ng-deep.cdk-overlay-container, .cdk-global-overlay-wrapper {
-      width: 60% !important;
-    }
+  // dialog on 60% screen
+  ::ng-deep.cdk-overlay-container, .cdk-global-overlay-wrapper {
+    width: 60% !important;
+  }
 
   .DialogContainer {
     ::ng-deep.mat-radio-label {
@@ -23,37 +23,46 @@
   .DialogContent {
     display: block;
     overflow: auto;
-    max-height: 50vh;
     margin: 0 5px;
-    padding: 0 10px;
+    padding: 0 20px 0 5px;
   }
   .DialogTitle {
     font-size: $fontSizeText12;
   }
-  .DialogLink{
+  .DialogLink {
     font-size: $fontSizeText11;
   }
   .DialogNotElement {
     font-size: $fontSizeText10;
   }
-  .DialogMandatory{
+  .DialogMandatory {
+    font-size: $fontSizeText10;
+  }
+
+  //Table ==============================================================================================================
+  .mat-header-cell {
+    font-size: $fontSizeText10;
+    font-weight: 900;
+  }
+  .mat-cell, .mat-footer-cell {
     font-size: $fontSizeText10;
   }
 }
+
 //Regular
 @media screen and (min-width: 1201px) {
-    // dialog on 50% screen
-    ::ng-deep.cdk-overlay-container, .cdk-global-overlay-wrapper {
-      width: 50% !important;
-    }
-  .DialogContainer{
+  // dialog on 50% screen
+  ::ng-deep.cdk-overlay-container, .cdk-global-overlay-wrapper {
+    width: 50% !important;
+  }
+  .DialogContainer {
     ::ng-deep.mat-radio-label {
       align-items: start !important;
       font-size: $fontSizeText13;
     }
   }
   .DialogHeader {
-    font-size: 17px;
+    font-size: $fontSizeTitleHeader17;
   }
 
   .DialogContent {
@@ -67,20 +76,28 @@
   .DialogTitle {
     font-size: $fontSizeTitle14;
   }
-  .DialogLink{
+  .DialogLink {
     font-size: $fontSizeText13;
   }
   .DialogNotElement {
     font-size: $fontSizeText12;
   }
-  .DialogMandatory{
+  .DialogMandatory {
     font-size: $fontSizeText12;
+  }
+
+  //Table ==============================================================================================================
+  .mat-header-cell {
+    font-size: $fontSizeText13;
+    font-weight: 900;
+  }
+  .mat-cell, .mat-footer-cell {
+    font-size: $fontSizeText13;
   }
 }
 
 
-
-::ng-deep.mat-dialog-container{
+::ng-deep.mat-dialog-container {
   padding: 0;
   overflow: hidden;
 }
@@ -89,7 +106,7 @@
 
   ::ng-deep.mat-dialog-title {
     margin: 0 0 5px;
-   padding: 10px;
+    padding: 10px;
   }
 
   ::ng-deep .mat-form-field {
@@ -107,16 +124,19 @@
   ::ng-deep.mat-form-field-wrapper {
     padding-bottom: 0em !important;
   }
+
   //footer
   ::ng-deep.mat-dialog-actions {
     padding: 5px 20px;
     margin-bottom: 0px;
     justify-content: flex-end;
   }
+
   //location
   ::ng-deep.mat-radio-button {
     display: block;
   }
+
   ::ng-deep.mat-radio-label {
     align-items: start !important;
   }
@@ -131,21 +151,23 @@
   background-color: $darkGray;
   color: $white;
 }
+
 .DialogHeaderX {
   float: right;
   cursor: pointer;
 }
 
-.DialogContent{
-  .item1{
+.DialogContent {
+  .item1 {
     grid-row: 1;
     grid-column: 1;
-    padding: 5px;
+    padding: 0 5px;
   }
-  .item2{
+
+  .item2 {
     grid-row: 1;
     grid-column: 2;
-    padding: 5px;
+    padding: 0 5px;
   }
 }
 
@@ -155,7 +177,7 @@
   margin: 10px 0px 0px 0px;
 }
 
-.DialogNotElement{
+.DialogNotElement {
   color: $black;
   margin: 10px 10px 0;
 }
@@ -165,11 +187,13 @@
   grid-template-columns: 48% 48%;
   gap: 4%;
 }
-.DialogGrid22{
+
+.DialogGrid22 {
   display: grid;
   grid-template-columns: 45% 45%;
   gap: 4px;
 }
+
 .DialogGrid3 {
   display: grid;
   grid-template-columns: 3em auto 3em;
@@ -179,11 +203,12 @@
   margin: auto;
 }
 
-.DialogButtonX{
+.DialogButtonX {
   background-color: transparent;
   border: none;
   cursor: pointer;
 }
+
 .DialogButtonGeoX {
   background-color: transparent;
   border: none;
@@ -192,6 +217,7 @@
   margin: 9px;
   cursor: pointer;
 }
+
 .DialogButtonGeoDrop {
   background-color: transparent;
   border: none;
@@ -199,12 +225,13 @@
   right: 10px;
   margin: 8px;
 }
-.DialogDescription{
-  margin-bottom: 16px;
+
+.DialogComments {
+  margin-top: 16px;
 }
 
 
-.mat-column-Description{
+.mat-column-Description {
   max-width: 10em;
   white-space: nowrap;
   overflow: hidden;
@@ -218,11 +245,11 @@
 
 }
 
-.DialogCenter{
+.DialogCenter {
   text-align: center;
 }
 
-.DialogActionsSave{
+.DialogActionsSave {
   background-color: $darkGray;
   color: $white;
   border-radius: 3px;
@@ -231,7 +258,7 @@
   line-height: 30px;
 }
 
-.DialogActionsCancel{
+.DialogActionsCancel {
   border-radius: 3px;
   display: inline-block;
   margin: 2px;
@@ -250,7 +277,7 @@
   color: $white;
 }
 
-.DialogMandatory{
+.DialogMandatory {
   flex: auto;
 }
 
@@ -259,9 +286,11 @@
 ::ng-deep.mat-expansion-panel:not([class*=mat-elevation-z]) {
   box-shadow: none;
 }
+
 ::ng-deep.mat-expansion-panel-header.mat-expanded {
   height: 30px;
 }
+
 ::ng-deep.mat-elevation-z8 {
   box-shadow: none !important;
 }

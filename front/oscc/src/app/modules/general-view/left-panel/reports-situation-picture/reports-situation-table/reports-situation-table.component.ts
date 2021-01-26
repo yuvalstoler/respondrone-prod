@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
@@ -9,12 +9,13 @@ import {ReportService} from '../../../../../services/reportService/report.servic
 import {
   COMMENT,
   EVENT_DATA_UI,
-  FILE_FS_DATA, ID_TYPE, LOCATION_TYPE, MISSION_REQUEST_DATA_UI, POINT, POINT3D,
+  FILE_FS_DATA, ID_TYPE,
   REPORT_DATA_UI
 } from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
 import * as _ from 'lodash';
 import {ContextMenuService} from '../../../../../services/contextMenuService/context-menu.service';
+import {ResponsiveService} from '../../../../../services/responsiveService/responsive.service';
 
 
 
@@ -34,8 +35,8 @@ import {ContextMenuService} from '../../../../../services/contextMenuService/con
 
 export class ReportsSituationTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  displayedColumns: string[] = ['expandCollapse', 'select', 'id', 'source', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map', 'attachment'];
-  displayedColumnsMinimize: string[] = ['id', 'priority', 'type'];
+  displayedColumns: string[] = [];
+    displayedColumnsMinimize: string[] = ['id', 'priority', 'type'];
   dataSource = new MatTableDataSource<REPORT_DATA_UI>();
 
   expandedElement: MAP<REPORT_DATA_UI> = {};
@@ -46,12 +47,21 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
   subscriptions = [];
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
+  screenWidth: number;
 
   constructor(public applicationService: ApplicationService,
               public reportService: ReportService,
               public eventService: EventService,
+              public responsiveService: ResponsiveService,
               public contextMenuService: ContextMenuService) {
-
+    this.responsiveService.screenWidth$.subscribe(res => {
+      this.screenWidth = res;
+      if (this.screenWidth <= 1200) {
+        this.displayedColumns = ['expandCollapse', 'select', 'id', 'priority', 'type', 'description', 'time', 'link', 'map'];
+      } else {
+        this.displayedColumns = ['expandCollapse', 'select', 'id', 'source', 'priority', 'type', 'description', 'time', 'createdBy', 'message', 'link', 'map', 'attachment'];
+      }
+    });
     const subscription = this.reportService.reports$.subscribe((isNewData: boolean) => {
       if (isNewData) {
         this.dataSource.data = this.setDataByDate(this.reportService.reports.data);

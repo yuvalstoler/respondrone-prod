@@ -12,6 +12,7 @@ import {ApplicationService} from '../../../../../services/applicationService/app
 import {TasksService} from '../../../../../services/tasksService/tasks.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import * as _ from 'lodash';
+import {ResponsiveService} from "../../../../../services/responsiveService/responsive.service";
 
 
 @Component({
@@ -29,8 +30,8 @@ import * as _ from 'lodash';
 })
 export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  displayedColumns: string[] = ['expandCollapse', 'select', 'id', 'title', 'priority', 'status', 'type', 'description', 'time', 'message', 'assignees', 'map'];
-  displayedColumnsMinimize: string[] = ['id', 'priority', 'type'];
+  displayedColumns: string[] = [];
+    displayedColumnsMinimize: string[] = ['id', 'priority', 'type'];
   dataSource = new MatTableDataSource<TASK_DATA_UI>();
 
   expandedElement: MAP<TASK_DATA_UI> = {};
@@ -40,9 +41,19 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
   subscriptions = [];
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
+  screenWidth: number;
 
   constructor(public applicationService: ApplicationService,
+              public responsiveService: ResponsiveService,
               public tasksService: TasksService) {
+    this.responsiveService.screenWidth$.subscribe(res => {
+      this.screenWidth = res;
+      if (this.screenWidth <= 1200) {
+        this.displayedColumns = ['expandCollapse', 'select', 'id', 'title', 'priority', 'type', 'description', 'time', 'map'];
+      } else {
+        this.displayedColumns = ['expandCollapse', 'select', 'id', 'title', 'priority', 'status', 'type', 'description', 'time', 'message', 'assignees', 'map'];
+      }
+    });
     const subscription = this.tasksService.tasks$.subscribe((isNewData: boolean) => {
       if (isNewData) {
         this.dataSource.data = this.setDataByDate(this.tasksService.tasks.data);
