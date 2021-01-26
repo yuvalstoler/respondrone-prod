@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
-  ASYNC_RESPONSE, FR_DATA_UI, GEOGRAPHIC_INSTRUCTION_TYPE, ID_OBJ, ID_TYPE, OSCC_TASK_ACTION,
+  ASYNC_RESPONSE, CHAT_GROUP, FR_DATA_UI, GEOGRAPHIC_INSTRUCTION_TYPE, ID_OBJ, ID_TYPE, OSCC_TASK_ACTION,
   POINT,
-  POINT3D, TASK_DATA,
-  TASK_DATA_UI
+  POINT3D, TASK_DATA_UI
 } from '../../../../../../classes/typings/all.typings';
 import {BehaviorSubject} from 'rxjs';
 import {ConnectionService} from '../connectionService/connection.service';
@@ -14,6 +13,7 @@ import * as _ from 'lodash';
 import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE, POLYGON_DATA, POLYLINE_DATA} from '../../../types';
 import {ApplicationService} from '../applicationService/application.service';
 import {GeoCalculate} from '../classes/geoCalculate';
+import {ChatService} from '../chatService/chat.service';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,8 @@ export class TasksService {
               private socketService: SocketService,
               private toasterService: CustomToasterService,
               private mapGeneralService: MapGeneralService,
-              private applicationService: ApplicationService) {
+              private applicationService: ApplicationService,
+              private chatService: ChatService) {
     this.socketService.connected$.subscribe(this.init);
     this.socketService.connectToRoom('webServer_tasksData').subscribe(this.updateTasks);
   }
@@ -90,6 +91,14 @@ export class TasksService {
         this.tasks.data.push(newTask);
       }
       this.drawTask(newTask);
+
+      if (!newTask.chatGroup) {
+        const chatGroup: CHAT_GROUP = this.chatService.createTaskGroup(newTask.title, newTask.idView);
+        if (chatGroup) {
+          newTask.chatGroup = chatGroup;
+          this.sendTaskToServer(newTask);
+        }
+      }
     });
   };
   // ----------------------
@@ -186,24 +195,30 @@ export class TasksService {
     }
   };
   // ----------------------
-  public createTask = (taskData: TASK_DATA, cb?: Function) => {
+  public createTask = (taskData: TASK_DATA_UI) => {
+    if (taskData.chatGroup === undefined) {
+      const chatGroup: CHAT_GROUP = this.chatService.createTaskGroup(taskData.title, taskData.idView);
+      if (chatGroup) {
+        taskData.chatGroup = chatGroup;
+      }
+      this.sendTaskToServer(taskData);
+    }
+    else {
+      this.sendTaskToServer(taskData);
+    }
+  };
+  // ----------------------
+  private sendTaskToServer = (taskData: TASK_DATA_UI) => {
     this.connectionService.post('/api/createTask', taskData)
       .then((data: ASYNC_RESPONSE) => {
         if (!data.success) {
           this.toasterService.error({message: 'error creating task', title: ''});
         }
-        else {
-          if (cb) {
-            try {
-              cb(data.data);
-            } catch (e) {}
-          }
-        }
       })
       .catch(e => {
         this.toasterService.error({message: 'error creating task', title: ''});
       });
-  };
+  }
   // ----------------------
   public deleteTask = (idObj: ID_OBJ) => {
     this.connectionService.post('/api/deleteTask', idObj)

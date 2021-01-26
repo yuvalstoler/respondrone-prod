@@ -144,6 +144,10 @@ export class MissionRequestService {
       } else {
         this.missionRequests.data.push(newItem);
         this.createMissionOnMap(newItem, true);
+
+        if (newItem.source === SOURCE_TYPE.MRF && (Date.now() - newItem.time) < 1000 * 60 * 5) {
+          this.toasterService.info({message: 'Mission added from FR', title: ''});
+        }
       }
     });
   };
