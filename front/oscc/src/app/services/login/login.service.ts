@@ -10,6 +10,7 @@ import {Router} from '@angular/router';
 import {ApplicationService} from '../applicationService/application.service';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {API_GENERAL, WS_API} from '../../../../../../classes/dataClasses/api/api_enums';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ import {API_GENERAL, WS_API} from '../../../../../../classes/dataClasses/api/api
 export class LoginService {
 
   // sessionStorage = (window).sessionStorage;
+  loginEvent$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   isSpinner: boolean = false;
   userData: USER_DATA_UI = {name: undefined, id: undefined};
 
@@ -28,6 +30,7 @@ export class LoginService {
     if (this.isLoggedIn()) {
       this.userData.name = localStorage.getItem('name');
       this.userData.id = localStorage.getItem('id');
+      this.loginEvent$.next(true);
     }
 
   }
@@ -44,6 +47,7 @@ export class LoginService {
             this.userData = loginRes.data.userData || {name: undefined, id: undefined};
             localStorage.setItem('name', this.userData.name);
             localStorage.setItem('id', this.userData.id);
+            this.loginEvent$.next(true);
 
             this.router.navigateByUrl('/general-view');
             resolve(loginRes);

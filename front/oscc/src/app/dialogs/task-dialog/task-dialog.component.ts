@@ -55,13 +55,14 @@ export class TaskDialogComponent implements OnInit {
     idView: '',
     geographicInstructions: [],
     assignees: [],
-    id: '',
+    id: undefined,
     resources: '',
     status: TASK_STATUS.pending,
     title: '',
     modeDefine: undefined,
     isSendToMobile: false,
-    taskActionByUser: {}
+    taskActionByUser: {},
+    chatGroup: undefined
   };
 
   LOCATION_TYPE = LOCATION_TYPE;

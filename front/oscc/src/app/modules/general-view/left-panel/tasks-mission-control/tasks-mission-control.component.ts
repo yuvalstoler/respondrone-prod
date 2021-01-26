@@ -56,8 +56,7 @@ export class TasksMissionControlComponent implements OnInit {
     this.applicationService.isDialogOpen = true;
     dialogRef.afterClosed().subscribe((result: TASK_DATA_UI) => {
       if (result) {
-        this.tasksService.createTask(result, (task: TASK_DATA_UI) => {
-        });
+        this.tasksService.createTask(result);
         this.applicationService.geoCounter = 0;
         this.geoInstructionsService.removeGeoInstructionsFromMap(result.geographicInstructions);
         console.log(result);

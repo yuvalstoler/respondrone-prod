@@ -38,7 +38,7 @@ export class AirVehicleManager {
                     'location': {
                         'lat': 0,
                         'lon': 0,
-                        'alt': 0
+                        'alt': 10000
                     },
                     'gpsQuality': 0,
                     'energyLevel': 10,
@@ -62,7 +62,7 @@ export class AirVehicleManager {
                     'location': {
                         'lat': 0,
                         'lon': 0,
-                        'alt': 1000
+                        'alt': 10000
                     },
                     'gpsQuality': 0,
                     'energyLevel': 80,
@@ -85,7 +85,7 @@ export class AirVehicleManager {
                     'location': {
                         'lat': 0,
                         'lon': 0,
-                        'alt': 0
+                        'alt': 10000
                     },
                     'gpsQuality': 0,
                     'energyLevel': 44,

@@ -15,7 +15,7 @@
 </div>
 <div class="imagesContainer">
   <div *ngIf="currentPage > 0" (click)="prev()" class="pointer">
-    <mat-icon class="MediaIcon revert">double_arrow</mat-icon>
+    <mat-icon class="MediaIcon revert">navigate_next</mat-icon>
   </div>
   <div *ngFor="let info of progressInfos; let index = index">
     <div class="image" *ngIf="isShowProgress(index)">
@@ -40,6 +40,6 @@
     </div>
   </div>
   <div *ngIf="isAllowNext()" (click)="next()" class="pointer">
-    <mat-icon class="MediaIcon">double_arrow</mat-icon>
+    <mat-icon class="MediaIcon">navigate_next</mat-icon>
   </div>
 </div>
