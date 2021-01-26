@@ -60,8 +60,9 @@
         <img [src]="fr.modeDefine?.styles?.icon" class='icon'>
       </div>
       <!--title-->
-      <div class="item2" [matTooltip]="(fr.online)? 'online': 'offline'">
+      <div class="item2">
       <span [ngStyle]="{'color': fr.modeDefine?.styles?.dotColor, 'vertical-align': 'middle'}"
+            [matTooltip]="(fr.online)? 'online': 'offline'"
             class="material-icons iconStatus">fiber_manual_record</span>
         {{fr.callSign}}</div>
       <!-- Send Menu -->

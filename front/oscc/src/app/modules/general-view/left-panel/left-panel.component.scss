@@ -1,17 +1,12 @@
 @import "../../../../styles/colors";
 @import "../../../../styles/variable";
+@import "../../../../styles/resizes";
 
 .LeftPanelX{
   position: absolute;
   float: right;
-  margin: 0 0 0 -40px;
   font-size: 20px;
   color: $gray;
-}
-
-::ng-deep .mat-tab-list .mat-tab-label {
-  font-size: $fontSizeTitleHeader17;
-  font-weight: bold;
 }
 
 /* Styles for the active tab label */
@@ -28,7 +23,6 @@
   padding: 0;
 }
 ::ng-deep.mat-tab-label.mat-tab-label-active:not(.mat-tab-disabled) {
-  //background-color: #FCE500;
   font-weight: bold !important;
   color: $black;
   opacity: 1;

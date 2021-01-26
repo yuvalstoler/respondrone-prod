@@ -173,8 +173,9 @@
         <div class="item1">
           <img [src]="airVehicle?.modeDefine?.styles?.icon" class='icon'>
         </div>
-        <div class="item2" [matTooltip]="airVehicle.operationalStatus">
+        <div class="item2">
            <span [ngStyle]="{'color': airVehicle.modeDefine?.styles?.statusColor}"
+                 [matTooltip]="airVehicle.operationalStatus | separatorString"
             class="material-icons iconStatus">fiber_manual_record</span>
           {{airVehicle.name}}
           <mat-icon (click)="onCloseMenu($event, airVehicle.id)" *ngIf="isOpenMenu[airVehicle.id]">keyboard_arrow_up

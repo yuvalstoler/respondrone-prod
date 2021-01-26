@@ -94,8 +94,34 @@
       font-size: $fontSizeText12;
     }
   }
+  .LeftNarrowPanel{
+    width: $sidePanelWidth35;
+    //Tabs
+    ::ng-deep .mat-tab-list .mat-tab-label {
+      font-size: $fontSizeText13;
+      font-weight: bold;
+    }
+    ::ng-deep.mat-tab-label {
+      min-width: 100px;
+    }
+    ::ng-deep #mat-tab-label-0-2 {
+      min-width: 50px;
+    }
+  }
   .LeftPanel {
     width: $sidePanelWidth60 !important;
+    //Tabs
+    ::ng-deep .mat-tab-list .mat-tab-label {
+      font-size: $fontSizeTitle14;
+      font-weight: bold;
+    }
+    ::ng-deep.mat-tab-label {
+      min-width: 120px;
+    }
+    ::ng-deep #mat-tab-label-0-2 {
+      min-width: 50px;
+    }
+
   }
   .LeftSideInputSearch{
     width: 7em;
@@ -192,8 +218,33 @@
       }
     }
   }
+  .LeftNarrowPanel{
+    width: $sidePanelWidth35;
+    //Tabs
+    ::ng-deep .mat-tab-list .mat-tab-label {
+      font-size: $fontSizeTitleHeader16;
+      font-weight: bold;
+    }
+    ::ng-deep.mat-tab-label {
+      min-width: 140px;
+    }
+    ::ng-deep #mat-tab-label-0-2 {
+      min-width: 50px;
+    }
+  }
   .LeftPanel {
     width: $sidePanelWidth50 !important;
+    // Tabs
+    ::ng-deep .mat-tab-list .mat-tab-label {
+      font-size: $fontSizeTitleHeader17;
+      font-weight: bold;
+    }
+    ::ng-deep.mat-tab-label {
+      min-width: 160px;
+    }
+    ::ng-deep #mat-tab-label-0-2 {
+      min-width: 50px;
+    }
   }
   .LeftSideInputSearch{
     width: 10em;

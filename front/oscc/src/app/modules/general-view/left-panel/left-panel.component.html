@@ -13,9 +13,9 @@
         <app-reports-situation-picture [screenWidth]="screenWidth"></app-reports-situation-picture>
       </mat-tab>
       <!--Button-->
-      <mat-tab disabled>
+      <mat-tab disabled >
         <ng-template mat-tab-label>
-          <button mat-icon-button [ngStyle]="{'margin-right': '15px'}" (click)="minimizationPanel()">
+          <button mat-icon-button (click)="minimizationPanel()">
             <mat-icon>{{applicationService.panelIcon}}</mat-icon>
           </button>
         </ng-template>
@@ -40,7 +40,7 @@
       <!--Button-->
       <mat-tab disabled>
         <ng-template mat-tab-label>
-          <button mat-icon-button [ngStyle]="{'margin-right': '15px'}" (click)="minimizationPanel()">
+          <button mat-icon-button (click)="minimizationPanel()">
             <mat-icon>{{applicationService.panelIcon}}</mat-icon>
           </button>
         </ng-template>

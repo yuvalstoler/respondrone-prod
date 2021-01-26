@@ -89,8 +89,9 @@
 :host-context .mat-drawer-container {
   position: inherit;
 }
+
 .LeftNarrowPanel{
-  width: $leftPanelNarrowWidth;
+  //width: $leftPanelNarrowWidth;
   height: calc(100vh - #{$headerHeight}) !important; //  calc(100vh - var(--headerHeight));
   overflow: hidden !important;
   top: $headerHeight;
