@@ -885,6 +885,10 @@ export type OSCC_TASK_ACTION = {
     action: TASK_ACTION
 }
 
+export type CHAT_GROUP = {
+    name: string;
+};
+
 export type TASK_DATA = {
     id: ID_TYPE;
     time: number;
@@ -900,8 +904,9 @@ export type TASK_DATA = {
     comments: COMMENT[]
     idView: string;
     isSendToMobile: boolean;
-    taskActionByUser: MAP<TASK_ACTION> // key - userId
-}
+    taskActionByUser: MAP<TASK_ACTION>; // key - userId,
+    chatGroup: CHAT_GROUP;
+};
 
 export type TASK_DATA_UI = TASK_DATA & {
     assignees: FR_DATA_UI[],
@@ -1081,7 +1086,8 @@ export type CREDENTIALS = {
 export type USER_DATA = {
     id: ID_TYPE,
     name: string,
-    password: string
+    password: string,
+    chatPassword: string,
 };
 
 export type USER_DATA_UI = {
@@ -1097,6 +1103,12 @@ export type LOGIN_RESPONSE = {
     userData: USER_DATA_UI
 };
 
+// ================
+export type CHAT_SERVER_DATA = {
+    domain: string,
+    boshUrl: string,
+    chatGroupService: string
+};
 
 // ======== gimbal ============
 export type GIMBAL_CONTROL_REQUEST_MGW = {

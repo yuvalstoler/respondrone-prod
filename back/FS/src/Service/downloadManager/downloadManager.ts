@@ -84,6 +84,7 @@ export class DownloadManager {
                     }
                     else {
                         reject(data);
+                        console.log('fail getFileByID', JSON.stringify(data))
                     }
                 })
                 .catch((data: ASYNC_RESPONSE) => {

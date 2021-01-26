@@ -104,7 +104,9 @@ export class SocketIO {
 
 
     public emit = (room: string, data) => {
-        this.webSocket.emit(room, data);
+        if (this.webSocket) {
+            this.webSocket.emit(room, data);
+        }
     };
 
     private onceSendToUI() {

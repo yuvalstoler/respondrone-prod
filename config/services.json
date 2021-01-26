@@ -4,6 +4,11 @@
     "host": "localhost",
     "protocol": "http"
   },
+  "chatServer": {
+    "domain": "20.71.141.60",
+    "boshUrl": "http://20.71.141.60:7070/http-bind/",
+    "chatGroupService": "conference"
+  },
 
   "FS": {
     "port": "6100",

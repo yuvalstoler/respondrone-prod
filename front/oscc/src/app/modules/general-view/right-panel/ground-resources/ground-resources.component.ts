@@ -9,6 +9,7 @@ import {TasksService} from '../../../../services/tasksService/tasks.service';
 import {GeoInstructionsService} from '../../../../services/geoInstructionsService/geo-instructions.service';
 import {ResponsiveService} from '../../../../services/responsiveService/responsive.service';
 import {MatMenuTrigger} from '@angular/material/menu';
+import {ChatService} from '../../../../services/chatService/chat.service';
 
 @Component({
   selector: 'app-ground-resources',
@@ -28,7 +29,8 @@ export class GroundResourcesComponent implements OnInit {
               public dialog: MatDialog,
               public geoInstructionsService: GeoInstructionsService,
               public responsiveService: ResponsiveService,
-              public tasksService: TasksService) {
+              public tasksService: TasksService,
+              private chatService: ChatService) {
 
   }
 
@@ -52,7 +54,9 @@ export class GroundResourcesComponent implements OnInit {
       this.openTaskPanel(title, fr);
 
     } else if (type === 'message') {
-      //  todo: send message
+     if (fr) {
+       this.chatService.startConversation(fr.id);
+     }
     }
   };
 
@@ -65,8 +69,7 @@ export class GroundResourcesComponent implements OnInit {
     this.applicationService.isDialogOpen = true;
     dialogRef.afterClosed().subscribe((result: TASK_DATA_UI) => {
       if (result) {
-        this.tasksService.createTask(result, (task: TASK_DATA_UI) => {
-        });
+        this.tasksService.createTask(result);
         this.applicationService.geoCounter = 0;
         this.geoInstructionsService.removeGeoInstructionsFromMap(result.geographicInstructions);
       }
@@ -74,7 +77,9 @@ export class GroundResourcesComponent implements OnInit {
   };
 
   onSelect = (item: FR_DATA_UI) => {
-    this.matMenuTrigger.closeMenu();
+    if (this.matMenuTrigger) {
+      this.matMenuTrigger.closeMenu();
+    }
     this.frService.unselectIcon(this.frService.selectedElement);
     this.frService.selectedElement = (this.frService.selectedElement && this.frService.selectedElement.id === item.id) ? undefined : item;
     if (this.frService.selectedElement) {
@@ -90,17 +95,20 @@ export class GroundResourcesComponent implements OnInit {
     event.preventDefault();
     this.menuTopLeftPosition.x = event.clientX + 'px';
     this.menuTopLeftPosition.y = event.clientY + 'px';
-    this.matMenuTrigger.menu.focusFirstItem('mouse');
 
-   if (this.matMenuTrigger['_menuOpen']) {
-     this.matMenuTrigger.closeMenu();
-     if (this.selectedElement !== id) {
-       this.selectedElement = id;
-       this.matMenuTrigger.openMenu();
-     }
-   } else {
-     this.matMenuTrigger.openMenu();
-   }
+    if (this.matMenuTrigger) {
+      this.matMenuTrigger.menu.focusFirstItem('mouse');
+
+      if (this.matMenuTrigger['_menuOpen']) {
+        this.matMenuTrigger.closeMenu();
+        if (this.selectedElement !== id) {
+          this.selectedElement = id;
+          this.matMenuTrigger.openMenu();
+        }
+      } else {
+        this.matMenuTrigger.openMenu();
+      }
+    }
   };
 
 }

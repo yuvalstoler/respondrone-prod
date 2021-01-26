@@ -8,6 +8,7 @@ import {TaskDialogComponent} from '../../task-dialog/task-dialog.component';
 import {TasksService} from '../../../services/tasksService/tasks.service';
 import {GeoInstructionsService} from '../../../services/geoInstructionsService/geo-instructions.service';
 import {MatDialog} from '@angular/material/dialog';
+import {ChatService} from '../../../services/chatService/chat.service';
 
 @Component({
   selector: 'app-fr-context-menu',
@@ -21,7 +22,8 @@ export class FrContextMenuComponent implements OnInit {
               private applicationService: ApplicationService,
               private tasksService: TasksService,
               private geoInstructionsService: GeoInstructionsService,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog,
+              private chatService: ChatService) { }
 
   ngOnInit(): void {
   }
@@ -56,8 +58,7 @@ export class FrContextMenuComponent implements OnInit {
     this.applicationService.isDialogOpen = true;
     dialogRef.afterClosed().subscribe((result: TASK_DATA_UI) => {
       if (result) {
-        this.tasksService.createTask(result, (task: TASK_DATA_UI) => {
-        });
+        this.tasksService.createTask(result);
         this.applicationService.geoCounter = 0;
         this.geoInstructionsService.removeGeoInstructionsFromMap(result.geographicInstructions);
       }
@@ -65,7 +66,10 @@ export class FrContextMenuComponent implements OnInit {
   };
 
   onSendMessage = () => {
-
+    const fr = this.frService.selectedElement;
+    if (fr) {
+      this.chatService.startConversation(fr.id);
+    }
   }
 
 }

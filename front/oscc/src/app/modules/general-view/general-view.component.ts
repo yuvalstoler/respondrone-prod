@@ -13,6 +13,7 @@ import {GimbalService} from '../../services/gimbalService/gimbal.service';
 import {GraphicOverlayService} from '../../services/graphicOverlayService/graphicOverlay.service';
 import {NFZService} from '../../services/nfzService/nfz.service';
 import {LiveVideoService} from '../../services/liveVideoService/live-video.service';
+import {ChatService} from '../../services/chatService/chat.service';
 
 @Component({
   selector: 'app-general-view',
@@ -37,7 +38,8 @@ export class GeneralViewComponent implements OnInit {
               public listenerMapService: ListenerMapService,
               public gimbalService: GimbalService,
               public nfzService: NFZService,
-              public liveVideoService: LiveVideoService) { }
+              public liveVideoService: LiveVideoService,
+              public chatService: ChatService) { }
 
   ngOnInit(): void {
   }

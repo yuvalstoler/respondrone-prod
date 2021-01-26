@@ -252,7 +252,8 @@ export enum WS_API {
     gimbalActionFromOSCC = '/gimbalActionFromOSCC',
     requestGimbalControlFromOSCC = '/requestGimbalControlFromOSCC',
 
-    login = '/login'
+    login = '/login',
+    getChatServerData = '/getChatServerData',
 }
 
 export enum CCGW_API {

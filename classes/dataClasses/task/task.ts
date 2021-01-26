@@ -1,5 +1,5 @@
 import {
-    ADDRESS,
+    ADDRESS, CHAT_GROUP,
     COMMENT, FR_STATUS, FR_TYPE,
     GEOGRAPHIC_INSTRUCTION,
     ID_TYPE, MAP,
@@ -28,7 +28,8 @@ export class Task {
 
     idView: string = '';
     isSendToMobile: boolean = false;
-    taskActionByUser: MAP<TASK_ACTION> = {}
+    taskActionByUser: MAP<TASK_ACTION> = {};
+    chatGroup: CHAT_GROUP;
 
     constructor(data: TASK_DATA) {
         if ( data ) {
@@ -103,6 +104,10 @@ export class Task {
         this.idView = data;
     };
 
+    private setChatGroup = (data: CHAT_GROUP) => {
+        this.chatGroup = data;
+    }
+
     public setValues = (data: Partial<TASK_DATA>, saveConfig: Object = this.saveConfig) => {
         for ( const key in saveConfig ) {
             if ( saveConfig.hasOwnProperty(key) ) {
@@ -137,7 +142,8 @@ export class Task {
             comments: this.comments,
             idView: this.idView,
             isSendToMobile: this.isSendToMobile,
-            taskActionByUser: this.taskActionByUser
+            taskActionByUser: this.taskActionByUser,
+            chatGroup: this.chatGroup
         };
     };
 
@@ -160,6 +166,7 @@ export class Task {
             modeDefine: undefined,
             isSendToMobile: this.isSendToMobile,
             taskActionByUser: this.taskActionByUser,
+            chatGroup: this.chatGroup,
             assignees: []
         };
     };
@@ -178,6 +185,7 @@ export class Task {
         assigneeIds: this.setAssigneeIds,
         comments: this.setComments,
         idView: this.setIdView,
+        chatGroup: this.setChatGroup,
         isSendToMobile: this.setIsSendToMobile,
     };
 

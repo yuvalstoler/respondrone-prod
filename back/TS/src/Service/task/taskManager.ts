@@ -197,6 +197,7 @@ export class TaskManager {
 
             for (const taskId in this.tasksSendToDB) {
                 const taskData: TASK_DATA = this.tasksSendToDB[taskId];
+                taskData.isSendToMobile = true;
                 RequestManager.requestToDBS(DBS_API.createTask, taskData)
                     .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
                         if (data.success) {

@@ -27,7 +27,7 @@ import {
     NFZ_DATA,
     CREDENTIALS,
     GIMBAL_CONTROL_REQUEST_OSCC,
-    GIMBAL_ACTION_OSCC,
+    GIMBAL_ACTION_OSCC, CHAT_SERVER_DATA,
 } from '../../../../../classes/typings/all.typings';
 
 
@@ -48,6 +48,7 @@ import {GraphicOverlayManager} from '../graphicOverlay/graphicOverlayManager';
 import {NFZManager} from '../NFZ/NFZManager';
 import {LoginManager} from '../../auth/loginManager';
 
+const services = require('./../../../../../../../../config/services.json');
 
 export class ApiManager implements IRest {
 
@@ -718,6 +719,18 @@ export class ApiManager implements IRest {
             });
     };
 
+    private getChatServerData = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<CHAT_SERVER_DATA> = {
+            success: true,
+            data: {
+                domain: _.get(services, 'chatServer.domain'),
+                boshUrl: _.get(services, 'chatServer.boshUrl'),
+                chatGroupService: _.get(services, 'chatServer.chatGroupService')
+            }
+        };
+        response.send(res);
+    };
+
     // ========================================================================
     routers: {} = {
         [MWS_API.getVideoSources]: this.getVideoSources,
@@ -764,6 +777,7 @@ export class ApiManager implements IRest {
         [WS_API.updateAllNFZs]: this.updateAllNFZs,
 
         [WS_API.login]: this.login,
+        [WS_API.getChatServerData]: this.getChatServerData,
 
         [WS_API.missionRequestAction]: this.missionRequestAction,
         [WS_API.gimbalActionFromOSCC]: this.gimbalAction,
