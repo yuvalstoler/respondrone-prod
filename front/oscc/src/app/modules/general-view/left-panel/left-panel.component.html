@@ -13,7 +13,7 @@
         <app-reports-situation-picture [screenWidth]="screenWidth"></app-reports-situation-picture>
       </mat-tab>
       <!--Button-->
-      <mat-tab disabled >
+      <mat-tab disabled [aria-label]="'Arrow'">
         <ng-template mat-tab-label>
           <button mat-icon-button (click)="minimizationPanel()">
             <mat-icon>{{applicationService.panelIcon}}</mat-icon>
@@ -38,7 +38,7 @@
         <app-missions-mission-control [screenWidth]="screenWidth"></app-missions-mission-control>
       </mat-tab>
       <!--Button-->
-      <mat-tab disabled>
+      <mat-tab disabled [aria-label]="'Arrow'">
         <ng-template mat-tab-label>
           <button mat-icon-button (click)="minimizationPanel()">
             <mat-icon>{{applicationService.panelIcon}}</mat-icon>
