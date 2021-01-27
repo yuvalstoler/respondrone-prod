@@ -82,7 +82,7 @@ export class MissionRequestService {
   };
   // ----------------------
   public sendMissionRequestAction = (data: MISSION_REQUEST_ACTION_OBJ) => {
-    this.connectionService.post('/' + API_GENERAL.general + WS_API.missionRequestAction, data)
+    this.connectionService.post(`/${API_GENERAL.general}${WS_API.missionRequestActionFromOSCC}`, data)
       .then((res: ASYNC_RESPONSE) => {
         if (!res.success) {
           this.toasterService.error({message: 'error changing mission status', title: ''});

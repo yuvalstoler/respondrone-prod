@@ -2,87 +2,100 @@ import {Request, Response} from 'express';
 const jwt = require('jsonwebtoken');
 
 import {Logger} from '../logger/Logger';
-import {ASYNC_RESPONSE, LOGIN_RESPONSE, MAP, USER_DATA} from '../../../../classes/typings/all.typings';
+import {ASYNC_RESPONSE, ID_OBJ, MAP, USER_DATA, USER_DATA_UI} from '../../../../classes/typings/all.typings';
 import {RequestManager} from '../AppService/restConnections/requestManager';
 import {DBS_API} from '../../../../classes/dataClasses/api/api_enums';
 import {DataUtility} from '../../../../classes/applicationClasses/utility/dataUtility';
 
-
 const services = require('./../../../../../../../config/services.json');
 
+const tokens: MAP<string> = {};
 const secret = services.webServer.secret;
 const expireIn = services.webServer.expireIn;
-const User = {
+const User: USER_DATA = {
     name: services.webServer.name,
     password: services.webServer.password,
-    id: '1234'
+    id: services.webServer.id,
+    chatPassword: services.webServer.chatPassword
 };
-const tokens: MAP<string> = {};
-const t = jwt.sign({
-    exp: expireIn,
-    data: {name: User.name, password: User.password}
-}, secret);
 
-Logger.logValues('JWT', [t]);
+
+
 
 export class AuthManager {
     private static instance: AuthManager = new AuthManager();
 
+
     constructor() {
     }
 
-
+    // ----------------------
     private login = (req: Request, res: Response) => {
-        const resp: ASYNC_RESPONSE<LOGIN_RESPONSE> = {
-            success: false,
-            data: {
-                success: false,
-                isAuth: false,
-                message: '',
-                token: undefined,
-                userData: undefined,
-            }
-        };
+        const resp: ASYNC_RESPONSE<USER_DATA_UI> = {success: false};
         if (req.method === 'POST') {
             if (req.body.name && req.body.password) {
-                RequestManager.requestToDBS(DBS_API.readUser, req.body)
+                RequestManager.requestToDBS(DBS_API.readUserByCredentials, req.body)
                     .then((userRes: ASYNC_RESPONSE<USER_DATA>) => {
-                        if ((userRes.success && userRes.data !== undefined)
-                            || (req.body.name === User.name && req.body.password === User.password)) {
-                            const token = jwt.sign({
-                                exp: expireIn,
-                                data: {name: req.body.name, password: req.body.password}
-                            }, secret);
-
+                        if ((userRes.success && userRes.data !== undefined) || (req.body.name === User.name && req.body.password === User.password)) {
+                            const token = jwt.sign({expiresIn: expireIn, data: userRes.data || User}, secret);
                             tokens[token] = User.name;
 
                             resp.success = true;
                             resp.data = {
-                                isAuth: true,
-                                success: true,
-                                message: 'Authentication success',
+                                id: userRes.data ? userRes.data.id : User.id,
+                                name: userRes.data ? userRes.data.name : User.name,
                                 token: token,
-                                userData: {
-                                    id: userRes.data ? userRes.data.id : User.id,
-                                    name: userRes.data ? userRes.data.name : User.name,
-                                }
-                                // until: new Date(decoded.exp * 1000).toISOString()
+                                chatPassword: userRes.data ? userRes.data.chatPassword : User.chatPassword,
                             };
                             res.json(resp);
-
                         }
                         else {
-                            resp.data.message = 'Authentication failed. Wrong password or name.';
+                            resp.description = 'Authentication failed. Wrong password or name.';
                             res.json(resp);
                         }
                     })
                     .catch((userRes: ASYNC_RESPONSE<USER_DATA>) => {
-                        resp.data.message = 'Authentication failed. Wrong password or name.';
+                        resp.description = 'Authentication failed. Wrong password or name.';
                         res.json(resp);
                     });
             }
+            else if (req.body.token) {
+                this.verifyToken(req.body.token, (checkRes: ASYNC_RESPONSE<USER_DATA>) => {
+                    if (checkRes.success && checkRes.data) {
+                        const idObj: ID_OBJ = {id: checkRes.data.id};
+                        RequestManager.requestToDBS(DBS_API.readUser, idObj)
+                            .then((userRes: ASYNC_RESPONSE<USER_DATA>) => {
+                                if ((userRes.success && userRes.data !== undefined) || (checkRes.data.name === User.name && checkRes.data.password === User.password)) {
+                                    const token = jwt.sign({expiresIn: expireIn, data: userRes.data || User}, secret);
+                                    tokens[token] = User.name;
+
+                                    resp.success = true;
+                                    resp.data = {
+                                        id: userRes.data ? userRes.data.id : User.id,
+                                        name: userRes.data ? userRes.data.name : User.name,
+                                        token: token,
+                                        chatPassword: userRes.data ? userRes.data.chatPassword : User.chatPassword,
+                                    };
+                                    res.json(resp);
+                                }
+                                else {
+                                    resp.description = 'Authentication failed.';
+                                    res.json(resp);
+                                }
+                            })
+                            .catch((userRes: ASYNC_RESPONSE<USER_DATA>) => {
+                                resp.description = 'Authentication failed.';
+                                res.json(resp);
+                            });
+                    }
+                    else {
+                        resp.description = 'Authentication failed';
+                        res.json(resp);
+                    }
+                });
+            }
             else {
-                resp.data.message = 'Authentication failed';
+                resp.description = 'Authentication failed';
                 res.json(resp);
             }
         }
@@ -91,11 +104,22 @@ export class AuthManager {
         }
 
     };
-
+    // ----------------------
+    private verifyToken = (token: string, cb: Function) => {
+        jwt.verify(token, secret, (err, decoded) => {
+            if (err) {
+                cb({success: false});
+            }
+            else {
+                cb({success: true, data: decoded.data});
+            }
+        });
+    };
+    // ----------------------
     private update = (token: string): string => {
         if (tokens.hasOwnProperty(token)) {
             const tokenNew = jwt.sign({
-                exp: expireIn,
+                expiresIn: expireIn,
                 data: {name: User.name, password: User.password}
             }, secret);
             tokens[tokenNew] = User.name;
@@ -105,8 +129,8 @@ export class AuthManager {
             return undefined;
         }
     };
-
-    private check = (token: string, cb: Function) => {
+    // ----------------------
+    private checkToken = (token: string, cb: Function) => {
         jwt.verify(token, secret, (err, decoded) => {
             if (err) {
                 cb({success: false, message: 'token no valid'});
@@ -126,7 +150,7 @@ export class AuthManager {
             }
         });
     };
-
+    // ----------------------
     private createUser = (req: Request, res: Response) => {
         const resp: ASYNC_RESPONSE = {success: false};
 
@@ -146,6 +170,19 @@ export class AuthManager {
             res.send(resp);
         }
 
+    }
+    // ----------------------
+    private check = (req: Request, res: Response) => {
+        const resp: ASYNC_RESPONSE = {success: false};
+        if (req.body.token) {
+            this.verifyToken(req.body.token, (checkRes: ASYNC_RESPONSE<USER_DATA>) => {
+                res.send(checkRes);
+            });
+        }
+        else {
+            resp.description = 'Missing field token';
+            res.send(resp);
+        }
     }
 
     public static login = AuthManager.instance.login;

@@ -43,7 +43,7 @@ export class GraphicOverlayService {
   // ----------------------
   public getGraphicOverlays = (isConnected: boolean = true) => {
     if (isConnected) {
-      this.connectionService.post('/' + API_GENERAL.general + WS_API.readAllGraphicOverlay, {})
+      this.connectionService.post(`/${API_GENERAL.general}${WS_API.readAllGraphicOverlay}`, {})
         .then((data) => {
           const dataResult = _.get(data, 'data', false);
           if (dataResult) {

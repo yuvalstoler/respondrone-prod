@@ -104,6 +104,7 @@ export enum DBS_API {
 
     createUser = '/createUser',
     readUser = '/readUser',
+    readUserByCredentials = '/readUserByCredentials',
     readAllUser = '/readAllUser',
     deleteUser = '/deleteUser',
     deleteAllUser = '/deleteAllUser',
@@ -237,7 +238,7 @@ export enum WS_API {
     readAllMissionRoute = '/readAllMissionRoute',
     readAllGraphicOverlay = '/readAllGraphicOverlay',
     readAllNFZ = '/readAllNFZ',
-    missionRequestAction = '/missionRequestAction',
+    missionRequestActionFromOSCC = '/missionRequestActionFromOSCC',
     updateMissionInDB = '/updateMissionInDB',
 
     updateAllReports = '/updateAllReports',

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {SOCKET_CONFIG} from '../../../environments/environment';
 import { timeout } from 'rxjs/operators';
 import {Observable} from 'rxjs';
@@ -18,11 +18,16 @@ export class ConnectionService {
     return this.http.get(server + url).toPromise();
   }
 
-  post(url: string, body: object, server = this.serverUrl, timeoutMS: number = 120000) {
-    return this.http.post(server + url, body).pipe(timeout(timeoutMS)).toPromise();
+  post(url: string, body: object, server = this.serverUrl) {
+    // const options = {headers: new Headers()};
+    // options.headers.append('x-access-token', localStorage.getItem('respondroneToken') || '');
+    const options = {headers: {'x-access-token': localStorage.getItem('respondroneToken') || ''}};
+    return this.http.post(server + url, body, options).toPromise();
   }
 
-  postObservable(url: string, body: object, options: object = {}, server = this.serverUrl, timeoutMS: number = 120000): Observable<Object> {
+  postObservable(url: string, body: object, options: any = {}, server = this.serverUrl): Observable<Object> {
+    // options.headers = options.headers || new HttpHeaders();
+    // options.headers.append('x-access-token', localStorage.getItem('respondroneToken') || '');
     return this.http.post(server + url, body, options);
   }
 

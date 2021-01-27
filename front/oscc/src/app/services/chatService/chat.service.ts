@@ -4,6 +4,7 @@ import {API_GENERAL, WS_API} from '../../../../../../classes/dataClasses/api/api
 import {ASYNC_RESPONSE, CHAT_GROUP, CHAT_SERVER_DATA} from '../../../../../../classes/typings/all.typings';
 import {LoginService} from '../login/login.service';
 import {DataUtility} from '../../../../../../classes/applicationClasses/utility/dataUtility';
+import {CustomToasterService} from '../toasterService/custom-toaster.service';
 
 declare var JSXC: any;
 
@@ -22,32 +23,35 @@ export class ChatService {
   a = 0;
 
   constructor(private connectionService: ConnectionService,
-              private loginService: LoginService) {
+              private loginService: LoginService,
+              private toasterService: CustomToasterService) {
     this.loginService.loginEvent$.subscribe(this.initChat);
   }
 
-  initChat = () => {
-    this.connectionService.post('/' + API_GENERAL.general + WS_API.getChatServerData, {})
-      .then((data: ASYNC_RESPONSE<CHAT_SERVER_DATA>) => {
-        if (data.success && data.data.domain && data.data.boshUrl && data.data.chatGroupService) {
-          this.domain = data.data.domain;
-          this.boshUrl = data.data.boshUrl;
-          this.chatGroupService = data.data.chatGroupService;
+  initChat = (chatPassword: string) => {
+    if (chatPassword) {
+      this.connectionService.post(`/${API_GENERAL.general}${WS_API.getChatServerData}`, {})
+        .then((data: ASYNC_RESPONSE<CHAT_SERVER_DATA>) => {
+          if (data.success && data.data.domain && data.data.boshUrl && data.data.chatGroupService) {
+            this.domain = data.data.domain;
+            this.boshUrl = data.data.boshUrl;
+            this.chatGroupService = data.data.chatGroupService;
 
-          this.username = this.loginService.getUserId();
-          this.jid = this.getUserJID(this.username);
-          this.startChat();
-        }
-        else {
+            this.username = this.loginService.getUserId();
+            this.jid = this.getUserJID(this.username);
+            this.startChat(chatPassword);
+          }
+          else {
+            console.log('error getting chat server');
+          }
+        })
+        .catch((data: ASYNC_RESPONSE<CHAT_SERVER_DATA>) => {
           console.log('error getting chat server');
-        }
-      })
-      .catch((data: ASYNC_RESPONSE<CHAT_SERVER_DATA>) => {
-        console.log('error getting chat server');
-      });
+        });
+    }
   }
   // ----------------
-  startChat = () => {
+  startChat = (chatPassword: string) => {
     if (this.domain && this.boshUrl) {
       this.jsxc = new JSXC({
         loadConnectionOptions: (username1, password1) => {
@@ -70,23 +74,21 @@ export class ChatService {
 
           if (!(status === CONNECTED || status === ATTACHED)) {
             console.log('======== FINISHED', (Date.now() - this.a) / 1000);
-            this.startConnection();
+            this.startConnection(chatPassword);
           }
         },
         onUserRequestsToGoOnline: () => {
-          this.startConnection();
+          this.startConnection(chatPassword);
         }
       });
-
-      this.startConnection();
     }
   }
   // ----------------
-  startConnection = () => {
+  startConnection = (chatPassword: string) => {
     this.a = Date.now();
     console.log('========= STARTED', new Date());
 
-    this.jsxc.start(this.boshUrl, this.jid , 'simplex123') // TODO change
+    this.jsxc.start(this.boshUrl, this.jid , chatPassword) // TODO change
       .then(() => {
         console.log('>>> CHAT CONNECTION READY');
       })
@@ -108,6 +110,7 @@ export class ChatService {
     }
     catch (e) {
       console.log(e);
+      this.toasterService.error({message: 'Error creating task chat group', title: ''});
       return undefined;
     }
   }
@@ -124,6 +127,7 @@ export class ChatService {
       contact.openChatWindowProminently();
     }
     catch (e) {
+      this.toasterService.error({message: 'Error sending message', title: ''});
       console.log(e);
     }
   }

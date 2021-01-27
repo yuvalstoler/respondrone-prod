@@ -3,7 +3,8 @@ import {HttpClient, HttpEventType, HttpHeaders} from '@angular/common/http';
 import {FILE_FS_DATA} from '../../../../../../../classes/typings/all.typings';
 import {ConnectionService} from '../../../services/connectionService/connection.service';
 import {ApplicationService} from '../../../services/applicationService/application.service';
-import {MediaService} from "../../../services/mediaService/media.service";
+import {MediaService} from '../../../services/mediaService/media.service';
+import {API_GENERAL, WS_API} from '../../../../../../../classes/dataClasses/api/api_enums';
 
 
 export type PROGRESS_INFO = {
@@ -50,7 +51,7 @@ export class ReportMediaComponent implements OnInit, OnDestroy {
   // ------------------
   uploadFile = (file) => {
     if (file) {
-      const headers = new HttpHeaders();
+      const headers = {'x-access-token': localStorage.getItem('respondroneToken') || ''}; // new HttpHeaders();
       // .append('x-access-token', (this.sessionStorage.getItem('token') || ''));
 
       const formData: FormData = new FormData();
@@ -63,7 +64,7 @@ export class ReportMediaComponent implements OnInit, OnDestroy {
       };
 
       const data: PROGRESS_INFO = {id: Date.now(), percent: 0, observer: undefined};
-      data.observer = this.connectionService.postObservable('/api/uploadFile', formData, options)
+      data.observer = this.connectionService.postObservable(`/${API_GENERAL.general}${WS_API.uploadFile}`, formData, options)
         .subscribe(
           (event: any) => {
               if (event.type === HttpEventType.UploadProgress) {

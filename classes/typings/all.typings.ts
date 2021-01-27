@@ -1079,8 +1079,9 @@ export type BLOB_DATA = {
 // =========== LOGIN ==============
 
 export type CREDENTIALS = {
-    name: string,
-    password: string
+    name?: string,
+    password?: string,
+    token?: string
 };
 
 export type USER_DATA = {
@@ -1093,14 +1094,8 @@ export type USER_DATA = {
 export type USER_DATA_UI = {
     id: ID_TYPE,
     name: string,
-}
-
-export type LOGIN_RESPONSE = {
-    isAuth: boolean,
-    success: boolean,
-    message: string,
-    token: string,
-    userData: USER_DATA_UI
+    token?: string,
+    chatPassword?: string,
 };
 
 // ================

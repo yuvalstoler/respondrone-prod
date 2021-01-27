@@ -14,6 +14,7 @@ import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE, POLYGON_DATA, POLYLINE_DATA} from 
 import {ApplicationService} from '../applicationService/application.service';
 import {GeoCalculate} from '../classes/geoCalculate';
 import {ChatService} from '../chatService/chat.service';
+import {API_GENERAL, WS_API} from '../../../../../../classes/dataClasses/api/api_enums';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +44,7 @@ export class TasksService {
   // ----------------------
   public getTasks = (isConnected: boolean = true) => {
     if (isConnected) {
-      this.connectionService.post('/api/readAllTask', {})
+      this.connectionService.post(`/${API_GENERAL.general}${WS_API.readAllTask}`, {})
         .then((data) => {
           const dataResult = _.get(data, 'data', false);
           if (dataResult) {
@@ -92,13 +93,13 @@ export class TasksService {
       }
       this.drawTask(newTask);
 
-      if (!newTask.chatGroup) {
-        const chatGroup: CHAT_GROUP = this.chatService.createTaskGroup(newTask.title, newTask.idView);
-        if (chatGroup) {
-          newTask.chatGroup = chatGroup;
-          this.sendTaskToServer(newTask);
-        }
-      }
+      // if (!newTask.chatGroup) {
+      //   const chatGroup: CHAT_GROUP = this.chatService.createTaskGroup(newTask.title, newTask.idView);
+      //   if (chatGroup) {
+      //     newTask.chatGroup = chatGroup;
+      //     this.sendTaskToServer(newTask);
+      //   }
+      // }
     });
   };
   // ----------------------
@@ -209,7 +210,7 @@ export class TasksService {
   };
   // ----------------------
   private sendTaskToServer = (taskData: TASK_DATA_UI) => {
-    this.connectionService.post('/api/createTask', taskData)
+    this.connectionService.post(`/${API_GENERAL.general}${WS_API.createTask}`, taskData)
       .then((data: ASYNC_RESPONSE) => {
         if (!data.success) {
           this.toasterService.error({message: 'error creating task', title: ''});
@@ -221,7 +222,7 @@ export class TasksService {
   }
   // ----------------------
   public deleteTask = (idObj: ID_OBJ) => {
-    this.connectionService.post('/api/deleteTask', idObj)
+    this.connectionService.post(`/${API_GENERAL.general}${WS_API.deleteTask}`, idObj)
       .then((data: ASYNC_RESPONSE) => {
         if (!data.success) {
           this.toasterService.error({message: 'error deleting task', title: ''});
@@ -233,7 +234,7 @@ export class TasksService {
   };
   // ----------------------
   public sendTaskAction = (data: OSCC_TASK_ACTION) => {
-    this.connectionService.post('/api/osccTaskAction', data)
+    this.connectionService.post(`/${API_GENERAL.general}${WS_API.osccTaskAction}`, data)
       .then((res: ASYNC_RESPONSE) => {
         if (!res.success) {
           this.toasterService.error({message: 'error changing task status', title: ''});

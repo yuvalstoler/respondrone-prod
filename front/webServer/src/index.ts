@@ -106,6 +106,7 @@ export class Server {
         // enable cors middleware
         const options: cors.CorsOptions = {
             allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token'],
+            exposedHeaders: ['X-Access-Token'],
             credentials: true,
             methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
             origin: '*',

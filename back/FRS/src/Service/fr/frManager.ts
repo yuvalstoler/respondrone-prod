@@ -43,7 +43,7 @@ export class FrManager {
             },
             'FRs': [
                 {
-                    'id': 'id1',
+                    'id': '1',
                     'callSign': 'PO-001',
                     'type': FR_TYPE.police,
                     'location': {
@@ -58,7 +58,7 @@ export class FrManager {
                     'status': FR_STATUS.available
                 },
                 {
-                    'id': 'id2',
+                    'id': '2',
                     'callSign': 'PARA-001',
                     'type': FR_TYPE.paramedic,
                     'location': {
@@ -88,8 +88,23 @@ export class FrManager {
                     'status': FR_STATUS.busy
                 },
                 {
-                    'id': 'id3',
+                    'id': 'dev@simplex141.mooo.com',
                     'callSign': 'FF-007',
+                    'type': FR_TYPE.paramedic,
+                    'location': {
+                        'lat': 0,
+                        'lon': 0,
+                        'alt': 0
+                    },
+                    'lastUpdated': {
+                        'timestamp': date - 5000
+                    },
+                    'online': false,
+                    'status': FR_STATUS.busy
+                },
+                {
+                    'id': 'test@20.71.141.60',
+                    'callSign': 'FF-008',
                     'type': FR_TYPE.fireFighter,
                     'location': {
                         'lat': 0,
