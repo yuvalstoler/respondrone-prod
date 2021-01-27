@@ -33,7 +33,7 @@ export class ApplicationService {
 
 
   now = Date.now();
-  typesConfig = {reportTypes: [], eventTypes: [], taskTypes: []};
+  typesConfig = {reportTypes: [], eventTypes: [], taskTypes: [], addressCountry: ['FR']};
   geoCounter: number = 0;
 
   public currentTabIndexSituationPicture = 0;  //default tab index is 0

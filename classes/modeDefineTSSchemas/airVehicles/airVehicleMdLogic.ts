@@ -153,19 +153,19 @@ export class AirVehicleMdLogic implements IModeDefine {
     };
 
     private static getGPSDescription = (data: AV_DATA_UI): string => {
-        let res = 'NoGPS';
+        let res = 'No GPS';
         if (data.gpsQuality === 0) {
-            res = 'NoGPS';
+            res = 'No GPS';
         } else if (data.gpsQuality === 1) {
-            res = '1GPS';
+            res = '1 GPS';
         } else if (data.gpsQuality === 2) {
-            res = '2GPS';
+            res = '2 GPS';
         } else if (data.gpsQuality === 3) {
-            res = '3GPS';
+            res = '3 GPS';
         } else if (data.gpsQuality === 4) {
-            res = 'FullGPS';
+            res = 'Full GPS';
         } else if (data.gpsQuality === 5) {
-            res = 'FullGPS';
+            res = 'Full GPS';
         }
         return res;
     };

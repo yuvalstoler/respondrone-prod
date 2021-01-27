@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {ApplicationService} from '../../../services/applicationService/application.service';
 // import { } from 'googlemaps';
 // import { } from '@types/googlemaps';
 /// <reference path="../../../../../../node_modules/@types/googlemaps/index.d.ts"/>
@@ -18,7 +19,7 @@ export class AutocompleteAddressComponent implements OnInit {
   // autocompleteInput: string;
   queryWait: boolean;
 
-  constructor() {}
+  constructor(private applicationService: ApplicationService) {}
 
   ngOnInit() {
   }
@@ -31,7 +32,7 @@ export class AutocompleteAddressComponent implements OnInit {
   private getPlaceAutocomplete = () => {
     const autocomplete = new google.maps.places.Autocomplete(this.addressText.nativeElement,
       {
-        componentRestrictions: { country: 'FR' },
+        componentRestrictions: { country: this.applicationService.typesConfig.addressCountry[0] },
         types: [this.addressType]  // 'establishment' / 'address' / 'geocode'
       });
     google.maps.event.addListener(autocomplete, 'place_changed', () => {

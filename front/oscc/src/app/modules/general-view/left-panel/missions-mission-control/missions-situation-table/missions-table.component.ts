@@ -13,7 +13,7 @@ import {
 import * as _ from 'lodash';
 import {ContextMenuService} from '../../../../../services/contextMenuService/context-menu.service';
 import {MissionRequestService} from '../../../../../services/missionRequestService/missionRequest.service';
-import {ResponsiveService} from "../../../../../services/responsiveService/responsive.service";
+import {ResponsiveService} from '../../../../../services/responsiveService/responsive.service';
 
 
 

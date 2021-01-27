@@ -12,7 +12,7 @@ import {ApplicationService} from '../../../../../services/applicationService/app
 import {TasksService} from '../../../../../services/tasksService/tasks.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import * as _ from 'lodash';
-import {ResponsiveService} from "../../../../../services/responsiveService/responsive.service";
+import {ResponsiveService} from '../../../../../services/responsiveService/responsive.service';
 
 
 @Component({
@@ -31,7 +31,7 @@ import {ResponsiveService} from "../../../../../services/responsiveService/respo
 export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   displayedColumns: string[] = [];
-    displayedColumnsMinimize: string[] = ['id', 'priority', 'type'];
+    displayedColumnsMinimize: string[] = ['id', 'title', 'status', 'map'];
   dataSource = new MatTableDataSource<TASK_DATA_UI>();
 
   expandedElement: MAP<TASK_DATA_UI> = {};

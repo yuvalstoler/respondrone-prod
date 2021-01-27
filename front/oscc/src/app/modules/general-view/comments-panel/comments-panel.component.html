@@ -7,7 +7,7 @@
       <div class="CommentsGrid" mat-line>
         <mat-icon class="CommentsGrid1" mat-list-icon>account_circle</mat-icon>
         <div class="CommentsGrid2"> {{comment.source}} {{name}}</div>
-        <div class="CommentsGrid3">{{comment.time | date:'hh:mm'}}</div>
+        <div class="CommentsGrid3">{{comment.time | customDate: comment.time}}</div>
         <div class="CommentsGrid4"> {{comment.text}}</div>
       </div>
     </mat-list-item>

@@ -53,6 +53,8 @@ export class TaskMdLogic implements IModeDefine {
             res = MDClass.colors.red;
         } else if (data.status === TASK_STATUS.completed) {
             res = MDClass.colors.green;
+        } else if (data.status === TASK_STATUS.cancelled) {
+            res = MDClass.colors.purple;
         }
         return res;
     };

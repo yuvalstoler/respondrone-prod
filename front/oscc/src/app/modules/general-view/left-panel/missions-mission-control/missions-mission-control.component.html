@@ -28,21 +28,24 @@
     <!--         class="RightSideButton pointer">Delete-->
     <!--    </div>-->
 
-    <div *ngIf="applicationService?.selectedMissionRequests?.length === 1" [matMenuTriggerFor]="menu"
+    <div *ngIf="applicationService?.selectedMissionRequests?.length === 1 " [matMenuTriggerFor]="menu"
             class="RightSideButton pointer">Update status
     </div>
-    <mat-menu #menu="matMenu">
-      <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Accept)" *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Accept]"
+    <mat-menu #menu="matMenu" >
+      <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Accept)"
+              *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Accept]"
               mat-menu-item>
         <span [ngStyle]="{'color': '#fff746', 'font-size': '12px'}" class="material-icons">fiber_manual_record</span>
         Accept
       </button>
-      <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Approve)" *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Approve]"
+      <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Approve)"
+              *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Approve]"
               mat-menu-item>
         <span [ngStyle]="{'color': '#0c249c', 'font-size': '12px'}" class="material-icons">fiber_manual_record</span>
         Approve
       </button>
-      <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Reject)" *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Reject]"
+      <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Reject)"
+              *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Reject]"
               mat-menu-item>
         <span [ngStyle]="{'color': '#ff0000', 'font-size': '12px'}" class="material-icons">fiber_manual_record</span>
         Reject

@@ -69,8 +69,23 @@ export class FrManager {
                     'lastUpdated': {
                         'timestamp': date - 3600000
                     },
-                    'online': false,
+                    'online': true,
                     'status': FR_STATUS.available
+                },
+                {
+                    'id': 'id4',
+                    'callSign': 'FF-008',
+                    'type': FR_TYPE.fireFighter,
+                    'location': {
+                        'lat': 0,
+                        'lon': 0,
+                        'alt': 0
+                    },
+                    'lastUpdated': {
+                        'timestamp': date - 5000
+                    },
+                    'online': false,
+                    'status': FR_STATUS.busy
                 },
                 {
                     'id': 'id3',

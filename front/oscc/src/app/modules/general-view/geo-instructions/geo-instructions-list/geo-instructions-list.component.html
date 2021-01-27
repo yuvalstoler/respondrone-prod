@@ -17,13 +17,12 @@
     <mat-expansion-panel-header [ngStyle]="{'cursor': (isNotViewOnly) ? 'move': 'pointer'}">
       <div class="expendTitle">
         <mat-icon mat-list-icon>{{getIcon(geoInstruction)}}</mat-icon>
-        <span class="expendTitleText" mat-line>{{geoInstruction?.type}}</span>
+        <span class="expendTitleText " mat-line>{{geoInstruction?.description}}</span>
       </div>
       <button (click)="removeGeoInstruction($event, geoInstruction, i)"
               *ngIf="isNotViewOnly"
               class='DialogButtonGeoX'
-      >X
-      </button>
+      >x</button>
     </mat-expansion-panel-header>
     <div class="">
       <div class="description">{{geoInstruction?.description}}</div>
