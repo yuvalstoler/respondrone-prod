@@ -29,7 +29,7 @@
       <!-- Type Column -->
       <ng-container matColumnDef="Type">
         <th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
-        <td *matCellDef="let row" mat-cell>{{row.type}}</td>
+        <td *matCellDef="let row" mat-cell>{{row.type | separatorString}}</td>
       </ng-container>
 
       <!-- Status Column -->
@@ -51,7 +51,7 @@
         <td *matCellDef="let row; let i = index;" mat-cell>
           <button (click)="removeAt(row)" class='DialogButtonX'>
             <!--<mat-icon>clear</mat-icon>-->
-            X
+            x
           </button>
         </td>
       </ng-container>

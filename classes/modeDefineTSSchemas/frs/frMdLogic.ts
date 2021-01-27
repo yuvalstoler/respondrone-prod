@@ -124,7 +124,11 @@ export class FrMdLogic implements IModeDefine {
                 type: 'textWithDot',
                 data: data.online ? 'Online' : 'Offline',
                 color: FrMdLogic.getDotColor(data)
-            } as TABLE_DATA_MD
+            } as TABLE_DATA_MD,
+            type: {
+                type: 'text',
+                data: data.type.split(/(?=[A-Z])/).join(' ')
+            }
         };
         return res;
     };

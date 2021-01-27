@@ -49,7 +49,7 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
     this.responsiveService.screenWidth$.subscribe(res => {
       this.screenWidth = res;
       if (this.screenWidth <= 1200) {
-        this.displayedColumns = ['expandCollapse', 'select', 'id', 'title', 'priority', 'type', 'description', 'time', 'map'];
+        this.displayedColumns = ['expandCollapse', 'select', 'id', 'title', 'priority', 'status', 'type', 'description', 'time', 'map'];
       } else {
         this.displayedColumns = ['expandCollapse', 'select', 'id', 'title', 'priority', 'status', 'type', 'description', 'time', 'message', 'assignees', 'map'];
       }

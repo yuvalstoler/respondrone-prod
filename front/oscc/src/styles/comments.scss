@@ -6,11 +6,25 @@
   .CommentTitle {
     font-size: $fontSizeText12;
   }
+  .CommentIconInner{
+    margin: -5px 0 0px 0;
+
+    img {
+      width: 20px;
+    }
+  }
 }
 //Regular
 @media screen and (min-width: 1201px) {
   .CommentTitle {
     font-size: $fontSizeTitle14;
+  }
+  .CommentIconInner{
+    margin: -2px 0 0px 0;
+
+    img {
+      width: 24px;
+    }
   }
 }
 
@@ -26,11 +40,12 @@
 .CommentDescriptionClose{
   max-height: 9.7em;
 }
-.CommentsGrid{
+.CommentsGrid {
   display: grid;
-  grid-template-columns: 2em auto 3em;
+  grid-template-columns: 10% 71% 15%;
   overflow: hidden;
   margin-top: 5px;
+  gap: 2%;
 }
 .CommentsGrid1{
   grid-row: 1;
@@ -55,8 +70,7 @@
 
 .CommentSendGrid3 {
   display: grid;
-  grid-template-columns: 2em auto 2em;
-  grid-template-rows: 49px;
+  grid-template-columns: 10% 75% 10%;
   gap: 5px;
 
   ::ng-deep .mat-form-field {
@@ -88,12 +102,10 @@
   position: absolute;
   right: 0;
   top: 0;
-  margin: -2px 0 0px 0;
 
   img {
     padding-left: 5px;
     background-color: $white;
-    width: 24px;
   }
 }
 .CommentInput {
@@ -102,3 +114,11 @@
 ::ng-deep.mat-menu-panel {
   max-width: fit-content;
 }
+
+//::ng-deep.mat-form-field-appearance-legacy {
+//
+//  .mat-form-field-prefix,
+//  .mat-form-field-suffix {
+//    align-self: flex-end;
+//  }
+//}

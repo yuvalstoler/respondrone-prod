@@ -17,7 +17,7 @@
             <img *ngIf="element.modeDefine?.tableData[column]?.type === 'image'"
                  [src]="element.modeDefine?.tableData[column]?.data"
                  class="tableImage">
-            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'">
+            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'" >
                {{element.modeDefine?.tableData[column]?.data}}
             </span>
             <span *ngIf="element.modeDefine?.tableData[column]?.type === 'textWithDot'">

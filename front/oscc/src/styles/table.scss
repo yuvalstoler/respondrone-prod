@@ -221,6 +221,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 10em;
 }
 .expendTitleText{
   margin: 3px 3px 3px 5px;

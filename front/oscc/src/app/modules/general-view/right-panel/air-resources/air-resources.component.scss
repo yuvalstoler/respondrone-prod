@@ -3,6 +3,7 @@
 @import '../../../../../styles/scrollbar';
 @import '../../../../../styles/disabled';
 
+//Regular
 .AirResourcesContainer{
   max-height: calc(40vh - #{$headerHeight} );
 
@@ -122,15 +123,16 @@
 
 }
 
+//Middle
 .AirResourcesContainerMiddle{
   text-align: center;
   color: black;
   font-size: $fontSizeText11;
 
   .divAirResources{
-    margin: 5px 10px;
+    margin: 5px 6px;
     border-bottom: 1px solid;
-    padding-top: 10px;
+    padding: 10px 4px 0;
   }
   .item1{
 
