@@ -1,6 +1,8 @@
 <div class="AssigneesTable">
   <div class="AssigneesHeader" >
-    <span class="DialogTitle">{{title}}</span>
+    <span class="DialogTitle">{{title}}
+      <mat-error *ngIf="frService.frs.data.length > 0 && allLinked.length <= 0">*</mat-error>
+    </span>
     <span (click)="onAddAssignee()"
           [ngStyle]="{'color': (frService.frs.data.length <= 0) ? 'lightgray': '',
                       'border-bottom': (frService.frs.data.length <= 0) ? 'none' : ''}"

@@ -22,6 +22,7 @@ export class TaskAssigneeTableComponent implements OnInit {
 
   displayedColumns: string[] = ['ID', 'Type', 'Status', 'actionsColumn'];
   dataSource: MatTableDataSource<FR_DATA>;
+  allLinked = [];
 
   constructor(public dialog: MatDialog,
               public applicationService: ApplicationService,
@@ -45,6 +46,7 @@ export class TaskAssigneeTableComponent implements OnInit {
     if (index !== -1) {
       this.ids.splice(index, 1);
     }
+    this.allLinked = [...this.ids];
     this.updateAssignees.emit(this.ids);
   };
 
@@ -52,7 +54,6 @@ export class TaskAssigneeTableComponent implements OnInit {
     if (this.frService.frs.data.length > 0) {
       this.openAddAssigneeDialog();
     }
-
   };
 
   openAddAssigneeDialog = (): void => {
@@ -68,6 +69,7 @@ export class TaskAssigneeTableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: string[]) => {
       if (result && Array.isArray(result)) {
+        this.allLinked = [...result];
         const allLinked = [...this.ids, ...result];
         this.updateAssignees.emit(allLinked);
       }
