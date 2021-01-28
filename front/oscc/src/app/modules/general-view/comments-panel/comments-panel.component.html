@@ -14,30 +14,33 @@
     </mat-list-item>
   </div>
   <!-- Input Comment-->
-  <div class="CommentSendGrid3">
-    <div class="CommentIconContainerCircle">
-      <mat-icon class="CommentIcon">account_circle</mat-icon>
-    </div>
-    <mat-form-field appearance="outline" class="">
-      <label>
-        <input [(ngModel)]="comment" class="CommentInput" matInput
-               placeholder="Add your comment..."
-               type="text">
-        <button class="CommentIcon CommentIconInner" mat-icon-button [matMenuTriggerFor]="emoji" aria-label="emoji">
-          <!--<mat-icon>sentiment_satisfied_alt</mat-icon>-->
-          <img src="../../../assets/sentiment_satisfied_alt.png">
-        </button>
-        <!--<mat-icon  (click)="openEmoji = !openEmoji;">sentiment_satisfied_alt</mat-icon>-->
-      </label>
-    </mat-form-field>
-    <div class="CommentIconContainerArrow pointer"
-         (click)="onSendComment()"
-         >
-      <mat-icon [ngStyle]="{'color': (comment === '' || comment === undefined) ? 'lightgray' : 'black' }"
-                class="CommentIcon">send
-      </mat-icon>
+  <div>
+    <div class="CommentSendGrid3">
+      <div class="CommentIconContainerCircle">
+        <mat-icon class="CommentIcon">account_circle</mat-icon>
+      </div>
+      <mat-form-field appearance="outline" class="">
+        <label>
+          <input [(ngModel)]="comment" class="CommentInput" matInput
+                 placeholder="Add your comment..."
+                 type="text">
+          <button class="CommentIcon CommentIconInner" mat-icon-button [matMenuTriggerFor]="emoji" aria-label="emoji">
+            <!--<mat-icon>sentiment_satisfied_alt</mat-icon>-->
+            <img src="../../../assets/sentiment_satisfied_alt.png">
+          </button>
+          <!--<mat-icon  (click)="openEmoji = !openEmoji;">sentiment_satisfied_alt</mat-icon>-->
+        </label>
+      </mat-form-field>
+      <div class="CommentIconContainerArrow pointer"
+           (click)="onSendComment()"
+      >
+        <mat-icon [ngStyle]="{'color': (comment === '' || comment === undefined) ? 'lightgray' : 'black' }"
+                  class="CommentIcon">send
+        </mat-icon>
+      </div>
     </div>
   </div>
+
 
 
 </div>

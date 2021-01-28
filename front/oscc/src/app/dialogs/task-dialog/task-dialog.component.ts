@@ -215,7 +215,8 @@ export class TaskDialogComponent implements OnInit {
     let res = false;
     if (this.taskModel.title === '' || this.taskModel.title === undefined ||
       this.taskModel.type === '' || this.taskModel.type === undefined ||
-      this.taskModel.description === '' || this.taskModel.description === undefined) {
+      this.taskModel.description === '' || this.taskModel.description === undefined ||
+      this.taskModel.assignees.length <= 0) {
       res = true;
     }
     if (this.childComponent && this.childComponent.isNotSaveGeoInstructions && this.childComponent.isNotSaveGeoInstructions === true) {

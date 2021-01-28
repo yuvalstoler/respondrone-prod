@@ -26,7 +26,7 @@
                  [src]="element.modeDefine?.tableData[column]?.data"
                  class="tableImage">
             <!--text-->
-            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'" class="row-message">
+            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'" [ngClass]="{'row-message': column === 'message'}">
                {{element.modeDefine?.tableData[column]?.data}}
             </span>
             <!--data-->
