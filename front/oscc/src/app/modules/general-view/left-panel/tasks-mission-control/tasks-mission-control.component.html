@@ -39,9 +39,11 @@
       </button>
     </mat-menu>
     <!--Update-->
-    <div *ngIf="applicationService.selectedTasks.length === 1 && screenWidth > 1200"
-         [matMenuTriggerFor]="Statuses"
-         class="RightSideButton pointer">Update status
+    <div *ngIf="applicationService.selectedTasks.length === 1
+                && applicationService.selectedTasks[0]?.modeDefine?.data?.actionOptions?.numOfOptions > 0
+                && screenWidth > 1200"
+                [matMenuTriggerFor]="Statuses"
+                class="RightSideButton pointer">Update status
     </div>
     <mat-menu #Statuses="matMenu">
       <button (click)="onTaskAction(TASK_ACTION.cancel)"

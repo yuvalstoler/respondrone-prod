@@ -183,7 +183,7 @@ export class MissionRequestService {
           const iconData: ICON_DATA = {
             id: item.id,
             modeDefine: item.modeDefine,
-            isShow: this.applicationService.screen.showMissionPlans,
+            isShow: this.applicationService.screen.showMissions,
             location: GeoCalculate.geopoint3d_short_to_point3d(item.observationMissionRequest.observationPoint),
             optionsData: item,
             type: ITEM_TYPE.missionRequest
@@ -196,7 +196,7 @@ export class MissionRequestService {
             const iconData: ICON_DATA = {
               id: item.id,
               modeDefine: item.modeDefine,
-              isShow: this.applicationService.screen.showMissionPlans,
+              isShow: this.applicationService.screen.showMissions,
               location: GeoCalculate.geopoint3d_short_to_point3d(item.commRelayMissionRequest.missionData.point),
               optionsData: item,
               type: ITEM_TYPE.missionRequest
@@ -207,7 +207,7 @@ export class MissionRequestService {
             const polygonData: POLYGON_DATA = {
               id: item.id,
               modeDefine: item.modeDefine,
-              isShow: this.applicationService.screen.showMissionPlans,
+              isShow: this.applicationService.screen.showMissions,
               polygon: GeoCalculate.geopoint3d_short_to_point3d_arr(item.commRelayMissionRequest.missionData.area.coordinates),
               optionsData: item,
               type: ITEM_TYPE.missionRequest
@@ -220,7 +220,7 @@ export class MissionRequestService {
           const polygonData: POLYGON_DATA = {
             id: item.id,
             modeDefine: item.modeDefine,
-            isShow: this.applicationService.screen.showMissionPlans,
+            isShow: this.applicationService.screen.showMissions,
             polygon: GeoCalculate.geopoint3d_short_to_point3d_arr(item.scanMissionRequest.polygon.coordinates),
             optionsData: item,
             type: ITEM_TYPE.missionRequest
@@ -232,7 +232,7 @@ export class MissionRequestService {
           const polylineData: POLYLINE_DATA = {
             id: item.id,
             modeDefine: item.modeDefine,
-            isShow: this.applicationService.screen.showMissionPlans,
+            isShow: this.applicationService.screen.showMissions,
             polyline: GeoCalculate.geopoint3d_short_to_point3d_arr(item.followPathMissionRequest.polyline.coordinates),
             optionsData: item,
             type: ITEM_TYPE.missionRequest
@@ -247,7 +247,7 @@ export class MissionRequestService {
           const iconData: ICON_DATA = {
             id: item.id,
             modeDefine: item.modeDefine,
-            isShow: this.applicationService.screen.showMissionPlans,
+            isShow: this.applicationService.screen.showMissions,
             location: GeoCalculate.geopoint3d_short_to_point3d(item.deliveryMissionRequest.deliveryPoint),
             optionsData: item,
             type: ITEM_TYPE.missionRequest

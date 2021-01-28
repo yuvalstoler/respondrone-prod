@@ -247,3 +247,8 @@ tr.example-element-row:not(.example-expanded-row):active {
 ::ng-deep.mat-radio-label-content {
   width: inherit;
 }
+
+.linkedID {
+  cursor: pointer;
+  text-decoration: underline;
+}

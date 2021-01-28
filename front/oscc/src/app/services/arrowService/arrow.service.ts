@@ -40,7 +40,7 @@ export class ArrowService {
         type: undefined
       };
       this.mapGeneralService.createArrowPolyline(arrowData);
-      if (event.type === 'doubleClick') {
+      if (event.type === 'doubleClick' && points.length >= 2) {
         this.arrow$.next(points);
         this.applicationService.stateDraw = STATE_DRAW.notDraw;
         this.mapGeneralService.changeCursor(false);

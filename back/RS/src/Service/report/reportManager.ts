@@ -120,7 +120,7 @@ export class ReportManager {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
             reportData.id = reportData.id || DataUtility.generateID();
-            reportData.time = reportData.time || Date.now();
+            reportData.time = /*reportData.time ||*/ Date.now();
             reportData.idView = reportData.idView || DataUtility.generateIDForView();
             const newReport: Report = new Report(reportData);
             RequestManager.requestToDBS(DBS_API.createReport, newReport.toJsonForSave())

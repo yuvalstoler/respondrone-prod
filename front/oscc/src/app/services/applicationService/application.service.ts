@@ -11,6 +11,7 @@ import {
 } from '../../../../../../classes/typings/all.typings';
 import {ConnectionService} from '../connectionService/connection.service';
 import {StateGroup} from '../../modules/general-view/search-panel/search-panel.component';
+import {BehaviorSubject} from 'rxjs';
 
 
 @Injectable({
@@ -34,6 +35,7 @@ export class ApplicationService {
 
   now = Date.now();
   typesConfig = {reportTypes: [], eventTypes: [], taskTypes: [], addressCountry: ['FR']};
+  typesConfigLoaded$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   geoCounter: number = 0;
 
   public currentTabIndexSituationPicture = 0;  //default tab index is 0
@@ -51,6 +53,7 @@ export class ApplicationService {
         if (data) {
           this.typesConfig = data;
         }
+        this.typesConfigLoaded$.next(true);
       })
       .catch((data) => {
         console.log(data);

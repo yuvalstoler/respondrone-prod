@@ -107,7 +107,7 @@ export class TaskManager {
             const res: ASYNC_RESPONSE = {success: false};
 
             taskData.id = taskData.id || DataUtility.generateID();
-            taskData.time = taskData.time || Date.now();
+            taskData.time = /*taskData.time ||*/ Date.now();
             taskData.idView = taskData.idView || DataUtility.generateIDForView();
             const newTask: Task = new Task(taskData);
 

@@ -23,6 +23,7 @@ export class FRService {
   frs: {data: FR_DATA_UI[]} = {data: []};
   frs$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   selectedElement: FR_DATA_UI;
+  changeSelected$: BehaviorSubject<ID_TYPE> = new BehaviorSubject(undefined);
 
   isContextMenuOpen = false;
 
@@ -128,11 +129,12 @@ export class FRService {
       this.unselectIcon(this.selectedElement);
       this.selectedElement = (this.selectedElement && this.selectedElement.id === id) ? undefined : item;
       this.selectIcon(item);
+      this.changeSelected$.next(id);
     }
   }
 
   // -----------------------
-  private getId = (id: string) => { // to make sure the ID is unique
+  public getId = (id: string) => { // to make sure the ID is unique
     return 'fr' + id;
   };
   // -----------------------

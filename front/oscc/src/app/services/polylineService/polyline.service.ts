@@ -43,7 +43,7 @@ export class PolylineService {
         type: undefined
       };
       this.mapGeneralService.createPolyline(polylineData);
-      if (event.type === 'doubleClick') {
+      if (event.type === 'doubleClick' && points.length >= 3) {
         this.polyline$.next(points);
         this.applicationService.stateDraw = STATE_DRAW.notDraw;
         this.mapGeneralService.changeCursor(false);

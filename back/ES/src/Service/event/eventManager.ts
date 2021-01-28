@@ -93,7 +93,7 @@ export class EventManager {
             const res: ASYNC_RESPONSE = {success: false};
 
             eventData.id = eventData.id || DataUtility.generateID();
-            eventData.time = eventData.time || Date.now();
+            eventData.time = /*eventData.time ||*/ Date.now();
             eventData.idView = eventData.idView || DataUtility.generateIDForView();
             const newEvent: Event = new Event(eventData);
 

@@ -2,7 +2,13 @@ import {Injectable} from '@angular/core';
 import {ConnectionService} from '../connectionService/connection.service';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
-import {MISSION_ROUTE_DATA_UI, POINT3D, PointOfRoute} from '../../../../../../classes/typings/all.typings';
+import {
+  GEOPOINT3D_SHORT,
+  MISSION_DATA_UI,
+  MISSION_ROUTE_DATA_UI,
+  POINT3D,
+  PointOfRoute
+} from '../../../../../../classes/typings/all.typings';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {BehaviorSubject} from 'rxjs';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
@@ -103,7 +109,7 @@ export class MissionRouteService {
         // this.drawMission(newItem);
 
         if ((Date.now() - newItem.time) < 1000 * 60 * 5) {
-          this.toasterService.missionToaster({message: 
+          this.toasterService.missionToaster({message:
               `New mission Request <span class="underline">${_.get(newItem, 'modeDefine.data.missionName')}</span> is waiting for approval`, title: ''} , () => {
             this.missionRequestService.goToMissionRequest(newItem.requestId);
             this.flyToObject(newItem);
@@ -129,7 +135,7 @@ export class MissionRouteService {
     const polylineData: POLYLINE_DATA = {
       id: item.id,
       modeDefine: item.modeDefine,
-      isShow: true,
+      isShow: this.applicationService.screen.showMissionPlans,
       polyline: polyline,
       optionsData: item,
       type: ITEM_TYPE.missionRoute
@@ -146,6 +152,19 @@ export class MissionRouteService {
     if (missionRouteData.route[0] && missionRouteData.route[0].point) {
       this.mapGeneralService.flyToObject(GeoCalculate.geopoint3d_short_to_point3d( missionRouteData.route[0].point));
     }
+  };
+
+  // -----------------------
+  public hideAll = () => {
+    this.missionRoutes.data.forEach((item: MISSION_ROUTE_DATA_UI) => {
+      this.mapGeneralService.hidePolyline(item.id);
+    });
+  };
+  // -----------------------
+  public showAll = () => {
+    this.missionRoutes.data.forEach((item: MISSION_ROUTE_DATA_UI) => {
+      this.mapGeneralService.showPolyline(item.id);
+    });
   };
 
 }

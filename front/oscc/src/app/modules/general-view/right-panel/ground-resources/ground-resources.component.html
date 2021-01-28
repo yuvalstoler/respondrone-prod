@@ -1,8 +1,9 @@
 <!-- width more then 1200px-------------------------------------------------------------------------------------------->
 <div *ngIf="screenWidth > 1200" class="frContainer scroll">
-  <div (click)="onSelect(fr)"
-       *ngFor="let fr of frService.frs.data | sortByPriority: optionSelected "
+  <div *ngFor="let fr of frService.frs.data | sortByPriority: optionSelected"
+       (click)="onSelect(fr)"
        [ngClass]="{'selectedFr': frService.selectedElement?.id === fr.id}"
+       [id]="'fr'+fr.id"
        class="gridResourcesRegular">
     <!--icon resource-->
     <div class="item1">
@@ -50,7 +51,8 @@
     <div *ngFor="let fr of frService.frs.data | sortByPriority: optionSelected "
          (click)="onSelect(fr)"
          (contextmenu)="onRightClick($event, fr.id)"
-         [ngClass]="{'selectedFr': frService.selectedElement?.id === fr.id}">
+         [ngClass]="{'selectedFr': frService.selectedElement?.id === fr.id}"
+         [id]="'fr'+fr.id">
       <div style="visibility: hidden; position: fixed;"
            [style.left]="menuTopLeftPosition.x"
            [style.top]="menuTopLeftPosition.y"
