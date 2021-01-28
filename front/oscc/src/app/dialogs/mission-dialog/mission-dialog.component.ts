@@ -11,7 +11,7 @@ import {
   MISSION_TYPE_TEXT,
   OPERATIONAL_STATUS,
   POINT3D,
-  SCAN_SPEED,
+  SCAN_SPEED, VIDEO_URL_KEY,
   YAW_ORIENTATION
 } from '../../../../../../classes/typings/all.typings';
 import {AirVehicleService} from '../../services/airVehicleService/airVehicle.service';
@@ -39,7 +39,6 @@ export class MissionDialogComponent implements OnInit {
   MISSION_TYPE_TEXT = MISSION_TYPE_TEXT;
   missionTypes = [MISSION_TYPE.CommRelay, MISSION_TYPE.Patrol, MISSION_TYPE.Scan, MISSION_TYPE.Observation, MISSION_TYPE.Servoing]; // Object.values(MISSION_TYPE);
   commRelayTypes = Object.values(COMM_RELAY_TYPE);
-  yawOrientationTypes = Object.values(YAW_ORIENTATION);
   COMM_RELAY_TYPE_TEXT = COMM_RELAY_TYPE_TEXT;
   COMM_RELAY_TYPE = COMM_RELAY_TYPE;
   OPERATIONAL_STATUS = OPERATIONAL_STATUS;
@@ -57,6 +56,8 @@ export class MissionDialogComponent implements OnInit {
     comments: true
   };
   STATE_DRAW = STATE_DRAW;
+  yawOrientationTypes = Object.values(YAW_ORIENTATION);
+  isBody = false;
 
   //Model
   missionModel: MISSION_MODEL_UI;
@@ -599,6 +600,11 @@ export class MissionDialogComponent implements OnInit {
     this.polylineService.deletePolylineManually('tmp' + '0');
     this.applicationService.isDialogOpen = false;
   };
+
+  changeSlide = ($event) => {
+    this.isBody = !!$event.checked;
+  };
+
 
 
 }

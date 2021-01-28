@@ -73,7 +73,7 @@ export class VideoPanelComponent implements OnInit {
       userId: this.loginService.getUserId(),
       parameters: undefined
     };
-  }
+  };
 
   changeSlide = ($event) => {
     this.isNight = !!$event.checked;

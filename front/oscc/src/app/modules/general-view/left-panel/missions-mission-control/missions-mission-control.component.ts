@@ -43,7 +43,8 @@ export class MissionsMissionControlComponent implements OnInit {
 
   private openPanel = (title: string) => {
     const dialogRef = this.dialog.open(MissionDialogComponent, {
-      maxWidth: '90%',
+      maxWidth: '75%',
+      minWidth: '75%',
       disableClose: true,
       data: {title: title}
     });

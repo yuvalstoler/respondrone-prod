@@ -45,7 +45,8 @@ export class ServoingContextMenuComponent implements OnInit {
 
   private openPanel = (title: string, missionType: MISSION_TYPE, airVehicle: AV_DATA_UI, options: {selectedId: number, point: POINT}) => {
     const dialogRef = this.dialog.open(MissionDialogComponent, {
-      maxWidth: '90%',
+      maxWidth: '75%',
+      minWidth: '75%',
       disableClose: true,
       data: {title: title, missionType: missionType, airVehicle: airVehicle, idBlob: options.selectedId}
     });

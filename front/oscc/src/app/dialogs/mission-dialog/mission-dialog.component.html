@@ -377,17 +377,21 @@
             <span *ngIf="missionModel?.missionDetails?.scan?.speed">Speed: {{missionModel?.missionDetails?.scan?.speed}}
               , &nbsp;</span>
             <span
-              *ngIf="missionModel?.missionDetails?.scan?.overlapPercent">Overlap: {{missionModel?.missionDetails?.scan?.overlapPercent}}
-              %, &nbsp;</span>
+              *ngIf="missionModel?.missionDetails?.scan?.overlapPercent">Overlap: {{missionModel?.missionDetails?.scan?.overlapPercent}}%,
+              &nbsp;</span>
             <span
-              *ngIf="missionModel?.missionDetails?.scan?.cameraFov">Camera FOV: {{missionModel?.missionDetails?.scan?.cameraFov}}
-              %</span>
+              *ngIf="missionModel?.missionDetails?.scan?.cameraFov">Camera FOV: {{missionModel?.missionDetails?.scan?.cameraFov}}%</span>
           </mat-panel-description>
           <mat-icon>{{missionDetails.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
         <div>
           <!--Azimuth & Slider-->
-          <small>Set mission azimuth</small>
+          <small>Set azimuth direction</small>
+          <!--slider body or north-->
+          <div>
+            <small [ngStyle]="{'margin-right': '10px'}">By body</small>
+            <mat-slide-toggle (change)="changeSlide($event)"></mat-slide-toggle>
+            <small [ngStyle]="{'margin-left': '10px'}">By the north</small></div>
           <div class="viewingAngle">
             <div class="azimuthContainer">
               <!--Circle-->
@@ -408,20 +412,20 @@
             </div>
             <!--Slider-->
             <div class="VNSlider">
-              <div class="slider1">N</div>
+              <div class="slider1">{{isBody ? 'N' : 0}}</div>
               <div class="slider2"><input [(ngModel)]="missionModel.missionDetails.azimuth" class="sliderViewNow"
                                           max="360" min="0" step="1"
                                           type="range"></div>
-              <div class="slider3">N</div>
-              <div class="slider4">E</div>
-              <div class="slider5">S</div>
-              <div class="slider6">W</div>
+              <div class="slider3">{{isBody ? 'N' : '360°'}}</div>
+              <div class="slider4" [ngStyle]="{'visibility' : !isBody ? 'hidden': ''}" >E</div>
+              <div class="slider5" *ngIf="isBody">S</div>
+              <div class="slider6" *ngIf="isBody">W</div>
             </div>
             {{missionModel?.missionDetails?.azimuth}}°
           </div>
           <!--Details-->
-          <div *ngIf="missionModel?.missionType !== MISSION_TYPE.Scan && missionModel?.missionType !== MISSION_TYPE.Patrol" class="DetailsContainer">
-            <small>Define distance of flying from the Observation point <span
+          <div *ngIf="missionModel?.missionType !== MISSION_TYPE.Scan" class="DetailsContainer">
+            <small>Define distance of flying from {{missionModel?.missionType !== MISSION_TYPE.Patrol ? 'polyline' : 'the Observation point'}} <span
               *ngIf="missionModel.missionDetails.distance === null" class="Error">*</span></small>
             <div class="Grid3">
               <div class="item2">
@@ -444,15 +448,15 @@
           </div>
           <div *ngIf="missionModel?.missionType === MISSION_TYPE.Patrol" class="DetailsContainer">
             <div class="ScanSelect">
-              <small>Yaw orientation</small>
-              <mat-form-field appearance="outline" class="SPMatFormField">
-                <mat-select [(ngModel)]="missionModel.missionDetails.yawOrientation"
-                            required>
-                  <mat-option *ngFor="let yawOrientation of yawOrientationTypes" [value]="yawOrientation">
-                    {{yawOrientation}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+              <!--<small>Yaw orientation</small>-->
+              <!--<mat-form-field appearance="outline" class="SPMatFormField">-->
+                <!--<mat-select [(ngModel)]="missionModel.missionDetails.yawOrientation"-->
+                            <!--required>-->
+                  <!--<mat-option *ngFor="let yawOrientation of yawOrientationTypes" [value]="yawOrientation">-->
+                    <!--{{yawOrientation}}-->
+                  <!--</mat-option>-->
+                <!--</mat-select>-->
+              <!--</mat-form-field>-->
             </div>
           </div>
           <div *ngIf="missionModel?.missionType === MISSION_TYPE.Scan" class="DetailsContainer">
