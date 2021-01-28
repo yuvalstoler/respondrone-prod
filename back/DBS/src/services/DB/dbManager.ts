@@ -754,7 +754,7 @@ export class DbManager {
         });
     };
 
-    private readUser = (data: CREDENTIALS): Promise<ASYNC_RESPONSE<USER_DATA>> => {
+    private readUser = (data: CREDENTIALS | ID_OBJ): Promise<ASYNC_RESPONSE<USER_DATA>> => {
         return new Promise((resolve, reject) => {
             this.userModel.find(data)
                 .exec()

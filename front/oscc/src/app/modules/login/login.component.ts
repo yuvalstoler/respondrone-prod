@@ -1,5 +1,5 @@
 import {AfterContentInit, Component} from '@angular/core';
-import {ASYNC_RESPONSE, CREDENTIALS, LOGIN_RESPONSE} from '../../../../../../classes/typings/all.typings';
+import {ASYNC_RESPONSE, CREDENTIALS, USER_DATA_UI} from '../../../../../../classes/typings/all.typings';
 import {LoginService} from '../../services/login/login.service';
 import {Router} from '@angular/router';
 
@@ -25,7 +25,7 @@ export class LoginComponent {
 
   validate = (credentials: CREDENTIALS, headers?) => {
     this.loginService.login(credentials, headers)
-      .then((result: ASYNC_RESPONSE<LOGIN_RESPONSE>) => {
+      .then((result: ASYNC_RESPONSE<USER_DATA_UI>) => {
 
         if (!result.success || !result.data.token) {
           this.isChecked = true;

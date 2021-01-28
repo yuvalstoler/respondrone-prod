@@ -33,6 +33,7 @@ import {
 
 
 import {
+    AUTH_API,
     MWS_API,
     WS_API
 } from '../../../../../classes/dataClasses/api/api_enums';
@@ -47,6 +48,8 @@ import {GimbalManager} from '../gimbal/gimbalManager';
 import {GraphicOverlayManager} from '../graphicOverlay/graphicOverlayManager';
 import {NFZManager} from '../NFZ/NFZManager';
 import {LoginManager} from '../../auth/loginManager';
+import {AuthRouter} from '../../auth/authRouter';
+import {RequestManager} from '../../AppService/restConnections/requestManager';
 
 const services = require('./../../../../../../../../config/services.json');
 
@@ -57,7 +60,7 @@ export class ApiManager implements IRest {
 
 
     private constructor() {
-        // this.getDynamicNfzFromWebServer();
+
     }
 
     public listen = (router: core.Router): boolean => {
@@ -66,8 +69,42 @@ export class ApiManager implements IRest {
                 router.use(path, this.routers[path]);
             }
         }
+
+        for ( const path in this.routersUI ) {
+            if ( this.routersUI.hasOwnProperty(path) ) {
+                router.use(path, (request, response, path1) => this.onRouteUI(request, response, path));
+            }
+        }
         return true;
     };
+    // ========================================================================
+    private onRouteUI = (request: Request, response: Response, path) => {
+        const resp: ASYNC_RESPONSE = {success: false};
+        const token = request.headers['x-access-token'] as string;
+        if (token) {
+            RequestManager.requestToAuthService(AUTH_API.check, {token: token})
+                .then((validRes: ASYNC_RESPONSE) => {
+                    if (validRes.success) {
+                        this.routersUI[path](request, response);
+                    }
+                    else {
+                        console.log('======= Invalid token ' + validRes.description);
+                        resp.description = 'Invalid token ' + validRes.description;
+                        response.send(resp);
+                    }
+                })
+                .catch((err) => {
+                    console.log('======= Error validating token', JSON.stringify(err));
+                    resp.description = 'Error validating token';
+                    response.send(resp);
+                });
+        }
+        else {
+            console.log('======= invalid token');
+            resp.description = 'Invalid credentials';
+            response.send(resp);
+        }
+    }
 
     // ========================================================================
 
@@ -732,11 +769,7 @@ export class ApiManager implements IRest {
     };
 
     // ========================================================================
-    routers: {} = {
-        [MWS_API.getVideoSources]: this.getVideoSources,
-
-
-
+    routersUI = { // validate token
         [WS_API.createReport]: this.createReport,
         [WS_API.readReport]: this.readReport,
         [WS_API.readAllReport]: this.readAllReport,
@@ -756,6 +789,9 @@ export class ApiManager implements IRest {
         [WS_API.deleteAllTask]: this.deleteAllTask,
         [WS_API.osccTaskAction]: this.osccTaskAction,
 
+        [WS_API.uploadFile]: this.uploadFile,
+        [WS_API.removeFile]: this.removeFile,
+
         [WS_API.createMissionRequest]: this.createMissionRequest,
         [WS_API.readAllMissionRequest]: this.readAllMissionRequest,
         [WS_API.readAllMission]: this.readAllMission,
@@ -764,8 +800,15 @@ export class ApiManager implements IRest {
         [WS_API.readAllNFZ]: this.readAllNFZ,
         [WS_API.updateMissionInDB]: this.updateMissionInDB,
 
-        [WS_API.uploadFile]: this.uploadFile,
-        [WS_API.removeFile]: this.removeFile,
+        [WS_API.getChatServerData]: this.getChatServerData,
+
+        [WS_API.missionRequestActionFromOSCC]: this.missionRequestAction,
+        [WS_API.gimbalActionFromOSCC]: this.gimbalAction,
+        [WS_API.requestGimbalControlFromOSCC]: this.requestGimbalControlFromOSCC,
+    };
+
+    routers: {} = {
+        [MWS_API.getVideoSources]: this.getVideoSources,
 
         [WS_API.updateAllReports]: this.updateAllReports,
         [WS_API.updateAllEvents]: this.updateAllEvents,
@@ -777,12 +820,6 @@ export class ApiManager implements IRest {
         [WS_API.updateAllNFZs]: this.updateAllNFZs,
 
         [WS_API.login]: this.login,
-        [WS_API.getChatServerData]: this.getChatServerData,
-
-        [WS_API.missionRequestAction]: this.missionRequestAction,
-        [WS_API.gimbalActionFromOSCC]: this.gimbalAction,
-        [WS_API.requestGimbalControlFromOSCC]: this.requestGimbalControlFromOSCC,
-
     };
 
     // region API uncions

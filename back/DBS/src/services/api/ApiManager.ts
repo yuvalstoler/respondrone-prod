@@ -967,6 +967,28 @@ export class ApiManager implements IRest {
 
     private readUser = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<USER_DATA> = {success: false};
+        const requestBody: ID_OBJ = request.body;
+        if ( requestBody && requestBody.id !== undefined ) {
+            DbManager.readUser(requestBody)
+                .then((data: ASYNC_RESPONSE<USER_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                })
+                .catch((data: ASYNC_RESPONSE<USER_DATA>) => {
+                    res.success = data.success;
+                    res.data = data.data;
+                    response.send(res);
+                });
+        }
+        else {
+            res.description = 'missing field id';
+            response.send(res);
+        }
+    };
+
+    private readUserByCredentials = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE<USER_DATA> = {success: false};
         const requestBody: CREDENTIALS = request.body;
         if ( requestBody && requestBody.name !== undefined && requestBody.password !== undefined ) {
             DbManager.readUser(requestBody)
@@ -1143,6 +1165,7 @@ export class ApiManager implements IRest {
 
         [DBS_API.createUser]: this.createUser,
         [DBS_API.readUser]: this.readUser,
+        [DBS_API.readUserByCredentials]: this.readUserByCredentials,
         [DBS_API.readAllUser]: this.readAllUser,
         [DBS_API.deleteUser]: this.deleteUser,
         [DBS_API.deleteAllUser]: this.deleteAllUser,

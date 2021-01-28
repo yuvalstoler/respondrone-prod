@@ -98,11 +98,13 @@
     "host": "localhost",
     "protocol": "http",
     "timeOutREST": 10000,
-    "rateOfClimb": 2,
+
     "secret": "4sekgq3sns4l0dj9kmgukn",
     "expireIn": 86400,
     "name": "ResponDrone",
-    "password": "simplex"
+    "password": "simplex",
+    "id": "respondroneid",
+    "chatPassword": "simplex123"
   },
   "logServer": {
     "port": "6900",

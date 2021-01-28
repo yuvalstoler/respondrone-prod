@@ -1,13 +1,15 @@
 import {
-    ADDRESS, CHAT_GROUP,
-    COMMENT, FR_STATUS, FR_TYPE,
+    CHAT_GROUP,
+    COMMENT,
     GEOGRAPHIC_INSTRUCTION,
-    ID_TYPE, MAP,
-    PRIORITY, TASK_ACTION,
+    GEOGRAPHIC_INSTRUCTION_TYPE,
+    ID_TYPE,
+    MAP,
+    PRIORITY,
+    TASK_ACTION,
     TASK_DATA,
     TASK_DATA_UI,
     TASK_STATUS,
-    TASK_TYPE, TIMESTAMP,
 } from '../../typings/all.typings';
 import {DataUtility} from '../../applicationClasses/utility/dataUtility';
 
@@ -125,6 +127,15 @@ export class Task {
         }
     };
 
+    private getGeoInstructionsForMobile = (): GEOGRAPHIC_INSTRUCTION[] => {
+        return this.geographicInstructions.map((obj: GEOGRAPHIC_INSTRUCTION) => {
+            const geoInstruction = Object.assign({}, obj);
+            if (geoInstruction.type === GEOGRAPHIC_INSTRUCTION_TYPE.address) {
+                geoInstruction.type = GEOGRAPHIC_INSTRUCTION_TYPE.point;
+            }
+            return geoInstruction;
+        });
+    }
 
     public toJsonForSave = (): TASK_DATA => {
         return {
@@ -147,6 +158,26 @@ export class Task {
         };
     };
 
+    public toJsonForMobile = (): TASK_DATA => {
+        return {
+            id: this.id,
+            time: this.time,
+            createdBy: this.createdBy,
+            title: this.title,
+            type: this.type,
+            priority: this.priority,
+            description: this.description,
+            resources: this.resources,
+            status: this.status,
+            geographicInstructions: this.getGeoInstructionsForMobile(),
+            assigneeIds: this.assigneeIds,
+            comments: this.comments,
+            idView: this.idView,
+            isSendToMobile: this.isSendToMobile,
+            taskActionByUser: this.taskActionByUser,
+            chatGroup: this.chatGroup
+        };
+    };
 
     public toJsonForUI = (): TASK_DATA_UI => {
         return {

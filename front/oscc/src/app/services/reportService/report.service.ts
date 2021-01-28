@@ -17,6 +17,7 @@ import {ApplicationService} from '../applicationService/application.service';
 import {MapGeneralService} from '../mapGeneral/map-general.service';
 import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE} from '../../../types';
 import {GeoCalculate} from '../classes/geoCalculate';
+import {API_GENERAL, WS_API} from '../../../../../../classes/dataClasses/api/api_enums';
 
 
 @Injectable({
@@ -51,7 +52,7 @@ export class ReportService {
   // ----------------------
   public getReports = (isConnected: boolean = true) => {
     if (isConnected) {
-      this.connectionService.post('/api/readAllReport', {})
+      this.connectionService.post(`/${API_GENERAL.general}${WS_API.readAllReport}`, {})
         .then((data) => {
           const dataResult = _.get(data, 'data', false);
           if (dataResult) {
@@ -168,7 +169,7 @@ export class ReportService {
   };
   // ----------------------
   public createReport = (reportData: REPORT_DATA, cb?: Function) => {
-    this.connectionService.post('/api/createReport', reportData)
+    this.connectionService.post(`/${API_GENERAL.general}${WS_API.createReport}`, reportData)
       .then((data: ASYNC_RESPONSE) => {
         if (!data.success) {
           this.toasterService.error({message: 'error creating report', title: ''});
@@ -187,7 +188,7 @@ export class ReportService {
   };
   // ----------------------
   public deleteReport = (idObj: ID_OBJ) => {
-    this.connectionService.post('/api/deleteReport', idObj)
+    this.connectionService.post(`/${API_GENERAL.general}${WS_API.deleteReport}`, idObj)
       .then((data: ASYNC_RESPONSE) => {
         if (!data.success) {
           this.toasterService.error({message: 'error deleting report', title: ''});

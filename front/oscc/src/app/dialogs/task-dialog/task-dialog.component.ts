@@ -124,6 +124,7 @@ export class TaskDialogComponent implements OnInit {
   onCreateClick = () => {
     // console.log(this.taskModel.geographicInstructions);
     const taskModel = _.cloneDeep(this.taskModel);
+    taskModel.idView = DataUtility.generateIDForView();
     taskModel.geographicInstructions.forEach((geoInstruction?: GEOGRAPHIC_INSTRUCTION) => {
       if (geoInstruction.id.substring(0, 3) === 'tmp') {
         geoInstruction.id = DataUtility.generateID();

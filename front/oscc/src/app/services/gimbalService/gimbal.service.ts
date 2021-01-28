@@ -142,7 +142,7 @@ export class GimbalService {
   };
   // -----------------------
   public sendGimbalAction = (gimbalAction: GIMBAL_ACTION_OSCC) => {
-    this.connectionService.post('/' + API_GENERAL.general + WS_API.gimbalActionFromOSCC, gimbalAction)
+    this.connectionService.post(`/${API_GENERAL.general}${WS_API.gimbalActionFromOSCC}`, gimbalAction)
       .then((data: ASYNC_RESPONSE) => {
         if (data.description) {
           this.toasterService.error({title: '', message: data.description, options: {positionClass: 'toast-top-right', timeOut: 5000}});
@@ -154,7 +154,7 @@ export class GimbalService {
   };
   // -----------------------
   public sendGimbalControlRequest = (controlRequest: GIMBAL_CONTROL_REQUEST_OSCC) => {
-    this.connectionService.post('/' + API_GENERAL.general + WS_API.requestGimbalControlFromOSCC, controlRequest)
+    this.connectionService.post(`/${API_GENERAL.general}${WS_API.requestGimbalControlFromOSCC}`, controlRequest)
       .then((data) => {
       })
       .catch(e => {

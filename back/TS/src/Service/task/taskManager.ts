@@ -121,7 +121,7 @@ export class TaskManager {
                         if (task) {
                             task.setValues(data.data);
                         } else {
-                            task = new Task(data.data)
+                            task = new Task(data.data);
                             this.tasks.push(task);
                         }
 
@@ -138,26 +138,27 @@ export class TaskManager {
     }
 
     private sendAllTasksToMobile = () => {
-        const tasksData: TASK_DATA[] = []
+        const tasksData: TASK_DATA[] = [];
         this.tasks.forEach((task: Task) => {
-            tasksData.push(task.toJsonForSave());
+            tasksData.push(task.toJsonForMobile());
         });
         RequestManager.requestToCCG(CCGW_API.setAllTasks, tasksData)
             .then((data: ASYNC_RESPONSE) => {
                 if (!data.success) {
-                   console.log('setAllTasks failed')
+                   console.log('setAllTasks failed');
                 }
             })
             .catch((data: ASYNC_RESPONSE) => {
-                console.log('setAllTasks failed')
-            })
+                console.log('setAllTasks failed');
+            });
     }
 
     private sendTaskToMobile = (task: Task) => {
-        const taskData = task.toJsonForSave();
-        RequestManager.requestToCCG(CCGW_API.createTask, taskData)
-            .then((data: ASYNC_RESPONSE) => {
-                if (data.success) {
+        const taskDataMobile = task.toJsonForMobile();
+        RequestManager.requestToCCG(CCGW_API.createTask, taskDataMobile)
+            .then((dataRes: ASYNC_RESPONSE) => {
+                if (dataRes.success) {
+                    const taskData = task.toJsonForSave();
                     taskData.isSendToMobile = true;
 
                     RequestManager.requestToDBS(DBS_API.createTask, taskData)
@@ -172,12 +173,12 @@ export class TaskManager {
                         });
                 }
                 else {
-                    this.tasksSendToMobile[task.id] = taskData;
+                    this.tasksSendToMobile[task.id] = taskDataMobile;
                 }
             })
             .catch((data: ASYNC_RESPONSE) => {
-                this.tasksSendToMobile[task.id] = taskData;
-            })
+                this.tasksSendToMobile[task.id] = taskDataMobile;
+            });
     }
 
     private startInterval = () => {
@@ -191,7 +192,7 @@ export class TaskManager {
                             this.tasksSendToDB[taskData.id] = taskData;
                         }
                     })
-                    .catch((data: ASYNC_RESPONSE) => {})
+                    .catch((data: ASYNC_RESPONSE) => {});
             }
 
 
@@ -207,7 +208,7 @@ export class TaskManager {
                     .catch((data: ASYNC_RESPONSE<TASK_DATA>) => {});
             }
 
-        }, 5000)
+        }, 5000);
     }
 
     // private updateTask = (taskData: TASK_DATA): Promise<ASYNC_RESPONSE<TASK_DATA>> => {
@@ -240,7 +241,7 @@ export class TaskManager {
                     if (taskData.taskActionByUser[assigneeId] !== TASK_ACTION.reject) {
                         isAllRejected = false;
                     }
-                })
+                });
                 if (isAllRejected) {
                     res = TASK_STATUS.rejected;
                 }
@@ -252,14 +253,14 @@ export class TaskManager {
         return res;
     }
 
-    private userTaskAction = (data: USER_TASK_ACTION) => {
+    private userTaskAction = (userTaskAction: USER_TASK_ACTION) => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
-            const task = TaskManager.getTask({id: data.taskId});
+            const task = TaskManager.getTask({id: userTaskAction.taskId});
             if (task) {
                 const taskData = task.toJsonForSave();
-                taskData.taskActionByUser[data.userId] = data.action
-                taskData.status = this.getTaskStatus(taskData, data.action);
+                taskData.taskActionByUser[userTaskAction.userId] = userTaskAction.action;
+                taskData.status = this.getTaskStatus(taskData, userTaskAction.action);
                 RequestManager.requestToDBS(DBS_API.createTask, taskData)
                     .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
                         res.data = data.data;
@@ -272,7 +273,7 @@ export class TaskManager {
                             resolve(res);
                         }
                         else {
-                            reject(res)
+                            reject(res);
                         }
 
                     })
@@ -282,19 +283,19 @@ export class TaskManager {
                     });
             }
             else {
-                res.data =  'task doesnt exist: '+ data.taskId
+                res.data =  'task doesnt exist: ' + userTaskAction.taskId;
                 reject(res);
             }
         });
     }
 
-    private osccTaskAction = (data: OSCC_TASK_ACTION) => {
+    private osccTaskAction = (osccTaskAction: OSCC_TASK_ACTION) => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
-            const task = TaskManager.getTask({id: data.taskId});
+            const task = TaskManager.getTask({id: osccTaskAction.taskId});
             if (task) {
                 const taskData = task.toJsonForSave();
-                taskData.status = this.getTaskStatus(taskData, data.action);
+                taskData.status = this.getTaskStatus(taskData, osccTaskAction.action);
                 RequestManager.requestToDBS(DBS_API.createTask, taskData)
                     .then((data: ASYNC_RESPONSE<TASK_DATA>) => {
                         res.data = data.data;
@@ -307,7 +308,7 @@ export class TaskManager {
                             resolve(res);
                         }
                         else {
-                            reject(res)
+                            reject(res);
                         }
 
                     })
@@ -317,7 +318,7 @@ export class TaskManager {
                     });
             }
             else {
-                res.data =  'task doesnt exist: '+ data.taskId
+                res.data =  'task doesnt exist: ' + osccTaskAction.taskId;
                 reject(res);
             }
         });
@@ -359,7 +360,7 @@ export class TaskManager {
                             this.tasks.splice(index, 1);
                         }
                         UpdateListenersManager.updateTaskListeners();
-                        this.sendAllTasksToMobile()
+                        this.sendAllTasksToMobile();
                         resolve(res);
                     }
                     else {

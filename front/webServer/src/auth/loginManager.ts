@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
 // import {SocketIO} from '../../websocket/socket.io';
 // import {Login} from '../../../../../classes/dataClasses/site/login';
-import {ASYNC_RESPONSE, CREDENTIALS, LOGIN_RESPONSE, MAP} from '../../../../classes/typings/all.typings';
+import {ASYNC_RESPONSE, CREDENTIALS, MAP, USER_DATA_UI} from '../../../../classes/typings/all.typings';
 import {RequestManager} from '../AppService/restConnections/requestManager';
 import {AUTH_API} from '../../../../classes/dataClasses/api/api_enums';
 
@@ -43,7 +43,7 @@ export class LoginManager {
         const resData: ASYNC_RESPONSE = {success: false, data: undefined};
         return new Promise((resolve, reject) => {
             RequestManager.requestToAuthService(AUTH_API.login, login)
-                .then((result: ASYNC_RESPONSE<LOGIN_RESPONSE>) => {
+                .then((result: ASYNC_RESPONSE<USER_DATA_UI>) => {
                    resolve(result);
                 })
                 .catch((data) => {

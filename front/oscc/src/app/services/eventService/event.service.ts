@@ -18,6 +18,7 @@ import {MapGeneralService} from '../mapGeneral/map-general.service';
 import {HEADER_BUTTONS, ICON_DATA, ITEM_TYPE, POLYGON_DATA} from '../../../types';
 import {ApplicationService} from '../applicationService/application.service';
 import {GeoCalculate} from '../classes/geoCalculate';
+import {API_GENERAL, WS_API} from '../../../../../../classes/dataClasses/api/api_enums';
 
 
 @Injectable({
@@ -47,7 +48,7 @@ export class EventService {
   // ----------------------
   public getEvents = (isConnected: boolean = true) => {
     if (isConnected) {
-      this.connectionService.post('/api/readAllEvent', {})
+      this.connectionService.post(`/${API_GENERAL.general}${WS_API.readAllEvent}`, {})
         .then((data) => {
           const dataResult = _.get(data, 'data', false);
           if (dataResult) {
@@ -195,7 +196,7 @@ export class EventService {
     //
     //   this.events$.next(true);
     // }
-    this.connectionService.post('/api/createEvent', eventData)
+    this.connectionService.post(`/${API_GENERAL.general}${WS_API.createEvent}`, eventData)
       .then((data: ASYNC_RESPONSE) => {
         if (!data.success) {
           this.toasterService.error({message: 'error creating event', title: ''});
@@ -215,7 +216,7 @@ export class EventService {
 
   // ----------------------
   public deleteEvent = (idObj: ID_OBJ) => {
-    this.connectionService.post('/api/deleteEvent', idObj)
+    this.connectionService.post(`/${API_GENERAL.general}${WS_API.deleteEvent}`, idObj)
       .then((data: ASYNC_RESPONSE) => {
         if (!data.success) {
           this.toasterService.error({message: 'error creating event', title: ''});
