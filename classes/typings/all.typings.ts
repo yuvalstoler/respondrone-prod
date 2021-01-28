@@ -161,8 +161,9 @@ export type REPORT_DATA_MD = {
 export type TABLE_DATA_MD = {
     type: 'image' | 'matIcon' | 'text' | 'date' | 'textWithDot',
     data: any,
-    color?: string
-}
+    color?: string,
+    tooltip?: string
+};
 
 export type EVENT_DATA = { // TODO - change data fields
     id?: ID_TYPE,

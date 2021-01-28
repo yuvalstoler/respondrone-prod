@@ -8,7 +8,7 @@ import {ApplicationService} from '../../../../../services/applicationService/app
 import {
   COMMENT,
   EVENT_DATA_UI,
-  MISSION_REQUEST_DATA_UI, ID_TYPE
+  MISSION_REQUEST_DATA_UI, ID_TYPE, TABLE_DATA_MD
 } from '../../../../../../../../../classes/typings/all.typings';
 import * as _ from 'lodash';
 import {ContextMenuService} from '../../../../../services/contextMenuService/context-menu.service';
@@ -47,6 +47,35 @@ export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
   screenWidth: number;
+
+  titlesData: MAP<TABLE_DATA_MD> = {
+    id : {
+      type: 'text',
+      data: 'ID'
+    },
+    missionStatus: {
+      type: 'text',
+      data: 'Mission Status'
+    },
+    missionType: {
+      type: 'text',
+      data: 'Mission Type'
+    },
+    createdBy: {
+      type: 'text',
+      data: 'Created By'
+    },
+    message: {
+      type: 'matIcon',
+      data: 'comment',
+      tooltip: 'Comments'
+    },
+    map: {
+      type: 'matIcon',
+      data: 'location_on',
+      tooltip: 'Event location'
+    }
+  };
 
   constructor(public applicationService: ApplicationService,
               public missionRequestService: MissionRequestService,

@@ -4,14 +4,16 @@
     let i = index" matColumnDef="{{column}}">
       <!--Rows-->
       <span *ngIf="column !== 'select' && column !== 'expandCollapse'">
-        <th *matHeaderCellDef [disabled]="isSortingDisabled(column)"
-            mat-header-cell mat-sort-header>
-          <span *ngIf="column !== 'message' && column !== 'link' && column !== 'map' && column !== 'attachment'"
-                class="capitalize">{{(column !== 'id') ? (column | separatorString) : 'ID'}}</span>
-          <mat-icon *ngIf="column === 'message'" class="HPRightSideIcon" matTooltip="Comments" matTooltipPosition="above">comment</mat-icon>
-          <mat-icon *ngIf="column === 'link'" class="HPRightSideIcon" matTooltip="Linked events" matTooltipPosition="above">link</mat-icon>
-          <mat-icon *ngIf="column === 'map'" class="HPRightSideIcon" matTooltip="Mission location" matTooltipPosition="above">location_on</mat-icon>
-          <mat-icon *ngIf="column === 'attachment'" class="HPRightSideIcon" matTooltip="Media" matTooltipPosition="above">attach_file</mat-icon>
+        <th *matHeaderCellDef [disabled]="isSortingDisabled(column)" mat-header-cell mat-sort-header>
+                    <span *ngIf="!titlesData[column]" class="capitalize"> {{column}}</span>
+          <mat-icon *ngIf="titlesData[column]?.type === 'matIcon'" class="HPRightSideIcon"
+                    matTooltip="{{titlesData[column]?.tooltip}}" matTooltipPosition="above">
+               {{titlesData[column]?.data}}
+          </mat-icon>
+          <span *ngIf="titlesData[column]?.type === 'text'" class="capitalize"
+                matTooltip="{{titlesData[column]?.tooltip}}" matTooltipPosition="above">
+               {{titlesData[column]?.data}}
+          </span>
         </th>
         <td *matCellDef="let element" mat-cell [ngStyle]="{'color': element.modeDefine?.styles?.textColor}" >
           <span *ngIf="element.modeDefine?.tableData[column]">

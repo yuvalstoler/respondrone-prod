@@ -2,7 +2,7 @@ import {AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit, ViewChild
 import {MatTableDataSource} from '@angular/material/table';
 import {
   COMMENT,
-  EVENT_DATA_UI, ID_TYPE,
+  EVENT_DATA_UI, ID_TYPE, TABLE_DATA_MD,
   TASK_DATA_UI
 } from '../../../../../../../../../classes/typings/all.typings';
 import {LEFT_PANEL_ICON, MAP} from '../../../../../../types';
@@ -42,6 +42,33 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
   screenWidth: number;
+
+  titlesData: MAP<TABLE_DATA_MD> = {
+    id : {
+      type: 'text',
+      data: 'ID'
+    },
+    time: {
+      type: 'text',
+      data: 'time',
+      tooltip: 'Last updated'
+    },
+    message: {
+      type: 'matIcon',
+      data: 'comment',
+      tooltip: 'Comments'
+    },
+    map: {
+      type: 'matIcon',
+      data: 'location_on',
+      tooltip: 'Event location'
+    },
+    assignees: {
+      type: 'matIcon',
+      data: 'people',
+      tooltip: 'Task\'s assignees'
+    }
+  };
 
   constructor(public applicationService: ApplicationService,
               public responsiveService: ResponsiveService,
