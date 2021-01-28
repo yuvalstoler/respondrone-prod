@@ -78,6 +78,8 @@ export class TaskMdLogic implements IModeDefine {
             res[TASK_ACTION.complete] = true;
             res[TASK_ACTION.cancel] = true;
         }
+
+        res.numOfOptions = Object.keys(res).length;
         return res;
     }
 

@@ -3,7 +3,7 @@ import {MatSort} from '@angular/material/sort';
 import {MatDialog} from '@angular/material/dialog';
 import {MatTableDataSource} from '@angular/material/table';
 import {LinkedEventDialogComponent} from '../../../dialogs/linked-event-dialog/linked-event-dialog.component';
-import {LINKED_EVENT_DATA, REPORT_DATA_UI} from '../../../../../../../classes/typings/all.typings';
+import {LINKED_EVENT_DATA, LINKED_REPORT_DATA, REPORT_DATA_UI} from '../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../services/eventService/event.service';
 import {ApplicationService} from '../../../services/applicationService/application.service';
 
@@ -39,6 +39,12 @@ export class LinkedEventsTableComponent implements OnInit, AfterViewInit {
   selectRow = (row) => {
 
   };
+
+  onLinked = (row: LINKED_EVENT_DATA) => {
+    const event = this.eventService.getEventById(row.id);
+    this.eventService.flyToObject(event);
+    this.eventService.goToEvent(row.id);
+  }
 
   removeAll() {
     this.dataSource.data = [];

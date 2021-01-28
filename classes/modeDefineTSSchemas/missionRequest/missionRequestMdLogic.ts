@@ -157,7 +157,7 @@ export class MissionRequestMdLogic implements IModeDefine {
         }
         else if (data.missionStatus === MISSION_STATUS_UI.WaitingForApproval) {
             res[MISSION_REQUEST_ACTION.Approve] = true;
-            res[MISSION_REQUEST_ACTION.Reject] = true;
+            // res[MISSION_REQUEST_ACTION.Reject] = true;
             res[MISSION_REQUEST_ACTION.Cancel] = true;
         }
         else if (data.missionStatus === MISSION_STATUS_UI.Approved) {
@@ -167,6 +167,8 @@ export class MissionRequestMdLogic implements IModeDefine {
             res[MISSION_REQUEST_ACTION.Complete] = true;
             res[MISSION_REQUEST_ACTION.Cancel] = true;
         }
+
+        res.numOfOptions = Object.keys(res).length;
         return res;
     }
 

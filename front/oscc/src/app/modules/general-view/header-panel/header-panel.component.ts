@@ -14,7 +14,8 @@ import {GimbalService} from '../../../services/gimbalService/gimbal.service';
 import {NFZService} from '../../../services/nfzService/nfz.service';
 import {ContextMenuService} from '../../../services/contextMenuService/context-menu.service';
 import {LoginService} from '../../../services/login/login.service';
-import {ResponsiveService} from "../../../services/responsiveService/responsive.service";
+import {ResponsiveService} from '../../../services/responsiveService/responsive.service';
+import {MissionRouteService} from '../../../services/missionRouteService/missionRoute.service';
 
 @Component({
   selector: 'app-header-panel',
@@ -49,7 +50,8 @@ export class HeaderPanelComponent implements OnInit {
               private gimbalService: GimbalService,
               public loginService: LoginService,
               public responsiveService: ResponsiveService,
-              private nfzService: NFZService) {
+              private nfzService: NFZService,
+              private missionRouteService: MissionRouteService) {
     this.responsiveService.screenWidth$.subscribe(res => {
       this.screenWidth = res;
     });
@@ -163,9 +165,10 @@ export class HeaderPanelComponent implements OnInit {
         break;
       case 'showMissions':
         this.applicationService.screen[item] ? this.missionService.showAll() : this.missionService.hideAll();
+        this.applicationService.screen[item] ? this.missionRequestService.showAll() : this.missionRequestService.hideAll();
         break;
       case 'showMissionPlans':
-        this.applicationService.screen[item] ? this.missionRequestService.showAll() : this.missionRequestService.hideAll();
+        this.applicationService.screen[item] ? this.missionRouteService.showAll() : this.missionRouteService.hideAll();
         break;
       case 'showUAV':
         this.applicationService.screen[item] ? this.airVehicleService.showAll() : this.airVehicleService.hideAll();

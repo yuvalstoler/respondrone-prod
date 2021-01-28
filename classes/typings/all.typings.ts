@@ -161,8 +161,9 @@ export type REPORT_DATA_MD = {
 export type TABLE_DATA_MD = {
     type: 'image' | 'matIcon' | 'text' | 'date' | 'textWithDot',
     data: any,
-    color?: string
-}
+    color?: string,
+    tooltip?: string
+};
 
 export type EVENT_DATA = { // TODO - change data fields
     id?: ID_TYPE,
@@ -527,7 +528,8 @@ export type MISSION_ACTION_OPTIONS = {
     [MISSION_REQUEST_ACTION.Complete]?: boolean,
     [MISSION_REQUEST_ACTION.Cancel]?: boolean,
     [MISSION_REQUEST_ACTION.Reject]?: boolean,
-}
+    numOfOptions?: number;
+};
 
 
 export type MISSION_REQUEST_DATA_MD = {
@@ -877,8 +879,9 @@ export type USER_TASK_ACTION = {
 
 export type TASK_ACTION_OPTIONS = {
     [TASK_ACTION.cancel]?: boolean,
-    [TASK_ACTION.complete]?: boolean
-}
+    [TASK_ACTION.complete]?: boolean,
+    numOfOptions?: number;
+};
 
 export type OSCC_TASK_ACTION = {
     taskId: ID_TYPE,

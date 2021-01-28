@@ -40,6 +40,12 @@ export class LinkedReportsTableComponent implements OnInit, AfterViewInit {
 
   };
 
+  onLinked = (row: LINKED_REPORT_DATA) => {
+    const report = this.reportService.getReportById(row.id);
+    this.reportService.flyToObject(report);
+    this.reportService.goToReport(row.id);
+  }
+
   removeAt = (row: LINKED_REPORT_DATA) => {
     const reportIds = [...this.element.reportIds];
     const index = reportIds.indexOf(row.id);

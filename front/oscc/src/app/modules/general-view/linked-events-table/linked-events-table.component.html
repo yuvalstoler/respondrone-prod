@@ -35,7 +35,7 @@
         <!-- ID Column -->
         <ng-container matColumnDef="ID">
           <th *matHeaderCellDef mat-header-cell mat-sort-header>ID</th>
-          <td *matCellDef="let row" mat-cell>{{row.idView}}</td>
+          <td class="linkedID" (click)="onLinked(row)" *matCellDef="let row" mat-cell>{{row.idView}}</td>
         </ng-container>
 
         <!-- Type Column -->

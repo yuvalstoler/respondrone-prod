@@ -1,8 +1,9 @@
 <!-- width more then 1200px-------------------------------------------------------------------------------------------->
 <div *ngIf="screenWidth > 1200" class="frContainer scroll">
-  <div (click)="onSelect(fr)"
-       *ngFor="let fr of frService.frs.data | sortByPriority: optionSelected "
+  <div *ngFor="let fr of frService.frs.data | sortByPriority: optionSelected"
+       (click)="onSelect(fr)"
        [ngClass]="{'selectedFr': frService.selectedElement?.id === fr.id}"
+       [id]="'fr'+fr.id"
        class="gridResourcesRegular">
     <!--icon resource-->
     <div class="item1">
@@ -34,7 +35,7 @@
     <!--type-->
     <div class="item4">{{fr.type}}</div>
     <!--last update-->
-    <div class="item5">{{fr.lastUpdated?.timestamp | lastSeenDate: applicationService.now}}</div>
+    <div class="item5" matTooltip="Last seen" matTooltipPosition="below">{{fr.lastUpdated?.timestamp | lastSeenDate: applicationService.now}}</div>
     <!--status-->
     <div class="item6">
     <span [ngStyle]="{'color': fr.modeDefine?.styles?.dotColor}"
@@ -50,7 +51,8 @@
     <div *ngFor="let fr of frService.frs.data | sortByPriority: optionSelected "
          (click)="onSelect(fr)"
          (contextmenu)="onRightClick($event, fr.id)"
-         [ngClass]="{'selectedFr': frService.selectedElement?.id === fr.id}">
+         [ngClass]="{'selectedFr': frService.selectedElement?.id === fr.id}"
+         [id]="'fr'+fr.id">
       <div style="visibility: hidden; position: fixed;"
            [style.left]="menuTopLeftPosition.x"
            [style.top]="menuTopLeftPosition.y"

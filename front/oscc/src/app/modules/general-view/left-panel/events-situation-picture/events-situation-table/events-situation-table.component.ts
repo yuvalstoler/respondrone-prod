@@ -7,7 +7,7 @@ import {LEFT_PANEL_ICON, MAP} from '../../../../../../types';
 import {ApplicationService} from '../../../../../services/applicationService/application.service';
 import {
   COMMENT,
-  EVENT_DATA_UI, ID_TYPE
+  EVENT_DATA_UI, ID_TYPE, TABLE_DATA_MD
 } from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
 import {ReportService} from '../../../../../services/reportService/report.service';
@@ -43,6 +43,37 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
   screenWidth: number;
+
+  titlesData: MAP<TABLE_DATA_MD> = {
+    id : {
+      type: 'text',
+      data: 'ID'
+    },
+    message: {
+      type: 'matIcon',
+      data: 'comment',
+      tooltip: 'Comments'
+    },
+    link: {
+      type: 'matIcon',
+      data: 'link',
+      tooltip: 'Linked reports'
+    },
+    map: {
+      type: 'matIcon',
+      data: 'location_on',
+      tooltip: 'Event location'
+    },
+    time: {
+      type: 'text',
+      data: 'time',
+      tooltip: 'Last updated'
+    },
+    createdBy: {
+      type: 'text',
+      data: 'Created By'
+    }
+  };
 
   constructor(public applicationService: ApplicationService,
               public eventService: EventService,

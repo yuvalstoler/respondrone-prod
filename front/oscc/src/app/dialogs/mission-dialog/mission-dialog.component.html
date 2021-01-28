@@ -95,7 +95,7 @@
           <!--for all locations-->
           <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&
            missionModel?.polygon?.length > 0 || missionModel?.polyline?.length > 0  && !location?.expanded">
-            Location exist on map.
+            Location exists on map.
           </mat-panel-description>
           <!--for point location-->
           <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw && missionModel?.location?.lon !== undefined &&

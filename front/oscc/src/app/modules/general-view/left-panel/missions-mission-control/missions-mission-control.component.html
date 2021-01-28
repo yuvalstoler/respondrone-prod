@@ -28,8 +28,10 @@
     <!--         class="RightSideButton pointer">Delete-->
     <!--    </div>-->
 
-    <div *ngIf="applicationService?.selectedMissionRequests?.length === 1 " [matMenuTriggerFor]="menu"
-            class="RightSideButton pointer">Update status
+    <div *ngIf="applicationService?.selectedMissionRequests?.length === 1
+                && applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions?.numOfOptions > 0"
+                [matMenuTriggerFor]="menu"
+                class="RightSideButton pointer">Update status
     </div>
     <mat-menu #menu="matMenu" >
       <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Accept)"

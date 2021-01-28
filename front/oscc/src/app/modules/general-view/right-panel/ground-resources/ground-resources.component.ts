@@ -1,7 +1,7 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FRService} from '../../../../services/frService/fr.service';
 import {ApplicationService} from '../../../../services/applicationService/application.service';
-import {FR_DATA_UI, TASK_DATA_UI} from '../../../../../../../../classes/typings/all.typings';
+import {FR_DATA_UI, ID_TYPE, TASK_DATA_UI} from '../../../../../../../../classes/typings/all.typings';
 import {HEADER_BUTTONS} from '../../../../../types';
 import {TaskDialogComponent} from '../../../../dialogs/task-dialog/task-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
@@ -16,13 +16,14 @@ import {ChatService} from '../../../../services/chatService/chat.service';
   templateUrl: './ground-resources.component.html',
   styleUrls: ['./ground-resources.component.scss']
 })
-export class GroundResourcesComponent implements OnInit {
+export class GroundResourcesComponent implements OnInit, OnDestroy {
 
   @Input() optionSelected: {type: string, field: string };
   @Input() screenWidth: number;
   @ViewChild(MatMenuTrigger, {static: false}) matMenuTrigger: MatMenuTrigger;
   menuTopLeftPosition =  {x: '0', y: '0'};
   selectedElement: string;
+  subscription;
 
   constructor(public frService: FRService,
               public applicationService: ApplicationService,
@@ -35,6 +36,14 @@ export class GroundResourcesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.subscription = this.frService.changeSelected$.subscribe((selectedId: ID_TYPE) => {
+      if (this.applicationService.screen.showGrandResources) {
+        const element = document.getElementById(this.frService.getId(selectedId));
+        if (element) {
+          element.scrollIntoView({behavior: 'smooth', block: 'center', inline : 'center'});
+        }
+      }
+    });
   }
 
   onSendMenu = (type: string, fr: FR_DATA_UI) => {
@@ -111,4 +120,9 @@ export class GroundResourcesComponent implements OnInit {
     }
   };
 
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }

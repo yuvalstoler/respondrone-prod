@@ -57,7 +57,7 @@ export class PolygonService {
       this.isCross = this.drawerPolygonClass.checkCrossPolygon(points);
       const idTemp = this.applicationService.getGeoCounter();
       this.drawPolygon(points, idTemp, this.isCross);
-      if (event.type === 'doubleClick'/* && points.length >= 4*/) {
+      if (event.type === 'doubleClick' && points.length >= 4) {
         this.polygon$.next(points);
         this.applicationService.stateDraw = STATE_DRAW.notDraw;
         this.mapGeneralService.changeCursor(false);

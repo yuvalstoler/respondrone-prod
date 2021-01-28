@@ -10,6 +10,9 @@ export class LastSeenDatePipe extends
     const diffSeconds = (now - value) / 1000;
     const diffDay = Math.floor(diffSeconds / (60 * 60 * 24));
 
+    if (value === 0) {
+      return 'N/A';
+    }
     if (diffDay < 1) {
       if (diffSeconds < 10) {
         return 'now';

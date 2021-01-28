@@ -10,7 +10,7 @@ import {
   COMMENT,
   EVENT_DATA_UI,
   FILE_FS_DATA, ID_TYPE,
-  REPORT_DATA_UI
+  REPORT_DATA_UI, TABLE_DATA_MD
 } from '../../../../../../../../../classes/typings/all.typings';
 import {EventService} from '../../../../../services/eventService/event.service';
 import * as _ from 'lodash';
@@ -48,6 +48,42 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;
   screenWidth: number;
+
+  titlesData: MAP<TABLE_DATA_MD> = {
+    id : {
+      type: 'text',
+      data: 'ID'
+    },
+    time: {
+      type: 'text',
+      data: 'time',
+      tooltip: 'Last updated'
+    },
+    createdBy: {
+      type: 'text',
+      data: 'Created By'
+    },
+    message: {
+      type: 'matIcon',
+      data: 'comment',
+      tooltip: 'Comments'
+    },
+    link: {
+      type: 'matIcon',
+      data: 'link',
+      tooltip: 'Linked reports'
+    },
+    map: {
+      type: 'matIcon',
+      data: 'location_on',
+      tooltip: 'Event location'
+    },
+    attachment: {
+      type: 'matIcon',
+      data: 'attach_file',
+      tooltip: 'Media'
+    }
+  };
 
   constructor(public applicationService: ApplicationService,
               public reportService: ReportService,
