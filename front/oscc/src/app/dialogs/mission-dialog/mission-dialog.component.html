@@ -345,7 +345,7 @@
         </div>
         <!--FR Table-->
         <div *ngIf="missionModel?.communicationType === COMM_RELAY_TYPE.Follow">
-          <small>Choose FR to follow</small>
+          <small>Choose FR to follow by clicking on the "Add entity" button.</small>
           <div class="">
             <app-task-assignee-table (updateAssignees)="onUpdateFRs($event)"
                                      [frs]="missionModel?.frs"

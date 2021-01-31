@@ -5,7 +5,7 @@
 
 
 // Middle
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 800px) {
   //Table ==============================================================================================================
   .mat-header-cell {
     font-size: $fontSizeText10;
@@ -16,7 +16,7 @@
   }
 }
 //Regular
-@media screen and (min-width: 1201px) {
+@media screen and (min-width: 801px) {
   //Table ==============================================================================================================
   .mat-header-cell {
     font-size: $fontSizeText13;

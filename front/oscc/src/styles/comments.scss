@@ -2,7 +2,7 @@
 @import "./colors";
 
 //Middle
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 800px) {
   .CommentTitle {
     font-size: $fontSizeText12;
   }
@@ -15,7 +15,7 @@
   }
 }
 //Regular
-@media screen and (min-width: 1201px) {
+@media screen and (min-width: 801px) {
   .CommentTitle {
     font-size: $fontSizeTitle14;
   }

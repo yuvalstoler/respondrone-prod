@@ -5,7 +5,7 @@
 @import '../styles/comments';
 
 // Middle
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 800px) {
   // dialog on 60% screen
   ::ng-deep.cdk-overlay-container, .cdk-global-overlay-wrapper {
     width: 60% !important;
@@ -50,7 +50,7 @@
 }
 
 //Regular
-@media screen and (min-width: 1201px) {
+@media screen and (min-width: 801px) {
   // dialog on 50% screen
   ::ng-deep.cdk-overlay-container, .cdk-global-overlay-wrapper {
     width: 50% !important;

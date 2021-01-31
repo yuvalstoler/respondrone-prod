@@ -2,7 +2,7 @@
 @import "colors";
 
 // Middle
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 800px) {
   /* CSS that should be displayed if width is equal to or less than 1200px goes here */
   .HeaderPanel{
     font-size: $fontSizeTitle14;
@@ -149,7 +149,7 @@
 
 
 //Regular
-@media screen and (min-width: 1201px){
+@media screen and (min-width: 801px){
   /* CSS that should be displayed if width is equal to or less than 1280px goes here */
   .HeaderPanel{
     font-size: $fontSizeTitleHeader18;
