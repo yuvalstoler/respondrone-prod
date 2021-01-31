@@ -50,7 +50,7 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
     },
     time: {
       type: 'text',
-      data: 'time',
+      data: 'Modified',
       tooltip: 'Last updated'
     },
     message: {

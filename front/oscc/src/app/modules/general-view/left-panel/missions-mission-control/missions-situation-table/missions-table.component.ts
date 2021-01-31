@@ -55,11 +55,11 @@ export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy 
     },
     missionStatus: {
       type: 'text',
-      data: 'Mission Status'
+      data: 'Status'
     },
     missionType: {
       type: 'text',
-      data: 'Mission Type'
+      data: 'Type'
     },
     createdBy: {
       type: 'text',
@@ -74,6 +74,11 @@ export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy 
       type: 'matIcon',
       data: 'location_on',
       tooltip: 'Event location'
+    },
+    time: {
+      type: 'text',
+      data: 'Modified',
+      tooltip: 'Last updated'
     }
   };
 

@@ -66,7 +66,7 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
     },
     time: {
       type: 'text',
-      data: 'time',
+      data: 'Modified',
       tooltip: 'Last updated'
     },
     createdBy: {

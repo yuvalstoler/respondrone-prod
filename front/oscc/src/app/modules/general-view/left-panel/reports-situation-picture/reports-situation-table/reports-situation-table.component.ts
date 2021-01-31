@@ -56,7 +56,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
     },
     time: {
       type: 'text',
-      data: 'time',
+      data: 'Modified',
       tooltip: 'Last updated'
     },
     createdBy: {
