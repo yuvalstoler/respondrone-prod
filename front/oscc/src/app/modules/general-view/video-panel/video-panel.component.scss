@@ -51,7 +51,7 @@
   }
 
   ::ng-deep .mat-form-field {
-    display: block !important;
+    display: inline-block !important;
     color: $white !important;
   }
 
@@ -61,6 +61,7 @@
 
   ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
     margin: -1em 0 !important;
+    width: 10em;
   }
 
   ::ng-deep.mat-form-field-wrapper {
@@ -73,6 +74,10 @@
 
   ::ng-deep.mat-form-field-appearance-outline .mat-select-arrow-wrapper {
     transform: translateY(0%) !important;
+  }
+
+  ::ng-deep.mat-select-placeholder {
+    font-size: $fontSizeText13;
   }
 
 }

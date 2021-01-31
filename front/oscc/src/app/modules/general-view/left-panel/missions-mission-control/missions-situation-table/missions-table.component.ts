@@ -73,7 +73,7 @@ export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy 
     map: {
       type: 'matIcon',
       data: 'location_on',
-      tooltip: 'Event location'
+      tooltip: 'Mission location'
     },
     time: {
       type: 'text',

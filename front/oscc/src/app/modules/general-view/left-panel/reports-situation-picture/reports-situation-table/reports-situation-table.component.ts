@@ -76,7 +76,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
     map: {
       type: 'matIcon',
       data: 'location_on',
-      tooltip: 'Event location'
+      tooltip: 'Report location'
     },
     attachment: {
       type: 'matIcon',

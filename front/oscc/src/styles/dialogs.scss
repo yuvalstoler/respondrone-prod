@@ -3,6 +3,7 @@
 @import '../styles/override';
 @import '../styles/scrollbar';
 @import '../styles/comments';
+@import "../styles/classes";
 
 // Middle
 @media screen and (max-width: 1200px) {
@@ -32,8 +33,12 @@
   .DialogLink {
     font-size: $fontSizeText11;
   }
+  .DialogSmallText{
+    font-size: $fontSizeText11;
+    margin-top: 5px;
+  }
   .DialogNotElement {
-    font-size: $fontSizeText10;
+    font-size: $fontSizeText11;
   }
   .DialogMandatory {
     font-size: $fontSizeText10;
@@ -79,8 +84,12 @@
   .DialogLink {
     font-size: $fontSizeText13;
   }
+  .DialogSmallText{
+    font-size: $fontSizeText13;
+    margin-top: 5px;
+  }
   .DialogNotElement {
-    font-size: $fontSizeText12;
+    font-size: $fontSizeText13;
   }
   .DialogMandatory {
     font-size: $fontSizeText12;

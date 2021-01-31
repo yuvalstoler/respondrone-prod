@@ -61,7 +61,7 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
     map: {
       type: 'matIcon',
       data: 'location_on',
-      tooltip: 'Event location'
+      tooltip: 'Tasks location'
     },
     assignees: {
       type: 'matIcon',

@@ -6,10 +6,11 @@ import {
   AV_DATA_UI,
   COLOR_PALETTE_INFRARED_CAMERA,
   GIMBAL_ACTION_OSCC, GIMBAL_CONTROL_ACTION, GIMBAL_CONTROL_REQUEST_OSCC, GIMBAL_CONTROL_USER,
-  GIMBAL_DATA_UI, GIMBAL_REQUEST_STATUS,
+  GIMBAL_REQUEST_STATUS,
   VIDEO_URL_KEY
 } from '../../../../../../../classes/typings/all.typings';
-import {LoginService} from "../../../services/login/login.service";
+import {LoginService} from '../../../services/login/login.service';
+import {AirVehicleService} from "../../../services/airVehicleService/airVehicle.service";
 
 @Component({
   selector: 'app-video-panel',
@@ -43,6 +44,7 @@ export class VideoPanelComponent implements OnInit {
 
   constructor(public applicationService: ApplicationService,
               public gimbalService: GimbalService,
+              public airVehicleService: AirVehicleService,
               private loginService: LoginService) {
     this.videoUrlKey = this.isNight ? VIDEO_URL_KEY.infraredVideoURL : VIDEO_URL_KEY.opticalVideoURL;
   }

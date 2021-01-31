@@ -1,9 +1,5 @@
 @import "../../../styles/dialogs";
 
-//small{
-//  font-weight: bold;
-//}
-
 .DialogTitle {
   margin: 0px 0px 0px 0px;
 }
@@ -95,7 +91,7 @@
   display: grid;
   grid-template-columns: 8em auto;
 
-  small {
+  span {
     margin: auto 0;
   }
   .ScanSelect{
