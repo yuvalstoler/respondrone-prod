@@ -36,7 +36,7 @@
   top: $headerHeight;
   right: 0px;
   height: calc(100vh - #{$headerHeight});
-  width: calc(100vw - #{$sidePanelWidth50});
+  width: $sidePanelWidth47;
   z-index: 1;
 }
 .MapAll{
@@ -48,7 +48,7 @@
   z-index: 1;
 }
 .MapRegular{
-  width: $sidePanelWidth50;
+  width: $sidePanelWidth47;
   position: absolute;
   top: $headerHeight;
   right: 0px;

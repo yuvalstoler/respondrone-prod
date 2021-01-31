@@ -1,9 +1,47 @@
 @import "variable";
 @import "colors";
 
-// Middle
-@media screen and (max-width: 800px) {
-  /* CSS that should be displayed if width is equal to or less than 1200px goes here */
+// Headers, Tabs Left panel
+// more then 1441
+@media screen and (min-width: 1441px){
+  .HeaderPanel{
+    font-size: $fontSizeTitleHeader18;
+
+    ::ng-deep.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
+      font-size: $fontSizeTitleHeader18;
+    }
+  }
+  .LeftPanel {
+    // Tabs
+    ::ng-deep .mat-tab-list .mat-tab-label {
+      font-size: $fontSizeTitleHeader17;
+      font-weight: bold;
+    }
+    ::ng-deep.mat-tab-label {
+      min-width: 160px;
+    }
+  }
+}
+@media screen and (max-width: 1400px){
+  .HeaderPanel{
+    font-size: $fontSizeTitleHeader17;
+
+    ::ng-deep.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
+      font-size: $fontSizeTitleHeader17;
+    }
+  }
+  .LeftPanel {
+    // Tabs
+    ::ng-deep .mat-tab-list .mat-tab-label {
+      font-size: $fontSizeTitleHeader16;
+      font-weight: bold;
+    }
+    ::ng-deep.mat-tab-label {
+      min-width: 150px;
+    }
+  }
+}
+@media screen and (max-width: 1285px){
   .HeaderPanel{
     font-size: $fontSizeTitle14;
 
@@ -11,6 +49,41 @@
       font-size: $fontSizeTitle14;
     }
   }
+  .LeftPanel {
+    // Tabs
+    ::ng-deep .mat-tab-list .mat-tab-label {
+      font-size: $fontSizeTitle14;
+      font-weight: bold;
+    }
+    ::ng-deep.mat-tab-label {
+      min-width: 140px;
+    }
+  }
+}
+@media screen and (max-width: 1200px){
+  .HeaderPanel{
+    font-size: $fontSizeTitle14;
+
+    ::ng-deep.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
+      font-size: $fontSizeTitle14;
+    }
+  }
+  .LeftPanel {
+    // Tabs
+    ::ng-deep .mat-tab-list .mat-tab-label {
+      font-size: $fontSizeTitle14;
+      font-weight: bold;
+    }
+    ::ng-deep.mat-tab-label {
+      min-width: 120px;
+    }
+  }
+}
+
+
+// Middle
+@media screen and (max-width: 1200px) {
+  /* CSS that should be displayed if width is equal to or less than 1200px goes here */
   .HeaderLogo {
     width: 130px;
   }
@@ -113,23 +186,9 @@
   .LeftPanel {
     width: $sidePanelWidth60 !important;
     //Tabs
-    ::ng-deep .mat-tab-list .mat-tab-label {
-      font-size: $fontSizeTitle14;
-      font-weight: bold;
-    }
-    ::ng-deep.mat-tab-label {
-      min-width: 120px;
-    }
-    //::ng-deep #mat-tab-label-0-2{
-    //  min-width: 50px;
-    //}
-    //::ng-deep #mat-tab-label-1-2{
-    //  min-width: 50px;
-    //}
     ::ng-deep [aria-label='Arrow'] {
       min-width: 50px;
     }
-
   }
   .LeftSideInputSearch{
     width: 7em;
@@ -147,25 +206,17 @@
   }
 }
 
-
 //Regular
-@media screen and (min-width: 801px){
+@media screen and (min-width: 1201px){
   /* CSS that should be displayed if width is equal to or less than 1280px goes here */
-  .HeaderPanel{
-    font-size: $fontSizeTitleHeader18;
-
-    ::ng-deep.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
-      font-size: $fontSizeTitleHeader18;
-    }
-  }
   .HeaderLogo {
     width: 160px;
   }
   .HeaderLeftSide {
-    width: $sidePanelWidth50 !important;
+    width: $sidePanelWidth53 !important;
   }
   .HeaderRightSide{
-    width: $sidePanelWidth50 !important;
+    width: $sidePanelWidth47 !important;
   }
   .HPRightSideIcon {
     width: $iconSize;
@@ -244,21 +295,11 @@
 
   }
   .LeftPanel {
-    width: $sidePanelWidth50 !important;
-    // Tabs
-    ::ng-deep .mat-tab-list .mat-tab-label {
-      font-size: $fontSizeTitleHeader17;
-      font-weight: bold;
-    }
-    ::ng-deep.mat-tab-label {
-      min-width: 160px;
-    }
+    width: $sidePanelWidth53 !important;
+  //  Tabs
     ::ng-deep [aria-label='Arrow'] {
       min-width: 50px;
     }
-    //::ng-deep #mat-tab-label-1-2{
-    //  min-width: 50px;
-    //}
   }
   .LeftSideInputSearch{
     width: 10em;
@@ -274,7 +315,6 @@
     font-size: $fontSizeTitle15 !important;
   }
 }
-
 
 
 

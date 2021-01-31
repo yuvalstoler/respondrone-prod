@@ -4,8 +4,38 @@
 @import "override";
 
 
-// Middle
-@media screen and (max-width: 800px) {
+// more then 1441
+@media screen and (min-width: 1441px){
+  //Table ==============================================================================================================
+  .mat-header-cell {
+    font-size: $fontSizeText13;
+    font-weight: 900;
+  }
+  .mat-cell, .mat-footer-cell {
+    font-size: $fontSizeText13;
+  }
+}
+@media screen and (max-width: 1400px){
+  //Table ==============================================================================================================
+  .mat-header-cell {
+    font-size: $fontSizeText12;
+    font-weight: 900;
+  }
+  .mat-cell, .mat-footer-cell {
+    font-size: $fontSizeText12;
+  }
+}
+@media screen and (max-width: 1285px){
+  //Table ==============================================================================================================
+  .mat-header-cell {
+    font-size: $fontSizeText11;
+    font-weight: 900;
+  }
+  .mat-cell, .mat-footer-cell {
+    font-size: $fontSizeText11;
+  }
+}
+@media screen and (max-width: 1200px){
   //Table ==============================================================================================================
   .mat-header-cell {
     font-size: $fontSizeText10;
@@ -15,16 +45,13 @@
     font-size: $fontSizeText10;
   }
 }
+
+// Middle
+@media screen and (max-width: 1200px) {
+
+}
 //Regular
-@media screen and (min-width: 801px) {
-  //Table ==============================================================================================================
-  .mat-header-cell {
-    font-size: $fontSizeText13;
-    font-weight: 900;
-  }
-  .mat-cell, .mat-footer-cell {
-    font-size: $fontSizeText13;
-  }
+@media screen and (min-width: 1201px) {
 
 }
 
