@@ -16,6 +16,7 @@ import {ContextMenuService} from '../../../services/contextMenuService/context-m
 import {LoginService} from '../../../services/login/login.service';
 import {ResponsiveService} from '../../../services/responsiveService/responsive.service';
 import {MissionRouteService} from '../../../services/missionRouteService/missionRoute.service';
+import {StatusIndicatorService} from '../../../services/statusIndicatorService/status-indicator.service';
 
 @Component({
   selector: 'app-header-panel',
@@ -51,7 +52,8 @@ export class HeaderPanelComponent implements OnInit {
               public loginService: LoginService,
               public responsiveService: ResponsiveService,
               private nfzService: NFZService,
-              private missionRouteService: MissionRouteService) {
+              private missionRouteService: MissionRouteService,
+              public statusIndicatorService: StatusIndicatorService) {
     this.responsiveService.screenWidth$.subscribe(res => {
       this.screenWidth = res;
     });

@@ -27,7 +27,7 @@ import {
     NFZ_DATA,
     CREDENTIALS,
     GIMBAL_CONTROL_REQUEST_OSCC,
-    GIMBAL_ACTION_OSCC, CHAT_SERVER_DATA,
+    GIMBAL_ACTION_OSCC, CHAT_SERVER_DATA, STATUS_INDICATOR_DATA,
 } from '../../../../../classes/typings/all.typings';
 
 
@@ -50,6 +50,7 @@ import {NFZManager} from '../NFZ/NFZManager';
 import {LoginManager} from '../../auth/loginManager';
 import {AuthRouter} from '../../auth/authRouter';
 import {RequestManager} from '../../AppService/restConnections/requestManager';
+import {StatusManager} from '../status/statusManager';
 
 const services = require('./../../../../../../../../config/services.json');
 
@@ -668,6 +669,40 @@ export class ApiManager implements IRest {
             });
     };
 
+    private updateAllStatuses = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody: STATUS_INDICATOR_DATA = request.body;
+        StatusManager.updateAllStatus(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+    // ========================================================================
+    private readAllStatuses = (request: Request, response: Response) => {
+        const res: ASYNC_RESPONSE = {success: false};
+        const requestBody = request.body;
+        StatusManager.readAllStatuses(requestBody)
+            .then((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                response.send(res);
+            })
+            .catch((data: ASYNC_RESPONSE) => {
+                res.success = data.success;
+                res.data = data.data;
+                res.description = data.description;
+                response.send(res);
+            });
+    };
+    // ========================================================================
     private updateMissionInDB = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE = {success: false};
         const requestBody: MISSION_REQUEST_DATA = request.body;
@@ -800,6 +835,8 @@ export class ApiManager implements IRest {
         [WS_API.readAllNFZ]: this.readAllNFZ,
         [WS_API.updateMissionInDB]: this.updateMissionInDB,
 
+        [WS_API.readAllStatuses]: this.readAllStatuses,
+
         [WS_API.getChatServerData]: this.getChatServerData,
 
         [WS_API.missionRequestActionFromOSCC]: this.missionRequestAction,
@@ -818,6 +855,7 @@ export class ApiManager implements IRest {
         [WS_API.updateAllMissionRoutes]: this.updateAllMissionRoutes,
         [WS_API.updateAllGraphicOverlays]: this.updateAllGraphicOverlays,
         [WS_API.updateAllNFZs]: this.updateAllNFZs,
+        [WS_API.updateAllStatuses]: this.updateAllStatuses,
 
         [WS_API.login]: this.login,
     };

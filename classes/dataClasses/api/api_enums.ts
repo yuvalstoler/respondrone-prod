@@ -249,6 +249,9 @@ export enum WS_API {
     updateAllMissionRoutes = '/updateAllMissionRoutes',
     updateAllGraphicOverlays = '/updateAllGraphicOverlays',
     updateAllNFZs = '/updateAllNFZs',
+    updateAllStatuses = '/updateAllStatuses',
+
+    readAllStatuses = '/readAllStatuses',
 
     gimbalActionFromOSCC = '/gimbalActionFromOSCC',
     requestGimbalControlFromOSCC = '/requestGimbalControlFromOSCC',
@@ -292,6 +295,10 @@ export enum MG_API {
     setAllTasks = '/setAllTasks',
 
     updateGimbalControlData = '/updateGimbalControlData',
+}
+
+export enum STATUS_SERVICE_API {
+    readAllStatuses = '/readAllStatuses'
 }
 
 export enum AUTH_API {
@@ -347,4 +354,7 @@ export enum GraphicOverlayRep_API {
 }
 export enum NFZRep_API {
     getLastNFZs = 'getLastNFZs'
+}
+export enum DiscoveryRep_API {
+    getAllDiscovery = 'getAllDiscovery'
 }
