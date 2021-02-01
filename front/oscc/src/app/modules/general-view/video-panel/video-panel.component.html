@@ -18,35 +18,40 @@
       </div>
       <div>AGL: <span>{{applicationService?.selectedAirVehicle?.altitudeAGL}}m</span>, ASL: <span>{{applicationService?.selectedAirVehicle?.altitudeAsl}}m</span></div>
       <!--<div class="item3">-->
+      <div class="item3">
       <div>Day<mat-slide-toggle (change)="changeSlide($event)"></mat-slide-toggle>Night</div>
       <div class="videoSelect" *ngIf="isNight">
         <mat-form-field appearance="outline" class="SPMatFormField">
           <!--<mat-label>Choose color palette</mat-label>-->
-        <mat-select placeholder="Choose color palette" (selectionChange)="checkColorPalette($event)">
+        <mat-select [(ngModel)]="selectedColor" (selectionChange)="checkColorPalette($event)">
           <mat-option *ngFor="let color of colorPalette" [value]="color">
             {{color}}
           </mat-option>
         </mat-select>
       </mat-form-field>
       </div>
+      </div>
       <!--</div>-->
     </div>
     <!--Camera-->
     <div class="camera-container container">
-      <div class="itemCameraDiv">Camera Control:
-        <div class="CameraText" [ngStyle]="{'color': gimbal?.modeDefine?.styles?.gimbalControlColor[videoUrlKey]}">
-          <span>{{gimbal?.controlData[videoUrlKey]?.userText}}</span>
-          <mat-icon *ngIf="gimbal?.controlData[videoUrlKey]?.isLocked">lock</mat-icon>
-        </div>
+      <div class="itemCameraDiv">Camera Control: </div>
+      <div class="CameraText" [ngStyle]="{'color': gimbal?.modeDefine?.styles?.gimbalControlColor[videoUrlKey]}">
+        <span>{{gimbal?.controlData[videoUrlKey]?.userText}}</span>
+        <mat-icon *ngIf="gimbal?.controlData[videoUrlKey]?.isLocked">lock</mat-icon>
       </div>
-      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId !== loginService.getUserId()"
-              (click)="onControlAction(GIMBAL_CONTROL_ACTION.takeControl)" mat-raised-button>Take Control</button>
-      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId === loginService.getUserId()"
-              (click)="onControlAction(GIMBAL_CONTROL_ACTION.releaseControl) "mat-raised-button>Release Control</button>
-      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId == loginService.getUserId() && !gimbal?.controlData[videoUrlKey]?.isLocked"
-              (click)="onControlAction(GIMBAL_CONTROL_ACTION.lockControl)" mat-raised-button>Lock Control</button>
-      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId == loginService.getUserId() && gimbal?.controlData[videoUrlKey]?.isLocked"
-              (click)="onControlAction(GIMBAL_CONTROL_ACTION.unlockControl)" mat-raised-button>Un-Lock Control</button>
+      <div>
+        <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId !== loginService.getUserId()"
+                (click)="onControlAction(GIMBAL_CONTROL_ACTION.takeControl)" mat-raised-button>Take Control</button>
+        <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId === loginService.getUserId()"
+                (click)="onControlAction(GIMBAL_CONTROL_ACTION.releaseControl) "mat-raised-button>Release Control</button>
+      </div>
+      <div>
+        <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId == loginService.getUserId() && !gimbal?.controlData[videoUrlKey]?.isLocked"
+                (click)="onControlAction(GIMBAL_CONTROL_ACTION.lockControl)" mat-raised-button>Lock Control</button>
+        <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId == loginService.getUserId() && gimbal?.controlData[videoUrlKey]?.isLocked"
+                (click)="onControlAction(GIMBAL_CONTROL_ACTION.unlockControl)" mat-raised-button>Un-Lock Control</button>
+      </div>
     </div>
     <!--Zoom-->
     <div class="zoom-container container">

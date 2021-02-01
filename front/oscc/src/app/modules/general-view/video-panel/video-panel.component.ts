@@ -22,6 +22,7 @@ export class VideoPanelComponent implements OnInit {
   VIDEO_OR_MAP = VIDEO_OR_MAP;
   colorPalette =  Object.values(COLOR_PALETTE_INFRARED_CAMERA);
   isNight = false;
+  selectedColor = COLOR_PALETTE_INFRARED_CAMERA.WhiteHot;
 
   //zoom
   zoomModel = 0;

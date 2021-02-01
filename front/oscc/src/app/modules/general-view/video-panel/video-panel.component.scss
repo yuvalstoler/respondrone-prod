@@ -17,9 +17,10 @@
 
 .container {
   color: $white;
-  margin: 10px;
-  font-size: $fontSizeText13;
+  margin: 10px 0;
+  font-size: 13px;
   z-index: 1000;
+  padding: 0 10px;
 }
 
 .drone-container {
@@ -27,6 +28,13 @@
   grid-template-columns: auto auto;
   grid-template-rows: calc(#{$headerVideoHeight} / 2 - 10px) calc(#{$headerVideoHeight} / 2 - 10px);
   border-right: 1px solid $lightGray;
+
+  .item3{
+    grid-column: 1/ span 2;
+    div{
+      display: inline-block;
+    }
+  }
 
   div {
     padding: 0 10px;
@@ -61,7 +69,6 @@
 
   ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
     margin: -1em 0 !important;
-    width: 10em;
   }
 
   ::ng-deep.mat-form-field-wrapper {
@@ -89,12 +96,11 @@
   border-right: 1px solid $lightGray;
 
   .itemCameraDiv {
-    grid-column: 1 / span 2;
+    grid-column: 1;
     grid-row: 1;
   }
 
   div {
-    padding: 0 10px;
     margin: auto 0;
     font-size: $fontSizeVideoText16;
     font-weight: 600;
