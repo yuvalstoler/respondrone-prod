@@ -105,18 +105,40 @@
     <!--<div *ngIf="screenWidth > 1200" class="RightLine"></div>-->
     <!--Status Indicator-->
     <div class="RightSideButton">
-      <mat-icon [matMenuTriggerFor]="statuses" class="HPRightSideIcon pointer" >wifi</mat-icon>
+      <!--<mat-icon [matMenuTriggerFor]="statuses" class="HPRightSideIcon pointer" >wifi</mat-icon>-->
+      <img class="HPRightSideIcon pointer" [matMenuTriggerFor]="statuses"
+           src="{{statusIndicatorService?.statusData?.data?.modeDefine?.styles?.icon}}">
     </div>
     <mat-menu #statuses="matMenu" >
       <div class="UserName">
         <span>Servers Connections</span>
       </div>
       <div class="gridStatus">
-        <span class="title">WebServers: </span><span class="value" [ngStyle]="{'color': 'green'}">Connected</span>
-        <span class="title">TMM: </span><span class="value" [ngStyle]="{'color': 'red'}">Shut down</span>
-        <span class="title">Thales: </span><span class="value" [ngStyle]="{'color': 'green'}">Connected</span>
-        <span class="title">Data server: </span><span class="value" [ngStyle]="{'color': 'green'}">Connected</span>
-        <span class="title">Internet: </span><span class="value" [ngStyle]="{'color': 'green'}">Connected</span>
+        <span class="title">WebServers: </span>
+        <span class="value" [ngStyle]="{'color': statusIndicatorService?.statusData?.data?.modeDefine?.styles?.colors?.webserver}"
+              matTooltip="{{statusIndicatorService?.statusData?.data?.webserver?.description}}" matTooltipPosition="above">
+        {{statusIndicatorService?.statusData?.data?.webserver?.status}}
+      </span>
+        <span class="title">TMM: </span>
+        <span class="value" [ngStyle]="{'color': statusIndicatorService?.statusData?.data?.modeDefine?.styles?.colors?.tmm}"
+              matTooltip="{{statusIndicatorService?.statusData?.data?.tmm?.description}}" matTooltipPosition="above">
+         {{statusIndicatorService?.statusData?.data?.tmm?.status}}
+      </span>
+        <span class="title">Thales: </span>
+        <span class="value" [ngStyle]="{'color': statusIndicatorService?.statusData?.data?.modeDefine?.styles?.colors?.thales}"
+              matTooltip="{{statusIndicatorService?.statusData?.data?.thales?.description}}" matTooltipPosition="above">
+         {{statusIndicatorService?.statusData?.data?.thales?.status}}
+      </span>
+        <span class="title">Data server: </span>
+        <span class="value" [ngStyle]="{'color': statusIndicatorService?.statusData?.data?.modeDefine?.styles?.colors?.repositories}"
+              matTooltip="{{statusIndicatorService?.statusData?.data?.repositories?.description}}" matTooltipPosition="above">
+         {{statusIndicatorService?.statusData?.data?.repositories?.status}}
+      </span>
+        <span class="title">Internet: </span>
+        <span class="value" [ngStyle]="{'color': statusIndicatorService?.statusData?.data?.modeDefine?.styles?.colors?.internet}"
+              matTooltip="{{statusIndicatorService?.statusData?.data?.internet?.description}}" matTooltipPosition="above">
+         {{statusIndicatorService?.statusData?.data?.internet?.status}}
+      </span>
       </div>
     </mat-menu>
     <!--Entity Search-->

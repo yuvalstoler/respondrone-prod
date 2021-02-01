@@ -195,6 +195,10 @@ export class Server {
 
             this.send(url, obj, res);
         });
+
+        this.app.use('/status', (req, res) => {
+            res.send({'status': 1});
+        });
     };
     // ==================
     send = (url, obj, res) => {

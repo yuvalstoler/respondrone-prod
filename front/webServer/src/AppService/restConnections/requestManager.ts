@@ -22,6 +22,7 @@ const url_MS = services.MS.protocol + '://' + services.MS.host + ':' + services.
 const url_GS = services.GS.protocol + '://' + services.GS.host + ':' + services.GS.port;
 
 const url_AuthService = services.AuthService.protocol + '://' + services.AuthService.host + ':' + services.AuthService.port;
+const url_StatusService = services.StatusService.protocol + '://' + services.StatusService.host + ':' + services.StatusService.port;
 
 const timeout_AV = projConf.timeOutREST;
 const timeout_File = 10 * 60 * 1000; // TODO ??
@@ -61,6 +62,9 @@ export class RequestManager {
         return RequestManager.sendRestRequest(url_AuthService, API_GENERAL.general + path, bodyObj, timeout_AV);
     };
 
+    public static requestToStatusService = (path: string, bodyObj: Object): Promise<ASYNC_RESPONSE> => {
+        return RequestManager.sendRestRequest(url_StatusService, API_GENERAL.general + path, bodyObj, timeout_AV);
+    };
 
     public static sendRestRequest(url: string, path: string, bodyObj: Object, timeout: number): Promise<ASYNC_RESPONSE> {
         return new Promise((resolve, reject) => {

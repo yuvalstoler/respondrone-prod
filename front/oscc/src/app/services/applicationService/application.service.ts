@@ -12,6 +12,7 @@ import {
 import {ConnectionService} from '../connectionService/connection.service';
 import {StateGroup} from '../../modules/general-view/search-panel/search-panel.component';
 import {BehaviorSubject} from 'rxjs';
+import {SocketService} from '../socketService/socket.service';
 
 
 @Injectable({
@@ -46,7 +47,8 @@ export class ApplicationService {
 
   // mapDisplay: DISPLAY_ON_MAP;
 
-  constructor(private connectionService: ConnectionService) {
+  constructor(private connectionService: ConnectionService,
+              private socketService: SocketService) {
 
     this.connectionService.getJson('../../../../../../typesConfig.json')
       .then((data) => {
@@ -85,6 +87,12 @@ export class ApplicationService {
       showNFZ: true,
       showGraphicOverlays: true,
     };
+
+    this.socketService.connectToRoom('proxy_ui_restartUI').subscribe(data => {
+      if (data) {
+        this.reloadPage();
+      }
+    });
   }
 
   get selectedAirVehicle(): AV_DATA_UI {
@@ -98,5 +106,9 @@ export class ApplicationService {
   getGeoCounter = () => {
     return 'tmp' + this.geoCounter;
   };
+
+  reloadPage = () => {
+    location.reload();
+  }
 
 }

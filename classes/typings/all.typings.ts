@@ -446,7 +446,8 @@ export enum REP_ARR_KEY {
     Mission = 'missions',
     MissionRoute = 'missionRoutes',
     GraphicOverlay = 'graphicOverlays',
-    NFZ = 'NFZs'
+    NFZ = 'NFZs',
+    Discovery = 'repDiscoveryServices'
 }
 
 export enum REP_OBJ_KEY {
@@ -1198,3 +1199,78 @@ export type VIDEO_URLS_OBJ = {
 };
 
 export type VIDEO_URLS_DATA = MAP<MAP<VIDEO_URLS_OBJ>>; // {[droneId]: {[visibleCameraUrl]: VIDEO_URLS_OBJ, [infraredCameraUrl]: VIDEO_URLS_OBJ}}
+
+// ======= Status ========
+export enum DISCOVERY_NAME {
+    tmm = 'tmm',
+    thales = 'thales',
+    CommRelay = 'CommRelay',
+    Patrol = 'Patrol',
+    Observation = 'Observation',
+    Scan = 'Scan',
+    Servoing = 'Servoing',
+    Delivery = 'Delivery',
+    Mission = 'Mission',
+    MissionRoute = 'MissionRoute',
+    GraphicOverlay = 'GraphicOverlay',
+    NFZ = 'NFZ',
+}
+export type STATUS_INDICATOR_DATA = {
+    webserver?: CONNECTION_STATUS_DATA,
+    internet?: CONNECTION_STATUS_DATA,
+    repositories: CONNECTION_STATUS_DATA,
+    tmm: CONNECTION_STATUS_DATA,
+    thales: CONNECTION_STATUS_DATA,
+    modeDefine?: STATUS_INDICATOR_DATA_MD
+};
+
+export type CONNECTION_STATUS_DATA = {
+    status: CONNECTION_STATUS,
+    description: string
+};
+
+export enum CONNECTION_STATUS {
+    connected = 'Connected',
+    disconnected = 'Shut Down',
+    NA = 'N/A'
+}
+
+export type STATUS_INDICATOR_DATA_MD = {
+    styles: {
+        icon: string,
+        colors: {
+            webserver: string,
+            internet: string,
+            repositories: string,
+            tmm: string,
+            thales: string,
+        }
+
+    }
+};
+
+export type DISCOVERY_DATA_REP = {
+    [REP_ARR_KEY.Discovery]: DISCOVERY_DATA[]
+};
+
+export type DISCOVERY_DATA = {
+    id: string;
+    name: string;
+    api: string;
+    ip: string;
+    port: string;
+    status: DISCOVERY_STATUS;
+    system: string;
+    lastAction: LAST_ACTION;
+    version: number;
+    keepAliveStatus: DISCOVERY_STATUS;
+
+    collectionVersion?: number
+};
+
+export enum DISCOVERY_STATUS {
+    Ok = 'Ok',
+    Down = 'Down',
+    Partial = 'Partial',
+    Fault = 'Fault'
+}

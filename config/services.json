@@ -92,6 +92,15 @@
     "host": "localhost",
     "protocol": "http"
   },
+  "StatusService": {
+    "port": "6760",
+    "host": "localhost",
+    "protocol": "http",
+
+    "listeners": [
+      "webServer"
+    ]
+  },
 
   "webServer": {
     "port": "5000",
@@ -190,7 +199,11 @@
     "host": "localhost",
     "protocol": "http"
   },
-
+  "DiscoveryRep": {
+    "port": "4700",
+    "host": "localhost",
+    "protocol": "http"
+  },
 
   "TMM": {
     "port": "3000",
