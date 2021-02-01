@@ -463,7 +463,7 @@
           <div *ngIf="missionModel?.missionType === MISSION_TYPE.Scan" class="DetailsContainer">
             <div class="Grid2">
               <!-- Scan Speed-->
-              <span class="DialogSmallText">Scan speed <span *ngIf="missionModel.missionDetails.scan.speed === undefined"
+              <span class="DialogSmallText bold">Scan speed <span *ngIf="missionModel.missionDetails.scan.speed === undefined"
                                                              class="Error">*</span></span>
               <div class="ScanSelect">
                 <mat-form-field appearance="outline" class="SPMatFormField">
@@ -476,7 +476,7 @@
                 </mat-form-field>
               </div>
               <!--Overlap percent-->
-              <span class="DialogSmallText">Overlap percent <span *ngIf="missionModel.missionDetails.scan.overlapPercent === null"
+              <span class="DialogSmallText bold">Overlap percent <span *ngIf="missionModel.missionDetails.scan.overlapPercent === null"
                                                                   class="Error">*</span></span>
               <div class="Grid3">
                 <div class="item2">
@@ -496,7 +496,8 @@
                 <div class="item3">%</div>
               </div>
               <!--Camera FOV-->
-              <span class="DialogSmallText">Camera FOV <span *ngIf="missionModel.missionDetails.scan.cameraFov === null" class="Error">*</span>
+              <span class="DialogSmallText bold">Camera FOV <span *ngIf="missionModel.missionDetails.scan.cameraFov === null"
+                                                                  class="Error">*</span>
               </span>
               <div class="Grid3">
                 <div class="item2">

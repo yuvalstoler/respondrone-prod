@@ -9,7 +9,7 @@ export const appRoutes: Routes = [
   {path: 'general-view', loadChildren: () => import('./modules/general-view/general-view.module').then(m => m.GeneralViewModule)
     , canActivate: [AuthGuard]},
 
-  {path: '', redirectTo: 'general-view', pathMatch: 'full'},
+  {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: '**', redirectTo: 'login', pathMatch: 'full'}
 ];
 

@@ -76,14 +76,14 @@ export class CanvasClass {
   };
 
   private setCanvasMeasurements = (width, height, ratio: number) => {
-    console.log('-------------------------------------------');
-    console.log('canvasContainerOffset: ', width, height);
-    console.log('canvasVideoClient: ', this.canvasVideo.clientWidth, this.canvasVideo.clientHeight, ' canvasBlob: ', this.canvasBlob.clientWidth, this.canvasBlob.clientHeight);
-    console.log('canvasVideoWidthHeight: ', this.canvasVideo.width, this.canvasVideo.height, ' canvasBlob: ', this.canvasBlob.width, this.canvasBlob.height);
-    console.log('canvasVideoOffset: ', this.canvasVideo.offsetWidth, this.canvasVideo.offsetHeight, ' canvasBlobOffset: ', this.canvasBlob.offsetWidth, this.canvasBlob.offsetHeight);
-    console.log('resolution ', this.resolution);
-    console.log( 'ctxVideo: ', this.ctxVideo.canvas.width, this.ctxVideo.canvas.height, ' ctxBlob: ', this.ctxBlob.canvas.width, this.ctxBlob.canvas.height);
-    console.log('-------------------------------------------');
+    // console.log('-------------------------------------------');
+    // console.log('canvasContainerOffset: ', width, height);
+    // console.log('canvasVideoClient: ', this.canvasVideo.clientWidth, this.canvasVideo.clientHeight, ' canvasBlob: ', this.canvasBlob.clientWidth, this.canvasBlob.clientHeight);
+    // console.log('canvasVideoWidthHeight: ', this.canvasVideo.width, this.canvasVideo.height, ' canvasBlob: ', this.canvasBlob.width, this.canvasBlob.height);
+    // console.log('canvasVideoOffset: ', this.canvasVideo.offsetWidth, this.canvasVideo.offsetHeight, ' canvasBlobOffset: ', this.canvasBlob.offsetWidth, this.canvasBlob.offsetHeight);
+    // console.log('resolution ', this.resolution);
+    // console.log( 'ctxVideo: ', this.ctxVideo.canvas.width, this.ctxVideo.canvas.height, ' ctxBlob: ', this.ctxBlob.canvas.width, this.ctxBlob.canvas.height);
+    // console.log('-------------------------------------------');
     if (this.containerDomID) {
 
       this.canvasBlob.setAttribute('width', width /** 0.8*/);

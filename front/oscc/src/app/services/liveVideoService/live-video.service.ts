@@ -85,7 +85,17 @@ export class LiveVideoService {
         videoJSMPEG: 'ws://20.71.141.60:9092/',
         blobsSocket: 'ws://20.71.141.60:4002/'
       }
-    }
+    },
+    '3': {
+      'ws://20.71.141.60:9095/': {
+        videoJSMPEG: 'ws://20.71.141.60:9092/',
+        blobsSocket: 'ws://20.71.141.60:4002/'
+      },
+      'ws://20.71.141.60:9096/': {
+        videoJSMPEG: 'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov',
+        blobsSocket: 'ws://20.71.141.60:4002/'
+      }
+    },
   };
 
   constructor(public applicationService: ApplicationService,
@@ -99,16 +109,33 @@ export class LiveVideoService {
     this.socketService.connectToRoom('webServer_getVideoUrls').subscribe(this.onGetVideoUrls);
   }
 
+  showVideoWithBlobs = (canvas, url) => {
+      if (this.applicationService.selectedAirVehicle) {
+        const videoUrl = this.getVideoUrl(url, this.applicationService.selectedAirVehicle.id);
+        if (videoUrl) {
+          this.startDrawingOnCanvas();
+          const player = new JSMpeg.Player(videoUrl,
+            { canvas: canvas, autoplay: true, audio: false, loop: true , disableGl: true}
+          );
+
+          const blobsUrl = this.getBlobUrl(url, this.applicationService.selectedAirVehicle.id);
+          if (blobsUrl) {
+            this.startGetBlobs(blobsUrl);
+          }
+        }
+      }
+  };
+
   startDrawingOnCanvas = () => {
     this.interval = setInterval(() => {
       this.createImageMain({success: true, data: this.videoData});
     }, 1000);
-  }
+  };
 
   stopDrawingOnCanvas = () => {
     clearInterval(this.interval);
     this.interval = undefined;
-  }
+  };
 
   startGetBlobs = (wsUrl: string) => {
     this.connectToWS(wsUrl);
@@ -118,7 +145,7 @@ export class LiveVideoService {
     if (this.websocket) {
       this.websocket.close();
     }
-  }
+  };
 
   connectToWS = (wsUrl: string) => {
     if (this.websocket !== null) {
@@ -137,28 +164,28 @@ export class LiveVideoService {
       //   this.connectToWS(wsUrl);
       // }, 1000);
     };
-  }
+  };
 
 
   private onGetVideoUrls = (data: VIDEO_URLS_DATA) => {
     if (data) {
       this.videoUrls = data;
     }
-  }
+  };
 
   public getVideoUrl = (url: string, airVehicleId) => {
     if (this.videoUrls[airVehicleId] && this.videoUrls[airVehicleId][url]) {
       return this.videoUrls[airVehicleId][url].videoJSMPEG;
     }
     return undefined;
-  }
+  };
 
   public getBlobUrl = (url: string, airVehicleId) => {
     if (this.videoUrls[airVehicleId] && this.videoUrls[airVehicleId][url]) {
       return this.videoUrls[airVehicleId][url].blobsSocket;
     }
     return undefined;
-  }
+  };
 
   private showMessage(message) {
     this.videoData = (JSON.parse(message));

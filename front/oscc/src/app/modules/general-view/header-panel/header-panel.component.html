@@ -19,8 +19,7 @@
     </div>
     <!--Live Video-->
     <div (click)="onLiveVideo()" *ngIf="screenWidth > 1200"
-         [ngClass]="applicationService?.selectedAirVehicle ? '' : 'Disabled'"
-         class="LeftSideButton">
+         class="LeftSideButton"><!--[ngClass]="applicationService?.selectedAirVehicle ? '' : 'Disabled'"-->
       <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.liveVideo,
              LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}"
             class="LeftSideLabel">

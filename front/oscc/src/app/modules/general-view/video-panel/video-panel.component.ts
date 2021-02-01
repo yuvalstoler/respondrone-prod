@@ -1,16 +1,16 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ApplicationService} from '../../../services/applicationService/application.service';
-import {VIDEO_OR_MAP} from '../../../../types';
+import {HEADER_BUTTONS, VIDEO_OR_MAP} from '../../../../types';
 import {GimbalService} from '../../../services/gimbalService/gimbal.service';
 import {
   AV_DATA_UI,
   COLOR_PALETTE_INFRARED_CAMERA,
   GIMBAL_ACTION_OSCC, GIMBAL_CONTROL_ACTION, GIMBAL_CONTROL_REQUEST_OSCC, GIMBAL_CONTROL_USER,
-  GIMBAL_REQUEST_STATUS,
+  GIMBAL_REQUEST_STATUS, OPERATIONAL_STATUS,
   VIDEO_URL_KEY
 } from '../../../../../../../classes/typings/all.typings';
 import {LoginService} from '../../../services/login/login.service';
-import {AirVehicleService} from "../../../services/airVehicleService/airVehicle.service";
+import {AirVehicleService} from '../../../services/airVehicleService/airVehicle.service';
 
 @Component({
   selector: 'app-video-panel',
@@ -41,6 +41,7 @@ export class VideoPanelComponent implements OnInit {
   GIMBAL_CONTROL_USER = GIMBAL_CONTROL_USER;
   GIMBAL_CONTROL_ACTION = GIMBAL_CONTROL_ACTION;
   GIMBAL_REQUEST_STATUS = GIMBAL_REQUEST_STATUS;
+  OPERATIONAL_STATUS = OPERATIONAL_STATUS;
 
   constructor(public applicationService: ApplicationService,
               public gimbalService: GimbalService,
@@ -77,6 +78,28 @@ export class VideoPanelComponent implements OnInit {
     };
   };
 
+  selectAirVehicle = ($event) => {
+
+
+    this.applicationService.screen.showVideoCanvas = false; // to reset canvas
+    setTimeout(() => {
+      this.applicationService.screen.showVideoCanvas = true;
+    }, 500);
+
+
+    // open panel
+    this.applicationService.screen.showVideo = true;
+    this.applicationService.selectedWindow = VIDEO_OR_MAP.map;
+    //close others
+    this.applicationService.screen.showLeftPanel = false;
+    this.applicationService.screen.showMissionControl = false;
+
+
+// this.applicationService.selectedAirVehicle
+    this.applicationService.selectedAirVehicle = $event.value;
+
+  };
+
   changeSlide = ($event) => {
     this.isNight = !!$event.checked;
     this.videoUrlKey = this.isNight ? VIDEO_URL_KEY.infraredVideoURL : VIDEO_URL_KEY.opticalVideoURL;
@@ -88,7 +111,7 @@ export class VideoPanelComponent implements OnInit {
       const gimbalAction: GIMBAL_ACTION_OSCC = this.getDefaultGimbalAction();
       gimbalAction.parameters = {
         zoomInfraredCamera: this.gimbal.infraredCameraParameters.zoomInfraredCamera * 10,
-        colorPaletteInfraredCamera: $event
+        colorPaletteInfraredCamera: $event.value
       };
 
       this.gimbalService.sendGimbalAction(gimbalAction);

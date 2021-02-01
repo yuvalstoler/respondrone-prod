@@ -500,7 +500,7 @@ export class ApiManager implements IRest {
                 res.description = data.description;
                 response.send(res);
             });
-    }
+    };
 
     private readAllMissionRequest = (request: Request, response: Response) => {
         const res: ASYNC_RESPONSE<MISSION_REQUEST_DATA[]> = {success: false};

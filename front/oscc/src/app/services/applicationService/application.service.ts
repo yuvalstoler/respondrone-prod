@@ -31,6 +31,7 @@ export class ApplicationService {
   panelIcon: LEFT_PANEL_ICON = LEFT_PANEL_ICON.expand;
   stateDraw: STATE_DRAW = STATE_DRAW.notDraw;
   private _selectedAirVehicle: AV_DATA_UI;
+  selectedAirVehicle$: BehaviorSubject<AV_DATA_UI> = new BehaviorSubject(undefined);
 
 
   now = Date.now();

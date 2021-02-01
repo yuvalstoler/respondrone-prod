@@ -7,8 +7,10 @@
       <div>UAV name:
         <!--<span>{{applicationService?.selectedAirVehicle?.name}}</span>&nbsp;-->
         <mat-form-field appearance="outline" class="SPMatFormField">
-          <mat-select placeholder="Choose UAV" [ngModel]="applicationService?.selectedAirVehicle.name" (selectionChange)="checkColorPalette($event)">
-            <mat-option *ngFor="let av of airVehicleService.airVehicles.data" [value]="av.name">
+          <mat-select placeholder="Choose UAV" [(ngModel)]="applicationService.selectedAirVehicle" (selectionChange)="selectAirVehicle($event)">
+            <mat-option *ngFor="let av of airVehicleService?.airVehicles?.data" [value]="av"
+            [disabled]="av.operationalStatus !== OPERATIONAL_STATUS.Ready &&
+              av.operationalStatus !== OPERATIONAL_STATUS.OnMission">
               {{av.name}}
             </mat-option>
           </mat-select>
@@ -108,7 +110,8 @@
     </app-canvas-video>
   </div>
   <!--Control Request-->
-  <div *ngIf="gimbal?.controlData[videoUrlKey]?.request?.status === GIMBAL_REQUEST_STATUS.InProgress" class="controlRequestContainer">
+  <div *ngIf="gimbal?.controlData[videoUrlKey]?.request?.status === GIMBAL_REQUEST_STATUS.InProgress"
+       class="controlRequestContainer">
     <div class="text">
       {{gimbal?.controlData[videoUrlKey]?.request?.userText}} is requesting for control
     </div>

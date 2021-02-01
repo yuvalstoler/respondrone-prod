@@ -94,6 +94,33 @@ export class GimbalManager {
                     'opticalVideoURL': 'ws://20.71.141.60:9093/',
                     'infraredVideoURL': 'ws://20.71.141.60:9094/'
                 },
+                {
+                    'id': '3',
+                    'droneId': '3',
+                    'AIMode': 0,
+                    'gimbalParameters': {
+                        'pitch': -10,
+                        'yaw': -10
+                    },
+                    'visibleCameraParameters': {
+                        'zoomVisibleCamera': 4
+                    },
+                    'infraredCameraParameters': {
+                        'zoomInfraredCamera': 5,
+                        'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
+                    },
+                    'trackedEntity': 0,
+                    'cameraLookAtPoint': {
+                        'lat': 42.3200,
+                        'lon': 9.2117,
+                        'alt': 0
+                    },
+                    cameraFootprint: {
+                        coordinates: []
+                    },
+                    'opticalVideoURL': 'ws://20.71.141.60:9095/',
+                    'infraredVideoURL': 'ws://20.71.141.60:9096/'
+                }
             ]
 
         };
