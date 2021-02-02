@@ -29,15 +29,13 @@
   grid-template-rows: calc(#{$headerVideoHeight} / 2 - 10px) calc(#{$headerVideoHeight} / 2 - 10px);
   border-right: 1px solid $lightGray;
 
-  .item3{
-    grid-column: 1/ span 2;
-    div{
-      display: inline-block;
-    }
+  .UAVParams{
+    text-align: right;
+    padding-right: 0;
   }
 
   div {
-    padding: 0 10px;
+    padding: 0 10px 0 0;
     margin: auto 0;
     font-size: $fontSizeVideoText16;
     font-weight: 600;
@@ -53,6 +51,8 @@
   }
 
   .videoSelect {
+    text-align: right;
+    padding-right: 0;
     div {
       font-size: $fontSizeText13 !important;
     }
@@ -61,6 +61,7 @@
   ::ng-deep .mat-form-field {
     display: inline-block !important;
     color: $white !important;
+    width: 9em;
   }
 
   ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {

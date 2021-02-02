@@ -1063,6 +1063,7 @@ export enum SOCKET_CLIENT_TYPES {
 
 export type BLOB = {
     id: string,
+    name: string,
     rectangleData: {
         minX: number,
         maxX: number,

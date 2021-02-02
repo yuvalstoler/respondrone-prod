@@ -4,6 +4,7 @@
        class="LiveVideoHeader">
     <!--Drone-->
     <div class="drone-container container">
+      <!--UAV name-->
       <div>UAV name:
         <!--<span>{{applicationService?.selectedAirVehicle?.name}}</span>&nbsp;-->
         <mat-form-field appearance="outline" class="SPMatFormField">
@@ -16,9 +17,12 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div>AGL: <span>{{applicationService?.selectedAirVehicle?.altitudeAGL}}m</span>, ASL: <span>{{applicationService?.selectedAirVehicle?.altitudeAsl}}m</span></div>
+      <!--AGL, ASL-->
+      <div class="UAVParams">
+        AGL: <span>{{applicationService?.selectedAirVehicle?.altitudeAGL}}m</span>, &nbsp;
+        ASL: <span>{{applicationService?.selectedAirVehicle?.altitudeAsl}}m</span>
+      </div>
       <!--<div class="item3">-->
-      <div class="item3">
       <div>Day<mat-slide-toggle (change)="changeSlide($event)"></mat-slide-toggle>Night</div>
       <div class="videoSelect" *ngIf="isNight">
         <mat-form-field appearance="outline" class="SPMatFormField">
@@ -29,7 +33,6 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      </div>
       </div>
       <!--</div>-->
     </div>

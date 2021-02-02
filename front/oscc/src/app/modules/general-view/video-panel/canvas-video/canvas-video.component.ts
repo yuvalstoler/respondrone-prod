@@ -37,35 +37,6 @@ export class CanvasVideoComponent implements OnInit, OnDestroy {
     this.liveVideoService.showVideoWithBlobs(canvas, this.url);
   }
 
-  // showVideoWithBlobs = (canvas) => {
-  //   if (this.applicationService.selectedAirVehicle) {
-  //     const videoUrl = this.liveVideoService.getVideoUrl(this.url, this.applicationService.selectedAirVehicle.id);
-  //     if (videoUrl) {
-  //       this.liveVideoService.startDrawingOnCanvas();
-  //       const player = new JSMpeg.Player(videoUrl,
-  //         { canvas: canvas, autoplay: true, audio: false, loop: true , disableGl: true}
-  //       );
-  //
-  //       const blobsUrl = this.liveVideoService.getBlobUrl(this.url, this.applicationService.selectedAirVehicle.id);
-  //       if (blobsUrl) {
-  //         this.liveVideoService.startGetBlobs(blobsUrl);
-  //       }
-  //     }
-  //   }
-  // };
-
-  getStyle = () => {
-    let style;
-    // if (!this.applicationService.screen.showLeftPanel && this.applicationService.screen.showVideo
-    //   && this.applicationService.selectedWindow === VIDEO_OR_MAP.video) {
-    //   style = {'width': 'auto', 'height': 500};
-    // } else if (!this.applicationService.screen.showLeftPanel && this.applicationService.screen.showVideo
-    //   && this.applicationService.selectedWindow === VIDEO_OR_MAP.map) {
-    //   style = {'width': this.liveVideoService.videoData.width, 'height': this.liveVideoService.videoData.height};
-    // }
-
-    return style;
-  };
 
   ngOnDestroy() {
     // if (this.resizeSubscription) {

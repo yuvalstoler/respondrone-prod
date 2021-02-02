@@ -44,8 +44,8 @@ export class AirVehicleManager {
                     'energyLevel': 10,
                     'remainingTimeFlight': 0,
                     'heading': 0,
-                    'altitudeAGL': 0,
-                    'altitudeAsl': 0,
+                    'altitudeAGL': 500,
+                    'altitudeAsl': 500,
                     'velocity': 0,
                     'lastUpdateTimeFromDrone': {
                         'timestamp': 12455451215

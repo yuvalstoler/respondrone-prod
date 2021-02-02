@@ -94,42 +94,7 @@ export class CanvasClass {
       this.ctxBlob.canvas.style.width = this.canvasVideo.clientWidth + 'px';
       this.ctxBlob.canvas.style.height = this.canvasVideo.clientHeight + 'px';
 
-      // this.ctxVideo.width = this.canvasVideo.clientWidth;
-      // this.ctxVideo.height = this.canvasVideo.clientHeight;
-      // this.ctxVideo.canvas.style.width = this.canvasVideo.clientWidth + 'px';
-      // this.ctxVideo.canvas.style.height = this.canvasVideo.clientHeight + 'px';
-
-
-      // this.canvasVideo.setAttribute('width', width /** 0.8*/);
-      // this.canvasVideo.setAttribute('height', width / ratio /** 0.8*/);
-
-
-      // this.canvasBlob.setAttribute('style.width', this.canvasContainer.offsetWidth * 0.9 + 'px');
-      // this.canvasBlob.setAttribute('style.height', this.canvasContainer.offsetWidth / ratio * 0.9 + 'px');
-      // this.canvasVideo.setAttribute('style.width', this.canvasContainer.offsetWidth * 0.9 + 'px');
-      // this.canvasVideo.setAttribute('style.height', this.canvasContainer.offsetWidth / ratio * 0.9 + 'px');
-      // this.ctx.width = this.canvasVideo.clientWidth;
-      // this.ctx.height = this.canvasVideo.clientHeight;
-      // this.ctx2.width = this.canvasBlob.clientWidth ;
-      // this.ctx2.height = this.canvasBlob.clientHeight;
-
       this.resolution = {width: this.canvasVideo.clientWidth, height: this.canvasVideo.clientHeight};
-
-      // // this.canvasContainer.width = width;
-      // // this.canvasContainer.height = height;
-      // // this.canvasContainer.style.height = height + 'px';
-      // // this.canvasContainer.style.width = width + 'px';
-      //
-      //
-      // this.ctx.width = width;
-      // this.ctx.height = height;
-      // // this.ctx.style.height = height + 'px';
-      // // this.ctx.style.width = width + 'px';
-      //
-      // this.ctx2.width = width;
-      // this.ctx2.height = height;
-      // // this.ctx2.style.height = height + 'px';
-      // // this.ctx2.style.width = width + 'px';
 
     }
   };
@@ -166,6 +131,7 @@ export class CanvasClass {
       if (allData.mark && allData.mark.blubMetaData) {
         allData.mark.blubMetaData.forEach(blob => {
           this.drawBlob(this.ctxBlob, blob, resolution);
+          this.drawBlobLabel(this.ctxBlob, blob, resolution);
         });
       }
     }
@@ -199,6 +165,26 @@ export class CanvasClass {
 
   };
 
+  public drawBlobLabel = (ctx, blob: BLOB, resolution: SIZE) => {
+    ctx.beginPath();
+    ctx.fillStyle = '#ff00ff';
+    ctx.textAlign = 'center';
+    ctx.font = '15px Heebo';
+
+    if (blob.rectangleData) {
+
+      const xMin = blob.rectangleData.minX * resolution.width;
+      const xMax = blob.rectangleData.maxX * resolution.width;
+      const yMin = blob.rectangleData.minY * resolution.height;
+      const yMax = blob.rectangleData.maxY * resolution.height;
+
+      ctx.textAlign = 'center';
+      ctx.fillText(blob.id, (xMin + xMax) / 2, yMax + 15);
+
+      ctx.restore();
+    }
+  };
+
   private fillHandler = () => {
     // this.changeDrawingEventHandler = new EventHandler(this.domID, this.changeDrawingStateEventHandlerConfig);
     if (!this.isReviewOnly) {
@@ -225,7 +211,7 @@ export class CanvasClass {
     if (e.button !== 2) {
       this.callEventHandler(this.eventHandlerEmitter, 'unselectBlob', {});
     }
-  }
+  };
 
   private callEventHandler = (handler: EventHandler, _value: string | number, params?: any) => {
     if (!handler) {

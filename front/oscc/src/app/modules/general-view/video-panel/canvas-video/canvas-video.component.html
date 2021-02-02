@@ -7,13 +7,21 @@
   <!--Canvas-->
   <div class="wrapper">
     <!--<div class="container">-->
-    <div [ngStyle]="getStyle()" class="image-detail" id="canvasContainerDomID">
+    <div class="image-detail" id="canvasContainerDomID">
 
-      <canvas [ngStyle]="getStyle()" class="image-detail-canvas"
+      <canvas [ngClass]="{'image-detail-canvas-small':
+              !this.applicationService.screen.showLeftPanel &&
+               this.applicationService.screen.showVideo &&
+               this.applicationService.selectedWindow === VIDEO_OR_MAP.video}"
+              class="image-detail-canvas"
               id="canvasVideoDomID">
         Your browser does not support the HTML canvas tag.
       </canvas>
-      <canvas [ngStyle]="getStyle()" class="image-detail-canvas"
+      <canvas [ngClass]="{'image-detail-canvas-small':
+              !this.applicationService.screen.showLeftPanel &&
+               this.applicationService.screen.showVideo &&
+               this.applicationService.selectedWindow === VIDEO_OR_MAP.video}"
+              class="image-detail-canvas"
               id="canvasBlobsDomID">
         Your browser does not support the HTML canvas tag.
       </canvas>
