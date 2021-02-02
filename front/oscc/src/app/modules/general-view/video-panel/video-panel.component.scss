@@ -147,6 +147,7 @@
     margin: auto 0;
     font-size: $fontSizeVideoText16;
     font-weight: 600;
+    text-align: center;
   }
 
   span {
@@ -155,7 +156,7 @@
   }
 }
 
-.speed-container {
+.telemetry-container{
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: calc(#{$headerVideoHeight} / 2 - 10px) calc(#{$headerVideoHeight} / 2 - 10px);
@@ -165,6 +166,21 @@
     margin: auto 0;
     font-size: $fontSizeVideoText16;
     font-weight: 600;
+  }
+}
+
+.speed-container {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: calc(#{$headerVideoHeight} / 2 - 10px) calc(#{$headerVideoHeight} / 2 - 10px);
+  border-right: 1px solid $lightGray;
+
+  div {
+    padding: 0 10px;
+    margin: auto 0;
+    font-size: $fontSizeVideoText16;
+    font-weight: 600;
+    text-align: center;
   }
 
   span {
