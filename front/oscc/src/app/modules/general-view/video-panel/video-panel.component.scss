@@ -210,6 +210,10 @@
   font-size: 50px;
   color: $white;
 }
+.expendVideo:hover {
+  color: $black;
+  cursor: pointer;
+}
 
 .arrows {
   position: absolute;

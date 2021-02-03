@@ -213,7 +213,7 @@ export class LiveVideoService {
 
   public onSelectBlob = (options: {selectedId: number, point: POINT}) => {
     console.log('selected blob id = ', options.selectedId);
-    if (options.selectedId) {
+    if (options.selectedId !== undefined) {
       const airVehicle = this.applicationService.selectedAirVehicle;
       if (airVehicle.modeDefine.data.missionOptions.hasOwnProperty(MISSION_TYPE.Servoing) &&
         airVehicle.modeDefine.data.missionOptions[MISSION_TYPE.Servoing] === true) {
@@ -226,6 +226,7 @@ export class LiveVideoService {
       this.onUnselectBlob({});
     }
   };
+
   public onUnselectBlob = (data) => {
     this.contextMenuService.isOpenBlob = false;
     this.contextMenuService.selectedBlob = undefined;
@@ -234,8 +235,8 @@ export class LiveVideoService {
   onMissionOptions = (missionType: MISSION_TYPE, airVehicle: AV_DATA_UI, options: {selectedId: number, point: POINT}) => {
     // Todo: add context menu and click on menu open =>
     this.contextMenuService.isOpenBlob = true;
-    this.contextMenuService.singleTooltip.top = options.point[1] + 70 + 'px';
-    this.contextMenuService.singleTooltip.left = options.point[0] + 150 + 'px';
+    this.contextMenuService.singleTooltip.top = options.point[1] + 10 + 'px';
+    this.contextMenuService.singleTooltip.left = options.point[0] + 15 + 'px';
     this.contextMenuService.selectedBlob = {missionType, airVehicle, options};
   };
 

@@ -70,7 +70,7 @@ export class HeaderPanelComponent implements OnInit {
     } else {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.situationPictures;
       // open panel
-      this.applicationService.screen.showLeftPanel = true;
+      this.applicationService.setLeftPanelTrue();      console.log('screen.showLeftPanel = true');
       this.applicationService.screen.showSituationPicture = true;
 
       this.applicationService.currentTabIndexSituationPicture = 0;
@@ -88,7 +88,7 @@ export class HeaderPanelComponent implements OnInit {
     } else {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;
       // open panel
-      this.applicationService.screen.showLeftPanel = true;
+      this.applicationService.setLeftPanelTrue();      console.log('screen.showLeftPanel = true');
       this.applicationService.screen.showMissionControl = true;
       //close others
       this.applicationService.screen.showSituationPicture = false;
@@ -112,16 +112,18 @@ export class HeaderPanelComponent implements OnInit {
             this.applicationService.screen.showVideoCanvas = false; // to reset canvas
             setTimeout(() => {
               this.applicationService.screen.showVideoCanvas = true;
+              //close others
+              this.applicationService.setLeftPanelFalse();
+              this.applicationService.screen.showMissionControl = false;
+              this.applicationService.screen.showSituationPicture = false;
+
+              // open panel
+              this.applicationService.screen.showVideo = true;
+              this.applicationService.selectedWindow = VIDEO_OR_MAP.map;
+
             }, 500);
 
-          //close others
-          this.applicationService.screen.showLeftPanel = false;
-          this.applicationService.screen.showMissionControl = false;
-          this.applicationService.screen.showSituationPicture = false;
 
-          // open panel
-          this.applicationService.screen.showVideo = true;
-          this.applicationService.selectedWindow = VIDEO_OR_MAP.map;
 
         }
       }

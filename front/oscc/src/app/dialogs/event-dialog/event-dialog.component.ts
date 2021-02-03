@@ -218,7 +218,7 @@ export class EventDialogComponent implements OnInit {
   }
 
   clearPanel = () => {
-    this.applicationService.screen.showLeftPanel = true;
+    // this.applicationService.screen.showLeftPanel = true;
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.situationPictures;
     this.eventModel = _.cloneDeep(this.defaultEvent);
     this.applicationService.stateDraw = STATE_DRAW.notDraw;

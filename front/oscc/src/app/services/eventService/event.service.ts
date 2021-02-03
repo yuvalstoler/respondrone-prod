@@ -339,7 +339,8 @@ export class EventService {
     if (id !== undefined) {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.situationPictures;
       // open panel
-      this.applicationService.screen.showLeftPanel = true;
+      this.applicationService.setLeftPanelTrue();
+      console.log('screen.showLeftPanel = true');
       this.applicationService.screen.showSituationPicture = true;
       // choose missionTab on MissionControl
       this.applicationService.currentTabIndexSituationPicture = 0; /*(0 = Events, 1 = Reports)*/

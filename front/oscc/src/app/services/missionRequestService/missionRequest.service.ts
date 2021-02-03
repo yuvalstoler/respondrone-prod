@@ -665,7 +665,7 @@ export class MissionRequestService {
     if (missionRequestId !== undefined) {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;
       // open panel
-      this.applicationService.screen.showLeftPanel = true;
+      this.applicationService.setLeftPanelTrue();      console.log('screen.showLeftPanel = true');
       this.applicationService.screen.showMissionControl = true;
       // choose missionTab on MissionControl
       this.applicationService.currentTabIndexMissionControl = 1; /*(0 = TaskTab, 1 = MissionTab)*/

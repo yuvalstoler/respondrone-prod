@@ -44,6 +44,8 @@ export class CanvasVideoComponent implements OnInit, OnDestroy {
     // }
     this.liveVideoService.stopGetBlobs();
     this.liveVideoService.stopDrawingOnCanvas();
+    let canvas = <HTMLCanvasElement>document.getElementById('canvasVideoDomID');
+    canvas = undefined;
   }
 
 

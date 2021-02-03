@@ -43,7 +43,7 @@ export class LinkedEventDialogComponent implements OnInit {
 
   onCreateNewEvent = () => {
     this.onNoClick();
-    this.applicationService.screen.showLeftPanel = false;
+    this.applicationService.setLeftPanelFalse();
   };
 
 }

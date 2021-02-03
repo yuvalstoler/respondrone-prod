@@ -65,7 +65,7 @@ export class AirResourcesComponent implements OnInit {
   onMissionOptions = (missionType: MISSION_TYPE, airVehicle: AV_DATA_UI) => {
     this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;
     // open panel
-    this.applicationService.screen.showLeftPanel = true;
+    this.applicationService.setLeftPanelTrue();    console.log('screen.showLeftPanel = true');
     this.applicationService.screen.showMissionControl = true;
     // choose missionTab on MissionControl
     this.applicationService.currentTabIndexMissionControl = 1; /*(0 = TaskTab, 1 = MissionTab)*/
@@ -147,7 +147,7 @@ export class AirResourcesComponent implements OnInit {
     this.applicationService.screen.showVideo = true;
     this.applicationService.selectedWindow = VIDEO_OR_MAP.map;
     //close others
-    this.applicationService.screen.showLeftPanel = false;
+    this.applicationService.setLeftPanelFalse();
     this.applicationService.screen.showMissionControl = false;
     if (this.dialog) {
       this.dialog.closeAll();

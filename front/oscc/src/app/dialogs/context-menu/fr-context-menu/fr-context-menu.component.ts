@@ -34,7 +34,7 @@ export class FrContextMenuComponent implements OnInit {
     if (fr) {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;
       // open panel
-      this.applicationService.screen.showLeftPanel = true;
+      this.applicationService.setLeftPanelTrue();      console.log('screen.showLeftPanel = true');
       this.applicationService.screen.showMissionControl = true;
       // choose missionTab on MissionControl
       this.applicationService.currentTabIndexMissionControl = 0; /*(0 = TaskTab, 1 = MissionTab)*/

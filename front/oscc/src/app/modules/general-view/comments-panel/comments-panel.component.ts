@@ -21,7 +21,7 @@ export class CommentsPanelComponent implements OnInit {
   constructor(public applicationService: ApplicationService,
               private loginService: LoginService) {
     this.name = this.loginService.getUserName();
-    console.log(this.isOpenDescription);
+   // console.log(this.isOpenDescription);
   }
 
   ngOnInit(): void {

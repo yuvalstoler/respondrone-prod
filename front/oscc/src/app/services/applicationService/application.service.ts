@@ -110,6 +110,13 @@ export class ApplicationService {
 
   reloadPage = () => {
     location.reload();
-  }
+  };
 
+  setLeftPanelTrue = () => {
+    this.screen.showLeftPanel = true;
+  };
+
+  setLeftPanelFalse = () => {
+    this.screen.showLeftPanel = false;
+  };
 }

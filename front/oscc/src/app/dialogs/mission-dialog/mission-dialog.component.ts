@@ -556,7 +556,7 @@ export class MissionDialogComponent implements OnInit {
     this.applicationService.screen.showVideo = true;
     this.applicationService.selectedWindow = VIDEO_OR_MAP.map;
     //close others
-    this.applicationService.screen.showLeftPanel = false;
+    this.applicationService.setLeftPanelFalse();
     this.applicationService.screen.showMissionControl = false;
     this.applicationService.screen.showSituationPicture = false;
 
