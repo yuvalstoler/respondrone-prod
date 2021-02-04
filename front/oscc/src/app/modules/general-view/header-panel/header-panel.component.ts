@@ -70,7 +70,8 @@ export class HeaderPanelComponent implements OnInit {
     } else {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.situationPictures;
       // open panel
-      this.applicationService.setLeftPanelTrue();      console.log('screen.showLeftPanel = true');
+      this.applicationService.setLeftPanelTrue();
+      console.log('screen.showLeftPanel = true');
       this.applicationService.screen.showSituationPicture = true;
 
       this.applicationService.currentTabIndexSituationPicture = 0;
@@ -88,7 +89,8 @@ export class HeaderPanelComponent implements OnInit {
     } else {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;
       // open panel
-      this.applicationService.setLeftPanelTrue();      console.log('screen.showLeftPanel = true');
+      this.applicationService.setLeftPanelTrue();
+      console.log('screen.showLeftPanel = true');
       this.applicationService.screen.showMissionControl = true;
       //close others
       this.applicationService.screen.showSituationPicture = false;
@@ -99,34 +101,30 @@ export class HeaderPanelComponent implements OnInit {
   };
 
   onLiveVideo = () => {
-      if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.liveVideo) {
-         // this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
+    if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.liveVideo) {
+      // this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
 
-      } else {
-        if (this.airVehicleService.airVehicles.data.length > 0) {
-          this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.liveVideo;
-          if (this.applicationService.selectedAirVehicle === undefined) {
-            this.applicationService.selectedAirVehicle = this.airVehicleService.airVehicles.data[0];
-          }
-
-            this.applicationService.screen.showVideoCanvas = false; // to reset canvas
-            setTimeout(() => {
-              this.applicationService.screen.showVideoCanvas = true;
-              //close others
-              this.applicationService.setLeftPanelFalse();
-              this.applicationService.screen.showMissionControl = false;
-              this.applicationService.screen.showSituationPicture = false;
-
-              // open panel
-              this.applicationService.screen.showVideo = true;
-              this.applicationService.selectedWindow = VIDEO_OR_MAP.map;
-
-            }, 500);
-
-
-
+    } else {
+      if (this.airVehicleService.airVehicles.data.length > 0) {
+        this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.liveVideo;
+        if (this.applicationService.selectedAirVehicle === undefined) {
+          this.applicationService.selectedAirVehicle = this.airVehicleService.airVehicles.data[0];
         }
+
+        //close others
+        this.applicationService.setLeftPanelFalse();
+        this.applicationService.screen.showMissionControl = false;
+        this.applicationService.screen.showSituationPicture = false;
+
+        this.applicationService.screen.showVideoCanvas = false; // to reset canvas
+        setTimeout(() => {
+          this.applicationService.screen.showVideoCanvas = true;
+          // open panel
+          this.applicationService.screen.showVideo = true;
+          this.applicationService.selectedWindow = VIDEO_OR_MAP.map;
+        }, 500);
       }
+    }
   };
 
   onMedia = () => {

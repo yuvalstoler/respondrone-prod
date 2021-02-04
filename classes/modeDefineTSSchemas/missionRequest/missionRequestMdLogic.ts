@@ -266,7 +266,8 @@ export class MissionRequestMdLogic implements IModeDefine {
             map: {
                 type: 'matIcon',
                 data: 'location_on',
-                color: MDClass.colors.darkGray
+                color: MDClass.colors.darkGray,
+                tooltip: 'Mission\'s location'
             } as TABLE_DATA_MD,
         };
         return res;

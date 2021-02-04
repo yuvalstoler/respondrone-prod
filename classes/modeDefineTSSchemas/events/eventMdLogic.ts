@@ -91,7 +91,8 @@ export class EventMdLogic implements IModeDefine {
             map: {
                 type: 'matIcon',
                 data: data.locationType !== LOCATION_TYPE.none ? 'location_on' : '',
-                color: MDClass.colors.darkGray
+                color: MDClass.colors.darkGray,
+                tooltip: 'Event\'s location'
             } as TABLE_DATA_MD
         };
         return res;

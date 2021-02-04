@@ -194,7 +194,7 @@
         <!--FR Table-->
         <div *ngIf="missionModel?.missionType === MISSION_TYPE.Servoing && !data?.idBlob">
           <span (click)="onChooseFromCamera(selectedAirVehicles)"
-                class="MissionLink pointer">Choose FR from camera</span>
+                class="MissionLink pointer">Choose from camera</span>
           <div>
             <span class="DialogSmallText">or</span>
           </div>
@@ -204,7 +204,7 @@
           <div class="MissionEntitiesContainer">
             <app-task-assignee-table (updateAssignees)="onUpdateFRs($event)" [frs]="missionModel.frs"
                                      [ids]="missionModel.frIds"
-                                     [title]="'Missions entities'"></app-task-assignee-table>
+                                     [title]="'Mission entities'"></app-task-assignee-table>
           </div>
         </div>
         <!--idBlob-->
@@ -347,12 +347,19 @@
         </div>
         <!--FR Table-->
         <div *ngIf="missionModel?.communicationType === COMM_RELAY_TYPE.Follow">
-          <span class="DialogSmallText">Choose FR to follow by clicking on the "Add entity" button.</span>
-          <div class="">
+          <span (click)="onChooseFromCamera(selectedAirVehicles)"
+                class="MissionLink pointer">Choose from camera</span>
+          <div>
+            <span class="DialogSmallText">or</span>
+          </div>
+          <div>
+            <span class="DialogSmallText">Choose FR to follow by clicking on the "Add entity" button.</span>
+          </div>
+          <div class="MissionEntitiesContainer">
             <app-task-assignee-table (updateAssignees)="onUpdateFRs($event)"
                                      [frs]="missionModel?.frs"
                                      [ids]="missionModel?.frIds"
-                                     [title]="'Missions entities'"></app-task-assignee-table>
+                                     [title]="'Mission entities'"></app-task-assignee-table>
           </div>
         </div>
         <mat-action-row>
@@ -578,7 +585,6 @@
         <div>
           <app-comments-panel (changeComments)="onChangeComments($event)"
                               [comments]="missionModel?.comments"
-                              [isOpenDescription]="true"
                               [isShowTitle]="false"></app-comments-panel>
         </div>
       </mat-expansion-panel>

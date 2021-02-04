@@ -105,7 +105,8 @@ export class TaskMdLogic implements IModeDefine {
             map: {
                 type: 'matIcon',
                 data: data.geographicInstructions.length !== 0 ? 'location_on' : '',
-                color: MDClass.colors.darkGray
+                color: MDClass.colors.darkGray,
+                tooltip: 'Task\'s location'
             } as TABLE_DATA_MD,
 
         };

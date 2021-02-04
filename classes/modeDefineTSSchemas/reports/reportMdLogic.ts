@@ -88,7 +88,8 @@ export class ReportMdLogic implements IModeDefine {
             map: {
                 type: 'matIcon',
                 data: data.locationType !== LOCATION_TYPE.none ? 'location_on' : '',
-                color: MDClass.colors.darkGray
+                color: MDClass.colors.darkGray,
+                tooltip: 'Report\'s location'
             } as TABLE_DATA_MD,
             attachment: {
                 type: 'matIcon',

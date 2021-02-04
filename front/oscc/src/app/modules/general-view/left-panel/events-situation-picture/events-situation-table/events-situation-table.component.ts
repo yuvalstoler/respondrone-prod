@@ -13,7 +13,7 @@ import {EventService} from '../../../../../services/eventService/event.service';
 import {ReportService} from '../../../../../services/reportService/report.service';
 import * as _ from 'lodash';
 import {ContextMenuService} from '../../../../../services/contextMenuService/context-menu.service';
-import {ResponsiveService} from "../../../../../services/responsiveService/responsive.service";
+import {ResponsiveService} from '../../../../../services/responsiveService/responsive.service';
 
 
 @Component({
@@ -89,7 +89,6 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
       }
     });
 
-
     const subscription = this.eventService.events$.subscribe((isNewData: boolean) => {
       if (isNewData) {
         this.dataSource.data = this.setDataByDate(this.eventService.events.data);
@@ -133,7 +132,6 @@ export class EventsSituationTableComponent implements OnInit, AfterViewInit, OnD
     const arraySortedByDate: EVENT_DATA_UI[] = data.sort((a, b) => (a.time < b.time ? 1 : -1));
     return arraySortedByDate;
   };
-
 
   getOpenStateDescription = ($event) => {
     this.panelOpenState = $event;

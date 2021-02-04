@@ -20,13 +20,14 @@
             <mat-icon *ngIf="element.modeDefine?.tableData[column]?.type === 'matIcon'"
                       [ngStyle]="{'color': element.modeDefine?.tableData[column]?.color}"
                       (click)="clickOnIcon($event, element, column)"
+                      matTooltip="{{element.modeDefine?.tableData[column]?.tooltip}}" matTooltipPosition="above"
                       class="HPRightSideIcon">
                {{element.modeDefine?.tableData[column]?.data}}
              </mat-icon>
             <!--image-->
             <img *ngIf="element.modeDefine?.tableData[column]?.type === 'image'"
                  [src]="element.modeDefine?.tableData[column]?.data"
-                 [matTooltip]="element?.priority"
+                 matTooltip="{{element.modeDefine?.tableData[column]?.tooltip}}" matTooltipPosition="above"
                  class="tableImage">
             <!--text-->
             <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'" [ngClass]="{'row-message': column === 'message'}">
@@ -89,7 +90,7 @@
             <div class="example-element-comments">
               <app-comments-panel [comments]="element.comments"
                                   (changeComments)="onChangeComments($event, element)"
-                                  [isOpenDescription]="panelOpenState[element.id]">
+                                 >
               </app-comments-panel>
             </div>
           </div>

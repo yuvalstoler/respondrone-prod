@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {DISPLAY_ON_SCREEN, HEADER_BUTTONS, LEFT_PANEL_ICON, STATE_DRAW, VIDEO_OR_MAP} from 'src/types';
+import {EventEmitter, Injectable} from '@angular/core';
+import {DISPLAY_ON_SCREEN, HEADER_BUTTONS, LEFT_PANEL_ICON, MAP, STATE_DRAW, VIDEO_OR_MAP} from 'src/types';
 import {
   AV_DATA_UI,
   EVENT_DATA_UI,
@@ -33,7 +33,6 @@ export class ApplicationService {
   stateDraw: STATE_DRAW = STATE_DRAW.notDraw;
   private _selectedAirVehicle: AV_DATA_UI;
   selectedAirVehicle$: BehaviorSubject<AV_DATA_UI> = new BehaviorSubject(undefined);
-
 
   now = Date.now();
   typesConfig = {reportTypes: [], eventTypes: [], taskTypes: [], addressCountry: ['FR']};

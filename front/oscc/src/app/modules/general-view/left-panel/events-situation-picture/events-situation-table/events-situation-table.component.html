@@ -17,22 +17,24 @@
           </span>
         </th>
         <!-- icons message link map on rows-->
-        <td *matCellDef="let element" mat-cell >
+        <td *matCellDef="let element" mat-cell>
           <span *ngIf="element.modeDefine?.tableData[column]">
             <!--icon-->
-            <mat-icon *ngIf="element.modeDefine?.tableData[column]?.type === 'matIcon'"
+            <mat-icon (click)="clickOnIcon($event, element, column)"
+                      *ngIf="element.modeDefine?.tableData[column]?.type === 'matIcon'"
                       [ngStyle]="{'color': element.modeDefine?.tableData[column]?.color}"
-                      (click)="clickOnIcon($event, element, column)"
-                      class="HPRightSideIcon">
+                      class="HPRightSideIcon" matTooltip="{{element.modeDefine?.tableData[column]?.tooltip}}"
+                      matTooltipPosition="above">
                {{element.modeDefine?.tableData[column]?.data}}
              </mat-icon>
             <!--image-->
             <img *ngIf="element.modeDefine?.tableData[column]?.type === 'image'"
                  [src]="element.modeDefine?.tableData[column]?.data"
-                 [matTooltip]="element?.priority"
-                 class="tableImage">
+                 class="tableImage" matTooltip="{{element.modeDefine?.tableData[column]?.tooltip}}"
+                 matTooltipPosition="above">
             <!--text-->
-            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'" [ngClass]="{'row-message': column === 'message'}">
+            <span *ngIf="element.modeDefine?.tableData[column]?.type === 'text'"
+                  [ngClass]="{'row-message': column === 'message'}">
                {{element.modeDefine?.tableData[column]?.data}}
             </span>
             <!--date-->
@@ -67,8 +69,8 @@
       <th *matHeaderCellDef class="tableCheckbox" mat-header-cell>
       </th>
         <td *matCellDef="let row" mat-cell>
-           <mat-icon class="tableExpandIcon"
-                     (click)="onExpandCollapse(row)">
+           <mat-icon (click)="onExpandCollapse(row)"
+                     class="tableExpandIcon">
              {{this.expandedElement[row.id] === undefined ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}}
            </mat-icon>
       </td>
@@ -80,7 +82,7 @@
     <ng-container matColumnDef="expandedDetail">
       <td *matCellDef="let element"
           [attr.colspan]="(applicationService.panelIcon === LEFT_PANEL_ICON.expand) ? displayedColumns.length : displayedColumnsMinimize.length"
-           mat-cell>
+          mat-cell>
         <div
           [@detailExpand]="applicationService.panelIcon === LEFT_PANEL_ICON.expand && expandedElement[element.id] && element.id === expandedElement[element.id].id ? 'expanded' : 'collapsed'"
           [style.height]="applicationService.panelIcon === LEFT_PANEL_ICON.expand && expandedElement[element.id] && element.id === expandedElement[element.id].id ? 'unset' : '0 !important'"
@@ -88,21 +90,23 @@
           <!--Description & Comments-->
           <div class="example-element-description">
             <!--Description-->
-            <app-description-panel [description]="element.description" [descriptionId]="element.id" (panelOpenState)="getOpenStateDescription($event)"></app-description-panel>
+            <app-description-panel (panelOpenState)="getOpenStateDescription($event)"
+                                   [descriptionId]="element.id"
+                                   [description]="element.description"></app-description-panel>
             <!--Comments array-->
             <div class="example-element-comments">
-              <app-comments-panel [comments]="element.comments"
-                                  (changeComments)="onChangeComments($event, element)"
-                                  [isOpenDescription]="panelOpenState[element.id]">
-              </app-comments-panel>
+              <app-comments-panel (changeComments)="onChangeComments($event, element)"
+                                  [isOpenDescription]="panelOpenState[element.id]"
+                                  [comments]="element.comments">
+              </app-comments-panel><!-- [isOpenDescription]="panelOpenState$[element.id]"-->
             </div>
           </div>
 
           <!--Linked reports table-->
           <div class="example-element-linked">
             <app-linked-reports-table (updateLinkedReports)="onUpdateLinkedReports($event, element)"
-                                      [isAllColumns]="true"
-                                      [element]="element">
+                                      [element]="element"
+                                      [isAllColumns]="true">
             </app-linked-reports-table>
           </div>
         </div>
@@ -110,12 +114,13 @@
     </ng-container>
 
 
-    <tr  mat-header-row
-      *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand) ? displayedColumns: displayedColumnsMinimize; sticky: true"
-     ></tr>
+    <tr *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand) ? displayedColumns: displayedColumnsMinimize; sticky: true"
+        mat-header-row
+    ></tr>
     <tr (click)="selectRow(row)"
         *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;"
-        class="example-element-row pointer" [ngClass]="(eventService.selectedElement?.id === row?.id) ? 'selected-row-color' : ''"
+        [ngClass]="(eventService.selectedElement?.id === row?.id) ? 'selected-row-color' : ''"
+        class="example-element-row pointer"
         mat-row>
       <!-- [class.selected]="applicationService.selectedEvent === row"-->
       <!--&lt;&ndash;&gt; [ngStyle]="{'background-color': (selectedData === row)? '#7f7f7f' : '' }"-->

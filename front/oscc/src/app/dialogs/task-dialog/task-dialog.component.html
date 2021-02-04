@@ -74,7 +74,7 @@
       <div class="DialogContentItem DialogComments" *ngIf="screenWidth > 1200">
         <app-comments-panel (changeComments)="onChangeComments($event)"
                             [comments]="taskModel.comments"
-                            [isOpenDescription]="true"></app-comments-panel>
+                            ></app-comments-panel>
       </div>
     </div>
 <!--right part-->
@@ -106,7 +106,7 @@
       <div class="DialogContentItem DialogComments" *ngIf="screenWidth <= 1200">
         <app-comments-panel (changeComments)="onChangeComments($event)"
                             [comments]="taskModel.comments"
-                            [isOpenDescription]="true"></app-comments-panel>
+                            ></app-comments-panel>
       </div>
     </div>
   </mat-dialog-content>
