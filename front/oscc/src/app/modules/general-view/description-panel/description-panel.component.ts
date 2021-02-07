@@ -23,7 +23,7 @@ export class DescriptionPanelComponent implements OnInit, AfterViewChecked {
   @Input() description: string;
   @Input() descriptionId: string;
 
-  @Output() panelOpenState: EventEmitter<MAP<boolean>> = new EventEmitter<MAP<boolean>>();
+  @Output() panelOpenState: EventEmitter<{id: string, isOpen: boolean}> = new EventEmitter<{id: '', isOpen: true}>();
 
   @ViewChild('first', {static: true, read: MatExpansionPanel}) first: MatExpansionPanel;
 
@@ -47,23 +47,12 @@ export class DescriptionPanelComponent implements OnInit, AfterViewChecked {
 
   }
 
-  openPanel = () => {
-    let res = false;
-    if (this.description !== '' || this.description !== undefined && this.descriptionId !== undefined) {
-      // this.panelOpenState.emit({[this.descriptionId]: true});
-      res = true;
-    }
-    return res;
-  };
-
   onOpenPanel = () => {
-    this.panelOpenState.emit({[this.descriptionId]: true});
-    console.log('this.onOpenPanel();', [this.descriptionId]);
+    this.panelOpenState.emit({id: this.descriptionId, isOpen: true});
   };
 
   onClosePanel = () => {
-    this.panelOpenState.emit({[this.descriptionId]: false});
-    console.log('this.onClosePanel();', [this.descriptionId]);
+    this.panelOpenState.emit({id: this.descriptionId, isOpen: false});
   };
 
 

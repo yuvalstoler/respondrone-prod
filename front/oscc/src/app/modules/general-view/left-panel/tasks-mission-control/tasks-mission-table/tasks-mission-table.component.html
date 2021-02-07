@@ -98,13 +98,16 @@
           <!--Description & Comments-->
           <div class="example-element-description">
             <!--Description-->
-            <app-description-panel (panelOpenState)="getOpenStateDescription($event)" [descriptionId]="element.id"
+            <app-description-panel (panelOpenState)="getOpenStateDescription($event)"
+                                   [descriptionId]="element.id"
                                    [description]="element.description"></app-description-panel>
             <!--Comments array-->
             <div class="example-element-comments">
               <app-comments-panel (changeComments)="onChangeComments($event, element)"
-                                  [comments]="element.comments"
-                                  >
+                                  [isOpenDescription]="panelOpenState"
+                                  [descriptionId]="element.id"
+                                  [description]="element.description"
+                                  [comments]="element.comments">
               </app-comments-panel>
             </div>
           </div>

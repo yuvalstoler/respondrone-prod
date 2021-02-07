@@ -1,10 +1,10 @@
 <mat-accordion>
-  <mat-expansion-panel   [expanded]="openPanel()"
-                        [hideToggle]="(description === '' || description === undefined)"
+  <mat-expansion-panel (closed)="onClosePanel()"
+                       (opened)="onOpenPanel()"
                        [disabled]="(description === '' || description === undefined)"
 
-    (opened)="onOpenPanel()"
-    (closed)="onClosePanel()">
+                       [expanded]="description !== '' && description !== undefined"
+                       [hideToggle]="(description === '' || description === undefined)">
     <mat-expansion-panel-header>
       <div class="expendTitle">
         Description

@@ -37,7 +37,7 @@ export class TasksMissionTableComponent implements OnInit, AfterViewInit, OnDest
   expandedElement: MAP<TASK_DATA_UI> = {};
   selection = new SelectionModel<TASK_DATA_UI>(true, []);
   @ViewChild(MatSort, {static: false}) sort: MatSort;
-  panelOpenState: MAP<boolean> = {};
+  panelOpenState: {id: string, isOpen: boolean} = {id: '', isOpen: true};
   subscriptions = [];
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;

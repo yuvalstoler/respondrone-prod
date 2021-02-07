@@ -43,7 +43,7 @@ export class ReportsSituationTableComponent implements OnInit, AfterViewInit, On
   selection = new SelectionModel<REPORT_DATA_UI>(true, []);
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
-  panelOpenState: MAP<boolean> = {};
+  panelOpenState: {id: string, isOpen: boolean} = {id: '', isOpen: true};
   subscriptions = [];
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;

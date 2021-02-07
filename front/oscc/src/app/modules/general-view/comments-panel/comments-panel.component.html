@@ -1,8 +1,10 @@
 <div>
   <div class="CommentTitle" *ngIf="isShowTitle">Comments</div>
-  <div class="CommentContainer scroll"
-       [ngClass]="{'CommentDescriptionOpen' : isOpenDescription,
-                   'CommentDescriptionClose' : !isOpenDescription}">
+  <div class="CommentSmall scroll"
+       [ngClass]="{'CommentSmall' : ((descriptionId !== undefined && descriptionId === isOpenDescription?.id && isOpenDescription?.isOpen) || description !== '' && description !== undefined),
+                   'CommentBig' : (descriptionId !== undefined && descriptionId === isOpenDescription?.id && !isOpenDescription?.isOpen) || description === '' || description === undefined}">
+  <!--<div class="CommentContainer scroll"-->
+       <!--[ngClass]="getIsOpenDescription()">-->
     <!--List comments-->
     <mat-list-item *ngFor="let comment of comments">
       <div class="CommentsGrid" mat-line>

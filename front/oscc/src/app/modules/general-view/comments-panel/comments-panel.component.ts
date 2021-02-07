@@ -13,10 +13,11 @@ import {MAP} from '../../../../types';
 export class CommentsPanelComponent implements OnInit {
 
   @Input() comments: COMMENT[];
+  @Input() description: string;
   @Input() descriptionId: string;
   @Input() isShowTitle: boolean = true;
   @Output() changeComments = new EventEmitter<COMMENT[]>();
-  @Input() isOpenDescription: boolean = true;
+  @Input() isOpenDescription: {id: string, isOpen: boolean};
   comment = '';
   name = '';
 
@@ -40,6 +41,18 @@ export class CommentsPanelComponent implements OnInit {
   addEmoji = (event) => {
     console.log(event.emoji);
     this.comment = this.comment + event.emoji.native;
+  };
+
+  getIsOpenDescription = () => {
+    let res = 'CommentDescriptionOpen';
+    if (this.descriptionId !== undefined) {
+      if (this.isOpenDescription[this.descriptionId]) {
+        res = 'CommentDescriptionOpen';
+      } else if (!this.isOpenDescription[this.descriptionId]) {
+        res = 'CommentDescriptionClose';
+      }
+    }
+    return res;
   };
 
 }

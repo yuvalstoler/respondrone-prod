@@ -96,9 +96,11 @@
             <!--Comments array-->
             <div class="example-element-comments">
               <app-comments-panel (changeComments)="onChangeComments($event, element)"
-                                  [isOpenDescription]="panelOpenState[element.id]"
+                                  [isOpenDescription]="panelOpenState"
+                                  [descriptionId]="element.id"
+                                  [description]="element.description"
                                   [comments]="element.comments">
-              </app-comments-panel><!-- [isOpenDescription]="panelOpenState$[element.id]"-->
+              </app-comments-panel>
             </div>
           </div>
 
