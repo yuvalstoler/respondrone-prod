@@ -68,7 +68,7 @@
             class="material-icons iconStatus">fiber_manual_record</span>
         {{fr.callSign}}</div>
       <!-- Send Menu -->
-      <mat-menu #sendMenu="matMenu" [hasBackdrop]="false">
+      <mat-menu #sendMenu="matMenu" [hasBackdrop]="true">
         <button (click)="onSendMenu('task', fr)" mat-menu-item>
           <span>Send a task</span>
         </button>

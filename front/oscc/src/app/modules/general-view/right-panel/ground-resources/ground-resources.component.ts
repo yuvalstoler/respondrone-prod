@@ -10,6 +10,7 @@ import {GeoInstructionsService} from '../../../../services/geoInstructionsServic
 import {ResponsiveService} from '../../../../services/responsiveService/responsive.service';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {ChatService} from '../../../../services/chatService/chat.service';
+import {ContextMenuService} from '../../../../services/contextMenuService/context-menu.service';
 
 @Component({
   selector: 'app-ground-resources',
@@ -31,6 +32,7 @@ export class GroundResourcesComponent implements OnInit, OnDestroy {
               public geoInstructionsService: GeoInstructionsService,
               public responsiveService: ResponsiveService,
               public tasksService: TasksService,
+              public contextMenuService: ContextMenuService,
               private chatService: ChatService) {
 
   }
@@ -42,6 +44,11 @@ export class GroundResourcesComponent implements OnInit, OnDestroy {
         if (element) {
           element.scrollIntoView({behavior: 'smooth', block: 'center', inline : 'center'});
         }
+      }
+    });
+    this.contextMenuService.matMenuTrigger$.subscribe((res) => {
+      if (this.matMenuTrigger) {
+        this.matMenuTrigger.closeMenu();
       }
     });
   }

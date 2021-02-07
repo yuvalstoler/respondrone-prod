@@ -34,10 +34,12 @@
       <button (click)="onDeleteTask()" mat-menu-item>
         <span>Delete</span>
       </button>
-      <button [matMenuTriggerFor]="Statuses" mat-menu-item>
+      <button [disabled]="applicationService.selectedTasks[0]?.modeDefine?.data?.actionOptions?.numOfOptions === 0"
+              [matMenuTriggerFor]="Statuses" mat-menu-item>
         <span>Update Status</span>
       </button>
     </mat-menu>
+    <!---------------------------------------------------------------------------------------------------------------->
     <!--Update-->
     <div *ngIf="applicationService.selectedTasks.length === 1
                 && applicationService.selectedTasks[0]?.modeDefine?.data?.actionOptions?.numOfOptions > 0

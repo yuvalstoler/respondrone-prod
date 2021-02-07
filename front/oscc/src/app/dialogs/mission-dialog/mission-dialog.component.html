@@ -380,11 +380,9 @@
             Mission details
           </mat-panel-title>
           <mat-panel-description *ngIf="!missionDetails?.expanded" class="">
-            <span *ngIf="missionModel?.missionDetails?.azimuth >= 0">Azimuth: {{missionModel?.missionDetails?.azimuth}}°, &nbsp;</span>
-            <span *ngIf="missionModel?.missionDetails?.distance">Distance: {{missionModel?.missionDetails?.distance}}
-              m</span>
-            <span *ngIf="missionModel?.missionDetails?.scan?.speed">Speed: {{missionModel?.missionDetails?.scan?.speed}}
-              , &nbsp;</span>
+            <span *ngIf="missionModel?.missionDetails?.azimuth >= 0 && missionModel?.missionDetails?.distance">Azimuth: {{missionModel?.missionDetails?.azimuth}}°, &nbsp;</span>
+            <span *ngIf="missionModel?.missionDetails?.distance">Distance: {{missionModel?.missionDetails?.distance}}m</span>
+            <span *ngIf="missionModel?.missionDetails?.scan?.speed">Speed: {{missionModel?.missionDetails?.scan?.speed}}, &nbsp;</span>
             <span
               *ngIf="missionModel?.missionDetails?.scan?.overlapPercent">Overlap: {{missionModel?.missionDetails?.scan?.overlapPercent}}%,
               &nbsp;</span>

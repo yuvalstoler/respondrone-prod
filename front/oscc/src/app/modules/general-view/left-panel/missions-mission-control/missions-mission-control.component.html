@@ -4,7 +4,7 @@
     <div class="LeftSideSearchButton">
       <mat-icon matPrefix>search</mat-icon>
       <label class="LeftSideInputSearch">
-        <input (keyup)="getFilter($event)" matInput type="text" #inputSearch>
+        <input #inputSearch (keyup)="getFilter($event)" matInput type="text">
       </label>
       <button (click)="clearPanel()"
               disableRipple="true"
@@ -15,25 +15,13 @@
 
 
   <div *ngIf="applicationService.panelIcon === LEFT_PANEL_ICON.expand" class="HeaderRightPanel">
-    <!--    <div (click)="onArchiveReport()"-->
-    <!--         *ngIf="applicationService.selectedReports.length > 0"-->
-    <!--         class="RightSideButton pointer">Archive-->
-    <!--    </div>-->
-    <!--    <div (click)="onEditReport()"-->
-    <!--         *ngIf="applicationService.selectedReports.length === 1"-->
-    <!--         class="RightSideButton pointer">Edit-->
-    <!--    </div>-->
-    <!--    <div (click)="onDeleteReport()"-->
-    <!--         *ngIf="applicationService.selectedReports.length > 0"-->
-    <!--         class="RightSideButton pointer">Delete-->
-    <!--    </div>-->
 
     <div *ngIf="applicationService?.selectedMissionRequests?.length === 1
                 && applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions?.numOfOptions > 0"
-                [matMenuTriggerFor]="menu"
-                class="RightSideButton pointer">Update status
+         [matMenuTriggerFor]="menu"
+         class="RightSideButton pointer">Update status
     </div>
-    <mat-menu #menu="matMenu" >
+    <mat-menu #menu="matMenu">
       <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Accept)"
               *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Accept]"
               mat-menu-item>
@@ -52,12 +40,14 @@
         <span [ngStyle]="{'color': '#ff0000', 'font-size': '12px'}" class="material-icons">fiber_manual_record</span>
         Reject
       </button>
-      <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Cancel)" *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Cancel]"
+      <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Cancel)"
+              *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Cancel]"
               mat-menu-item>
         <span [ngStyle]="{'color': '#6f30a0', 'font-size': '12px'}" class="material-icons">fiber_manual_record</span>
         Cancel
       </button>
-      <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Complete)" *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Complete]"
+      <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Complete)"
+              *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Complete]"
               mat-menu-item>
         <span [ngStyle]="{'color': '#92d150', 'font-size': '12px'}" class="material-icons">fiber_manual_record</span>
         Complete
@@ -65,7 +55,7 @@
     </mat-menu>
 
     <div (click)="onCreateNewMission()"
-         class="RightSideButton pointer">{{(screenWidth > 1200)? 'Create ' : ''}} New Mission
+         class="RightSideButton pointer">{{(screenWidth > 1200) ? 'Create ' : ''}} New Mission
     </div>
   </div>
   <div *ngIf="applicationService?.panelIcon === LEFT_PANEL_ICON.collapse" class="HeaderRightPanel"></div>

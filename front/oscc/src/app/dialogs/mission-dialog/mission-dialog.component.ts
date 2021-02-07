@@ -315,7 +315,7 @@ export class MissionDialogComponent implements OnInit {
         this.missionModel.missionDetails.scan.speed === undefined) {
         res = true;
       }
-    } else if (missionType !== MISSION_TYPE.Patrol) {
+    } else {
       if (this.missionModel.missionDetails.distance === null || this.missionModel.missionDetails.azimuth === null) {
         res = true;
       }

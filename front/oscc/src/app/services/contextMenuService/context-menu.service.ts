@@ -1,15 +1,19 @@
 import {Injectable} from '@angular/core';
 import {
   AV_DATA_UI, EVENT_DATA_UI,
-  LINKED_EVENT_DATA,
-  LINKED_REPORT_DATA,
   MISSION_TYPE, POINT, REPORT_DATA_UI
 } from '../../../../../../classes/typings/all.typings';
+import {MatMenuTrigger} from '@angular/material/menu';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContextMenuService {
+
+  //for all mat-menu as context
+  // public matMenuTrigger: MatMenuTrigger[] = [];
+  matMenuTrigger$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   //for linkedToWindow
   private _isOpenLinkToMenu = false;
@@ -49,12 +53,13 @@ export class ContextMenuService {
 
   public openFRContextMenu = () => {
     this.isOpenFRContextMenu = true;
-  }
+  };
 
   public closeContextMenu = () => {
     this.isOpenFRContextMenu = false;
     this.isOpenBlob = false;
-  }
+    this.matMenuTrigger$.next(false);
+  };
 
 
 }

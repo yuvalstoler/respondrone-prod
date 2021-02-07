@@ -37,9 +37,15 @@ export class AirResourcesComponent implements OnInit {
               public missionRequestService: MissionRequestService,
               public contextMenuService: ContextMenuService,
               public dialog: MatDialog) {
+
   }
 
   ngOnInit(): void {
+    this.contextMenuService.matMenuTrigger$.subscribe((res) => {
+      if (this.matMenuTrigger) {
+        this.matMenuTrigger.closeMenu();
+      }
+    });
   }
 
   onOpenMenu = ($event, id) => {
@@ -183,5 +189,6 @@ export class AirResourcesComponent implements OnInit {
       this.matMenuTrigger.openMenu();
     }
   };
+
 
 }

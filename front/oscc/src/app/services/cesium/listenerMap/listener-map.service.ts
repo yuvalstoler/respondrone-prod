@@ -95,7 +95,7 @@ export class ListenerMapService {
         }
       }
     }
-  }
+  };
 
   // public showBillboard = (event: EVENT_LISTENER_DATA) => {
   //   // if (this.applicationService.stateDraw === STATE_DRAW.drawBillboard) {

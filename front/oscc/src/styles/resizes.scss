@@ -196,6 +196,16 @@
   .RightPanel {
     width: $rightPanelMiddleWidth;
   }
+  // toastr ==================
+  .toast-top-left {
+    top: calc(#{$headerHeight} + 5px) !important;
+    left: calc(#{$sidePanelWidth60} + 5px) !important;
+  }
+  .toast-container .ngx-toastr{
+    width: 180px !important;
+    font-size: 10px;
+  }
+
 
   // ===================================================================================================================
  ::ng-deep.mat-menu-item {
@@ -306,6 +316,14 @@
   }
   .RightPanel {
     width: $rightPanelWidth;
+  }
+  // toastr ==================
+  .toast-top-left {
+    top: #{$headerHeight} + 5px !important;
+    left: calc(#{$sidePanelWidth53} + 5px) !important;
+  }
+  .toast-container .ngx-toastr{
+    width: 300px !important;
   }
   // ===================================================================================================================
   ::ng-deep.mat-menu-item {

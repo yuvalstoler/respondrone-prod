@@ -87,7 +87,7 @@ export class CesiumService {
 
   public createMap = (mapId: string) => {
     // Your access token can be found at: https://cesium.com/ion/tokens.
-    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YzM3OTZkOC0wZWY0LTQzNWItODYxYS0wODdhNGIyZTM5NzAiLCJpZCI6MzcyNzEsImlhdCI6MTYwNjg2MDI0OH0.Fbmq26ejVXZvVXcgICzOibjAWkdd4isMV5qF-o33FxM'
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YzM3OTZkOC0wZWY0LTQzNWItODYxYS0wODdhNGIyZTM5NzAiLCJpZCI6MzcyNzEsImlhdCI6MTYwNjg2MDI0OH0.Fbmq26ejVXZvVXcgICzOibjAWkdd4isMV5qF-o33FxM';
 
     const cesiumViewer: any = new Cesium.Viewer(
       this.maps[0].containerId,
@@ -122,7 +122,7 @@ export class CesiumService {
     // cesiumViewer.scene.primitives.add(Cesium.createOsmBuildings());
 
     const layers = cesiumViewer.baseLayerPicker.viewModel.imageryProviderViewModels;
-    cesiumViewer.baseLayerPicker.viewModel.selectedImagery = layers[4]
+    cesiumViewer.baseLayerPicker.viewModel.selectedImagery = layers[4];
 
 
 
@@ -143,7 +143,7 @@ export class CesiumService {
         destination: Cesium.Cartesian3.fromDegrees(mapDefaultPosition.lon, mapDefaultPosition.lat,  mapDefaultPosition.height),
         duration: 2,
       });
-    }, 4000)
+    }, 4000);
 
 
     setInterval(() => {
@@ -240,7 +240,7 @@ export class CesiumService {
     for (const mapDomId in mapsCE) {
       if (mapsCE.hasOwnProperty(mapDomId)) {
         res = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
-          mapsCE[mapDomId].scene, cartesian)
+          mapsCE[mapDomId].scene, cartesian);
       }
     }
     return res;

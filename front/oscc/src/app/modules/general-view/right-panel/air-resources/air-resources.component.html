@@ -132,7 +132,7 @@
              [style.top]="menuTopLeftPosition.y"
              [matMenuTriggerFor]="missionOptions"></div>
         <!--Menu mission Options-->
-        <mat-menu #missionOptions="matMenu">
+        <mat-menu #missionOptions="matMenu" [hasBackdrop]="true">
           <button (click)="onMissionOptions(MISSION_TYPE.CommRelay, airVehicle)"
                   *ngIf="airVehicle.modeDefine?.data?.missionOptions.CommRelay === true"
                   mat-menu-item>

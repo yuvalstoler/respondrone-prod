@@ -14,6 +14,9 @@
   .mat-cell, .mat-footer-cell {
     font-size: $fontSizeText13;
   }
+  .mat-column-description {
+    max-width: 11em;
+  }
 }
 @media screen and (max-width: 1400px){
   //Table ==============================================================================================================
@@ -23,6 +26,9 @@
   }
   .mat-cell, .mat-footer-cell {
     font-size: $fontSizeText12;
+  }
+  .mat-column-description {
+    max-width: 7em;
   }
 }
 @media screen and (max-width: 1285px){
@@ -34,6 +40,9 @@
   .mat-cell, .mat-footer-cell {
     font-size: $fontSizeText11;
   }
+  .mat-column-description {
+    max-width: 6em;
+  }
 }
 @media screen and (max-width: 1200px){
   //Table ==============================================================================================================
@@ -43,6 +52,9 @@
   }
   .mat-cell, .mat-footer-cell {
     font-size: $fontSizeText10;
+  }
+  .mat-column-description {
+    max-width: 5em;
   }
 }
 
@@ -82,18 +94,6 @@ table {
   //flex: none;
   //width: 20px;
 }
-
-.mat-column-description {
-  max-width: 11em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-right: 10px;
-}
-
-//.mat-column-description:hover {
-//  overflow: visible;
-//}
 
 .selected {
   background-color: $darkGrey !important;
@@ -153,6 +153,17 @@ tr.example-element-row:not(.example-expanded-row):active {
   max-height: 20em;
   column-gap: 2%;
 }
+
+.mat-column-description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+//.mat-column-description:hover {
+//  overflow: visible;
+//}
 
 .example-element-description {
   grid-column: 1;
