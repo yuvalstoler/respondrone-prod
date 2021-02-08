@@ -178,9 +178,9 @@
                  [matTooltip]="airVehicle.operationalStatus | separatorString"
             class="material-icons iconStatus">fiber_manual_record</span>
           {{airVehicle.name}}
-          <mat-icon (click)="onCloseMenu($event, airVehicle.id)" *ngIf="isOpenMenu[airVehicle.id]">keyboard_arrow_up
+          <mat-icon class="pointer" (click)="onCloseMenu($event, airVehicle.id)" *ngIf="isOpenMenu[airVehicle.id]">keyboard_arrow_up
           </mat-icon>
-          <mat-icon (click)="onOpenMenu($event, airVehicle.id)" *ngIf="!isOpenMenu[airVehicle.id]">keyboard_arrow_down
+          <mat-icon class="pointer" (click)="onOpenMenu($event, airVehicle.id)" *ngIf="!isOpenMenu[airVehicle.id]">keyboard_arrow_down
           </mat-icon>
         </div>
 

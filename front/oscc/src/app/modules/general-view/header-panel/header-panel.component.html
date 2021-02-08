@@ -54,7 +54,7 @@
     <!--More-->
     <div (click)="onMore()" *ngIf="screenWidth <= 1200" class="LeftSideButton">
       <button #target="matMenuTrigger" [matMenuTriggerFor]="menu" mat-button>
-      <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.more,
+      <span [ngClass]="{LPSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.more || applicationService.selectedHeaderPanelButton === Header_Buttons.liveVideo,
              LPNotSelected: applicationService.selectedHeaderPanelButton === Header_Buttons.none}"
             class="LeftSideLabel">
         More</span>
@@ -63,7 +63,8 @@
       </button>
     </div>
     <mat-menu #menu="matMenu" role="">
-      <button (click)="onLiveVideo()" mat-menu-item>Live video</button>
+      <button [ngStyle]="{'background': applicationService.selectedHeaderPanelButton === Header_Buttons.liveVideo ? '#00ffff' : ''}"
+              (click)="onLiveVideo()" mat-menu-item>Live video</button>
       <button [matMenuTriggerFor]="menuView" mat-menu-item>View</button>
     </mat-menu>
     <mat-menu #menuView="matMenu" role="menuitemcheckbox">

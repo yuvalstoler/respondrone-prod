@@ -90,7 +90,6 @@ export class HeaderPanelComponent implements OnInit {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.missionControl;
       // open panel
       this.applicationService.setLeftPanelTrue();
-      console.log('screen.showLeftPanel = true');
       this.applicationService.screen.showMissionControl = true;
       //close others
       this.applicationService.screen.showSituationPicture = false;
@@ -105,8 +104,13 @@ export class HeaderPanelComponent implements OnInit {
       // this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
 
     } else {
+
       if (this.airVehicleService.airVehicles.data.length > 0) {
-        this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.liveVideo;
+        // if (this.screenWidth > 1200) {
+          this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.liveVideo;
+        // } else {
+        //   this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.more;
+        // }
         if (this.applicationService.selectedAirVehicle === undefined) {
           this.applicationService.selectedAirVehicle = this.airVehicleService.airVehicles.data[0];
         }
@@ -122,6 +126,7 @@ export class HeaderPanelComponent implements OnInit {
           // open panel
           this.applicationService.screen.showVideo = true;
           this.applicationService.selectedWindow = VIDEO_OR_MAP.map;
+          this.contextMenuService.closeContextMenu();
         }, 500);
       }
     }
@@ -153,7 +158,7 @@ export class HeaderPanelComponent implements OnInit {
 
   onMore = () => {
     if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.more) {
-      this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
+      // this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
     } else {
       this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.more;
     }
