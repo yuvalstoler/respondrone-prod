@@ -52,6 +52,13 @@
   .mat-cell, .mat-footer-cell {
     font-size: $fontSizeText10;
   }
+  .mat-column-Description {
+    max-width: 5em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 5px;
+  }
 }
 
 //Regular
@@ -103,8 +110,14 @@
   .mat-cell, .mat-footer-cell {
     font-size: $fontSizeText13;
   }
+  .mat-column-Description {
+    max-width: 10em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 5px;
+  }
 }
-
 
 ::ng-deep.mat-dialog-container {
   padding: 0;
@@ -237,15 +250,6 @@
 
 .DialogComments {
   margin-top: 16px;
-}
-
-
-.mat-column-Description {
-  max-width: 10em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-right: 5px;
 }
 
 // ============= Footer =================================================
