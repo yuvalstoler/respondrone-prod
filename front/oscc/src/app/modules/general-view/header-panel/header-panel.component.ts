@@ -127,7 +127,7 @@ export class HeaderPanelComponent implements OnInit {
           this.applicationService.screen.showVideo = true;
           this.applicationService.selectedWindow = VIDEO_OR_MAP.map;
           this.contextMenuService.closeContextMenu();
-        }, 500);
+        }, 50);
       }
     }
   };

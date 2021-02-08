@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import {MatExpansionPanel} from '@angular/material/expansion';
 import {ApplicationService} from '../../../services/applicationService/application.service';
-import {MAP} from '../../../../types';
 
 @Component({
   selector: 'app-description-panel',
@@ -28,7 +27,7 @@ export class DescriptionPanelComponent implements OnInit, AfterViewChecked {
   @ViewChild('first', {static: true, read: MatExpansionPanel}) first: MatExpansionPanel;
 
   constructor(public applicationService: ApplicationService,
-              private cdr: ChangeDetectorRef) {
+              /*private cdr: ChangeDetectorRef*/) {
 
   }
 
@@ -36,7 +35,6 @@ export class DescriptionPanelComponent implements OnInit, AfterViewChecked {
     if (this.description !== '' || this.description !== undefined) {
       setTimeout(() => {
           this.onOpenPanel();
-          this.cdr.detectChanges();
         }, 500
       );
     }
