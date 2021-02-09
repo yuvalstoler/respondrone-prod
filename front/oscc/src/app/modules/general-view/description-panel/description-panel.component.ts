@@ -1,16 +1,7 @@
-import {
-  AfterViewChecked,
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild
-} from '@angular/core';
+import {AfterViewChecked, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {MatExpansionPanel} from '@angular/material/expansion';
 import {ApplicationService} from '../../../services/applicationService/application.service';
+import {ResponsiveService} from '../../../services/responsiveService/responsive.service';
 
 @Component({
   selector: 'app-description-panel',
@@ -21,14 +12,15 @@ export class DescriptionPanelComponent implements OnInit, AfterViewChecked {
 
   @Input() description: string;
   @Input() descriptionId: string;
-
-  @Output() panelOpenState: EventEmitter<{id: string, isOpen: boolean}> = new EventEmitter<{id: '', isOpen: true}>();
-
-  @ViewChild('first', {static: true, read: MatExpansionPanel}) first: MatExpansionPanel;
+  @Output() panelOpenState: EventEmitter<{ id: string, isOpen: boolean }> = new EventEmitter<{ id: '', isOpen: true }>();
+  screenWidth: number;
 
   constructor(public applicationService: ApplicationService,
+              public responsiveService: ResponsiveService
               /*private cdr: ChangeDetectorRef*/) {
-
+    this.responsiveService.screenWidth$.subscribe(res => {
+      this.screenWidth = res;
+    });
   }
 
   ngOnInit(): void {
@@ -38,7 +30,6 @@ export class DescriptionPanelComponent implements OnInit, AfterViewChecked {
         }, 500
       );
     }
-
   }
 
   ngAfterViewChecked() {
@@ -46,7 +37,7 @@ export class DescriptionPanelComponent implements OnInit, AfterViewChecked {
   }
 
   onOpenPanel = () => {
-    this.panelOpenState.emit({id: this.descriptionId, isOpen: true});
+      this.panelOpenState.emit({id: this.descriptionId, isOpen: true});
   };
 
   onClosePanel = () => {

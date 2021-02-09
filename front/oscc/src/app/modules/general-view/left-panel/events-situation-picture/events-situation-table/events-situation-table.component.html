@@ -87,6 +87,7 @@
           [@detailExpand]="applicationService.panelIcon === LEFT_PANEL_ICON.expand && expandedElement[element.id] && element.id === expandedElement[element.id].id ? 'expanded' : 'collapsed'"
           [style.height]="applicationService.panelIcon === LEFT_PANEL_ICON.expand && expandedElement[element.id] && element.id === expandedElement[element.id].id ? 'unset' : '0 !important'"
           class="example-element-detail-event">
+          <!-- column 1 ------------------------------------>
           <!--Description & Comments-->
           <div class="example-element-description">
             <!--Description-->
@@ -94,18 +95,33 @@
                                    [descriptionId]="element.id"
                                    [description]="element.description"></app-description-panel>
             <!--Comments array-->
-            <div class="example-element-comments">
+            <div *ngIf="screenWidth > 1200" class="example-element-comments">
               <app-comments-panel (changeComments)="onChangeComments($event, element)"
-                                  [isOpenDescription]="panelOpenState"
+                                  [comments]="element.comments"
                                   [descriptionId]="element.id"
                                   [description]="element.description"
-                                  [comments]="element.comments">
+                                  [isOpenDescription]="panelOpenState">
               </app-comments-panel>
             </div>
+            <!--Created by-->
+            <div *ngIf="screenWidth <= 1200" class="example-element-createdBy">
+              <span class="expendTitle">Created By:
+                <span class="expendContent">{{element.createdBy}}</span>
+              </span>
+            </div>
           </div>
-
+          <!-- column 2 ------------------------------------->
+          <!--Comments array-->
+          <div *ngIf="screenWidth <= 1200" class="example-element-comments">
+            <app-comments-panel (changeComments)="onChangeComments($event, element)"
+                                [comments]="element.comments"
+                                [descriptionId]="element.id"
+                                [description]="undefined"
+                                [isOpenDescription]="panelOpenState">
+            </app-comments-panel>
+          </div>
           <!--Linked reports table-->
-          <div class="example-element-linked">
+          <div *ngIf="screenWidth > 1200" class="example-element-linked">
             <app-linked-reports-table (updateLinkedReports)="onUpdateLinkedReports($event, element)"
                                       [element]="element"
                                       [isAllColumns]="true">
@@ -116,8 +132,9 @@
     </ng-container>
 
 
-    <tr *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand) ? displayedColumns: displayedColumnsMinimize; sticky: true"
-        mat-header-row
+    <tr
+      *matHeaderRowDef="(applicationService.panelIcon === LEFT_PANEL_ICON.expand) ? displayedColumns: displayedColumnsMinimize; sticky: true"
+      mat-header-row
     ></tr>
     <tr (click)="selectRow(row)"
         *matRowDef="let row; columns: (applicationService.panelIcon === LEFT_PANEL_ICON.expand)?displayedColumns: displayedColumnsMinimize;"

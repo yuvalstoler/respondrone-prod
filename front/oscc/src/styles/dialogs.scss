@@ -39,6 +39,7 @@
   }
   .DialogNotElement {
     font-size: $fontSizeText11;
+    white-space: normal;
   }
   .DialogMandatory {
     font-size: $fontSizeText10;
@@ -97,6 +98,7 @@
   }
   .DialogNotElement {
     font-size: $fontSizeText13;
+    white-space: normal;
   }
   .DialogMandatory {
     font-size: $fontSizeText12;
@@ -202,6 +204,7 @@
 .DialogNotElement {
   color: $black;
   margin: 10px 10px 0;
+
 }
 
 .DialogGrid2 {

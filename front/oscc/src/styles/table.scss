@@ -5,7 +5,7 @@
 
 
 // more then 1441
-@media screen and (min-width: 1441px){
+@media screen and (min-width: 1441px) {
   //Table ==============================================================================================================
   .mat-header-cell {
     font-size: $fontSizeText13;
@@ -14,11 +14,9 @@
   .mat-cell, .mat-footer-cell {
     font-size: $fontSizeText13;
   }
-  .mat-column-description {
-    max-width: 11em;
-  }
 }
-@media screen and (max-width: 1400px){
+
+@media screen and (max-width: 1400px) {
   //Table ==============================================================================================================
   .mat-header-cell {
     font-size: $fontSizeText12;
@@ -27,11 +25,9 @@
   .mat-cell, .mat-footer-cell {
     font-size: $fontSizeText12;
   }
-  .mat-column-description {
-    max-width: 7em;
-  }
 }
-@media screen and (max-width: 1285px){
+
+@media screen and (max-width: 1285px) {
   //Table ==============================================================================================================
   .mat-header-cell {
     font-size: $fontSizeText11;
@@ -40,11 +36,9 @@
   .mat-cell, .mat-footer-cell {
     font-size: $fontSizeText11;
   }
-  .mat-column-description {
-    max-width: 6em;
-  }
 }
-@media screen and (max-width: 1200px){
+
+@media screen and (max-width: 1200px) {
   //Table ==============================================================================================================
   .mat-header-cell {
     font-size: $fontSizeText10;
@@ -52,23 +46,79 @@
   }
   .mat-cell, .mat-footer-cell {
     font-size: $fontSizeText10;
-  }
-  .mat-column-description {
-    max-width: 5em;
   }
 }
 
 // Middle
 @media screen and (max-width: 1200px) {
-
+  .mat-column-description {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 10px;
+    max-width: 5em;
+  }
+  .mat-column-title {
+    max-width: 3em;
+  }
+  //.mat-column-description:hover {
+  //  overflow: visible;
+  //}
+  .expendTitle {
+    font-size: $fontSizeText12;
+  }
+  .description-content {
+    font-size: $fontSizeText10;
+    overflow: auto;
+    max-height: 100px;
+    white-space: pre-line;
+  }
+  // comments
+  .example-element-comments {
+    grid-column: 2;
+    grid-row: 1;
+    margin-left: 5px;
+    margin-top: 10px;
+  }
+  .expendContent {
+    font-size: $fontSizeText11;
+  }
 }
+
 //Regular
 @media screen and (min-width: 1201px) {
-
+  .mat-column-description {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 10px;
+    max-width: 7em;
+  }
+  .mat-column-title {
+    max-width: 4em;
+  }
+  //.mat-column-description:hover {
+  //  overflow: visible;
+  //}
+  .expendTitle {
+    font-size: $fontSizeTitle14;
+  }
+  .description-content {
+    font-size: $fontSizeText12;
+    overflow: auto;
+    max-height: 50px;
+    white-space: pre-line;
+  }
+  // comments
+  .example-element-comments {
+  }
+  .expendContent {
+    font-size: $fontSizeText13;
+  }
 }
 
 
-.table-container{
+.table-container {
   max-height: 40vh;
   overflow: auto;
 }
@@ -86,7 +136,8 @@ table {
 .tableCheckbox {
   width: 30px;
 }
-.tableExpandIcon{
+
+.tableExpandIcon {
   margin-top: 5px;
 }
 
@@ -102,13 +153,13 @@ table {
     color: $white !important;
   }
 
-  ::ng-deep.mat-checkbox-frame  {
+  ::ng-deep.mat-checkbox-frame {
     //border-color: $white;
     background-color: $gray
   }
 }
 
-th{
+th {
   background-color: $gray;
 }
 
@@ -127,6 +178,7 @@ tr.example-element-row:not(.example-expanded-row):hover {
 tr.example-element-row:not(.example-expanded-row):active {
   background: $lightGray;
 }
+
 //.example-element-row td {
 //  border-bottom-width: 0;
 //}
@@ -135,16 +187,18 @@ tr.example-element-row:not(.example-expanded-row):active {
   overflow: hidden;
   display: grid;
   grid-template-columns: 45% 52%;
-  max-height: 20em;
+  max-height: 21em;
   column-gap: 2%;
 }
+
 .example-element-detail-report {
   overflow: hidden;
   display: grid;
   grid-template-columns: 45% 52%;
-  max-height: 22em;
+  max-height: 24em;
   column-gap: 2%;
 }
+
 //descriptions
 .example-element-detail-tasks {
   overflow: hidden;
@@ -154,40 +208,29 @@ tr.example-element-row:not(.example-expanded-row):active {
   column-gap: 2%;
 }
 
-.mat-column-description {
+
+.mat-column-title {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   padding-right: 10px;
 }
 
-//.mat-column-description:hover {
-//  overflow: visible;
-//}
-
 .example-element-description {
   grid-column: 1;
   grid-row: 1;
+  position: relative;
 
   .mat-expansion-panel-header.mat-expanded {
     height: 40px;
   }
+
   .mat-expansion-panel-content {
     margin-bottom: 10px;
   }
 }
 
-.description-content{
-  overflow: auto;
-  max-height: 4.5em;
-  font-size: $fontSizeText13;
-  white-space: pre-line;
-}
-// comments
-.example-element-comments {
-  //grid-column: 1;
-  //grid-row: 2;
-}
+
 // linked
 .example-element-linked {
   //padding: 16px;
@@ -195,65 +238,72 @@ tr.example-element-row:not(.example-expanded-row):active {
   grid-row: 1;
   margin-left: 5px;
 }
+
 // geo instructions
-.example-element-geo-instructions{
+.example-element-geo-instructions {
   grid-column: 2;
   grid-row: 1;
   //margin-top: 5px;
   position: relative;
 }
-.geo-instructions-container{
+
+.geo-instructions-container {
   overflow: auto;
   max-height: 11em;
   margin-top: 2px;
   margin-bottom: 50px;
 }
+
 //task-assignees
-.example-element-assignees{
+.example-element-assignees {
   grid-column: 3;
 
 }
+
 //resources
-.example-element-resources{
+.example-element-resources {
   .mat-expansion-panel-header.mat-expanded {
     height: 40px;
   }
+
   .mat-expansion-panel-content {
     margin-bottom: 10px;
   }
 
 }
-.example-element-createdBy{
+
+.example-element-createdBy {
   position: absolute;
-  bottom: 10px;
-  width: 100%;
+  bottom: 3px;
+  width: auto;
   // background: $lightGray;
   height: auto;
 }
-.expendContent{
-  font-size: $fontSizeText13;
+
+.expendContent {
   color: $black;
   font-weight: 200;
 }
 
-.row-message{
+.row-message {
   margin-left: 8px;
 }
 
-.right{
+.right {
   float: right;
 }
 
 .capitalize {
   text-transform: capitalize;
 }
+
 .tableImage {
   height: 18px;
   width: 18px;
   margin-left: 10px;
 }
+
 .expendTitle {
-  font-size: $fontSizeTitle14;
   color: $black;
   font-weight: 600;
   white-space: nowrap;
@@ -261,17 +311,19 @@ tr.example-element-row:not(.example-expanded-row):active {
   text-overflow: ellipsis;
   max-width: 10em;
 }
-.expendTitleText{
+
+.expendTitleText {
   margin: 3px 3px 3px 5px;
 
 }
 
-.iconStatus {
-  font-size: $fontSizeText9;
+.linkedID {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
-::ng-deep.mat-expansion-panel:not([class*=mat-elevation-z]) {
- box-shadow: none !important;
+.iconStatus {
+  font-size: $fontSizeText9;
 }
 
 .mat-expansion-panel-header {
@@ -286,7 +338,8 @@ tr.example-element-row:not(.example-expanded-row):active {
   width: inherit;
 }
 
-.linkedID {
-  cursor: pointer;
-  text-decoration: underline;
+::ng-deep.mat-expansion-panel:not([class*=mat-elevation-z]) {
+  box-shadow: none !important;
 }
+
+
