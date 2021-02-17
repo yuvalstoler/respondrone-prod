@@ -142,18 +142,18 @@
     </div>
     <!--Camera-->
     <div class="camera-container container">
-      <div class="itemCameraDiv">Camera Control:</div> &nbsp;
+      <div class="itemCameraDiv">Camera Control</div>&nbsp;
       <div [ngStyle]="{'color': gimbal?.modeDefine?.styles?.gimbalControlColor[videoUrlKey]}" class="CameraText">
         <span>{{gimbal?.controlData[videoUrlKey]?.userText}}</span>
         <mat-icon *ngIf="gimbal?.controlData[videoUrlKey]?.isLocked">lock</mat-icon>
       </div>
-      <button #target="matMenuTrigger" [matMenuTriggerFor]="menu" aria-label="icon-button" mat-icon-button>
-        <mat-icon *ngIf="!target.menuOpen" class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
-        <mat-icon *ngIf="target.menuOpen" class="HPLeftSideIcon">keyboard_arrow_up</mat-icon>
+      <button #target1="matMenuTrigger" [matMenuTriggerFor]="camera" aria-label="icon-button" mat-icon-button>
+        <mat-icon *ngIf="!target1.menuOpen" class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="target1.menuOpen" class="HPLeftSideIcon">keyboard_arrow_up</mat-icon>
       </button>
     </div>
     <!--mat-menu Camera-->
-    <mat-menu #menu="matMenu">
+    <mat-menu #camera="matMenu">
       <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId !== loginService.getUserId()"
       (click)="onControlAction(GIMBAL_CONTROL_ACTION.takeControl)" mat-menu-item>Take Control</button>
       <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId === loginService.getUserId()"
@@ -165,76 +165,78 @@
 
     </mat-menu>
     <!--Camera Settings-->
-    <div *ngIf="isNight" class="videoSelect">
-      <mat-form-field appearance="outline" class="SPMatFormField">
-        <!--<mat-label>Choose color palette</mat-label>-->
-        <mat-select (selectionChange)="checkColorPalette($event)" [(ngModel)]="selectedColor">
-          <mat-option *ngFor="let color of colorPalette" [value]="color">
-            {{color}}
-          </mat-option>
-          <!--Zoom-->
-          <div class="zoom-container container">
-            <div>Camera zoom:
-              <span *ngIf="!isNight">{{gimbal?.visibleCameraParameters?.zoomVisibleCamera}}x</span>
-              <span *ngIf="isNight">{{gimbal?.infraredCameraParameters?.zoomInfraredCamera}}x</span>
-            </div>
-            <div class="zoom-slider">
-              <span>0</span>
-              <mat-slider
-                (change)="onChangeZoom(zoomModel)"
-                [(ngModel)]="zoomModel"
-                [displayWith]="formatLabel"
-                [max]="maxZoom"
-                [min]="minZoom"
-                [step]="stepZoom"
-                [tickInterval]="tickIntervalZoom"
-                thumbLabel
-              >
-              </mat-slider>
-              <span>10x</span>
-            </div>
-          </div>
-          <!--Speed-->
-          <div class="speed-container container">
-            <div>Camera rate: <span>{{speedModel}}°</span></div>
-            <div>
-              <img alt="slow" class="speedSlowImg" src="../../../../assets/slow.png">
-              <mat-slider
-                [(ngModel)]="speedModel"
-                [max]="maxSpeed"
-                [min]="minSpeed"
-                [tickInterval]="tickIntervalSpeed"
-                thumbLabel
-              >
-              </mat-slider>
-              <img alt="fast" class="speedFastImg" src="../../../../assets/fast.png">
-            </div>
-          </div>
-          <!--Camera Mode-->
-          <div>Day
-            <mat-slide-toggle (change)="changeSlide($event)"></mat-slide-toggle>
-            Night
-          </div>
-          <div *ngIf="isNight" class="videoSelect">
-            <mat-form-field appearance="outline" class="SPMatFormField">
-              <!--<mat-label>Choose color palette</mat-label>-->
-              <mat-select (selectionChange)="checkColorPalette($event)" [(ngModel)]="selectedColor">
-                <mat-option *ngFor="let color of colorPalette" [value]="color">
-                  {{color}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <!--Telemetry-->
-          <div class="telemetry-container container">
-            <div>Pitch: <span>{{gimbal?.gimbalParameters?.pitch}}°</span></div>
-            <div>Yaw: <span>{{gimbal?.gimbalParameters?.yaw}}°</span></div>
-          </div>
-        </mat-select>
-      </mat-form-field>
+    <div class="camera-container container">
+      <div class="itemCameraDiv">Camera Settings</div>&nbsp;
+      <button #target2="matMenuTrigger" [matMenuTriggerFor]="settings" aria-label="icon-button" mat-icon-button>
+        <mat-icon *ngIf="!target2.menuOpen" class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="target2.menuOpen" class="HPLeftSideIcon">keyboard_arrow_up</mat-icon>
+      </button>
     </div>
-    <!--</div>-->
+    <!--mat-menu Settings-->
+    <mat-menu #settings="matMenu">
+      <!--Speed-->
+      <div class="speed-container container">
+        <div>Camera rate: <span>{{speedModel}}°</span></div>
+        <div>
+          <img alt="slow" class="speedSlowImg" src="../../../../assets/slow.png">
+          <mat-slider
+            [(ngModel)]="speedModel"
+            [max]="maxSpeed"
+            [min]="minSpeed"
+            [tickInterval]="tickIntervalSpeed"
+            thumbLabel
+          >
+          </mat-slider>
+          <img alt="fast" class="speedFastImg" src="../../../../assets/fast.png">
+        </div>
+      </div>
+      <!--Zoom-->
+      <div class="zoom-container container">
+        <div>Camera zoom:
+          <span *ngIf="!isNight">{{gimbal?.visibleCameraParameters?.zoomVisibleCamera}}x</span>
+          <span *ngIf="isNight">{{gimbal?.infraredCameraParameters?.zoomInfraredCamera}}x</span>
+        </div>
+        <div class="zoom-slider">
+          <span>0</span>
+          <mat-slider
+            (change)="onChangeZoom(zoomModel)"
+            [(ngModel)]="zoomModel"
+            [displayWith]="formatLabel"
+            [max]="maxZoom"
+            [min]="minZoom"
+            [step]="stepZoom"
+            [tickInterval]="tickIntervalZoom"
+            thumbLabel
+          >
+          </mat-slider>
+          <span>10x</span>
+        </div>
+      </div>
+      <!--Camera Mode-->
+      <div>Day
+        <mat-slide-toggle (change)="changeSlide($event)"></mat-slide-toggle>
+        Night
+      </div>
+      <div *ngIf="isNight" class="videoSelect">
+        <mat-form-field appearance="outline" class="SPMatFormField">
+          <!--<mat-label>Choose color palette</mat-label>-->
+          <mat-select (selectionChange)="checkColorPalette($event)" [(ngModel)]="selectedColor">
+            <mat-option *ngFor="let color of colorPalette" [value]="color">
+              {{color}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!--Telemetry-->
+      <div class="telemetry-container container">
+        <div>Pitch: <span>{{gimbal?.gimbalParameters?.pitch}}°</span></div>
+        <div>Yaw: <span>{{gimbal?.gimbalParameters?.yaw}}°</span></div>
+      </div>
+    </mat-menu>
   </div>
+
+
+
   <!--Arrows-->
   <div class="LiveVideoContent">
     <mat-icon (click)="onClickDirection('left')" class="arrows left"> keyboard_arrow_left</mat-icon>

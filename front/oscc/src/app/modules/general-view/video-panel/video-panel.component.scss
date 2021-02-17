@@ -16,7 +16,7 @@
     grid-template-rows: calc(#{$headerVideoHeightRegular} / 2 - 10px) calc(#{$headerVideoHeightRegular} / 2 - 10px);
     border-right: 1px solid $lightGray;
 
-    .UAVParams{
+    .UAVParams {
       text-align: right;
       padding-right: 0;
     }
@@ -40,6 +40,7 @@
     .videoSelect {
       text-align: right;
       padding-right: 0;
+
       div {
         font-size: $fontSizeText13 !important;
       }
@@ -144,7 +145,7 @@
     }
   }
 
-  .telemetry-container{
+  .telemetry-container {
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: calc(#{$headerVideoHeightRegular} / 2 - 10px) calc(#{$headerVideoHeightRegular} / 2 - 10px);
@@ -182,7 +183,7 @@
     height: auto;
   }
 
-  .speedFastImg{
+  .speedFastImg {
     width: 24px;
     height: auto;
   }
@@ -197,7 +198,7 @@
 
 }
 
-.LiveVideoHeaderMiddle{
+.LiveVideoHeaderMiddle {
 
   display: flex;
   flex-direction: row;
@@ -208,7 +209,7 @@
   z-index: 998;
   color: $white;
 
-  .drone-container{
+  .drone-container {
     border-right: 1px solid $lightGray;
     line-height: 40px;
 
@@ -243,18 +244,19 @@
     }
   }
 
-  .uav-params-container{
+  .uav-params-container {
     border-right: 1px solid $lightGray;
     line-height: 40px;
   }
 
-  .camera-container{
+  .camera-container {
     border-right: 1px solid $lightGray;
     line-height: 40px;
 
     div {
       display: inline-block;
     }
+
     mat-icon {
       margin: 0 0 5px;
       height: 16px;
@@ -268,6 +270,7 @@
   }
 
 
+
   .container {
     color: $white;
     margin: auto 0;
@@ -277,9 +280,25 @@
   }
 }
 
+::ng-deep.mat-menu-content{
+  .speed-container {
+    .speedSlowImg {
+      width: 16px;
+      height: auto;
+      font-size: 16px;
+    }
+
+    .speedFastImg {
+      width: 16px;
+      height: auto;
+      font-size: 16px;
+    }
+  }
+}
+
 
 // Arrows
-.LiveVideoContent{
+.LiveVideoContent {
   .expendVideo {
     position: absolute;
     bottom: 10px;
@@ -290,10 +309,12 @@
     font-size: 50px;
     color: $white;
   }
+
   .expendVideo:hover {
     color: $black;
     cursor: pointer;
   }
+
   .arrows {
     position: absolute;
     font-size: 50px;
@@ -302,7 +323,7 @@
     color: $white;
     z-index: 1000;
     cursor: pointer;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 25px;
   }
 
@@ -372,6 +393,7 @@
   .ConfirmButtonDecline {
     background-color: $red;
   }
+
   .ConfirmButtonAccept {
     background-color: $green;
   }
