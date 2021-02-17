@@ -106,7 +106,7 @@
     <!--Status Indicator-->
     <div class="RightSideButton">
       <!--<mat-icon [matMenuTriggerFor]="statuses" class="HPRightSideIcon pointer" >wifi</mat-icon>-->
-      <img class="HPRightSideIcon pointer" [matMenuTriggerFor]="statuses"
+      <img alt="" class="RightSideIcon pointer" [matMenuTriggerFor]="statuses"
            src="{{statusIndicatorService?.statusData?.data?.modeDefine?.styles?.icon}}">
     </div>
     <mat-menu #statuses="matMenu" >
@@ -147,7 +147,7 @@
     </div>
     <!--Account Management-->
     <div class="RightSideButton">
-      <mat-icon [matMenuTriggerFor]="login" class="HPRightSideIcon pointer">
+      <mat-icon [matMenuTriggerFor]="login" class="RightSideIcon pointer">
         account_circle
       </mat-icon>
     </div>

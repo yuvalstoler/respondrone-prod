@@ -4,252 +4,333 @@
 
 .LiveVideoHeader {
   display: flex;
-  height: $headerVideoHeight;
+  height: $headerVideoHeightRegular;
   background-color: $darkGrayOpacity;
   position: absolute;
   width: 100vw;
   z-index: 998;
-}
 
-.LiveVideoContent {
-
-}
-
-.container {
-  color: $white;
-  margin: 10px 0;
-  font-size: 13px;
-  z-index: 1000;
-  padding: 0 10px;
-}
-
-.drone-container {
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-template-rows: calc(#{$headerVideoHeight} / 2 - 10px) calc(#{$headerVideoHeight} / 2 - 10px);
-  border-right: 1px solid $lightGray;
-
-  .UAVParams{
-    text-align: right;
-    padding-right: 0;
-  }
-
-  div {
-    padding: 0 10px 0 0;
-    margin: auto 0;
-    font-size: $fontSizeVideoText16;
-    font-weight: 600;
-  }
-
-  span {
-    font-size: $fontSizeVideoText16;
-    font-weight: 100;
-  }
-
-  mat-slide-toggle {
-    padding: 0 10px;
-  }
-
-  .videoSelect {
-    text-align: right;
-    padding-right: 0;
-    div {
-      font-size: $fontSizeText13 !important;
-    }
-  }
-
-  ::ng-deep .mat-form-field {
-    display: inline-block !important;
-    color: $white !important;
-    width: 9em;
-  }
-
-  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
-    padding: 0em 0 0.5em 0 !important;
-  }
-
-  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
-    margin: -1em 0 !important;
-  }
-
-  ::ng-deep.mat-form-field-wrapper {
-    padding-bottom: 0em !important;
-  }
-
-  ::ng-deep.mat-select-value {
-    color: $white !important;
-  }
-
-  ::ng-deep.mat-form-field-appearance-outline .mat-select-arrow-wrapper {
-    transform: translateY(0%) !important;
-  }
-
-  ::ng-deep.mat-select-placeholder {
-    font-size: $fontSizeText13;
-  }
-
-}
-
-.camera-container {
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-template-rows: calc(#{$headerVideoHeight} / 2 - 10px) calc(#{$headerVideoHeight} / 2 - 10px);
-  border-right: 1px solid $lightGray;
-
-  .itemCameraDiv {
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  div {
-    margin: auto 0;
-    font-size: $fontSizeVideoText16;
-    font-weight: 600;
-  }
-
-  span {
-    font-size: $fontSizeVideoText16;
-    font-weight: 100;
-  }
-
-  button {
-    margin: 1px 10px 0px 0;
-    background: $lightGray;
-  }
-
-  mat-icon {
-    margin: 0px 5px 0px 0px;
-    height: 20px;
-    width: 20px;
-    font-size: 20px;
-  }
-
-  .CameraText {
-    display: inline-flex;
-  }
-}
-
-.zoom-container {
-  display: grid;
-  grid-template-columns: auto;
-  grid-template-rows: calc(#{$headerVideoHeight} / 2 - 10px) calc(#{$headerVideoHeight} / 2 - 10px);
-
-  .zoom-slider {
+  .drone-container {
     display: grid;
-    grid-template-columns: 1.5em auto 1.5em;
+    grid-template-columns: auto auto;
+    grid-template-rows: calc(#{$headerVideoHeightRegular} / 2 - 10px) calc(#{$headerVideoHeightRegular} / 2 - 10px);
+    border-right: 1px solid $lightGray;
+
+    .UAVParams{
+      text-align: right;
+      padding-right: 0;
+    }
+
+    div {
+      padding: 0 10px 0 0;
+      margin: auto 0;
+      font-size: $fontSizeVideoText16;
+      font-weight: 600;
+    }
 
     span {
+      font-size: $fontSizeVideoText16;
+      font-weight: 100;
+    }
+
+    mat-slide-toggle {
+      padding: 0 10px;
+    }
+
+    .videoSelect {
+      text-align: right;
+      padding-right: 0;
+      div {
+        font-size: $fontSizeText13 !important;
+      }
+    }
+
+    ::ng-deep .mat-form-field {
+      display: inline-block !important;
+      color: $white !important;
+      width: 9em;
+    }
+
+    ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
+      padding: 0em 0 0.5em 0 !important;
+    }
+
+    ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
+      margin: -1em 0 !important;
+    }
+
+    ::ng-deep.mat-form-field-wrapper {
+      padding-bottom: 0em !important;
+    }
+
+    ::ng-deep.mat-select-value {
+      color: $white !important;
+    }
+
+    ::ng-deep.mat-form-field-appearance-outline .mat-select-arrow-wrapper {
+      transform: translateY(0%) !important;
+    }
+
+    ::ng-deep.mat-select-placeholder {
+      font-size: $fontSizeText13;
+    }
+
+  }
+
+  .camera-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: calc(#{$headerVideoHeightRegular} / 2 - 10px) calc(#{$headerVideoHeightRegular} / 2 - 10px);
+    border-right: 1px solid $lightGray;
+
+    .itemCameraDiv {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    div {
       margin: auto 0;
+      font-size: $fontSizeVideoText16;
+      font-weight: 600;
+    }
+
+    span {
+      font-size: $fontSizeVideoText16;
+      font-weight: 100;
+    }
+
+    button {
+      margin: 1px 10px 0px 0;
+      background: $lightGray;
+    }
+
+    mat-icon {
+      margin: 0px 5px 0px 0px;
+      height: 20px;
+      width: 20px;
+      font-size: 20px;
+    }
+
+    .CameraText {
+      display: inline-flex;
     }
   }
 
-  div {
+  .zoom-container {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: calc(#{$headerVideoHeightRegular} / 2 - 10px) calc(#{$headerVideoHeightRegular} / 2 - 10px);
+
+    .zoom-slider {
+      display: grid;
+      grid-template-columns: 1.5em auto 1.5em;
+
+      span {
+        margin: auto 0;
+      }
+    }
+
+    div {
+      padding: 0 10px;
+      margin: auto 0;
+      font-size: $fontSizeVideoText16;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    span {
+      font-size: $fontSizeVideoText16;
+      font-weight: 100;
+    }
+  }
+
+  .telemetry-container{
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: calc(#{$headerVideoHeightRegular} / 2 - 10px) calc(#{$headerVideoHeightRegular} / 2 - 10px);
+
+    div {
+      padding: 0 10px;
+      margin: auto 0;
+      font-size: $fontSizeVideoText16;
+      font-weight: 600;
+    }
+  }
+
+  .speed-container {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: calc(#{$headerVideoHeightRegular} / 2 - 10px) calc(#{$headerVideoHeightRegular} / 2 - 10px);
+    border-right: 1px solid $lightGray;
+
+    div {
+      padding: 0 10px;
+      margin: auto 0;
+      font-size: $fontSizeVideoText16;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    span {
+      font-size: $fontSizeVideoText16;
+      font-weight: 100;
+    }
+  }
+
+  .speedSlowImg {
+    width: 30px;
+    height: auto;
+  }
+
+  .speedFastImg{
+    width: 24px;
+    height: auto;
+  }
+
+  .container {
+    color: $white;
+    margin: 10px 0;
+    font-size: 13px;
+    z-index: 1000;
     padding: 0 10px;
-    margin: auto 0;
-    font-size: $fontSizeVideoText16;
-    font-weight: 600;
-    text-align: center;
   }
 
-  span {
-    font-size: $fontSizeVideoText16;
-    font-weight: 100;
-  }
 }
 
-.telemetry-container{
-  display: grid;
-  grid-template-columns: auto;
-  grid-template-rows: calc(#{$headerVideoHeight} / 2 - 10px) calc(#{$headerVideoHeight} / 2 - 10px);
+.LiveVideoHeaderMiddle{
 
-  div {
-    padding: 0 10px;
-    margin: auto 0;
-    font-size: $fontSizeVideoText16;
-    font-weight: 600;
-  }
-}
-
-.speed-container {
-  display: grid;
-  grid-template-columns: auto;
-  grid-template-rows: calc(#{$headerVideoHeight} / 2 - 10px) calc(#{$headerVideoHeight} / 2 - 10px);
-  border-right: 1px solid $lightGray;
-
-  div {
-    padding: 0 10px;
-    margin: auto 0;
-    font-size: $fontSizeVideoText16;
-    font-weight: 600;
-    text-align: center;
-  }
-
-  span {
-    font-size: $fontSizeVideoText16;
-    font-weight: 100;
-  }
-}
-
-.speedSlowImg {
-  width: 30px;
-  height: auto;
-}
-
-.speedFastImg{
-  width: 24px;
-  height: auto;
-}
-
-.expendVideo {
+  display: flex;
+  flex-direction: row;
+  height: $headerVideoHeightMiddle;
+  background-color: $darkGrayOpacity;
   position: absolute;
-  bottom: 10px;
-  z-index: 50;
-  right: 10px;
-  width: 50px;
-  height: auto;
-  font-size: 50px;
+  width: 100vw;
+  z-index: 998;
   color: $white;
-}
-.expendVideo:hover {
-  color: $black;
-  cursor: pointer;
+
+  .drone-container{
+    border-right: 1px solid $lightGray;
+    line-height: 40px;
+
+    ::ng-deep .mat-form-field {
+      display: inline-block !important;
+      color: $white !important;
+      width: 8em;
+    }
+
+    ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
+      padding: 0em 0 0.5em 0 !important;
+    }
+
+    ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
+      margin: -1em 0 !important;
+    }
+
+    ::ng-deep.mat-form-field-wrapper {
+      padding-bottom: 0em !important;
+    }
+
+    ::ng-deep.mat-select-value {
+      color: $white !important;
+    }
+
+    ::ng-deep.mat-form-field-appearance-outline .mat-select-arrow-wrapper {
+      transform: translateY(0%) !important;
+    }
+
+    ::ng-deep.mat-select-placeholder {
+      font-size: $fontSizeText13;
+    }
+  }
+
+  .uav-params-container{
+    border-right: 1px solid $lightGray;
+    line-height: 40px;
+  }
+
+  .camera-container{
+    border-right: 1px solid $lightGray;
+    line-height: 40px;
+
+    div {
+      display: inline-block;
+    }
+    mat-icon {
+      margin: 0 0 5px;
+      height: 16px;
+      width: 16px;
+      font-size: 16px;
+    }
+
+    .CameraText {
+      display: inline-flex;
+    }
+  }
+
+
+  .container {
+    color: $white;
+    margin: auto 0;
+    font-size: 11px;
+    z-index: 1000;
+    padding: 0 5px;
+  }
 }
 
-.arrows {
-  position: absolute;
-  font-size: 50px;
-  height: 50px;
-  width: 50px;
-  color: $white;
-  z-index: 1000;
-  cursor: pointer;
-  background: rgba(0,0,0,0.2);
-  border-radius: 25px;
-}
 
-.left {
-  top: 49%;
-  left: 0;
-}
+// Arrows
+.LiveVideoContent{
+  .expendVideo {
+    position: absolute;
+    bottom: 10px;
+    z-index: 50;
+    right: 10px;
+    width: 50px;
+    height: auto;
+    font-size: 50px;
+    color: $white;
+  }
+  .expendVideo:hover {
+    color: $black;
+    cursor: pointer;
+  }
+  .arrows {
+    position: absolute;
+    font-size: 50px;
+    height: 50px;
+    width: 50px;
+    color: $white;
+    z-index: 1000;
+    cursor: pointer;
+    background: rgba(0,0,0,0.2);
+    border-radius: 25px;
+  }
 
-.right {
-  top: 49%;
-  right: 0;
-}
+  .left {
+    top: 49%;
+    left: 0;
+  }
 
-.upLow {
-  top: $headerVideoHeight;
-  left: 49%
-}
+  .right {
+    top: 49%;
+    right: 0;
+  }
 
-.up {
-  top: 0;
-  left: 49%
-}
+  .upLow {
+    top: $headerVideoHeightRegular;
+    left: 49%
+  }
 
-.down {
-  bottom: 0;
-  left: 49%
+  .up {
+    top: 0;
+    left: 49%
+  }
+
+  .down {
+    bottom: 0;
+    left: 49%
+  }
+
 }
 
 .mat-raised-button {

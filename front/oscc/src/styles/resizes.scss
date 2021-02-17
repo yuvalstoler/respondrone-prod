@@ -2,8 +2,8 @@
 @import "colors";
 
 // Headers, Tabs Left panel
-// more then 1441
-@media screen and (min-width: 1441px){
+// more then 1401
+@media screen and (min-width: 1401px){
   .HeaderPanel{
     font-size: $fontSizeTitleHeader18;
 
@@ -21,6 +21,7 @@
       min-width: 160px;
     }
   }
+
 }
 @media screen and (max-width: 1400px){
   .HeaderPanel{
@@ -93,7 +94,13 @@
   .HeaderRightSide{
     width: $sidePanelWidth40 !important;
   }
-  .HPRightSideIcon{
+  //.HPRightSideIcon{
+  //  width: $iconSizeMiddle;
+  //  height: $iconSizeMiddle;
+  //  font-size: $iconSizeMiddle;
+  //  margin: 0px;
+  //}
+  .RightSideIcon{
     width: $iconSizeMiddle;
     height: $iconSizeMiddle;
     font-size: $iconSizeMiddle;
@@ -228,7 +235,13 @@
   .HeaderRightSide{
     width: $sidePanelWidth47 !important;
   }
-  .HPRightSideIcon {
+  //.HPRightSideIcon {
+  //  width: $iconSize;
+  //  height: $iconSize;
+  //  font-size: $iconFontSize;
+  //  margin: 2px;
+  //}
+  .RightSideIcon {
     width: $iconSize;
     height: $iconSize;
     font-size: $iconFontSize;

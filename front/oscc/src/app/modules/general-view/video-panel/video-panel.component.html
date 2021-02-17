@@ -1,6 +1,6 @@
 <div oncontextmenu="return false;">
   <!--Header-->
-  <div *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"
+  <div *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map && screenWidth > 1200"
        class="LiveVideoHeader">
     <!--Drone-->
     <div class="drone-container container">
@@ -8,10 +8,11 @@
       <div>UAV name:
         <!--<span>{{applicationService?.selectedAirVehicle?.name}}</span>&nbsp;-->
         <mat-form-field appearance="outline" class="SPMatFormField">
-          <mat-select placeholder="Choose UAV" [(ngModel)]="applicationService.selectedAirVehicle" (selectionChange)="selectAirVehicle($event)">
-            <mat-option *ngFor="let av of airVehicleService?.airVehicles?.data" [value]="av"
-            [disabled]="av.operationalStatus !== OPERATIONAL_STATUS.Ready &&
-              av.operationalStatus !== OPERATIONAL_STATUS.OnMission">
+          <mat-select (selectionChange)="selectAirVehicle($event)" [(ngModel)]="applicationService.selectedAirVehicle"
+                      placeholder="Choose UAV">
+            <mat-option *ngFor="let av of airVehicleService?.airVehicles?.data" [disabled]="av.operationalStatus !== OPERATIONAL_STATUS.Ready &&
+              av.operationalStatus !== OPERATIONAL_STATUS.OnMission"
+                        [value]="av">
               {{av.name}}
             </mat-option>
           </mat-select>
@@ -23,37 +24,50 @@
         ASL: <span>{{applicationService?.selectedAirVehicle?.altitudeAsl}}m</span>
       </div>
       <!--<div class="item3">-->
-      <div>Day<mat-slide-toggle (change)="changeSlide($event)"></mat-slide-toggle>Night</div>
-      <div class="videoSelect" *ngIf="isNight">
+      <div>Day
+        <mat-slide-toggle (change)="changeSlide($event)"></mat-slide-toggle>
+        Night
+      </div>
+      <div *ngIf="isNight" class="videoSelect">
         <mat-form-field appearance="outline" class="SPMatFormField">
           <!--<mat-label>Choose color palette</mat-label>-->
-        <mat-select [(ngModel)]="selectedColor" (selectionChange)="checkColorPalette($event)">
-          <mat-option *ngFor="let color of colorPalette" [value]="color">
-            {{color}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+          <mat-select (selectionChange)="checkColorPalette($event)" [(ngModel)]="selectedColor">
+            <mat-option *ngFor="let color of colorPalette" [value]="color">
+              {{color}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <!--</div>-->
     </div>
     <!--Camera-->
     <div class="camera-container container">
-      <div class="itemCameraDiv">Camera Control: </div>
-      <div class="CameraText" [ngStyle]="{'color': gimbal?.modeDefine?.styles?.gimbalControlColor[videoUrlKey]}">
+      <div class="itemCameraDiv">Camera Control:</div>
+      <div [ngStyle]="{'color': gimbal?.modeDefine?.styles?.gimbalControlColor[videoUrlKey]}" class="CameraText">
         <span>{{gimbal?.controlData[videoUrlKey]?.userText}}</span>
         <mat-icon *ngIf="gimbal?.controlData[videoUrlKey]?.isLocked">lock</mat-icon>
       </div>
       <div>
-        <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId !== loginService.getUserId()"
-                (click)="onControlAction(GIMBAL_CONTROL_ACTION.takeControl)" mat-raised-button>Take Control</button>
-        <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId === loginService.getUserId()"
-                (click)="onControlAction(GIMBAL_CONTROL_ACTION.releaseControl) "mat-raised-button>Release Control</button>
+        <button (click)="onControlAction(GIMBAL_CONTROL_ACTION.takeControl)"
+                *ngIf="gimbal?.controlData[videoUrlKey]?.userId !== loginService.getUserId()" mat-raised-button>Take
+          Control
+        </button>
+        <button (click)="onControlAction(GIMBAL_CONTROL_ACTION.releaseControl) "
+                *ngIf="gimbal?.controlData[videoUrlKey]?.userId === loginService.getUserId()" mat-raised-button>Release
+          Control
+        </button>
       </div>
       <div>
-        <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId == loginService.getUserId() && !gimbal?.controlData[videoUrlKey]?.isLocked"
-                (click)="onControlAction(GIMBAL_CONTROL_ACTION.lockControl)" mat-raised-button>Lock Control</button>
-        <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId == loginService.getUserId() && gimbal?.controlData[videoUrlKey]?.isLocked"
-                (click)="onControlAction(GIMBAL_CONTROL_ACTION.unlockControl)" mat-raised-button>Un-Lock Control</button>
+        <button
+          (click)="onControlAction(GIMBAL_CONTROL_ACTION.lockControl)"
+          *ngIf="gimbal?.controlData[videoUrlKey]?.userId == loginService.getUserId() && !gimbal?.controlData[videoUrlKey]?.isLocked"
+          mat-raised-button>Lock Control
+        </button>
+        <button
+          (click)="onControlAction(GIMBAL_CONTROL_ACTION.unlockControl)"
+          *ngIf="gimbal?.controlData[videoUrlKey]?.userId == loginService.getUserId() && gimbal?.controlData[videoUrlKey]?.isLocked"
+          mat-raised-button>Un-Lock Control
+        </button>
       </div>
     </div>
     <!--Zoom-->
@@ -65,14 +79,14 @@
       <div class="zoom-slider">
         <span>0</span>
         <mat-slider
-          thumbLabel
-          [displayWith]="formatLabel"
-          [tickInterval]="tickIntervalZoom"
-          [step]="stepZoom"
-          [min]="minZoom"
-          [max]="maxZoom"
-          [(ngModel)]="zoomModel"
           (change)="onChangeZoom(zoomModel)"
+          [(ngModel)]="zoomModel"
+          [displayWith]="formatLabel"
+          [max]="maxZoom"
+          [min]="minZoom"
+          [step]="stepZoom"
+          [tickInterval]="tickIntervalZoom"
+          thumbLabel
         >
         </mat-slider>
         <span>10x</span>
@@ -82,16 +96,16 @@
     <div class="speed-container container">
       <div>Camera rate: <span>{{speedModel}}°</span></div>
       <div>
-        <img src="../../../../assets/slow.png" class="speedSlowImg" alt="slow">
+        <img alt="slow" class="speedSlowImg" src="../../../../assets/slow.png">
         <mat-slider
-          thumbLabel
-          [tickInterval]="tickIntervalSpeed"
-          [min]="minSpeed"
-          [max]="maxSpeed"
           [(ngModel)]="speedModel"
+          [max]="maxSpeed"
+          [min]="minSpeed"
+          [tickInterval]="tickIntervalSpeed"
+          thumbLabel
         >
         </mat-slider>
-        <img src="../../../../assets/fast.png" class="speedFastImg" alt="fast">
+        <img alt="fast" class="speedFastImg" src="../../../../assets/fast.png">
       </div>
     </div>
     <!--Telemetry-->
@@ -100,16 +114,141 @@
       <div>Yaw: <span>{{gimbal?.gimbalParameters?.yaw}}°</span></div>
     </div>
   </div>
+  <!--Header-->
+  <div *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map && screenWidth <= 1200"
+       class="LiveVideoHeaderMiddle">
+    <!--<div class="">-->
+    <!--UAV name-->
+    <div class="drone-container container">
+      <div>UAV name:
+        <mat-form-field appearance="outline" class="SPMatFormField">
+          <mat-select (selectionChange)="selectAirVehicle($event)" [(ngModel)]="applicationService.selectedAirVehicle"
+                      placeholder="Choose UAV">
+            <mat-option *ngFor="let av of airVehicleService?.airVehicles?.data" [disabled]="av.operationalStatus !== OPERATIONAL_STATUS.Ready &&
+              av.operationalStatus !== OPERATIONAL_STATUS.OnMission"
+                        [value]="av">
+              {{av.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <!--AGL, ASL-->
+    <div class="uav-params-container container">
+      <div class="UAVParams">
+        AGL: <span>{{applicationService?.selectedAirVehicle?.altitudeAGL}}m</span>, &nbsp;
+        ASL: <span>{{applicationService?.selectedAirVehicle?.altitudeAsl}}m</span>
+      </div>
+    </div>
+    <!--Camera-->
+    <div class="camera-container container">
+      <div class="itemCameraDiv">Camera Control:</div> &nbsp;
+      <div [ngStyle]="{'color': gimbal?.modeDefine?.styles?.gimbalControlColor[videoUrlKey]}" class="CameraText">
+        <span>{{gimbal?.controlData[videoUrlKey]?.userText}}</span>
+        <mat-icon *ngIf="gimbal?.controlData[videoUrlKey]?.isLocked">lock</mat-icon>
+      </div>
+      <button #target="matMenuTrigger" [matMenuTriggerFor]="menu" aria-label="icon-button" mat-icon-button>
+        <mat-icon *ngIf="!target.menuOpen" class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="target.menuOpen" class="HPLeftSideIcon">keyboard_arrow_up</mat-icon>
+      </button>
+    </div>
+    <!--mat-menu Camera-->
+    <mat-menu #menu="matMenu">
+      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId !== loginService.getUserId()"
+      (click)="onControlAction(GIMBAL_CONTROL_ACTION.takeControl)" mat-menu-item>Take Control</button>
+      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId === loginService.getUserId()"
+      (click)="onControlAction(GIMBAL_CONTROL_ACTION.releaseControl)" mat-menu-item>Release Control</button>
+      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId == loginService.getUserId() && !gimbal?.controlData[videoUrlKey]?.isLocked"
+      (click)="onControlAction(GIMBAL_CONTROL_ACTION.lockControl)" mat-menu-item>Lock Control</button>
+      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId == loginService.getUserId() && gimbal?.controlData[videoUrlKey]?.isLocked"
+      (click)="onControlAction(GIMBAL_CONTROL_ACTION.unlockControl)" mat-menu-item>Un-Lock Control</button>
+
+    </mat-menu>
+    <!--Camera Settings-->
+    <div *ngIf="isNight" class="videoSelect">
+      <mat-form-field appearance="outline" class="SPMatFormField">
+        <!--<mat-label>Choose color palette</mat-label>-->
+        <mat-select (selectionChange)="checkColorPalette($event)" [(ngModel)]="selectedColor">
+          <mat-option *ngFor="let color of colorPalette" [value]="color">
+            {{color}}
+          </mat-option>
+          <!--Zoom-->
+          <div class="zoom-container container">
+            <div>Camera zoom:
+              <span *ngIf="!isNight">{{gimbal?.visibleCameraParameters?.zoomVisibleCamera}}x</span>
+              <span *ngIf="isNight">{{gimbal?.infraredCameraParameters?.zoomInfraredCamera}}x</span>
+            </div>
+            <div class="zoom-slider">
+              <span>0</span>
+              <mat-slider
+                (change)="onChangeZoom(zoomModel)"
+                [(ngModel)]="zoomModel"
+                [displayWith]="formatLabel"
+                [max]="maxZoom"
+                [min]="minZoom"
+                [step]="stepZoom"
+                [tickInterval]="tickIntervalZoom"
+                thumbLabel
+              >
+              </mat-slider>
+              <span>10x</span>
+            </div>
+          </div>
+          <!--Speed-->
+          <div class="speed-container container">
+            <div>Camera rate: <span>{{speedModel}}°</span></div>
+            <div>
+              <img alt="slow" class="speedSlowImg" src="../../../../assets/slow.png">
+              <mat-slider
+                [(ngModel)]="speedModel"
+                [max]="maxSpeed"
+                [min]="minSpeed"
+                [tickInterval]="tickIntervalSpeed"
+                thumbLabel
+              >
+              </mat-slider>
+              <img alt="fast" class="speedFastImg" src="../../../../assets/fast.png">
+            </div>
+          </div>
+          <!--Camera Mode-->
+          <div>Day
+            <mat-slide-toggle (change)="changeSlide($event)"></mat-slide-toggle>
+            Night
+          </div>
+          <div *ngIf="isNight" class="videoSelect">
+            <mat-form-field appearance="outline" class="SPMatFormField">
+              <!--<mat-label>Choose color palette</mat-label>-->
+              <mat-select (selectionChange)="checkColorPalette($event)" [(ngModel)]="selectedColor">
+                <mat-option *ngFor="let color of colorPalette" [value]="color">
+                  {{color}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!--Telemetry-->
+          <div class="telemetry-container container">
+            <div>Pitch: <span>{{gimbal?.gimbalParameters?.pitch}}°</span></div>
+            <div>Yaw: <span>{{gimbal?.gimbalParameters?.yaw}}°</span></div>
+          </div>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!--</div>-->
+  </div>
   <!--Arrows-->
   <div class="LiveVideoContent">
-    <mat-icon class="arrows left" (click)="onClickDirection('left')"> keyboard_arrow_left </mat-icon>
-    <mat-icon class="arrows right" (click)="onClickDirection('right')"> keyboard_arrow_right </mat-icon>
-    <mat-icon class="arrows upLow" (click)="onClickDirection('up')" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"> keyboard_arrow_up </mat-icon>
-    <mat-icon class="arrows up" (click)="onClickDirection('up')" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"> keyboard_arrow_up </mat-icon>
-    <mat-icon class="arrows down" (click)="onClickDirection('down')"> keyboard_arrow_down </mat-icon>
-    <mat-icon *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"
-              class="expendVideo"
-              (click)="onExpendVideo()">zoom_out_map
+    <mat-icon (click)="onClickDirection('left')" class="arrows left"> keyboard_arrow_left</mat-icon>
+    <mat-icon (click)="onClickDirection('right')" class="arrows right"> keyboard_arrow_right</mat-icon>
+    <mat-icon (click)="onClickDirection('up')" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"
+              class="arrows upLow"> keyboard_arrow_up
+    </mat-icon>
+    <mat-icon (click)="onClickDirection('up')" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"
+              class="arrows up"> keyboard_arrow_up
+    </mat-icon>
+    <mat-icon (click)="onClickDirection('down')" class="arrows down"> keyboard_arrow_down</mat-icon>
+    <mat-icon (click)="onExpendVideo()"
+              *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"
+              class="expendVideo">zoom_out_map
     </mat-icon>
     <!--Video-canvas-->
     <app-canvas-video *ngIf="applicationService?.screen?.showVideoCanvas && gimbal && gimbal[videoUrlKey]"
@@ -123,11 +262,11 @@
       {{gimbal?.controlData[videoUrlKey]?.request?.userText}} is requesting for control
     </div>
     <div class="buttons">
-      <button mat-raised-button class="ConfirmButtonDecline"
-              (click)="onControlAction(GIMBAL_CONTROL_ACTION.rejectRequestForControl)">Decline
+      <button (click)="onControlAction(GIMBAL_CONTROL_ACTION.rejectRequestForControl)" class="ConfirmButtonDecline"
+              mat-raised-button>Decline
       </button>
-      <button mat-raised-button class="ConfirmButtonAccept"
-              (click)="onControlAction(GIMBAL_CONTROL_ACTION.acceptRequestForControl)">Accept
+      <button (click)="onControlAction(GIMBAL_CONTROL_ACTION.acceptRequestForControl)" class="ConfirmButtonAccept"
+              mat-raised-button>Accept
       </button>
     </div>
   </div>

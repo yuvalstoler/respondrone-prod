@@ -106,15 +106,21 @@
               <app-comments-panel (changeComments)="onChangeComments($event, element)"
                                   [isOpenDescription]="panelOpenState"
                                   [descriptionId]="element.id"
-                                  [description]="element.description"
+                                  [description]="(screenWidth > 1200) ? element.description: undefined"
                                   [comments]="element.comments">
               </app-comments-panel>
+            </div>
+            <!--Created by-->
+            <div *ngIf="screenWidth <= 1200" class="example-element-createdBy">
+              <span class="expendTitle">Created By: <span class="expendContent">{{element.createdBy}}</span></span>
+              <span class="expendTitle right">Time: <span
+                class="expendContent">{{element.time  | customDate: applicationService.now }}</span></span>
             </div>
           </div>
 
           <!--Geo instructions-->
           <div class="example-element-geo-instructions">
-            <span class="GITitle">Geographic instructions</span>
+            <span class="expendTitle">Geographic instructions</span>
             <div class="geo-instructions-container scroll">
               <app-geo-instructions-list
                 [geographicInstructionsModel]="element.geographicInstructions"
@@ -122,15 +128,36 @@
               ></app-geo-instructions-list>
             </div>
             <!--Created by-->
-            <div class="example-element-createdBy">
+            <div *ngIf="screenWidth > 1200" class="example-element-createdBy">
               <span class="expendTitle">Created By: <span class="expendContent">{{element.createdBy}}</span></span>
               <span class="expendTitle right">Time: <span
                 class="expendContent">{{element.time  | customDate: applicationService.now }}</span></span>
             </div>
+            <!--Task assignees & Resources-->
+            <div *ngIf="screenWidth <= 1200" class="example-element-assignees">
+              <!--Task Resources-->
+              <div class="example-element-resources">
+                <app-resources-panel [resources]="element.resources"></app-resources-panel>
+              </div>
+              <!--<div class="example-element-resources">-->
+              <!--<div class="expendTitle">-->
+              <!--Task Resources-->
+              <!--</div>-->
+              <!--<div class="description-content scroll">{{element.resources}}</div>-->
+              <!--</div>-->
+              <!--Task Assignees-->
+              <div class="assignees">
+                <app-task-assignee-table
+                  (updateAssignees)="onUpdateAssignees($event, element)"
+                  [frs]="element?.assignees"
+                  [ids]="element?.assigneeIds"
+                  [title]="'Task assignees'"></app-task-assignee-table>
+              </div>
+            </div>
           </div>
 
           <!--Task assignees & Resources-->
-          <div class="example-element-assignees">
+          <div *ngIf="screenWidth > 1200" class="example-element-assignees">
             <!--Task Resources-->
             <div class="example-element-resources">
               <app-resources-panel [resources]="element.resources"></app-resources-panel>

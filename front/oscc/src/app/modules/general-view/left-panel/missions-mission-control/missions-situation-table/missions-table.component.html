@@ -91,17 +91,32 @@
             <app-description-panel [description]="element.description"
                                    [descriptionId]="element.id"
                                    (panelOpenState)="getOpenStateDescription($event)"></app-description-panel>
+            <div *ngIf="screenWidth <= 1200" class="example-element-comments">
+            <app-comments-panel (changeComments)="onChangeComments($event, element)"
+                                [isOpenDescription]="panelOpenState"
+                                [descriptionId]="element.id"
+                                [description]="element.description"
+                                [comments]="element.comments">
+            </app-comments-panel>
+            </div>
           </div>
           <!--Mission info-->
           <div class="example-element-mission-info">
            <div *ngFor="let textUIObj of element?.modeDefine?.data?.textUI" class="textUI">
              <span class="bold">{{textUIObj.title}}</span>:<span>{{textUIObj.value}}</span>
            </div>
+            <!--Created by-->
+            <div *ngIf="screenWidth <= 1200" class="example-element-createdBy">
+              <span class="expendTitle">Created By:
+                <span class="expendContent">{{element.createdBy}}</span>
+              </span>
+            </div>
           </div>
+
           <!--Comments array-->
-          <div class="example-element-mission-comments">
+          <div *ngIf="screenWidth > 1200" class="example-element-mission-comments">
             <app-comments-panel (changeComments)="onChangeComments($event, element)"
-                                [isOpenDescription]="panelOpenState"
+                                [isOpenDescription]="{ id: element.id, isOpen: true }"
                                 [descriptionId]="element.id"
                                 [description]="element.description"
                                 [comments]="element.comments">

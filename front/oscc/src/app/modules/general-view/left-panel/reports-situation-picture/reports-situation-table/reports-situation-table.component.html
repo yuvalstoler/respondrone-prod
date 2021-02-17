@@ -118,6 +118,15 @@
                                 [description]="undefined"
                                 [isOpenDescription]="panelOpenState">
             </app-comments-panel>
+            <!--Created by-->
+            <div *ngIf="screenWidth <= 1200" class="example-element-createdBy">
+              <span class="expendTitle">Created By:
+                <span class="expendContent">{{element.createdBy}}</span>
+              </span>
+              <span class="expendTitle right">Source:
+                <span class="expendContent">{{element.source}}</span>
+              </span>
+            </div>
           </div>
           <!--Linked events table-->
           <div *ngIf="screenWidth > 1200" class="example-element-linked">

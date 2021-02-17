@@ -42,7 +42,7 @@ export class MissionsTableComponent implements OnInit, AfterViewInit, OnDestroy 
   selection = new SelectionModel<MISSION_REQUEST_DATA_UI>(true, []);
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
-  panelOpenState: MAP<boolean> = {};
+  panelOpenState: {id: string, isOpen: boolean} = {id: '', isOpen: true};
   subscriptions = [];
 
   LEFT_PANEL_ICON = LEFT_PANEL_ICON;

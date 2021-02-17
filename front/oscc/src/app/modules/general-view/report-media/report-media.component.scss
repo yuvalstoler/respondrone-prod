@@ -12,6 +12,7 @@
 
 .imagesContainer {
   display: inline-flex;
+  flex-flow: row wrap;
 
   .image {
     position: relative;

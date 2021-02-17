@@ -160,7 +160,7 @@ export class HeaderPanelComponent implements OnInit {
     if (this.applicationService.selectedHeaderPanelButton === HEADER_BUTTONS.more) {
       // this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.none;
     } else {
-      this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.more;
+      // this.applicationService.selectedHeaderPanelButton = HEADER_BUTTONS.more;
     }
   };
 

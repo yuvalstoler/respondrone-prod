@@ -1,9 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ApplicationService} from '../../../services/applicationService/application.service';
-import {HEADER_BUTTONS, VIDEO_OR_MAP} from '../../../../types';
+import {VIDEO_OR_MAP} from '../../../../types';
 import {GimbalService} from '../../../services/gimbalService/gimbal.service';
 import {
-  AV_DATA_UI,
   COLOR_PALETTE_INFRARED_CAMERA,
   GIMBAL_ACTION_OSCC, GIMBAL_CONTROL_ACTION, GIMBAL_CONTROL_REQUEST_OSCC, GIMBAL_CONTROL_USER,
   GIMBAL_REQUEST_STATUS, OPERATIONAL_STATUS,
@@ -11,6 +10,7 @@ import {
 } from '../../../../../../../classes/typings/all.typings';
 import {LoginService} from '../../../services/login/login.service';
 import {AirVehicleService} from '../../../services/airVehicleService/airVehicle.service';
+import {ResponsiveService} from "../../../services/responsiveService/responsive.service";
 
 @Component({
   selector: 'app-video-panel',
@@ -39,6 +39,8 @@ export class VideoPanelComponent implements OnInit {
 
   videoUrlKey: VIDEO_URL_KEY;
 
+  screenWidth: number;
+
   GIMBAL_CONTROL_USER = GIMBAL_CONTROL_USER;
   GIMBAL_CONTROL_ACTION = GIMBAL_CONTROL_ACTION;
   GIMBAL_REQUEST_STATUS = GIMBAL_REQUEST_STATUS;
@@ -47,8 +49,12 @@ export class VideoPanelComponent implements OnInit {
   constructor(public applicationService: ApplicationService,
               public gimbalService: GimbalService,
               public airVehicleService: AirVehicleService,
+              public responsiveService: ResponsiveService,
               private loginService: LoginService) {
     this.videoUrlKey = this.isNight ? VIDEO_URL_KEY.infraredVideoURL : VIDEO_URL_KEY.opticalVideoURL;
+    this.responsiveService.screenWidth$.subscribe((res) => {
+      this.screenWidth = res;
+    });
   }
 
   ngOnInit(): void {

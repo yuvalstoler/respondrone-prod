@@ -18,7 +18,9 @@
 
 .example-element-mission-info {
   grid-column: 2;
+  grid-row: 1;
   margin-top: 7px;
+  position: relative;
 }
 
 .example-element-mission-comments {
@@ -29,9 +31,7 @@
 .example-element-detail-mission {
   overflow: hidden;
   display: grid;
-  grid-template-columns: 33% auto 36%;
   gap: 2%;
-  max-height: 22em;
 }
 
 .textUI:first-child {
