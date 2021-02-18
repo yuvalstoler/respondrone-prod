@@ -5,6 +5,15 @@
   overflow-y: hidden !important;
 }
 
+//mat- menu ============================================================================================================
+//::ng-deep.mat-menu-content {
+//  font-size: $fontSizeText11;
+//  padding: 10px;
+//  text-align: center;
+//  background-color: $white;
+//  color: $black;
+//}
+
 // radioButtons ========================================================================================================
 
 :host::ng-deep .mat-radio-outer-circle {

@@ -120,7 +120,7 @@
     <!--<div class="">-->
     <!--UAV name-->
     <div class="drone-container container">
-      <div>UAV name:
+      <div class="header-title">UAV name:
         <mat-form-field appearance="outline" class="SPMatFormField">
           <mat-select (selectionChange)="selectAirVehicle($event)" [(ngModel)]="applicationService.selectedAirVehicle"
                       placeholder="Choose UAV">
@@ -136,48 +136,58 @@
     <!--AGL, ASL-->
     <div class="uav-params-container container">
       <div class="UAVParams">
-        AGL: <span>{{applicationService?.selectedAirVehicle?.altitudeAGL}}m</span>, &nbsp;
-        ASL: <span>{{applicationService?.selectedAirVehicle?.altitudeAsl}}m</span>
+        <span class="header-title">AGL:</span><span>{{applicationService?.selectedAirVehicle?.altitudeAGL}}m</span>, &nbsp;
+        <span class="header-title">ASL: </span><span>{{applicationService?.selectedAirVehicle?.altitudeAsl}}m</span>
       </div>
     </div>
     <!--Camera-->
-    <div class="camera-container container">
-      <div class="itemCameraDiv">Camera Control</div>&nbsp;
+    <div #target1="matMenuTrigger" [matMenuTriggerFor]="camera" class="camera-container container">
+      <div class="header-title itemCameraDiv">Camera Control</div>&nbsp;
       <div [ngStyle]="{'color': gimbal?.modeDefine?.styles?.gimbalControlColor[videoUrlKey]}" class="CameraText">
         <span>{{gimbal?.controlData[videoUrlKey]?.userText}}</span>
-        <mat-icon *ngIf="gimbal?.controlData[videoUrlKey]?.isLocked">lock</mat-icon>
+        <mat-icon *ngIf="gimbal?.controlData[videoUrlKey]?.isLocked" [ngStyle]="{'margin': 'auto'}">lock</mat-icon>
       </div>
-      <button #target1="matMenuTrigger" [matMenuTriggerFor]="camera" aria-label="icon-button" mat-icon-button>
+      <button aria-label="icon-button" mat-icon-button>
         <mat-icon *ngIf="!target1.menuOpen" class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
         <mat-icon *ngIf="target1.menuOpen" class="HPLeftSideIcon">keyboard_arrow_up</mat-icon>
       </button>
     </div>
     <!--mat-menu Camera-->
     <mat-menu #camera="matMenu">
-      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId !== loginService.getUserId()"
-      (click)="onControlAction(GIMBAL_CONTROL_ACTION.takeControl)" mat-menu-item>Take Control</button>
-      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId === loginService.getUserId()"
-      (click)="onControlAction(GIMBAL_CONTROL_ACTION.releaseControl)" mat-menu-item>Release Control</button>
-      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId == loginService.getUserId() && !gimbal?.controlData[videoUrlKey]?.isLocked"
-      (click)="onControlAction(GIMBAL_CONTROL_ACTION.lockControl)" mat-menu-item>Lock Control</button>
-      <button *ngIf="gimbal?.controlData[videoUrlKey]?.userId == loginService.getUserId() && gimbal?.controlData[videoUrlKey]?.isLocked"
-      (click)="onControlAction(GIMBAL_CONTROL_ACTION.unlockControl)" mat-menu-item>Un-Lock Control</button>
+      <button (click)="onControlAction(GIMBAL_CONTROL_ACTION.takeControl)"
+              *ngIf="gimbal?.controlData[videoUrlKey]?.userId !== loginService.getUserId()" mat-menu-item>Take Control
+      </button>
+      <button (click)="onControlAction(GIMBAL_CONTROL_ACTION.releaseControl)"
+              *ngIf="gimbal?.controlData[videoUrlKey]?.userId === loginService.getUserId()" mat-menu-item>Release Control
+      </button>
+      <button
+        (click)="onControlAction(GIMBAL_CONTROL_ACTION.lockControl)"
+        *ngIf="gimbal?.controlData[videoUrlKey]?.userId == loginService.getUserId() && !gimbal?.controlData[videoUrlKey]?.isLocked" mat-menu-item>Lock Control
+      </button>
+      <button
+        (click)="onControlAction(GIMBAL_CONTROL_ACTION.unlockControl)"
+        *ngIf="gimbal?.controlData[videoUrlKey]?.userId == loginService.getUserId() && gimbal?.controlData[videoUrlKey]?.isLocked" mat-menu-item>Un-Lock Control
+      </button>
 
     </mat-menu>
     <!--Camera Settings-->
-    <div class="camera-container container">
-      <div class="itemCameraDiv">Camera Settings</div>&nbsp;
-      <button #target2="matMenuTrigger" [matMenuTriggerFor]="settings" aria-label="icon-button" mat-icon-button>
+    <div #target2="matMenuTrigger"
+         (click)="$event.stopPropagation()" [matMenuTriggerFor]="settings"
+         class="camera-container container">
+      <div class="itemCameraDiv header-title">Camera Settings</div>&nbsp;
+      <button aria-label="icon-button" mat-icon-button>
         <mat-icon *ngIf="!target2.menuOpen" class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
         <mat-icon *ngIf="target2.menuOpen" class="HPLeftSideIcon">keyboard_arrow_up</mat-icon>
       </button>
     </div>
+
     <!--mat-menu Settings-->
-    <mat-menu #settings="matMenu">
+    <mat-menu #settings="matMenu" class="settings-menu">
       <!--Speed-->
       <div class="speed-container container">
-        <div>Camera rate: <span>{{speedModel}}°</span></div>
         <div>
+          <span class="header-title">Camera rate: </span><span>{{speedModel}}°</span></div>
+        <div class="speed-slider-container">
           <img alt="slow" class="speedSlowImg" src="../../../../assets/slow.png">
           <mat-slider
             [(ngModel)]="speedModel"
@@ -192,12 +202,13 @@
       </div>
       <!--Zoom-->
       <div class="zoom-container container">
-        <div>Camera zoom:
+        <div>
+          <span class="header-title">Camera zoom: </span>
           <span *ngIf="!isNight">{{gimbal?.visibleCameraParameters?.zoomVisibleCamera}}x</span>
           <span *ngIf="isNight">{{gimbal?.infraredCameraParameters?.zoomInfraredCamera}}x</span>
         </div>
         <div class="zoom-slider">
-          <span>0</span>
+          <div class="zoom-slider-div">0</div>
           <mat-slider
             (change)="onChangeZoom(zoomModel)"
             [(ngModel)]="zoomModel"
@@ -209,32 +220,39 @@
             thumbLabel
           >
           </mat-slider>
-          <span>10x</span>
+          <div class="zoom-slider-div">10x</div>
         </div>
       </div>
       <!--Camera Mode-->
-      <div>Day
-        <mat-slide-toggle (change)="changeSlide($event)"></mat-slide-toggle>
-        Night
-      </div>
-      <div *ngIf="isNight" class="videoSelect">
-        <mat-form-field appearance="outline" class="SPMatFormField">
-          <!--<mat-label>Choose color palette</mat-label>-->
-          <mat-select (selectionChange)="checkColorPalette($event)" [(ngModel)]="selectedColor">
-            <mat-option *ngFor="let color of colorPalette" [value]="color">
-              {{color}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+      <div class="camera-container container">
+        <div class="header-title">Camera Mode:</div>
+        <div class="camera-mode">
+          <div class="camera-mode-div">Day</div>
+          <mat-slide-toggle (change)="changeSlide($event)" (click)="$event.stopPropagation()"></mat-slide-toggle>
+          <div class="camera-mode-div">Night</div>
+        </div>
+        <div class="videoSelect">
+          <mat-form-field (click)="$event.stopPropagation()" appearance="outline" class="SPMatFormField">
+            <!--<mat-label>Choose color palette</mat-label>-->
+            <mat-select (selectionChange)="checkColorPalette($event)" [(ngModel)]="selectedColor" [disabled]="!isNight">
+              <mat-option *ngFor="let color of colorPalette" [value]="color">
+                {{color}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
       <!--Telemetry-->
-      <div class="telemetry-container container">
-        <div>Pitch: <span>{{gimbal?.gimbalParameters?.pitch}}°</span></div>
-        <div>Yaw: <span>{{gimbal?.gimbalParameters?.yaw}}°</span></div>
+      <div class="telemetry-container">
+        <div>
+          <span class="header-title">Pitch: </span><span>{{gimbal?.gimbalParameters?.pitch}}°,</span>
+        </div> &nbsp;
+        <div>
+          <span class="header-title">Yaw: </span><span>{{gimbal?.gimbalParameters?.yaw}}°</span>
+        </div>
       </div>
     </mat-menu>
   </div>
-
 
 
   <!--Arrows-->

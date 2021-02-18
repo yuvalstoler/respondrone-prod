@@ -63,7 +63,7 @@
       </button>
     </div>
     <mat-menu #menu="matMenu" role="">
-      <button [ngStyle]="{'background': applicationService.selectedHeaderPanelButton === Header_Buttons.liveVideo ? '#00ffff' : ''}"
+      <button [ngStyle]="{'background': applicationService.selectedHeaderPanelButton === Header_Buttons.liveVideo ? '#d7d7d7' : ''}"
               (click)="onLiveVideo()" mat-menu-item>Live video</button>
       <button [matMenuTriggerFor]="menuView" mat-menu-item>View</button>
     </mat-menu>

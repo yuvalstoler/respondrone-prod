@@ -10,7 +10,7 @@ import {
 } from '../../../../../../../classes/typings/all.typings';
 import {LoginService} from '../../../services/login/login.service';
 import {AirVehicleService} from '../../../services/airVehicleService/airVehicle.service';
-import {ResponsiveService} from "../../../services/responsiveService/responsive.service";
+import {ResponsiveService} from '../../../services/responsiveService/responsive.service';
 
 @Component({
   selector: 'app-video-panel',
