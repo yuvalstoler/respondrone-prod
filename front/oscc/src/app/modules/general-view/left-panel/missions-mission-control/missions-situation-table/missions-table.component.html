@@ -91,6 +91,7 @@
             <app-description-panel [description]="element.description"
                                    [descriptionId]="element.id"
                                    (panelOpenState)="getOpenStateDescription($event)"></app-description-panel>
+            <!--Comments-->
             <div *ngIf="screenWidth <= 1200" class="example-element-comments">
             <app-comments-panel (changeComments)="onChangeComments($event, element)"
                                 [isOpenDescription]="panelOpenState"
@@ -103,7 +104,7 @@
           <!--Mission info-->
           <div class="example-element-mission-info">
            <div *ngFor="let textUIObj of element?.modeDefine?.data?.textUI" class="textUI">
-             <span class="bold">{{textUIObj.title}}</span>:<span>{{textUIObj.value}}</span>
+             <span class="bold">{{textUIObj.title}}</span>:<span>{{(textUIObj.value) ? textUIObj.value : 'N/A'}}</span>
            </div>
             <!--Created by-->
             <div *ngIf="screenWidth <= 1200" class="example-element-createdBy">

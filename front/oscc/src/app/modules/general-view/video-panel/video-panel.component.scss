@@ -12,13 +12,13 @@
 
   .drone-container {
     display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: calc(#{$headerVideoHeightRegular} / 2 - 10px) calc(#{$headerVideoHeightRegular} / 2 - 10px);
+    grid-template-columns: auto;
+    //grid-template-rows: calc(#{$headerVideoHeightRegular} / 2 - 10px) calc(#{$headerVideoHeightRegular} / 2 - 10px);
     border-right: 1px solid $lightGray;
+    text-align: center;
 
     .UAVParams {
-      text-align: right;
-      padding-right: 0;
+      text-align: left;
     }
 
     div {
@@ -38,8 +38,10 @@
     }
 
     .videoSelect {
-      text-align: right;
+      margin-left: 10px;
       padding-right: 0;
+      display: inline-flex;
+
 
       div {
         font-size: $fontSizeText13 !important;
@@ -83,6 +85,7 @@
     grid-template-columns: auto auto;
     grid-template-rows: calc(#{$headerVideoHeightRegular} / 2 - 10px) calc(#{$headerVideoHeightRegular} / 2 - 10px);
     border-right: 1px solid $lightGray;
+    white-space: nowrap;
 
     .itemCameraDiv {
       grid-column: 1;
@@ -132,7 +135,7 @@
     }
 
     div {
-      padding: 0 10px;
+      //padding: 0 10px;
       margin: auto 0;
       font-size: $fontSizeVideoText16;
       font-weight: 600;
@@ -149,6 +152,7 @@
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: calc(#{$headerVideoHeightRegular} / 2 - 10px) calc(#{$headerVideoHeightRegular} / 2 - 10px);
+    border-right: 1px solid $lightGray;
 
     div {
       padding: 0 10px;
@@ -163,9 +167,10 @@
     grid-template-columns: auto;
     grid-template-rows: calc(#{$headerVideoHeightRegular} / 2 - 10px) calc(#{$headerVideoHeightRegular} / 2 - 10px);
     border-right: 1px solid $lightGray;
+    white-space: nowrap;
 
     div {
-      padding: 0 10px;
+      //padding: 0 10px;
       margin: auto 0;
       font-size: $fontSizeVideoText16;
       font-weight: 600;
@@ -176,16 +181,16 @@
       font-size: $fontSizeVideoText16;
       font-weight: 100;
     }
-  }
 
-  .speedSlowImg {
-    width: 30px;
-    height: auto;
-  }
+    .speedSlowImg {
+      width: 24px;
+      height: auto;
+    }
 
-  .speedFastImg {
-    width: 24px;
-    height: auto;
+    .speedFastImg {
+      width: 18px;
+      height: auto;
+    }
   }
 
   .container {
@@ -197,11 +202,15 @@
   }
 
   .mat-slider-horizontal {
-    height: 40px;
-    min-width: 160px;
+    height: 28px;
+    min-width: 140px;
   }
 
+  ::ng-deep.mat-slider-horizontal .mat-slider-wrapper {
 
+    top: 13px !important;
+
+  }
 }
 
 .LiveVideoHeaderMiddle {
@@ -282,7 +291,7 @@
   .container {
     color: $white;
     margin: auto 0;
-    font-size: 11px;
+    font-size: $fontSizeText13;
     z-index: 1000;
     padding: 0 5px;
   }
@@ -399,6 +408,11 @@
     color: $white !important;
   }
 
+  ::ng-deep.mat-select-disabled .mat-select-value {
+    color: rgba($black, 0.4) !important;
+    cursor: no-drop;
+  }
+
   ::ng-deep.mat-form-field-appearance-outline .mat-select-arrow-wrapper {
     transform: translateY(0%) !important;
   }
@@ -407,9 +421,19 @@
     font-size: $fontSizeText11;
   }
 
-
 }
 
+
+
+
+/* Border */
+::ng-deep.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: white;
+}
+/* Font color */
+input.mat-input-element {
+  color: white;
+}
 
 // Arrows
 .LiveVideoContent {
@@ -442,28 +466,28 @@
   }
 
   .left {
-    top: 49%;
-    left: 0;
+    top: calc(100vh - 90px - 47.2%);
+    left: 10px;
   }
 
   .right {
-    top: 49%;
-    right: 0;
+    top: calc(100vh - 90px - 47.2%);
+    right: 10px;
   }
 
   .upLow {
-    top: $headerVideoHeightRegular;
-    left: 49%
+    top: calc(#{$headerVideoHeightRegular} + 10px);
+    left: calc(100vw - 52.9%);
   }
 
   .up {
-    top: 0;
-    left: 49%
+    top: 10px;
+    left: calc(100vw - 52.9%);
   }
 
   .down {
-    bottom: 0;
-    left: 49%
+    bottom: 10px;
+    left: calc(100vw - 52.9%);
   }
 
 }

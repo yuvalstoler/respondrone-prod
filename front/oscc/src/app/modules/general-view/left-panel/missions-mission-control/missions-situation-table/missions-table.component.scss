@@ -3,7 +3,6 @@
 @import "../../../../../../styles/comments";
 
 
-
 .example-element-mission-description {
   grid-column: 1;
   grid-row: 1;
@@ -11,6 +10,7 @@
   .mat-expansion-panel-header.mat-expanded {
     height: 40px;
   }
+
   .mat-expansion-panel-content {
     margin-bottom: 10px;
   }
@@ -21,6 +21,8 @@
   grid-row: 1;
   margin-top: 7px;
   position: relative;
+  white-space: initial;
+
 }
 
 .example-element-mission-comments {
@@ -37,11 +39,13 @@
 .textUI:first-child {
   margin-top: 0.5em;
 }
+
 .textUI {
   span:first-child {
     font-weight: 600;
-    margin: 5px 0px 5px 5px;
+    //margin: 5px 0px 5px 5px;
   }
+
   span:last-child {
     margin: 5px;
   }

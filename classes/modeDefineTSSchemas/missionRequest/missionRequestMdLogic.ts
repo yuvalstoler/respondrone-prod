@@ -1,4 +1,5 @@
 import {
+    FR_DATA_UI,
     MISSION_ACTION_OPTIONS,
     MISSION_REQUEST_ACTION,
     MISSION_REQUEST_DATA_MD,
@@ -18,7 +19,7 @@ export class MissionRequestMdLogic implements IModeDefine {
     constructor() {
     }
 
-    public static validate(data: MISSION_REQUEST_DATA_UI, airVehicle: AirVehicle): MISSION_REQUEST_DATA_MD {
+    public static validate(data: MISSION_REQUEST_DATA_UI, airVehicle: AirVehicle, frs: FR_DATA_UI[]): MISSION_REQUEST_DATA_MD {
         const obj: MISSION_REQUEST_DATA_MD = {
             styles: {
                 // icon
@@ -40,14 +41,14 @@ export class MissionRequestMdLogic implements IModeDefine {
             },
             tableData: MissionRequestMdLogic.tableData(data),
             data: {
-                textUI: MissionRequestMdLogic.getTextUI(data, airVehicle),
+                textUI: MissionRequestMdLogic.getTextUI(data, airVehicle, frs),
                 actionOptions: MissionRequestMdLogic.getActionOptions(data)
             }
         };
         return obj;
     }
 
-    private static getTextUI = (data: MISSION_REQUEST_DATA_UI, airVehicle: AirVehicle): {title: string, value: string}[] => {
+    private static getTextUI = (data: MISSION_REQUEST_DATA_UI, airVehicle: AirVehicle, frs: FR_DATA_UI[]): {title: string, value: string}[] => {
         let res = [];
         const airVehicleName = airVehicle ? airVehicle.name : '';
         //const airVehicleName = airVehicles.map(obj => obj.id).join(', ');
@@ -61,6 +62,10 @@ export class MissionRequestMdLogic implements IModeDefine {
                     {
                         title: 'Communication type',
                         value: data.commRelayMissionRequest.commRelayType
+                    },
+                    {
+                        title: 'Follow FRs',
+                        value: frs.map(res => {return res.callSign}).join(', ')
                     }
                 ];
                 break;
@@ -130,6 +135,10 @@ export class MissionRequestMdLogic implements IModeDefine {
                     {
                         title: 'Target type',
                         value: data.servoingMissionRequest.targetType
+                    },
+                    {
+                        title: 'Follow FRs',
+                        value: frs.map(res => {return res.callSign}).join(', ')
                     }
                 ];
                 break;

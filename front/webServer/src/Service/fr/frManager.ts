@@ -33,7 +33,7 @@ export class FrManager {
 
     private startGetSocket = () => {
         SocketIOClient.addToSortConfig(SOCKET_IO_CLIENT_TYPES.FRS, this.frsSocketConfig);
-    }
+    };
 
     private onGetFRs = (data: FR_DATA_TELEMETRY) => {
         this.frs = {};
@@ -56,11 +56,11 @@ export class FrManager {
         }
 
         return res;
-    }
+    };
 
     private getFRById = (id: ID_TYPE): FR => {
         return this.frs[id];
-    }
+    };
 
 
     private frsSocketConfig: {} = {

@@ -6,7 +6,7 @@ import {RequestManager} from '../../AppService/restConnections/requestManager';
 
 import {
     ASYNC_RESPONSE,
-    COMM_RELAY_TYPE,
+    COMM_RELAY_TYPE, FR_DATA_UI,
     ID_OBJ,
     ID_TYPE,
     MISSION_REQUEST_ACTION_OBJ,
@@ -19,10 +19,11 @@ import {
     TARGET_TYPE
 } from '../../../../../classes/typings/all.typings';
 import {SocketIO} from '../../websocket/socket.io';
-import {MissionRequest} from "../../../../../classes/dataClasses/missionRequest/missionRequest";
-import {MissionRequestMdLogic} from "../../../../../classes/modeDefineTSSchemas/missionRequest/missionRequestMdLogic";
-import {AirVehicleManager} from "../airVehicle/airVehicleManager";
-import {MissionRouteManager} from "../missionRoute/missionRouteManager";
+import {MissionRequest} from '../../../../../classes/dataClasses/missionRequest/missionRequest';
+import {MissionRequestMdLogic} from '../../../../../classes/modeDefineTSSchemas/missionRequest/missionRequestMdLogic';
+import {AirVehicleManager} from '../airVehicle/airVehicleManager';
+import {MissionRouteManager} from '../missionRoute/missionRouteManager';
+import {FrManager} from '../fr/frManager';
 
 const _ = require('lodash');
 
@@ -60,13 +61,14 @@ export class MissionRequestManager {
                 console.log('error getMissionRequestsFromMS', JSON.stringify(data));
             });
     };
+
     private getMissionRequests = (): MISSION_REQUEST_DATA[] => {
         const res: MISSION_REQUEST_DATA[] = [];
         this.missionRequests.forEach((mission: MissionRequest) => {
             res.push(mission.toJsonForSave());
         });
         return res;
-    }
+    };
 
     private getMissionsFollowingFR = (frId: ID_TYPE): MISSION_REQUEST_DATA[] => {
         const res = [];
@@ -82,12 +84,12 @@ export class MissionRequestManager {
             }
         });
         return res;
-    }
+    };
 
-    private missionRequestAction = (data: MISSION_REQUEST_ACTION_OBJ): Promise<ASYNC_RESPONSE> => {
+    private missionRequestAction = (missionData: MISSION_REQUEST_ACTION_OBJ): Promise<ASYNC_RESPONSE> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: false};
-            RequestManager.requestToMS(MS_API.missionRequestAction, data)
+            RequestManager.requestToMS(MS_API.missionRequestAction, missionData)
                 .then((data: ASYNC_RESPONSE<ID_OBJ>) => {
                     res.data = data.data;
                     res.success = data.success;
@@ -119,21 +121,10 @@ export class MissionRequestManager {
     //
     //     });
     // }
-    private createMissionRequest = (data: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
-        return new Promise((resolve, reject) => {
-            RequestManager.requestToMS(MS_API.createMissionRequest, data)
-                .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
-                    resolve(data);
-                })
-                .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
-                    resolve(data);
-                });
-        });
-    }
 
-    private updateMissionInDB = (data: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
+    private createMissionRequest = (missionData: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
         return new Promise((resolve, reject) => {
-            RequestManager.requestToMS(MS_API.updateMissionInDB, data)
+            RequestManager.requestToMS(MS_API.createMissionRequest, missionData)
                 .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
                     resolve(data);
                 })
@@ -141,7 +132,19 @@ export class MissionRequestManager {
                     resolve(data);
                 });
         });
-    }
+    };
+
+    private updateMissionInDB = (missionData: MISSION_REQUEST_DATA): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
+        return new Promise((resolve, reject) => {
+            RequestManager.requestToMS(MS_API.updateMissionInDB, missionData)
+                .then((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                    resolve(data);
+                })
+                .catch((data: ASYNC_RESPONSE<REPORT_DATA>) => {
+                    resolve(data);
+                });
+        });
+    };
 
     // private readReport = (reportIdData: ID_OBJ): Promise<ASYNC_RESPONSE<REPORT_DATA>> => {
     //     return new Promise((resolve, reject) => {
@@ -157,6 +160,7 @@ export class MissionRequestManager {
     //         resolve(res);
     //     });
     // }
+
     private readAllMissionRequest = (requestData): Promise<ASYNC_RESPONSE<MISSION_REQUEST_DATA[]>> => {
         return new Promise((resolve, reject) => {
             const res: ASYNC_RESPONSE = {success: true, data: []};
@@ -166,7 +170,8 @@ export class MissionRequestManager {
             res.data = this.getDataForUI();
             resolve(res);
         });
-    }
+    };
+
     // private deleteReport = (reportIdData: ID_OBJ): Promise<ASYNC_RESPONSE<ID_OBJ>> => {
     //     return new Promise((resolve, reject) => {
     //         const res: ASYNC_RESPONSE<ID_OBJ> = {success: false};
@@ -216,7 +221,13 @@ export class MissionRequestManager {
         this.missionRequests.forEach((missionRequest: MissionRequest) => {
             const missionRequestDataUI: MISSION_REQUEST_DATA_UI = missionRequest.toJsonForUI();
             const airVehicle = AirVehicleManager.getAVById(missionRequest[REP_OBJ_KEY[missionRequest.missionType]].droneId);
-            missionRequestDataUI.modeDefine = MissionRequestMdLogic.validate(missionRequestDataUI, airVehicle);
+            let frs: FR_DATA_UI[] = [];
+            if (missionRequest.missionType === MISSION_TYPE.CommRelay) {
+                frs = FrManager.getFRsByIds(missionRequestDataUI.commRelayMissionRequest.missionData.FRs);
+            } else if (missionRequest.missionType === MISSION_TYPE.Servoing) {
+                frs = FrManager.getFRsByIds([missionRequestDataUI.servoingMissionRequest.targetId]);
+            }
+            missionRequestDataUI.modeDefine = MissionRequestMdLogic.validate(missionRequestDataUI, airVehicle, frs);
 
             res.push(missionRequestDataUI);
         });
@@ -234,11 +245,11 @@ export class MissionRequestManager {
             resolve(res);
 
         });
-    }
+    };
 
     private getMissionRequestById = (missionId: ID_TYPE) => {
-        return this.missionRequests.find(element => element.id === missionId)
-    }
+        return this.missionRequests.find(element => element.id === missionId);
+    };
 
     private sendDataToUI = (): void => {
         const jsonForSend: MISSION_REQUEST_DATA_UI[] = this.getDataForUI();
