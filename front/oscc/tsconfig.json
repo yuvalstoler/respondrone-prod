@@ -10,8 +10,8 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "resolveJsonModule": true,
-    "target": "es2015",
-    "module": "esnext",
+    "target": "es5",
+    "module": "es2015",
     "lib": [
       "es2018",
       "dom"

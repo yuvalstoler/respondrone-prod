@@ -10,6 +10,19 @@
   width: 100vw;
   z-index: 998;
 
+  .Title {
+    //padding: 0 10px;
+    margin: auto 0;
+    font-size: $fontSizeVideoText16;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .Value {
+    font-size: $fontSizeVideoText16;
+    font-weight: 100;
+  }
+
   .drone-container {
     display: grid;
     grid-template-columns: auto;
@@ -21,17 +34,17 @@
       text-align: left;
     }
 
-    div {
-      padding: 0 10px 0 0;
-      margin: auto 0;
-      font-size: $fontSizeVideoText16;
-      font-weight: 600;
-    }
-
-    span {
-      font-size: $fontSizeVideoText16;
-      font-weight: 100;
-    }
+    //div {
+    //  padding: 0 10px 0 0;
+    //  margin: auto 0;
+    //  font-size: $fontSizeVideoText16;
+    //  font-weight: 600;
+    //}
+    //
+    //span {
+    //  font-size: $fontSizeVideoText16;
+    //  font-weight: 100;
+    //}
 
     mat-slide-toggle {
       padding: 0 10px;
@@ -51,7 +64,7 @@
     ::ng-deep .mat-form-field {
       display: inline-block !important;
       color: $white !important;
-      width: 9em;
+      width: 8em;
     }
 
     ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
@@ -86,6 +99,7 @@
     grid-template-rows: calc(#{$headerVideoHeightRegular} / 2 - 10px) calc(#{$headerVideoHeightRegular} / 2 - 10px);
     border-right: 1px solid $lightGray;
     white-space: nowrap;
+    width: 240px;
 
     .itemCameraDiv {
       grid-column: 1;
@@ -98,14 +112,15 @@
       font-weight: 600;
     }
 
-    span {
-      font-size: $fontSizeVideoText16;
-      font-weight: 100;
-    }
+    //span {
+    //  font-size: $fontSizeVideoText16;
+    //  font-weight: 100;
+    //}
 
     button {
       margin: 1px 10px 0px 0;
       background: $lightGray;
+      padding: 0px 7px;
     }
 
     mat-icon {
@@ -134,33 +149,52 @@
       }
     }
 
-    div {
-      //padding: 0 10px;
-      margin: auto 0;
-      font-size: $fontSizeVideoText16;
-      font-weight: 600;
-      text-align: center;
-    }
-
-    span {
-      font-size: $fontSizeVideoText16;
-      font-weight: 100;
-    }
+    //div {
+    //  //padding: 0 10px;
+    //  margin: auto 0;
+    //  font-size: $fontSizeVideoText16;
+    //  font-weight: 600;
+    //  text-align: center;
+    //}
+    //
+    //span {
+    //  font-size: $fontSizeVideoText16;
+    //  font-weight: 100;
+    //}
   }
 
-  .telemetry-container {
+  .settings-container {
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: auto auto;
     grid-template-rows: calc(#{$headerVideoHeightRegular} / 2 - 10px) calc(#{$headerVideoHeightRegular} / 2 - 10px);
     border-right: 1px solid $lightGray;
+    white-space: nowrap;
 
-    div {
-      padding: 0 10px;
-      margin: auto 0;
-      font-size: $fontSizeVideoText16;
-      font-weight: 600;
+    .itemCameraDiv {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .itemCameraButton {
+      grid-column: 2;
+      grid-row: 1;
+      margin: auto;
     }
   }
+
+  //.telemetry-container {
+  //  display: grid;
+  //  grid-template-columns: auto;
+  //  grid-template-rows: calc(#{$headerVideoHeightRegular} / 2 - 10px) calc(#{$headerVideoHeightRegular} / 2 - 10px);
+  //  border-right: 1px solid $lightGray;
+  //
+  //  //div {
+  //  //  padding: 0 10px;
+  //  //  margin: auto 0;
+  //  //  font-size: $fontSizeVideoText16;
+  //  //  font-weight: 600;
+  //  //}
+  //}
 
   .speed-container {
     display: grid;
@@ -169,18 +203,18 @@
     border-right: 1px solid $lightGray;
     white-space: nowrap;
 
-    div {
-      //padding: 0 10px;
-      margin: auto 0;
-      font-size: $fontSizeVideoText16;
-      font-weight: 600;
-      text-align: center;
-    }
-
-    span {
-      font-size: $fontSizeVideoText16;
-      font-weight: 100;
-    }
+    //div {
+    //  //padding: 0 10px;
+    //  margin: auto 0;
+    //  font-size: $fontSizeVideoText16;
+    //  font-weight: 600;
+    //  text-align: center;
+    //}
+    //
+    //span {
+    //  font-size: $fontSizeVideoText16;
+    //  font-weight: 100;
+    //}
 
     .speedSlowImg {
       width: 24px;
@@ -224,7 +258,7 @@
   z-index: 998;
   color: $white;
 
-  .header-title{
+  .header-title {
     font-weight: bold;
   }
 
@@ -307,7 +341,7 @@
   background-color: $Disabled;
   color: $white;
 
-  .header-title{
+  .header-title {
     font-weight: bold;
   }
 
@@ -353,31 +387,35 @@
     min-width: 80px;
   }
 
-  .camera-container{
-    .camera-mode{
+  .camera-container {
+    .camera-mode {
       display: inline-flex;
       margin: 5px 5px 15px;
-      div{
+
+      div {
         margin: auto;
       }
-      .camera-mode-div{
+
+      .camera-mode-div {
         margin: auto 5px auto 5px;
       }
     }
+
     .videoSelect {
       margin: 0 0 10px 0;
     }
   }
 
-  .telemetry-container{
+  .telemetry-container {
     display: inline-flex;
     margin: 15px 0 0;
-    div{
+
+    div {
       margin: auto;
     }
   }
 
-  .container{
+  .container {
     border-bottom: 1px solid $white;
     padding: 5px 0;
   }
@@ -385,7 +423,7 @@
   ::ng-deep .mat-form-field {
     display: inline-block !important;
     color: $white !important;
-    width: 100%;
+    width: 90%;
   }
 
   ::ng-deep.mat-form-field-infix {
@@ -423,13 +461,103 @@
 
 }
 
+::ng-deep.mat-menu-panel.camera-settings-menu {
 
+  //font-size: $fontSizeText11;
+  padding: 0 2px;
+  text-align: center;
+  background-color: $Disabled;
+  color: $white;
+
+  .header-title {
+    font-weight: bold;
+  }
+
+  .mat-slider-horizontal {
+    //height: 40px;
+    min-width: 150px;
+  }
+
+  .camera-container {
+    .camera-mode {
+      display: inline-flex;
+      margin: 5px 5px 15px;
+
+      div {
+        margin: auto;
+      }
+
+      .camera-mode-div {
+        margin: auto 5px auto 5px;
+      }
+    }
+
+    .videoSelect {
+      margin: 0 0 10px 0;
+    }
+  }
+
+  .telemetry-container {
+    display: inline-flex;
+    margin: 15px 0 0;
+
+    div {
+      margin: auto;
+    }
+  }
+
+  .container {
+    border-bottom: 1px solid $white;
+    padding: 5px 0;
+  }
+
+  ::ng-deep .mat-form-field {
+    display: inline-block !important;
+    color: $white !important;
+    width: 90%;
+  }
+
+  ::ng-deep.mat-form-field-infix {
+    width: 140px;
+  }
+
+  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0em 0 0.5em 0 !important;
+  }
+
+  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
+    margin: -1em 0 !important;
+  }
+
+  ::ng-deep.mat-form-field-wrapper {
+    padding-bottom: 0em !important;
+  }
+
+  ::ng-deep.mat-select-value {
+    color: $white !important;
+  }
+
+  ::ng-deep.mat-select-disabled .mat-select-value {
+    color: rgba($black, 0.4) !important;
+    cursor: no-drop;
+  }
+
+  ::ng-deep.mat-form-field-appearance-outline .mat-select-arrow-wrapper {
+    transform: translateY(0%) !important;
+  }
+
+  //::ng-deep.mat-select-placeholder {
+  //  font-size: $fontSizeText15;
+  //}
+
+}
 
 
 /* Border */
 ::ng-deep.mat-form-field-appearance-outline .mat-form-field-outline {
   color: white;
 }
+
 /* Font color */
 input.mat-input-element {
   color: white;
@@ -445,7 +573,7 @@ input.mat-input-element {
     width: 50px;
     height: auto;
     font-size: 50px;
-    color: $white;
+    color: $darkGray;
   }
 
   .expendVideo:hover {

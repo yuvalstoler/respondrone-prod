@@ -1,5 +1,36 @@
 @import "../../../../../styles/variable";
 @import "../../../../../styles/colors";
+@import "../../../../../styles/resizes";
+
+
+//@media screen and (min-width: 1401px) {
+//  .image-detail-canvas-small{
+//    max-width: 21% !important;
+//    max-height: 25% !important;
+//  }
+//}
+//
+//@media screen and (max-width: 1400px) {
+//  .image-detail-canvas-small{
+//    max-width: 23% !important;
+//    max-height: 24% !important;
+//  }
+//}
+//
+//@media screen and (max-width: 1285px) {
+//  .image-detail-canvas-small{
+//    max-width: 24% !important;
+//    max-height: 23% !important;
+//  }
+//}
+//
+//@media screen and (max-width: 1200px) {
+//  .image-detail-canvas-small{
+//    max-width: 28% !important;
+//    max-height: 22% !important;
+//  }
+//}
+
 
 .canvasVideoContainer {
   display: flex;
@@ -46,12 +77,12 @@
 .image-detail-canvas-small{
   -moz-user-select: none;
   -webkit-user-select: none;
-  max-width: 28% !important;
-  max-height: 35% !important;
   position: absolute !important;
   left: 0% !important;
   top: 0% !important;
   transform: none !important;
+  max-width: $maxWidthSmall !important;
+  max-height: $maxHeightSmall !important;
 }
 
 

@@ -3,8 +3,8 @@
 
 // Headers, Tabs Left panel
 // more then 1401
-@media screen and (min-width: 1401px){
-  .HeaderPanel{
+@media screen and (min-width: 1401px) {
+  .HeaderPanel {
     font-size: $fontSizeTitleHeader18;
 
     ::ng-deep.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
@@ -17,14 +17,23 @@
       font-size: $fontSizeTitleHeader17;
       font-weight: bold;
     }
+
     ::ng-deep.mat-tab-label {
       min-width: 160px;
     }
   }
-
+  .MapSmall {
+    max-width: 21%;
+    max-height: 25%;
+  }
+  //.image-detail-canvas-small{
+  //  max-width: 21% !important;
+  //  max-height: 25% !important;
+  //}
 }
-@media screen and (max-width: 1400px){
-  .HeaderPanel{
+
+@media screen and (max-width: 1400px) {
+  .HeaderPanel {
     font-size: $fontSizeTitleHeader17;
 
     ::ng-deep.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
@@ -37,13 +46,19 @@
       font-size: $fontSizeTitleHeader16;
       font-weight: bold;
     }
+
     ::ng-deep.mat-tab-label {
       min-width: 150px;
     }
   }
+  .MapSmall {
+    max-width: 23%;
+    max-height: 24%;
+  }
 }
-@media screen and (max-width: 1285px){
-  .HeaderPanel{
+
+@media screen and (max-width: 1285px) {
+  .HeaderPanel {
     font-size: $fontSizeTitle14;
 
     ::ng-deep.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
@@ -56,13 +71,19 @@
       font-size: $fontSizeTitle14;
       font-weight: bold;
     }
+
     ::ng-deep.mat-tab-label {
       min-width: 140px;
     }
   }
+  .MapSmall {
+    max-width: 24%;
+    max-height: 23%;
+  }
 }
-@media screen and (max-width: 1200px){
-  .HeaderPanel{
+
+@media screen and (max-width: 1200px) {
+  .HeaderPanel {
     font-size: $fontSizeTitle14;
 
     ::ng-deep.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
@@ -75,9 +96,14 @@
       font-size: $fontSizeTitle14;
       font-weight: bold;
     }
+
     ::ng-deep.mat-tab-label {
       min-width: 120px;
     }
+  }
+  .MapSmall {
+    max-width: $maxWidthSmall;
+    max-height: $maxHeightSmall;
   }
 }
 
@@ -91,7 +117,7 @@
   .HeaderLeftSide {
     width: $sidePanelWidth60 !important;
   }
-  .HeaderRightSide{
+  .HeaderRightSide {
     width: $sidePanelWidth40 !important;
   }
   //.HPRightSideIcon{
@@ -100,21 +126,23 @@
   //  font-size: $iconSizeMiddle;
   //  margin: 0px;
   //}
-  .RightSideIcon{
+  .RightSideIcon {
     width: $iconSizeMiddle;
     height: $iconSizeMiddle;
     font-size: $iconSizeMiddle;
     margin: 0px;
   }
   .RightSideSearchButton {
-    .buttonX{
+    .buttonX {
       position: fixed;
       color: $black;
       margin: 0px 0 0 70px;
     }
+
     ::ng-deep.mat-form-field-infix {
       width: 95px;
     }
+
     // AUTOCOMPLETE ======================================================================================================
     ::ng-deep.mat-optgroup-label {
       font-weight: bold;
@@ -173,16 +201,18 @@
       font-size: $fontSizeText12;
     }
   }
-  .LeftNarrowPanel{
+  .LeftNarrowPanel {
     width: $sidePanelWidth35;
     //Tabs
     ::ng-deep .mat-tab-list .mat-tab-label {
       font-size: $fontSizeText13;
       font-weight: bold;
     }
+
     ::ng-deep.mat-tab-label {
       min-width: 100px;
     }
+
     ::ng-deep [aria-label='Arrow'] {
       min-width: 50px;
     }
@@ -197,7 +227,7 @@
       min-width: 50px;
     }
   }
-  .LeftSideInputSearch{
+  .LeftSideInputSearch {
     width: 7em;
   }
   .RightPanel {
@@ -208,14 +238,14 @@
     top: calc(#{$headerHeight} + 5px) !important;
     left: calc(#{$sidePanelWidth60} + 5px) !important;
   }
-  .toast-container .ngx-toastr{
+  .toast-container .ngx-toastr {
     width: 180px !important;
     font-size: 10px;
   }
 
 
   // ===================================================================================================================
- ::ng-deep.mat-menu-item {
+  ::ng-deep.mat-menu-item {
     line-height: 25px !important;
     height: 25px !important;
     padding: 0 10px !important;
@@ -224,7 +254,7 @@
 }
 
 //Regular
-@media screen and (min-width: 1201px){
+@media screen and (min-width: 1201px) {
   /* CSS that should be displayed if width is equal to or less than 1280px goes here */
   .HeaderLogo {
     width: 160px;
@@ -232,7 +262,7 @@
   .HeaderLeftSide {
     width: $sidePanelWidth53 !important;
   }
-  .HeaderRightSide{
+  .HeaderRightSide {
     width: $sidePanelWidth47 !important;
   }
   //.HPRightSideIcon {
@@ -248,14 +278,16 @@
     margin: 2px;
   }
   .RightSideSearchButton {
-    .buttonX{
+    .buttonX {
       position: fixed;
       color: $black;
       margin: 0px 0 0 90px;
     }
+
     ::ng-deep.mat-form-field-infix {
       width: 120px;
     }
+
     // AUTOCOMPLETE ======================================================================================================
     ::ng-deep.mat-optgroup-label {
       font-weight: bold;
@@ -302,16 +334,18 @@
   .MapWide {
     width: $sidePanelWidth80;
   }
-  .LeftNarrowPanel{
+  .LeftNarrowPanel {
     width: $sidePanelWidth20;
     //Tabs
     ::ng-deep .mat-tab-list .mat-tab-label {
       font-size: $fontSizeTitleHeader16;
       font-weight: bold;
     }
+
     ::ng-deep.mat-tab-label {
       min-width: 140px;
     }
+
     ::ng-deep [aria-label='Arrow'] {
       min-width: 50px;
     }
@@ -319,12 +353,12 @@
   }
   .LeftPanel {
     width: $sidePanelWidth53 !important;
-  //  Tabs
+    //  Tabs
     ::ng-deep [aria-label='Arrow'] {
       min-width: 50px;
     }
   }
-  .LeftSideInputSearch{
+  .LeftSideInputSearch {
     width: 10em;
   }
   .RightPanel {
@@ -335,7 +369,7 @@
     top: #{$headerHeight} + 5px !important;
     left: calc(#{$sidePanelWidth53} + 5px) !important;
   }
-  .toast-container .ngx-toastr{
+  .toast-container .ngx-toastr {
     width: 300px !important;
   }
   // ===================================================================================================================
@@ -346,15 +380,6 @@
     font-size: $fontSizeTitle15 !important;
   }
 }
-
-
-
-
-
-
-
-
-
 
 
 // todo: .HeaderPanel{

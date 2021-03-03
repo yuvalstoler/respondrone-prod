@@ -3,7 +3,11 @@ import {IRest} from "../dataClasses/interfaces/IRest";
 
 export type MAP<T> = { [key: string]: T };
 
-export type TOASTER_OPTIONS = Partial<{ timeOut: number, extendedTimeOut: number, positionClass: string, preventDuplicates: boolean, closeButton: boolean }>;
+export type TOASTER_OPTIONS = Partial<{ timeOut: number,
+    extendedTimeOut: number,
+    positionClass: string,
+    preventDuplicates: boolean,
+    closeButton: boolean }>;
 
 export type ID_TYPE = string;
 export type ID_OBJ = { id: ID_TYPE };

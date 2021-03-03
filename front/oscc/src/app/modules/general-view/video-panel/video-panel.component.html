@@ -1,11 +1,11 @@
 <div oncontextmenu="return false;">
   <!--Header Regular-->
-  <div *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map && screenWidth > 1200"
+  <div *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map && screenWidth > 1340"
        class="LiveVideoHeader">
     <!--Drone-->
     <div class="drone-container container">
       <!--UAV name-->
-      <div>UAV name:
+      <div class="Title">UAV name:
         <!--<span>{{applicationService?.selectedAirVehicle?.name}}</span>&nbsp;-->
         <mat-form-field appearance="outline" class="SPMatFormField">
           <mat-select (selectionChange)="selectAirVehicle($event)" [(ngModel)]="applicationService.selectedAirVehicle"
@@ -19,16 +19,16 @@
         </mat-form-field>
       </div>
       <!--AGL, ASL-->
-      <div class="UAVParams">
-        AGL: <span>{{applicationService?.selectedAirVehicle?.altitudeAGL}}m</span>, &nbsp;
-        ASL: <span>{{applicationService?.selectedAirVehicle?.altitudeAsl}}m</span>
+      <div class="UAVParams Title">
+        AGL: <span class="Value">{{applicationService?.selectedAirVehicle?.altitudeAGL}}m</span>, &nbsp;
+        ASL: <span class="Value">{{applicationService?.selectedAirVehicle?.altitudeAsl}}m</span>
       </div>
     </div>
     <!--Camera-->
     <div class="camera-container container">
       <div class="itemCameraDiv">Camera Control:</div>
       <div [ngStyle]="{'color': gimbal?.modeDefine?.styles?.gimbalControlColor[videoUrlKey]}" class="CameraText">
-        <span>{{gimbal?.controlData[videoUrlKey]?.userText}}</span>
+        <span class="Value">{{gimbal?.controlData[videoUrlKey]?.userText}}</span>
         <mat-icon *ngIf="gimbal?.controlData[videoUrlKey]?.isLocked">lock</mat-icon>
       </div>
       <div>
@@ -56,12 +56,12 @@
     </div>
     <!--Zoom-->
     <div class="zoom-container container">
-      <div>Camera zoom:
-        <span *ngIf="!isNight">{{gimbal?.visibleCameraParameters?.zoomVisibleCamera}}x</span>
-        <span *ngIf="isNight">{{gimbal?.infraredCameraParameters?.zoomInfraredCamera}}x</span>
+      <div class="Title">Camera zoom:
+        <span class="Value" *ngIf="!isNight">{{gimbal?.visibleCameraParameters?.zoomVisibleCamera}}x</span>
+        <span class="Value" *ngIf="isNight">{{gimbal?.infraredCameraParameters?.zoomInfraredCamera}}x</span>
       </div>
       <div class="zoom-slider">
-        <span>0</span>
+        <span >0</span>
         <mat-slider
           (change)="onChangeZoom(zoomModel)"
           [(ngModel)]="zoomModel"
@@ -78,7 +78,7 @@
     </div>
     <!--Speed-->
     <div class="speed-container container">
-      <div>Camera rate: <span>{{speedModel}}°</span></div>
+      <div class="Title">Camera rate: <span class="Value">{{speedModel}}°</span></div>
       <div>
         <img alt="slow" class="speedSlowImg" src="../../../../assets/slow.png">
         <mat-slider
@@ -92,24 +92,32 @@
         <img alt="fast" class="speedFastImg" src="../../../../assets/fast.png">
       </div>
     </div>
-    <!--Telemetry-->
-    <div class="telemetry-container container">
-      <div>Pitch: <span>{{gimbal?.gimbalParameters?.pitch}}°</span></div>
-      <div>Yaw: <span>{{gimbal?.gimbalParameters?.yaw}}°</span></div>
+
+    <!--Camera Settings-->
+    <div #target3="matMenuTrigger"
+         (click)="$event.stopPropagation()" [matMenuTriggerFor]="cameraSettings"
+         class="settings-container container">
+      <div class="itemCameraDiv  Title">Camera Settings</div>&nbsp;
+      <button class="itemCameraButton" aria-label="icon-button" mat-icon-button>
+        <mat-icon *ngIf="!target3.menuOpen" class="HPLeftSideIcon">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="target3.menuOpen" class="HPLeftSideIcon">keyboard_arrow_up</mat-icon>
+      </button>
     </div>
-    <!--Camera Mode-->
-    <div class="drone-container container">
-      <div>Camera Mode:</div>
-      <!--slider-->
-      <div>
-        <span>Day</span>
-        <mat-slide-toggle (change)="changeSlide($event)"></mat-slide-toggle>
-        <span>Night</span>
-        <!--select color-->
-        <div *ngIf="isNight" class="videoSelect">
-          <mat-form-field appearance="outline" class="SPMatFormField">
+    <!--mat-menu Settings-->
+    <mat-menu #cameraSettings="matMenu" class="camera-settings-menu">
+      <!--Camera Mode-->
+      <div class="camera-container container">
+        <div class="header-title">Camera Mode:</div>
+        <div class="camera-mode">
+          <div class="camera-mode-div">Day</div>
+          <mat-slide-toggle (change)="changeSlide($event)" (click)="$event.stopPropagation()"></mat-slide-toggle>
+          <div class="camera-mode-div">Night</div>
+        </div>
+        <div class="videoSelect">
+          <mat-form-field (click)="$event.stopPropagation()" appearance="outline" class="SPMatFormField">
             <!--<mat-label>Choose color palette</mat-label>-->
-            <mat-select (selectionChange)="checkColorPalette($event)" [(ngModel)]="selectedColor">
+            <mat-select (selectionChange)="checkColorPalette($event)" [(ngModel)]="selectedColor"
+                        [disabled]="!isNight">
               <mat-option *ngFor="let color of colorPalette" [value]="color">
                 {{color}}
               </mat-option>
@@ -117,11 +125,20 @@
           </mat-form-field>
         </div>
       </div>
+      <!--Telemetry-->
+      <div class="telemetry-container">
+        <div>
+          <span class="header-title">Pitch: </span><span>{{gimbal?.gimbalParameters?.pitch}}°,</span>
+        </div> &nbsp;
+        <div>
+          <span class="header-title">Yaw: </span><span>{{gimbal?.gimbalParameters?.yaw}}°</span>
+        </div>
+      </div>
+    </mat-menu>
 
-    </div>
   </div>
   <!--Header Middle-->
-  <div *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map && screenWidth <= 1200"
+  <div *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map && screenWidth <= 1340"
        class="LiveVideoHeaderMiddle">
     <!--<div class="">-->
     <!--UAV name-->
