@@ -2,10 +2,9 @@
   <mat-expansion-panel (closed)="onClosePanel()"
                        (opened)="onOpenPanel()"
                        [disabled]="(description === '' || description === undefined)"
-
                        [expanded]="description !== '' && description !== undefined"
                        [hideToggle]="(description === '' || description === undefined)">
-    <mat-expansion-panel-header>
+    <mat-expansion-panel-header [expandedHeight]="'30px'">
       <div class="expendTitle">
         Description
       </div>

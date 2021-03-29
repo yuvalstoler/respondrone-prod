@@ -46,6 +46,11 @@ export class VideoPanelComponent implements OnInit {
   GIMBAL_REQUEST_STATUS = GIMBAL_REQUEST_STATUS;
   OPERATIONAL_STATUS = OPERATIONAL_STATUS;
 
+  left = false;
+  right = false;
+  up = false;
+  down = false;
+
   constructor(public applicationService: ApplicationService,
               public gimbalService: GimbalService,
               public airVehicleService: AirVehicleService,
@@ -151,31 +156,34 @@ export class VideoPanelComponent implements OnInit {
   onClickDirection = (direction: 'left' | 'right' | 'up' | 'down') => {
     if (this.gimbal) {
       const gimbalAction: GIMBAL_ACTION_OSCC = this.getDefaultGimbalAction();
-
       switch (direction) {
         case 'left':
           gimbalAction.parameters = {
             pitch: 0,
             yaw: -this.speedModel
           };
+          this[direction] = true;
           break;
         case 'right':
           gimbalAction.parameters = {
             pitch: 0,
             yaw: this.speedModel
           };
+          this[direction] = true;
           break;
         case 'up':
           gimbalAction.parameters = {
             pitch: -this.speedModel,
             yaw: 0
           };
+          this[direction] = true;
           break;
         case 'down':
           gimbalAction.parameters = {
             pitch: this.speedModel,
             yaw: 0
           };
+          this[direction] = true;
           break;
       }
 

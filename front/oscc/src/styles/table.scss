@@ -81,6 +81,7 @@
     overflow: auto;
     max-height: 100px;
     white-space: pre-line;
+    margin-bottom: 10px;
   }
   // comments
   .example-element-comments {
@@ -128,7 +129,7 @@
   .description-content {
     font-size: $fontSizeText12;
     overflow: auto;
-    max-height: 50px;
+    max-height: 58px;
     white-space: pre-line;
   }
   // comments

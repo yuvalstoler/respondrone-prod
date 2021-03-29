@@ -17,6 +17,7 @@ import {LoginService} from '../../../services/login/login.service';
 import {ResponsiveService} from '../../../services/responsiveService/responsive.service';
 import {MissionRouteService} from '../../../services/missionRouteService/missionRoute.service';
 import {StatusIndicatorService} from '../../../services/statusIndicatorService/status-indicator.service';
+import {MatMenuTrigger} from '@angular/material/menu';
 
 @Component({
   selector: 'app-header-panel',
@@ -28,6 +29,11 @@ export class HeaderPanelComponent implements OnInit {
   @ViewChildren('checkboxes') checkboxes: QueryList<ElementRef>;
   @ViewChild(DefaultValueAccessor) inputModel: DefaultValueAccessor;
 
+  @ViewChild('statusesMenuTrigger') statusesMenuTrigger: MatMenuTrigger;
+  @ViewChild('loginMenuTrigger') loginMenuTrigger: MatMenuTrigger;
+
+
+
   Header_Buttons = HEADER_BUTTONS;
 
   viewItems: string[] = Object.keys(VIEW_LIST);
@@ -37,6 +43,7 @@ export class HeaderPanelComponent implements OnInit {
   // _value = '';
   // expanded = false;
   VIEW_LIST = VIEW_LIST;
+
 
   constructor(public applicationService: ApplicationService,
               public contextMenuService: ContextMenuService,
@@ -202,5 +209,13 @@ export class HeaderPanelComponent implements OnInit {
   onLogout = () => {
     this.loginService.logout();
   };
+
+  closeMatMenu = (matMenuName: string) => {
+    if (matMenuName === 'statuses') {
+      this.loginMenuTrigger.closeMenu();
+    } else if (matMenuName === 'login') {
+      this.statusesMenuTrigger.closeMenu();
+    }
+  }
 
 }

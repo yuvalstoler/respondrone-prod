@@ -104,6 +104,8 @@
   .MapSmall {
     max-width: $maxWidthSmall;
     max-height: $maxHeightSmall;
+    //min-width: $minWidthSmall !important;
+    //min-height: $minHeightSmall !important;
   }
 }
 

@@ -61,7 +61,7 @@
         <span class="Value" *ngIf="isNight">{{gimbal?.infraredCameraParameters?.zoomInfraredCamera}}x</span>
       </div>
       <div class="zoom-slider">
-        <span >0</span>
+        <span>0</span>
         <mat-slider
           (change)="onChangeZoom(zoomModel)"
           [(ngModel)]="zoomModel"
@@ -286,17 +286,26 @@
 
   <!--Arrows-->
   <div class="LiveVideoContent">
-    <mat-icon (click)="onClickDirection('left')" class="arrows left"> keyboard_arrow_left</mat-icon>
-    <mat-icon (click)="onClickDirection('right')" class="arrows right"> keyboard_arrow_right</mat-icon>
+    <mat-icon (click)="onClickDirection('left')" class="arrows left"
+              [ngStyle]="{'background': left === true ? 'black': ''}"> keyboard_arrow_left
+    </mat-icon>
+    <mat-icon (click)="onClickDirection('right')" class="arrows right"
+              [ngStyle]="{'background': right === true ? 'black': ''}"> keyboard_arrow_right
+    </mat-icon>
     <mat-icon (click)="onClickDirection('up')" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"
+              [ngStyle]="{'background': up === true ? 'black': ''}"
               class="arrows upLow"> keyboard_arrow_up
     </mat-icon>
     <mat-icon (click)="onClickDirection('up')" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"
+              [ngStyle]="{'background': up === true ? 'black': ''}"
               class="arrows up"> keyboard_arrow_up
     </mat-icon>
-    <mat-icon (click)="onClickDirection('down')" class="arrows down"> keyboard_arrow_down</mat-icon>
+    <mat-icon (click)="onClickDirection('down')" class="arrows down"
+              [ngStyle]="{'background': down === true ? 'black': ''}"> keyboard_arrow_down
+    </mat-icon>
     <mat-icon (click)="onExpendVideo()"
               *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"
+              [ngStyle]="{'background': down === true ? 'black': ''}"
               class="expendVideo">zoom_out_map
     </mat-icon>
     <!--Video-canvas-->
