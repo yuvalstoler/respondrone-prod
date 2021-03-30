@@ -100,7 +100,7 @@
   //missions
   .example-element-detail-mission {
     grid-template-columns: 53% 43%;
-    max-height: 265px;
+    max-height: 275px;
   }
 
   .expendContent {
@@ -145,7 +145,7 @@
   //missions
   .example-element-detail-mission {
     grid-template-columns: 33% auto 36%;
-    max-height: 22em;
+    max-height: 300px;
   }
   .expendContent {
     font-size: $fontSizeText13;
@@ -306,7 +306,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .example-element-createdBy {
   position: absolute;
-  bottom: 3px;
+  bottom: 7px;
   width: 100%;
   // background: $lightGray;
   height: auto;

@@ -3,6 +3,7 @@ import {COMMENT} from '../../../../../../../classes/typings/all.typings';
 import {ApplicationService} from '../../../services/applicationService/application.service';
 import {LoginService} from '../../../services/login/login.service';
 import {MAP} from '../../../../types';
+import {ResponsiveService} from '../../../services/responsiveService/responsive.service';
 //https://github.com/scttcper/ngx-emoji-mart#i18n - Emoji
 
 @Component({
@@ -21,10 +22,16 @@ export class CommentsPanelComponent implements OnInit {
   comment = '';
   name = '';
 
+  screenWidth: number;
+
+
   constructor(public applicationService: ApplicationService,
+              public responsiveService: ResponsiveService,
               private loginService: LoginService) {
     this.name = this.loginService.getUserName();
-   // console.log(this.isOpenDescription);
+    this.responsiveService.screenWidth$.subscribe(res => {
+      this.screenWidth = res;
+    });
   }
 
   ngOnInit(): void {

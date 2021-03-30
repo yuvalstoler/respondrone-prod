@@ -6,12 +6,86 @@
   .CommentTitle {
     font-size: $fontSizeText12;
   }
-  .CommentIconInner{
-    margin: -5px 0 0px 0;
 
-    img {
-      width: 20px;
+  .CommentsGridList {
+    display: grid;
+    grid-template-columns: 24px auto 35px;
+    overflow: hidden;
+    margin-top: 5px;
+    gap: 5px;
+
+    .CommentsGrid1{
+      grid-row: 1;
+      grid-column: 1;
+      margin: auto 0;
     }
+    .CommentsGrid2{
+      grid-row: 1;
+      grid-column: 2;
+      margin: auto 0px;
+    }
+    .CommentsGrid3{
+      grid-row: 1;
+      grid-column: 3;
+      margin: auto;
+    }
+    .CommentsGrid4{
+      grid-row: 2;
+      grid-column: 2/ span 2;
+      margin: auto 0px;
+      white-space: initial;
+    }
+  }
+
+  .CommentGridSend {
+    display: grid;
+    grid-template-columns: 24px auto 25px;
+    gap: 5px;
+
+    .CommentIconContainerCircle {
+      margin: auto 0;
+      text-align: left;
+    }
+    .CommentIconContainerArrow{
+      margin: auto 0;
+      text-align: right;
+    }
+    .CommentIconInner{
+      position: absolute;
+      right: 0;
+      top: 0;
+      //margin: -3px 0 0px 0;
+
+      img {
+        padding-left: 5px;
+        background-color: $white;
+        width: 20px;
+      }
+    }
+    .CommentInput {
+      line-height: 0px;
+    }
+
+    ::ng-deep .mat-form-field {
+      display: block !important;
+    }
+
+    ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
+      padding: 0.25em 0 0.5em 0 !important;
+    }
+
+    ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
+      margin: 0.5em 0 !important;
+    }
+
+    ::ng-deep.mat-form-field-wrapper {
+      padding-bottom: 0em !important;
+    }
+
+    ::ng-deep.mat-form-field-infix {
+      width: auto;
+    }
+
   }
 }
 //Regular
@@ -19,101 +93,110 @@
   .CommentTitle {
     font-size: $fontSizeTitle14;
   }
-  .CommentIconInner{
-    margin: -2px 0 0px 0;
 
-    img {
-      width: 24px;
+  .CommentsGridList {
+    display: grid;
+    grid-template-columns: 24px auto 38px;
+    overflow: hidden;
+    margin-top: 5px;
+    gap: 5px;
+
+    .CommentsGrid1{
+      grid-row: 1;
+      grid-column: 1;
+      margin: auto 0;
+    }
+    .CommentsGrid2{
+      grid-row: 1;
+      grid-column: 2;
+      margin: auto 0px;
+    }
+    .CommentsGrid3{
+      grid-row: 1;
+      grid-column: 3;
+      margin: auto;
+    }
+    .CommentsGrid4{
+      grid-row: 2;
+      grid-column: 2/ span 2;
+      margin: auto 0px;
+      white-space: initial;
     }
   }
+
+  .CommentGridSend {
+    display: grid;
+    grid-template-columns: 24px auto 25px;
+    gap: 5px;
+
+    .CommentIconContainerCircle {
+      margin: auto 0;
+      text-align: left;
+    }
+    .CommentIconContainerArrow{
+      margin: auto 0;
+      text-align: right;
+    }
+    .CommentIconInner{
+      position: absolute;
+      right: 0;
+      top: 0;
+      margin: -2px 0 0px 0;
+
+      img {
+        padding-left: 5px;
+        background-color: $white;
+        width: 24px;
+      }
+    }
+    .CommentInput {
+      line-height: 0px;
+    }
+
+    ::ng-deep .mat-form-field {
+      display: block !important;
+    }
+
+    ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
+      padding: 0.25em 0 0.5em 0 !important;
+    }
+
+    ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
+      margin: 0.5em 0 !important;
+    }
+
+    ::ng-deep.mat-form-field-wrapper {
+      padding-bottom: 0em !important;
+    }
+
+    ::ng-deep.mat-form-field-infix {
+      width: auto;
+    }
+
+  }
+
 }
 
 .CommentTitle {
   color: $black;
   font-weight: 600;
 }
+
 .CommentContainer{
 }
+
 .CommentSmall{
   max-height: 55px;
 }
+
 .CommentBig{
   max-height: 100px;
 }
-.CommentsGrid {
-  display: grid;
-  grid-template-columns: 24px auto 30px;
-  overflow: hidden;
-  margin-top: 5px;
-  gap: 5px;
-}
-.CommentsGrid1{
-  grid-row: 1;
-  grid-column: 1;
-  margin: auto 0;
-}
-.CommentsGrid2{
-  grid-row: 1;
-  grid-column: 2;
-  margin: auto 0px;
-}
-.CommentsGrid3{
-  grid-row: 1;
-  grid-column: 3;
-  margin: auto;
-}
-.CommentsGrid4{
-  grid-row: 2;
-  grid-column: 2/ span 2;
-  margin: auto 0px;
-}
 
-.CommentSendGrid3 {
-  display: grid;
-  grid-template-columns: 24px 70% 40px;
-  gap: 5px;
-
-  ::ng-deep .mat-form-field {
-    display: block !important;
-  }
-
-  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix {
-    padding: 0.25em 0 0.5em 0 !important;
-  }
-
-  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
-    margin: 0.5em 0 !important;
-  }
-
-  ::ng-deep.mat-form-field-wrapper {
-    padding-bottom: 0em !important;
-  }
-}
-
-.CommentIconContainerCircle {
-  margin: auto 0;
-  text-align: left;
-}
-.CommentIconContainerArrow{
-  margin: auto 0;
-  text-align: right;
-}
-.CommentIconInner{
-  position: absolute;
-  right: 0;
-  top: 0;
-
-  img {
-    padding-left: 5px;
-    background-color: $white;
-  }
-}
-.CommentInput {
-  line-height: 0px;
-}
 ::ng-deep.mat-menu-panel {
   max-width: fit-content;
 }
+
 
 //::ng-deep.mat-form-field-appearance-legacy {
 //

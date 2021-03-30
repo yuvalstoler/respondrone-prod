@@ -30,6 +30,9 @@
   .DialogTitle {
     font-size: $fontSizeText12;
   }
+  .DialogTitleDescription{
+    font-size: $fontSizeText12;
+  }
   .DialogLink {
     font-size: $fontSizeText11;
   }
@@ -89,6 +92,9 @@
   .DialogTitle {
     font-size: $fontSizeTitle14;
   }
+  .DialogTitleDescription{
+    font-size: $fontSizeTitle14;
+  }
   .DialogLink {
     font-size: $fontSizeText13;
   }
@@ -97,7 +103,7 @@
     margin-top: 5px;
   }
   .DialogNotElement {
-    font-size: $fontSizeText13;
+    font-size: $fontSizeText12;
     white-space: normal;
   }
   .DialogMandatory {

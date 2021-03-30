@@ -182,20 +182,6 @@
     }
   }
 
-  //.telemetry-container {
-  //  display: grid;
-  //  grid-template-columns: auto;
-  //  grid-template-rows: calc(#{$headerVideoHeightRegular} / 2 - 10px) calc(#{$headerVideoHeightRegular} / 2 - 10px);
-  //  border-right: 1px solid $lightGray;
-  //
-  //  //div {
-  //  //  padding: 0 10px;
-  //  //  margin: auto 0;
-  //  //  font-size: $fontSizeVideoText16;
-  //  //  font-weight: 600;
-  //  //}
-  //}
-
   .speed-container {
     display: grid;
     grid-template-columns: auto;
@@ -244,6 +230,11 @@
 
     top: 13px !important;
 
+  }
+
+  ///* Border */ only video panel!!!
+  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-outline {
+    color: white;
   }
 }
 
@@ -330,7 +321,10 @@
     padding: 0 5px;
   }
 
-
+  ///* Border */ only video panel!!!
+  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-outline {
+    color: white;
+  }
 }
 
 ::ng-deep.mat-menu-panel.settings-menu {
@@ -434,7 +428,7 @@
     padding: 0em 0 0.5em 0 !important;
   }
 
-  ::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  ::ng-deep.mat-form-field-appearance-outline.mat-form-field-wrapper {
     margin: -1em 0 !important;
   }
 
@@ -457,6 +451,11 @@
 
   ::ng-deep.mat-select-placeholder {
     font-size: $fontSizeText11;
+  }
+
+  /* Border */ /*only video panel!!!*/
+  ::ng-deep.mat-form-field-appearance-outline:not(.mat-form-field-disabled) .mat-form-field-outline {
+    color: white;
   }
 
 }
@@ -546,17 +545,17 @@
     transform: translateY(0%) !important;
   }
 
+  /* Border */ /*only video panel!!!*/
+  ::ng-deep.mat-form-field-appearance-outline:not(.mat-form-field-disabled) .mat-form-field-outline {
+    color: white;
+  }
+
   //::ng-deep.mat-select-placeholder {
   //  font-size: $fontSizeText15;
   //}
 
 }
 
-
-/* Border */
-::ng-deep.mat-form-field-appearance-outline .mat-form-field-outline {
-  color: white;
-}
 
 /* Font color */
 input.mat-input-element {
@@ -581,7 +580,7 @@ input.mat-input-element {
     cursor: pointer;
   }
 
-  .arrows {
+  .arrowsMap {
     position: absolute;
     font-size: 50px;
     height: 50px;
@@ -592,30 +591,52 @@ input.mat-input-element {
     background: rgba(0, 0, 0, 0.2);
     border-radius: 25px;
   }
+  .arrowsVideo {
+    position: absolute;
+    font-size: 30px;
+    height: 30px;
+    width: 30px;
+    color: $white;
+    z-index: 1000;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 25px;
+  }
 
-  .left {
+  .leftMap {
     top: calc(100vh - 90px - 47.2%);
     left: 10px;
   }
+  .leftVideo {
+    top: 42%;
+    left: 10px;
+  }
 
-  .right {
+  .rightMap {
     top: calc(100vh - 90px - 47.2%);
     right: 10px;
   }
+  .rightVideo {
+    top: 42%;
+    right: 10px;
+  }
 
-  .upLow {
+  .upMap {
     top: calc(#{$headerVideoHeightRegular} + 10px);
     left: calc(100vw - 52.9%);
   }
-
-  .up {
+  .upVideo {
     top: 10px;
-    left: calc(100vw - 52.9%);
+    left: 42%
   }
 
-  .down {
+  .downMap {
     bottom: 10px;
     left: calc(100vw - 52.9%);
+  }
+  .downVideo {
+    bottom: 10px;
+    left: 42%
   }
 
 }

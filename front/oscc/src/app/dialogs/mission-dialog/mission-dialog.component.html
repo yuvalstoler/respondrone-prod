@@ -17,7 +17,7 @@
           <mat-panel-title class="DialogTitle">
             Mission type
           </mat-panel-title>
-          <mat-panel-description *ngIf="!missionsType.expanded" class="">
+          <mat-panel-description class="DialogTitleDescription" *ngIf="!missionsType.expanded">
             {{MISSION_TYPE_TEXT[missionModel?.missionType]}}
           </mat-panel-description>
           <mat-icon>{{missionsType.expanded ? 'remove' : 'add'}}</mat-icon>
@@ -47,7 +47,7 @@
           <mat-panel-title class="DialogTitle">
             Air resources
           </mat-panel-title>
-          <mat-panel-description *ngIf="!airResources.expanded" class="">
+          <mat-panel-description *ngIf="!airResources.expanded" class="DialogTitleDescription">
             <div *ngFor="let airVehicle of selectedAirVehicles; let i = index;">
               {{airVehicle?.name}}{{i === selectedAirVehicles.length - 1 ? '' : ', &nbsp;'}}
             </div>
@@ -93,18 +93,18 @@
             Location
           </mat-panel-title>
           <!--for all locations-->
-          <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&
+          <mat-panel-description class="DialogTitleDescription" *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&
            missionModel?.polygon?.length > 0 || missionModel?.polyline?.length > 0  && !location?.expanded">
             Location exists on map.
           </mat-panel-description>
           <!--for point location-->
-          <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw && missionModel?.location?.lon !== undefined &&
+          <mat-panel-description class="DialogTitleDescription" *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw && missionModel?.location?.lon !== undefined &&
            missionModel?.location?.lat !== undefined && !location?.expanded">
             long: {{missionModel?.location?.lon | number:'2.0-4'}},
             Lat: {{missionModel?.location?.lat | number:'2.0-4'}}
           </mat-panel-description>
           <!--for FRs locations-->
-          <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&
+          <mat-panel-description class="DialogTitleDescription" *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&
            missionModel?.frs?.length > 0 && !location?.expanded">
             <div *ngFor="let fr of missionModel.frs; let i = index;">
               {{fr?.modeDefine?.tableData?.id?.data}}{{i === missionModel.frs.length - 1 ? '' : ', &nbsp;'}}
@@ -227,7 +227,7 @@
           <mat-panel-title class="DialogTitle">
             Communication Type
           </mat-panel-title>
-          <mat-panel-description *ngIf="!commType?.expanded" class="">
+          <mat-panel-description class="DialogTitleDescription" *ngIf="!commType?.expanded" >
             {{missionModel?.communicationType}}
           </mat-panel-description>
           <mat-icon>{{commType.expanded ? 'remove' : 'add'}}</mat-icon>
@@ -259,18 +259,18 @@
             Communication Argument
           </mat-panel-title>
           <!--for polygon locations-->
-          <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&
+          <mat-panel-description class="DialogTitleDescription" *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&
            missionModel?.polygon?.length > 0 && !commArg?.expanded">
             Communication Argument exist on map.
           </mat-panel-description>
           <!--for point location-->
-          <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw && missionModel?.location?.lon !== undefined &&
+          <mat-panel-description class="DialogTitleDescription" *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw && missionModel?.location?.lon !== undefined &&
            missionModel?.location?.lat !== undefined  && !commArg?.expanded">
             long: {{missionModel?.location?.lon | number:'1.0-4'}},
             Lat: {{missionModel?.location?.lat | number:'1.0-4'}}
           </mat-panel-description>
           <!--for FRs locations-->
-          <mat-panel-description *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&
+          <mat-panel-description class="DialogTitleDescription" *ngIf="applicationService?.stateDraw === STATE_DRAW.notDraw &&
            missionModel?.frs?.length > 0 && !commArg?.expanded">
             <div *ngFor="let fr of missionModel.frs; let i = index;">
               {{fr?.modeDefine?.tableData?.id?.data}}{{i === missionModel.frs.length - 1 ? '' : ', &nbsp;'}}
@@ -379,7 +379,7 @@
           <mat-panel-title class="DialogTitle">
             Mission details
           </mat-panel-title>
-          <mat-panel-description *ngIf="!missionDetails?.expanded" class="">
+          <mat-panel-description class="DialogTitleDescription" *ngIf="!missionDetails?.expanded">
             <span *ngIf="missionModel?.missionDetails?.azimuth >= 0 && missionModel?.missionDetails?.distance">Azimuth: {{missionModel?.missionDetails?.azimuth}}°, &nbsp;</span>
             <span *ngIf="missionModel?.missionDetails?.distance">Distance: {{missionModel?.missionDetails?.distance}}m</span>
             <span *ngIf="missionModel?.missionDetails?.scan?.speed">Speed: {{missionModel?.missionDetails?.scan?.speed}}, &nbsp;</span>
@@ -547,9 +547,6 @@
           <mat-panel-title class="DialogTitle">
             Description
           </mat-panel-title>
-          <!--<mat-panel-description class="" *ngIf="!descriptions?.expanded">-->
-          <!--{{missionModel?.description}}-->
-          <!--</mat-panel-description>-->
           <mat-icon>{{descriptions.expanded ? 'remove' : 'add'}}</mat-icon>
         </mat-expansion-panel-header>
         <div>

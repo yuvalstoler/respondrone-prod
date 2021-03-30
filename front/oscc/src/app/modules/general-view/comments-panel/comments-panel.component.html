@@ -1,13 +1,13 @@
 <div>
+  <!--Title-->
   <div class="CommentTitle" *ngIf="isShowTitle">Comments</div>
+  <!--Container List Comment-->
   <div class="CommentSmall scroll"
        [ngClass]="{'CommentSmall' : ((descriptionId !== undefined && descriptionId === isOpenDescription?.id && isOpenDescription?.isOpen) || description !== '' && description !== undefined),
                    'CommentBig' : (descriptionId !== undefined && descriptionId === isOpenDescription?.id && !isOpenDescription?.isOpen) || description === '' || description === undefined}">
-  <!--<div class="CommentContainer scroll"-->
-       <!--[ngClass]="getIsOpenDescription()">-->
     <!--List comments-->
     <mat-list-item *ngFor="let comment of comments">
-      <div class="CommentsGrid" mat-line>
+      <div class="CommentsGridList" mat-line>
         <mat-icon class="CommentsGrid1" mat-list-icon>account_circle</mat-icon>
         <div class="CommentsGrid2"> {{comment.source}} {{name}}</div>
         <div class="CommentsGrid3">{{comment.time | customDate: comment.time}}</div>
@@ -15,45 +15,53 @@
       </div>
     </mat-list-item>
   </div>
-  <!-- Input Comment-->
+  <!--Input Comment-->
   <div>
-    <div class="CommentSendGrid3">
+    <div class="CommentGridSend" [ngStyle]="{ 'grid-template-rows':
+    screenWidth <= 1200 ? (applicationService?.isDialogOpen ? '50px': '40px') :
+    (screenWidth > 1200 && screenWidth <= 1400) ? (applicationService?.isDialogOpen ? '52px': '46px') :
+    (applicationService?.isDialogOpen ? '54px': '52px')
+    }">
+      <!-- icon -->
       <div class="CommentIconContainerCircle">
         <mat-icon class="CommentIcon">account_circle</mat-icon>
       </div>
+      <!-- comment-->
       <mat-form-field appearance="outline" class="">
         <label>
           <input [(ngModel)]="comment" class="CommentInput" matInput
                  placeholder="Add your comment..."
                  type="text">
-          <button class="CommentIcon CommentIconInner" mat-icon-button [matMenuTriggerFor]="emoji" aria-label="emoji">
+          <button class="CommentIcon CommentIconInner" [ngStyle]="{ 'margin':
+          screenWidth <= 1200 ? (applicationService?.isDialogOpen ? '-3px 0 0px 0' : '-5px 0 0px 0') :
+          (screenWidth > 1200 && screenWidth <= 1400) ? '-3px 0 0px 0':
+           (applicationService?.isDialogOpen) ? '-3px 0 0px 0' : '-2px 0 0px 0'
+          }"
+                  mat-icon-button [matMenuTriggerFor]="emoji" aria-label="emoji">
             <!--<mat-icon>sentiment_satisfied_alt</mat-icon>-->
-            <img src="../../../assets/sentiment_satisfied_alt.png">
+            <img src="../../../../assets/sentiment_satisfied_alt.png">
           </button>
           <!--<mat-icon  (click)="openEmoji = !openEmoji;">sentiment_satisfied_alt</mat-icon>-->
         </label>
       </mat-form-field>
+      <!-- arrow-->
       <div class="CommentIconContainerArrow pointer"
-           (click)="onSendComment()"
-      >
+           (click)="onSendComment()">
         <mat-icon [ngStyle]="{'color': (comment === '' || comment === undefined) ? 'lightgray' : 'black' }"
                   class="CommentIcon">send
         </mat-icon>
       </div>
     </div>
   </div>
-
-
-
 </div>
 <mat-menu #emoji="matMenu">
   <!--<div *ngIf="openEmoji">-->
-    <emoji-mart
-      (emojiClick)="addEmoji($event)"
-      set="apple"
-      sheetSize="32"
-      showPreview="{{false}}"
-      enableSearch="{{false}}"
-    ></emoji-mart>
+  <emoji-mart
+    (emojiClick)="addEmoji($event)"
+    set="apple"
+    sheetSize="32"
+    showPreview="{{false}}"
+    enableSearch="{{false}}"
+  ></emoji-mart>
   <!--</div>-->
 </mat-menu>

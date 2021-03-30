@@ -286,27 +286,45 @@
 
   <!--Arrows-->
   <div class="LiveVideoContent">
-    <mat-icon (click)="onClickDirection('left')" class="arrows left"
+    <!--  Left Arrow -->
+    <mat-icon (click)="onClickDirection('left')" class="arrowsMap leftMap"
+              *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"
               [ngStyle]="{'background': left === true ? 'black': ''}"> keyboard_arrow_left
     </mat-icon>
-    <mat-icon (click)="onClickDirection('right')" class="arrows right"
+    <mat-icon (click)="onClickDirection('left')" class="arrowsVideo leftVideo"
+              *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"
+              [ngStyle]="{'background': left === true ? 'black': ''}"> keyboard_arrow_left
+    </mat-icon>
+    <!-- Right Arrow -->
+    <mat-icon (click)="onClickDirection('right')" class="arrowsMap rightMap"
+              *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"
               [ngStyle]="{'background': right === true ? 'black': ''}"> keyboard_arrow_right
     </mat-icon>
-    <mat-icon (click)="onClickDirection('up')" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"
-              [ngStyle]="{'background': up === true ? 'black': ''}"
-              class="arrows upLow"> keyboard_arrow_up
+    <mat-icon (click)="onClickDirection('right')" class="arrowsVideo rightVideo"
+              *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"
+              [ngStyle]="{'background': right === true ? 'black': ''}"> keyboard_arrow_right
     </mat-icon>
-    <mat-icon (click)="onClickDirection('up')" *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"
-              [ngStyle]="{'background': up === true ? 'black': ''}"
-              class="arrows up"> keyboard_arrow_up
+    <!-- Up Arrow -->
+    <mat-icon (click)="onClickDirection('up')" class="arrowsMap upMap"
+              *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"
+              [ngStyle]="{'background': up === true ? 'black': ''}"> keyboard_arrow_up
     </mat-icon>
-    <mat-icon (click)="onClickDirection('down')" class="arrows down"
+    <mat-icon (click)="onClickDirection('up')" class="arrowsVideo upVideo"
+              *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"
+              [ngStyle]="{'background': up === true ? 'black': ''}"> keyboard_arrow_up
+    </mat-icon>
+    <!-- Down Arrow-->
+    <mat-icon (click)="onClickDirection('down')" class="arrowsMap downMap"
+              *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.map"
               [ngStyle]="{'background': down === true ? 'black': ''}"> keyboard_arrow_down
     </mat-icon>
-    <mat-icon (click)="onExpendVideo()"
+    <mat-icon (click)="onClickDirection('down')" class="arrowsVideo downVideo"
               *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video"
-              [ngStyle]="{'background': down === true ? 'black': ''}"
-              class="expendVideo">zoom_out_map
+              [ngStyle]="{'background': down === true ? 'black': ''}"> keyboard_arrow_down
+    </mat-icon>
+    <!-- Expend Window -->
+    <mat-icon (click)="onExpendVideo()" class="expendVideo"
+              *ngIf="applicationService?.selectedWindow === VIDEO_OR_MAP.video">zoom_out_map
     </mat-icon>
     <!--Video-canvas-->
     <app-canvas-video *ngIf="applicationService?.screen?.showVideoCanvas && gimbal && gimbal[videoUrlKey]"
