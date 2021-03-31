@@ -1,4 +1,5 @@
 @import "../../../styles/dialogs";
+@import "../../../styles/scrollbar";
 
 .DialogTitle {
   margin: 0px 0px 0px 0px;
@@ -32,6 +33,8 @@
 .DialogContentItem {
   height: 70vh;
   margin: 0px 20px;
+  max-height: 70vh;
+  //overflow-y: auto;
 
   mat-radio-button {
     display: block;
@@ -51,12 +54,9 @@
     border-top-color: transparent;
   }
 
-  .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
-    width: 3%;
-  }
   .mat-expansion-panel-header-description {
     flex-grow: 3;
-    font-size: 14px;
+    //font-size: 14px;
     color: black;
   }
   ::ng-deep.mat-expansion-panel-body {
@@ -139,7 +139,8 @@
 
 .VNSlider {
   display: grid;
-  grid-template-columns: 1.5em 8em 13.1em 8em 2.5em;
+  //grid-template-columns: 1.5em 8em 13.1em 8em 2.5em;
+  //grid-template-columns: 1.5em 3em 4.1em 3em 2.5em;
   margin: auto;
 }
 

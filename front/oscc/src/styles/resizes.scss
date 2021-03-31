@@ -2,8 +2,7 @@
 @import "colors";
 
 // Headers, Tabs Left panel
-// more then 1401
-@media screen and (min-width: 1401px) {
+@media screen and (min-width: 1601px) {
   .HeaderPanel {
     font-size: $fontSizeTitleHeader18;
 
@@ -23,13 +22,42 @@
     }
   }
   .MapSmall {
-    max-width: 21%;
+    max-width: 22%;
     max-height: 25%;
   }
-  //.image-detail-canvas-small{
-  //  max-width: 21% !important;
-  //  max-height: 25% !important;
-  //}
+  .image-detail-canvas-small{
+    //max-width: 22% !important;
+    //max-height: 25% !important;
+  }
+}
+// more then 1401
+@media screen and (max-width: 1600px) {
+  .HeaderPanel {
+    font-size: $fontSizeTitleHeader18;
+
+    ::ng-deep.mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
+      font-size: $fontSizeTitleHeader18;
+    }
+  }
+  .LeftPanel {
+    // Tabs
+    ::ng-deep .mat-tab-list .mat-tab-label {
+      font-size: $fontSizeTitleHeader17;
+      font-weight: bold;
+    }
+
+    ::ng-deep.mat-tab-label {
+      min-width: 160px;
+    }
+  }
+  .MapSmall {
+    max-width: 22%;
+    max-height: 25%;
+  }
+  .image-detail-canvas-small{
+    max-width: 22% !important;
+    max-height: 25% !important;
+  }
 }
 
 @media screen and (max-width: 1400px) {
@@ -52,8 +80,12 @@
     }
   }
   .MapSmall {
-    max-width: 23%;
-    max-height: 24%;
+    max-width: 22%;
+    max-height: 22%;
+  }
+  .image-detail-canvas-small{
+    max-width: 22% !important;
+    max-height: 22% !important;
   }
 }
 
@@ -80,6 +112,10 @@
     max-width: 24%;
     max-height: 23%;
   }
+  .image-detail-canvas-small{
+    max-width: 24% !important;
+    max-height: 23% !important;
+  }
 }
 
 @media screen and (max-width: 1200px) {
@@ -104,8 +140,14 @@
   .MapSmall {
     max-width: $maxWidthSmall;
     max-height: $maxHeightSmall;
-    //min-width: $minWidthSmall !important;
-    //min-height: $minHeightSmall !important;
+    min-width: 220px !important;
+    min-height: 165px !important;
+  }
+  .image-detail-canvas-small{
+    max-width: $maxWidthSmall !important;
+    max-height: $maxHeightSmall !important;
+    min-width: 220px !important;
+    min-height: 165px !important;
   }
 }
 

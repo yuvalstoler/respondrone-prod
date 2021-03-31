@@ -485,6 +485,18 @@ export class MissionDialogComponent implements OnInit {
     }
   };
 
+  onChangeCommunicationType = ($event) => {
+    console.log($event);
+    this.missionModel.location = {lat: undefined, lon: undefined, alt: 0};
+    this.missionModel.polygon = [];
+    this.missionModel.frs =  [];
+    this.missionModel.frIds = [];
+    this.applicationService.stateDraw = STATE_DRAW.notDraw;
+    this.mapGeneralService.changeCursor(false);
+    this.locationService.deleteLocationPointTemp('tmp' + '0');
+    this.polygonService.deletePolygonManually('tmp' + '0');
+  }
+
   onClickCommunicationArg = (communicationType: COMM_RELAY_TYPE) => {
     this.setStep(3);
     switch (communicationType) {
