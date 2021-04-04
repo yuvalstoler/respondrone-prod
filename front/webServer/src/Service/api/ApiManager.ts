@@ -89,18 +89,23 @@ export class ApiManager implements IRest {
                         this.routersUI[path](request, response);
                     }
                     else {
+                        // todo: send ws to ui  webServer_logout
+                        LoginManager.sendDataToUI();
                         console.log('======= Invalid token ' + validRes.description);
                         resp.description = 'Invalid token ' + validRes.description;
                         response.send(resp);
                     }
                 })
                 .catch((err) => {
+                    // LoginManager.sendDataToUI();
                     console.log('======= Error validating token', JSON.stringify(err));
                     resp.description = 'Error validating token';
                     response.send(resp);
                 });
         }
         else {
+            // todo: send ws to ui  webServer_logout
+            LoginManager.sendDataToUI();
             console.log('======= invalid token');
             resp.description = 'Invalid credentials';
             response.send(resp);

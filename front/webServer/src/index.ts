@@ -10,7 +10,6 @@ import * as bodyParser from 'body-parser';
 import {SocketIO} from './websocket/socket.io';
 
 
-
 const services = require('./../../../../../../config/services.json');
 
 
@@ -19,11 +18,11 @@ import {ApiManager} from './Service/api/ApiManager';
 import {
     API_GENERAL,
 } from '../../../classes/dataClasses/api/api_enums';
-import { REST_ROUTER_CONFIG } from '../../../classes/typings/all.typings';
+import {REST_ROUTER_CONFIG} from '../../../classes/typings/all.typings';
 import {FrManager} from "./Service/fr/frManager";
 import {AirVehicleManager} from "./Service/airVehicle/airVehicleManager";
 import {GimbalManager} from "./Service/gimbal/gimbalManager";
-
+import {Request, Response, NextFunction} from "express";
 
 
 export class Server {
@@ -58,7 +57,7 @@ export class Server {
         this.routes();
 
 
-         this.test();
+        this.test();
 
 
         // ====================New Routes Instances=====================
@@ -104,6 +103,7 @@ export class Server {
         this.app.use(bodyParser.json({limit: '50mb'}));
         this.app.use(bodyParser.urlencoded({extended: false, limit: '50mb'}));
         // enable cors middleware
+
         const options: cors.CorsOptions = {
             allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token'],
             exposedHeaders: ['X-Access-Token'],
@@ -112,6 +112,7 @@ export class Server {
             origin: '*',
             preflightContinue: false
         };
+
         this.app.use(cors(options));
         this.app.options('*', cors(options));
 

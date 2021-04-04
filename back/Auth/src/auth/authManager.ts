@@ -37,7 +37,7 @@ export class AuthManager {
                 RequestManager.requestToDBS(DBS_API.readUserByCredentials, req.body)
                     .then((userRes: ASYNC_RESPONSE<USER_DATA>) => {
                         if ((userRes.success && userRes.data !== undefined) || (req.body.name === User.name && req.body.password === User.password)) {
-                            const token = jwt.sign({expiresIn: expireIn, data: userRes.data || User}, secret);
+                            const token = jwt.sign({exp: Math.floor(Date.now() / 1000) + (60 * 60), expiresIn: expireIn, data: userRes.data || User}, secret);
                             tokens[token] = User.name;
 
                             resp.success = true;
@@ -65,8 +65,9 @@ export class AuthManager {
                         const idObj: ID_OBJ = {id: checkRes.data.id};
                         RequestManager.requestToDBS(DBS_API.readUser, idObj)
                             .then((userRes: ASYNC_RESPONSE<USER_DATA>) => {
+                                // TODO:  PROJCONF or DB (registry in stoplight)
                                 if ((userRes.success && userRes.data !== undefined) || (checkRes.data.name === User.name && checkRes.data.password === User.password)) {
-                                    const token = jwt.sign({expiresIn: expireIn, data: userRes.data || User}, secret);
+                                    const token = jwt.sign({exp: Math.floor(Date.now() / 1000) + (60 * 60), expiresIn: expireIn, data: userRes.data || User}, secret);
                                     tokens[token] = User.name;
 
                                     resp.success = true;
@@ -109,9 +110,11 @@ export class AuthManager {
         jwt.verify(token, secret, (err, decoded) => {
             if (err) {
                 cb({success: false});
+                console.log(decoded)
             }
             else {
                 cb({success: true, data: decoded.data});
+                console.log(decoded)
             }
         });
     };
@@ -120,6 +123,7 @@ export class AuthManager {
         if (tokens.hasOwnProperty(token)) {
             const tokenNew = jwt.sign({
                 expiresIn: expireIn,
+                exp: Math.floor(Date.now() / 1000) + (60 * 60),
                 data: {name: User.name, password: User.password}
             }, secret);
             tokens[tokenNew] = User.name;

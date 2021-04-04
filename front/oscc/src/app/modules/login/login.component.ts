@@ -8,10 +8,10 @@ import {Router} from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements AfterContentInit {
 
 
-  isChecked: boolean = false;
+  isIncorrect: boolean = false;
   // token: string;
   credentials: CREDENTIALS;
 
@@ -28,14 +28,14 @@ export class LoginComponent {
       .then((result: ASYNC_RESPONSE<USER_DATA_UI>) => {
 
         if (!result.success || !result.data.token) {
-          this.isChecked = true;
+          this.isIncorrect = true;
           this.loginService.logout();
         } else if (result && result.data.token) {
-          this.isChecked = false;
+          this.isIncorrect = false;
         }
       })
       .catch(err => {
-        this.isChecked = false;
+        this.isIncorrect = false;
         this.loginService.logout();
       });
   };

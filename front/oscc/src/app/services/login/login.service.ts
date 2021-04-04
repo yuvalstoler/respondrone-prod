@@ -11,6 +11,7 @@ import {ApplicationService} from '../applicationService/application.service';
 import {CustomToasterService} from '../toasterService/custom-toaster.service';
 import {API_GENERAL, WS_API} from '../../../../../../classes/dataClasses/api/api_enums';
 import {BehaviorSubject, Observable} from 'rxjs';
+import {SocketService} from "../socketService/socket.service";
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,10 @@ export class LoginService {
 
   constructor(private connectionService: ConnectionService,
               private router: Router,
+              private socketService: SocketService,
               private applicationService: ApplicationService,
               private customToasterService: CustomToasterService) {
+    this.socketService.connectToRoom('webServer_logout').subscribe(this.logout);
   }
   // ---------------
   public login = (credentials?: CREDENTIALS, headers?): Promise<ASYNC_RESPONSE<USER_DATA_UI>> => {

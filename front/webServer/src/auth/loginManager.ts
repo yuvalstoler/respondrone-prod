@@ -1,9 +1,10 @@
 import {Request, Response} from 'express';
 // import {SocketIO} from '../../websocket/socket.io';
 // import {Login} from '../../../../../classes/dataClasses/site/login';
-import {ASYNC_RESPONSE, CREDENTIALS, MAP, USER_DATA_UI} from '../../../../classes/typings/all.typings';
+import {ASYNC_RESPONSE, CREDENTIALS, FR_DATA_UI, MAP, USER_DATA_UI} from '../../../../classes/typings/all.typings';
 import {RequestManager} from '../AppService/restConnections/requestManager';
 import {AUTH_API} from '../../../../classes/dataClasses/api/api_enums';
+import {SocketIO} from "../websocket/socket.io";
 
 
 const jsonfile = require('jsonfile');
@@ -52,6 +53,10 @@ export class LoginManager {
         });
     };
 
+    private sendDataToUI = (): void => {
+        SocketIO.emit('webServer_logout', false);
+    };
+
     // private login = (loginData) => {
     //     const res = {
     //         json:
@@ -89,4 +94,5 @@ export class LoginManager {
 
     public static listen = LoginManager.instance.listen;
     public static validateLogin = LoginManager.instance.validateLogin;
+    public static sendDataToUI = LoginManager.instance.sendDataToUI;
 }
