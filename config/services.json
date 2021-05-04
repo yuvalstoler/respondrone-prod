@@ -109,7 +109,7 @@
     "timeOutREST": 10000,
 
     "secret": "4sekgq3sns4l0dj9kmgukn",
-    "expireIn": 60,
+    "expireIn": 86400,
     "name": "ResponDrone",
     "password": "simplex",
     "id": "respondroneid",

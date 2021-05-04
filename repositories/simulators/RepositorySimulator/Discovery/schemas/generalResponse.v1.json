@@ -1,0 +1,17 @@
+{
+  "title": "generalResponse",
+  "type": "object",
+  "description": "A general response to Rest Actions that means that the serviec will excecute the requested action ",
+  "properties": {
+    "success": {
+      "type": "boolean"
+    },
+    "description": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "success",
+    "description"
+  ]
+}
