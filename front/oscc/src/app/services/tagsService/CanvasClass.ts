@@ -179,7 +179,8 @@ export class CanvasClass {
       const yMax = blob.rectangleData.maxY * resolution.height;
 
       ctx.textAlign = 'center';
-      ctx.fillText(blob.id, (xMin + xMax) / 2, yMax + 15);
+      const text = blob.name || blob.id;
+      ctx.fillText(text, (xMin + xMax) / 2, yMax + 15);
 
       ctx.restore();
     }

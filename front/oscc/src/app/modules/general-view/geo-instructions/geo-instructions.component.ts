@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {
   GEOGRAPHIC_INSTRUCTION,
   GEOGRAPHIC_INSTRUCTION_TYPE,
@@ -23,10 +23,12 @@ import {GeoInstructionsService} from '../../../services/geoInstructionsService/g
   templateUrl: './geo-instructions.component.html',
   styleUrls: ['./geo-instructions.component.scss']
 })
-export class GeoInstructionsComponent implements OnInit {
+export class GeoInstructionsComponent implements OnInit, AfterViewChecked {
 
   @ViewChild(MatMenuTrigger) triggerBtn: MatMenuTrigger;
   @Input() element: TASK_DATA_UI;
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+  scrolledToBottom = false;
 
   geoInstructions = Object.values(GEOGRAPHIC_INSTRUCTION_TYPE);
   selectedGeoInstruction: GEOGRAPHIC_INSTRUCTION_TYPE;
@@ -86,6 +88,10 @@ export class GeoInstructionsComponent implements OnInit {
     this.geographicInstructionsModel = _.cloneDeep(this.element.geographicInstructions);
   }
 
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
   onAddInstruction = () => {
     if (this.isNotSaveGeoInstructions) {
       this.triggerBtn.closeMenu();
@@ -97,6 +103,7 @@ export class GeoInstructionsComponent implements OnInit {
   setSelectedInstruction = (type: GEOGRAPHIC_INSTRUCTION_TYPE) => {
     this.selectedGeoInstruction = type;
     this.isNotSaveGeoInstructions = true;
+    this.scrolledToBottom = false;
     switch (type) {
       case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
         this.applicationService.stateDraw = STATE_DRAW.drawArrow;
@@ -130,6 +137,7 @@ export class GeoInstructionsComponent implements OnInit {
 
   cancelInstruction = (type: GEOGRAPHIC_INSTRUCTION_TYPE) => {
     const id = this.applicationService.getGeoCounter();
+    this.scrolledToBottom = false;
     switch (type) {
       case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
         this.arrowService.deleteArrowPolylineManually(id);
@@ -214,6 +222,19 @@ export class GeoInstructionsComponent implements OnInit {
       this.locationService.drawLocationFromServer({ lat: lat, lon: lng, alt: 0 }, idTemp);
       this.mapGeneralService.flyToObject([lng, lat, 0]);
     }
+  };
+
+  scrollToBottom(): void {
+    try {
+      if (!this.scrolledToBottom) {
+        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+        this.scrolledToBottom = true;
+      }
+    } catch (err) { }
+  }
+
+  onScroll = () => {
+    // this.scrolledToBottom = true;
   };
 
 }

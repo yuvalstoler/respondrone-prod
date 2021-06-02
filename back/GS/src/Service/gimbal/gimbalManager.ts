@@ -65,7 +65,7 @@ export class GimbalManager {
                         coordinates: []
                     },
                     'opticalVideoURL': 'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov',
-                    'infraredVideoURL': 'ws://20.71.141.60:9091/'
+                    'infraredVideoURL': 'ws://80.250.156.232:8082/'
                 },
                 {
                     'id': '2',

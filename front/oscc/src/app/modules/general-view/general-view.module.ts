@@ -88,7 +88,7 @@ import { SearchPanelComponent } from './search-panel/search-panel.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {ServoingContextMenuComponent} from '../../dialogs/context-menu/servoing-context-menu/servoing-context-menu.component';
 import {FrContextMenuComponent} from '../../dialogs/context-menu/fr-context-menu/fr-context-menu.component';
-import {SeparatorStringPipe} from "../../pipes/separator-string.pipe";
+import {SeparatorStringPipe} from '../../pipes/separator-string.pipe';
 
 @NgModule({
   declarations: [

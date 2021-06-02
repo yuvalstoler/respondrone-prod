@@ -68,32 +68,32 @@ export class LiveVideoService {
   videoUrls: VIDEO_URLS_DATA = {
     '1': {
       'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov': {
-        videoJSMPEG: 'ws://20.71.141.60:9092/',
-        blobsSocket: 'ws://20.71.141.60:4002/'
+        videoJSMPEG: 'ws://80.250.156.232:8082/',
+        blobsSocket: 'ws://localhost:4002/'
       },
       'ws://20.71.141.60:9091/': {
         videoJSMPEG: 'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov',
-        blobsSocket: 'ws://20.71.141.60:4002/'
+        blobsSocket: 'ws://localhost:4002/'
       }
     },
     '2': {
       'ws://20.71.141.60:9093/': {
-        videoJSMPEG: 'ws://20.71.141.60:9092/',
-        blobsSocket: 'ws://20.71.141.60:4002/'
+        videoJSMPEG: 'ws://80.250.156.232:8082/',
+        blobsSocket: 'ws://localhost:4002/'
       },
       'ws://20.71.141.60:9094/': {
-        videoJSMPEG: 'ws://20.71.141.60:9092/',
-        blobsSocket: 'ws://20.71.141.60:4002/'
+        videoJSMPEG: 'ws://80.250.156.232:8082/',
+        blobsSocket: 'ws://localhost:4002/'
       }
     },
     '3': {
       'ws://20.71.141.60:9095/': {
-        videoJSMPEG: 'ws://20.71.141.60:9092/',
-        blobsSocket: 'ws://20.71.141.60:4002/'
+        videoJSMPEG: 'ws://80.250.156.232:8082/',
+        blobsSocket: 'ws://localhost:4002/'
       },
       'ws://20.71.141.60:9096/': {
         videoJSMPEG: 'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov',
-        blobsSocket: 'ws://20.71.141.60:4002/'
+        blobsSocket: 'ws://localhost:4002/'
       }
     },
   };
