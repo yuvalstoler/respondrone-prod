@@ -3,7 +3,17 @@
 home=$(pwd);
 echo $home
 
-#pm2 delete all;
+pm2 delete CommRelay;
+pm2 delete FollowPath;
+pm2 delete Observation;
+pm2 delete Scan;
+pm2 delete Servoing;
+pm2 delete GraphicOverlay;
+pm2 delete MissionRoute;
+pm2 delete Mission;
+pm2 delete NFZ;
+pm2 delete Logger;
+pm2 delete Discovery;
 pm2 flush;
 
 
@@ -52,6 +62,17 @@ tsc;
 cd dist;
 pm2 start index.js -n NFZ
 ###############################
+cd $home/Logger;
+tsc;
+cd dist;
+pm2 start index.js -n Logger
+###############################
+cd $home/Discovery;
+tsc;
+cd dist;
+pm2 start index.js -n Discovery
+
+###############################
 #cd $home/TelemRcvDrones;
 #tsc;
 #cd dist;
@@ -81,9 +102,4 @@ pm2 start index.js -n NFZ
 #tsc;
 #cd dist;
 #pm2 start index.js -n TelemSndGimbals
-###############################
-#cd $home/Logger;
-#tsc;
-#cd dist;
-#pm2 start index.js -n Logger
 

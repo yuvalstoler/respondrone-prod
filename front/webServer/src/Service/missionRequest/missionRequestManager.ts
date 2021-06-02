@@ -6,13 +6,13 @@ import {RequestManager} from '../../AppService/restConnections/requestManager';
 
 import {
     ASYNC_RESPONSE,
-    COMM_RELAY_TYPE, FR_DATA_UI,
+    COMM_RELAY_TYPE,
+    FR_DATA_UI,
     ID_OBJ,
     ID_TYPE,
     MISSION_REQUEST_ACTION_OBJ,
     MISSION_REQUEST_DATA,
     MISSION_REQUEST_DATA_UI,
-    MISSION_STATUS_UI,
     MISSION_TYPE,
     REP_OBJ_KEY,
     REPORT_DATA,
@@ -222,8 +222,8 @@ export class MissionRequestManager {
             const missionRequestDataUI: MISSION_REQUEST_DATA_UI = missionRequest.toJsonForUI();
             const airVehicle = AirVehicleManager.getAVById(missionRequest[REP_OBJ_KEY[missionRequest.missionType]].droneId);
             let frs: FR_DATA_UI[] = [];
-            if (missionRequest.missionType === MISSION_TYPE.CommRelay) {
-                frs = FrManager.getFRsByIds(missionRequestDataUI.commRelayMissionRequest.missionData.FRs);
+            if (missionRequest.missionType === MISSION_TYPE.CommRelay && missionRequestDataUI.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Follow) {
+                frs = FrManager.getFRsByIds(missionRequestDataUI.commRelayMissionRequest.missionData.FRs || []);
             } else if (missionRequest.missionType === MISSION_TYPE.Servoing) {
                 frs = FrManager.getFRsByIds([missionRequestDataUI.servoingMissionRequest.targetId]);
             }

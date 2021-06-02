@@ -1,0 +1,29 @@
+{
+  "serviceName": "",
+
+  "EntityService": {
+    "port": "4700",
+    "host": "localhost",
+    "protocol": "http",
+
+    "schemas": {
+      "entity": "../../../schemas/Repository Ent/Discovery/repDiscoveryService.v1.json"
+    },
+    "routes": {
+      "update": "/updateDiscovery",
+      "getAll": "/getAllDiscovery"
+    },
+    "entityArrKey": "repDiscoveryServices",
+    "keepAliveInterval": 5000
+  },
+  "Mongo": {
+    "db": "repository",
+    "url": "mongodb://localhost:27017/",
+    "col": "DiscoveryService"
+  },
+  "LogsMongo": {
+    "db": "repositoryLogs",
+    "url": "mongodb://localhost:27017/",
+    "col": "log"
+  }
+}
