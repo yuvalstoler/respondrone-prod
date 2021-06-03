@@ -40,11 +40,11 @@ export class GeoInstructionsListComponent implements OnInit {
     switch (geoInstruction.type) {
       case GEOGRAPHIC_INSTRUCTION_TYPE.address:
         this.locationService.deleteLocationPoint(geoInstruction.id);
-        this.mapGeneralService.deleteIcon(geoInstruction.id);
+        this.mapGeneralService.hideIcon(geoInstruction.id);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.point:
         this.locationService.deleteLocationPoint(geoInstruction.id);
-        this.mapGeneralService.deleteIcon(geoInstruction.id);
+        this.mapGeneralService.hideIcon(geoInstruction.id);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.arrow:
         this.mapGeneralService.hideArrowPolyline(geoInstruction.id);
