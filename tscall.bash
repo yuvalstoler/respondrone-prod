@@ -4,46 +4,44 @@ home=$(pwd);
 echo $home
 
 cd $home/back/Auth;
-npm i;
+tsc;
 
 cd $home/back/CCGW;
-npm i;
+tsc;
 
 cd $home/back/DBS;
-npm i;
+tsc;
 
 cd $home/back/ES;
-npm i;
+tsc;
 
 cd $home/back/FRS;
-npm i;
+tsc;
 
 cd $home/back/FS;
-npm i;
+tsc;
 
 cd $home/back/GS;
-npm i;
+tsc;
 
 cd $home/back/MS;
-npm i;
+tsc;
 
 cd $home/back/RS;
-npm i;
+tsc;
 
 cd $home/back/StatusService;
-npm i;
+tsc;
 
 #cd $home/back/TMM;
-#npm i;
+#tsc;
 
 cd $home/back/TS;
-npm i;
+tsc;
 
 cd $home/front/webServer;
-npm i;
+tsc;
 
 cd $home/front/oscc;
-npm i;
+ng build;
 
-cd $home/front/UI;
-npm i;
