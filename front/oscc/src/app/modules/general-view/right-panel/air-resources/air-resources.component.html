@@ -84,11 +84,11 @@
         </div>
         <!--TTL-->
         <div class="item5">
-          <span class="title">TTL: </span> {{airVehicle.remainingTimeFlight}}
+          <span class="title">TTL: </span> {{airVehicle.remainingTimeFlight === undefined ? 'N/A' : airVehicle.remainingTimeFlight}}
         </div>
         <!--Alt-->
         <div class="item6">
-          <span class="title">Alt: </span> {{airVehicle.altitudeAGL | number: '1.0-2'}}
+          <span class="title">Alt: </span> {{airVehicle.altitudeAGL === undefined ? 'N/A' : airVehicle.remainingTimeFlight | number: '1.0-2'}}
         </div>
         <!--Speed-->
         <div class="item7">
@@ -198,11 +198,11 @@
         </div>
         <!--TTL-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item5">
-        <span class="title">TTL: </span> {{airVehicle.remainingTimeFlight}} min
+        <span class="title">TTL: </span> {{airVehicle.remainingTimeFlight === undefined ? 'N/A' : airVehicle.remainingTimeFlight}} min
         </div>
         <!--Alt-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item6">
-        <span class="title">Alt: </span> {{airVehicle.altitudeAGL | number: '1.0-2'}} m
+        <span class="title">Alt: </span> {{airVehicle.altitudeAGL === undefined ? 'N/A' : airVehicle.altitudeAGL | number: '1.0-2'}} m
         </div>
         <!--Alt ASL-->
         <!--<div *ngIf="isOpenMenu[airVehicle.id]" class="item9">-->

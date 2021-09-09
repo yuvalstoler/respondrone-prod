@@ -8,7 +8,8 @@ export const environment = {
 
 
 // =================   localhost   ===================
-const baseUrl = 'http://localhost:5000';
+const hostname = location.hostname;
+const baseUrl = `http://${hostname}:5000`;
 
 export const WEB_SERVER = `${baseUrl}/api`;
 

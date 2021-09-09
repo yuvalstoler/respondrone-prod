@@ -51,7 +51,7 @@ export class DiscoveryManager {
             const port = (obj.port && !isNaN(Number(obj.port))) ? ':' + Number(obj.port) : '';
             const url = ip + port;
 
-            this.sendGetRestRequestPromise(url, 'status', {})
+            this.sendGetRestRequestPromise(url, '', {})
                 .then((data) => {
                     if (obj.keepAliveStatus === DISCOVERY_STATUS.Down) {
                         DbManager.update({id: obj.id}, {$set: {'keepAliveStatus': DISCOVERY_STATUS.Ok}})
@@ -118,7 +118,7 @@ export class DiscoveryManager {
                 timeout: keepAliveInterval - 500,
             }, (error, response, body) => {
 
-                if ( error != null || typeof body !== 'object' || body.error) {
+                if ( error != null || (path !== '' && (typeof body !== 'object' || body.error))) {
                     // res.data = error;
                     reject(res);
                     return null;

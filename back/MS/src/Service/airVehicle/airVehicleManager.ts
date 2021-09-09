@@ -104,15 +104,15 @@ export class AirVehicleManager {
                 }
             ]
         };
-        setInterval(() => {
-            data.timestamp.timestamp = Date.now();
-            data.drones.forEach(drone => {
-                drone.location.lat = 42.0 + Math.random() * (0.2 + 0.1) - 0.1;
-                drone.location.lon = 9.95493 + Math.random() * (0.2 + 0.1) - 0.1;
-            });
-
-            this.onGetAirVehicles(data);
-        }, 1000);
+        // setInterval(() => {
+        //     data.timestamp.timestamp = Date.now();
+        //     data.drones.forEach(drone => {
+        //         drone.location.lat = 42.0 + Math.random() * (0.2 + 0.1) - 0.1;
+        //         drone.location.lon = 9.95493 + Math.random() * (0.2 + 0.1) - 0.1;
+        //     });
+        //
+        //     this.onGetAirVehicles(data);
+        // }, 1000);
     }
 
     private startGetSocket = () => {

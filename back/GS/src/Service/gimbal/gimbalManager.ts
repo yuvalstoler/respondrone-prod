@@ -34,131 +34,131 @@ export class GimbalManager {
     videoUrlKeys = Object.values(VIDEO_URL_KEY);
 
     private constructor() {
-        const date = Date.now();
-        const data: GIMBAL_DATA_TELEMETRY = {
-            timestamp: {
-                timestamp: 0
-            },
-            gimbals: [
-                {
-                    'id': '1',
-                    'droneId': '1',
-                    'AIMode': 0,
-                    'gimbalParameters': {
-                        'pitch': -10,
-                        'yaw': -10
-                    },
-                    'visibleCameraParameters': {
-                        'zoomVisibleCamera': 4
-                    },
-                    'infraredCameraParameters': {
-                        'zoomInfraredCamera': 5,
-                        'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
-                    },
-                    'trackedEntity': 0,
-                    'cameraLookAtPoint': {
-                        'lat': 42.3200,
-                        'lon': 9.2117,
-                        'alt': 0
-                    },
-                    cameraFootprint: {
-                        coordinates: []
-                    },
-                    'opticalVideoURL': 'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov',
-                    'infraredVideoURL': 'ws://80.250.156.232:8082/'
-                },
-                {
-                    'id': '2',
-                    'droneId': '2',
-                    'AIMode': 0,
-                    'gimbalParameters': {
-                        'pitch': -10,
-                        'yaw': -10
-                    },
-                    'visibleCameraParameters': {
-                        'zoomVisibleCamera': 4
-                    },
-                    'infraredCameraParameters': {
-                        'zoomInfraredCamera': 5,
-                        'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
-                    },
-                    'trackedEntity': 0,
-                    'cameraLookAtPoint': {
-                        'lat': 42.3200,
-                        'lon': 9.2117,
-                        'alt': 0
-                    },
-                    cameraFootprint: {
-                        coordinates: []
-                    },
-                    'opticalVideoURL': 'ws://20.71.141.60:9093/',
-                    'infraredVideoURL': 'ws://20.71.141.60:9094/'
-                },
-                {
-                    'id': '3',
-                    'droneId': '3',
-                    'AIMode': 0,
-                    'gimbalParameters': {
-                        'pitch': -10,
-                        'yaw': -10
-                    },
-                    'visibleCameraParameters': {
-                        'zoomVisibleCamera': 4
-                    },
-                    'infraredCameraParameters': {
-                        'zoomInfraredCamera': 5,
-                        'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
-                    },
-                    'trackedEntity': 0,
-                    'cameraLookAtPoint': {
-                        'lat': 42.3200,
-                        'lon': 9.2117,
-                        'alt': 0
-                    },
-                    cameraFootprint: {
-                        coordinates: []
-                    },
-                    'opticalVideoURL': 'ws://20.71.141.60:9095/',
-                    'infraredVideoURL': 'ws://20.71.141.60:9096/'
-                }
-            ]
-
-        };
-        setInterval(() => {
-            data.gimbals.forEach(drone => {
-                drone.cameraLookAtPoint.lat = 42.0 + Math.random() * (0.02 + 0.01) - 0.01;
-                drone.cameraLookAtPoint.lon = 9.95493 + Math.random() * (0.02 + 0.01) - 0.01;
-                drone.cameraFootprint.coordinates =
-                [
-                    {
-                        'lat': 42.05,
-                        'lon': 9.94493,
-                        'alt': 0
-                    },
-                    {
-                        'lat': 42.05 + Math.random() * (0.02 + 0.01) - 0.01,
-                        'lon': 9.98493 + Math.random() * (0.02 + 0.01) - 0.01,
-                        'alt': 0
-                    },
-                    {
-                        'lat': 41.95 + Math.random() * (0.02 + 0.01) - 0.01,
-                        'lon': 9.98493 + Math.random() * (0.02 + 0.01) - 0.01,
-                        'alt': 0
-                    },
-                    {
-                        'lat': 41.95 + Math.random() * (0.02 + 0.01) - 0.01,
-                        'lon': 9.94493 + Math.random() * (0.02 + 0.01) - 0.01,
-                        'alt': 0
-                    },
-                    {
-                        'lat': 42.05,
-                        'lon': 9.94493,
-                        'alt': 0
-                    }
-                ];
-            });
-            this.onGetGimbals(data);
-        }, 1000);
+        // const date = Date.now();
+        // const data: GIMBAL_DATA_TELEMETRY = {
+        //     timestamp: {
+        //         timestamp: 0
+        //     },
+        //     gimbals: [
+        //         {
+        //             'id': '1',
+        //             'droneId': '1',
+        //             'AIMode': 0,
+        //             'gimbalParameters': {
+        //                 'pitch': -10,
+        //                 'yaw': -10
+        //             },
+        //             'visibleCameraParameters': {
+        //                 'zoomVisibleCamera': 4
+        //             },
+        //             'infraredCameraParameters': {
+        //                 'zoomInfraredCamera': 5,
+        //                 'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
+        //             },
+        //             'trackedEntity': 0,
+        //             'cameraLookAtPoint': {
+        //                 'lat': 42.3200,
+        //                 'lon': 9.2117,
+        //                 'alt': 0
+        //             },
+        //             cameraFootprint: {
+        //                 coordinates: []
+        //             },
+        //             'opticalVideoURL': 'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov',
+        //             'infraredVideoURL': 'ws://80.250.156.232:8082/'
+        //         },
+        //         {
+        //             'id': '2',
+        //             'droneId': '2',
+        //             'AIMode': 0,
+        //             'gimbalParameters': {
+        //                 'pitch': -10,
+        //                 'yaw': -10F
+        //             },
+        //             'visibleCameraParameters': {
+        //                 'zoomVisibleCamera': 4
+        //             },F
+        //             'infraredCameraParameters': {
+        //                 'zoomInfraredCamera': 5,
+        //                 'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
+        //             },
+        //             'trackedEntity': 0,
+        //             'cameraLookAtPoint': {
+        //                 'lat': 42.3200,
+        //                 'lon': 9.2117,
+        //                 'alt': 0
+        //             },
+        //             cameraFootprint: {
+        //                 coordinates: []
+        //             },
+        //             'opticalVideoURL': 'ws://20.71.141.60:9093/',
+        //             'infraredVideoURL': 'ws://20.71.141.60:9094/'
+        //         },
+        //         {
+        //             'id': '3',
+        //             'droneId': '3',
+        //             'AIMode': 0,
+        //             'gimbalParameters': {
+        //                 'pitch': -10,
+        //                 'yaw': -10
+        //             },
+        //             'visibleCameraParameters': {
+        //                 'zoomVisibleCamera': 4
+        //             },
+        //             'infraredCameraParameters': {
+        //                 'zoomInfraredCamera': 5,
+        //                 'colorPaletteInfraredCamera': COLOR_PALETTE_INFRARED_CAMERA.Arctic
+        //             },
+        //             'trackedEntity': 0,
+        //             'cameraLookAtPoint': {
+        //                 'lat': 42.3200,
+        //                 'lon': 9.2117,
+        //                 'alt': 0
+        //             },
+        //             cameraFootprint: {
+        //                 coordinates: []
+        //             },
+        //             'opticalVideoURL': 'ws://20.71.141.60:9095/',
+        //             'infraredVideoURL': 'ws://20.71.141.60:9096/'
+        //         }
+        //     ]
+        //
+        // };
+        // setInterval(() => {
+        //     data.gimbals.forEach(drone => {
+        //         drone.cameraLookAtPoint.lat = 42.0 + Math.random() * (0.02 + 0.01) - 0.01;
+        //         drone.cameraLookAtPoint.lon = 9.95493 + Math.random() * (0.02 + 0.01) - 0.01;
+        //         drone.cameraFootprint.coordinates =
+        //         [
+        //             {
+        //                 'lat': 42.05,
+        //                 'lon': 9.94493,
+        //                 'alt': 0
+        //             },
+        //             {
+        //                 'lat': 42.05 + Math.random() * (0.02 + 0.01) - 0.01,
+        //                 'lon': 9.98493 + Math.random() * (0.02 + 0.01) - 0.01,
+        //                 'alt': 0
+        //             },
+        //             {
+        //                 'lat': 41.95 + Math.random() * (0.02 + 0.01) - 0.01,
+        //                 'lon': 9.98493 + Math.random() * (0.02 + 0.01) - 0.01,
+        //                 'alt': 0
+        //             },
+        //             {
+        //                 'lat': 41.95 + Math.random() * (0.02 + 0.01) - 0.01,
+        //                 'lon': 9.94493 + Math.random() * (0.02 + 0.01) - 0.01,
+        //                 'alt': 0
+        //             },
+        //             {
+        //                 'lat': 42.05,
+        //                 'lon': 9.94493,
+        //                 'alt': 0
+        //             }
+        //         ];
+        //     });
+        //     this.onGetGimbals(data);
+        // }, 1000);
     }
 
     private startGetSocket = () => {
