@@ -76,7 +76,7 @@ export class MissionDialogComponent implements OnInit {
       scan: {
         speed: undefined,
         overlapPercent: null,
-        cameraFov: null
+        cameraFov: 60
       },
       yawOrientation: this.yawOrientationTypes[0],
     },
