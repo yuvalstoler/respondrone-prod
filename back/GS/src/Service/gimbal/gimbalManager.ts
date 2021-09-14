@@ -64,7 +64,7 @@ export class GimbalManager {
                     cameraFootprint: {
                         coordinates: []
                     },
-                    'opticalVideoURL': 'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov',
+                    'opticalVideoURL': 'rtsp://iai-video1-drone1.simplex-c2.com:8554/drone1',
                     'infraredVideoURL': 'ws://80.250.156.232:8082/'
                 },
                 {
