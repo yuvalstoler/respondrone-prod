@@ -85,8 +85,8 @@ export class GimbalManager {
                     },
                     'trackedEntity': 0,
                     'cameraLookAtPoint': {
-                        'lat': 42.3200,
-                        'lon': 9.2117,
+                        'lat': lat + 0.0005,
+                        'lon': lon,
                         'alt': 0
                     },
                     cameraFootprint: {
