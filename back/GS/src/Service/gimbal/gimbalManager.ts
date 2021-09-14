@@ -34,6 +34,7 @@ export class GimbalManager {
     videoUrlKeys = Object.values(VIDEO_URL_KEY);
 
     private constructor() {
+        const lon = -3.1335, lat = 38.0941;
         const date = Date.now();
         const data: GIMBAL_DATA_TELEMETRY = {
             timestamp: {
@@ -57,8 +58,8 @@ export class GimbalManager {
                     },
                     'trackedEntity': 0,
                     'cameraLookAtPoint': {
-                        'lat': 42.3200,
-                        'lon': 9.2117,
+                        'lat': lat,
+                        'lon': lon,
                         'alt': 0
                     },
                     cameraFootprint: {
@@ -111,8 +112,8 @@ export class GimbalManager {
                     },
                     'trackedEntity': 0,
                     'cameraLookAtPoint': {
-                        'lat': 42.3200,
-                        'lon': 9.2117,
+                        'lat': lat,
+                        'lon': lon,
                         'alt': 0
                     },
                     cameraFootprint: {
@@ -125,38 +126,38 @@ export class GimbalManager {
 
         };
         setInterval(() => {
-            data.gimbals.forEach(drone => {
-                drone.cameraLookAtPoint.lat = 42.0 + Math.random() * (0.02 + 0.01) - 0.01;
-                drone.cameraLookAtPoint.lon = 9.95493 + Math.random() * (0.02 + 0.01) - 0.01;
-                drone.cameraFootprint.coordinates =
-                [
-                    {
-                        'lat': 42.05,
-                        'lon': 9.94493,
-                        'alt': 0
-                    },
-                    {
-                        'lat': 42.05 + Math.random() * (0.02 + 0.01) - 0.01,
-                        'lon': 9.98493 + Math.random() * (0.02 + 0.01) - 0.01,
-                        'alt': 0
-                    },
-                    {
-                        'lat': 41.95 + Math.random() * (0.02 + 0.01) - 0.01,
-                        'lon': 9.98493 + Math.random() * (0.02 + 0.01) - 0.01,
-                        'alt': 0
-                    },
-                    {
-                        'lat': 41.95 + Math.random() * (0.02 + 0.01) - 0.01,
-                        'lon': 9.94493 + Math.random() * (0.02 + 0.01) - 0.01,
-                        'alt': 0
-                    },
-                    {
-                        'lat': 42.05,
-                        'lon': 9.94493,
-                        'alt': 0
-                    }
-                ];
-            });
+            // data.gimbals.forEach(drone => {
+            //     drone.cameraLookAtPoint.lat = 42.0 + Math.random() * (0.02 + 0.01) - 0.01;
+            //     drone.cameraLookAtPoint.lon = 9.95493 + Math.random() * (0.02 + 0.01) - 0.01;
+            //     drone.cameraFootprint.coordinates =
+            //     [
+            //         {
+            //             'lat': 42.05,
+            //             'lon': 9.94493,
+            //             'alt': 0
+            //         },
+            //         {
+            //             'lat': 42.05 + Math.random() * (0.02 + 0.01) - 0.01,
+            //             'lon': 9.98493 + Math.random() * (0.02 + 0.01) - 0.01,
+            //             'alt': 0
+            //         },
+            //         {
+            //             'lat': 41.95 + Math.random() * (0.02 + 0.01) - 0.01,
+            //             'lon': 9.98493 + Math.random() * (0.02 + 0.01) - 0.01,
+            //             'alt': 0
+            //         },
+            //         {
+            //             'lat': 41.95 + Math.random() * (0.02 + 0.01) - 0.01,
+            //             'lon': 9.94493 + Math.random() * (0.02 + 0.01) - 0.01,
+            //             'alt': 0
+            //         },
+            //         {
+            //             'lat': 42.05,
+            //             'lon': 9.94493,
+            //             'alt': 0
+            //         }
+            //     ];
+            // });
             this.onGetGimbals(data);
         }, 1000);
     }
