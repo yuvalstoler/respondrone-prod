@@ -28,7 +28,7 @@ export class ReportMediaComponent implements OnInit, OnDestroy {
   progressInfos: PROGRESS_INFO[] = [];
   file;
 
-  itemsInPage = 1;
+  itemsInPage = 3;
   currentPage = 0;
 
   constructor(private http: HttpClient,

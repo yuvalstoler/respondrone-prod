@@ -7,7 +7,7 @@
   "chatServer": {
     "domain": "iai-chat-integ.simplex-c2.com",
     "boshUrl": "http://iai-chat-integ.simplex-c2.com:7070/http-bind/",
-    "chatGroupService": "conference"
+    "chatGroupService": "test1"
   },
 
   "FS": {

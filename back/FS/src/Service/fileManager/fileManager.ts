@@ -22,6 +22,9 @@ import { RequestManager } from '../../AppService/restConnections/requestManager'
 const url_FS = services.FS.protocol + '://' + services.FS.host + ':' + services.FS.port;
 const url_VideoStreamService = services.VSS.protocol + '://' + services.VSS.host + ':' + services.VSS.port;
 const uploadsPath = path.join(__dirname, '../../../../../../uploads');
+if ( !fs.existsSync(uploadsPath) ) {
+    fs.mkdirSync(uploadsPath);
+}
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {

@@ -81,6 +81,8 @@ export class ChatService {
           this.startConnection(chatPassword);
         }
       });
+
+      this.startConnection(chatPassword);
     }
   }
   // ----------------
