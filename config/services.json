@@ -5,8 +5,8 @@
     "protocol": "http"
   },
   "chatServer": {
-    "domain": "20.71.141.60",
-    "boshUrl": "http://20.71.141.60:7070/http-bind/",
+    "domain": "iai-chat-integ.simplex-c2.com",
+    "boshUrl": "http://iai-chat-integ.simplex-c2.com:7070/http-bind/",
     "chatGroupService": "conference"
   },
 
@@ -84,7 +84,7 @@
   },
   "MG": {
     "port": "9700",
-    "host": "192.168.1.52",
+    "host": "localhost",
     "protocol": "http"
   },
   "CCG": {
@@ -134,74 +134,74 @@
 
   "FRTelemetryReceiverRep": {
     "port": "4702",
-    "host": "localhost",
+    "host": "iai-resp-repository-integ.simplex-c2.com",
     "protocol": "http"
   },
   "DroneTelemetrySenderRep": {
     "port": "4704",
-    "host": "localhost",
+    "host": "iai-resp-repository-integ.simplex-c2.com",
     "protocol": "http"
   },
   "GimbalTelemetrySenderRep": {
     "port": "4706",
-    "host": "localhost",
+    "host": "iai-resp-repository-integ.simplex-c2.com",
     "protocol": "http"
   },
 
 
   "CommRelayMissionRep": {
     "port": "4600",
-    "host": "localhost",
+    "host": "iai-resp-repository-integ.simplex-c2.com",
     "protocol": "http"
   },
   "PatrolMissionRep": {
     "port": "4601",
-    "host": "localhost",
+    "host": "iai-resp-repository-integ.simplex-c2.com",
     "protocol": "http"
   },
   "GraphicOverlayRep": {
     "port": "4602",
-    "host": "localhost",
+    "host": "iai-resp-repository-integ.simplex-c2.com",
     "protocol": "http"
   },
   "MissionRouteRep": {
     "port": "4603",
-    "host": "localhost",
+    "host": "iai-resp-repository-integ.simplex-c2.com",
     "protocol": "http"
   },
   "MissionRep": {
     "port": "4604",
-    "host": "localhost",
+    "host": "iai-resp-repository-integ.simplex-c2.com",
     "protocol": "http"
   },
   "NFZRep": {
     "port": "4605",
-    "host": "localhost",
+    "host": "iai-resp-repository-integ.simplex-c2.com",
     "protocol": "http"
   },
   "ObservationMissionRep": {
     "port": "4606",
-    "host": "localhost",
+    "host": "iai-resp-repository-integ.simplex-c2.com",
     "protocol": "http"
   },
   "ScanMissionRep": {
     "port": "4607",
-    "host": "localhost",
+    "host": "iai-resp-repository-integ.simplex-c2.com",
     "protocol": "http"
   },
   "ServoingMissionRep": {
     "port": "4608",
-    "host": "localhost",
+    "host": "iai-resp-repository-integ.simplex-c2.com",
     "protocol": "http"
   },
   "DeliveryMissionRep": {
     "port": "4609",
-    "host": "localhost",
+    "host": "iai-resp-repository-integ.simplex-c2.com",
     "protocol": "http"
   },
   "DiscoveryRep": {
     "port": "4700",
-    "host": "localhost",
+    "host": "iai-resp-repository-integ.simplex-c2.com",
     "protocol": "http"
   },
 
