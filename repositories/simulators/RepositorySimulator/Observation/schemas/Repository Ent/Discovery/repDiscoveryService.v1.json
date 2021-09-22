@@ -34,12 +34,12 @@
     "system": {
       "type": "string",
       "enum": [
-        "TMM",
-        "GCS",
+                "TMM",
+        "ANC",
+        "THALES",
         "OSCC",
-        "FR",
-        "Media",
-        "Collaboration"
+        "Repositories",
+        "CEA"
       ]
     },
     "version": {

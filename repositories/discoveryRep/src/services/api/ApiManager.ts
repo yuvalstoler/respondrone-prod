@@ -115,6 +115,7 @@ export class ApiManager implements IRest {
 
         delete body.version;
         delete body.keepAliveStatus;
+        delete body.system;
         // body.lastAction = LAST_ACTION.Update;
         // body.collectionVersion = DbManager.createCollectionVersion();
 
