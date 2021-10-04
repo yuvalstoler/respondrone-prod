@@ -48,7 +48,11 @@ export class GroundResourcesComponent implements OnInit, OnDestroy {
     });
     this.contextMenuService.matMenuTrigger$.subscribe((res) => {
       if (this.matMenuTrigger) {
-        this.matMenuTrigger.closeMenu();
+        try {
+          this.matMenuTrigger.closeMenu();
+        } catch (e) {
+          console.log(e);
+        }
       }
     });
   }
@@ -94,7 +98,12 @@ export class GroundResourcesComponent implements OnInit, OnDestroy {
 
   onSelect = (item: FR_DATA_UI) => {
     if (this.matMenuTrigger) {
-      this.matMenuTrigger.closeMenu();
+      try {
+        this.matMenuTrigger.closeMenu();
+      } catch (e) {
+        console.log(e);
+      }
+
     }
     this.frService.unselectIcon(this.frService.selectedElement);
     this.frService.selectedElement = (this.frService.selectedElement && this.frService.selectedElement.id === item.id) ? undefined : item;
@@ -116,7 +125,12 @@ export class GroundResourcesComponent implements OnInit, OnDestroy {
       this.matMenuTrigger.menu.focusFirstItem('mouse');
 
       if (this.matMenuTrigger['_menuOpen']) {
-        this.matMenuTrigger.closeMenu();
+        try {
+          this.matMenuTrigger.closeMenu();
+        } catch (e) {
+          console.log(e);
+        }
+
         if (this.selectedElement !== id) {
           this.selectedElement = id;
           this.matMenuTrigger.openMenu();

@@ -1,6 +1,7 @@
 import {MissionRequest} from '../../../../../classes/dataClasses/missionRequest/missionRequest';
 import {
-    ASYNC_RESPONSE, FR_DATA,
+    ASYNC_RESPONSE,
+    FR_DATA,
     ID_OBJ,
     ID_TYPE,
     LAST_ACTION,
@@ -20,7 +21,8 @@ import {
 import {
     CommRelayMissionRep_API,
     DBS_API,
-    DeliveryMissionRep_API, FRS_API,
+    DeliveryMissionRep_API,
+    FRS_API,
     ObservationMissionRep_API,
     PatrolMissionRep_API,
     ScanMissionRep_API,
@@ -532,6 +534,21 @@ export class MissionRequestManager {
                         case MISSION_REQUEST_ACTION.Cancel: {
                             missionDataForRep.lastAction = LAST_ACTION.Update;
                             missionDataForRep[REP_OBJ_KEY[missionRequest.missionType]].status = MISSION_STATUS.Cancelled;
+                            break;
+                        }
+                        case MISSION_REQUEST_ACTION.Delete: {
+                            this.deleteMissionFromDB({id: missionRequest.id})
+                                .then((dataRes: ASYNC_RESPONSE) => {
+                                    MissionRouteManager.deleteMissionRouteByRequestId(missionRequest.id)
+                                        .then((dataRes2: ASYNC_RESPONSE) => {
+                                        })
+                                        .catch((dataRes2: ASYNC_RESPONSE) => {
+                                        });
+                                    resolve(dataRes);
+                                })
+                                .catch((dataRes: ASYNC_RESPONSE) => {
+                                    reject(dataRes);
+                                });
                             break;
                         }
                     }

@@ -85,11 +85,16 @@ export class MissionsMissionControlComponent implements OnInit {
         }
       }
       else {
-        const data: MISSION_REQUEST_ACTION_OBJ = {
-          missionRequestId: this.applicationService.selectedMissionRequests[0].id,
-          action: action
-        };
-        this.missionRequestService.sendMissionRequestAction(data);
+        if (action === MISSION_REQUEST_ACTION.Delete) {
+          this.openConfirmationDialog(action);
+        }
+        else {
+          const data: MISSION_REQUEST_ACTION_OBJ = {
+            missionRequestId: this.applicationService.selectedMissionRequests[0].id,
+            action: action
+          };
+          this.missionRequestService.sendMissionRequestAction(data);
+        }
       }
 
     }

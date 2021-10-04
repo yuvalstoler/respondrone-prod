@@ -93,10 +93,14 @@ export class GeoInstructionsComponent implements OnInit, AfterViewChecked {
   }
 
   onAddInstruction = () => {
-    if (this.isNotSaveGeoInstructions) {
-      this.triggerBtn.closeMenu();
-    } else {
-      this.triggerBtn.openMenu();
+    try {
+      if (this.isNotSaveGeoInstructions) {
+        this.triggerBtn.closeMenu();
+      } else {
+        this.triggerBtn.openMenu();
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 

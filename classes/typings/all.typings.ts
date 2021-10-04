@@ -520,6 +520,7 @@ export enum MISSION_REQUEST_ACTION {
     Reject = 'Reject',
     Cancel = 'Cancel',
     Complete = 'Complete',
+    Delete = 'Delete',
 }
 
 

@@ -11,6 +11,7 @@
   "eventTypes": [
     "General",
     "Emergency",
+    "Fire",
     "Criminal",
     "Terror",
     "Accident",

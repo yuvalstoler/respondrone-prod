@@ -52,6 +52,12 @@
         <span [ngStyle]="{'color': '#92d150', 'font-size': '12px'}" class="material-icons">fiber_manual_record</span>
         Complete
       </button>
+      <button (click)="onMissionRequestAction(MISSION_REQUEST_ACTION.Delete)"
+              *ngIf="applicationService?.selectedMissionRequests[0]?.modeDefine?.data?.actionOptions[MISSION_REQUEST_ACTION.Delete]"
+              mat-menu-item>
+        <span [ngStyle]="{'color': '#92d150', 'font-size': '12px'}" class="material-icons">fiber_manual_record</span>
+        Delete
+      </button>
     </mat-menu>
 
     <div (click)="onCreateNewMission()"

@@ -160,6 +160,24 @@ export class MissionRouteManager {
         return this.missionRoutes.find(element => element.requestId === requestId)
     }
     // -----------------------
+    private deleteMissionRouteByRequestId = (requestId: ID_TYPE): Promise<ASYNC_RESPONSE> => {
+        return new Promise((resolve, reject) => {
+            const mission = this.getMissionRouteByRequestId(requestId);
+            if (mission) {
+                this.deleteMissionFromDB({id: mission.id})
+                    .then((data) => {
+                        resolve(data);
+                    })
+                    .catch((data) => {
+                        reject(data);
+                    });
+            }
+            else {
+                reject({success: false, data: 'mission doesnt exist'});
+            }
+        })
+    }
+    // -----------------------
     private onApproveMissionRoute = () => {
         // TODO change
         setTimeout(() => {
@@ -234,6 +252,7 @@ export class MissionRouteManager {
     public static getMissionRoutes = MissionRouteManager.instance.getMissionRoutes;
     public static getMissionRouteById = MissionRouteManager.instance.getMissionRouteById;
     public static getMissionRouteByRequestId = MissionRouteManager.instance.getMissionRouteByRequestId;
+    public static deleteMissionRouteByRequestId = MissionRouteManager.instance.deleteMissionRouteByRequestId;
     public static onApproveMissionRoute = MissionRouteManager.instance.onApproveMissionRoute;
 
 

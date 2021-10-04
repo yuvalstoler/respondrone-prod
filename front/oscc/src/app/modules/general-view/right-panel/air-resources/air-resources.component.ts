@@ -27,7 +27,7 @@ export class AirResourcesComponent implements OnInit {
   @ViewChild(MatMenuTrigger, {static: false}) matMenuTrigger: MatMenuTrigger;
   menuTopLeftPosition =  {x: '0', y: '0'};
   selectedElement: string;
-  
+
   isOpenMenu: MAP<any> = {};
   MISSION_TYPE = MISSION_TYPE;
   OPERATIONAL_STATUS = OPERATIONAL_STATUS;
@@ -43,7 +43,12 @@ export class AirResourcesComponent implements OnInit {
   ngOnInit(): void {
     this.contextMenuService.matMenuTrigger$.subscribe((res) => {
       if (this.matMenuTrigger) {
-        this.matMenuTrigger.closeMenu();
+        try {
+          this.matMenuTrigger.closeMenu();
+        } catch (e) {
+          console.log(e);
+        }
+
       }
     });
   }
@@ -59,7 +64,12 @@ export class AirResourcesComponent implements OnInit {
   };
 
   onSelect = (item: AV_DATA_UI) => {
-    this.matMenuTrigger.closeMenu();
+    try {
+      this.matMenuTrigger.closeMenu();
+    } catch (e) {
+      console.log(e);
+    }
+
     this.airVehicleService.unselectIcon(this.airVehicleService.selectedElement);
     this.airVehicleService.selectedElement = (this.airVehicleService.selectedElement && this.airVehicleService.selectedElement.id === item.id) ? undefined : item;
     if (this.airVehicleService.selectedElement) {
@@ -180,7 +190,13 @@ export class AirResourcesComponent implements OnInit {
     this.matMenuTrigger.menu.focusFirstItem('mouse');
 
     if (this.matMenuTrigger['_menuOpen']) {
-      this.matMenuTrigger.closeMenu();
+      try {
+        this.matMenuTrigger.closeMenu();
+      }
+      catch (e) {
+        console.log(e);
+      }
+
       if (this.selectedElement !== id) {
         this.selectedElement = id;
         this.matMenuTrigger.openMenu();

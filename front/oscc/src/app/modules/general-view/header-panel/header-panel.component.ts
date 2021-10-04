@@ -211,10 +211,14 @@ export class HeaderPanelComponent implements OnInit {
   };
 
   closeMatMenu = (matMenuName: string) => {
-    if (matMenuName === 'statuses') {
-      this.loginMenuTrigger.closeMenu();
-    } else if (matMenuName === 'login') {
-      this.statusesMenuTrigger.closeMenu();
+    try {
+      if (matMenuName === 'statuses') {
+        this.loginMenuTrigger.closeMenu();
+      } else if (matMenuName === 'login') {
+        this.statusesMenuTrigger.closeMenu();
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 

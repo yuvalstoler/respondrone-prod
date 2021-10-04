@@ -157,26 +157,37 @@ export class MissionRequestMdLogic implements IModeDefine {
     private static getActionOptions = (data: MISSION_REQUEST_DATA_UI): MISSION_ACTION_OPTIONS => {
         const res: MISSION_ACTION_OPTIONS = {};
 
-        if (data.missionStatus === MISSION_STATUS_UI.New) {
-            res[MISSION_REQUEST_ACTION.Accept] = true;
-            res[MISSION_REQUEST_ACTION.Reject] = true;
+        switch (data.missionStatus) {
+            case MISSION_STATUS_UI.New: {
+                res[MISSION_REQUEST_ACTION.Accept] = true;
+                res[MISSION_REQUEST_ACTION.Reject] = true;
+                break;
+            }
+            case MISSION_STATUS_UI.Pending: {
+                res[MISSION_REQUEST_ACTION.Cancel] = true;
+                break;
+            }
+            case MISSION_STATUS_UI.WaitingForApproval: {
+                res[MISSION_REQUEST_ACTION.Approve] = true;
+                // res[MISSION_REQUEST_ACTION.Reject] = true;
+                res[MISSION_REQUEST_ACTION.Cancel] = true;
+                break;
+            }
+            case MISSION_STATUS_UI.Approved: {
+                res[MISSION_REQUEST_ACTION.Cancel] = true;
+                break;
+            }
+            case MISSION_STATUS_UI.InProgress: {
+                res[MISSION_REQUEST_ACTION.Complete] = true;
+                res[MISSION_REQUEST_ACTION.Cancel] = true;
+                break;
+            }
+            case MISSION_STATUS_UI.Cancelled:
+            case MISSION_STATUS_UI.Completed: {
+                res[MISSION_REQUEST_ACTION.Delete] = true;
+                break;
+            }
         }
-        else if (data.missionStatus === MISSION_STATUS_UI.Pending) {
-            res[MISSION_REQUEST_ACTION.Cancel] = true;
-        }
-        else if (data.missionStatus === MISSION_STATUS_UI.WaitingForApproval) {
-            res[MISSION_REQUEST_ACTION.Approve] = true;
-            // res[MISSION_REQUEST_ACTION.Reject] = true;
-            res[MISSION_REQUEST_ACTION.Cancel] = true;
-        }
-        else if (data.missionStatus === MISSION_STATUS_UI.Approved) {
-            res[MISSION_REQUEST_ACTION.Cancel] = true;
-        }
-        else if (data.missionStatus === MISSION_STATUS_UI.InProgress) {
-            res[MISSION_REQUEST_ACTION.Complete] = true;
-            res[MISSION_REQUEST_ACTION.Cancel] = true;
-        }
-
         res.numOfOptions = Object.keys(res).length;
         return res;
     }
