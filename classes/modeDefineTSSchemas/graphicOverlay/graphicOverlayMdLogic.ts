@@ -88,6 +88,9 @@ export class GraphicOverlayMdLogic implements IModeDefine {
             case 'White':
                 res = MDClass.colors.white;
                 break;
+            case 'Yellow':
+                res = MDClass.colors.yellow;
+                break;
             case 'Grey':
                 res = MDClass.colors.grey;
                 break;
