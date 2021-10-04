@@ -4,7 +4,7 @@ import {RequestManager} from '../../AppService/restConnections/requestManager';
 
 import {
     ASYNC_RESPONSE,
-    CONNECTION_STATUS,
+    CONNECTION_STATUS, MAP,
     MISSION_REQUEST_DATA,
     STATUS_INDICATOR_DATA
 } from '../../../../../classes/typings/all.typings';
@@ -24,13 +24,7 @@ export class StatusManager {
     private static instance: StatusManager = new StatusManager();
 
 
-    statusIndicatorData: STATUS_INDICATOR_DATA = {
-        // webserver: {status: CONNECTION_STATUS.NA, description: ''},
-        // internet: {status: CONNECTION_STATUS.NA, description: ''},
-        repositories: {status: CONNECTION_STATUS.NA, description: ''},
-        tmm: {status: CONNECTION_STATUS.NA, description: ''},
-        thales: {status: CONNECTION_STATUS.NA, description: ''},
-    };
+    statusIndicatorData: STATUS_INDICATOR_DATA = {};
 
     private constructor() {
         this.getStatusFromStatusService();

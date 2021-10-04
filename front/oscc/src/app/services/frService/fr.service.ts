@@ -83,7 +83,7 @@ export class FRService {
       id: this.getId(fr.id),
       modeDefine: fr.modeDefine,
       isShow: this.applicationService.screen.showFRLocations,
-      location: GeoCalculate.geopoint3d_short_to_point3d(fr.location),
+      location: GeoCalculate.geopoint3d_short_to_point3d({lon: fr.location.lon, lat: fr.location.lat, alt: 0}),
       optionsData: fr,
       type: ITEM_TYPE.fr
     };

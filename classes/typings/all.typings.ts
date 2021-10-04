@@ -1206,28 +1206,24 @@ export type VIDEO_URLS_OBJ = {
 export type VIDEO_URLS_DATA = MAP<MAP<VIDEO_URLS_OBJ>>; // {[droneId]: {[visibleCameraUrl]: VIDEO_URLS_OBJ, [infraredCameraUrl]: VIDEO_URLS_OBJ}}
 
 // ======= Status ========
-export enum DISCOVERY_NAME {
-    tmm = 'tmm',
-    thales = 'thales',
-    CommRelay = 'CommRelay',
-    Patrol = 'Patrol',
-    Observation = 'Observation',
-    Scan = 'Scan',
-    Servoing = 'Servoing',
-    Delivery = 'Delivery',
-    Mission = 'Mission',
-    MissionRoute = 'MissionRoute',
-    GraphicOverlay = 'GraphicOverlay',
-    NFZ = 'NFZ',
+export enum DISCOVERY_REPOSITORIES_NAME {
+    repCommRelayMissionRequest = 'repCommRelayMissionRequest',
+    repFollowPathMissionRequest = 'repFollowPathMissionRequest',
+    repGraphicOverlay = 'repGraphicOverlay',
+    reMissionRoute = 'reMissionRoute',
+    repMission = 'repMission',
+    repNFZ = 'repNFZ',
+    repObservationMissionRequest = 'repObservationMissionRequest',
+    repScanMissionRequest = 'repScanMissionRequest',
+    repServoingMissionRequest = 'repServoingMissionRequest',
+    DronesTelReceiver = 'DronesTelReceiver',
+    FRsTelReceiver = 'FRsTelReceiver',
+    GimbalsTelReceiver = 'GimbalsTelReceiver',
+    DronesTelSender = 'DronesTelSender',
+    FRsTelSender = 'FRsTelSender',
+    GimbalsTelSender = 'GimbalsTelSender',
 }
-export type STATUS_INDICATOR_DATA = {
-    webserver?: CONNECTION_STATUS_DATA,
-    internet?: CONNECTION_STATUS_DATA,
-    repositories: CONNECTION_STATUS_DATA,
-    tmm: CONNECTION_STATUS_DATA,
-    thales: CONNECTION_STATUS_DATA,
-    modeDefine?: STATUS_INDICATOR_DATA_MD
-};
+export type STATUS_INDICATOR_DATA = MAP<CONNECTION_STATUS_DATA>;
 
 export type CONNECTION_STATUS_DATA = {
     status: CONNECTION_STATUS,
@@ -1243,13 +1239,7 @@ export enum CONNECTION_STATUS {
 export type STATUS_INDICATOR_DATA_MD = {
     styles: {
         icon: string,
-        colors: {
-            webserver: string,
-            internet: string,
-            repositories: string,
-            tmm: string,
-            thales: string,
-        }
+        colors: MAP<string>
 
     }
 };

@@ -4,7 +4,7 @@ import {
     DISCOVERY_DATA,
     DISCOVERY_DATA_REP,
     REP_OBJ_KEY,
-    STATUS_INDICATOR_DATA, CONNECTION_STATUS, DISCOVERY_NAME, DISCOVERY_STATUS
+    STATUS_INDICATOR_DATA, CONNECTION_STATUS, DISCOVERY_REPOSITORIES_NAME, DISCOVERY_STATUS
 } from '../../../../../classes/typings/all.typings';
 import {RequestManager} from '../../AppService/restConnections/requestManager';
 import {DBS_API, DiscoveryRep_API, GraphicOverlayRep_API} from '../../../../../classes/dataClasses/api/api_enums';
@@ -25,11 +25,7 @@ export class DiscoveryManager {
 
     discovery: DISCOVERY_DATA[] = [];
     statusIndicatorData: STATUS_INDICATOR_DATA = {
-        // webserver: {status: CONNECTION_STATUS.NA, description: ''},
-        // internet: {status: CONNECTION_STATUS.NA, description: ''},
-        repositories: {status: CONNECTION_STATUS.NA, description: ''},
-        tmm: {status: CONNECTION_STATUS.NA, description: ''},
-        thales: {status: CONNECTION_STATUS.NA, description: ''},
+        repositories: {status: CONNECTION_STATUS.NA, description: ''}
     };
 
     private constructor() {
@@ -62,40 +58,27 @@ export class DiscoveryManager {
         if (discoveryData.length > 0) {
             const disconnectedRepositories = {};
             discoveryData.forEach((discoveryObj: DISCOVERY_DATA) => {
-                if (discoveryObj.name === DISCOVERY_NAME.tmm) {
-                    if (discoveryObj.status !== DISCOVERY_STATUS.Ok) {
-                        this.statusIndicatorData.tmm.status = CONNECTION_STATUS.disconnected;
-                        this.statusIndicatorData.tmm.description = discoveryObj.status;
+                if (DISCOVERY_REPOSITORIES_NAME[discoveryObj.name]) {
+                    if (discoveryObj.keepAliveStatus !== DISCOVERY_STATUS.Ok) {
+                        disconnectedRepositories[discoveryObj.name] = 'No keep alive';
                     }
-                    else if (discoveryObj.keepAliveStatus !== DISCOVERY_STATUS.Ok) {
-                        this.statusIndicatorData.tmm.status = CONNECTION_STATUS.disconnected;
-                        this.statusIndicatorData.tmm.description = 'No keep alive';
-                    }
-                    else {
-                        this.statusIndicatorData.tmm.status = CONNECTION_STATUS.connected;
-                        this.statusIndicatorData.tmm.description = '';
-                    }
-                }
-                else if (discoveryObj.name === DISCOVERY_NAME.thales) {
-                    if (discoveryObj.status !== DISCOVERY_STATUS.Ok) {
-                        this.statusIndicatorData.thales.status = CONNECTION_STATUS.disconnected;
-                        this.statusIndicatorData.thales.description = discoveryObj.status;
-                    }
-                    else if (discoveryObj.keepAliveStatus !== DISCOVERY_STATUS.Ok) {
-                        this.statusIndicatorData.thales.status = CONNECTION_STATUS.disconnected;
-                        this.statusIndicatorData.thales.description = 'No keep alive';
-                    }
-                    else {
-                        this.statusIndicatorData.thales.status = CONNECTION_STATUS.connected;
-                        this.statusIndicatorData.thales.description = '';
-                    }
-                }
-                else if (DISCOVERY_NAME[discoveryObj.name]) {
-                    if (discoveryObj.status !== DISCOVERY_STATUS.Ok) {
+                    else if (discoveryObj.status !== DISCOVERY_STATUS.Ok) {
                         disconnectedRepositories[discoveryObj.name] = discoveryObj.status;
                     }
-                    else if (discoveryObj.keepAliveStatus !== DISCOVERY_STATUS.Ok) {
-                        disconnectedRepositories[discoveryObj.name] = 'No keep alive';
+                }
+                else {
+                    this.statusIndicatorData[discoveryObj.name] = this.statusIndicatorData[discoveryObj.name] || {status: CONNECTION_STATUS.NA, description: ''};
+                    if (discoveryObj.keepAliveStatus !== DISCOVERY_STATUS.Ok) {
+                        this.statusIndicatorData[discoveryObj.name].status = CONNECTION_STATUS.disconnected;
+                        this.statusIndicatorData[discoveryObj.name].description = 'No keep alive';
+                    }
+                    else if (discoveryObj.status !== DISCOVERY_STATUS.Ok) {
+                        this.statusIndicatorData[discoveryObj.name].status = CONNECTION_STATUS.disconnected;
+                        this.statusIndicatorData[discoveryObj.name].description = discoveryObj.status;
+                    }
+                    else {
+                        this.statusIndicatorData[discoveryObj.name].status = CONNECTION_STATUS.connected;
+                        this.statusIndicatorData[discoveryObj.name].description = '';
                     }
                 }
             });

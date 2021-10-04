@@ -110,38 +110,20 @@
            (click)="closeMatMenu('statuses')"
            [matMenuTriggerFor]="statuses"
            #statusesMenuTrigger="matMenuTrigger"
-           src="{{statusIndicatorService?.statusData?.data?.modeDefine?.styles?.icon}}">
+           src="{{statusIndicatorService?.modeDefine?.data?.styles?.icon}}">
     </div>
     <mat-menu #statuses="matMenu" >
       <div class="UserName">
         <span>Servers Connections</span>
       </div>
-      <div class="gridStatus">
-        <span class="title">WebServers: </span>
-        <span class="value" [ngStyle]="{'color': statusIndicatorService?.statusData?.data?.modeDefine?.styles?.colors?.webserver}"
-              matTooltip="{{statusIndicatorService?.statusData?.data?.webserver?.description}}" matTooltipPosition="above">
-        {{statusIndicatorService?.statusData?.data?.webserver?.status}}
-      </span>
-        <span class="title">TMM: </span>
-        <span class="value" [ngStyle]="{'color': statusIndicatorService?.statusData?.data?.modeDefine?.styles?.colors?.tmm}"
-              matTooltip="{{statusIndicatorService?.statusData?.data?.tmm?.description}}" matTooltipPosition="above">
-         {{statusIndicatorService?.statusData?.data?.tmm?.status}}
-      </span>
-        <span class="title">Thales: </span>
-        <span class="value" [ngStyle]="{'color': statusIndicatorService?.statusData?.data?.modeDefine?.styles?.colors?.thales}"
-              matTooltip="{{statusIndicatorService?.statusData?.data?.thales?.description}}" matTooltipPosition="above">
-         {{statusIndicatorService?.statusData?.data?.thales?.status}}
-      </span>
-        <span class="title">Data server: </span>
-        <span class="value" [ngStyle]="{'color': statusIndicatorService?.statusData?.data?.modeDefine?.styles?.colors?.repositories}"
-              matTooltip="{{statusIndicatorService?.statusData?.data?.repositories?.description}}" matTooltipPosition="above">
-         {{statusIndicatorService?.statusData?.data?.repositories?.status}}
-      </span>
-        <span class="title">Internet: </span>
-        <span class="value" [ngStyle]="{'color': statusIndicatorService?.statusData?.data?.modeDefine?.styles?.colors?.internet}"
-              matTooltip="{{statusIndicatorService?.statusData?.data?.internet?.description}}" matTooltipPosition="above">
-         {{statusIndicatorService?.statusData?.data?.internet?.status}}
-      </span>
+      <div>
+        <div class="gridStatus" *ngFor="let item of statusIndicatorService?.statusData?.data | keyvalue">
+          <span class="title">{{item.key}}: </span>
+          <span class="value" [ngStyle]="{'color': statusIndicatorService?.modeDefine?.data?.styles?.colors[item.key]}"
+                matTooltip="{{item.value?.description}}" matTooltipPosition="above">
+                {{item.value?.status}}
+          </span>
+        </div>
       </div>
     </mat-menu>
     <!--Entity Search-->

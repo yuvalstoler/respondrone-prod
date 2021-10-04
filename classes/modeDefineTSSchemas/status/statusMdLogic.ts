@@ -54,13 +54,12 @@ export class StatusMdLogic implements IModeDefine {
         }
     }
     private static getColors = (data: STATUS_INDICATOR_DATA) => {
-        const res = {
-            webserver: StatusMdLogic.getColor(data.webserver.status),
-            internet: StatusMdLogic.getColor(data.internet.status),
-            repositories: StatusMdLogic.getColor(data.repositories.status),
-            tmm: StatusMdLogic.getColor(data.tmm.status),
-            thales: StatusMdLogic.getColor(data.thales.status),
-        };
+        const res = {};
+        for (const name in data) {
+            if (data.hasOwnProperty(name)) {
+                res[name] =  StatusMdLogic.getColor(data[name].status)
+            }
+        }
         return res;
     };
 

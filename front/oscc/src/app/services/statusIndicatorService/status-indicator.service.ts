@@ -1,5 +1,9 @@
 import {Injectable} from '@angular/core';
-import {CONNECTION_STATUS, STATUS_INDICATOR_DATA} from '../../../../../../classes/typings/all.typings';
+import {
+  CONNECTION_STATUS,
+  STATUS_INDICATOR_DATA,
+  STATUS_INDICATOR_DATA_MD
+} from '../../../../../../classes/typings/all.typings';
 import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {fromEvent} from 'rxjs';
@@ -12,16 +16,12 @@ import {StatusMdLogic} from '../../../../../../classes/modeDefineTSSchemas/statu
 })
 export class StatusIndicatorService {
 
-  statusData: {data: STATUS_INDICATOR_DATA} = {data: {
-      webserver: {status: CONNECTION_STATUS.NA, description: ''},
-      internet: {status: CONNECTION_STATUS.NA, description: ''},
-      repositories: {status: CONNECTION_STATUS.NA, description: ''},
-      tmm: {status: CONNECTION_STATUS.NA, description: ''},
-      thales: {status: CONNECTION_STATUS.NA, description: ''},
-  }};
+  statusData: {data: STATUS_INDICATOR_DATA} = {data: {}};
 
   isConnectedToWS: boolean = false;
   isConnectedToInternet: boolean = false;
+
+  modeDefine: {data: STATUS_INDICATOR_DATA_MD} = {data: undefined};
 
   constructor(private socketService: SocketService,
               private connectionService: ConnectionService) {
@@ -75,7 +75,15 @@ export class StatusIndicatorService {
   // ----------------------
   private updateStatusData = (data: STATUS_INDICATOR_DATA): void => {
     if (data) {
-      this.statusData.data = data;
+      for (const name in data) {
+        if (this.statusData.data[name]) {
+          this.statusData.data[name].status = data[name].status;
+          this.statusData.data[name].description = data[name].description;
+        }
+        else {
+          this.statusData.data[name] = data[name];
+        }
+      }
       this.updateUIStatuses();
     }
   };
@@ -91,6 +99,6 @@ export class StatusIndicatorService {
       description: ''
     };
 
-    this.statusData.data.modeDefine = StatusMdLogic.validate(this.statusData.data);
+    this.modeDefine.data = StatusMdLogic.validate(this.statusData.data);
   }
 }
