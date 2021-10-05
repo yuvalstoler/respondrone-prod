@@ -655,7 +655,7 @@ export class CesiumDrawerService {
           if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.polygonCE)) {
             if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE].hasOwnProperty(idPolygon) &&
               this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon] !== {} &&
-              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon].polygon) {
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon]/*.polygon*/) {
 
               this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon].show = false;
               res = true;
@@ -677,7 +677,7 @@ export class CesiumDrawerService {
           if (this.cesiumService.cesiumMapObjects[mapDomId].hasOwnProperty(TYPE_OBJECTS_CE.polygonCE)) {
             if (this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE].hasOwnProperty(idPolygon) &&
               this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon] !== {} &&
-              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon].polygon) {
+              this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon]/*.polygon*/) {
 
               this.cesiumService.cesiumMapObjects[mapDomId][TYPE_OBJECTS_CE.polygonCE][idPolygon].show = true;
               res = true;

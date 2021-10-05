@@ -169,6 +169,8 @@ export class GeoInstructionsComponent implements OnInit, AfterViewChecked {
     this.geoInstructionModel.id = this.applicationService.getGeoCounter();
     this.geographicInstructionsModel.push(this.geoInstructionModel);
     this.applicationService.geoCounter = this.geographicInstructionsModel.length;
+
+
     // clear
     this.clearInstruction();
   };
@@ -223,7 +225,7 @@ export class GeoInstructionsComponent implements OnInit, AfterViewChecked {
 
       const idTemp = this.applicationService.getGeoCounter();
       // this.locationService.deleteLocationPointTemp(idTemp);
-      this.locationService.drawLocationFromServer({ lat: lat, lon: lng, alt: 0 }, idTemp);
+      this.locationService.drawLocationFromServer({lat: lat, lon: lng, alt: 0}, idTemp);
       this.mapGeneralService.flyToObject([lng, lat, 0]);
     }
   };
@@ -234,7 +236,8 @@ export class GeoInstructionsComponent implements OnInit, AfterViewChecked {
         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
         this.scrolledToBottom = true;
       }
-    } catch (err) { }
+    } catch (err) {
+    }
   }
 
   onScroll = () => {

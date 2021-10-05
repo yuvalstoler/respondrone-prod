@@ -22,7 +22,7 @@ export class GeoInstructionsListComponent implements OnInit {
 
   @Input() geographicInstructionsModel: GEOGRAPHIC_INSTRUCTION [] = [];
   @Input() isNotViewOnly: boolean = true;
-  @Output() changeGeographicInstructionsModel = new EventEmitter<any[]>();
+  @Output() changeGeographicInstructionsModel$ = new EventEmitter<any[]>();
 
   constructor(public locationService: LocationService,
               public polygonService: PolygonService,
@@ -51,7 +51,9 @@ export class GeoInstructionsListComponent implements OnInit {
         // this.arrowService.deleteArrowPolylineManually(geoInstruction.id);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.polygon:
-        this.mapGeneralService.hidePolygon(geoInstruction.id);
+        // this.mapGeneralService.hidePolygon(geoInstruction.id);
+        this.mapGeneralService.removePolygonManually(geoInstruction.id);
+
         // this.polygonService.deletePolygonManually(geoInstruction.id);
         break;
       case GEOGRAPHIC_INSTRUCTION_TYPE.polyline:
@@ -61,7 +63,7 @@ export class GeoInstructionsListComponent implements OnInit {
     }
     // todo: find index by obj geoInstruction
     this.geographicInstructionsModel.splice(index, 1);
-    this.changeGeographicInstructionsModel.emit(this.geographicInstructionsModel);
+    this.changeGeographicInstructionsModel$.emit(this.geographicInstructionsModel);
   };
 
   flyToInstruction = (geoInstruction: GEOGRAPHIC_INSTRUCTION) => {
@@ -97,7 +99,7 @@ export class GeoInstructionsListComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
     }
-    this.changeGeographicInstructionsModel.emit(this.geographicInstructionsModel);
+    this.changeGeographicInstructionsModel$.emit(this.geographicInstructionsModel);
   };
 
   getIcon = (geoInstruction: GEOGRAPHIC_INSTRUCTION): string => {

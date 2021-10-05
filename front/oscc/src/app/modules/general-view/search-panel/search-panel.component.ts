@@ -91,7 +91,7 @@ export class SearchPanelComponent implements OnInit {
     if (typeof value === 'string') {
       return value;
     } else {
-      if (value.callSign && value.callSign !== undefined) {
+      if (value.callSign) {
         return value.callSign;
       } else if (value.type === AIR_VEHICLE_TYPE.Alpha || value.type === AIR_VEHICLE_TYPE.Dji || value.type === AIR_VEHICLE_TYPE.Pixhawk) {
         return value.name;

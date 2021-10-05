@@ -20,7 +20,7 @@
     <!--List All geoInstructions-->
     <div class="">
       <app-geo-instructions-list
-        (changeGeographicInstructionsModel)="saveGIM(geographicInstructionsModel)"
+        (changeGeographicInstructionsModel$)="saveGIM(geographicInstructionsModel)"
         [geographicInstructionsModel]="geographicInstructionsModel"
         [isNotViewOnly]="true">
       </app-geo-instructions-list>
