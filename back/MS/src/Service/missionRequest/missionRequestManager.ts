@@ -42,6 +42,7 @@ import {RequestManager} from '../../AppService/restConnections/requestManager';
 import {RepositoryManager} from '../repositoryManager/repositoryManager';
 import {MissionRoute} from '../../../../../classes/dataClasses/missionRoute/missionRoute';
 import {MissionRouteManager} from '../missionRoute/missionRouteManager';
+import {MissionManager} from '../mission/missionManager';
 
 const pollingInterval = 5000;
 
@@ -540,10 +541,11 @@ export class MissionRequestManager {
                             this.deleteMissionFromDB({id: missionRequest.id})
                                 .then((dataRes: ASYNC_RESPONSE) => {
                                     MissionRouteManager.deleteMissionRouteByRequestId(missionRequest.id)
-                                        .then((dataRes2: ASYNC_RESPONSE) => {
-                                        })
-                                        .catch((dataRes2: ASYNC_RESPONSE) => {
-                                        });
+                                        .then((dataRes2: ASYNC_RESPONSE) => {})
+                                        .catch((dataRes2: ASYNC_RESPONSE) => {});
+                                    MissionManager.deleteMissionByRequestId(missionRequest.id)
+                                        .then((dataRes2: ASYNC_RESPONSE) => {})
+                                        .catch((dataRes2: ASYNC_RESPONSE) => {});
                                     resolve(dataRes);
                                 })
                                 .catch((dataRes: ASYNC_RESPONSE) => {
