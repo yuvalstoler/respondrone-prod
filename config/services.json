@@ -134,74 +134,74 @@
 
   "FRTelemetryReceiverRep": {
     "port": "4702",
-    "host": "iai-resp-repository-integ.simplex-c2.com",
+    "host": "localhost",
     "protocol": "http"
   },
   "DroneTelemetrySenderRep": {
     "port": "4704",
-    "host": "iai-resp-repository-integ.simplex-c2.com",
+    "host": "localhost",
     "protocol": "http"
   },
   "GimbalTelemetrySenderRep": {
     "port": "4706",
-    "host": "iai-resp-repository-integ.simplex-c2.com",
+    "host": "localhost",
     "protocol": "http"
   },
 
 
   "CommRelayMissionRep": {
     "port": "4600",
-    "host": "iai-resp-repository-integ.simplex-c2.com",
+    "host": "localhost",
     "protocol": "http"
   },
   "PatrolMissionRep": {
     "port": "4601",
-    "host": "iai-resp-repository-integ.simplex-c2.com",
+    "host": "localhost",
     "protocol": "http"
   },
   "GraphicOverlayRep": {
     "port": "4602",
-    "host": "iai-resp-repository-integ.simplex-c2.com",
+    "host": "localhost",
     "protocol": "http"
   },
   "MissionRouteRep": {
     "port": "4603",
-    "host": "iai-resp-repository-integ.simplex-c2.com",
+    "host": "localhost",
     "protocol": "http"
   },
   "MissionRep": {
     "port": "4604",
-    "host": "iai-resp-repository-integ.simplex-c2.com",
+    "host": "localhost",
     "protocol": "http"
   },
   "NFZRep": {
     "port": "4605",
-    "host": "iai-resp-repository-integ.simplex-c2.com",
+    "host": "localhost",
     "protocol": "http"
   },
   "ObservationMissionRep": {
     "port": "4606",
-    "host": "iai-resp-repository-integ.simplex-c2.com",
+    "host": "localhost",
     "protocol": "http"
   },
   "ScanMissionRep": {
     "port": "4607",
-    "host": "iai-resp-repository-integ.simplex-c2.com",
+    "host": "localhost",
     "protocol": "http"
   },
   "ServoingMissionRep": {
     "port": "4608",
-    "host": "iai-resp-repository-integ.simplex-c2.com",
+    "host": "localhost",
     "protocol": "http"
   },
   "DeliveryMissionRep": {
     "port": "4609",
-    "host": "iai-resp-repository-integ.simplex-c2.com",
+    "host": "localhost",
     "protocol": "http"
   },
   "DiscoveryRep": {
     "port": "4700",
-    "host": "iai-resp-repository-integ.simplex-c2.com",
+    "host": "localhost",
     "protocol": "http"
   },
 
