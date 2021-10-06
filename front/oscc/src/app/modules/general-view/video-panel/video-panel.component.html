@@ -20,8 +20,8 @@
       </div>
       <!--AGL, ASL-->
       <div class="UAVParams Title">
-        AGL: <span class="Value">{{applicationService?.selectedAirVehicle?.altitudeAGL}}m</span>, &nbsp;
-        ASL: <span class="Value">{{applicationService?.selectedAirVehicle?.altitudeAsl}}m</span>
+        AGL: <span class="Value">{{applicationService?.selectedAirVehicle?.altitudeAGL | number: '1.0-0'}}m</span>, &nbsp;
+        ASL: <span class="Value">{{applicationService?.selectedAirVehicle?.altitudeAsl | number: '1.0-0'}}m</span>
       </div>
     </div>
     <!--Camera-->
@@ -159,9 +159,9 @@
     <!--AGL, ASL-->
     <div class="uav-params-container container">
       <div class="UAVParams">
-        <span class="header-title">AGL:</span><span>{{applicationService?.selectedAirVehicle?.altitudeAGL}}m</span>,
+        <span class="header-title">AGL:</span><span>{{applicationService?.selectedAirVehicle?.altitudeAGL | number: '1.0-0'}}m</span>,
         &nbsp;
-        <span class="header-title">ASL: </span><span>{{applicationService?.selectedAirVehicle?.altitudeAsl}}m</span>
+        <span class="header-title">ASL: </span><span>{{applicationService?.selectedAirVehicle?.altitudeAsl | number: '1.0-0'}}m</span>
       </div>
     </div>
 
