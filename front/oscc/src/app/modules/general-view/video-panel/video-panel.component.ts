@@ -29,7 +29,7 @@ export class VideoPanelComponent implements OnInit {
   tickIntervalZoom: number = 1;
   stepZoom: number = 0.1;
   minZoom: number = 0;
-  maxZoom: number = 10;
+  maxZoom: number = 100;
 
   //speed
   speedModel = 10;

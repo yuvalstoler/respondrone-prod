@@ -73,7 +73,7 @@
           thumbLabel
         >
         </mat-slider>
-        <span>10x</span>
+        <span>100x</span>
       </div>
     </div>
     <!--Speed-->
@@ -128,10 +128,10 @@
       <!--Telemetry-->
       <div class="telemetry-container">
         <div>
-          <span class="header-title">Pitch: </span><span>{{gimbal?.gimbalParameters?.pitch}}°,</span>
+          <span class="header-title">Pitch: </span><span>{{gimbal?.gimbalParameters?.pitch | number:'1.0-0'}}°,</span>
         </div> &nbsp;
         <div>
-          <span class="header-title">Yaw: </span><span>{{gimbal?.gimbalParameters?.yaw}}°</span>
+          <span class="header-title">Yaw: </span><span>{{gimbal?.gimbalParameters?.yaw | number:'1.0-0'}}°</span>
         </div>
       </div>
     </mat-menu>
@@ -248,7 +248,7 @@
             thumbLabel
           >
           </mat-slider>
-          <div class="zoom-slider-div">10x</div>
+          <div class="zoom-slider-div">100x</div>
         </div>
       </div>
       <!--Camera Mode-->
@@ -274,10 +274,10 @@
       <!--Telemetry-->
       <div class="telemetry-container">
         <div>
-          <span class="header-title">Pitch: </span><span>{{gimbal?.gimbalParameters?.pitch}}°,</span>
+          <span class="header-title">Pitch: </span><span>{{gimbal?.gimbalParameters?.pitch | number:'1.0-0'}}°,</span>
         </div> &nbsp;
         <div>
-          <span class="header-title">Yaw: </span><span>{{gimbal?.gimbalParameters?.yaw}}°</span>
+          <span class="header-title">Yaw: </span><span>{{gimbal?.gimbalParameters?.yaw | number:'1.0-0'}}°</span>
         </div>
       </div>
     </mat-menu>

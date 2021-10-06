@@ -13,6 +13,7 @@ import {
     MISSION_REQUEST_ACTION_OBJ,
     MISSION_REQUEST_DATA,
     MISSION_REQUEST_DATA_UI,
+    MISSION_STATUS_UI,
     MISSION_TYPE,
     REP_OBJ_KEY,
     REPORT_DATA,
@@ -74,13 +75,15 @@ export class MissionRequestManager {
         const res = [];
         this.missionRequests.forEach((mission: MissionRequest) => {
             const missionData: MISSION_REQUEST_DATA = mission.toJsonForSave();
-            if (missionData.missionType === MISSION_TYPE.Servoing && missionData.servoingMissionRequest
-                && missionData.servoingMissionRequest.targetType === TARGET_TYPE.FR && missionData.servoingMissionRequest.targetId === frId) {
-                res.push(missionData);
-            } else if (missionData.missionType === MISSION_TYPE.CommRelay && missionData.commRelayMissionRequest
-                && missionData.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Follow && missionData.commRelayMissionRequest.missionData.FRs
-                && missionData.commRelayMissionRequest.missionData.FRs.indexOf(frId) !== -1) {
-                res.push(missionData);
+            if (missionData.missionStatus !== MISSION_STATUS_UI.Completed && missionData.missionStatus !== MISSION_STATUS_UI.Cancelled) {
+                if (missionData.missionType === MISSION_TYPE.Servoing && missionData.servoingMissionRequest
+                    && missionData.servoingMissionRequest.targetType === TARGET_TYPE.FR && missionData.servoingMissionRequest.targetId === frId) {
+                    res.push(missionData);
+                } else if (missionData.missionType === MISSION_TYPE.CommRelay && missionData.commRelayMissionRequest
+                    && missionData.commRelayMissionRequest.commRelayType === COMM_RELAY_TYPE.Follow && missionData.commRelayMissionRequest.missionData.FRs
+                    && missionData.commRelayMissionRequest.missionData.FRs.indexOf(frId) !== -1) {
+                    res.push(missionData);
+                }
             }
         });
         return res;

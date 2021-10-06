@@ -88,21 +88,21 @@
         </div>
         <!--Alt-->
         <div class="item6">
-          <span class="title">Alt: </span> {{airVehicle.altitudeAGL === undefined ? 'N/A' : airVehicle.altitudeAGL | number: '1.0-0'}}
+          <span class="title">Alt: </span> {{airVehicle.altitudeAGL === undefined ? 'N/A' : airVehicle.altitudeAGL | number: '1.0-0'}}m
         </div>
         <!--Speed-->
         <div class="item7">
-          <span class="title">Speed: </span> {{airVehicle.velocity | number: '1.0-0'}} m/s
+          <span class="title">Speed: </span> {{airVehicle.velocity | number: '1.0-0'}}m/s
         </div>
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item8"></div>
         <!--------------------- Expend Panel ----------------->
         <!--Alt ASL-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item9">
-          <span class="title">Alt ASL: </span> {{airVehicle.altitudeAsl | number: '1.0-0'}}
+          <span class="title">Alt ASL: </span> {{airVehicle.altitudeAsl | number: '1.0-0'}}m
         </div>
         <!--Energy-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item10">
-          <span class="title">Energy: </span> {{airVehicle.energyLevel}}
+          <span class="title">Energy: </span> {{airVehicle.energyLevel | number: '1.0-0'}}%
         </div>
         <!--GPS-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item11">
@@ -112,7 +112,7 @@
         </div>
         <!--Azimuth-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item12">
-          <span class="title">Azimuth: </span> {{airVehicle.heading | number: '1.0-2'}}°
+          <span class="title">Azimuth: </span> {{airVehicle.heading | number: '1.0-0'}}°
         </div>
         <!--&lt;!&ndash;Status line&ndash;&gt;-->
         <!--<div class="colorDiv" [ngStyle]="{'background-color': airVehicle?.modeDefine?.styles?.statusColor}"></div>-->
@@ -194,7 +194,7 @@
         </div>
         <!--Speed-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item4">
-        <span class="title">Speed: </span> {{airVehicle.velocity | number: '1.0-0'}} m/s
+        <span class="title">Speed: </span> {{airVehicle.velocity | number: '1.0-0'}}m/s
         </div>
         <!--TTL-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item5">
@@ -202,7 +202,7 @@
         </div>
         <!--Alt-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item6">
-        <span class="title">Alt: </span> {{airVehicle.altitudeAGL === undefined ? 'N/A' : airVehicle.altitudeAGL | number: '1.0-0'}} m
+        <span class="title">Alt: </span> {{airVehicle.altitudeAGL === undefined ? 'N/A' : airVehicle.altitudeAGL | number: '1.0-0'}}m
         </div>
         <!--Alt ASL-->
         <!--<div *ngIf="isOpenMenu[airVehicle.id]" class="item9">-->
