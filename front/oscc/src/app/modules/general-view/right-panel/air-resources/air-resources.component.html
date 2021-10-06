@@ -84,7 +84,7 @@
         </div>
         <!--TTL-->
         <div class="item5">
-          <span class="title">TTL: </span> {{airVehicle.remainingTimeFlight === undefined ? 'N/A' : airVehicle.remainingTimeFlight | number: '1.0-2'}}
+          <span class="title">TTL: </span> {{airVehicle.remainingTimeFlight === undefined ? 'N/A' : airVehicle.remainingTimeFlight * 1000 | date:'mm:ss'}}
         </div>
         <!--Alt-->
         <div class="item6">
@@ -198,7 +198,7 @@
         </div>
         <!--TTL-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item5">
-        <span class="title">TTL: </span> {{airVehicle.remainingTimeFlight === undefined ? 'N/A' : airVehicle.remainingTimeFlight | number: '1.0-2'}} min
+        <span class="title">TTL: </span> {{airVehicle.remainingTimeFlight === undefined ? 'N/A' : airVehicle.remainingTimeFlight * 1000 | date:'mm:ss'}} min
         </div>
         <!--Alt-->
         <div *ngIf="isOpenMenu[airVehicle.id]" class="item6">
