@@ -213,11 +213,30 @@ export class MissionManager {
             })
             .catch((data) => {});
     }
+    // -----------------------
+    private deleteMissionByRequestId = (requestId: ID_TYPE): Promise<ASYNC_RESPONSE> => {
+        return new Promise((resolve, reject) => {
+            const mission = this.missions.find(element => element.requestId === requestId)
+            if (mission) {
+                this.deleteMissionFromDB({id: mission.id})
+                    .then((data) => {
+                        resolve(data);
+                    })
+                    .catch((data) => {
+                        reject(data);
+                    });
+            }
+            else {
+                reject({success: false, data: 'mission doesnt exist'});
+            }
+        });
+    }
 
 
     // region API uncions
     public static readAllMission = MissionManager.instance.readAllMission;
     public static getMissions = MissionManager.instance.getMissions;
+    public static deleteMissionByRequestId = MissionManager.instance.deleteMissionByRequestId;
 
 
     // endregion API uncions

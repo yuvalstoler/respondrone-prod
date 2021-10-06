@@ -100,7 +100,7 @@ export class CesiumService {
         // }),
 
         sceneModePicker: true,
-        sceneMode: Cesium.SceneMode.SCENE3D,
+        sceneMode: Cesium.SceneMode.SCENE2D,
         navigationHelpButton: false,
         timeline: false,
         selectionIndicator: false,
@@ -122,7 +122,7 @@ export class CesiumService {
     // cesiumViewer.scene.primitives.add(Cesium.createOsmBuildings());
 
     const layers = cesiumViewer.baseLayerPicker.viewModel.imageryProviderViewModels;
-    cesiumViewer.baseLayerPicker.viewModel.selectedImagery = layers[4];
+    cesiumViewer.baseLayerPicker.viewModel.selectedImagery = layers[1];
 
 
 
