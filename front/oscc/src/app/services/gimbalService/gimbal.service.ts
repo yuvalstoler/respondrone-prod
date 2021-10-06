@@ -67,6 +67,10 @@ export class GimbalService {
   // ----------------------
   private updateData = (newItemArr: GIMBAL_DATA_UI[]): void => {
     newItemArr.forEach((newItem: GIMBAL_DATA_UI) => {
+      newItem.opticalVideoURL = 'ws://iai-video-restream.simplex-c2.com:18082'; // TODO change!!!
+      newItem.infraredVideoURL = 'ws://iai-video-restream.simplex-c2.com:18084';
+
+
       const existingEvent: GIMBAL_DATA_UI = this.getById(newItem.id);
       if (existingEvent) {
         // existingEvent.setValues(newEvent);
