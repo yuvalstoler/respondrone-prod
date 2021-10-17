@@ -110,7 +110,7 @@
         <div class="header-title">Camera Mode:</div>
         <div class="camera-mode">
           <div class="camera-mode-div">Day</div>
-          <mat-slide-toggle (change)="changeSlide($event)" (click)="$event.stopPropagation()"></mat-slide-toggle>
+          <mat-slide-toggle [(ngModel)]="isNight" (change)="changeSlide($event)" (click)="$event.stopPropagation()"></mat-slide-toggle>
           <div class="camera-mode-div">Night</div>
         </div>
         <div class="videoSelect">
@@ -330,6 +330,7 @@
     <app-canvas-video *ngIf="applicationService?.screen?.showVideoCanvas && gimbal && gimbal[videoUrlKey]"
                       [url]="gimbal[videoUrlKey]">
     </app-canvas-video>
+
   </div>
   <!--Control Request-->
   <div *ngIf="gimbal?.controlData[videoUrlKey]?.request?.status === GIMBAL_REQUEST_STATUS.InProgress"

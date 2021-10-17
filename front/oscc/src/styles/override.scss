@@ -14,6 +14,8 @@
 //  color: $black;
 //}
 
+
+
 // radioButtons ========================================================================================================
 
 :host::ng-deep .mat-radio-outer-circle {
@@ -62,6 +64,10 @@
 .cesium-viewer-bottom {
   display: none !important;
 }
+
+//.cesium-viewer-toolbar {
+//  right: 290px !important;
+//}
 
 // toastr ==================
 

@@ -4,7 +4,7 @@ import {
   AV_DATA_UI,
   EVENT_DATA_UI,
   FILE_FS_DATA,
-  GEOPOINT3D_SHORT,
+  GEOPOINT3D_SHORT, GRAPHIC_OVERLAY_TYPE,
   MISSION_REQUEST_DATA_UI,
   REPORT_DATA_UI,
   TASK_DATA_UI
@@ -85,7 +85,14 @@ export class ApplicationService {
       showMissionPlans: true,
       showUAV: true,
       showNFZ: true,
-      showGraphicOverlays: true,
+      showGraphicOverlays: {
+        [GRAPHIC_OVERLAY_TYPE.Person]: true,
+        [GRAPHIC_OVERLAY_TYPE.FireLine]: true,
+        [GRAPHIC_OVERLAY_TYPE.Building]: true,
+        [GRAPHIC_OVERLAY_TYPE.General]: true,
+        [GRAPHIC_OVERLAY_TYPE.NetworkCoverage]: true,
+        [GRAPHIC_OVERLAY_TYPE.Vehicle]: true
+      },
     };
 
     this.socketService.connectToRoom('proxy_ui_restartUI').subscribe(data => {

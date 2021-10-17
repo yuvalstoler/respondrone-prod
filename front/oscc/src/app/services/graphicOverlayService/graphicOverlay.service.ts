@@ -4,7 +4,10 @@ import {SocketService} from '../socketService/socket.service';
 import * as _ from 'lodash';
 import {
   GEOPOINT3D_SHORT,
+  GRAPHIC_OVERLAY_COLOR,
   GRAPHIC_OVERLAY_DATA_UI,
+  GRAPHIC_OVERLAY_TYPE,
+  LAST_ACTION,
   POINT,
   POINT3D,
 } from '../../../../../../classes/typings/all.typings';
@@ -32,6 +35,90 @@ export class GraphicOverlayService {
               private applicationService: ApplicationService) {
     this.socketService.connected$.subscribe(this.init);
     this.socketService.connectToRoom('webServer_graphicOverlays').subscribe(this.updateGraphicOverlays);
+    // const test: GRAPHIC_OVERLAY_DATA_UI[] =
+    //   [
+    //     {
+    //       name: 'AAA',
+    //       shape: {
+    //         coordinates: [
+    //           {
+    //             lon: 34.845285415649414,
+    //             lat: 32.16293438006431,
+    //             alt: 20
+    //           },
+    //           {
+    //             lon: 34.84597206115723,
+    //             lat: 32.158356753439485,
+    //             alt: 20
+    //           },
+    //           {
+    //             lon: 34.852237701416016,
+    //             lat: 32.1597736624443,
+    //             alt: 20
+    //           },
+    //           {
+    //             lon: 34.854254722595215,
+    //             lat: 32.1651867785872,
+    //             alt: 20
+    //           },
+    //           {
+    //             lon: 34.849019050598145,
+    //             lat: 32.166603581386276,
+    //             alt: 20
+    //           },
+    //           {
+    //             lon: 34.845285415649414,
+    //             lat: 32.16293438006431,
+    //             alt: 20
+    //           }
+    //         ]
+    //       },
+    //       color: GRAPHIC_OVERLAY_COLOR.Green,
+    //       type: GRAPHIC_OVERLAY_TYPE.FireLine,
+    //       creationTime: {timestamp: 123452454},
+    //       lastUpdateTime: {timestamp: 123452454},
+    //       metadata: [],
+    //       id: '001',
+    //       modeDefine: {
+    //         styles: {
+    //           fillColor: '#ff7766',
+    //           color: '#ff8888'
+    //         }
+    //       },
+    //       lastAction: LAST_ACTION.Update,
+    //       version: 1
+    //     },
+    //     {
+    //       name: 'BBB',
+    //       shape: {
+    //         lat: 32.165223107139326,
+    //         lon: 34.842753410339355,
+    //         alt: 20
+    //       },
+    //       color: GRAPHIC_OVERLAY_COLOR.Red,
+    //       type: GRAPHIC_OVERLAY_TYPE.Person,
+    //       creationTime: {timestamp: 1523452454},
+    //       lastUpdateTime: {timestamp: 128655454},
+    //       metadata: [],
+    //       id: '002',
+    //       modeDefine: {
+    //         styles: {
+    //           iconSize: {
+    //             width: 24,
+    //             height: 24
+    //           },
+    //           mapIcon: '../../../assets/markerBlue.png'
+    //
+    //         }
+    //       },
+    //       lastAction: LAST_ACTION.Update,
+    //       version: 1
+    //     }
+    //   ];
+    // setTimeout(() => {
+    //   this.updateGraphicOverlays(test);
+    // }, 3000);
+
   }
 
   // ----------------------
@@ -120,27 +207,28 @@ export class GraphicOverlayService {
   private drawGraphicOverlay = (item: GRAPHIC_OVERLAY_DATA_UI) => {
     // icons
     const shapeType = this.getShapeType(item);
-    if (shapeType === 'icon') {
-      // TODO change
-      const iconData: ICON_DATA = {
-        id: item.id,
-        modeDefine: item.modeDefine,
-        isShow: this.applicationService.screen.showGraphicOverlays,
-        location: GeoCalculate.geopoint3d_short_to_point3d(item.shape as GEOPOINT3D_SHORT),
-        optionsData: item,
-        type: undefined
-      };
-      this.mapGeneralService.createIcon(iconData);
-    } else if (shapeType === 'polygon') {
-      const polygonData: POLYGON_DATA = {
-        id: item.id,
-        modeDefine: item.modeDefine,
-        isShow: this.applicationService.screen.showGraphicOverlays,
-        polygon: GeoCalculate.geopoint3d_short_to_point3d_arr(item.shape.coordinates),
-        optionsData: item,
-        type: undefined
-      };
-      this.mapGeneralService.drawPolygonFromServer(polygonData);
+    if (this.applicationService.screen.showGraphicOverlays[item.type]) {
+      if (shapeType === 'icon') {
+        const iconData: ICON_DATA = {
+          id: item.id,
+          modeDefine: item.modeDefine,
+          isShow: this.applicationService.screen.showGraphicOverlays,
+          location: GeoCalculate.geopoint3d_short_to_point3d(item.shape as GEOPOINT3D_SHORT),
+          optionsData: item,
+          type: item.type as any
+        };
+        this.mapGeneralService.createIcon(iconData);
+      } else if (shapeType === 'polygon') {
+        const polygonData: POLYGON_DATA = {
+          id: item.id,
+          modeDefine: item.modeDefine,
+          isShow: this.applicationService.screen.showGraphicOverlays,
+          polygon: GeoCalculate.geopoint3d_short_to_point3d_arr(item.shape.coordinates),
+          optionsData: item,
+          type: item.type as any
+        };
+        this.mapGeneralService.drawPolygonFromServer(polygonData);
+      }
     }
   };
 
@@ -189,6 +277,32 @@ export class GraphicOverlayService {
         this.mapGeneralService.showIcon(item.id);
       } else if (shapeType === 'polygon') {
         this.mapGeneralService.showPolygon(item.id);
+      }
+    });
+  }
+
+  public hideAllByType = (type: string) => {
+    this.graphicOverlays.data.forEach((item: GRAPHIC_OVERLAY_DATA_UI) => {
+      const shapeType = this.getShapeType(item);
+      if (item.type === type) {
+        if (shapeType === 'icon') {
+          this.mapGeneralService.hideIcon(item.id);
+        } else if (shapeType === 'polygon') {
+          this.mapGeneralService.hidePolygon(item.id);
+        }
+      }
+    });
+  };
+  // -----------------------
+  public showAllByType = (type: string) => {
+    this.graphicOverlays.data.forEach((item: GRAPHIC_OVERLAY_DATA_UI) => {
+      const shapeType = this.getShapeType(item);
+      if (item.type === type) {
+        if (shapeType === 'icon') {
+          this.mapGeneralService.showIcon(item.id);
+        } else if (shapeType === 'polygon') {
+          this.mapGeneralService.showPolygon(item.id);
+        }
       }
     });
   }

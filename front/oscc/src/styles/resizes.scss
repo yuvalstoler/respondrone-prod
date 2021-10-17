@@ -142,6 +142,9 @@
     max-height: $maxHeightSmall;
     min-width: 220px !important;
     min-height: 165px !important;
+    .cesium-viewer-toolbar {
+     display: none !important;
+    }
   }
   .image-detail-canvas-small{
     max-width: $maxWidthSmall !important;
@@ -295,6 +298,9 @@
     padding: 0 10px !important;
     font-size: $fontSizeText12 !important;
   }
+  .cesium-viewer-toolbar {
+    right: $rightPanelMiddleWidth !important;
+  }
 }
 
 //Regular
@@ -422,6 +428,9 @@
     height: 30px !important;
     padding: 0 10px !important;
     font-size: $fontSizeTitle15 !important;
+  }
+  .cesium-viewer-toolbar {
+    right: $rightPanelWidth !important;
   }
 }
 

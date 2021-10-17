@@ -36,122 +36,122 @@ export class FrManager {
     timestamp: number;
 
     private constructor() {
-        // const date = Date.now();
-        // const data: FR_DATA_TELEMETRY = {
-        //     'timestamp': {
-        //         'timestamp': 0
-        //     },
-        //     'FRs': [
-        //         {
-        //             'id': '1',
-        //             'callSign': 'PO-001',
-        //             'type': FR_TYPE.police,
-        //             'location': {
-        //                 'lat': 0,
-        //                 'lon': 0,
-        //                 'alt': 0
-        //             },
-        //             'lastUpdated': {
-        //                 'timestamp': date
-        //             },
-        //             'online': true,
-        //             'status': FR_STATUS.available
-        //         },
-        //         {
-        //             'id': '2',
-        //             'callSign': 'PARA-001',
-        //             'type': FR_TYPE.paramedic,
-        //             'location': {
-        //                 'lat': 0,
-        //                 'lon': 0,
-        //                 'alt': 0
-        //             },
-        //             'lastUpdated': {
-        //                 'timestamp': date - 3600000
-        //             },
-        //             'online': true,
-        //             'status': FR_STATUS.available
-        //         },
-        //         {
-        //             'id': 'id4',
-        //             'callSign': 'FF-008',
-        //             'type': FR_TYPE.fireFighter,
-        //             'location': {
-        //                 'lat': 0,
-        //                 'lon': 0,
-        //                 'alt': 0
-        //             },
-        //             'lastUpdated': {
-        //                 'timestamp': date - 5000
-        //             },
-        //             'online': false,
-        //             'status': FR_STATUS.busy
-        //         },
-        //         {
-        //             'id': 'dev@simplex141.mooo.com',
-        //             'callSign': 'FF-007',
-        //             'type': FR_TYPE.paramedic,
-        //             'location': {
-        //                 'lat': 0,
-        //                 'lon': 0,
-        //                 'alt': 0
-        //             },
-        //             'lastUpdated': {
-        //                 'timestamp': date - 5000
-        //             },
-        //             'online': false,
-        //             'status': FR_STATUS.busy
-        //         },
-        //         {
-        //             'id': 'test@20.71.141.60',
-        //             'callSign': 'FF-008',
-        //             'type': FR_TYPE.fireFighter,
-        //             'location': {
-        //                 'lat': 0,
-        //                 'lon': 0,
-        //                 'alt': 0
-        //             },
-        //             'lastUpdated': {
-        //                 'timestamp': date - 5000
-        //             },
-        //             'online': false,
-        //             'status': FR_STATUS.busy
-        //         },
-        //         {
-        //             'id': '3',
-        //             'callSign': 'PO-001',
-        //             'type': FR_TYPE.police,
-        //             'location': {
-        //                 'lat': 0,
-        //                 'lon': 0,
-        //                 'alt': 0
-        //             },
-        //             'lastUpdated': {
-        //                 'timestamp': date
-        //             },
-        //             'online': true,
-        //             'status': FR_STATUS.available
-        //         },
-        //     ]
-        // };
-        //
-        // let lat = 38.071, lon = -3.0928, diff = 0.00005, sign = 0, key1 = 'lat', key2 = 'lon';
-        // setInterval(() => {
-        //     const tmp = lat; lat = lon; lon = tmp;
-        //     const tmpKey = key1; key1 = key2; key2 = tmpKey;
-        //     sign++;
-        // },  2 * 60 * 1000);
-        //
-        // setInterval(() => {
-        //     data.timestamp.timestamp = Date.now();
-        //     data.FRs.forEach((fr, index) => {
-        //         lat += diff * (sign % 3 === 0 || sign % 4 === 0 ? -1 : 1)
-        //         fr.location[key1] = lat;
-        //         fr.location[key2] = lon + index * 0.005;
-        //     });
-        //
-        //     this.onGetFRs(data);
-        // }, 1000);
+        const date = Date.now();
+        const data: FR_DATA_TELEMETRY = {
+            'timestamp': {
+                'timestamp': 0
+            },
+            'FRs': [
+                {
+                    'id': '1',
+                    'callSign': 'PO-001',
+                    'type': FR_TYPE.police,
+                    'location': {
+                        'lat': 0,
+                        'lon': 0,
+                        'alt': 0
+                    },
+                    'lastUpdated': {
+                        'timestamp': date
+                    },
+                    'online': true,
+                    'status': FR_STATUS.available
+                },
+                {
+                    'id': '2',
+                    'callSign': 'PARA-001',
+                    'type': FR_TYPE.paramedic,
+                    'location': {
+                        'lat': 0,
+                        'lon': 0,
+                        'alt': 0
+                    },
+                    'lastUpdated': {
+                        'timestamp': date - 3600000
+                    },
+                    'online': true,
+                    'status': FR_STATUS.available
+                },
+                {
+                    'id': 'id4',
+                    'callSign': 'FF-008',
+                    'type': FR_TYPE.fireFighter,
+                    'location': {
+                        'lat': 0,
+                        'lon': 0,
+                        'alt': 0
+                    },
+                    'lastUpdated': {
+                        'timestamp': date - 5000
+                    },
+                    'online': false,
+                    'status': FR_STATUS.busy
+                },
+                {
+                    'id': 'dev@simplex141.mooo.com',
+                    'callSign': 'FF-007',
+                    'type': FR_TYPE.paramedic,
+                    'location': {
+                        'lat': 0,
+                        'lon': 0,
+                        'alt': 0
+                    },
+                    'lastUpdated': {
+                        'timestamp': date - 5000
+                    },
+                    'online': false,
+                    'status': FR_STATUS.busy
+                },
+                {
+                    'id': 'test@20.71.141.60',
+                    'callSign': 'FF-008',
+                    'type': FR_TYPE.fireFighter,
+                    'location': {
+                        'lat': 0,
+                        'lon': 0,
+                        'alt': 0
+                    },
+                    'lastUpdated': {
+                        'timestamp': date - 5000
+                    },
+                    'online': false,
+                    'status': FR_STATUS.busy
+                },
+                {
+                    'id': '3',
+                    'callSign': 'PO-001',
+                    'type': FR_TYPE.police,
+                    'location': {
+                        'lat': 0,
+                        'lon': 0,
+                        'alt': 0
+                    },
+                    'lastUpdated': {
+                        'timestamp': date
+                    },
+                    'online': true,
+                    'status': FR_STATUS.available
+                },
+            ]
+        };
+
+        let lat = 38.071, lon = -3.0928, diff = 0.00005, sign = 0, key1 = 'lat', key2 = 'lon';
+        setInterval(() => {
+            const tmp = lat; lat = lon; lon = tmp;
+            const tmpKey = key1; key1 = key2; key2 = tmpKey;
+            sign++;
+        },  2 * 60 * 1000);
+
+        setInterval(() => {
+            data.timestamp.timestamp = Date.now();
+            data.FRs.forEach((fr, index) => {
+                lat += diff * (sign % 3 === 0 || sign % 4 === 0 ? -1 : 1)
+                fr.location[key1] = lat;
+                fr.location[key2] = lon + index * 0.005;
+            });
+
+            this.onGetFRs(data);
+        }, 1000);
     }
 
     private startGetSocket = () => {

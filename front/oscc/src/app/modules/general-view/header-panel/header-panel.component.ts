@@ -18,6 +18,7 @@ import {ResponsiveService} from '../../../services/responsiveService/responsive.
 import {MissionRouteService} from '../../../services/missionRouteService/missionRoute.service';
 import {StatusIndicatorService} from '../../../services/statusIndicatorService/status-indicator.service';
 import {MatMenuTrigger} from '@angular/material/menu';
+import {GRAPHIC_OVERLAY_TYPE} from "../../../../../../../classes/typings/all.typings";
 
 @Component({
   selector: 'app-header-panel',
@@ -37,6 +38,7 @@ export class HeaderPanelComponent implements OnInit {
   Header_Buttons = HEADER_BUTTONS;
 
   viewItems: string[] = Object.keys(VIEW_LIST);
+  graphicOverlays: string[] = Object.keys(GRAPHIC_OVERLAY_TYPE);
   viewItemModel: string[] = [];
   screenWidth: number;
 
@@ -200,11 +202,31 @@ export class HeaderPanelComponent implements OnInit {
       case 'showNFZ':
         this.applicationService.screen[item] ? this.nfzService.showAll() : this.nfzService.hideAll();
         break;
-      case 'showGraphicOverlays':
-        this.applicationService.screen[item] ? this.graphicOverlayService.showAll() : this.graphicOverlayService.hideAll();
-        break;
+      // case 'showGraphicOverlays':
+      //   this.applicationService.screen[item] ? this.graphicOverlayService.showAll() : this.graphicOverlayService.hideAll();
+      //   break;
     }
   };
+
+  onChangeGraphicOverlay = (event, type: string) => {
+    this.applicationService.screen.showGraphicOverlays[type] = !this.applicationService.screen.showGraphicOverlays[type];
+    this.applicationService.screen.showGraphicOverlays[type] ? this.graphicOverlayService.showAllByType(type) : this.graphicOverlayService.hideAllByType(type);
+    // switch (type) {
+    //   case GRAPHIC_OVERLAY_TYPE.Building:
+    //     this.applicationService.screen.showGraphicOverlays[type] ? this.graphicOverlayService.showAllByType(type) : this.graphicOverlayService.hideAllByType(type);
+    //     break;
+    //   case GRAPHIC_OVERLAY_TYPE.FireLine:
+    //     break;
+    //   case GRAPHIC_OVERLAY_TYPE.General:
+    //     break;
+    //   case GRAPHIC_OVERLAY_TYPE.NetworkCoverage:
+    //     break;
+    //   case GRAPHIC_OVERLAY_TYPE.Person:
+    //     break;
+    //   case GRAPHIC_OVERLAY_TYPE.Vehicle:
+    //     break;
+    // }
+  }
 
   onLogout = () => {
     this.loginService.logout();

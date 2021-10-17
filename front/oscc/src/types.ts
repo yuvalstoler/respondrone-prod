@@ -45,7 +45,7 @@ export type DISPLAY_ON_SCREEN = {
   showMissionPlans: boolean,
   showUAV: boolean,
   showNFZ: boolean,
-  showGraphicOverlays: boolean,
+  showGraphicOverlays: any
 };
 
 export enum VIEW_LIST {
@@ -57,9 +57,9 @@ export enum VIEW_LIST {
   showMissionPlans = 'Mission plans',
   showUAV = 'UAV locations',
   showNFZ = 'NFZ',
-  showGraphicOverlays = 'Graphic overlays',
   showGrandResources = 'Ground Resources Panel',
   showAirResources = 'Air Resources Panel',
+  showGraphicOverlays = 'Graphic overlays'
 }
 
 export enum LEFT_PANEL_ICON {

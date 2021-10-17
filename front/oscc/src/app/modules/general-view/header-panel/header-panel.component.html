@@ -69,15 +69,26 @@
     </mat-menu>
     <mat-menu #menuView="matMenu" role="menuitemcheckbox">
       <div *ngFor="let viewItem of viewItems; let i = index">
-        <mat-checkbox #checkboxes
+        <mat-checkbox *ngIf="VIEW_LIST[viewItem] !== VIEW_LIST.showGraphicOverlays"
+                      #checkboxes
                       (change)="onChangeCheckbox($event, viewItem)"
                       (click)="$event.stopPropagation();"
                       [checked]="viewItem"
                       class="mat-menu-item"
         >{{VIEW_LIST[viewItem]}}</mat-checkbox>
       </div>
+      <button [matMenuTriggerFor]="graphicOverlay" mat-menu-item>Graphic Overlays</button>
     </mat-menu>
-
+    <mat-menu #graphicOverlay="matMenu">
+      <div *ngFor="let graphicOverlay of graphicOverlays; let i = index">
+        <mat-checkbox #checkboxesGO
+                      (change)="onChangeGraphicOverlay($event, graphicOverlay)"
+                      (click)="$event.stopPropagation();"
+                      [checked]="graphicOverlay"
+                      class="mat-menu-item"
+        >{{graphicOverlay}}</mat-checkbox>
+      </div>
+    </mat-menu>
 
   </div>
   <!--Right Side-->

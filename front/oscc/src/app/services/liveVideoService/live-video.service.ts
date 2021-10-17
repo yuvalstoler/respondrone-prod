@@ -67,8 +67,8 @@ export class LiveVideoService {
   websocket = null;
   videoUrls: VIDEO_URLS_DATA = {
     '1': {
-      'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov': {
-        videoJSMPEG: 'ws://80.250.156.232:8082/',
+      'ws://10.90.1.32:8080': {
+        videoJSMPEG: 'ws://10.90.1.32:8080',
         blobsSocket: 'ws://localhost:4002/'
       },
       'ws://20.71.141.60:9091/': {

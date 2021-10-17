@@ -55,7 +55,7 @@ export class VideoPanelComponent implements OnInit {
               public gimbalService: GimbalService,
               public airVehicleService: AirVehicleService,
               public responsiveService: ResponsiveService,
-              private loginService: LoginService) {
+              public loginService: LoginService) {
     this.videoUrlKey = this.isNight ? VIDEO_URL_KEY.infraredVideoURL : VIDEO_URL_KEY.opticalVideoURL;
     this.responsiveService.screenWidth$.subscribe((res) => {
       this.screenWidth = res;
