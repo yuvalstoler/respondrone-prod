@@ -4,7 +4,7 @@ home=$(pwd);
 echo $home
 
 #pm2 delete all;
-pm2 flush;
+#pm2 flush;
 
 
 cd $home/CommRelay;
@@ -33,5 +33,7 @@ npm i;
 ###############################
 cd $home/NFZ;
 npm i;
-
+###############################
+cd $home/Discovery;
+npm i;
 

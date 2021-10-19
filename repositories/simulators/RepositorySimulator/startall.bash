@@ -62,16 +62,15 @@ tsc;
 cd dist;
 pm2 start index.js -n NFZ
 ###############################
-cd $home/Logger;
-tsc;
-cd dist;
-pm2 start index.js -n Logger
-###############################
 cd $home/Discovery;
 tsc;
 cd dist;
 pm2 start index.js -n Discovery
-
+###############################
+#cd $home/Logger;
+#tsc;
+#cd dist;
+#pm2 start index.js -n Logger
 ###############################
 #cd $home/TelemRcvDrones;
 #tsc;

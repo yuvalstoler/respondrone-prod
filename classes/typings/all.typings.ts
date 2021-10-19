@@ -577,6 +577,7 @@ export type FOLLOW_PATH_MISSION_REQUEST = {
     polyline: { coordinates: GEOPOINT3D_SHORT[] },
     yawOrientation: YAW_ORIENTATION,
     gimbalAzimuth: number,
+    distance: number,
     status: MISSION_STATUS
 }
 export type OBSERVATION_MISSION_REQUEST = {

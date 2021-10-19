@@ -97,6 +97,7 @@ export class LiveVideoService {
       }
     },
   };
+  player;
 
   constructor(public applicationService: ApplicationService,
               public dialog: MatDialog,
@@ -114,7 +115,7 @@ export class LiveVideoService {
         const videoUrl = this.getVideoUrl(url, this.applicationService.selectedAirVehicle.id);
         if (videoUrl) {
           this.startDrawingOnCanvas();
-          const player = new JSMpeg.Player(videoUrl,
+          this.player = new JSMpeg.Player(videoUrl,
             { canvas: canvas, autoplay: true, audio: false, loop: true , disableGl: true}
           );
 
@@ -125,6 +126,13 @@ export class LiveVideoService {
         }
       }
   };
+
+  stopPlayer = () => {
+    if (this.player) {
+      this.player.destroy();
+      this.player = undefined;
+    }
+  }
 
   startDrawingOnCanvas = () => {
     this.interval = setInterval(() => {

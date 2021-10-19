@@ -470,7 +470,8 @@ export class MissionRequestService {
     const patrolMissionRequest: FOLLOW_PATH_MISSION_REQUEST = {
       droneId: missionModel.airResources[0],
       status: MISSION_STATUS.Pending,
-      yawOrientation: missionModel.missionDetails.yawOrientation,                                  // TODO
+      yawOrientation: missionModel.missionDetails.yawOrientation,
+      distance: missionModel.missionDetails.distance,
       gimbalAzimuth: missionModel.missionDetails.azimuth,
       polyline: {coordinates: GeoCalculate.point3d_to_geoPoint3d_short_arr(missionModel.polyline)},
     };

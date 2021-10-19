@@ -1,26 +1,25 @@
 {
-  "serviceName": "graphicOverlay",
-
+  "serviceName": "",
   "EntityService": {
-    "port": "4602",
+    "port": "4600",
     "host": "localhost",
     "protocol": "http",
 
     "schemas": {
-      "entity": "../../../schemas/Repository Ent/Graphic Overlays/repGraphicOverlay.v1.json"
+      "entity": "../../../schemas/Repository Ent/Comm Relay Mission Request/repCommRelayMissionRequest.v1.json"
     },
     "routes": {
-      "insert": "/insertNewGraphicOverlay",
-      "update": "/updateGraphicOverlay",
-      "getLast": "/getLastGraphicOverlays/:currentVersion",
-      "delete": "/deleteGraphicOverlay/:id"
+      "insert": "/insertNewCommRelayMissionRequest",
+      "update": "/updateCommRelayMissionRequest",
+      "getLast": "/getLastCommRelayMissionRequests/:currentVersion",
+      "delete": "/deleteCommRelayMissionRequest/:id"
     },
-    "entityArrKey": "graphicOverlays"
+    "entityArrKey": "commRelayMissionRequests"
   },
   "Mongo": {
     "db": "repository",
     "url": "mongodb://localhost:27017/",
-    "col": "graphicOverlay"
+    "col": "commRelayMissionRequest"
   },
   "LogsMongo": {
     "db": "repositoryLogs",

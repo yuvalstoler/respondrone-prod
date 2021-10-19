@@ -135,23 +135,23 @@ export class FrManager {
             ]
         };
 
-        let lat = 38.071, lon = -3.0928, diff = 0.00005, sign = 0, key1 = 'lat', key2 = 'lon';
-        setInterval(() => {
-            const tmp = lat; lat = lon; lon = tmp;
-            const tmpKey = key1; key1 = key2; key2 = tmpKey;
-            sign++;
-        },  2 * 60 * 1000);
-
-        setInterval(() => {
-            data.timestamp.timestamp = Date.now();
-            data.FRs.forEach((fr, index) => {
-                lat += diff * (sign % 3 === 0 || sign % 4 === 0 ? -1 : 1)
-                fr.location[key1] = lat;
-                fr.location[key2] = lon + index * 0.005;
-            });
-
-            this.onGetFRs(data);
-        }, 1000);
+        // let lat = 38.071, lon = -3.0928, diff = 0.00005, sign = 0, key1 = 'lat', key2 = 'lon';
+        // setInterval(() => {
+        //     const tmp = lat; lat = lon; lon = tmp;
+        //     const tmpKey = key1; key1 = key2; key2 = tmpKey;
+        //     sign++;
+        // },  2 * 60 * 1000);
+        //
+        // setInterval(() => {
+        //     data.timestamp.timestamp = Date.now();
+        //     data.FRs.forEach((fr, index) => {
+        //         lat += diff * (sign % 3 === 0 || sign % 4 === 0 ? -1 : 1)
+        //         fr.location[key1] = lat;
+        //         fr.location[key2] = lon + index * 0.005;
+        //     });
+        //
+        //     this.onGetFRs(data);
+        // }, 1000);
     }
 
     private startGetSocket = () => {

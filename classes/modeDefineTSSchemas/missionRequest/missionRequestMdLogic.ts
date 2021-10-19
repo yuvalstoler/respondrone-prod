@@ -123,6 +123,10 @@ export class MissionRequestMdLogic implements IModeDefine {
                     {
                         title: 'Gimbal azimuth',
                         value: data.followPathMissionRequest.gimbalAzimuth + '°'
+                    },
+                    {
+                        title: 'Distance',
+                        value: data.followPathMissionRequest.distance + 'm'
                     }
                 ];
                 break;

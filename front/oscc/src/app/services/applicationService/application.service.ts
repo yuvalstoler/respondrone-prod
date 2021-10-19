@@ -85,15 +85,11 @@ export class ApplicationService {
       showMissionPlans: true,
       showUAV: true,
       showNFZ: true,
-      showGraphicOverlays: {
-        [GRAPHIC_OVERLAY_TYPE.Person]: true,
-        [GRAPHIC_OVERLAY_TYPE.FireLine]: true,
-        [GRAPHIC_OVERLAY_TYPE.Building]: true,
-        [GRAPHIC_OVERLAY_TYPE.General]: true,
-        [GRAPHIC_OVERLAY_TYPE.NetworkCoverage]: true,
-        [GRAPHIC_OVERLAY_TYPE.Vehicle]: true
-      },
+      showGraphicOverlays: {},
     };
+    Object.values(GRAPHIC_OVERLAY_TYPE).forEach((type: GRAPHIC_OVERLAY_TYPE) => {
+      this.screen.showGraphicOverlays[type] = true;
+    });
 
     this.socketService.connectToRoom('proxy_ui_restartUI').subscribe(data => {
       if (data) {

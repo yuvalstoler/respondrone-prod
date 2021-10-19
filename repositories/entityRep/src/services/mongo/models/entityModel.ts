@@ -12,7 +12,8 @@ export class EntityModel {
 
     public getSchema() {
         const schema = new mongoose.Schema({
-            id: String
+            id: String,
+            timestamp: {type: Date, default: Date.now},
         }, {strict: false});
 
         return MongoConnector.getConnection().model(col, schema);
