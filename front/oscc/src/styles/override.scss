@@ -100,9 +100,13 @@
 }
 
 .jsxc-roster-toggle {
-  margin-top: 300px !important;
+  // margin-top: 300px !important;
 }
 
 .jsxc-root-container {
   z-index: 1000 !important;
+
+  height: 46%;
+  bottom: 0 !important;
+  top: inherit !important;
 }
