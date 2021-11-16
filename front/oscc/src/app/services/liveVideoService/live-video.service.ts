@@ -67,35 +67,25 @@ export class LiveVideoService {
   websocket = null;
   videoUrls: VIDEO_URLS_DATA = {
     '1': {
-      'ws://10.90.1.32:8080': {
-        videoJSMPEG: 'ws://10.90.1.32:8080',
+      'ws://iai-video-restream.simplex-c2.com:18082': {
+        videoJSMPEG: 'ws://iai-video-restream.simplex-c2.com:18082',
         blobsSocket: 'ws://localhost:4002/'
       },
-      'ws://20.71.141.60:9091/': {
-        videoJSMPEG: 'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov',
+      'ws://iai-video-restream.simplex-c2.com:18084': {
+        videoJSMPEG: 'ws://iai-video-restream.simplex-c2.com:18084',
         blobsSocket: 'ws://localhost:4002/'
       }
     },
     '2': {
-      'ws://20.71.141.60:9093/': {
-        videoJSMPEG: 'ws://80.250.156.232:8082/',
+      'ws://iai-video-restream.simplex-c2.com:18082': {
+        videoJSMPEG: 'ws://iai-video-restream.simplex-c2.com:18082',
         blobsSocket: 'ws://localhost:4002/'
       },
-      'ws://20.71.141.60:9094/': {
-        videoJSMPEG: 'ws://80.250.156.232:8082/',
+      'ws://iai-video-restream.simplex-c2.com:18084': {
+        videoJSMPEG: 'ws://iai-video-restream.simplex-c2.com:18084',
         blobsSocket: 'ws://localhost:4002/'
       }
-    },
-    '3': {
-      'ws://20.71.141.60:9095/': {
-        videoJSMPEG: 'ws://80.250.156.232:8082/',
-        blobsSocket: 'ws://localhost:4002/'
-      },
-      'ws://20.71.141.60:9096/': {
-        videoJSMPEG: 'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov',
-        blobsSocket: 'ws://localhost:4002/'
-      }
-    },
+    }
   };
   player;
 
