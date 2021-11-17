@@ -11,6 +11,7 @@ import {
 import {LoginService} from '../../../services/login/login.service';
 import {AirVehicleService} from '../../../services/airVehicleService/airVehicle.service';
 import {ResponsiveService} from '../../../services/responsiveService/responsive.service';
+import {LiveVideoService} from '../../../services/liveVideoService/live-video.service';
 
 @Component({
   selector: 'app-video-panel',
@@ -55,7 +56,8 @@ export class VideoPanelComponent implements OnInit {
               public gimbalService: GimbalService,
               public airVehicleService: AirVehicleService,
               public responsiveService: ResponsiveService,
-              public loginService: LoginService) {
+              public loginService: LoginService,
+              public liveVideoService: LiveVideoService) {
     this.videoUrlKey = this.isNight ? VIDEO_URL_KEY.infraredVideoURL : VIDEO_URL_KEY.opticalVideoURL;
     this.responsiveService.screenWidth$.subscribe((res) => {
       this.screenWidth = res;
@@ -115,6 +117,9 @@ export class VideoPanelComponent implements OnInit {
   changeSlide = ($event) => {
     this.isNight = !!$event.checked;
     this.videoUrlKey = this.isNight ? VIDEO_URL_KEY.infraredVideoURL : VIDEO_URL_KEY.opticalVideoURL;
+    if (this.gimbal && this.gimbal[this.videoUrlKey]) {
+      this.liveVideoService.restartPlayer(this.gimbal[this.videoUrlKey]);
+    }
   };
 
   checkColorPalette = ($event) => {

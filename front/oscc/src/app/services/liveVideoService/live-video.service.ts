@@ -88,6 +88,7 @@ export class LiveVideoService {
     }
   };
   player;
+  canvas;
 
   constructor(public applicationService: ApplicationService,
               public dialog: MatDialog,
@@ -105,6 +106,7 @@ export class LiveVideoService {
         const videoUrl = this.getVideoUrl(url, this.applicationService.selectedAirVehicle.id);
         if (videoUrl) {
           this.startDrawingOnCanvas();
+          this.canvas = canvas;
           this.player = new JSMpeg.Player(videoUrl,
             { canvas: canvas, autoplay: true, audio: false, loop: true , disableGl: true}
           );
@@ -116,6 +118,21 @@ export class LiveVideoService {
         }
       }
   };
+
+  restartPlayer = (url) => {
+    this.stopPlayer();
+    const videoUrl = this.getVideoUrl(url, this.applicationService.selectedAirVehicle.id);
+    if (videoUrl) {
+      this.player = new JSMpeg.Player(videoUrl,
+        { canvas: this.canvas, autoplay: true, audio: false, loop: true , disableGl: true}
+      );
+
+      const blobsUrl = this.getBlobUrl(url, this.applicationService.selectedAirVehicle.id);
+      if (blobsUrl) {
+        this.startGetBlobs(blobsUrl);
+      }
+    }
+  }
 
   stopPlayer = () => {
     if (this.player) {

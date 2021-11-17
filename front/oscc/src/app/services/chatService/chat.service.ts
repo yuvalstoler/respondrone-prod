@@ -81,7 +81,7 @@ export class ChatService {
           this.startConnection(chatPassword);
         }
       });
-      this.jsxc.enableDebugMode();
+      // this.jsxc.enableDebugMode();
 
       this.startConnection(chatPassword);
     }
