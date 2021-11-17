@@ -12,7 +12,7 @@
 
   "FS": {
     "port": "6100",
-    "host": "localhost",
+    "host": "iai-oscc-integ.simplex-c2.com",
     "protocol": "http",
     "listeners": [
       "RS"
@@ -20,7 +20,7 @@
   },
   "VSS": {
     "port": "6101",
-    "host": "localhost",
+    "host": "iai-oscc-integ.simplex-c2.com",
     "protocol": "http"
   },
   "RS": {
@@ -222,7 +222,7 @@
   },
   "THALES": {
     "port": "40001",
-    "host": "23.97.135.79",
+    "host": "79.159.246.254",
     "protocol": "http"
   }
 }
