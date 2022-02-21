@@ -432,7 +432,7 @@
           </div>
           <!--Details-->
           <div *ngIf="missionModel?.missionType !== MISSION_TYPE.Scan" class="DetailsContainer">
-            <span class="DialogSmallText bold">Define distance of flying from {{missionModel?.missionType === MISSION_TYPE.Patrol ? 'polyline' : 'the Observation point'}}
+            <span class="DialogSmallText bold"> {{(missionModel?.missionType === MISSION_TYPE.Patrol) ? 'Define distance of flying from polyline' : 'Altitude above ground of the observation point'}}
               <span *ngIf="missionModel.missionDetails.distance === null" class="Error">*</span></span>
             <div class="Grid3">
               <div class="item2">

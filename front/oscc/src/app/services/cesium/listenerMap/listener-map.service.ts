@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ApplicationService} from '../../applicationService/application.service';
 import {MapGeneralService} from '../../mapGeneral/map-general.service';
-import {EVENT_LISTENER_DATA, ITEM_TYPE} from '../../../../types';
+import {EVENT_LISTENER_DATA, ITEM_TYPE, LEFT_PANEL_ICON} from '../../../../types';
 import {CesiumService} from '../cesium.service';
 import {MissionRequestService} from '../../missionRequestService/missionRequest.service';
 import {ReportService} from '../../reportService/report.service';
@@ -40,9 +40,10 @@ export class ListenerMapService {
   public showHoverText = (event: EVENT_LISTENER_DATA) => {
     if (event.object && event.object.hoverText && event.type === 'mouseOver') {
       const screenPosition = this.cesiumService.latLonToScreenPosition(event.pointLatLng);
+      const size = (this.applicationService.panelIcon === LEFT_PANEL_ICON.collapse) ? '25vw' : '50vw';
       this.applicationService.hoverTextData = {
         top: (screenPosition.y + 90) + 'px',
-        left: `calc(50vw + ${screenPosition.x}px)`,
+        left: `calc(${size} + ${screenPosition.x}px)`,
         text: event.object.hoverText
       };
     }
