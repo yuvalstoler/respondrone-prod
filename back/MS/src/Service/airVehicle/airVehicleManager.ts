@@ -113,6 +113,9 @@ export class AirVehicleManager {
         //
         //     this.onGetAirVehicles(data);
         // }, 1000);
+        setInterval(() => {
+            console.log('last received AV telemetry', this.timestamp);
+        }, 10000);
     }
 
     private startGetSocket = () => {
