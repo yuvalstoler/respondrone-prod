@@ -17,9 +17,19 @@ export class SocketIOClient {
     externalSortConfig: MAP<MAP<Function>> = {};
 
     private constructor() {
-        this.sockets[SOCKET_IO_CLIENT_TYPES.FRS] = io(FRSServiceURL, {autoConnect: true});
-        this.sockets[SOCKET_IO_CLIENT_TYPES.MS] = io(MServiceURL, {autoConnect: true});
-        this.sockets[SOCKET_IO_CLIENT_TYPES.GS] = io(GServiceURL, {autoConnect: true});
+        this.initSocket(SOCKET_IO_CLIENT_TYPES.FRS, FRSServiceURL);
+        this.initSocket(SOCKET_IO_CLIENT_TYPES.MS, MServiceURL);
+        this.initSocket(SOCKET_IO_CLIENT_TYPES.GS, GServiceURL);
+    }
+
+    private initSocket = (type: SOCKET_IO_CLIENT_TYPES, url: string) => {
+        this.sockets[type] = io(url, {autoConnect: true});
+        this.sockets[type].on('connect', (socket) => {
+            console.log('client | connect', type);
+        });
+        this.sockets[type].on('disconnect', (socket) => {
+            console.log('client | disconnect', type);
+        });
     }
 
     // public static getInstance() {
