@@ -85,6 +85,36 @@ export class LiveVideoService {
         videoJSMPEG: 'ws://iai-video-restream.simplex-c2.com:18084',
         blobsSocket: 'ws://localhost:4002/'
       }
+    },
+    'S1': {
+      'ws://iai-video-restream.simplex-c2.com:18082': {
+        videoJSMPEG: 'ws://iai-video-restream.simplex-c2.com:18082',
+        blobsSocket: 'ws://localhost:4002/'
+      },
+      'ws://iai-video-restream.simplex-c2.com:18084': {
+        videoJSMPEG: 'ws://iai-video-restream.simplex-c2.com:18084',
+        blobsSocket: 'ws://localhost:4002/'
+      }
+    },
+    'S2': {
+      'ws://iai-video-restream.simplex-c2.com:18082': {
+        videoJSMPEG: 'ws://iai-video-restream.simplex-c2.com:18082',
+        blobsSocket: 'ws://localhost:4002/'
+      },
+      'ws://iai-video-restream.simplex-c2.com:18084': {
+        videoJSMPEG: 'ws://iai-video-restream.simplex-c2.com:18084',
+        blobsSocket: 'ws://localhost:4002/'
+      }
+    },
+    'S3': {
+      'ws://iai-video-restream.simplex-c2.com:18082': {
+        videoJSMPEG: 'ws://iai-video-restream.simplex-c2.com:18082',
+        blobsSocket: 'ws://localhost:4002/'
+      },
+      'ws://iai-video-restream.simplex-c2.com:18084': {
+        videoJSMPEG: 'ws://iai-video-restream.simplex-c2.com:18084',
+        blobsSocket: 'ws://localhost:4002/'
+      }
     }
   };
   player;
