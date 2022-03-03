@@ -38,6 +38,7 @@ export class GimbalManager {
 
     private onGetGimbals = (data: GIMBAL_DATA_TELEMETRY) => {
         // this.gimbals = Converting.Arr_GIMBAL_DATA_to_Arr_Gimbal(data.gimbals);
+        this.gimbals = {};
         data.gimbals.forEach((item: GIMBAL_DATA) => {
             this.gimbals[item.id] = new Gimbal(item);
         });
